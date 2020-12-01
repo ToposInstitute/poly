@@ -1,0 +1,1514 @@
+\documentclass[DynamicalBook]{subfiles}
+\begin{document}
+%
+
+
+\setcounter{chapter}{6}%Just finished 5.
+
+
+%------------ Chapter ------------%
+\chapter{Data dynamics}\label{chapter.6} 
+
+%-------- Section --------%
+\section{Introduction}\label{sec.c6_intro}
+
+%Old "pattern" stuff moved to after end document.
+
+In the previous chapter we saw that comonoids in $\poly$ are categories, but that morphisms of comonoids are not functors; they're called cofunctors. If someone were to ask ``which are better, functors or cofunctors'', the answer is clear. Functors are fundamental to mathematics itself, relating branches from set theory to logic to algebra to measure theory, etc. Cofunctors don't have anywhere near that sort of reach in terms of applicability. Still they provide an interesting way to compare categories, as well as new invariants of categories, like the monoid of direction fields on a category.
+
+In this chapter we'll consider another kind of morphism between comonoids in $\poly$, i.e.\ categories, and one that is a bit more familiar than cofunctors. Namely, we'll consider the bimodules between comonoids. One might want to call them bi-co-modules, but this name is just a bit too long and the name bimodule is not ambiguous, so we'll go with it. So why do I say they're more familiar?
+
+It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, Richard Garner showed that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $\cat{C}\set$ and $\cat{D}\set$. Parametric right adjoints, or \emph{pra}'s come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
+
+Indeed, we'll make due on a claim we made in \cref{chapter.4}, that there is a strong connection between the basic theory of databases and the theory of bimodules in $\poly$. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
+
+\begin{theorem}\label{thm.tfae_c_sets}
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$, also understood as a category $\cat{C}$, the following categories are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$;
+	\item discrete opfibrations over $\cat{C}$;
+	\item cartesian cofunctors to $\com{C}$;
+	\item linear left $\com{C}$-modules;
+	\item constant left $\com{C}$-modules;
+	\item $(\com{C},\0)$-bimodules;
+	\item representable right $\com{C}$-modules;
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$).
+\end{enumerate}
+Moreover, up to isomorphism, a $\com{C}$-coalgebra can be identified with a dynamical system with comonoid interface $\com{C}$.
+\end{theorem}
+The proof will be given in \cref{thm.tfae_c_sets}.
+
+The plan of the chapter is as follows. We'll begin in \cref{sec.copresheaves_data_ds} by reviewing copresheaves on a category, and their relationship to databases and dynamical systems. Then in \cref{sec.bimodules} we'll prove a number of theoretical results, including \cref{thm.tfae_c_sets} and Garner's ``bimodules are parametric right adjoints'' result. We'll continue to give intuition and applications in database and dynamical systems theory. Finally in \cref{sec.discussion_open_qs} we'll provide some looser discussion and lay out some open questions.
+
+%-------- Section --------%
+\section{Copresheaves, databases, and dynamical systems}\label{sec.copresheaves_data_ds}
+
+Let $\cat{C}$ be a small category. One of the most important constructions in category theory is that of the category of copresheaves on $\cat{C}$.%
+\footnote{Many would say that presheaves on $\cat{C}$ are more fundamental, but since the notions are equivalent---just use $\cat{C}\op$ to switch between them---we will consider the difference moot. We will focus on copresheaves.}
+This is the category
+\[
+\cat{C}\set\coloneqq\Cat{Fun}(\cat{C},\smset)
+\]
+whose objects are functors $\cat{C}\to\smset$ and whose morphisms are natural transformations between them.
+
+\begin{example}
+Suppose $(G,e,*)$ is a monoid (e.g.\ a group). In a first course on abstract algebra, one encounters the notion of a \emph{$G$-set}, which is a set $X$ together with a $G$ action: for every element $g\in G$ we get a function $\alpha_g\colon X\to X$; we might write $\alpha_g(x)$ as $g\cdot x$. To be a $G$-action, the $\cdot$ operation needs to satisfy two rules: $e\cdot x=x$ and $g\cdot(h\cdot x)=(g*h)\cdot x$. A morphism between two $G$-sets (sets $X$ and $Y$, each equipped with a $G$-action) is just a function $f\colon X\to Y$ that  satisfies a single rule: $f(g\cdot x)=g\cdot (f(x))$ for all $g\in G$ and $x\in X$.
+
+Now recall that any monoid (e.g.\ a group) $G$ can be understood as a category with one object, let's call our category $\cat{G}$ and the unique object $\blacktriangle$. The elements of $G$, including the identity and the multiplication, are encoded as the morphisms $\blacktriangle\to\blacktriangle$ in $\cat{G}$. 
+
+It turns out that $G$-sets are precisely functors $F\colon\cat{G}\to\smset$: the set $F(\blacktriangle)$ is our $X$ above, and since the elements of $G$ are now morphisms $g\colon \blacktriangle\to\blacktriangle$, the functor $F$ sends them to functions $F(g)\colon X\to X$; this is the $g\cdot-$ operation. The axioms of a functor---preservation of identities and compositions---ensure the two rules of the $\cdot$ operation. Finally, morphisms between $G$-sets are exactly the natural transformations between functors; the naturality condition becomes the rule $f(g\cdot x)=g\cdot (f(x))$ we saw above.
+
+\slogan{$G$-sets are copresheaves on the associated one-object category $\cat{G}$.}
+\end{example}
+
+%\begin{example}[Clue game]\label{ex.clue_game}
+%There is a game that is played in the US, called Clue, where each players is a detective trying to solve a murder mystery. The game consists of a board together with a deck of several cards, and on each card there is both some printed words and a picture. For one card, the words might say ``Ms.\ White'' and the picture shows a woman; for another card, the words might say ``knife'' and the picture shows a knife. Every card has a type: it is either a room card, a weapon card, or a person card; e.g.\ the Ms.\ White card is a person card and the knife card is a weapon card.
+%
+%Now consider the commutative square category whose objects are labeled as follows:
+%\[
+%\Cat{Sq}\coloneqq\boxCD{examplecolor}{
+%\begin{tikzcd}[sep=large, ampersand replacement=\&]
+%	\LTO{Card}\ar[r, "\text{has picture}"]\ar[d, "\text{has word}"']\&[10pt]
+%	\LTO{Picture}\ar[d, "\text{has type}"]\\
+%	\LTO{Word}\ar[r, "\text{has type}"']\&
+%	\LTO{Type}
+%	\ar[ul, phantom, "\checkmark"]
+%\end{tikzcd}
+%}
+%\]
+%A functor $D\colon\Cat{Sq}\to\smset$ would be a possible Clue deck: a set of cards, each of which has an associated picture, some associated words, and the words and picture both have the same type (e.g.\ room, weapon, person, whatever). Of course, a priori, $D$ is just a commutative square of sets and functions, but we'll refer to elements of $D(\text{Card})$ as cards, etc.
+%
+%Here we will give our own version of the game and use it to illustrate databases. It will be a running example throughout the chapter. We start with a functor $\deck\colon\Cat{Sq}\to\smset$, written as a database instance with schema $\Cat{Sq}$:
+%\begin{equation}\label{eqn.clue_database_instance}
+%\begin{gathered}
+%\begin{array}{| l || l | l | l |}
+%	\bhline
+%  \multicolumn{4}{| c |}{\text{Deck Card}}\\\bhline
+%  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+%  W&\text{White}&\circ&\text{Color}\\\hline
+%  B&\text{Black}&\bullet&\text{Color}\\\hline
+%  C&\text{Circle}&O&\text{Object}\\\hline
+%  T&\text{Table}&\Pi&\text{Object}\\\hline
+%  P&\text{Person}&\tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+%  H&\text{Here}&\cdot&\text{Place}\\\hline
+%  U&\text{Up}&\uparrow&\text{Place}\\\hline
+%  D&\text{Down}&\downarrow&\text{Place}\\\hline
+%  L&\text{Left}&\leftarrow&\text{Place}\\\hline
+%  R&\text{Right}&\rightarrow&\text{Place}\\\bhline
+%\end{array}
+%\\~\\
+%\footnotesize
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \circ&\text{Color}\\\hline
+%  \bullet&\text{Color}\\\hline
+%  O&\text{Object}\\\hline
+%  \Pi&\text{Object}\\\hline
+%  \tikzsymStrichmaxerl[1.2]&\text{Object}\\\hline
+%  \cdot&\text{Place}\\\hline
+%  \uparrow&\text{Place}\\\hline
+%  \downarrow&\text{Place}\\\hline
+%  \leftarrow&\text{Place}\\\hline
+%  \rightarrow&\text{Place}\\\bhline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Deck Word}}\\\bhline
+%  \textbf{Word}&\textbf{has type}\\\bbhline
+%  \text{White}&\text{Color}\\\hline
+%  \text{Black}&\text{Color}\\\hline
+%  \text{Circle}&\text{Object}\\\hline
+%  \text{Table}&\text{Object}\\\hline
+%  \text{Person}&\text{Object}\\\hline
+%  \text{Here}&\text{Place}\\\hline
+%  \text{Up}&\text{Place}\\\hline
+%  \text{Down}&\text{Place}\\\hline
+%  \text{Left}&\text{Place}\\\hline
+%  \text{Right}&\text{Place}\\\bhline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l ||}
+%  \bhline
+%  \multicolumn{1}{| c |}{\text{Deck Type}}\\\bhline
+%  \textbf{Type}\\\bbhline
+%	\text{Color}\\\hline
+%  \text{Object}\\\hline
+%  \text{Place}\\\bhline
+%\end{array}
+%\end{gathered}
+%\end{equation}
+%\end{example}
+%
+%
+%\begin{exercise}
+%\begin{enumerate}
+%  \item With the instance $\Fun{Deck}\colon\Cat{Sq}\to\smset$, what set is $\Fun{Deck}(\text{Card})$?
+%  \item What set is $\Fun{Deck}(\text{Word})$?
+%  \item What is the function $\Fun{Deck}(\text{has word})\colon\Fun{Deck}(\text{Card})\to\Fun{Deck}(\text{Card})$?
+%	\item Do you think there is anything mathematically-special about the database instance presented in \cref{ex.clue_game}? That is, as a functor $\Cat{Sq}\to\smset$, does it seem relatively generic, or does something about it seem special?
+%	\item If you'd say it's not special, why not? If you'd say it is special, give another instance (functor $\Cat{Sq}\to\smset$, written in database form) that is not special in this way. 
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{example}
+%Continuing with \cref{ex.clue_game}, we again consider the commutative square category 
+%\[
+%\Cat{Sq}=
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\LTO{Card}\ar[r]\ar[d]\&[10pt]
+%	\LTO{Picture}\ar[d]\\
+%	\LTO{Word}\ar[r]\&
+%	\LTO{Type}
+%	\ar[ul, phantom, "\checkmark"]
+%\end{tikzcd}
+%\]
+%Let $P\coloneqq\{b,w\}^{\ord{100}\times\ord{100}}$ be a set whose elements we call (black and white) pictures, let $W\coloneqq\List(\{\text{A,a},\ldots,\text{Z,z}\})$ be a set whose elements we call words, and let $T\coloneqq\{\text{Color,Object,Place}\}$ be a set whose elements we call types. We can thus create a database instance $J\colon\Cat{Sq}\to\smset$ sending
+%\[
+%  J(\text{Type})\coloneq T,\quad
+%  J(\text{Word})\coloneqq W\times T,\quad
+%  J(\text{Picture})\coloneqq P\times T,\quad
+%  J(\text{Card})\coloneqq P\times W\times T
+%\]
+%with the maps in $\Cat{Sq}$ sent to the evident product projections. We will later see in \cref{**} where these products and projections come from.
+%
+%For now, we again consider our clue game. If we want to think of our pictures, e.g.\ $\tikzsymStrichmaxerl[1.2]$, really as pictures or our words, e.g.\ ``Person'', really as words, then we need to be given a map of database instances---a natural transformation---of the form $\tau\colon\Fun{Deck}\to J$. In particular, $\tau$ assigns every card in the deck a word, a picture, and a type.
+%\end{example}
+
+\begin{exercise}\label{exc.classic_db}
+Consider the category $\cat{C}$ shown here:
+\[
+\cat{C}\coloneqq
+\boxCD{exercisecolor}{
+\begin{tikzcd}[row sep=large, ampersand replacement = \&]
+ 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[loop left, "\text{Mngr}"]\&\&
+  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]
+\end{tikzcd}
+\\~\\\small
+  Department.Secr.WorksIn = $\id_{\text{Department}}$
+}
+\]
+It is generated by two objects, three morphisms, and the equation shown above.
+\begin{enumerate}
+	\item What is its emanation polynomial?
+\end{enumerate}
+Consider now the database instance shown here:
+\[\small
+\begin{tabular}{ c || c | c}
+  \textbf{Employee}&\textbf{WorksIn}&\textbf{Mngr }\\\hline
+  Alice&IT&Alice\\
+  Bobby&IT&Alice\\
+  Carla&Sales&Carla
+\end{tabular}
+\hspace{.5in}
+\begin{tabular}{ c || c}
+  \textbf{Department}&\textbf{Admin}\\\hline
+  IT&Bobby\\
+  Sales&Carla\\~
+\end{tabular}
+\]
+Consider this database instance as a functor $S\colon\cat{C}\to\smset$.
+\begin{enumerate}[resume]
+	\item Say what sets $S$ assigns the two objects.
+	\item Say what functions $S$ assigns the three generating morphisms.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Discrete opfibration]\label{def.dopf}
+Let $\cat{C}$ be a category. A pair $(\cat{S},\pi)$, where $\cat{S}$ is a category and $\pi\colon\cat{S}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
+\begin{itemize}
+	\item for every object $s\in\cat{S}$, object $c'\in\cat{C}$, and morphism $f\colon \pi(s)\to c'$ there exists a unique object $s'\in\cat{S}$ and morphism $\bar{f}\colon s\to s'$ such that $\pi(s')=c'$ and $\pi(\bar{f})=f$.
+\end{itemize}
+\[
+\begin{tikzcd}
+  s\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
+  s'\ar[d, |->, "\pi"]\\
+  \pi(s)\ar[r, "f"']&
+  c'
+\end{tikzcd}
+\]
+A \emph{morphism} $(\cat{S},\pi)\to(\cat{S}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{S}\to\cat{S}'$ making the following triangle commute:
+\begin{equation}\label{eqn.dopf_triangle}
+\begin{tikzcd}[column sep=small]
+	\cat{S}\ar[dr, "\pi"']\ar[rr, "F"]&&
+	\cat{S}'\ar[dl, "\pi'"]\\&
+	\cat{C}
+\end{tikzcd}
+\end{equation}
+We denote the category of discrete opfibrations into $\cat{C}$ by $\Cat{dopf}(\cat{C})$.
+\end{definition}
+
+\begin{exercise}
+Show that if $F\colon \cat{S}\to\cat{S}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration. 
+\end{exercise}
+
+\begin{exercise}\label{exc.dopf_cof}
+Suppose $\pi\colon\cat{S}\to\cat{C}$ is a discrete opfibration and $i\in\cat{S}
+$ is an object. With notation as in \cref{def.dopf}, show the following:
+\begin{enumerate}
+	\item Show that the lift $\bar{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
+	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\bar{f}\then\bar{g}=\bar{f\then g}$.
+	\item Show that $\pi$ is a cofunctor.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Category of elements $\elts^\cat{C}I$]\label{def.cat_elements}
+Given a functor $I\colon\cat{C}\to\smset$, its category of elements $\elts^\cat{C}I$ is defined to have objects
+\[
+\Ob(\elts^\cat{C}I)\coloneqq\{(c,x)\mid c\in\Ob(\cat{C}), x\in I(c)\}
+\]
+and given two objects $(c,x)$ and $(c',x')$, the hom-set is given by
+\[
+\Hom((c,x),(c',x'))\coloneqq\{f\colon c\to c'\mid I(f)(x)=x'\}.
+\]
+Identities and composites in $(\elts^\cat{C}I)$ are inherited from $\cat{C}$.
+
+There is a functor $\pi\colon(\elts^\cat{C}I)\to\cat{C}$ sending $\pi(c,x)\coloneqq c$ and $\pi(f)\coloneqq f$.
+\end{definition}
+
+\begin{exercise}
+Show that if $I\colon\cat{C}\to\smset$ is a functor then the functor $\pi\colon(\elts^\cat{C}I)\to\cat{C}$ defined in \cref{def.cat_elements} is a discrete opfibration, as in \cref{def.dopf}.
+\end{exercise}
+
+\begin{exercise}
+Draw the category of elements for the functor $S\colon\cat{C}\to\smset$ shown in \cref{exc.classic_db}.
+\end{exercise}
+
+\begin{exercise}\label{exc.elts_functor}
+Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
+\begin{enumerate}
+	\item Show that $\alpha$ induces a functor $(\elts^\cat{C}I)\to(\elts^\cat{C}J)$.
+	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
+	\item Show that this construction is functorial. We denote this functor by
+\end{enumerate}
+	\[
+	\elts^\cat{C}\colon\cat{C}\set\to\Cat{dopf}(\cat{C})
+\qedhere	
+	\]
+\end{exercise}
+
+\begin{exercise}\label{exc.elts_free_grph}
+Let $G$ be a graph, and let $\cat{G}$ be the free category on it. Show that for any functor $S\colon\cat{G}\to\smset$, the category $\elts^\cat{G} S$ of elements is again free on a graph.
+\end{exercise}
+
+\begin{proposition}\label{prop.tfae_dopf}
+Let $\cat{C}$ be a category. The following are equivalent:
+\begin{enumerate}
+	\item the category $\cat{C}\set$ of functors $\cat{C}\to\smset$,
+	\item the category of discrete opfibrations over $\cat{C}$,
+	\item the category of cartesian cofunctors into $\cat{C}$.
+\end{enumerate}
+In fact the latter two are isomorphic.
+\end{proposition}
+\begin{proof}
+By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon\cat{C}\set\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
+\begin{align*}
+	(\partial\pi)(c)&\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}\\
+	(\partial\pi)(f)(s)&\coloneqq\bar{f}(s).
+\end{align*}
+On objects, the roundtrip $\cat{C}\set\to\cat{C}\set$ sends $I\colon\cat{C}\to\smset$ to the functor
+\begin{align*}
+	c&
+	\mapsto\{s\in\elts^\cat{C}I\mid \pi(s)\\&
+	=\{(c,x)\mid x\in I(c)\}&=I(c).
+\end{align*}
+The roundtrip $\Cat{dopf}(\cat{C})\to\Cat{dopf}(\cat{C})$ sends $\pi\colon\cat{S}\to\cat{C}$ to the discrete opfibration whose object set is $\{(c,s)\in\Ob(\cat{C})\times\Ob(\cat{S})\mid\pi(s)=c\}$ and this set is clearly in bijection with $\Ob(\cat{S})$. Proceeding similarly, one defines an isomorphism of categories $\cat{S}\cong\elts^\cat{C}\partial\pi$.
+
+The above correspondence is well-known; it remains to address the relationship between (2) and (3). A cartesian cofunctor $(\varphi_1,\varphi^\sharp)\colon\cat{S}\cof\cat{C}$ gives a function $\varphi\colon\Ob(\cat{S})\to\Ob(\cat{C})$ and for each $s\in\cat{S}$ an isomorphism
+\[
+  \varphi_s^\sharp\colon\cat{C}[\varphi_1(s)]\To{\cong}\cat{S}[s]
+\]
+between the set of $\cat{S}$-morphisms emanating from $s$ and the set of $\cat{C}$-morphisms emanating from $\varphi_1(s)$. This isomorphism respects identities, codomains, and composites. As such we can define a functor that acts as $\varphi_1$ on objects and $(\varphi^\sharp)\inv$ on morphisms, and it is easily checked to be a discrete opfibration.
+
+Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\varphi_1\coloneqq\Ob(\pi)$ to be its on-objects part, and for any $s\in\Ob(\cat{S})$ and emanating morphism $f\in\cat{C}[\varphi_1(s)]$, we define $\varphi^\sharp_s(f)\coloneqq\bar{f}$ to be the lift guaranteed by \cref{def.dopf}. The conversions between discrete opfibrations and cartesian cofunctors are easily seen to be functorial and the roundtrips are identities.
+\end{proof}
+
+
+Recall from \cref{**} that a dynamical system on a category $\cat{C}$ consists of a set $S$ and a cofunctor $S\yon^S\cof\cat{C}$ from the state category on $S$ to $\cat{C}$.
+
+\begin{proposition}[Database instances are dynamical systems]\label{prop.ds_dopf}
+Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$.
+\end{proposition}
+In case it isn't clear, this association is only functorial on the groupoid of objects and isomorphisms.
+\begin{proof}
+Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor. 
+
+Conversely, given a cofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$, the function $\varphi_1$ induces a map of polynomials $S\yon\to\ema{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\ema{s}\To{\psi}\ema{c}$. We can give $\ema{s}$ the structure of a category such that $\psi$ is a cofunctor; see \cref{exc.ds_dopf}.
+\end{proof}
+
+\begin{exercise}\label{exc.ds_dopf}
+With notation as in \cref{prop.ds_dopf}, complete the proof as follows.
+\begin{enumerate}
+	\item Check that $(\varphi,\varphi^\sharp)$ defined in the first paragraph is indeed a cofunctor.
+	\item Find a comonoid structure on $\ema{s}$ such that $\psi$ is a cofunctor, as stated in the second paragraph. 
+	\item Show that the two directions are inverse, up to isomorphism.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}
+In \cref{ex.cofree_dyn_sys} we had a dynamical system with $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\yon$, and  $f\colon S\yon^S\to p$ from \cref{exc.det_fsa_misc_398}, depicted here again for your convenience:
+\begin{equation}\label{eqn.dyn_sys_misc573}
+\begin{tikzcd}[column sep=small]
+	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[red]
+\end{tikzcd}
+\end{equation}
+The polynomial map $f$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a database instance on $\cofree{p}$, considered as a database schema. 
+
+The cofree category $\cofree{t}$ is actually the free category on a graph, as we saw in \cref{prop.cofree_free_on_graph}, and so the schema is easy. There is one table for each tree (object in $\cofree{p}$), e.g.\ we have a table associated to this tree:
+\[
+	\treepic
+\]
+The table has two columns, say left and right, corresponding to the two arrows emanating from the root node. The left column refers back to the same table, and the right column refers to another table (the one corresponding to the yellow dot).
+
+Again, there are infinitely many tables in this schema. Only three of them have data in them; the rest are empty. We know in advance that this instance has three rows in total, since $|S|=3$.
+\end{example}
+
+Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\colon S\yon^S\cof\cofree{p}$. By \cref{prop.tfae_dopf,prop.ds_dopf}, we can consider it as a discrete opfibration over $\cofree{p}$. By \cref{exc.elts_free_grph} the category $\elts \varphi$ is again free on a graph. It is this graph that we usually draw when depicting the dynamical system, e.g.\ in \eqref{eqn.dyn_sys_misc573}.
+
+
+\begin{exercise}
+Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding database instance has a table with at least two rows.
+\end{exercise}
+
+\begin{exercise}
+A dynamical system with interface $\yon$ is a map $S\yon^S\to\yon$.
+\begin{enumerate}
+	\item What is the corresponding database schema?
+	\item Explain what the corresponding database instance looks like.
+	\item In particular, how many total rows does it have?
+	\item Give an example with $|S|=7$, displayed both as a dynamical system (with states and transitions) and as a database instance.	
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+%-------- Section --------%
+\section{Bimodules}\label{sec.bimodules}
+
+One might think that the database story---or you could call it the copresheaves story---is somewhat tacked on to the main line here: cartesian cofunctors $\cat{S}\cof\cat{C}$ can be seen as database instances on $\cat{C}$, but perhaps this is just an incidental curiosity. In this section we'll see that in fact copresheaves, i.e.\ set-valued functors on categories, are a major aspect of the story.
+
+In a monoidal category, one can not only consider monoids and comonoids, but also modules between these. For example, in the monoidal category of abelian groups under bilinear product, the monoid objects are rings and the bimodules are bimodules in the usual sense. Here we are interested in comonoids rather than monoids, so we should be interested in bi-comodules; we will just call these bimodules for linguistic convenience.
+
+We will see that bimodules in $\poly$ are equivalent to data-migration functors. Given comonoids/categories $\cat{C}$ and $\cat{D}$, a bimodule $\cat{C}\bimodfrom[m]\cat{D}$ is a way of moving database instances on $\cat{D}$ to database instances on $\cat{C}$. One could call it a ``$\cat{D}$-indexed union of conjunctive queries.''
+
+\begin{definition}[Bimodule]\label{def.bimodule}
+Let $\cat{C}=(\ema{c},\epsilon,\delta)$ and $\cat{D}=(\ema{d},\epsilon,\delta)$ be comonoids. A \emph{$(\cat{C},\cat{D})$-bimodule} $(m,\lambda,\rho)$, denoted $\cat{C}\bimodfrom[m]\cat{D}$ or in shorthand $\ema{c}\bimodfrom[m]\ema{d}$,%
+%
+\footnote{Note that the symbol $\ema{c}\bimodfrom\ema{d}$ looks like it's going backwards, from $\ema{d}$ to $\ema{c}$; this is good because we'll see that this is the direction of data migration for a $(\cat{C},\cat{D})$-bimodule. But the symbology is also mnemonically good because the $\tri$'s go in the correct direction $\ema{c}\tri m\from m$ and $m\to m\tri\ema{d}$.}
+%
+consists of
+%
+\begin{enumerate}
+	\item a polynomial $m\in\poly$,
+	\item a morphism $\ema{c}\tri m\From{\lambda}m$, and
+	\item a morphism $m\To{\rho}m\tri\ema{d}$,
+\end{enumerate}
+%
+satisfying the following commutative diagrams:
+%
+\begin{gather}\label{eqn.bimod_left}
+\begin{tikzcd}[ampersand replacement=\&]
+	\ema{c}\tri m\ar[d, "\epsilon\tri m"']\&
+	m\ar[l, "\lambda"']\ar[dl, equal, bend left]\\
+	m
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[ampersand replacement=\&]
+	\ema{c}\tri m\ar[d, "\delta\tri m"']\&
+	m\ar[l, "\lambda"']\ar[d, "\lambda"]\\
+	\ema{c}\tri\ema{c}\tri m\&
+	\ema{c}\tri m\ar[l, "\ema{c}\tri\lambda"]
+\end{tikzcd}
+\\\label{eqn.bimod_right}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[dr, equal, bend right]\&
+	m\tri\ema{d}\ar[d, "m\tri\epsilon"]\\\&
+	m
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[d, "\rho"']\&
+	m\tri\ema{d}\ar[d, "m\tri\delta"]\\
+	m\tri\ema{d}\ar[r, "\rho\tri\ema{d}"']\&
+	m\tri\ema{d}\tri\ema{d}
+\end{tikzcd}
+\\\label{eqn.bimod_coherence}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[d, "\lambda"']\&
+	m\tri\ema{d}\ar[d, "\lambda\tri\ema{d}"]\\
+	\ema{c}\tri m\ar[r, "\ema{c}\tri\rho"']\&
+	\ema{c}\tri m\tri\ema{d}
+\end{tikzcd}
+\end{gather}
+Just $(m,\lambda)$ and the first line of diagrams is called a left $\cat{C}$-module, and similarly just $(m,\rho)$ and the second line of diagrams is called a right $\ema{D}$-module.
+
+A \emph{morphism} of $(\cat{C},\cat{D})$-bimodules is a map $m\to n$ making the following diagram commute:
+\[
+\begin{tikzcd}
+	\ema{c}\tri m\ar[d]&
+	m\ar[l]\ar[r]\ar[d]&
+	m\tri\ema{d}\ar[d]\\
+	\ema{c}\tri n&
+	n\ar[l]\ar[r]&
+	n\tri\ema{d}
+\end{tikzcd}
+\]
+We denote the category of $(\cat{C},\cat{D})$-bimodules by $\bimod{\cat{C}}{\cat{D}}$.
+\end{definition}
+We draw the commutativity of \cref{eqn.bimod_coherence} using polyboxes.
+\begin{equation}\label{eqn.bimod_coherence_polybox}
+\begin{tikzpicture}[baseline=(current bounding box.center)]
+	\node (p1) {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m) {};
+  	\node[poly, right= of m.south, yshift=-1ex, "\tiny$C$" below] (D) {};
+  	\node[poly, above=of D, "\tiny$m$" above] (mm) {};
+  	\node[poly, cod, right= of D.south, yshift=-1ex, "$C$" right] (DD) {};
+  	\node[poly, cod, above=of DD, "$m$" right] (mmm) {};
+  	\node[poly, cod, above=of mmm, "$D$" right] (C) {};
+%
+		\draw (m_pos) to[first] (D_pos);
+		\draw (D_dir) to[climb] (mm_pos);
+		\draw (mm_dir) to[last] (m_dir);
+		\draw[double] (D_pos) to[first] (DD_pos);
+		\draw[double] (DD_dir) to[last] (D_dir);
+		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw (mmm_dir) to[climb] (C_pos);
+		\draw (C_dir) to[last] (mm_dir);
+	\end{tikzpicture}
+	};
+%
+	\node (p2) [right=of p1] {
+  \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$m$" left] (m') {};
+  	\node[poly, right= of m'.south, yshift=-1ex, "\tiny$m$" below] (mm') {};
+  	\node[poly, above=of mm', "\tiny$D$" above] (C') {};
+  	\node[poly, cod, right= of mm'.south, yshift=-1ex, "$C$" right] (D') {};
+  	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
+  	\node[poly, cod, above=of mmm, "$D$" right] (CC') {};
+%
+		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw (mm'_dir) to[climb] (C'_pos);
+		\draw (C'_dir) to[last] (m'_dir);
+		\draw (mm'_pos) to[first] (D'_pos);
+		\draw (D'_dir) to[climb] (mmm'_pos);
+		\draw (mmm'_dir) to[last] (mm'_dir);
+		\draw[double] (C'_pos) to[first] (CC'_pos);
+		\draw[double] (CC'_dir) to[last] (C'_dir);
+	\end{tikzpicture}
+	};	
+	\node at ($(p1.east)!.5!(p2.west)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Draw the equations of \cref{eqn.bimod_left} using polyboxes.
+	\item Draw the equations of \cref{eqn.bimod_right} using polyboxes.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+Note that \cref{eqn.bimod_coherence_polybox} means that we can unambiguously write
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$D$" right] (C) {};
+	\node[poly, cod, below=of mm, "$C$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+\]
+
+\begin{exercise}
+Let $\cat{C}=(\ema{c},\epsilon,\delta)$ be a category. Recall from \cref{**} that $\yon$ has a unique category structure.
+\begin{enumerate}
+	\item Show that a left $\cat{C}$-module is the same thing as a $(\cat{C},\yon)$-bimodule.
+	\item Show that a right $\cat{C}$-module is the same thing as a $(\yon,\cat{C})$-bimodule.
+	\item Show that every polynomial $p\in\poly$ has a unique $(\yon,\yon)$-bimodule structure.
+	\item Show that there is an isomorphism of categories $\poly\cong\bimod{\yon}{\yon}$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[$\com{C}$-coalgebra]\label{def.coalgebra}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid. A \emph{$\com{C}$-coalgebra} consists of a set $S$ and a function $\alpha\colon S\to\ema{c}\tri S$, making the two diagrams below commute:
+\[
+\begin{tikzcd}
+	\ema{c}\tri S\ar[d, "\epsilon\tri "']&
+	S\ar[l, "\alpha"']\ar[dl, equal, bend left]\\
+	S
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}
+	\ema{c}\tri S\ar[d, "\delta\tri S"']&
+	S\ar[l, "\alpha"']\ar[d, "\alpha"]\\
+	\ema{c}\tri\ema{c}\tri m&
+	\ema{c}\tri S\ar[l, "\ema{c}\tri\alpha"]
+\end{tikzcd}
+\]
+In other words, it is a left $\ema{c}$-comodule whose carrier is constant on a set. A morphism is a function $S\to T$ commuting with $\alpha$, just as for comodules; see \cref{def.bimodule}.
+\end{definition}
+
+In order to as quickly as possible orient the reader to bimodules, we begin by proving the following.
+
+\begin{theorem}\label{thm.tfae_c_sets}
+For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following categories are equivalent:
+\begin{enumerate}
+	\item functors $\cat{C}\to\smset$;
+	\item discrete opfibrations over $\cat{C}$;
+	\item cartesian cofunctors to $\com{C}$;
+	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$);
+	\item constant left $\com{C}$-modules;
+	\item $(\com{C},\0)$-bimodules;
+	\item linear left $\com{C}$-modules; and
+	\item representable right $\com{C}$-modules (opposite).
+\end{enumerate}
+In fact, all but the first are isomorphic categories, and their core groupoid of is that of dynamical systems with interface $\cat{C}$.
+\end{theorem}
+\begin{proof}
+\begin{description}
+	\item[$1\simeq 2\cong 3$:] This was shown in \cref{prop.tfae_dopf}.
+	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\ema{c}$-coalgebra structure $\alpha\colon S\to\ema{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
+	\[
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\nodepart{two}$s$};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\ema{c}$" right] (p) {$f$\nodepart{two}$\pi_1(s)$};
+  	\node[poly, above=of p, "$S$" right] (p') {$\varnothing$\nodepart{two}$\cod\pi^\sharp_s(f)$};
+  	\draw (yX_pos) to[first] node[below] {$\alpha_1$}(p_pos);
+  	\draw (p_dir) to[climb] node[right] {$\alpha_2$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above left] {$!$} (yX_dir);
+  \end{tikzpicture}
+	\]
+	We check that this is indeed a coalgebra using properties of cofunctors. For identities in $\com{C}$, we have
+	\begin{align*}
+  	\alpha_2(s,\id_{\pi_1(s)})&=
+  	\cod\pi^\sharp_s(\id_{\pi_1(s)})\\&=
+		\cod\id_{s}=s
+	\end{align*}
+	and for compositions in $\com{C}$ we have
+	\begin{align*}
+		\alpha_2(s, f\then g)&=
+		\cod\left(\pi_s^\sharp(f\then g)\right)\\&=
+		\cod\left(\pi_s^\sharp(f)\then\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
+		\cod\left(\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
+		\alpha_2(\alpha_2(s,f),g).
+	\end{align*}
+	Going backwards, if we're given a coalgebra $\alpha\colon S\to\ema{c}\tri S$, we obtain a function $\alpha_1\colon S\to\ema{c}\tri\1$ and we define $\ema{s}\coloneqq \alpha_1^*\ema{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ to be the base change from \cref{prop.basechange}. We need to show $\ema{s}$ has a comonoid structure $(\ema{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the counit $\epsilon\colon\ema{s}\to\yon$ using $\alpha_1$ and the counit on $\ema{c}$:
+	\[
+	\begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$\ema{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
+  	\node[poly, cod, right=of c, "$\ema{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
+  	\draw (c_pos) -- node[below] {$\alpha_1$} (c'_pos);
+  	\draw[double] (c'_dir) -- (c_dir);
+		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\ema{c}$} (c'_dir);
+	\end{tikzpicture}
+	\]
+ We comultiplication $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ using $\alpha_2$ for the codomain, and using the composite $\then$ from $\ema{c}$:
+	\[
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$\ema{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
+  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\ema{s}$" right] (p) {$f$\nodepart{two}$s$};
+  	\node[poly, cod, above=of p, "$\ema{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
+  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+  	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
+  \end{tikzpicture}	
+  \]
+  In \cref{exc.tfae_c_sets} we check that $(\ema{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\ema{s}\cof\ema{c}$ is a cofunctor, that the roundtrips between cartesian cofunctors and coalgebras are identities, and that these assignments are functorial.
+	\item[$4\cong5$:]This is straightforward and was mentioned in \cref{def.coalgebra}.
+	\item[$5\cong6$:]A right $\0$-module is in particular a polynomial $m\in\poly$ and a map $\rho\colon m\to m\tri\0$ such that $(m\tri\epsilon)\circ\rho=\id_m$. This implies $\rho$ is monic, which itself implies by \cref{prop.monics_in_poly} that $m$ must be constant since $m\tri\0$ is constant. This makes $m\tri\epsilon$ the identity, at which point $\rho$ must also be the identity. Conversely, for any set $M$, the corresponding constant polynomial is easily seen to make the diagrams in \eqref{eqn.bimod_right} commute.
+	\item[$5\cong7$:] By the adjunction in \cref{prop.adjoint_quadruple} and the fully faithful inclusion $\smset\to\poly$ of sets as constant polynmials, \cref{prop.ff_const_set_to_poly}, we have isomorphisms
+	\[\poly(S\yon,\ema{c}\tri S\yon)\cong\smset(S,\ema{c}\tri S\yon\tri\1)=\smset(S,\ema{c}\tri S)\cong\poly(S,\ema{c}\tri S).\]
+	One checks easily that if $S\yon\to\ema{c}\tri S\yon)$ corresponds to $S\to\ema{c}\tri S$ under the above isomorphism, then one is a left module iff the other is.
+	\item[$7\cong8$:] By \cref{prop.flipping_reps_lins} we have a natural isomorphism
+	\[
+		\poly(S\yon,\ema{c}\tri S\yon)\cong\poly(\yon^S,\yon^S\tri\ema{c}).
+	\]
+	In pictures,
+	\[
+	\begin{tikzpicture}
+		\node (p1) {
+		\begin{tikzpicture}[polybox, tos]
+			\node[poly, linear dom] (s) {};
+			\node[poly, cod, right=of s.south, yshift=-1ex] (c) {};
+			\node[poly, linear cod, above=of c] (s') {};
+    	\node[left=0pt of s_pos] {$S$};
+    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of s'_pos] {$S$};
+			\draw (s_pos) to[first] node[below] {$f$} (c_pos);
+			\draw (c_dir) to[climb] node[right] {$g$} (s'_pos);
+			\draw (s'_dir) to[last] node[above] {$!$} (s_dir);
+		\end{tikzpicture}
+		};
+		\node (p2) [right=2 of p1] {
+		\begin{tikzpicture}[polybox, tos]
+			\node[poly, pure dom] (s) {};
+			\node[poly, pure cod, right=of s.south, yshift=-1ex] (s') {};
+			\node[poly, cod, above=of s'] (c) {};
+    	\node[left=0pt of s_dir] {$S$};
+    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of s'_dir] {$S$};
+			\draw (s_pos) to[first] node[below] {$!$} (s'_pos);
+			\draw (s'_dir) to[climb] node[right] {$f$} (c_pos);
+			\draw (c_dir) to[last] node[above] {$g$} (s_dir);
+		\end{tikzpicture}		
+		};
+	\end{tikzpicture}
+	\]
+\end{description}
+\noindent
+The last claim was proven in \cref{prop.ds_dopf}.
+\end{proof}
+
+\begin{exercise}\label{exc.tfae_c_sets}
+Complete the proof of \cref{thm.tfae_c_sets} ($3\cong 4$) by proving the following.
+\begin{enumerate}
+	\item Show that $(\ema{s},\epsilon,\delta)$ really is a comonoid.
+	\item Show that $(\alpha_1,\id)\colon\ema{s}\cof\ema{c}$ is a cofunctor.
+	\item Show that the roundtrips between cartesian cofunctors and coalgebras are identities.
+	\item Show that the assignment of a $\com{C}$-coalgebra to a cartesian cofunctor over $\cat{C}$ is functorial.
+	\item Show that the assignment of a cartesian cofunctor over $\cat{C}$ to a $\com{C}$-coalgebra is functorial.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ module with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-module}, a certain constant left $\com{C}$ module with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},\0)$-bimodule}, and a certain representable right $\com{C}$-module with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-module}.
+
+\begin{exercise}
+For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\colon\cat{C}\to\smset$. What does it correspond to as a
+\begin{enumerate}
+	\item discrete opfibration over $\cat{C}$?
+	\item cartesian cofunctor to $\com{C}$?
+	\item linear left $\com{C}$-module?
+	\item constant left $\com{C}$-module?
+	\item $(\com{C},\0)$-bimodule?
+	\item representable right $\com{C}$-module?
+	\item dynamical system with comonoid interface $\com{C}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\cat{C},\0)$-bimodule has a very nice structure: it's the topos of copresheaves on $\cat{C}$. 
+\begin{enumerate}
+	\item What is a $(\0,\cat{C})$-bimodule?
+	\item What is $\bimod{\0}{\cat{C}}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+%\begin{example}\label{ex.clue_as_module}
+%We continue with the Clue game from \cref{ex.clue_game}. The database instance is encoded as:
+%\[
+%\left(
+% \begin{array}{ccc}
+% 	10&&10\\
+%	&+\\
+%	10&&3
+% \end{array}
+%\right)
+%\too
+%\left(
+%	\begin{array}{ccc}
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\4
+%		&&
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\2
+%		\\
+%		&+\\
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\2
+%		&&
+%		\left(
+% 		\begin{array}{ccc}
+%  		\1\0&&\1\0\\
+%  		&+\\
+%  		\1\0&&\3
+%   	\end{array}
+%		\right)^\1
+%  \end{array}
+%\right)
+%\]
+%Or if you prefer, $\3\3\to\3\3^\4+\3\3^\2+\3\3^\2+\3\3$.
+%\end{example}
+
+
+
+
+Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
+
+\begin{proposition}\label{prop.right_modules_as_sums}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid and suppose that $\rho\colon m\to m\tri\ema{c}$ is a right $\com{C}$-module. Then for any set $A$ and function $f\colon A\to m\tri\1$, the polynomial $f^*m$ has an induced right module structure $\rho_f$ fitting into the commutative square below:
+\[
+\begin{tikzcd}
+  f^*m\ar[d]\ar[r, "\rho_f"]&
+  f^*m\tri\ema{c}\ar[d]\\
+  m\ar[r, "\rho"']&
+  m\tri\ema{c}
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{proof}
+The pullback diagram to the left defines $f^*(m)$ and that to the right is its composition with $\ema{c}$
+\[
+\begin{tikzcd}
+	f^*m\ar[r]\ar[d]&
+	m\ar[d]\\
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\hspace{.7in}
+\begin{tikzcd}
+	f^*m\tri\ema{c}\ar[r]\ar[d]&
+	m\tri\ema{c}\ar[d]\\
+	A\ar[r, "f"']&
+	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\]
+which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\ema{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
+\end{proof}
+
+\begin{exercise}\label{exc.right_modules_as_sums}
+Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
+\begin{enumerate}
+	\item Show that $\rho_f\then\epsilon=\id_m$
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c})$.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Polynomial functors of many variables]
+GK definition.
+\end{definition}
+
+\begin{proposition}
+The bicategory of polynomial functors in the sense of \cite{GK} is precisely that of bimodules between discrete categories.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+
+\begin{proposition}\label{prop.all_free_modules}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
+\end{proposition}
+\begin{proof}
+We use the map $(\yon^G\tri\delta)\colon(\yon^G\tri\ema{c})\to(\yon^G\tri\ema{c}\tri\ema{c})$. It satisfies the unitality and associativity laws because $\ema{c}$ does.
+\end{proof}
+
+We can think of elements of $G$ as ``generators''. Then if $i'\colon G\to\ema{c}\tri\1$ assigns to every generator an object of a category $\cat{C}$, then we should be able to find the free $\cat{C}$-set that $i'$ generates.
+
+\begin{proposition}
+Functions $i'\colon G\to\ema{c}\tri\1$ are in bijection with positions $i\in\yon^G\tri\ema{c}\tri\1$. Let $m\coloneqq i^*(\yon^G\tri\ema{c})$ and let $\rho_i$ be the induced right $\com{C}$-module structure from \cref{prop.right_modules_as_sums}. Then $\rho_i$ corresponds to the free $\cat{C}$-set generated by $i'$. 
+\end{proposition}
+\begin{proof}
+The polynomial $m$ has the following form:
+\[
+m\cong\yon^{\sum_{g\in G}\ema{c}[i'(g)]}
+\]
+In particular $\rho_i$ is a representable right $\com{C}$-module, and we can identify it with a $\cat{C}$-set by \cref{thm.tfae_c_sets}. The elements of this $\cat{C}$-set are pairs $(g, f)$, where $g\in G$ is a generator and $f\colon i'(g)\to\cod(f)$ is a morphism in $\cat{C}$ emanating from $i'(g)$. It is easy to see that the module structure induced by \cref{prop.all_free_modules} is indeed the free one.
+\end{proof}
+
+\begin{exercise}
+Let $\cat{C}$ be a category and $i \in \cat{C}$ an object.
+\begin{enumerate}
+    \item Consider $i$ as a map $\yon \to \ema{c}$.
+    Show that the vertical-cartesian factorization of this map is $\yon \to \yon^{\ema{c}[i]} \To{\varphi} \ema{c}$.
+    \item Use \cref{prop.comp_pres_cart} to show that $\yon^{\ema{c}[i]} \tri \ema{c} \to \ema{c} \tri \ema{c}$ is cartesian.
+    \item Show that there is a commutative square
+    \[
+    \begin{tikzcd}
+        \yon^{\ema{c}[i]} \ar[r, "\delta^i"] \ar[d, "\varphi"'] & \yon^{\ema{c}[i]} \tri \ema{c} \ar[d, "\text{cart}"] \\
+        \ema{c} \ar[r, "\delta"'] & \ema{c} \tri \ema{c} \ar[ul, phantom, very near end, "\lrcorner"]
+    \end{tikzcd}
+    \]
+    \item Show that this square is a pullback, as indicated.
+    \item Show that $\delta^i$ makes $\yon^{\ema{c}[i]}$ a right $\com{C}$-module.
+    \qedhere
+\end{enumerate}
+\end{exercise}
+
+The map $\delta^i$ can be seen as the restriction of $\delta \colon \ema{c} \to \ema{c} \tri \ema{c}$ to a single starting position.
+
+We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends the object $i$ to $\yon^{\ema{c}[i]}$. Given a morphism $f \colon i \to i'$ in $\cat{C}$, we get a function $\ema{c}[i'] \to \ema{c}[i]$ given by composition with $f$, and hence a map of polynomials $\yon^{\ema{c}[f]} \colon \yon^{\ema{c}[i]} \to \yon^{\ema{c}[i']}$.
+
+\begin{exercise}
+\begin{enumerate}
+    \item Show that $\yon^{\ema{c}[f]}$ is a map of right $\com{C}$-modules.
+    \item Show that the construction $\yon^{\ema{c}[f]}$ is functorial in $f$. \qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{definition}[Yoneda] \label{def.yoneda_functor}
+Let $\cat{C}$ be a category.
+We refer to the above functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ as the \emph{Yoneda} functor.
+\end{definition}
+
+\begin{proposition}
+The Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ is fully faithful.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+For any functor $F\colon\cat{C}\to\poly$, the limit polynomial $\lim_{c\in\cat{C}}F(c)$ is obtained by composing with the canonical right bimodule $\yon^{\Ob(\cat{C})}$
+\[
+\begin{tikzcd}
+  \yon\ar[r,biml-bimr, "F"]\ar[rr, biml-bimr, bend right=20pt, "\lim F"']&
+  \com{C}\ar[r,biml-bimr, "\yon^{\Ob(\cat{C})}"]&[5pt]
+  \yon
+\end{tikzcd}
+\]
+\end{proposition}
+
+\begin{proposition}\label{prop.break_up_right_mods}
+Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-modules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-module structure. Moreover, each representable summand in the carrier $m$ of a right $\com{C}$-module is itself a right-$\com{C}$ module and $m$ is their sum.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+%
+%Let $\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}$ denote the category whose objects are pairs $(I,(m_i)_{i\in I})$ where $I$ is a set and $m_i$ is a right $\com{C}$-module for each $i\in I$. A morphism $(I,(m_i)_{i\in I})\to(J,(n_j)_{j\in J})$ is a function $f\colon I\to J$ and, for each $i\in I$ a morphism $m_i\to n_{f(i)}$ of right-$\com{C}$ modules.
+%
+%\begin{proposition}
+%For any comonoid $\com{C}$ there is an adjunction
+%\[
+%\adj[40pt]{\bimod{}{\com{C}}}{\sum_{i\in I}m_i}{{(n(\1),n[-])}}{\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}}
+%\]
+%with functors labeled by where they send $n\in\bimod{}{\com{C}}$ and $(I,(m_i)_{i\in I})\in\sum_{I\in\smset}\prod_{i\in I}\bimod{}{\com{C}}$. 
+%
+%Moreover, the left adjoint is fully faithful.
+%\end{proposition}
+
+\begin{proposition}
+If $m\in\poly$ is equipped with both a right $\com{C}$-module and a right $\com{D}$-module structure, we can naturally equip $m$ with a $(\com{C}\times\com{D})$-module structure.
+\end{proposition}
+\begin{proof}
+It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-module with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
+
+Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ module on $\yon^M$.
+\end{proof}
+
+\subsection{Morphisms between bimodules}
+
+\begin{proposition}
+The category $\bimod{\ema{d}}{\ema{c}}$ is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
+\end{proposition}
+\begin{proof}
+For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
+\end{proof}
+
+\paragraph{Adjoint bimodules}
+
+\begin{exercise}
+Recall that there is a unique $(\0,\cat{C})$-bimodule, namely $\0\bimodfrom[\0]\cat{C}$.
+\begin{enumerate}
+	\item Show that $\0$ has a left adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+	\item Show that $\0$ has a right adjoint $\cat{C}\bimodfrom\0$; what is its carrier?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\subsection{Bimodules as data migration functors}
+
+
+\begin{proposition}\label{prop.prafunctor}
+Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon\cat{C}\set\to\cat{D}\set$ are equivalent.
+\begin{enumerate}
+	\item $F$ is composition with a $(\cat{D},\cat{C})$-bimodule.
+	\item $F$ is a parametric right adjoint in the sense of \cite{}.
+	\item $F$ ... $\Sigma\Pi\Delta$
+	\item $F$ profunctor + discrete opfibration
+	\item $F$ preserves connected limits.
+\end{enumerate}
+\end{proposition}
+
+\begin{definition}{Pra-functors}
+Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{pra-functor} (also called a \emph{parametric right adjoint functor}) $\cat{C}\set\to\cat{D}\set$ is one satisfying any of the conditions of \cref{prop.prafunctor}
+\end{definition}
+
+When a polynomial
+\[
+m\coloneqq\sum_{i\in m(\1)}\yon^{m[i]}
+\]
+is given the structure of a $(\cat{D},\cat{C})$-bimodule, the symbols in that formula are given a hidden special meaning:
+\[
+  m(\1)\in\cat{D}\set
+  \qqand
+	m[i]\in\cat{C}\set
+\]
+Thus $m(1)$ is a database instance on $\cat{D}$; in particular, each position in $i\in m(\1)$ is a row in that instance. And each $m[i]$ is a database instance on $\cat{C}$; in particular, each direction $d\in m[i]$ is a row in that instance.
+
+Before we knew about bimodule structures, what we called positions and directions---and what we often think of as outputs and inputs of a system---were understood as each forming an ordinary set. In the presence of a bimodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
+
+\begin{theorem}
+The 2-functor $\Fun{Copsh}\bimod{}{}\to\smcat$ given by $\cat{C}\mapsto\bimod{C}{\0}$ is fully faithful.
+\end{theorem}
+\begin{proof}
+The functor $\Fun{Copsh}$ sends $\cat{C}$ to the corresponding copresheaf category $\cat{C}\set$ by \cref{thm.tfae_c_sets}.
+
+**Finish**
+\end{proof}
+
+
+%\begin{example}\label{ex.clue_suggestions}
+%We continue with the Clue game from \cref{ex.clue_game,ex.clue_as_module}. The database instance is encoded as a map
+%\[\3\3\to(\yon^\4+\2\yon^\2+\yon)\tri\3\3.\]
+%In this example we will first grab the three-element set of types, and then we'll make a new $\1\2$-element instance of the commutative square $\yon^\4+\2\yon^\2+\yon$ that copies that three-element set four times.
+%
+%\[
+%\bullet
+%\bimodfrom[\yon]
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\bullet\ar[r]\ar[d]\&
+%	\bullet\ar[d]\\
+%	\bullet\ar[r]\&
+%	\bullet
+%	\ar[ul, phantom, "\tiny\checkmark"]
+%\end{tikzcd}
+%\bimodfrom[\3\3]\0
+%\]
+%The composite is the three-element set of types $\bullet\bimodfrom[\3]\0$, where here $\3$ is shorthand for $\{\text{Color,Object,Place}\}$. Now we can compose it with the ``copy-all'' map:
+%\[
+%\begin{tikzcd}[sep=small, ampersand replacement=\&]
+%	\bullet\ar[r]\ar[d]\&
+%	\bullet\ar[d]\\
+%	\bullet\ar[r]\&
+%	\bullet
+%	\ar[ul, phantom, "\tiny\checkmark"]
+%\end{tikzcd}
+%\bimodfrom[\4\yon]
+%\bullet
+%\bimodfrom[\3]\0
+%\]
+%The result is the following $\Cat{Sq}$-set:
+%\[
+%\begin{array}{| l || l | l | l |}
+%	\bhline
+%  \multicolumn{4}{| c |}{\text{Copy Types Deck Card}}\\\bhline
+%  \textbf{Card}&\textbf{has word}&\textbf{has picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}&\text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}&\text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}&\text{Place}&\text{Place}\\\bhline
+%\end{array}
+%\]
+%\[\footnotesize
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}\\\hline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l || l |}
+%  \bhline
+%  \multicolumn{2}{| c |}{\text{Copy Types Deck Picture}}\\\bhline
+%  \textbf{Picture}&\textbf{has type}\\\bbhline
+%  \text{Color}&\text{Color}\\\hline
+%  \text{Object}&\text{Object}\\\hline
+%  \text{Place}&\text{Place}\\\hline
+%\end{array}
+%\hspace{.5in}
+%\begin{array}{| l ||}
+%  \bhline
+%  \multicolumn{1}{| c |}{\text{Copy Types Deck Type}}\\\bhline
+%  \textbf{Type}\\\bbhline
+%	\text{Color}\\\hline
+%  \text{Object}\\\hline
+%  \text{Place}\\\bhline
+%\end{array}
+%\]
+%Now why would we want to do this? The answer is that the maps of bimodules from this instance to the Deck are exactly what are called the \emph{suggestions} in the original Clue game. There are $\3\0$ of them:
+%\[
+%\left\{
+%\begin{array}{lllll}
+%  (\circ,O,\cdot),&
+%  (\circ,O,\uparrow),&
+%  (\circ,O,\downarrow),&
+%  (\circ,O,\from),&
+%  (\circ,O,\to),\\
+%%
+%  (\circ,\Pi,\cdot),&
+%  (\circ,\Pi,\uparrow),&
+%  (\circ,\Pi,\downarrow),&
+%  (\circ,\Pi,\from),&
+%  (\circ,\Pi,\to),\\
+%%
+%  (\circ,\tikzsymStrichmaxerl[1.2],\cdot),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\uparrow),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\downarrow),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\from),&
+%  (\circ,\tikzsymStrichmaxerl[1.2],\to),\\
+%%
+%  (\bullet,O,\cdot),&
+%  (\bullet,O,\uparrow),&
+%  (\bullet,O,\downarrow),&
+%  (\bullet,O,\from),&
+%  (\bullet,O,\to),\\
+%%
+%  (\bullet,\Pi,\cdot),&
+%  (\bullet,\Pi,\uparrow),&
+%  (\bullet,\Pi,\downarrow),&
+%  (\bullet,\Pi,\from),&
+%  (\bullet,\Pi,\to),\\
+%%
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\cdot),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\uparrow),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\downarrow),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\from),&
+%  (\bullet,\tikzsymStrichmaxerl[1.2],\to)
+%%
+%\end{array}
+%\right\}
+%\]
+%\end{example}
+%
+%\begin{exercise}
+%Show that the $\3\3$-card deck from \cref{ex.clue_suggestions} factors---up to isomorphism---through a bimodule of the form $\yon^\4+\2\yon^\2+\yon\bimodfrom\yon^\2+\yon$, where $\yon^\2+\yon$ carries the walking arrow.
+%\end{exercise}
+
+\begin{exercise}
+Consider the query on $\yon^\nn$ from \cref{ex.siblings} asking for siblings. 
+\begin{enumerate}
+	\item Write out the corresponding $\yon^\nn$ instance in table form.
+	\item Draw it as a dynamical system.
+\end{enumerate}
+\end{exercise}
+
+\subsection{Composing bimodules}
+
+We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
+\[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
+
+Recall the Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
+Using bimodule composition, we obtain the composite functor
+\[
+    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\ema{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \to \bimod{\yon}{\cat{D}}.
+\]
+By the cartesian closure of $\smcat$, this can be identified with a functor $\bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})$.
+
+\begin{theorem} \label{thm.pra_tensored_cat}
+For any categories $\cat{C}$ and $\cat{D}$, the functor 
+\[
+    \bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})
+\]
+is an equivalence.
+\end{theorem}
+\begin{proof}
+%     Given a left $\com{C}$-module $m$, we begin by denoting it using polyboxes:
+%     	\[
+%   \begin{tikzpicture}[polybox, tos]
+%   	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%   	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
+%   	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
+%   	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
+%   	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%   	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%   \end{tikzpicture}
+% 	\]
+% 	satisfying
+% 	\begin{equation} \label{eqn.resp_counit}
+%     \begin{tikzpicture}
+%     	\node (1) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
+%       	\node[poly, cod, identity, right=of c] (y) {};
+%       	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
+%       	\draw (c_pos) -- (y_pos);
+%       	\draw (y_dir) -- node[above] {$\idy$} (c_dir);
+%       	\draw[double] (mm_pos) -- (mmm_pos);
+%       	\draw[double] (mmm_dir) -- (mm_dir);
+%       	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%       	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%       	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     \end{tikzpicture}
+%     	};
+%     \node[right=1.6 of 1] (2) {
+%     \begin{tikzpicture}[polybox, tos]
+%       \node[poly, dom, "$m$" left] (m) {$q'$ \nodepart{two} $j$};
+%       \node[poly, cod, right= of m, "$m$" right] (mm) {$q'$ \nodepart{two} $j$};
+%   	  \draw[double] (m_pos) -- (mm_pos);
+%       \draw[double] (mm_dir) -- (m_dir);
+%     \end{tikzpicture}
+%     };
+% 	\node at ($(1.east)!.5!(2.west)$) {=};
+%     \end{tikzpicture}
+% 	\end{equation}
+% 	and
+% 	\begin{equation} \label{eqn.resp_comult}
+%     \begin{tikzpicture}
+%     	\node (1) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+%     %
+%     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%     	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%     	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     	\draw[double] (c_pos) to[first] (cc_pos);
+%     	\draw (cc_dir) to[climb] node[right] {$\cod$} (ccc_pos);
+%     	\draw (ccc_dir) to[last] node[above, sloped] {$\comp$}  (c_dir);
+%     	\draw[double] (mm_pos) to[first] (mmm_pos);
+%     	\draw[double] (mmm_dir) to[last] (mm_dir);
+% 	\end{tikzpicture}
+% 	};
+%     	\node[right=1.8 of 1] (2) {
+%     \begin{tikzpicture}[polybox, tos]
+%       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
+%       	\node[poly, above=of c, "$m$" above] (mm) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
+%     %
+%     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
+%     	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
+%     	\draw (mm_dir) to[last] node[above left] {$\lambda^\sharp$} (m_dir);
+%     	\draw[double] (c_pos) to[first] (cc_pos);
+%     	\draw[double] (cc_dir) to[last] (c_dir);
+%     	\draw (mm_pos) to[first] node[below] {$\lambda_1$} (ccc_pos);
+%     	\draw (ccc_dir) to[climb] node[right] {$\lambda_2$} (mmm_pos);
+%     	\draw (mmm_dir) to[last] node[above left] {$\lambda^\sharp$} (mm_dir);
+% 	\end{tikzpicture}    	};
+%     	\node at ($(1.east)!.5!(2.west)$) {=};
+%     \end{tikzpicture}
+%     \end{equation}
+    
+%     We give the functor $L_m \colon \cat{C} \to \poly$ corresponding to $m$.
+%     To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
+%     \[
+%         L_m(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
+%     \]
+%     This is the pullback in the diagram
+%     \[
+%     \begin{tikzcd}
+%         L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\ema{c}[i]} \tri m \ar[d, "\text{cart}"] \\
+%         m \ar[r] & \ema{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
+%     \end{tikzcd}
+%     \]
+%     where the map $\yon^{\ema{c}[i]} \tri m \to \ema{c} \tri m$ is the cartesian map $\yon^{\ema{c}[i]} \to \ema{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
+    
+%     Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
+%     On positions, $L_m(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_comult} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L_m(\cod(f))$.
+%     On directions, $L_m(f)$ sends each $q \in L_m(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L_m(i)[j]$.
+    
+%     It is routine to check that \eqref{eqn.resp_counit} implies that $L_m$ preserves identities, while \eqref{eqn.resp_comult} implies that $L_m$ preserves composition.
+    
+%     Conversely, it is clear that we can recover the left $\com{C}$-module $m_L$ equipped with $\lambda \colon m_L \to c \tri m_L$ to which a functor $L \colon \cat{C} \to \poly$ corresponds as follows.
+%     We can write
+%     \[
+%         m_L := \sum_{i \in \cat{C}} L(i).
+%     \]
+%     Then $\lambda_1$ sends each $j \in m_L(\1)$ to the unique $i \in \cat{C}$ for which $j \in L(i)(\1)$.
+%     Meanwhile, by our construction above, $\lambda_2$ and $\lambda^\sharp$ can be directly recovered from the behavior of $L$ on morphisms in $\cat{C}$.
+%     Similarly, \eqref{eqn.resp_counit} and \eqref{eqn.resp_comult} follow from the functoriality of $F$.
+    
+%     Suppose we are given a map of left $\com{C}$-modules $\varphi \colon m \to m'$ satisfying the commutative diagram
+%     \[
+%     \begin{tikzcd}
+%       m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \ema{c} \tri m \ar[d, "\ema{c} \tri \varphi"] \\
+%       m' \ar[r, "\lambda'"'] & \ema{c} \tri m'
+%     \end{tikzcd}
+%     \]
+%     We will give a natural transformation $L_\varphi \colon L_m \to L_{m'}$ by giving a component morphism of polynomials $(L_\varphi)_i \colon L_m(i) \to L_{m'}(i)$ for each object $i$ in $\cat{C}$, then verifying naturality.
+    
+%     We construct the following diagram, where the top and bottom squares are pullbacks:
+%     \[
+%     \begin{tikzcd}[sep=5pt]
+%         L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\ema{c}[i]} \tri m \ar[dd] \ar[dr] \\
+%         & m \ar[rr, crossing over] & & \ema{c} \tri m \ar[dd] \\
+%         L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\ema{c}[i]} \tri m' \ar[dr] \\
+%         & m' \ar[from=uu, crossing over] \ar[rr] & & \ema{c} \tri m'
+%     \end{tikzcd}
+%     \]
+%     The component $(L_\varphi)_i$ is given by the induced dashed arrow.
+%     The naturality will be proven in \cref{exc.natural_poly_module}.
+    
+%     Conversely, given functors $L, L' \colon \cat{C} \to \poly$ and a natural transformation $\alpha \colon L \to L'$, we can use the fact that $m_L \cong \sum_{i \in \cat{C}} L(i)$ and the universal property of coproducts to extend the maps $L(i) \To{\alpha_i} L'(i) \to m_{L'}$ over all $i \in \cat{C}$ to a map $\varphi_{\alpha} \colon m_L \to m_{L'}$
+\end{proof}
+
+
+\begin{corollary}
+For any categories $\cat{C}_1, \cat{C}_2$, and $\cat{D}$, the functor
+\[
+    \bimod{\cat{C}_1 \otimes \cat{C}_2}{\cat{D}} \to \smcat(\cat{C}_1, \bimod{\cat{C}_2}{\cat{D}})
+\]
+is an equivalence.
+\end{corollary}
+\begin{proof}
+** $\cat{C}_1 \otimes \cat{C}_2$ is the usual product of categories **
+\end{proof}
+
+
+\begin{corollary}[Niu]
+Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalent to the category of functors $\cat{C}\to\poly$.
+\end{corollary}
+\begin{proof}
+Use \cref{thm.pra_tensored_cat} with $\cat{D} = \yon$ and the equivalence $\bimod{\yon}{\yon} \cong \poly$.
+\end{proof}
+
+% \begin{exercise} \label{exc.natural_poly_module}
+%     Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
+%     \[
+%     \begin{tikzcd}
+%         L_m(i) \ar[d, "(L_{\varphi})_i"'] \ar[r, "L_m(f)"] & L_{m'}(i) \ar[d, "(L_{\varphi})_{i'}"] \\
+%         L_m(i') \ar[r, "L_{m'}(f)"'] & L_{m'}(i')
+%     \end{tikzcd}
+%     \]
+%     commutes.
+% \end{exercise}
+
+\begin{definition}
+For any category $\cat{C}$, define the category of \emph{polynomials in $\cat{C}$}, denoted $\smset[\cat{C}]$, by
+\[
+    \smset[\cat{C}] := \bimod{\yon}{\cat{C}}
+\]
+\end{definition}
+
+\begin{example}
+When $\cat{C} = \yon$, we have $\smset[\yon] \cong \poly$, and for any set $I$ considered as a discrete category $I\yon$, we have $\smset[I\yon]$ is the category of polynomial functors in $I$ many variables.
+
+For arbitrary $\cat{C}$, we can think of $\smset[\cat{C}]$ as a polynomial rig with variables in $\Ob\cat{C}$, but with arbitrary limits replacing the mere products you would find when $\cat{C}$ is a discrete category.
+\end{example}
+
+\begin{proposition}
+For any category $\cat{C}$, the category $\smset[\cat{C}]$ is the free coproduct completion of $(\cat{C}\set)\op$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}[Carrier functor]
+For any category $\cat{C}$, the carrier functor
+\[
+\smset[\cat{C}]\to\poly
+\]
+sending $m\to m\tri\ema{c}$ to $m\in\poly\cong\smset[\yon]$ is given by composition with the principle $\cat{C}$-module $\cat{C}\bimodfrom[\widecheck{\ema{c}}]\yon$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+For any category $\cat{C}$, the carrier functor creates limits.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{theorem}
+For any $(\cat{C}, \cat{D})$-bimodule $m$, the functor $\smset[\cat{C}] \to \smset[\cat{D}]$ defined by composition with $m$ preserves constants, coproducts, and all small limits; in particular, it's a map of rig categories.
+\end{theorem}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}[Niu]\label{prop.composite_for_nats}
+The composite of a linear left $\cat{C}$-module and a representable right $\cat{C}$-module is the set of natural transformations between the corresponding copresheaves.
+\end{proposition}
+
+
+
+\begin{proposition}
+For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimodfrom[m]\ema{c}$, we have
+\[
+m\tri_\ema{c}\ema{c}\cong m
+\]
+where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
+\end{proposition}
+
+%\begin{example}
+%Using \cref{prop.composite_for_nats} we can obtain the $\3\0$ clue suggestions from \cref{ex.clue_suggestions} as a composite of bimodules.
+%(finish)
+%\end{example}
+
+\begin{proposition}
+Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
+\[
+\ema{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
+\]
+for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
+
+Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
+\end{proposition}
+
+
+
+
+\section{The proarrow equipment}
+A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
+
+\subsection{Adjoint bimodules}
+
+\begin{proposition}
+A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= left adjoint pra) $\ema{c}\bimodfrom[\Delta_F]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition}
+A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh\varphi]\ema{d}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{proposition} \label{prop.terminal_cof_principal}
+For any category $\cat{C}$, the pras associated to the terminal cofunctor $\cat{C} \cof \yon$ are the principal left and right $\com{C}$-modules.
+\end{proposition}
+
+\begin{example}[Types on database tables]
+For a category $\cat{C}$, a functor $\cat{C}\to\smset$ doesn't appear to have actual attributes, e.g.\ string, integers, etc., attached to its elements. To correct this, let's add a type $T_c$ to each table in $c$, and ask that each row in $c$ is assigned an element of $T_c$.
+
+To do this, we give a functor $T\colon\Ob(\cat{C})\to\smset$, i.e.\ $\Ob(\cat{C})\bimodfrom[T]\0$. We also have the canonical cofunctor $o\colon\cat{C}\cof\Ob(\cat{C})$. Now given an arbitrary instance $\cat{C}\bimodfrom[I]\0$, there are two things we could do. We could push it forward along the left adjoint prafunctor $\Ob(\cat{C})\bimodfrom\cat{C}$ and then map it to $T$. 
+
+Perhaps better would be to compose $T$ with the right adjoint prafunctor $\cat{C}\bimodfrom\Ob(\cat{C})\bimodfrom[T]\0$ and map $I$ into that composite. The reason it is better is that the category of coalgebras $I$ equipped with a map into a fixed coalgebra $X$ (e.g.\ $X=\check{o}\tri_{\Ob\cat{C}}T$) is equivalent to the category of coalgebras (instances) on the category of elements $\int^\cat{C}X$. So we have found that instances, even equipped with types, can be understood just in terms of $\cat{C}$-sets, beefing up $\cat{C}$ if necessary.
+\end{example}
+
+\begin{proposition}
+A pra $\cat{C}\smset\to\cat{D}\smset$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
+\begin{corollary}\label{cor.cartesian_cof_extra_adjoint}
+If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a discrete opfibration $F\colon\cat{C}\to\cat{D}$, then there is an isomorphism $\wh{\varphi}\cong\Delta_F$. In particular, this gives rise to an adjoint triple.
+\end{corollary}
+\begin{proof}
+**
+\end{proof}
+
+
+%-------- Section --------%
+\section{Discussion and open questions}\label{sec.discussion_open_qs}
+
+In this section, we lay out some questions that whose answers may or may not be known, but which were not known to us at the time of writing. They vary from concrete to open-ended, they are not organized in any particular way, and are in no sense complete. Still we hope they may be useful to some readers.
+
+\begin{enumerate}
+  \item What can you say about comonoids in the category of all functors $\smset\to\smset$, e.g. ones that aren't polynomial.
+  \item What can you say about the internal logic for the topos $\cofree{p}\set$ of dynamical systems with interface $p$, in terms of $p$?
+  \item How does the logic of the topos $\cofree{p}$ help us talk about issues that might be useful in studying dynamical systems?
+  \item Morphisms $p\to q$ in $\poly$ give rise to left adjoints $\cofree{p}\to\cofree{q}$ that preserve connected limits. These are not geometric morphisms in general; in some sense they are worse and in some sense they are better. They are worse in that they do not preserve the terminal object, but they are better in that they preserve every connected limit not just finite ones. How do these left adjoints translate statements from the internal language of $p$ to that of $q$?
+  \item Consider the $\times$-monoids and $\otimes$-monoids in three categories: $\poly$, $\smcat^\sharp$, and $\bimod{}{}$. Find examples of these comonoids, and perhaps characterize them or create a theory of them.
+  \item Is there a functor $\poly$ has pullbacks, so one can consider the bicategory of spans in $\poly$. Is there a functor from that to $\bimod{}{}$ that sends $p\mapsto\cofree{p}$?
+  \item Databases are static things, whereas dynamical systems are dynamic; yet we see them both in terms of $\poly$. How do they interact? Can a dynamical system read from or write to a database in any sense?
+  \item Can we do database aggregation in a nice dynamic way?
+  \item In the theory of polynomial functors, sums of representable functors $\smset\to\smset$, what happens if we replace sets with homotopy types: how much goes through? Is anything improved?
+  \item Are there any functors $\smset\to\smset$ that aren't polynomial, but which admit a comonoid structure with respect to composition $(\yon,\tri)$?
+  \item Characterize the monads in poly? They're generalizations of one-object operads (which are the Cartesian ones), but how can we think about them?
+  \item Both functors and cofunctors give left adjoint bimodules: for functors $F\colon\cat{D}\to\cat{C}$ we use the pullback $\Delta_F$ and for cofunctors $G\colon\cat{C}\cof\cat{D}$ we use the companion as in \cref{**}. Can we characterize left adjoint bimodules in general?
+  \item What limits exist in $\smcat^\sharp$? Describe them combinatorially.
+  \item Since the forgetful functor $U\colon\smcat^\sharp\to\poly$ is faithful, it reflects monomorphisms: if $f\colon\cat{C}\cof\cat{D}$ is a cofunctor whose underlying map on emanation polynomials is monic, then it is monic. Are all monomorphisms in $\smcat^\sharp$ of this form?
+  \item At first blush it appears that $\poly$ may be suitable as the semantics of a language for protocols. Develop such a language or showcase the limitations that make it impossible or inconvenient.
+  \item Are there polynomials $p$ such that one use something like G\"odel numbers to encode logical propositions from the topos $\tr_p\set$ into a ``language'' that $p$-dynamical systems can ``work with''?
+\end{enumerate}
+
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+%\slogan{What is a pattern?}
+%
+%We are receptive to patterns; in fact we find that our thoughts are operating on them constantly. What patterns are you picking up on right now? Maybe you can stick with one or more of them as we try to tell a story about patterns in the abstract.
+%
+%Each pattern has a certain sort of shape---a certain repetitiveness---like the rational number
+%\[\frac{1}{7}=.142857142857142857\cdots\]
+%Do you pick up on the fact that $2*14=28$ and $2*28=56$ and $2*56=114$, and that when you carry the one you get $57$ instead? And don't worry, the 1 won't haunt us, probably just because Hindi-Arabic numbers dealt with it in stride. Anyway, ``14 28 57 14 28 57...'' is a pattern, right? Indeed, each pattern has a certain shape or repetitiveness, like the tree we saw last chapter in \cref{ex.cofree_dyn_sys}:
+%\[
+%\treepic
+%\]
+%Do you pick up on the fact that every tree sitting at a green dot is the same as every other one, and same with yellow and red? That's a pattern, right?
+%
+%Indeed, when someone says ``there's a pattern in my life'', they're talking about something that recurs, something with a certain kind of \emph{shape}, something with a rhyme to it. If they pick up on something again and again, it's a pattern. That's rhyme's reason.
+%
+%Isn't it true that in some sense a pattern is dynamic, that it's not a still-life, but more like a movie? And in some sense don't we move \emph{with} this pattern, either caught up in it like a nightmare replaying endlessly or skillfully manifesting it like a star basketball player making another beautiful point? Good or bad, to our benefit or loss, we notice and pick up on the pattern, and we carry its load. Maybe we could say that it's like the pattern is a molecule and some part of us is like a receptor for this kind of molecule.
+%
+%Our lives are patterned, and so are the lives of our machines and computer programs. Day in and day out, our billions of receptors pick up on patterns in what we call reality, catching on to existing possibilities there. Day in and day out, our cars and boats and web browsers latch onto patterns and make them available to thought; thought plays the role of a pilot sitting in the cockpit.
+%
+%Somehow there is coherence between the patterns we pick up on and the way we operate on them with our thoughts. Otherwise, what good would thinking be? Can we not agree there is some coherence between what we call thought and what we call reality? We pick up patterns and we operate on them. We are like a sort of ``module'' bridging two realms, one called reality and one called mind. 
+%
+%\begin{figure}
+%\centergraphics{graphics/lawvere.png}
+%\caption{A picture by Bill Lawvere of something he was talking about once, that's related but a bit obscure. Anyway, neat-looking huh? It looks a little like our story, kinda lensy, dynamic systemsy, relating outside and inside. \spiz{Jaz, feel free to replace this paragraph with anything you want.}}
+%\end{figure}
+%
+%A distilled version of the story so far---up to the end of the last paragraph---can be formalized mathematically, and we do so in this chapter. That is, we'll discuss the sense in which \emph{bimodules} $m$ (playing the role of ``us'' in the above story) sit between two toposes (``realms''). From one realm (playing the role of ``reality''), the bimodule $m$ ``picks up'' patterns. The other realm (playing the role of ``mind'') operates and moves through these patterns. Though the mind realm need not be any smaller than the reality realm, the two sides of this story are not symmetric in terms of how they interact with $m$.
+%
+%We saw in \cref{chapter.5} that the comonoids $\com{C}$ in the monoidal category $(\poly,\yon,\circ)$ can be identified with categories $\cat{C}$.  The cofree comonoid $\cofree{p}$ of $p$-trees for arbitrary polynomial $p$ were seen to be particularly interesting from a dynamics point of view, lending themselves to much of the language of ``patterns'' used in the story above. 
+%
+%The story of this chapter really gets started when we realize that copresheaves $\Phi\colon\cat{C}_p\to\smset$ on these cofree categories can be identified with dependent dynamical systems in the sense of \cref{def.gen_moore}. But more generally, copresheaves on any category have a number of pleasant characterizations in terms of comonoids in $\poly$. 
+%
+%Moreover, the bimodules $\cofree{q}\tickar[m]\cofree{p}$ between comonoids $\cofree{q}$ and $\cofree{p}$ correspond to parametric right adjoints $\cofree{p}\set\to\cofree{q}\set$ between the associated copresheaf categories, allowing us to migrate a dynamical system $\Phi$ of type $p$ to one of type $q$. One can describe this migration, this parametric right adjoint, in terms of receptors---or what database theorists call ``frozen instances''---picking up patterns in $\Phi$ and then sorting them into copresheaves on the target category $\cofree{q}$.
+%
+%Our goal in this chapter is to say the above carefully and with plenty of examples.
+%
+
+
+
+%\begin{definition}[Database schema and instance]
+%Let $\cat{C}$ be a category. An \emph{attribute structure} on $\cat{C}$ is a pair $(V, \alpha)$ where
+%\begin{enumerate}
+%	\item $V$ is a set, elements of which are called \emph{attribute values} and
+%	\item $\alpha\colon V\to \Ob(\cat{C})$ is a function, called the \emph{attribute assignment}.
+%\end{enumerate}
+%If $(V,\alpha)$ is an attribute structure on $\cat{C}$, we call the triple $(\cat{C},V,\alpha)$ a \emph{database schema} and refer to $\cat{C}$ as the \emph{entity category} of the schema.
+%
+%An \emph{instance} on $(\cat{C},V,\alpha)$ consists of a functor $I\colon\cat{C}\to\smset$ together with a function $v_c\colon I(c)\to\alpha\inv(c)$ for each $c\in\Ob(\cat{C})$.
+%\end{definition}
+%
+%\begin{proposition}
+%Let $\cat{C}$ be a category and $\eta_\cat{C}\colon\cat{C}\to\Ob(\cat{C})$ the unit cofunctor. An attribute structure on $\cat{C}$ can be identified with a $(\Ob(\cat{C}),\0)$-bimodule $\Ob(\cat{C})\bimodfrom[V]0$. An instance on $(\cat{C},V,\alpha)$ can be identified with a square of the form
+%\[
+%\begin{tikzcd}[background color=theoremcolor]
+%	\cat{C}\ar[r, bimr-biml, "I"]\ar[d, "\cofun" marking, "\eta"']&
+%	0\ar[d, equal]\\
+%	\Ob(\cat{C})\ar[r, bimr-biml, "V"']&
+%	0\ar[ul, phantom, "\hphantom{\scriptstyle\alpha}\Downarrow\scriptstyle\alpha"]
+%\end{tikzcd}
+%\]
+%\end{proposition}
+%
