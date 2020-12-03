@@ -1108,22 +1108,12 @@ Consider the query on $\yon^\nn$ from \cref{ex.siblings} asking for siblings.
 \end{enumerate}
 \end{exercise}
 
-\subsection{Composing bimodules}
-
-We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
-\[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
-
-Recall the Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
-Using bimodule composition, we obtain the composite functor
-\[
-    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\ema{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \to \bimod{\yon}{\cat{D}}.
-\]
-By the cartesian closure of $\smcat$, this can be identified with a functor $\bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})$.
+\subsection{Monoidal operations}
 
 \begin{theorem} \label{thm.pra_tensored_cat}
 For any categories $\cat{C}$ and $\cat{D}$, the functor 
 \[
-    \bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})
+    \bimod{\cat{C}}{\cat{D}} \To{\cong} \smcat(\cat{C}, \bimod{\yon}{\cat{D}})
 \]
 is an equivalence.
 \end{theorem}
@@ -1286,6 +1276,71 @@ Let $\com{C}$ be a comonoid. The category of left $\com{C}$ modules is equivalen
 Use \cref{thm.pra_tensored_cat} with $\cat{D} = \yon$ and the equivalence $\bimod{\yon}{\yon} \cong \poly$.
 \end{proof}
 
+
+
+\begin{proposition}
+The monoidal operation $+$ is a coproduct in $\bimod{}{}$. That is, for any categories $\cat{C}, \cat{D}, \cat{E}$ there is an equivalence of categories
+\[
+\bimod{\cat{C} + \cat{D}}{\cat{E}} \cong \bimod{\cat{C}}{\cat{E}} \times \bimod{\cat{D}}{\cat{E}}
+\]
+\end{proposition}
+\begin{proof}
+This follows from \cref{cor.tensored}:
+\begin{align*}
+    \bimod{\cat{C} + \cat{D}}{\cat{E}} & \cong
+    \smcat(\cat{C} + \cat{D}, \bimod{\yon}{\cat{E}}) \\ & \cong
+    \smcat(\cat{C}, \bimod{\yon}{\cat{E}}) \times \smcat(\cat{D}, \bimod{\yon}{\cat{E}}) \\ & \cong
+    \bimod{\cat{C}}{\cat{E}} \times \bimod{\cat{D}}{\cat{E}}
+\qedhere
+\end{align*}
+\end{proof}
+
+In fact, $+$ is almost a biproduct in $\bimod{}{}$, except the required equivalence is replaced by an adjunction.
+\begin{proposition}
+For any categories $\cat{C}, \cat{D}, \cat{E}$ there is an adjunction
+\[
+\adj{\bimod{\cat{C}}{\cat{D} + \cat{E}}}{}{}{\bimod{\cat{C}}{\cat{D}} \times \bimod{\cat{C}}{\cat{E}}}
+\]
+\end{proposition}
+\begin{proof}
+By \cref{cor.tensored}, it suffices to show that there is an adjunction
+\[
+\adj{\bimod{\yon}{\cat{D} + \cat{E}}}{}{}{\bimod{\yon}{\cat{D}} \times \bimod{\yon}{\cat{E}}}.
+\]
+**
+\end{proof}
+
+\begin{proposition}
+If $\ema{c}\bimodfrom[m_1]\ema{d}$ and $\ema{c}\bimodfrom[m_2]\ema{d}$ are bimodules, then so are
+\[
+\ema{c}\bimodfrom[m_1+m_2]\ema{d}
+\qqand
+\ema{c}\bimodfrom[m_1\times_{\ema{c}(\1)}m_2]\ema{d}
+\]
+\end{proposition}
+
+\begin{proposition}
+If $\ema{c}_1\bimodfrom[m_1]\ema{d}_1$ and $\ema{c}_2\bimodfrom[m_2]\ema{d}_2$ are bimodules, then so are
+\[
+  \ema{c}_1+\ema{c}_2\bimodfrom[m_1+m_2]\ema{d}_1+\ema{d}_2
+  \qqand
+  \ema{c}_1\otimes\ema{c}_2\bimodfrom[m_1\otimes m_2]\ema{d}_1\otimes\ema{d}_2
+\]
+\end{proposition}
+
+
+\subsection{Composing bimodules}
+
+We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
+\[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
+
+Recall the Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
+Using bimodule composition, we obtain the composite functor
+\[
+    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\ema{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \To[\tri_\cat{C}] \bimod{\yon}{\cat{D}}.
+\]
+By the cartesian closure of $\smcat$, this can be identified with a functor $\bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})$.
+
 % \begin{exercise} \label{exc.natural_poly_module}
 %     Complete the above proof by showing that $L_{\varphi} \colon L_m \to L_{m'}$ is natural; that is, for a morphism $f \colon i \to i'$ in $\cat{C}$, the naturality square 
 %     \[
@@ -1398,37 +1453,6 @@ Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with 
 \section{The proarrow equipment}
 A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
 
-\begin{proposition}
-The monoidal operation $+$ is a coproduct in $\bimod{}{}$. That is, for any categories $\cat{C}, \cat{D}, \cat{E}$ there is an equivalence of categories
-\[
-\bimod{\cat{C} + \cat{D}}{\cat{E}} \cong \bimod{\cat{C}}{\cat{E}} \times \bimod{\cat{D}}{\cat{E}}
-\]
-\end{proposition}
-\begin{proof}
-This follows from \cref{cor.tensored}:
-\begin{align*}
-    \bimod{\cat{C} + \cat{D}}{\cat{E}} & \cong
-    \smcat(\cat{C} + \cat{D}, \bimod{\yon}{\cat{E}}) \\ & \cong
-    \smcat(\cat{C}, \bimod{\yon}{\cat{E}}) \times \smcat(\cat{D}, \bimod{\yon}{\cat{E}}) \\ & \cong
-    \bimod{\cat{C}}{\cat{E}} \times \bimod{\cat{D}}{\cat{E}}
-\qedhere
-\end{align*}
-\end{proof}
-
-In fact, $+$ is almost a biproduct in $\bimod{}{}$, except the required equivalence is replaced by an adjunction.
-\begin{proposition}
-For any categories $\cat{C}, \cat{D}, \cat{E}$ there is an adjunction
-\[
-\adj{\bimod{\cat{C}}{\cat{D} + \cat{E}}}{}{}{\bimod{\cat{C}}{\cat{D}} \times \bimod{\cat{C}}{\cat{E}}}
-\]
-\end{proposition}
-\begin{proof}
-By \cref{cor.tensored}, it suffices to show that there is an adjunction
-\[
-\adj{\bimod{\yon}{\cat{D} + \cat{E}}}{}{}{\bimod{\yon}{\cat{D}} \times \bimod{\yon}{\cat{E}}}.
-\]
-**
-\end{proof}
 \subsection{Adjoint bimodules}
 
 \begin{proposition}
