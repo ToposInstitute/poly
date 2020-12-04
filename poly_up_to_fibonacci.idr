@@ -285,7 +285,7 @@ juxtLens {a1} {b1} {a2} {b2} l1 l2 = MkLens o i
 
 
 
---- Circle product ---
+--- Composition product ---
 
 infixr 4 @@
 (@@) : Arena -> Arena -> Arena
@@ -448,7 +448,7 @@ eval {a} {b} = MkLens obs int
             int p d = ?evali
 -}
 
---- DynSystemical systems ---
+--- Dynamical systems ---
 
 
 record DynSystem where
