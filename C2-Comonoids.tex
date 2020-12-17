@@ -872,7 +872,7 @@ we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in 
 \end{enumerate}
 \end{exercise}
 
-For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. That is, we pronounce $p\tripow{n}$
+For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. But the easiest way to think of $p\tripow{n}$ is as height-$n$ trees with node labels and branching as dictated by $p$.
 
 \begin{exercise}
 Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
@@ -2922,6 +2922,22 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the unitality and associativity requirements of a comonoid in $(\poly,\yon,\tri)$.
 \end{exercise}
 
+
+\begin{example}[Monoid Action]\label{ex.monoid_action}
+Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha \colon M \times S \to S$ is an action. There is an associated category $\cat{A}$ with emanation polynomial $S \yon ^ M$. In other words, it has objects set $S$ and for every $s \in S$ there is an outgoing morphism for each $m \in M$, namely $s \To {m} \alpha (m , s)$. 
+\end{example}
+
+\begin{exercise}
+With notation as in \cref{ex.monoid_action},
+\begin{enumerate}
+    \item For a given object $s \in \cat{A}$, what is the identity morphism?
+    \item What is the composite of two morphisms in $\cat{A}$?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
+
 \begin{example}[Cyclic lists]
 For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
 
@@ -4369,6 +4385,45 @@ The cofree comonoid functor is lax monoidal; in particular, we have maps
 \]
 for any $p,q\in\poly$.
 \end{proposition}
+
+
+%---- Subsection ----%
+\subsection{Morphisms between cofree comonoids}
+Given a morphism of polynomials $\varphi \colon p \to q$, the cofree functor gives us a map of comonoids $\cofree{\varphi} \colon \cofree {p} \to \cofree{q}$, which works as follows.
+
+An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $e \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (e)$.
+
+\begin{exercise}
+Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
+\begin{enumerate}
+    \item Choose a map $\varphi \colon p \to q$, and write it out.
+    \item Choose a tree $t \in \tr_p$ with at least height $2$.
+    \item What is $\cofree{\varphi}(t)$?
+    \qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+    \item Choose a polynomial $q$ and a map $\epsilon \colon q \to \yon$, i.e. a copointed polynomial.
+    \item Recall from \cref{thm.cofree} that the carrier $\bar{q}$ of the cofree comonoid $\cofree{q} = (\bar{q}, \epsilon, \delta)$ is constructed as a limit
+    \[
+      \bar{q} = \lim \left(
+\begin{tikzcd}
+	\yon&
+	q\ar[l]&
+	q\tri q\ar[l, shift left]\ar[l, shift right]&[10pt]
+	q\tripow{3}\ar[l, shift left=7pt]\ar[l, shift right=7pt]\ar[l ]&
+	\cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=6pt]\ar[l, shift right=2pt]
+\end{tikzcd}
+      \right)
+    \]
+      and in particular there is a structure map $\bar{q} \to q \tripow{n}$, for any $n \in \nn$. Where does it send a tree $t \in \tr_q$?
+      \item There is an induced cofunctor $\cofree{q} \to \cofree{q \tripow{n}}$. For which $n\in\nn$ is it an isomorphism?
+      \qedhere
+\end{enumerate}
+\end{exercise}
+
 
 
 %---- Subsection ----%
