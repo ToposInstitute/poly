@@ -1070,7 +1070,7 @@ What does $p(\0)$ give you?
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Morphisms between polynomial functors are dependent lenses}
+\subsection{Morphisms between polynomial functors}
 \label{subsec.understanding_mor_poly}
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
@@ -1089,17 +1089,17 @@ p(\1)\ar[r, "{p[-]}"]&\smset
 \]
 Again, every decision $i\in p(\1)$ gets a set $p[i]$ of options: that's the whole
 content of $p$.
-\begin{definition}\label{def.arena_poly}
-  An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
-  A^+ \to \smset$; that is, functor from the discrete category on a set $A^+$
-  into the category of sets. the set $A^-_{a}$ that each direction $a^-$ lives in
-  depends on the position $a \in A^+$. We will write the arena $A^- : A^+ \to
-  \smset$ as
-  \[\lens{A^-_{a}}{a \in A^+}.\]
-\end{definition}
-
-We have just noted that every polynomial $p$ gives an arena $\lens{p[i]}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
-are the options.
+%\begin{definition}\label{def.arena_poly}
+%  An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
+%  A^+ \to \smset$; that is, functor from the discrete category on a set $A^+$
+%  into the category of sets. the set $A^-_{a}$ that each direction $a^-$ lives in
+%  depends on the position $a \in A^+$. We will write the arena $A^- : A^+ \to
+%  \smset$ as
+%  \[\lens{A^-_{a}}{a \in A^+}.\]
+%\end{definition}
+%
+%We have just noted that every polynomial $p$ gives an arena $\lens{p[i]}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
+%are the options.
 
 The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
 
@@ -1110,158 +1110,167 @@ record Delegation (w : Arena) (w' : Arena) : Set where
      passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
 \end{agda}
 
-This structure of passing information forward and backwards should look
-familiar; its a sort of lens! The difference between this sort of lens and the
-sort that we saw in earlier chapters is that the \emph{signature} of the
-passback can depend on which decision one is using. We will therefore refer to
-these lenses as \emph{dependent lenses}.
-\begin{definition}\label{def.dependent_lens}
-   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
-   \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
-\begin{itemize}
-  \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
-\item a dependent \emph{passback} fucntion $f^{\sharp} : (a \in A^+) \to  (
-  B^-_{f(a)} \to A^-_{a})$. That is, for every $a \in A^+$, we have a
-  passback function $f^{\sharp}(a, -) : B^-_{f(a)} \to A^-_{a}$.
-\end{itemize}
+%This structure of passing information forward and backwards should look
+%familiar; its a sort of lens! The difference between this sort of lens and the
+%sort that we saw in earlier chapters is that the \emph{signature} of the
+%passback can depend on which decision one is using. We will therefore refer to
+%these lenses as \emph{dependent lenses}.
+%\begin{definition}\label{def.dependent_lens}
+%   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
+%   \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
+%\begin{itemize}
+%  \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
+%\item a dependent \emph{passback} fucntion $f^{\sharp} : (a \in A^+) \to  (
+%  B^-_{f(a)} \to A^-_{a})$. That is, for every $a \in A^+$, we have a
+%  passback function $f^{\sharp}(a, -) : B^-_{f(a)} \to A^-_{a}$.
+%\end{itemize}
+%
+%The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
+%   \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
+%   \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
+%\[
+%  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a, c^-)
+%    \mapsto f^{\sharp}(a, g^{\sharp}(f(a), c^-))}{g \circ f}.
+%\]
+%This gives us the category of \emph{dependent lenses} $\Cat{DLens}$.
+%\end{definition}
+%
+%\begin{proposition}\label{prop.dlens_self_indexing}
+%Consider the functor $\smset\op\to\smcat$ sending each set $A$ to the slice category $\smset/A$, and sending each $f\colon B\to A$ to the functor $f^*\colon\smset/A\to\smset/B$. Then $\Cat{DLens}$ is equivalent to the category $L$ of lenses for this doctrine.
+%\end{proposition}
+%\begin{proof}
+%We define a functor $F\colon \Cat{DLens}\to L$ as follows. An arena $A\coloneqq \lens{A^-_{a}}{a \in A^+}\in\Ob\Cat{DLens}$, assigns a set $A^-_a$ to each $a\in A^+$; let $X\coloneqq\sum_{a\in A^+}A^-_a$ with its obvious map $X\to A^+$. Then $F(A)\coloneqq\lens{X}{A}$ is notation for an object in $L$. We leave it to the reader to give the functor on morphisms, and show that it is fully faithful and essentially surjective.
+%\end{proof}
+%
+%\begin{exercise}
+%Complete the proof of \cref{prop.dlens_self_indexing} as follows.
+%\begin{enumerate}
+%	\item To what morphism in $L$ does $F$ assign the morphism $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}\fromto \lens{B^-_{b}}{b \in B^+}$?
+%  \item Show that $F$ is fully faithful.
+%  \item Show that $F$ is essentially surjective.
+% \qedhere 
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{remark}
+%Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
+%\begin{equation}\label{eqn.colax_poly_map}
+%\begin{tikzcd}[column sep=small]
+%	p(\1)\ar[dr, "{p[-]}"']\ar[rr, "f_1"]&~&
+%	q(\1)\ar[dl, "{q[-]}"]\\&
+%	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
+%\end{tikzcd}
+%\end{equation}
+%That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
+%\end{remark}
+%
+%Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
+%
+%\begin{proposition}\label{prop.lenses_are_dependent_lenses}
+%  There is a fully faithful inclusion $\Cat{Lens}_{\smset} \hookrightarrow
+%  \Cat{DLens}$ interpreting the coKleisli arena $\lens{A^-}{A^+}$ as the \emph{constant}
+%  dependent arena $\lens{A^-}{a \in A^+}$ (that is, the constant functor $a
+%  \mapsto A^- : A^+ \to \smset$).
+%\end{proposition}
+%\begin{proof}
+%  We just need to check that the definition of dependent lens specializes
+%  appropriately to the definition of lens. So, suppose we have constant
+%  dependent arenas $\lens{A^-}{a \in A^+}$ and $\lens{B^-}{b \in B^+}$. Then a
+%  dependent lens $\lens{f^{\sharp}}{f} : $
+%\end{proof}
+%
+%
+%
+%\begin{lemma}\label{lem.dependent_lens_calculation}
+%  Using $\sum$s and $\prod$s, we can give a slick definition of dependent lens.
+%  We have a bijection 
+%\[\Cat{DLens}\left( \lens{A^-_{a}}{a \in A^+},\, \lens{B^-_{b}}{b \in B^+}
+%  \right) \cong \prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad\]
+%\end{lemma}
+%\begin{proof}
+%  This is a special case of the upcoming \cref{prop.push_prod_sum_set}, so we'll
+%  just sketch the proof here. 
+%
+%  A dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+} \fromto
+%  \lens{B^-_{b}}{b \in B^+}$ consists of a map $f : A^+ \to B^+$ and a depedent
+%  map $f^{\sharp} : (a \in A^+) \to (B^-_{f(a)} \to A^-_a)$, while an element of
+%  the right ahnd side is dependent function
+%  $$(f, f^{\sharp}) : (a \in A^+) \to \sum_{b \in B^+} (B^-_b \to A^-_a)$$
+%  which takes an element of $a$ and yields a pair $(f(a), f^{\sharp}(a,-))$.
+%  These are just two different ways of pairing up the data.
+%\end{proof}
+%
+%It seems we are observing that the category of polynomial functors is
+%equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
 
-The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
-   \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
-   \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
-\[
-  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a, c^-)
-    \mapsto f^{\sharp}(a, g^{\sharp}(f(a), c^-))}{g \circ f}.
-\]
-This gives us the category of \emph{dependent lenses} $\Cat{DLens}$.
-\end{definition}
-
-\begin{proposition}\label{prop.dlens_self_indexing}
-Consider the functor $\smset\op\to\smcat$ sending each set $A$ to the slice category $\smset/A$, and sending each $f\colon B\to A$ to the functor $f^*\colon\smset/A\to\smset/B$. Then $\Cat{DLens}$ is equivalent to the category $L$\spiz{notation?} of lenses for this doctrine.
-\end{proposition}
-\begin{proof}
-We define a functor $F\colon \Cat{DLens}\to L$ as follows. An arena $A\coloneqq \lens{A^-_{a}}{a \in A^+}\in\Ob\Cat{DLens}$, assigns a set $A^-_a$ to each $a\in A^+$; let $X\coloneqq\sum_{a\in A^+}A^-_a$ with its obvious map $X\to A^+$. Then $F(A)\coloneqq\lens{X}{A}$ is notation for an object in $L$. We leave it to the reader to give the functor on morphisms, and show that it is fully faithful and essentially surjective.
-\end{proof}
-
-\begin{exercise}
-Complete the proof of \cref{prop.dlens_self_indexing} as follows.
-\begin{enumerate}
-	\item To what morphism in $L$ does $F$ assign the morphism $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}\fromto \lens{B^-_{b}}{b \in B^+}$?
-  \item Show that $F$ is fully faithful.
-  \item Show that $F$ is essentially surjective.
- \qedhere 
-\end{enumerate}
-\end{exercise}
-
-\begin{remark}
-Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
+\begin{proposition}\label{prop.poly_maps_colax_prod_sum}
+%Taking a polynomial $p$ to its arena $\lens{p[i]}{i \in p(\1)}$ gives
+%an equivalence between $\poly$ and the category of dependent lenses.
+%
+%To summarize, we have an isomorphism
+\begin{equation}\label{eqn.main_formula}
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}
+\end{equation}
+%and composition of polynomial morphisms corresponds to composition of dependent lenses.
+Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. A morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
 \begin{equation}\label{eqn.colax_poly_map}
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, "{p[-]}"']\ar[rr, "f_1"]&~&
-	q(\1)\ar[dl, "{q[-]}"]\\&
+	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, "q_-"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
-\end{remark}
-
-Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
-
-\begin{proposition}\label{prop.lenses_are_dependent_lenses}
-  There is a fully faithful inclusion $\Cat{Lens}_{\smset} \hookrightarrow
-  \Cat{DLens}$ interpreting the coKleisli arena $\lens{A^-}{A^+}$ as the \emph{constant}
-  dependent arena $\lens{A^-}{a \in A^+}$ (that is, the constant functor $a
-  \mapsto A^- : A^+ \to \smset$).
+where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
 \end{proposition}
 \begin{proof}
-  We just need to check that the definition of dependent lens specializes
-  appropriately to the definition of lens. So, suppose we have constant
-  dependent arenas $\lens{A^-}{a \in A^+}$ and $\lens{B^-}{b \in B^+}$. Then a
-  dependent lens $\lens{f^{\sharp}}{f} : $
-\end{proof}
-
-
-
-\begin{lemma}\label{lem.dependent_lens_calculation}
-  Using $\sum$s and $\prod$s, we can give a slick definition of dependent lens.
-  We have a bijection 
-\[\Cat{DLens}\left( \lens{A^-_{a}}{a \in A^+},\, \lens{B^-_{b}}{b \in B^+}
-  \right) \cong \prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad\]
-\end{lemma}
-\begin{proof}
-  This is a special case of the upcoming \cref{prop.push_prod_sum_set}, so we'll
-  just sketch the proof here. 
-
-  A dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+} \fromto
-  \lens{B^-_{b}}{b \in B^+}$ consists of a map $f : A^+ \to B^+$ and a depedent
-  map $f^{\sharp} : (a \in A^+) \to (B^-_{f(a)} \to A^-_a)$, while an element of
-  the right ahnd side is dependent function
-  $$(f, f^{\sharp}) : (a \in A^+) \to \sum_{b \in B^+} (B^-_b \to A^-_a)$$
-  which takes an element of $a$ and yields a pair $(f(a), f^{\sharp}(a,-))$.
-  These are just two different ways of pairing up the data.
-\end{proof}
-
-It seems we are observing that the category of polynomial functors is
-equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
-
-\begin{proposition}\label{prop.poly_maps_colax_prod_sum}
-Taking a polynomial $p$ to its arena $\lens{p[i]}{i \in p(\1)}$ gives
-an equivalence between $\poly$ and the category of dependent lenses.
-
-To summarize, we have an isomorphism
-\begin{equation}\label{eqn.main_formula}
-\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]} \cong \Cat{DLens}\left( \lens{p[i]}{i \in p(\1)},\, \lens{q[j]}{j \in q(\1)}\right)
-\end{equation}
-and composition of polynomial morphisms corresponds to composition of dependent lenses.
-\end{proposition}
-\begin{proof}
-We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
-of $\poly$ --- a polynomial functor --- to an object of the category of
-dependent lenses --- an arena. We want to show that this object assignment gives
-an equivalence of categories. First, we can note that it is surjective up to isomorphism on
-objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
-functor
-\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
-and if we take the arena corresponding to the polynomial, we back where we
-started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
- 
-Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
-and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
-\begin{align*}
-  \poly(p,q)&=
-  \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
-  	\text{Definitions}\\&\cong
-  \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
-  	\text{Univ. prop. of coproduct}\\&\cong
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
-  	\text{Yoneda lemma}
-\end{align*}
-This proves the first part of we called the summary. It says that a morphism
-$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
-function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
-the second part just gives $f^\sharp_i$ directly for each $i$.
-
-We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
-  p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
-lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
-
-Finally, it remains to show that these isomorphisms are functorial. We leave
-this to \cref{ex.poly_dependent_lens_functoriality}
+%We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
+%of $\poly$ --- a polynomial functor --- to an object of the category of
+%dependent lenses --- an arena. We want to show that this object assignment gives
+%an equivalence of categories. First, we can note that it is surjective up to isomorphism on
+%objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
+%functor
+%\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
+%and if we take the arena corresponding to the polynomial, we back where we
+%started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
+% 
+%Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
+%and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
+%\begin{align*}
+%  \poly(p,q)&=
+%  \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
+%  	\text{Definitions}\\&\cong
+%  \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
+%  	\text{Univ. prop. of coproduct}\\&\cong
+%  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
+%  	\text{Yoneda lemma}
+%\end{align*}
+%This proves the first part of we called the summary. It says that a morphism
+%$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
+%function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
+%the second part just gives $f^\sharp_i$ directly for each $i$.
+%
+%We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
+%  p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
+%lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
+%
+%Finally, it remains to show that these isomorphisms are functorial. We leave
+%this to \cref{ex.poly_dependent_lens_functoriality}
 \end{proof}
 
 \begin{exercise}\label{ex.poly_dependent_lens_functoriality}
 Complete the proof of \cref{prop.poly_maps_colax_prod_sum}.
 \end{exercise}
 
-\begin{remark}
-The fact in \eqref{eqn.main_formula} that a natural transformation between polynomial functors is
-equivalently a dependent lens will be quite important to us; we will call it our
-\emph{main formula} for the set of polynomial maps.
-
-In fact, this formula will be so important to us that we will often blur the
-difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p[i]}{i \in
-  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
-q$ it corresponds to.
-\end{remark}
+%\begin{remark}
+%The fact in \eqref{eqn.main_formula} that a natural transformation between polynomial functors is
+%equivalently a dependent lens will be quite important to us; we will call it our
+%\emph{main formula} for the set of polynomial maps.
+%
+%In fact, this formula will be so important to us that we will often blur the
+%difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p[i]}{i \in
+%  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
+%q$ it corresponds to.
+%\end{remark}
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
@@ -1298,7 +1307,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
   };
 \end{tikzpicture}
 \]
-To give a dependent lens $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q[j]$ is passed back to one in $p[i]$.
+To give a map of polynomials $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q[j]$ is passed back to one in $p[i]$.
 
 How many ways are there to do this? Before answering this, let's just pick one.
 \[
@@ -1539,18 +1548,15 @@ our main formula \eqref{eqn.main_formula} that there is an isomorphism between p
 \end{exercise}
 
 
-\paragraph{Back to maps of polynomials}
-After that interlude, you are hopefully more comfortable with our main formula
-\cref{eqn.main_formula} describing the set of morphisms between two arbitrary
-polynomial functors as dependent lenses. Let's practice.
+%\paragraph{Back to maps of polynomials}
+%After that interlude, you are hopefully more comfortable with our main formula
+%\cref{eqn.main_formula} describing the set of morphisms between two arbitrary
+%polynomial functors as dependent lenses. Let's practice.
 
 \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
 Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
-Indeed, let's more generally say $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and
-$q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are polynomials, and that we have a map
-$p\to q$ corresponding to a dependent lens $\lens{p[i]}{i \in p(\1)} \fromto
-\lens{q[j]}{j \in q(\1)}$. If there is some $i_0\in p(\1)$ such that $p[i_0]=\0$, then the formula says that for $i_0$ our map has chosen a $j\in q(1)$ and a function $q[j]\to p[i]$. But in order for such a function to exist, if $p[i]$ is empty, $q[j]$ must be too.
+**Finish**
 \end{example}
 
 \begin{exercise}
@@ -1599,7 +1605,7 @@ We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_times}
-Use \cref{eqn.main_formula} to prove \cref{prop.poly_times} using dependent lenses. In particular:
+Use \cref{eqn.main_formula} to prove \cref{prop.poly_times}. In particular:
 \begin{enumerate}
 	\item Prove that $\1$ is terminal in $\poly$.
 	\item Prove that for polynomials $p,q$, their product is given by the formula in \eqref{eqn.poly_times}.
@@ -1695,7 +1701,7 @@ p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
 On arenas, this is defined by
 \begin{equation}\label{eqn.parallel_product_dependent}
-\lens{p[i]}{i \in p(\1)} \otimes \lens{q[j]}{j \in q(\1)} := \lens{p[i] \times q[j]}{(i,j) \in (p \times q)(\1)}.
+\sum_{i \in p(\1)}\yon^{p[i]} \otimes \sum_{j \in q(\1)}\yon^{q[j]} := \sum_{(i,j) \in p(\1) \times q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
 \end{definition}
 
@@ -1839,8 +1845,8 @@ In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\p
 The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parellel product from \cref{def.dirichlet}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
-Given dependent lenses $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a
-dependent lens $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
+Given maps of polynomials $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a
+map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
 (f\otimes g)_1(i,j)\coloneqq \big(f_1(i),g_1(j)\big)
 \]
@@ -3466,7 +3472,7 @@ Let $p$ be any polynomial.
 \end{exercise}
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
-Given polynomials $q,q',r$ and dependent lenses $q\To{f} r\From{f'} q'$, the pullback 
+Given polynomials $q,q',r$ and morphism $q\To{f} r\From{f'} q'$, the pullback 
 \[
 \begin{tikzcd}
 	p\ar[r]\ar[d]&
@@ -3571,7 +3577,7 @@ Recall from \cref{eqn.colax_poly_map} that a morphism in $\poly$ can be written 
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The object $\lens{q[f_1i]}{i\in p(\1)}$ is clearly unique up to isomorphism.
+The object $\sum{i\in p(\1)}\yon^{q[f_1i]}$ is clearly unique up to isomorphism.
 \end{proof}
 
 \begin{proposition}
