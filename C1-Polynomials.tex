@@ -3508,7 +3508,6 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{enumerate}
 \end{exercise}
 
-Arbitrary colimits will be much less useful to us than limits, so the following theorem is included only for completeness; the reader can feel free to skip it.
 \begin{theorem}\label{thm.poly_colimits}
 The category $\poly$ has all colimits.
 \end{theorem}
@@ -3534,6 +3533,148 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+\begin{proposition}\label{prop.tensor_as_pushout}
+For polynomials $p,q$, the following is a pushout:
+\[
+\begin{tikzcd}
+	p(\1)\yon\otimes q(\1)\yon\ar[r]\ar[d]&
+	p(\1)\yon\otimes q\ar[d]\\
+	p\otimes q(\1)\yon\ar[r]&
+	p\otimes q\ar[ul, phantom,very near start, "\ulcorner"]
+\end{tikzcd}
+\]
+\end{proposition}
+\begin{proof}
+All the maps shown are identity on positions, so the displayed diagram is the coproduct over all $(i,j)\in p(\1)\times q(\1)$ of the diagram shown left
+\[
+\begin{tikzcd}
+	\yon\ar[r]\ar[d]&
+	\yon^{q[j]}\ar[d]\\
+	\yon^{p[i]}\ar[r]&
+	\yon^{p[i]\times q[j]}\ar[ul, phantom,very near start, "\ulcorner"]
+\end{tikzcd}
+\begin{tikzcd}
+	\1\ar[dr, phantom, "\lrcorner"]&
+	q[j]\ar[l]\\
+	p[i]\ar[u]&
+	p[i]\times q[j]\ar[l]\ar[u]
+\end{tikzcd}
+\]
+where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image under the Yoneda embedding of the diagram of sets shown right, which is clearly a limit. The result follows by \cref{prop.yoneda_left_adjoint}.
+\end{proof}
+
+This means that to give a map $\varphi\colon p\otimes q\to r$, it suffices to give two maps $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The map $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the map $\varphi_q$ says how information about $p$'s position is transferred to $q$.
+
+\begin{corollary}\label{cor.tensor_as_pushout}
+Suppose given polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
+\[
+  \colim
+  \left(
+  \begin{tikzcd}[column sep=-10pt]
+  	&
+		p_1(\1)\yon\otimes\cdots\otimes  p_n(\1)\yon\ar[dl]\ar[dr]\\
+		p_1\otimes p_2(\1)\yon\otimes\cdots\otimes p_n(\1)\yon&
+		\cdots&
+		p_1(\1)\yon\otimes\cdots\otimes p_{n-1}(\1)\yon \otimes p_n
+  \end{tikzcd}
+  \right)
+\]
+\end{corollary}
+\begin{proof}
+By induction on $n\in\nn$. When $n=0$ the wide pushout has no legs and the empty tensor product is $\yon$, so the result holds. If the result holds for $n$ then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
+\end{proof}
+
+We can use \cref{cor.tensor_as_pushout} to characterize interaction patterns. Given polynomials $p_1,\ldots, p_n,$ and $q$, and a map
+\[\varphi\colon p_1\otimes\cdots\otimes p_n\to q\]
+we may want to know which $p_i$'s can ``hear'' which $p_j$'s. To make this precise, we will associate to $\varphi$ a simple directed graph that describes the information flow. Given a set $V$, define
+\[
+\Cat{SimpleGraph}(V)\coloneqq\{A\ss V\times V\mid \forall(v\in V). (v,v)\not\in A\}.
+\]
+In fact, we will start with a more general result that explains how maps such as $\varphi$ can be \emph{mode-dependent}. But before we do, let's explain the idea in an example.
+
+\begin{example}[Introducing random process]\label{ex.random_process}
+What is it about flipping a coin or rolling a die that is random? This is a different question than whether the coin or die is fair or even consistent. What's important is that we don't have any influence over the result of the outcome.
+
+Suppose that we have a system $\varphi\colon p\otimes c\to r$, where we think of $p$ as a player and $c$ as a coin. By \cref{prop.tensor_as_pushout} we know that $\varphi$ can be identified with a commutinb diagram
+\[
+\begin{tikzcd}
+	p(\1)\yon\otimes c(\1)\yon\ar[r]\ar[d]&
+	p(\1)\yon\otimes c\ar[d]\\
+	p\otimes c(\1)\yon\ar[r]&
+	r
+\end{tikzcd}
+\]
+Assuming for simplicity that the player and coin form a closed system, i.e.\ that$r=\yon$, the map $\varphi$ can be identified with two maps: $\varphi_c\colon p(\1)\yon\otimes c\to\yon$ and $\varphi_p\colon p\otimes c(\1)\yon\to\yon$. To say that $p$'s position does not influence $c$ is to say that the former map factors through the projection $\pi\colon p(\1)\yon\otimes c\to c$
+\[
+	p(\1)\yon\otimes c\To{\pi} c\to \yon.
+\]
+In general, we will be interested in the interaction pattern between a number of systems, in terms of who influences who.
+\end{example}
+
+\begin{example}
+Carrying on from \cref{ex.random_process}, suppose given polynomials $p_1,\ldots,p_n,r$ and a map
+\[\varphi\colon p_1\otimes\cdots\otimes p_n\to r.\]
+By \cref{cor.tensor_as_pushout}, $\varphi$ can be identified with a tuple of maps 
+\[\varphi_i\colon p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\too r\]
+that agree on positions $\varphi(\1)\colon p(\1)\otimes\cdots\otimes p_n(\1)\to r(\1)$.
+
+Now for each $1\leq i\leq n$, we can ask for the smallest subset $A_i\ss\{j\mid 1\leq j\leq n, j\neq i\}$ such that $\varphi_i$ factors through the projection
+\[
+	p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\To{\pi_A}
+	p_i\otimes\bigotimes_{j\in A_i}p_j(\1)\yon\to
+	r.
+\]
+The result is a simple directed graph: its vertices are the numbers $V\coloneqq\{i\mid 1\leq i\leq n\}$ and for each vertex we have a subset $A_i\ss V\setminus \{i\}$, which we consider as the arrows with target $i$. The set of all arrows in this graph is $A\coloneqq\sum_{i}A_i$.
+
+The simple directed graph associated to the player-and-coin model in \cref{ex.random_process} would be
+\[
+\LMO{c}\to\LMO{p}
+\]
+indicating that the coin's position can be noticed by the player but the player's position cannot be noticed by the coin. In general, we may have something like the following:
+\[
+\begin{tikzcd}
+	&
+	\LMO{p_1}\ar[dl]\ar[dr]\ar[r, shift left]&
+	\LMO{p_2}\ar[l, shift left]\ar[dr]\\
+	\LMO{p_3}&&
+	\LMO{p_4}&
+	\LMO{p_5}\ar[l]
+\end{tikzcd}
+\]
+which says that $p_1$ is heard by $p_2,p_3,p_4$ but not by $p_5$, etc.
+\end{example}
+
+For any $p\in\poly$, let $p/\poly$ denote the coslice category, i.e.\ the category whose objects are maps $p\to q$ emanating from $p$, and whose morphisms are commutative triangles.
+
+We begin with a simpler version of the result.
+\begin{corollary}[Interaction graphs]
+For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
+\[
+	\adj
+		{\Cat{SimpleGraph}(\ord{n})\op}
+		{}{}
+		{p_1\otimes\cdots\otimes p_n/\poly}
+\]
+Moreover, the left adjoint is fully faithful iff $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$.
+\end{corollary}
+
+This follows directly (use $M_i=\1$ for each $i$) from \cref{prop.mode_dep_interaction_graphs}.
+
+\begin{proposition}[Mode-dependent interaction graphs]\label{prop.mode_dep_interaction_graphs}
+Suppose given $p_1,\ldots,p_n\in\poly$, $M_1,\ldots, M_n\in\smset$, and $\tau_1,\ldots,\tau_n$ where $\tau_i\colon p_i\to M_i$ for each $1\leq i\leq n$. Then there is an adjunction
+\[
+	\adj
+		{\prod_{(m_1,\ldots,m_n)\in M_1\times\cdots M_n}\Cat{SimpleGraph}(\ord{n})\op}
+		{}{}
+		{p_1\otimes\cdots\otimes p_n/\poly}
+\]
+Moreover, the left adjoint is fully faithful iff $\left|\left(f_i^*m\right)(\1)\right|\geq 2$ for each $1\leq i\leq n$ and $m_i\in M_i$, i.e.\ iff there are at least two positions in each mode.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
+
 
 
 %---- Subsection ----%
