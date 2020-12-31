@@ -1,6 +1,7 @@
 module dyn
 
 import Data.Vect
+import Data.List
 
 --- Code by David I. Spivak and David Jaz Myers and David Orion Girardo
 --- © 2020  
@@ -201,7 +202,7 @@ one = ArenaIO Void ()
 infixr 4 <**>
 
 (<**>) : Arena -> Arena -> Arena
-(<**>) a b = MkArena (pos a, pos b) \ (pa,pb) => Either (dis a pa) (dis b pb)
+(<**>) a b = MkArena (pos a, pos b) (\ (pa,pb) => Either (dis a pa) (dis b pb))
 
 prodList : List Arena -> Arena
 prodList [] = one
@@ -220,7 +221,8 @@ prodLens {a1} {b1} {a2} {b2} l1 l2 = MkLens o i
 
 -- prod is the dependent product of polynomials; used in both inner homs
 prod : (ind : Type ** ind -> Arena) -> Arena
-prod (ind ** arena) = MkArena ((i : ind) -> pos (arena i)) \p => (i : ind ** dis (arena i) (p i))
+prod (ind ** arena) = MkArena ((i : ind) -> pos (arena i)) (\p => (i : ind **
+                      dis (arena i) (p i)))
 
 pair : {a : Arena} -> {b1 : Arena} -> {b2 : Arena} -> 
         Lens a b1 -> Lens a b2 -> Lens a (b1 <**> b2)
@@ -234,8 +236,6 @@ pair {a} {b1} {b2} l1 l2 = MkLens obs int
 
 --- Juxtaposition ---
 
-infixr 4 *
-
 (*) : Arena -> Arena -> Arena
 (*) a b = MkArena (pos a, pos b) \ (pa, pb) => (dis a pa, dis b pb)
 
@@ -244,6 +244,10 @@ juxtList [] = Closed
 juxtList [a] = a
 juxtList (a :: as) = a * (juxtList as)
 
+juxt : (ind : Type) -> (ind -> Arena) -> Arena
+juxt ind arena = MkArena ((i : ind) -> pos (arena i))
+                         (\p => (i : ind) -> dis (arena i) (p i))
+
 juxtLens : Lens a1 b1 -> Lens a2 b2 -> Lens (a1 * a2) (b1 * b2)
 juxtLens {a1} {b1} {a2} {b2} l1 l2 = MkLens o i
           where 
@@ -251,6 +255,7 @@ juxtLens {a1} {b1} {a2} {b2} l1 l2 = MkLens o i
             o (p1, p2) = (observe l1 p1, observe l2 p2)
             i : (p : pos (a1 * a2)) -> dis (b1 * b2) (o p) -> dis (a1 * a2) p
             i (p1, p2) (d1, d2) = (interpret l1 p1 d1, interpret l2 p2 d2)
+
 
 
 
@@ -400,20 +405,14 @@ infixr 4 ^
 
 infixr 4 ^^
 (^^) : Arena -> Arena -> Arena
-(^^) a b = prod (pos a ** arena)
+(^^) b a = prod (pos a ** arena)
           where 
             arena : pos a -> Arena
             arena p = b @@ (Emitter $ dis a p)
 
-{-
-eval : {a : Arena} -> {b : Arena} -> Lens (a * (b ^^ a)) b
-eval {a} {b} = MkLens obs int
-          where
-            obs : (pos a, pos (b ^^ a)) -> pos b
-            int : (p : (pos a, pos (b ^^ a))) -> dis b (obs p) -> dis (a * (b ^^ a)) p
-            obs (pa, pab) = ?evalo
-            int p d = ?evali
--}
+--eval : {a : Arena} -> {b : Arena} -> Lens (a * (b ^^ a)) b
+--eval {a} {b} = MkLens (\(pa,pab) => let (pb ** _) = pab pa in pb)  (\(pa, pab) ,
+--db => let (paa ** da) = (pab pa) in (da db , (pa ** ?xx)))
 
 --- Dynamical systems ---
 
@@ -426,8 +425,6 @@ record DynSystem where
 
 static : DynSystem
 static = MkDynSystem () Closed (EmitterFunction id)
-
-
 
 infixr 4 ***
 (***) : DynSystem -> DynSystem -> DynSystem
@@ -443,10 +440,10 @@ infixr 4 ***
                        (\(s1, s2),(d1, d2) => (interpret (pheno dyn1) s1 d1, interpret (pheno dyn2) s2 d2))
           in MkDynSystem state12 body12 pheno12
 
-juxtapose : List DynSystem -> DynSystem
-juxtapose []        = static
-juxtapose [d]       = d
-juxtapose (d :: ds) = d *** (juxtapose ds)
+--juxtapose : List DynSystem -> DynSystem
+--juxtapose []        = static
+--juxtapose [d]       = d
+--juxtapose (d :: ds) = d *** (juxtapose ds)
 
 install : (d : DynSystem) -> (a : Arena) -> Lens (body d) a -> DynSystem
 install d a l = MkDynSystem (state d) a (l <.> (pheno d))
@@ -530,13 +527,121 @@ funcToDynSystem {s} {t} f = let
               phenof = MkLens id (\_ => f)
            in MkDynSystem t bodyf phenof
 
-
-
 delay : (s : Type) -> DynSystem
 delay s = funcToDynSystem (the (s -> s) id)
 
 plus : DynSystem
 plus = funcToDynSystem (uncurry (+))
+
+inv : {a,b : Type} -> (f : a -> b) -> b -> Type
+inv f y = DPair a (\ x => (f x = y))
+
+record Graph (Node : Type) (Edge : Type) where
+  constructor MkGraph
+  source, target : Edge -> Node
+
+namespace graph_examples
+  grph1 : Graph (Nat , Nat) (Nat, Nat, Nat, Nat)
+  grph1 = MkGraph (\(i,j,m,n) => (m,n))  (\(i,j,m,n) => (m + i,n + j))
+
+-- Exmaple 1.122
+--emanation : {n, e : Type} -> Graph n e -> Arena
+--emanation g = MkArena n $ inv (source g)
+
+--graphDyn : {node, edge : Type} -> Graph node edge -> DynSystem
+--graphDyn g = MkDynSystem node (emanation g) (MkLens id \ _ , (e ** p) => target g e)
+---
+
+
+-- Exmaple 1.137
+emanation : {node,edge : Type} -> (g : Graph node edge) -> (t : node -> Type) -> node -> Arena
+emanation g t v = let dis = ((a : inv (source g) v) -> t (target g (fst a)))
+            in ArenaIO dis (t v)
+
+--juxt : (ind : Type) -> (ind -> Arena) -> Arena
+--juxt ind arena = MkArena ((i : ind) -> pos (arena i))
+                         --(\p => (i : ind) -> dis (arena i) (p i))
+
+data Direction = N | NE | E | SE | S | SW | W | NW
+tgt_gol : ((Integer, Integer), Direction) -> (Integer, Integer)
+tgt_gol ((i,j),d) = case d of
+                         N => (i,j+1)
+                         S => (i,j-1)
+                         E => (i+1,j)
+                         W => (i-1,j)
+                         NE => (i+1,j+1)
+                         NW => (i-1,j+1)
+                         SE => (i+1,j-1)
+                         SW => (i-1,j-1)
+
+
+juxtLenses : (ind : Type) -> (as,bs : ind -> Arena)
+       -> ((i : ind) -> Lens (as i) (bs i))
+       -> Lens (juxt ind as) (juxt ind bs)
+juxtLenses i as bs ls =
+  MkLens (\pas, i => observe (ls i) (pas i))
+         (\pas, dbs, i => interpret (ls i) (pas i) (dbs i))
+
+juxtapose : {ind : Type} -> (ind -> DynSystem) -> DynSystem
+juxtapose ds =
+      MkDynSystem ((v : ind) -> state (ds v))
+                  (juxt ind $ \v => body (ds v))
+                  (juxtLenses ind (\i => Self (state (ds i)))
+                                  (\i => body (ds i))
+                                  (\i => pheno (ds i)))
+
+cellArena : Arena
+cellArena = MkArena Bool (\_ => Direction -> Bool)
+
+bool2Nat : Bool -> Nat
+bool2Nat True = 1
+bool2Nat False = 0
+
+countNear : (Direction -> Bool) -> Nat
+countNear f = let f' = bool2Nat . f in f' N + f' S + f' E + f' W + f' NE + f' NW + f' SE + f' SW
+
+cellUpdt : (p : Bool) -> (Direction -> Bool) -> Bool
+cellUpdt True f = countNear f == 2 || countNear f == 3
+cellUpdt False f = countNear f == 3
+
+--install : (d : DynSystem) -> (a : Arena) -> Lens (body d) a -> DynSystem
+--install d a l = MkDynSystem (state d) a (l <.> (pheno d))
+
+graphWD : {node, edge : Type} -> (g : Graph node edge)
+       -> (t : node -> Type) -> Lens (juxt node $ emanation g t)
+                                     (Emitter ((v : node) -> t v))
+graphWD g  t = MkLens id ?st -- (\f, (), _, a => f (target g (fst a)))
+
+
+cellDyn : DynSystem
+cellDyn = MkDynSystem Bool cellArena $ MkLens id (\p, updt => cellUpdt p updt)
+
+golGraph : Graph (Integer, Integer) ((Integer, Integer), Direction)
+golGraph = MkGraph (\(ij,_) => ij) tgt_gol
+
+golDyn : DynSystem
+golDyn = let cellDyns : (Integer,Integer) -> DynSystem
+             cellDyns _ = cellDyn
+         in juxtapose cellDyns
+
+
+GoL : DynSystem
+GoL = let ll = graphWD golGraph (\_ => Bool)
+      in install golDyn (Emitter ((Integer,Integer) -> Bool)) ?lll
+  {-
+
+
+initGol : (Integer,Integer) -> Bool
+initGol (i,j) = j == 0 && i >= (-1) && i <= 1
+
+runGol : Stream ((Integer,Integer) -> Bool)
+runGol = run GoL enclosed initGol
+
+viewGol : Stream (Bool,Bool,Bool)
+viewGol = map (\f => (f (-1,0), f (0,0), f (1,0))) runGol
+-}
+
+-- (graphWD golGraph ?ss)
 
 
 Prefib : DynSystem
@@ -550,7 +655,6 @@ fibwd = MkLens observe interpret
             observe (pl, de) = de
             interpret (pl, de) = \_ => ((de, pl), pl)
 
-
 Fibonacci : DynSystem
 Fibonacci = install Prefib (Emitter Integer) fibwd
 
@@ -558,7 +662,13 @@ Fibonacci = install Prefib (Emitter Integer) fibwd
 FibSeq : Stream Integer
 FibSeq = run Fibonacci enclosed (1, 1)
 
+FibSeq5 : Lens (MkArena (p : Integer ** () -> (p : Integer ** () -> ())) ?t) Closed
+      -> Stream (pos (body (speedUp Fibonacci 2)))
+FibSeq5 = \x => run (speedUp Fibonacci 2) x (1,1)
+
 --------  Fibonacci in REPL --------
+main : IO ()
+main = print $ take 10000 FibSeq
 
 -- Run this in the REPL:
 -- take 10 FibSeq
