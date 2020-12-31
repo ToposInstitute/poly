@@ -2095,11 +2095,20 @@ Its output type is $\rr^2$, which we might think of as a position, and its input
 \end{example}
 
 \begin{example}[From functions to Moore machines]\label{ex.funs_to_moore}
-For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $A$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. It is given by the map $(f,f^\sharp)\colon A\yon^A\to B\yon^A$ that on positions is $f$, and for each $a\in A$ the on-directions map $f^\sharp_a\colon A\to A$ is the identity on $A$.
+For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
+
+It is given by the map $(\id_B,\texttt{const} f)\colon B\yon^B\to B\yon^A$. That is, it is identity on positions (outputs the state directly), and on inputs is the function $B\times A\To{\pi}A\To{f} B$ that drops the current position and then applies $f$ to the input.
+
+If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, the machine's output will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoriless} because the current output does not depend on any internal memory.
 \end{example}
 
 \begin{exercise}\label{exc.funs_to_moore}
-For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. What is it?
+Suppose given a function $f\colon A\times B\to B$.
+\begin{enumerate}
+	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
+	\item Would you say the machine is memoriless?
+\qedhere
+\end{enumerate}
 \end{exercise}
 
 \begin{exercise}
@@ -2612,48 +2621,90 @@ Consider the following wiring diagram.
 \end{enumerate}
 \end{exercise}
 
-\begin{exercise}[Cellular automata]\label{exc.cellular_automata}
-Let $G=(V,E)$ be a simple graph, i.e.\ $V,E\in\smset$ and $E\ss V\times V$. You can imagine it as a grid 
+\begin{example}[Graphs as interaction diagrams]\label{ex.graph_interaction}
+Suppose given a graph $G$ and a set $\tau(v)$ for every vertex
 \[
-\begin{tikzcd}[shift left=2pt]
-	\LMO{(1,1)}\ar[r]      \ar[d]&
-	\LMO{(1,2)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,3)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,4)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,5)}      \ar[l]\ar[d]\\
-	\LMO{(2,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(2,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(3,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(3,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(4,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(4,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(5,1)}\ar[r]            \ar[u]&
-	\LMO{(5,2)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,3)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,4)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,5)}      \ar[l]      \ar[u]
+\begin{tikzcd}
+	A\ar[r, shift left=3pt, "\text{src}"]\ar[r, shift right=3pt, "\text{tgt}"']&
+	V\ar[r, "\tau"]&
+	\smset
 \end{tikzcd}
 \]
-finite or infinite, or just an arbitrary graph. For every vertex $v$, the set of vertices $v'$ for which $(v',v)\in E$, i.e.\ for which there is an edge $v'\to v$, is denoted
-\[I(v)\coloneq\{v'\mid (v',v)\in E\}.\]
-For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color $\2\cong\{\const{black},\const{white}\}$ and inputs a function $I(v)\to\2$, specifying what all the neighbors are outputting.
+For each vertex $v\in V$, let $A_v\coloneqq\text{src}\inv(v)\ss A$ denote the arrows emanating from $v$, and define the monomial
+\[
+	p_v\coloneqq\tau(v)\yon^{\prod_{a\in A_v}\tau(\text{tgt}\ a)}
+\]
+From this data we can give a morphism
+\[
+\bigotimes_{v\in V}p_v\Too{\varphi}\yon.
+\]
+To do so, we just need a function of the form
+\[
+\prod_{v\in V}\tau(v)\too\prod_{v\in V}\prod_{a\in A_v}\tau(\text{tgt}\ a)
+\]
+We use $f\mapsto v\mapsto a\mapsto f(\text{tgt}\ a)$.
+
+The map $\varphi$ wires together the interfaces $p_v$, over all vertices $v\in V$, inside a closed outer box. That way, once we instantiate each $p_v$ with a dynamical system $S\yon^S\to p_v$---one that outputs $\tau(v)$ and inputs $\prod_{v'\To{a} v}\tau(v')$---they will all interact together as specified by the graph.
+
+For example, a common graph found in cellular automata is a 2-dimensional integer lattice, with vertices $V\coloneqq\zz\times\zz$. The \emph{stencil} indicates which vertices ``hear'' which other vertices. One might use
+\[A\coloneqq\{-1,0,1\}\times\{-1,0,1\}\times V\]
+with $\text{src}(i,j,m,n)=(m,n)$ and $\text{tgt}(i,j,m,n)=(m+i, n+j)$.
+\end{example}
+
+\begin{exercise}[Conway's Game of Life]
+This exercise is for those who are familiar with Conway's Game of Life. We will use \cref{ex.graph_interaction}.
 \begin{enumerate}
-	\item In the drawn grid, what is $I(1,1)$? What is $I(2,2)$?
-	\item Specify a morphism $g\colon \bigotimes_{v\in V}p_v\to\yon$ that passes to each vertex $v$ the colors of its neighbors in $I(v)$.
-	\item Suppose that for each vertex $v\in V$ you are given a function $f_v\colon 2^{I(v)}\to\2$. Use it to construct a dynamical system $f'_v\colon\2\yon^\2\to p_v$ that updates its state in keeping with $f_v$ and outputs its state directly.
-	\item Briefly look up cellular automata in a reference of your choice. Would you say that the dynamical system $\bigotimes_{v\in V}\2\yon^\2\To{\bigotimes f'_v}\bigotimes_{v\in V}p_v\To{g}\yon$ we obtain by wiring together the dynamical systems in the specified way does the same thing as the cellular automata in your reference?
+	\item What is the appropriate graph $A\tto V$?
+	\item What is the appropriate function $\tau\colon V\to\smset$?
+	\item What are the polynomials $p_v$ from \cref{ex.graph_interaction}?
+	\item What is the appropriate state set $S_v$ for each interface $p_v$?
+	\item What is the appropriate dynamical system map $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+%\begin{exercise}[Cellular automata]\label{exc.cellular_automata}
+%Let $G=(V,E)$ be a simple graph, i.e.\ $V,E\in\smset$ and $E\ss V\times V$. You can imagine it as a grid 
+%\[
+%\begin{tikzcd}[shift left=2pt]
+%	\LMO{(1,1)}\ar[r]      \ar[d]&
+%	\LMO{(1,2)}\ar[r]\ar[l]\ar[d]&
+%	\LMO{(1,3)}\ar[r]\ar[l]\ar[d]&
+%	\LMO{(1,4)}\ar[r]\ar[l]\ar[d]&
+%	\LMO{(1,5)}      \ar[l]\ar[d]\\
+%	\LMO{(2,1)}\ar[r]      \ar[d]\ar[u]&
+%	\LMO{(2,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(2,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(2,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(2,5)}      \ar[l]\ar[d]\ar[u]\\
+%	\LMO{(3,1)}\ar[r]      \ar[d]\ar[u]&
+%	\LMO{(3,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(3,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(3,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(3,5)}      \ar[l]\ar[d]\ar[u]\\
+%	\LMO{(4,1)}\ar[r]      \ar[d]\ar[u]&
+%	\LMO{(4,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(4,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(4,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
+%	\LMO{(4,5)}      \ar[l]\ar[d]\ar[u]\\
+%	\LMO{(5,1)}\ar[r]            \ar[u]&
+%	\LMO{(5,2)}\ar[r]\ar[l]      \ar[u]&
+%	\LMO{(5,3)}\ar[r]\ar[l]      \ar[u]&
+%	\LMO{(5,4)}\ar[r]\ar[l]      \ar[u]&
+%	\LMO{(5,5)}      \ar[l]      \ar[u]
+%\end{tikzcd}
+%\]
+%finite or infinite, or just an arbitrary graph. For every vertex $v$, the set of vertices $v'$ for which $(v',v)\in E$, i.e.\ for which there is an edge $v'\to v$, is denoted
+%\[I(v)\coloneq\{v'\mid (v',v)\in E\}.\]
+%For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color $\2\cong\{\const{black},\const{white}\}$ and inputs a function $I(v)\to\2$, specifying what all the neighbors are outputting.
+%\begin{enumerate}
+%	\item In the drawn grid, what is $I(1,1)$? What is $I(2,2)$?
+%	\item Specify a morphism $g\colon \bigotimes_{v\in V}p_v\to\yon$ that passes to each vertex $v$ the colors of its neighbors in $I(v)$.
+%	\item Suppose that for each vertex $v\in V$ you are given a function $f_v\colon 2^{I(v)}\to\2$. Use it to construct a dynamical system $f'_v\colon\2\yon^\2\to p_v$ that updates its state in keeping with $f_v$ and outputs its state directly.
+%	\item Briefly look up cellular automata in a reference of your choice. Would you say that the dynamical system $\bigotimes_{v\in V}\2\yon^\2\To{\bigotimes f'_v}\bigotimes_{v\in V}p_v\To{g}\yon$ we obtain by wiring together the dynamical systems in the specified way does the same thing as the cellular automata in your reference?
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
 
 %---- Subsection ----%
 \subsection{General interaction}
@@ -3567,8 +3618,8 @@ Recall (\cref{prop.adjoint_quadruple}) that for any polynomial $p$, there are ca
 	\3\yon^{\2}+\2\yon\ar[r]&
 	\yon^\8\ar[ul, phantom, very near start, "\ulcorner"]
 \end{tikzcd}
-	\qedhere
 \]
+	\item Is the pushout of a Cartesian map always Cartesian?
 \end{enumerate}
 \end{exercise}
 
