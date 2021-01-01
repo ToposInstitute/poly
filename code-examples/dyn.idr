@@ -627,7 +627,8 @@ golDyn = let cellDyns : (Integer,Integer) -> DynSystem
 
 GoL : DynSystem
 GoL = let ll = graphWD golGraph (\_ => Bool)
-      in install golDyn (Emitter ((Integer,Integer) -> Bool)) ?lll
+      in install golDyn (Emitter ((Integer,Integer) -> Bool))
+                        (MkLens id (\f, (), ij, d => f (tgt_gol (ij, d))))
 
 
 initGol : (Integer,Integer) -> Bool
