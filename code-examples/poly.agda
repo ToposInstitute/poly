@@ -6,8 +6,11 @@ open import Agda.Builtin.Unit
 open import Data.Empty
 open import Data.Sum
 open import Data.Fin as Fin using (Fin)
-open import Data.Nat as Nat using (ℕ)
+open import Data.Nat as Nat using (ℕ;_+_)
 open import Relation.Binary.PropositionalEquality.Core using (_≡_; _≢_; refl; cong)
+open import Data.Bool
+open import Agda.Builtin.Int
+
 -- boilerplate
 module stream where
   record Stream (a : Set) : Set where
@@ -16,6 +19,17 @@ module stream where
     field
       hd : a
       tl : Stream a
+
+⁺1 : Int → Int
+⁺1 (pos n) = pos (Nat.suc n)
+⁺1 (negsuc Nat.zero) = pos Nat.zero
+⁺1 (negsuc (Nat.suc n)) = negsuc n
+
+⁻1 : Int → Int
+⁻1 (pos Nat.zero) = negsuc Nat.zero
+⁻1 (pos (Nat.suc n)) = pos n
+⁻1 (negsuc n) = negsuc (Nat.suc n)
+
 open stream using (Stream)
 module functors (f : Set → Set) where
     record Functor : Set₁ where
@@ -195,11 +209,6 @@ module ops where
         open Arena a renaming (σ to A⁺; ρ to A⁻)
         open Arena b renaming (σ to B⁺; ρ to B⁻)
 
-    {-# TERMINATING #-}
-    prodList : List Arena → Arena
-    prodList (Nat.zero , _) = one
-    prodList as@(Nat.suc n , _) = head as (λ()) & prodList (tail as (λ()))
-
     _⟦&⟧_ : ∀ {a b x y} → (a ↝ b) → (x ↝ y) → (a & x) ↝ (b & y)
     _⟦&⟧_ {a} {b} {x} {y} a↝b x↝y = g ⇵ s where
       open Arena a renaming (σ to A⁺; ρ to A⁻)
@@ -212,9 +221,9 @@ module ops where
       s (a⁺ , x⁺) (inj₁ b⁻) = inj₁ (a⁺ # a↝b ← b⁻)
       s (a⁺ , x⁺) (inj₂ y⁻) = inj₂ (x⁺ # x↝y ← y⁻)
 
-    prod : Σ[ ind ∈ Set ](ind → Arena) → Arena
-    prod (ind , arena) = ((i : ind) → σ (arena i))
-                       ◅ (λ a⁺ → Σ[ i ∈ ind ](ρ (arena i) (a⁺ i)))
+    Π& : {I : Set} → (I → Arena) → Arena
+    Π& {I = I} a = ((i : I) → σ (a i))
+         ◅ (λ a⁺ → Σ[ i ∈ I ](ρ (a i) (a⁺ i)))
 
     -- pair
     _⟦*⟧_ : ∀ {x a b} → x ↝ a → x ↝ b → x ↝ (a & b)
@@ -227,6 +236,7 @@ module ops where
       s : (x⁺ : X⁺) → ρ (a & b) (g x⁺) → X⁻ x⁺
       s x⁺ (inj₁ a⁻) = set x↝a x⁺ a⁻
       s x⁺ (inj₂ b⁻) = set x↝b x⁺ b⁻
+  open product public
   module juxtaposition where
     infixl 6 _⊗_
     _⊗_ : Arena → Arena → Arena
@@ -234,13 +244,17 @@ module ops where
       open Arena a renaming (σ to A⁺; ρ to A⁻)
       open Arena b renaming (σ to B⁺; ρ to B⁻)
 
-    {-# TERMINATING #-}
-    juxtList : List Arena → Arena
-    juxtList (Nat.zero , _) = Closed -- ⊤ ◄ ⊤
-    juxtList as@(Nat.suc n , _) = head as (λ ()) ⊗ juxtList (tail as (λ ()))
+    Π⊗ : {I : Set} → (I → Arena) → Arena
+    Π⊗ {I = I} a = ((i : I) → σ (a i))
+                 ◅ (λ a⁺ → (i : I) -> ρ (a i) (a⁺ i))
+    Π⟦⊗⟧ : {I : Set} {as bs : I → Arena}
+          → ((i : I) → (as i ↝ bs i))
+          → (Π⊗ as ↝ Π⊗ bs)
+    Π⟦⊗⟧ ls = (λ pas i → pas i ★ ls i)
+            ⇵ (λ pas dbs i → pas i # ls i ← dbs i)
 
-    _⊗⊗⊗_ : ∀ {a b x y} → a ↝ b → x ↝ y → (a ⊗ x) ↝ (b ⊗ y)
-    _⊗⊗⊗_ {a} {b} {x} {y} a↝b x↝y = g ⇵ s where
+    _⟦⊗⟧_ : ∀ {a b x y} → a ↝ b → x ↝ y → (a ⊗ x) ↝ (b ⊗ y)
+    _⟦⊗⟧_ {a} {b} {x} {y} a↝b x↝y = g ⇵ s where
       open Arena a renaming (σ to A⁺; ρ to A⁻)
       open Arena b renaming (σ to B⁺; ρ to B⁻)
       open Arena x renaming (σ to X⁺; ρ to X⁻)
@@ -335,7 +349,7 @@ open comonoid
 
 module exp where
   _^_ : Arena → Arena → Arena
-  a ^ b = product.prod (A⁺ , λ a⁺ → b ⊚ Exception (A⁻ a⁺)) where
+  a ^ b = Π& λ a⁺ → b ⊚ Exception (A⁻ a⁺) where
     open Arena a renaming (σ to A⁺; ρ to A⁻)
     open Arena b renaming (σ to B⁺; ρ to B⁻)
 
@@ -344,7 +358,7 @@ module exp where
 
 module internal-hom where
   _⊸_ : Arena → Arena → Arena
-  a ⊸ b = product.prod (A⁺ , λ a⁺ → b ⊚ (A⁻ a⁺ ◄ ⊤)) where
+  a ⊸ b = Π& λ a⁺ → b ⊚ (A⁻ a⁺ ◄ ⊤) where
 -- Internal hom has lenses as situations and (indexed) possibilities as the target
 --  a ⊸ b = ((a⁺ : A⁺) → Σ[ b⁺ ∈ B⁺ ](B⁻ b⁺ → A⁻ a⁺))
 --        ◅ λ bs → Σ[ a⁺ ∈ A⁺ ](Σ (B⁻ (fst (bs a⁺)))(λ _ → ⊤))
@@ -387,6 +401,12 @@ module dynamical where
     juxtapose (Nat.zero , _) = static
     juxtapose ds@(Nat.suc n , _) = head ds (λ ()) XXX juxtapose (tail ds λ ())
 
+    ΠXXX : {I : Set} → (I → DynSystem) → DynSystem
+    ΠXXX {I = I} ds = record
+                  { state = (i : I)  → state (ds i)
+                  ; body  = Π⊗   λ i → body  (ds i)
+                  ; pheno = Π⟦⊗⟧ λ i → pheno (ds i)}
+
     install : (d : DynSystem) (a : Arena) → (body d ↝ a) → DynSystem
     install d a l = record {state = state d; body = a; pheno = pheno d ▸ l}
 
@@ -419,3 +439,71 @@ module behavior where
       Behavior.tl (dynBehavior s) d' = dynBehavior (s # pheno d ← d')
       run : (body d ↝ Closed) → state d → Stream (σ $ body d)
       run phys s = toStream phys (dynBehavior s)
+
+
+module graphs where
+  record Graph : Set₁ where
+    field
+      Vert Edge : Set
+      source target : Edge → Vert
+  open Graph public
+  _⁻¹ : {a b : Set} → (f : a → b) → b → Set
+  (f ⁻¹) y = ∃ (λ x → f x ≡ y)
+  emanation : (g : Graph) → (t : Vert g → Set) → Vert g → Arena
+  emanation g t v = t v ◄ (((a , _) : ((source g) ⁻¹) v) → t (target g a))
+
+  data Direction : Set where
+    N : Direction
+    S : Direction
+    E : Direction
+    W : Direction
+    NE : Direction
+    NW : Direction
+    SE : Direction
+    SW : Direction
+  cellArena : Arena
+  cellArena = Bool ◄ (Direction → Bool)
+
+  bool2Nat : Bool → ℕ
+  bool2Nat false = Nat.zero
+  bool2Nat true = Nat.suc Nat.zero
+  countNear : (Direction → Bool) → ℕ
+  countNear f = let f' = bool2Nat ∘ f in f' N + f' S + f' E + f' W + f' NE + f' NW + f' SE + f' SW
+
+  _==_ : ℕ → ℕ → Bool
+  Nat.zero == Nat.zero = true
+  Nat.suc n == Nat.suc m = n == m
+  _ == _ = false
+  _||_ : Bool → Bool → Bool
+  true || _ = true
+  false || n = n
+  cellUpdt : (p : Bool) → (Direction → Bool) → Bool
+  cellUpdt true f = (countNear f == 2) || (countNear f == 3)
+  cellUpdt false f = countNear f == 3
+
+  graphWD : (g : Graph) → (t : Vert g → Set)
+         → Π⊗ (emanation g t) ↝ (((v : Vert g) → t v) ◄  ⊤)
+  graphWD g t = id ⇵ λ f (.tt) _ (a , _) → f (target g a)
+
+  cellDyn : DynSystem
+  cellDyn = record { state = Bool ; body = cellArena ; pheno = id ⇵ cellUpdt}
+
+  tgtGol : (Int × Int) × Direction → Int × Int
+  tgtGol ((i , j) , N  ) =    i , ⁺1 j
+  tgtGol ((i , j) , S  ) =    i , ⁻1 j
+  tgtGol ((i , j) , E  ) = ⁺1 i ,    j
+  tgtGol ((i , j) , W  ) = ⁻1 i ,    j
+  tgtGol ((i , j) , NE ) = ⁺1 i , ⁺1 j
+  tgtGol ((i , j) , NW ) = ⁻1 i , ⁺1 j
+  tgtGol ((i , j) , SE ) = ⁺1 i , ⁻1 j
+  tgtGol ((i , j) , SW ) = ⁻1 i , ⁻1 j
+
+  golGraph : Graph
+  golGraph = record { Vert = (Int × Int) ; Edge = (Int × Int) × Direction ; source = fst ; target = tgtGol }
+
+      
+  golDyn : DynSystem
+  golDyn = ΠXXX λ (_ : (Int × Int)) → cellDyn
+
+  GoL : DynSystem
+  GoL = install golDyn ((( Int × Int) → Bool) ◄ ⊤) (id ⇵ λ f (.tt) ij d → f (tgtGol (ij , d)))

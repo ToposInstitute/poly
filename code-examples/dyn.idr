@@ -628,7 +628,6 @@ golDyn = let cellDyns : (Integer,Integer) -> DynSystem
 GoL : DynSystem
 GoL = let ll = graphWD golGraph (\_ => Bool)
       in install golDyn (Emitter ((Integer,Integer) -> Bool)) ?lll
-  {-
 
 
 initGol : (Integer,Integer) -> Bool
@@ -639,10 +638,8 @@ runGol = run GoL enclosed initGol
 
 viewGol : Stream (Bool,Bool,Bool)
 viewGol = map (\f => (f (-1,0), f (0,0), f (1,0))) runGol
--}
 
 -- (graphWD golGraph ?ss)
-
 
 Prefib : DynSystem
 Prefib = plus *** (delay Integer)
@@ -658,7 +655,6 @@ fibwd = MkLens observe interpret
 Fibonacci : DynSystem
 Fibonacci = install Prefib (Emitter Integer) fibwd
 
-
 FibSeq : Stream Integer
 FibSeq = run Fibonacci enclosed (1, 1)
 
@@ -673,32 +669,7 @@ main = print $ take 10000 FibSeq
 -- Run this in the REPL:
 -- take 10 FibSeq
 
-
-
-
-
 -- ==========================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --- Distributivity ---
