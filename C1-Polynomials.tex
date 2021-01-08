@@ -1409,7 +1409,7 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Derivatives]
+\begin{example}[Derivatives]\label{ex.derivatives}
 We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
 \[
 \dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]-\{d\}}.
@@ -1418,16 +1418,24 @@ For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then
 \[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
 Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
 
+Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
+\[
+\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]}
+\]
+This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride} and \cite{abbot2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
+%https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
+
 A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of delegations from $p$ to $q$ such that each position in $p$ explicitly selects a $q$-option to be avoided. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of $q$-position $j$, as usual, together with a chosen option $d\in q[j]$. Then every $q$-option \emph{other than $d$} is passed back to an option in $p[i]$.
 \end{example}
 
 \begin{exercise}
 The derivative is not very well-behaved category-theoretically. However, it is intriguing.
 \begin{enumerate}
+	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
+	\item Explain the canonical map $\dot{p}\yon\to p$ from \cref{ex.derivatives} in more detail.
 	\item Is there always a canonical map $p\to \dot{p}$?
 	\item Is there always a canonical map $\dot{p}\to p$?
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
-	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
 	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
 	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options,'' how might you describe what is modeled by a map $p\yon\to q$?
