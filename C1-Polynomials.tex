@@ -42,18 +42,22 @@ All our polynomials will involve one variable, $\yon$, chosen for reasons we'll 
 \end{tikzpicture}
 \quad&\quad\textit{arena}
 \end{align}
-More technically, mini-trees are called \emph{corollas}, so what we're calling an
-\emph{arena}, in this chapter, is a set of corollas. 
+Each mini-tree in \eqref{eqn.poly1892} corresponds to a power of $\yon$ in the polynomial given in \eqref{eqn.polynomial1892}.
+In particular, the mini-tree with $2$ leaves corresponds to $\yon^\2$; the mini-tree with $1$ leaf corresponds to $\yon$, which can be rewritten as $\yon^\1$; and the mini-tree with no leaves corresponds to $\1$, which can be rewritten as $\yon^0$.
+More technically, these mini-trees—rooted trees of which all leaves are children of the root—are called \emph{corollas}.
+So what we're calling an \emph{arena}, in this chapter, is a set of corollas. 
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end''. While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
+Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \cref{eqn.poly1892} are particularly interesting; they respectively have two options, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end.'' While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
 
 In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times%
 \footnote{
 In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
 }
-in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options. When you put all those decisions together, you have the \emph{arena} associated to $p$. 
+in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options.
+Likewise, there are 17 situations in which you have a decision with a single option.
+When you put all those decisions together, you have the \emph{arena} associated to $\4\2\yon^\3+\1\7\yon$. 
 
-Here is a table of terminology. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
+Here is a table of terminology, capturing four different perspectives from which we may view our objects of study. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
 
 \begin{equation}\label{eqn.table_terminology}
 \small
@@ -62,7 +66,7 @@ Here is a table of terminology. The first column is book-wide terminology, the s
 \textbf{Arena} & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
 Set of positions & $p(\1)$ & Set of roots & Set of situations\\
 Interface in position $i$ & Pure power summand $\yon^{p[i]}$ & Corolla & Decision\\
-Direction $c\in p[i]$ & Element of $p[i]$ & Leaf & Possibility
+Direction $c\in p[i]$ & Element of $p[i]$ & Leaf & Option
 \end{tabular}
 \end{equation}
 
@@ -101,25 +105,25 @@ If you were a suitor choosing the arena you love, aesthetically speaking, which 
 	\item $(\nn\yon)^\nn$
 	\item $S\yon^S$
 	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
-	\item Your poly's name $p$ here.
+	\item Your polynomial's name $p$ here.
 \end{enumerate}
 Any reason for your choice? Draw a sketch of your arena.
 \end{exercise}
 
-Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. Remember, we spoke superlatively of $\poly$ at the beginning of this chapter,
+Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. We speak superlatively of $\poly$:
 \slogan{
 The category of polynomial functors is a jackpot. Its beauty flows without bound}
-and we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
+but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
 %---- Subsection ----%
 \subsection{Dynamical systems}
 
-Throughout this book, we've seen dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
+You may already be familiar with dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
 \begin{enumerate}
 	\item The interface of the system can change shape through time.
 	\item The wiring diagram connecting a bunch of systems can change in time.
 	\item One can speed up the dynamics of a system.
-	\item One can introduce ``effects'', i.e.\ as defined by monads on $\smset$.
+	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
 	\item The dynamical systems on any interface form a topos.
 \end{enumerate}
 
@@ -277,7 +281,7 @@ But $\poly$ is very versatile in its applications. Next we'll show how it relate
 %---- Subsection ----%
 \subsection{Data}
 
-Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database'', just think of it as a conceptual structure filled with examples.
+Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database,'' just think of it as a conceptual structure filled with examples.
 
 To fix a mental image, let's say that you need to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
 \begin{equation}\label{eqn.mytables}
@@ -318,14 +322,14 @@ The equation at the bottom says that for any department $d$, if you ask for the 
 
 What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}, and the database instance presented in \eqref{eqn.mytables} correspond to a functor $I\colon\cat{C}\to\smset$; it sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$. It sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ given by $I(1)=2$, $I(2)=2$, and $I(3)=3$. A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
 
-There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager''.
+There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
 \begin{minted}{mysql}
  FOR    d: Department, e: Employee
  WHERE  Name(d)="Math" AND
         (e=Admin(d) OR e=Mngr(Admin(d)))
  RETURN FirstName(e)
 \end{minted}
-This sort of question is formally called a ``union of conjunctive queries''. We will see this sort of query is intimately connected with $\poly$.
+This sort of question is formally called a ``union of conjunctive queries.'' We will see this sort of query is intimately connected with $\poly$.
 
 We will also see how databases can be conceived in terms of dynamical systems.
 
@@ -613,14 +617,14 @@ More formally, these are called \emph{sieves}; they form the elements of a logic
 
 Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
 
-What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of positions in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a distinction.
+What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of positions in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a direction.
 
 Luckily, the agda code is pretty easy to understand.
 \begin{agda}
 record Arena : Set where  -- a arena consists of 
    field                       -- two fields
      decn : Set                -- one called decn, a set, and
-     posy : pos -> Set         -- one called posy,
+     posy : decn -> Set        -- one called posy,
                                -- a set that depends on decn
 \end{agda}  
 
@@ -1364,7 +1368,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 \]
 This represents one morphism $p\to q$.
 
-So how many different morphisms are there from $p$ to $q$? One way to figure it out is to use the formula \eqref{eqn.main_formula}, but that might need some explaining; we go through such notation in an interlude after \cref{exc.practice_poly_maps}. For now, we can just count ``pre-theoretically''.
+So how many different morphisms are there from $p$ to $q$? One way to figure it out is to use the formula \eqref{eqn.main_formula}, but that might need some explaining; we go through such notation in an interlude after \cref{exc.practice_poly_maps}. For now, we can just count ``pre-theoretically.''
 
 The first $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. Delegating it to the first $q$-decision requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to delegate the first $p$-decision: there are $3^4+3^2+3^0+3^0=92$. 
 
@@ -1414,7 +1418,7 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
 	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
-	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options'', how might you describe what is modeled by a map $p\yon\to q$?
+	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options,'' how might you describe what is modeled by a map $p\yon\to q$?
 \end{enumerate}
 \end{exercise}
 
@@ -1425,7 +1429,7 @@ Here's how to understand and work with a set that involves $\sum$'s and $\prod$'
 \end{equation}
 To understand it, you ask ``what is involved in choosing an element of this set?'' 
 
-The answer given by the formula \eqref{eqn.misc98339} begins by saying ``To choose an element of \eqref{eqn.misc98339}, first..." and then you begin pronouncing the formula. Every time you see $\sum_{i\in I}...$, say ``choose an element $i\in I$; then, ...''. Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ...''. At the very end when you see some $X$, say ``conclude by choosing an element of $X$''.
+The answer given by the formula \eqref{eqn.misc98339} begins by saying ``To choose an element of \eqref{eqn.misc98339}, first..." and then you begin pronouncing the formula. Every time you see $\sum_{i\in I}...$, say ``choose an element $i\in I$; then, ....'' Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ....'' At the very end when you see some $X$, say ``conclude by choosing an element of $X$.''
 
 So the formula in \eqref{eqn.misc98339} would be pronounced as follows:
 \begin{quote}
@@ -1541,7 +1545,7 @@ our main formula \eqref{eqn.main_formula} that there is an isomorphism between p
 	\begin{equation}\label{eqn.useful_misc472}
 	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\Big).
 	\end{equation}
-\item If the answer to \#2 is ``yes'', then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no'', give intuition for why the two sets are not isomorphic.
+\item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -2123,7 +2127,7 @@ Find $A,B\in\smset$ such that the following can be identified with a morphism $S
 \begin{exercise}
 Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
 
-Add to its state a ``health meter'', which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+Add to its state a ``health meter,'' which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \end{exercise}
 
 \begin{exercise}\label{exc.file_reader}
@@ -2134,7 +2138,7 @@ Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, whe
 Given an input, if it is of the form $(s,t)$ then the robot goes to position $s$ in the file and begins reading (assuming it receives the ``continue'' signal) one character at a time, until it reaches position $t$. Then it continually outputs ``done'' until it receives another $(s,t)$ pair.
 \end{exercise}
 
-When we get to generalized Moore machines, we will be able to let the robot ``close its port'', so that while it can't receive signals while it's busy reading; see \cref{ex.generalized_file_reader}.
+When we get to generalized Moore machines, we will be able to let the robot ``close its port,'' so that while it can't receive signals while it's busy reading; see \cref{ex.generalized_file_reader}.
 
 \begin{exercise}[Tape of a Turing machine]
 A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of ``current'' position. Thus the set of states of the tape is $T\coloneqq V^\zz\times\zz$.
@@ -2280,7 +2284,7 @@ Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep 
 \[
 (f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
 \]
-To give such a map, one in particular provides a function $f_1\colon S\to\2$; here we are thinking of $\2$ as the set of positions in $\yon^A+\1$. A function $f_1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted''. This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
+To give such a map, one in particular provides a function $f_1\colon S\to\2$; here we are thinking of $\2$ as the set of positions in $\yon^A+\1$. A function $f_1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted.'' This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
 
 On the other hand, $f^\sharp_s$ is not trivial on those elements $s\in S$ for which $f_1(s)=1$. They must come equipped with a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$. Again, this is in line with the way state machines encode regular languages.
 \end{example}
@@ -2323,7 +2327,7 @@ Draw the associated labeled transition system as in \cref{ex.labeled_transition}
 \end{exercise}
 
 \begin{example}[Adding a pause button]\label{ex.pause}
-Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button'', meaning that for any state (and any position), we add an input that keeps the state where it is.
+Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button,'' meaning that for any state (and any position), we add an input that keeps the state where it is.
 
 To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity (see \cref{**}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
 \end{example}
@@ -3107,7 +3111,7 @@ Suppose given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
 	\qqand
 	\varphi_2\colon p_2\otimes q_2\to r
 \]
-One might call these ``$r$-Chu spaces''. One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$'' of the following type:
+One might call these ``$r$-Chu spaces.'' One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$'' of the following type:
 \[
 \varphi_1\&\varphi_2\colon (p_1\times p_2)\otimes (q_1+q_2)\to r
 \]
