@@ -24,12 +24,12 @@ I will think about it.\\
 \section{Introduction}
 
 
-In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with both dynamic processes, data storage and transformations, and decision-making. But our story begins with something quite humble: middle school algebra.
+In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: middle school algebra.
 \begin{align}\label{eqn.polynomial1892}
 \yon^\2+\yon+\1 \quad&\quad
 \textit{polynomial}
 \intertext{
-All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
+All our polynomials (or just \emph{polys}) will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
 }
 \label{eqn.poly1892}
 \begin{tikzpicture}[trees]
@@ -110,13 +110,17 @@ If you were a suitor choosing the arena you love, aesthetically speaking, which 
 Any reason for your choice? Draw a sketch of your arena.
 \end{exercise}
 
-Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, data, and decision. We speak superlatively of $\poly$:
+Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, decisions, and data. We speak superlatively of $\poly$:
 \slogan{
 The category of polynomial functors is a jackpot. Its beauty flows without bound}
 but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
 %---- Subsection ----%
 \subsection{Dynamical systems}
+
+% Explain how people should think about dynamical systems: a clock, computer...
+% connecting them
+% maybe draw the same picture
 
 You may already be familiar with dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
 \begin{enumerate}
@@ -276,67 +280,12 @@ Talk about real-world applications!
 
 Hopefully you now have an idea of what we mean by mode-dependence: interfaces and wiring diagrams changing in time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and wiring diagrams in this sense. 
 
-But $\poly$ is very versatile in its applications. Next we'll show how it relates to information storage and translation.
-
-%---- Subsection ----%
-\subsection{Data}
-
-Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database,'' just think of it as a conceptual structure filled with examples.
-
-To fix a mental image, let's say that you need to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
-\begin{equation}\label{eqn.mytables}
-\begin{tabular}{ c | c  c  c}
-  \textbf{Employee}&\textbf{FirstName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
-  1&Alan&101&2\\
-  2&Ruth&101&2\\
-  3&Carla&102&3
-\end{tabular}
-\hspace{.3in}
-\begin{tabular}{ c | c  c}
-  \textbf{Department}&\textbf{Name}&\textbf{Admin}\\\hline
-  101&Sales&1\\
-  102&IT&3\\~
-\end{tabular}
-%\hspace{.3in}
-%\begin{tabular}{ c |}
-%	\textbf{String}\\\hline
-%	Alan\\
-%	IT\\[-3pt]
-%	\resizebox{!}{10pt}{$\vdots$}
-%\end{tabular}
-\end{equation}
-We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
-\begin{equation}\label{eqn.myschema}
-\cat{C}\coloneqq
-\boxCD{white}{
-\begin{tikzcd}[row sep=large, ampersand replacement = \&]
- 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FirstName}"']\ar[loop left, "\text{Mngr}"]\&\&
-  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{Name}"]\\
-  \&\LTO[\circ]{String}
-\end{tikzcd}
-\leavevmode\\\bigskip
-\text{Department.Admin.WorksIn = Department}
-}
-\end{equation}
-The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
-
-What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}, and the database instance presented in \eqref{eqn.mytables} corresponds to a functor $I\colon\cat{C}\to\smset$; it sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$. It sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ given by $I(1)=2$, $I(2)=2$, and $I(3)=3$. A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
-
-There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
-\begin{minted}{mysql}
- FOR    d: Department, e: Employee
- WHERE  Name(d)="Math" AND
-        (e=Admin(d) OR e=Mngr(Admin(d)))
- RETURN FirstName(e)
-\end{minted}
-This sort of question is formally called a ``union of conjunctive queries.'' We will see this sort of query is intimately connected with $\poly$.
-
-We will also see how databases can be conceived in terms of dynamical systems.
+But $\poly$ is very versatile in its applications. Next we'll show how it relates to the making of decisions.
 
 %---- Subsection ----%
 \subsection{Decisions}
 
-Consider the following three trees, the first two are infinite (though that's hard to draw):
+Consider the following three trees, the first two of which are infinite (though that's hard to draw):
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -452,7 +401,7 @@ Consider the following three trees, the first two are infinite (though that's ha
 \node (c) [red, right=2 of b] {$\bullet$};
 \end{tikzpicture}
 \]
-These are patterned examples---and we'll understand what this pattern is more clearly in \cref{???}---of what we will call \emph{decision streams}. Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a finite stream):
+These are patterned examples---and we'll understand what this pattern is more clearly in \cref{**}---of what we will call \emph{decision streams}. Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a level-3 abbreviation of a finite stream):
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -546,7 +495,8 @@ These are patterned examples---and we'll understand what this pattern is more cl
 \end{tikzpicture}
 \]
 
-The set of such decision streams in fact form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1=\yon^\0$.
+The set of such decision streams forms the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1=\yon^\0$.
+We say that each such decision stream has type $\yon^\2$
 
 \begin{exercise}\label{exc.decision_streams}
 \begin{enumerate}
@@ -557,7 +507,7 @@ The set of such decision streams in fact form the objects of a category with ver
 \end{enumerate}
 \end{exercise}
 
-But decisions aren't just about choosing; they're also about trying to accomplish something. The logic of accomplishment is exceptionally rich in this setting. We will concentrate on what we call a \emph{win condition}, which is a subgraph of the decision stream with the property that if $n$ is winning node, then any child of $n$ is also a winning node. 
+But decisions aren't just about choosing; they're also about trying to accomplish something. The logic of accomplishment is exceptionally rich in this setting. We will concentrate on what we call a \emph{win condition}, which is an induced subgraph of the decision stream with the property that if $n$ is a winning node, then any child of $n$ is also a winning node. 
 \[\begin{tikzpicture}[trees,
   level 1/.style={sibling distance=20mm},
   level 2/.style={sibling distance=10mm},
@@ -610,22 +560,76 @@ But decisions aren't just about choosing; they're also about trying to accomplis
  \end{scope}
 \end{tikzpicture}
 \]
-More formally, these are called \emph{sieves}; they form the elements of a logical system called a Heyting algebra: you can take any two sieves and form the intersection or union (which correspond to AND and OR), or even things like implication, negation, and existential and universal quantification. This will give us a calculus of win-conditions for any sort $p$ of decision stream.
+More formally, these are called \emph{sieves}. They form the elements of a logical system called a Heyting algebra: you can take any two sieves and form the intersection or union (which correspond to AND and OR), or even things like implication, negation, and existential and universal quantification. This will give us a calculus of win-conditions for any type $p$ decision stream.
+
+%---- Subsection ----%
+\subsection{Data}
+
+Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database,'' just think of it as a conceptual structure filled with examples.
+
+To fix a mental image, let's say that you need to constantly look up employees, what department they're in, who the admin person is for that department, who their manager is, etc. Here's an associated database
+\begin{equation}\label{eqn.mytables}
+\begin{tabular}{ c | c  c  c}
+  \textbf{Employee}&\textbf{FirstName}&\textbf{WorksIn}&\textbf{Mngr}\\\hline
+  1&Alan&101&2\\
+  2&Ruth&101&2\\
+  3&Carla&102&3
+\end{tabular}
+\hspace{.3in}
+\begin{tabular}{ c | c  c}
+  \textbf{Department}&\textbf{Name}&\textbf{Admin}\\\hline
+  101&Sales&1\\
+  102&IT&3\\~
+\end{tabular}
+%\hspace{.3in}
+%\begin{tabular}{ c |}
+%	\textbf{String}\\\hline
+%	Alan\\
+%	IT\\[-3pt]
+%	\resizebox{!}{10pt}{$\vdots$}
+%\end{tabular}
+\end{equation}
+We can see it as being associated to the following conceptual scheme, also called a \emph{schema}:
+\begin{equation}\label{eqn.myschema}
+\cat{C}\coloneqq
+\boxCD{white}{
+\begin{tikzcd}[row sep=large, ampersand replacement = \&]
+ 	\LTO{Employee}\ar[rr, shift left, "\text{WorksIn}"]\ar[dr, bend right, "\text{FirstName}"']\ar[loop left, "\text{Mngr}"]\&\&
+  \LTO{Department}\ar[ll, shift left, "\text{Admin}"]\ar[dl, bend left, "\text{Name}"]\\
+  \&\LTO[\circ]{String}
+\end{tikzcd}
+\leavevmode\\\bigskip
+\text{Department.Admin.WorksIn = Department}
+}
+\end{equation}
+The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
+
+What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}, and the database instance presented in \eqref{eqn.mytables} corresponds to a functor $I\colon\cat{C}\to\smset$; it sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$. It sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ given by $I(1)=2$, $I(2)=2$, and $I(3)=3$. A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
+
+There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
+\begin{minted}{mysql}
+ FOR    d: Department, e: Employee
+ WHERE  Name(d)="Math" AND
+        (e=Admin(d) OR e=Mngr(Admin(d)))
+ RETURN FirstName(e)
+\end{minted}
+This sort of question is formally called a ``union of conjunctive queries.'' We will see this sort of query is intimately connected with $\poly$.
+We will also see how databases can be conceived in terms of dynamical systems.
 
 %---- Subsection ----%
 \subsection{Implementation}
 
-Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types. We will continue to use Agda.
+Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types, such as Agda.
 
 What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of positions in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a direction.
 
-Luckily, the agda code is pretty easy to understand.
+Luckily, the Agda code is pretty easy to understand.
 \begin{agda}
-record Arena : Set where  -- a arena consists of 
-   field                       -- two fields
-     decn : Set                -- one called decn, a set, and
-     posy : decn -> Set        -- one called posy,
-                               -- a set that depends on decn
+record Poly : Set where  -- a polynomial consists of 
+   field                      -- two fields
+     pos : Set                -- one called pos, a set, and
+     dir : pos -> Set         -- one called dir,
+                              -- a set for each element of the set pos
 \end{agda}  
 
 %---- Subsection ----%
@@ -637,10 +641,10 @@ The applications of $\poly$ are quite diverse and interesting, including dynamic
 $\poly$ is a biCartesian closed category, meaning it has sums, products, and exponential objects. It supports the simply typed lambda calculus.
 \end{proposition}
 
-In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{??}; for now we continue with the highlights.
+In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{**}; for now we continue with the highlights.
 
 \begin{proposition}
-Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal. Moreover $\otimes$ is also a closed monoidal structure and it distributes over $+$.
+Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal. Moreover $\otimes$ is also a closed monoidal structure that distributes over $+$.
 \end{proposition}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
@@ -680,7 +684,38 @@ The category $\comon$ has finite coproducts and products, and coproducts in $\co
 \end{proposition}
 
 \begin{proposition}
-Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1}, to the comonoid $\com{C}$. Then there is an equivalence of categories
+The functor $\comon\to\poly$ has a right adjoint
+\[
+\adjr{\poly}{\com{K}_-}{u_-}{\comon},
+\]
+called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
+\end{proposition}
+
+\begin{proposition}
+The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_-\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
+\end{proposition}
+
+
+
+\begin{proposition}\label{prop.sysp[i]s_topos}
+For any polynomial $p$, the category
+\[\sys(p)\cong\com{K}_p\set\]
+of dynamical systems on $p$ forms a topos.
+\end{proposition}
+
+The proposition above indicates that there is a full-fledged logic of dynamical systems inhabiting any interface, while the following proposition implies that these logics can be combined and compared.
+
+\begin{proposition}\label{prop.poly_map_pregeo_topos}
+A morphism $p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
+\[
+\adj{\sys(p)}{}{}{\sys(q)}.
+\]
+\end{proposition}
+
+The following propositions suggest that the whole story of dynamics carries a strong connection to database theory.
+
+\begin{proposition}
+Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1} to the comonoid $\com{C}$. Then there is an equivalence of categories
 \[
 \Cat{Bimod}(\com{C},0)\cong\cat{C}\set
 \]
@@ -701,34 +736,7 @@ For any category $\cat{C}$ the category of left $\com{C}$-modules is equivalent 
 \[\Cat{Bimod}(\com{C},\yon)\cong\Cat{Fun}(\cat{C},\poly).\]
 \end{proposition}
 
-\begin{proposition}
-The functor $\comon\to\poly$ has a right adjoint
-\[
-\adjr{\poly}{\com{K}_-}{u_-}{\comon},
-\]
-called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
-\end{proposition}
-
-\begin{proposition}
-The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_-\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
-\end{proposition}
-
-
-
-\begin{proposition}\label{prop.sysp[i]s_topos}
-For any polynomial $p$, the category
-\[\sys(p)\cong\com{K}_p\set\]
-of dynamical systems on $p$ forms a topos.
-\end{proposition}
-
-\begin{proposition}\label{prop.poly_map_pregeo_topos}
-A morphism $p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
-\[
-\adj{\sys(p)}{}{}{\sys(q)}.
-\]
-\end{proposition}
-
-If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will get to everything in the current section, \ref{subsec.math_theory}, over the next few chapters. To briefly summarize the results we have just seen, they say in particular that there is a full-fledged logic of dynamical systems inhabiting any interface (\cref{prop.sysp[i]s_topos}), that these logics can be combined and compared (\cref{prop.poly_map_pregeo_topos}), and that the whole story of dynamics carries a strong connection to database theory. There are many avenues for study, but we need to push forward.
+If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will cover each of the above results in detail over the course of this book. There are many avenues for study, but we need to push forward.
 
 Let's begin.
 
@@ -742,13 +750,15 @@ In this section, we will set down the basic category-theoretic story of $\poly$,
 %---- Subsection ----%
 \subsection{Representable functors and the Yoneda lemma}
 
+Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).
+
 \begin{definition}
 Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.
 
 We refer to $\yon^S$ as the functor \emph{represented by} $S$.
 \end{definition}
 
-The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the poly's corresponding to various representables:
+The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the polys corresponding to various representables, namely the pure powers:
 \begin{equation}\label{eqn.trees_for_gazing}
 \begin{tikzpicture}[trees, sibling distance=2mm]
   \node["$\yon^{\5}$" below] (1) {$\bullet$} 
@@ -782,18 +792,20 @@ The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.y
 \end{equation}
 
 \begin{example}
-The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable. 
+The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$, is representable. After all, $X \times X \iso X^\2$, so this functor is just a pure power we are already familiar with: $\yon^\2$.
 \end{example}
 
 \begin{exercise}\label{exc.representable_fun}
 For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, say what the representing set is.
 \begin{enumerate}
-	\item The identity functor $X\mapsto X$.
-	\item The constant functor $X\mapsto\2$.
-	\item The constant functor $X\mapsto\1$.
-	\item The constant functor $X\mapsto\0$.
-	\item The functor $X\mapsto X^\nn$.
-	\item The functor $X\mapsto 2^X$.
+	\item The identity functor $X\mapsto X$, which sends each function to itself.
+	\item The constant functor $X\mapsto\2$, which sends every function to the identity on $\2$.
+	\item The constant functor $X\mapsto\1$, which sends every function to the identity on $\1$.
+	\item The constant functor $X\mapsto\0$, which sends every function to the identity on $\0$.
+	\item A functor $X\mapsto X^\nn$.
+	If it were representable, where would it send each function?
+	\item A functor $X\mapsto 2^X$.
+	If it were representable, where would it send each function?
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -802,7 +814,7 @@ For each of the following functors $\smset\to\smset$, say if it is representable
 For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ the $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
 \end{proposition}
 
-\begin{exercise}
+\begin{exercise} \label{exc.representable_nt}
 Prove that for any function $f\colon R\to S$, what we said was a natural transformation in \cref{prop.representable_nt} really is natural. That is, for any function $h\colon X\to Y$, show that the following diagram commutes:
 \[
 \begin{tikzcd}
@@ -1379,7 +1391,7 @@ In total, there are $92*4*4=1472$ morphisms $p\to q$, just twenty less than the 
 
 \begin{exercise}\label{exc.practice_poly_maps}
 \begin{enumerate}
-	\item Draw the poly's (unions of corollas as in \cref{eqn.poly1892}) associated to $p\coloneqq\yon^3+\yon+1$, $q\coloneqq \yon^2+\yon^2+2$, and $r\coloneqq\yon^3$.
+	\item Draw the polys (unions of corollas as in \cref{eqn.poly1892}) associated to $p\coloneqq\yon^3+\yon+1$, $q\coloneqq \yon^2+\yon^2+2$, and $r\coloneqq\yon^3$.
 	\item Give an example of a morphism $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
 	\item Explain your morphism as a ``delegation'' in the sense of \cref{subsec.understanding_mor_poly}.
 	\item Explain in those terms why there can't be any morphisms $p\to r$.
@@ -1622,7 +1634,7 @@ pq\coloneqq p\times q
 \end{equation}
 
 \begin{example}
-We can draw the product of two polynomials in terms of their associated poly's. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+We can draw the product of two polynomials in terms of their associated polys. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -1716,7 +1728,7 @@ One should compare this with the formula for product of polynomials shown in \eq
 \end{remark}
 
 \begin{example}
-We can draw the product of two polynomials in terms of their associated poly's. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+We can draw the product of two polynomials in terms of their associated polys. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -1845,7 +1857,7 @@ Let $p,q,r\in\poly$ be any polynomials.
 In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. 
 
 \begin{proposition}\label{prop.dirichlet_monoidal}
-The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parellel product from \cref{def.dirichlet}.
+The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parallel product from \cref{def.dirichlet}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
 Given maps of polynomials $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a
@@ -1880,7 +1892,7 @@ Which of the following classes of polynomials are closed under $\otimes$? Note a
 	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials.
 	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials.
 	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials.
-	\item The set $\{p\in\poly\mid p(\1)\text{ is finite }\}$.
+	\item The set $\{p\in\poly\mid p(\1)\text{ is finite}\}$.
 \end{enumerate}
 What is the smallest class of polynomials that's closed under $\otimes$ and contains $\yon$?
 \end{exercise}
