@@ -2172,6 +2172,68 @@ The Turing machine interacts with the tape by asking for the value at the curren
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
+Imagine you are at a table, and you see some chalk. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How is this modeled in $\poly$?
+
+Let's say that your hand can be at one of two heights: down or up. Similarly, the chalk can be at one of two heights: down on the table or up in the air. Let's also that you can either press (apply pressure between your thumb and forefinger) or not press, and the chalk can either apply pressure outward (think ``equal and opposite'' to something pushing on it) or not.
+\[
+	H\coloneqq\{\text{down, up}\}
+	\qqand
+	P\coloneqq\{\text{press, no press}\}.
+\]
+If both you and the chalk can also receive pressure from the other, we could define your interfaces as
+\[
+	\textit{you}\coloneqq HP\yon^P
+	\qqand
+	\textit{chalk}\coloneqq HP\yon^P.
+\]
+
+Everything seems symmetric so far, but two things make you special. First, you're really complicated \emph{inside}, i.e. you have many internal states; let's leave that part of you alone for now. The main thing we'll focus on is that you control the height of the chalk, not vice versa. That will be clear if you squint hard at the following formula for a map $\textit{you}\otimes\textit{chalk}\to\yon$:
+\[
+	\big((h, p), (h', p')\big)\mapsto ()\mapsto
+	\begin{cases}
+		(\text{no press, no press})&
+			\text{ if $p$=no press}\\
+		(\text{press, no press})&
+			\text{ if $p$=press, $h\neq h'$}\\
+		(\text{press, press})&
+			\text{ if $p$=press, $h=h'$}		
+	\end{cases}
+\]
+This means that if you don't apply pressure, then neither of you feels pressure; if you apply pressure but your hand's height is not the same as the chalk's height, then you'll feel pressure but it won't; and if you apply pressure and your hand and the chalk are at the same height, then you'll both feel pressure.
+
+So now we've got you and the chalk in a closed system together. Let's add some dynamics to the chalk and call it a day. The chalk is a pretty simple character: it has four states $C=PH$. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+\begin{equation}\label{eqn.chalk_dynamics}
+	PH\yon^{PH}\to PH\yon^P.
+\end{equation}
+
+As you might guess, the chalk reveals its full state to the world. However, it does do something interesting: if no pressure is coming in, the chalk falls down.%
+\footnote{You might want the falling down to be not discrete. In order to get continuous time, we need to use cofunctors, which are coming in \cref{chapter2}.}
+This is expressed by the following dynamics, defining \eqref{eqn.chalk_dynamics}:
+\[
+  (p,h)\mapsto(p,h),p'\mapsto
+	\begin{cases}
+		(\text{no press, down})&
+			\text{ if $p'$=no press}\\
+		(\text{press}, h)&
+			\text{ if $p'$=press}\\
+	\end{cases}	
+\]
+The internal pressure matches whatever comes in (if you push, the chalk pushes back), but the height goes to down unless pressure comes in.
+
+As for your dynamics, it can be whatever you want. You can repeatedly reach down with no pressure, apply pressure, reach up with pressure, release pressure, and repeat. This would repeatedly pick up the chalk, lift it (so the chalk is actually lifted, it's not just in your head), and then drop it. Or you could do something more complicated where you decide what to do based on whether you feel chalk or not: if you don't feel the chalk (*) then you really want to, so you try to find it (it's probably down, my friend), and then you pick it up and hold it for a long time, but then you get tired of it and let go. The world is your oyster.
+\end{example}
+
+\begin{exercise}
+In \cref{ex.pickup_chalk}, something is wrong with the starred (*) statement. 
+\begin{enumerate}
+	\item What is wrong with it?
+	\item How could you fix the math so as to keep that intended semantics?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+
 \paragraph{The polynomial $S\yon^S$ as a comonad on $\smset$.}\label{page.poly_comonad}
 
 A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
