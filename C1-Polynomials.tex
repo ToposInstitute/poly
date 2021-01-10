@@ -2108,14 +2108,19 @@ Here's a(n infinite) Moore machine with states $\rr^2$:
 \[
 \rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^2$, which we might think of as a position, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain amount in a certain direction. The map itself is given by the lens:
-\begin{align*}
+Its output type is $\rr^2$, which we might think of as a position in 2-d space, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain distance in a certain direction. The map itself is given by the lens:
+\begin{align}
   \rr^2&\To{\text{get}}\rr^2&
-  \rr^2\times[0,1]\times[0,2\pi]&\To{\text{put}}\rr^2\\
+  \rr^2\times[0,1]\times[0,2\pi]&\To{\text{put}}\rr^2
+  	\nonumber\\\label{eqn.r2moore}
   (a,b)&\mapsto(a,b)&
   (a,b,r,\theta)&\mapsto(a+r\cos\theta, b+r\sin\theta)
-\end{align*}
+\end{align}
 \end{example}
+
+\begin{exercise}
+Explain in words what is going on in \eqref{eqn.r2moore}.
+\end{exercise}
 
 \begin{example}[From functions to Moore machines]\label{ex.funs_to_moore}
 For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
@@ -2193,30 +2198,30 @@ Everything seems symmetric so far, but two things make you special. First, you'r
 	\big((h, p), (h', p')\big)\mapsto ()\mapsto
 	\begin{cases}
 		(\text{no press, no press})&
-			\text{ if $p$=no press}\\
+			\text{ if $p$ = no press}\\
 		(\text{press, no press})&
-			\text{ if $p$=press, $h\neq h'$}\\
+			\text{ if $p$ = press, $h\neq h'$}\\
 		(\text{press, press})&
-			\text{ if $p$=press, $h=h'$}		
+			\text{ if $p$ = press, $h=h'$}		
 	\end{cases}
 \]
 This means that if you don't apply pressure, then neither of you feels pressure; if you apply pressure but your hand's height is not the same as the chalk's height, then you'll feel pressure but it won't; and if you apply pressure and your hand and the chalk are at the same height, then you'll both feel pressure.
 
-So now we've got you and the chalk in a closed system together. Let's add some dynamics to the chalk and call it a day. The chalk is a pretty simple character: it has four states $C=PH$. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+So now we've got you and the chalk in a closed system together. Let's add some dynamics to the chalk and call it a day. The chalk is a pretty simple character: it has four states $C\coloneqq PH\cong\4$. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
 \begin{equation}\label{eqn.chalk_dynamics}
 	PH\yon^{PH}\to PH\yon^P.
 \end{equation}
 
 As you might guess, the chalk reveals its full state to the world. However, it does do something interesting: if no pressure is coming in, the chalk falls down.%
-\footnote{You might want the falling down to be continuous, rather than discrete. In order to get continuous time, we need to use cofunctors, which are coming in \cref{chapter2}. But it somehow gets ahead of the point being made here. These examples can be as complicated as you want; our goal is just to see what ``picking up'' can even mean!}
+\footnote{You might want the falling down to be continuous, rather than discrete. In order to get continuous time, we need to use cofunctors, which are coming in \cref{chapter2}. But it somehow gets ahead of the point being made here. These examples can be as complicated as you want, e.g.\ do you want the chalk to break (see \cref{ex.bonds_break}) when it hits the table in certain ways? Let's instead simplify for now and see what ``picking up'' can even mean!}
 This is expressed by the following dynamics, defining \eqref{eqn.chalk_dynamics}:
 \[
   (p,h)\mapsto(p,h),p'\mapsto
 	\begin{cases}
 		(\text{no press, down})&
-			\text{ if $p'$=no press}\\
+			\text{ if $p'$ = no press}\\
 		(\text{press}, h)&
-			\text{ if $p'$=press}\\
+			\text{ if $p'$ = press}\\
 	\end{cases}	
 \]
 The internal pressure matches whatever comes in (if you push, the chalk pushes back), but the height goes to down unless pressure comes in.
@@ -2229,6 +2234,7 @@ In \cref{ex.pickup_chalk}, something is wrong with the starred (*) statement.
 \begin{enumerate}
 	\item What is wrong with it?
 	\item How could you fix the math so as to keep that intended semantics?
+	\item Now that the (*) statement is handled, change $\textit{you}$ to a new polynomial so that we'd say ``you can see where the chalk is''.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -2818,16 +2824,16 @@ Let $p\coloneqq B\yon^A$ and $p'=B'\yon^{A'}$. To give a morphism $f\colon p\oti
 Let's think of elements of $B$ and $B'$ not as outputs, but as positions. 
 \[
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$p$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$q$};
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$b'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
 \end{tikzpicture}
 \hspace{.5in}
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$p$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$q$};
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$b'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
@@ -2837,7 +2843,7 @@ Then given both positions $(b,b')$, the interaction pattern $f$ tells us what th
 \end{example}
 
 \begin{example}
-Suppose you have two systems $p,q$ each of type $p,q\coloneqq\rr^2\yon^{\rr^2-(0,0)}$. 
+Suppose you have two systems $p,q$, both having the same type $p=q\coloneqq\rr^2\yon^{\rr^2-(0,0)}$. 
 \[
 \begin{tikzpicture}
 	\node (m1) {\faMotorcycle};
@@ -2856,15 +2862,17 @@ To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{
 \[
   \big((x_1,y_1),(x_2,y_2)\big)\mapsto
 	\begin{cases}
-		(\const{stop},1)&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
-		(\const{go},1)&\mbox{ otherwise}.
+		\const{stop}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
+		\const{go}&\mbox{ otherwise}.
 	\end{cases}
 \]
 On directions, we use the function
 \[
-  \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big).
+  \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big),
 \]
-Now each system is able to see the vector pointing from it to the other system (unless that vector is zero, in which case the whole thing has halted). Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^2\times\rr^2$. To define a map of polynomials $S\yon^S\to\rr^2\yon^{\rr^2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
+so that each system is able to see the vector pointing from it to the other system (unless that vector is zero, in which case the whole thing has halted). 
+
+Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^2\times\rr^2$. To define a map of polynomials $S\yon^S\to\rr^2\yon^{\rr^2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
 \begin{align*}
 	\rr^2\times\rr^2&\To{\text{get}}\rr^2\\
 	\big((x,y),(x',y')\big)&\Mapsto{\text{get}}(x,y)
