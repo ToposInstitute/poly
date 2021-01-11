@@ -2455,18 +2455,18 @@ Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a paus
 To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity (see \cref{**}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
 \end{example}
 
-\begin{example}
-Suppose given a dependent dynamical system $f$ that sometimes outputs an element of $A$ and sometimes outputs only the hum. That is, its interface is $A\yon+\yon$. What if we want to turn that into a dynamical system that always outputs an $A$ by constantly repeating the last thing output by $f$. How do we construct it?
+\begin{example}[Repeater]
+Suppose given a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
 
-The output to our whole system is supposed to be $A\yon$, and we already have $f\colon S\yon^S\to A\yon+\yon$. It will be enough to construct a map $g\colon (A\yon+\yon)\otimes A\yon^A\to A\yon$, because then we can use
-\[
-(SA\yon^{SA})\cong(S\yon^S)\otimes (A\yon^A)\To{f\otimes\id}(A\yon+\yon)\To{g}A\yon
-\]
-as our overall dynamical system. Since $\otimes$ distributes over $+$, we need to give $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. For the latter we use the identity, which we called $\epsilon\colon A\yon^A\to\yon$ and for the former we use
+For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
+\[\psi\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
+which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
 \[
 A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
 \]
-This accomplishes what we wanted.
+In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
+
+For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
 \end{example}
 
 \begin{example}[Inputting a start state]
