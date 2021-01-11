@@ -2235,8 +2235,43 @@ In \cref{ex.pickup_chalk}, something is wrong with the starred (*) statement.
 	\item What is wrong with it?
 	\item How could you fix the math so as to keep that intended semantics?
 	\item Now that the (*) statement is handled, change $\textit{you}$ to a new polynomial so that we'd say ``you can see where the chalk is''.
+	\item Make dynamics for the \emph{you} character, having whichever of the two sorts of body and whichever sort of behavior you want.
 \qedhere
 \end{enumerate}
+\end{exercise}
+
+\begin{example}[Paddling]\label{ex.paddler}
+Consider an entity with interface $\nn\yon$; its behavior will be a stream of natural numbers, any stream. What if we don't want to enable our entity to just jump around wildly. Instead, suppose we want to be very strict about what how far the entity can move and what makes it move.
+
+To accomplish this, we in fact use two entities, which we call \emph{paddler} and \emph{tracker}:
+\[
+  \textit{paddler}\coloneqq\2\yon
+  \qqand
+  \textit{tracker}\coloneqq\nn\yon^\2
+\]
+The paddler has interface $\2\yon$ because it is blind and can only move its paddle left or right, $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the paddler (as an element $n\in\nn$) and it watch what the paddler does (as an element of $\2$). Their enclosure together
+\[
+\textit{tracker}\otimes\textit{paddler}\to\nn\yon
+\]
+is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's paddle position.
+
+Let's leave the paddler's dynamics alone---how you have that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+\[\varphi\colon S\yon^S\to\nn\yon^\2\]
+are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+\[
+  (p,i)\mapsto i,p'\mapsto
+	\begin{cases}
+		i&\tn{ if }p=p'\\
+		i+1&\tn{ if }p\neq p'
+	\end{cases}
+\]
+As advertised, when the paddle swishes, the tracker announces that the paddler has moved.
+\end{example}
+
+\begin{exercise}
+Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+
+When the paddle swishes once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle swishes twice in a row, the tracker increases its position by two units on the second swish! So if it is quiet for a while and then swishes three times in a row, the tracker will increase its position by one then two then two.
 \end{exercise}
 
 
