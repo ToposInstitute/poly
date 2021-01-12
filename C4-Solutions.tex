@@ -186,6 +186,33 @@ When using an application, say a drawing program, there is often a menu at the t
 \end{enumerate}
 }
 
+\sol{exc.my_schema_and_tables}{
+As above, we define the finitely presented category $\cat{C}$ according to \eqref{eqn.myschema} and the copresheaf $I$ on $\cat{C}$ according to \eqref{eqn.mytables}.
+\begin{enumerate}
+    \item What is $I(\text{Department})$?
+    \item What is $I(\text{Admin})$?
+    \item Composing Admin with FirstName yields a morphism from Department to String that we denote by Admin.FirstName.
+    What is $I(\text{Admin.FirstName})$?
+    \item Say we require that managers work in the same department as the employees they oversee.
+    Write down an equation in $\cat{C}$ (like the one at the bottom of \eqref{eqn.myschema} that expresses this condition.
+    \item How might we define $I(\text{String})$?
+\end{enumerate}
+}{
+We refer to \eqref{eqn.myschema} and \eqref{eqn.mytables} to characterize the category $\cat{C}$ and the functor $I \colon \cat{C} \to \smset$.
+\begin{enumerate}
+    \item Here Department is an object of $\cat{C}$, so $I(\text{Department})$ is a set. From the Department column in the table on the right of \eqref{eqn.mytables}, we observe that $I(\text{Department}) = \{101, 102\}$.
+    \item Here Admin is an morphism of $\cat{C}$ from Department to Employee, so $I(\text{Admin})$ is a function from $I(\text{Department}) = \{101, 102\}$ to $I(\text{Employee}) = \{1, 2, 3\}$. From the Admin column in the table on the right of \eqref{eqn.mytables}, we observe that $I(\text{Admin})(101) = 1$ and $I(\text{Admin})(102) = 3$.
+    \item By functoriality, $I(\text{Admin.FirstName})$ is the function $I(\text{Admin})$ composed with $I(\text{FirstName})$.
+    We have that $I(\text{Admin})$ sends $101$ to $1$ and $102$ to $3$, while the FirstName column tells us that $I(\text{FirstName})$ sends $1$ to Alan and $3$ to Carla.
+    So $I(\text{Admin.FirstName})$ sends $101$ to Alan and $102$ to Carla.
+    \item If every employee works in the same department as their manager, then Employee.WorksIn = Employee.Mngr.WorksIn.
+    \item The name suggests that $I(\text{String})$ is the set of all possible strings of characters.
+    Perhaps this could be defined as $\bigcup_{n \in \nn} A^n$, where $A$ is our alphabet of allowed characters, which may include the English letters, spaces, digits, and whatever other characters we allow.
+    At the very least, since FirstName and Name are both morphisms to String, every entry in the FirstName and Name columns must be in $I(\text{String})$.
+    So all we know for sure is that $\{\text{Alan, Ruth, Carla, Sales, IT}\} \subseteq I(\text{String})$.
+\end{enumerate}
+}
+
 \sol{exc.representable_fun}
 {
 For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, say what the representing set is.
@@ -419,24 +446,26 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
 }
 
 
-
-% \sol{ex.dependent_product_as_sections}
-% {
-% Let $X_{(-)} : I \to \smset$ be a set depending on an $i \in I$. There is a
-% projection function
-% $\pi_1 : \sum_{i \in I} X_i \to I$
-% defined by $\pi_1(i, x) = i$.
-% \begin{enumerate}
-% \item What is the signature of the second projection $\pi_2(i, x) = x$?
-%   (Hint: its a dependent function).
-% \item A \emph{section} of a function $r : A \to B$ is a function $s : B \to
-%   A$ such that $r \circ s = \id_B$. Show that the dependent product is
-%   isomorphic to the set of sections of $\pi_1$:
-%   $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid \pi_1
-%   \circ s = \id_I\}.$$
-% \end{enumerate}
-% }{
-
-% }
+\sol{ex.dependent_product_as_sections}
+{
+Let $X_{(-)} : I \to \smset$ be a set depending on an $i \in I$. There is a
+projection function
+$\pi_1 : \sum_{i \in I} X_i \to I$
+defined by $\pi_1(i, x) = i$.
+\begin{enumerate}
+\item What is the signature of the second projection $\pi_2(i, x) = x$?
+  (Hint: its a dependent function).
+\item A \emph{section} of a function $r : A \to B$ is a function $s : B \to
+  A$ such that $r \circ s = \id_B$. Show that the dependent product is
+  isomorphic to the set of sections of $\pi_1$:
+  $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid \pi_1
+  \circ s = \id_I\}.$$
+\end{enumerate}
+}{
+We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
+\begin{enumerate}
+    \item 
+\end{enumerate}
+}
 
 \end{document}
