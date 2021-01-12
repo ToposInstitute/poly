@@ -604,7 +604,30 @@ We can see it as being associated to the following conceptual scheme, also calle
 \end{equation}
 The equation at the bottom says that for any department $d$, if you ask for the admin person and see which department they work in, it's required to be $d$.
 
-What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}, and the database instance presented in \eqref{eqn.mytables} corresponds to a functor $I\colon\cat{C}\to\smset$; it sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$. It sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ given by $I(1)=2$, $I(2)=2$, and $I(3)=3$. A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
+What's called $\cat{C}$ in \eqref{eqn.myschema} is a \emph{finitely presented category}.
+The objects of the category are the points, while each arrow corresponds to a morphism of $\cat{C}$ (there are additional morphisms, including identity morphisms, that are not depicted).
+The equation at the bottom indicates that composing the morphism Admin with the morphism WorksIn yields the identity morphism on the object Department.
+
+The database instance presented in \eqref{eqn.mytables} then corresponds to a functor $I\colon\cat{C}\to\smset$.
+For example, $I$ sends the object $\text{Employee}\in\cat{C}$ to the set $I(\text{Employee})\coloneqq\{1,2,3\}$, the entries in the Employee column of the left table.
+
+The functor also sends the morphism $\text{Mngr}\colon\text{Employee}\to\text{Employee}$ to the function $I(\text{Mngr})\colon\{1,2,3\}\to\{1,2,3\}$ that sends each entry in the Employee column to its corresponding entry in the Mngr column.
+So $I(\text{Mngr})(1)=2$, $I(\text{Mngr})(2)=2$, and $I(\text{Mngr})(3)=3$.
+
+A functor $\cat{C}\to\smset$ is called a \emph{copresheaf on $\cat{C}$}. So the story of database schemas and their data can be based on the story of categories and their copresheaves.
+
+\begin{exercise} \label{exc.my_schema_and_tables}
+As above, we define the finitely presented category $\cat{C}$ according to \eqref{eqn.myschema} and the copresheaf $I$ on $\cat{C}$ according to \eqref{eqn.mytables}.
+\begin{enumerate}
+    \item What is $I(\text{Department})$?
+    \item What is $I(\text{Admin})$?
+    \item Composing Admin with FirstName yields a morphism from Department to String that we denote by Admin.FirstName.
+    What is $I(\text{Admin.FirstName})$?
+    \item Say we require that managers work in the same department as the employees they oversee.
+    Write down an equation in $\cat{C}$ (like the one at the bottom of \eqref{eqn.myschema} that expresses this condition.
+    \item How might we define $I(\text{String})$? \qedhere
+\end{enumerate}
+\end{exercise}
 
 There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
 \begin{minted}{mysql}
