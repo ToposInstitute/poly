@@ -750,7 +750,7 @@ In this section, we will set down the basic category-theoretic story of $\poly$,
 %---- Subsection ----%
 \subsection{Representable functors and the Yoneda lemma}
 
-\begin{definition} \cref{def.representable}
+\begin{definition} \label{def.representable}
 Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$. \footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).}
 
 We refer to $\yon^S$ as the functor \emph{represented by} $S$.
@@ -825,10 +825,10 @@ Prove that for any function $f\colon R\to S$, what we said was a natural transfo
 \]
 \end{exercise}
 
-\begin{exercise}
-Let $X=\{a,b,c\}$. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component of, i.e.\ the function $X^S\to X^R$ coming from, the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
+\begin{exercise} \label{exc.representable_nt_components}
+Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component of, i.e.\ the function $X^S\to X^R$ coming from, the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
 \begin{enumerate}
-	\item $R=\5$, $S=\5$, $f=\id$.  (Here you're supposed to give a function called $X^{\id_\5}\colon X^\5\to X^\5$.)
+	\item \label{exc.representable_nt_components.id} $R=\5$, $S=\5$, $f=\id$.  (Here you're supposed to give a function called $X^{\id_\5}\colon X^\5\to X^\5$.)
 	\item $R=\2$, $S=\1$, $f$ is the unique function.
 	\item $R=\1$, $S=\2$, $f(1)=1$.
 	\item $R=\1$, $S=\2$, $f(1)=2$.
@@ -838,7 +838,7 @@ Let $X=\{a,b,c\}$. For each of the following sets $R,S$ and functions $f\colon R
 \end{enumerate}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise} \label{exc.representable_nt_functorial}
 Show that the construction in \cref{prop.representable_nt} is functorial
 \begin{equation}
 \yon^-\colon\smset\op\to\smset^\smset,
@@ -861,7 +861,7 @@ where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yo
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
-For any element $a\in F(S)$, there is a natural transformation $m_a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
+For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
@@ -869,6 +869,8 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 \begin{enumerate}
 	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
 	\item Show that the two mappings from \cref{lemma.yoneda} are mutually inverse.
+	\item Show that \eqref{eqn.yoneda} is natural in $F$.
+	\item Show that \eqref{eqn.yoneda} is natural in $S$.
 	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\nat(\yon^S,\yon^T)\cong S^T$.
 \qedhere
 \end{enumerate}
@@ -877,25 +879,26 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 %---- Subsection ----%
 \subsection{Polynomials: sums of representables}
 
-We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use this term.
+We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use the term ``polynomial'' in this way.
 
 So here's the deal. All of our polynomials will be polynomials in one variable, $\yon$; every other letter or number that shows up will represent a set.%
-\footnote{For those who clamor for polynomials in many variables, we will see in \cref{??} that the multivariable story falls out of the one-variable story.}
+\footnote{For those who clamor for polynomials in many variables, we will see in \cref{**} that the multivariable story falls out of the one-variable story.}
 For example, in the following crazy polynomial
 \begin{equation}\label{eqn.crazy_poly}
 p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^2},
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.crazy_poly} to make sense.
 
-The polynomials we already understand at this point are the pure-power polynomials $\yon^A$ for some set $A$; they are representable functors $\yon^A\colon\smset\to\smset.$
-So to understand general polynomials like $p$, we just need to understand sums of functors. It will be useful to discuss products of functors at the same time. However, we haven't discussed sums and products of sets yet, so we need to do that first.
+The polynomials we already understand at this point are the pure power polynomials $\yon^A$ for some set $A$: they are representable functors $\yon^A\colon\smset\to\smset.$
+So to understand general polynomials like $p$, we just need to understand what the sums of functors are. It will be useful to discuss products of functors at the same time.
+
+To undertand the sums and products of set-valued functors, we will first need to understand the sums and products of sets.
 
 \paragraph{Dependent sums and products of sets.}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
 \emph{$I$-indexed collection of sets} --- a \emph{dependent set} ---- by $X\colon I\to\smset$ or more
-classically as $(X_i)_{i\in I}$. Choosing one element from one set in the
-collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
+classically as $(X_i)_{i\in I}$. Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
 each set in the collection would give us a function $i \mapsto x_i$ where each
 $x_i\in X_i$. This is a sort of function we haven't seen before, at least in
 this form --- its codomain \emph{depends} on the element we are applying it to.
@@ -907,19 +910,22 @@ We call this a \emph{dependent function}, since its codomain depends on the
 element of its domain we are applying it to.
 
 \begin{definition}[Dependent sums and products of sets]
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The sum $\sum_{i\in I}X_i$ (respectively, the \emph{product} $\prod_{i\in I}X_i$) of this collection is the set
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{sum} $\sum_{i\in I}X_i$ and \emph{product} $\prod_{i\in I}X_i$ of this collection are the sets
 \[
-\sum_{i\in I}X_i=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
+\sum_{i\in I}X_i:=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
 \qqand
-\prod_{i\in I}X_i=\{f : (i \in I) \to X_i\}.
+\prod_{i\in I}X_i:=\{f : (i \in I) \to X_i\}.
 \]
 \end{definition}
 
 \begin{example}\label{ex.two_sums_and_prods}
-If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. The sum is the disjoint union
+If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. Their sum is the disjoint union
 \[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
-Its number of elements (cardinality) will always be the sum of the numbers of elements in $X_1$ and $X_2$. Similarly,
+Its cardinality (i.e., the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
+
+Meanwhile, their product is the usual Cartesian product
 \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
+Its cardinality will always be the product of the cardinalities of $X_1$ and $X_2$.
 \end{example}
 
 
@@ -930,7 +936,7 @@ Let $I$ be a set and let $X_i=\1$ be a one-element set for each $i\in I$.
 	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
 \end{enumerate}
 As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
-\begin{enumerate}
+\begin{enumerate}[resume]
 	\item Is it true that $X_i=\1$ for each $i\in I$?
 	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$.
 	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
