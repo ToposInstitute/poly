@@ -4,7 +4,7 @@
 
 
 \setcounter{chapter}{0}%Just finished 0.
-
+\Opensolutionfile{solutions}[solution-file1]
 
 %------------ Chapter ------------%
 \chapter{Polynomial functors and dynamics}
@@ -87,6 +87,41 @@ Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
 	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
 	\qedhere
 \end{enumerate}
+
+\begin{solution}
+We are first considering the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
+\begin{enumerate}
+	\item Here is the arena $p$ drawn as a set of corollas (note that the order in which they are drawn does not matter):
+	\[
+	\begin{tikzpicture}[trees, sibling distance=3mm]
+    \node (1) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.7 of 1] (2) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.5 of 2] (3) {$\bullet$} 
+      child {};
+    \node[right=.3 of 3] (4) {$\bullet$} 
+      child {};
+    \node[right=.3 of 4] (5) {$\bullet$};
+  \end{tikzpicture}
+  \]
+	\item It has five (5) positions (which we here are calling roots).
+	\item It represents five decisions, one per position.
+	\item \label{sol.arenas.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
+	\item The set of options for each decision is the same as the set of leaves for each corolla, so just copy the answer from \cref{sol.arenas.leaves}. Sheesh! Who wrote this.
+\end{enumerate}
+Next we refer to the polynomial $q\coloneqq\yon^\nn+4\yon$.
+\begin{enumerate}[resume]
+	\item No, $q$ does not have $\yon^\2$ as a pure-power summand.
+	\item Yes, $q$ does have $\yon$ as a pure-power summand.
+	\item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
+\end{enumerate}
+\end{solution}
+
 \end{exercise}
 
 \begin{remark}
@@ -108,6 +143,31 @@ If you were a suitor choosing the arena you love, aesthetically speaking, which 
 	\item Your polynomial's name $p$ here.
 \end{enumerate}
 Any reason for your choice? Draw a sketch of your arena.
+
+\begin{solution}
+Aesthetically speaking, here's a beautiful arena:
+\[
+\yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
+\]
+It's reminiscent (and formally related) to the notion of lists: if $A$ is any set then $A^0+A^1+A^2+\cdots$ is the set of lists with entries in $A$. 
+
+Here's a picture of this lovely arena:
+\[
+	\begin{tikzpicture}[trees, sibling distance=3mm]
+    \node (1) {$\bullet$};
+    \node[right=.3 of 1] (2) {$\bullet$}
+      child {};
+    \node[right=.4 of 2] (3) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.6 of 3] (4) {$\bullet$} 
+      child {}
+      child {}
+      child {};
+    \node[right=.6 of 4] {$\cdots$};
+  \end{tikzpicture}
+\]
+\end{solution}
 \end{exercise}
 
 Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, decisions, and data. We speak superlatively of $\poly$:
@@ -262,6 +322,10 @@ All of the examples discussed here will be presented in some detail once we have
 
 \begin{exercise}\label{exc.changing_types}
 Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
+
+\begin{solution}
+When using an application, say a drawing program, there is often a menu at the top of the screen. The information I can send the system changes based on what menu I click. If no menu is clicked, I can interact in one way. When I click ``file" I can interact with the file system, saving or opening a file, and thus interacting with another ``part'' of the computer. The set of things I can do depends on context.
+\end{solution}
 \end{exercise}
 
 But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes and you need to use your words. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. Our ports themselves change in time. We will be able to say all this using $\poly$.
@@ -505,6 +569,77 @@ We say that each such decision stream has type $\yon^\2$
 	\item Draw a level-3 abbreviation of a decision stream of type $\nn\yon^\2$ by labeling every node with a natural number.
 	\qedhere
 \end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+	\item Here's a level-3 abbreviation of a decision stream of type $\yon^\2+\yon^\0$.
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (a) {$\bullet$}
+    child {node {$\bullet$}
+    	child {node {$\bullet$}
+    		child
+    		child
+    	}
+    	child {node {$\bullet$}
+  			}
+    }
+    child {node {$\bullet$}
+    	child {node {$\bullet$}}
+    	child {node {$\bullet$}
+  		}
+  	}
+  ;
+\end{tikzpicture}
+\]
+	\item Here's a level-4 abbreviation of a decision stream of type $\yon$.
+\[
+\begin{tikzpicture}[trees]
+	\node (a) {$\bullet$}
+		child {node {$\bullet$}
+			child {node {$\bullet$}
+				child {node {$\bullet$}
+  				child
+			}}};
+\end{tikzpicture}
+\]
+	\item Here's a level-3 abbreviation of a decision stream of type $\nn\yon^\2$ where we indicate the position of each node by labeling it with a natural number.
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm}]
+  \node (a) {$27$}
+    child {node {$5040$}
+    	child {node {$192$}
+    		child 
+    		child
+			}
+    	child {node {$0$}
+    		child 
+    		child
+  			}
+    }
+    child {node {$314159$}
+    	child {node {$1000$}
+   				child
+  				child
+  		}
+			child {node {$1296$}
+				child
+				child
+			}
+  	}
+  ;
+\end{tikzpicture}
+\]
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 But decisions aren't just about choosing; they're also about trying to accomplish something. The logic of accomplishment is exceptionally rich in this setting. We will concentrate on what we call a \emph{win condition}, which is an induced subgraph of the decision stream with the property that if $n$ is a winning node, then any child of $n$ is also a winning node. 
@@ -627,6 +762,22 @@ As above, we define the finitely presented category $\cat{C}$ according to \eqre
     Write down an equation in $\cat{C}$ (like the one at the bottom of \eqref{eqn.myschema} that expresses this condition.
     \item How might we define $I(\text{String})$? \qedhere
 \end{enumerate}
+
+\begin{solution}
+We refer to \eqref{eqn.myschema} and \eqref{eqn.mytables} to characterize the category $\cat{C}$ and the functor $I \colon \cat{C} \to \smset$.
+\begin{enumerate}
+    \item Here Department is an object of $\cat{C}$, so $I(\text{Department})$ is a set. From the Department column in the table on the right of \eqref{eqn.mytables}, we observe that $I(\text{Department}) = \{101, 102\}$.
+    \item Here Admin is an morphism of $\cat{C}$ from Department to Employee, so $I(\text{Admin})$ is a function from $I(\text{Department}) = \{101, 102\}$ to $I(\text{Employee}) = \{1, 2, 3\}$. From the Admin column in the table on the right of \eqref{eqn.mytables}, we observe that $I(\text{Admin})(101) = 1$ and $I(\text{Admin})(102) = 3$.
+    \item By functoriality, $I(\text{Admin.FirstName})$ is the function $I(\text{Admin})$ composed with $I(\text{FirstName})$.
+    We have that $I(\text{Admin})$ sends $101$ to $1$ and $102$ to $3$, while the FirstName column tells us that $I(\text{FirstName})$ sends $1$ to Alan and $3$ to Carla.
+    So $I(\text{Admin.FirstName})$ sends $101$ to Alan and $102$ to Carla.
+    \item If every employee works in the same department as their manager, then Employee.WorksIn = Employee.Mngr.WorksIn.
+    \item The name suggests that $I(\text{String})$ is the set of all possible strings of characters.
+    Perhaps this could be defined as $\bigcup_{n \in \nn} A^n$, where $A$ is our alphabet of allowed characters, which may include the English letters, spaces, digits, and whatever other characters we allow.
+    At the very least, since FirstName and Name are both morphisms to String, every entry in the FirstName and Name columns must be in $I(\text{String})$.
+    So all we know for sure is that $\{\text{Alan, Ruth, Carla, Sales, IT}\} \subseteq I(\text{String})$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
@@ -829,6 +980,22 @@ For each of the following functors $\smset\to\smset$, say if it is representable
 	If it were representable, where would it send each function?
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+Our goal is to say whether various functors are representable (of the form $X\mapsto\smset(S,X)$ for some $S$, called the representing set).
+\begin{enumerate}
+	\item The identity functor $X\mapsto X$ is represented by $S=\1$: a function $\1 \to X$ is just an element of $X$, so $\smset(\1,X) \iso X$.
+	Alternatively, note that $X^1 \iso X$.
+	\item \label{sol.representable_fun.2} The constant functor $X\mapsto\2$ is not representable: the functor sends $\1$ to $\2$, but $\1^S \iso \1 \not\iso \2$ for any set $S$.
+	\item The constant functor $X\mapsto\1$ is representable by $S=\0$: there is exactly one function $\0 \to X$, so $\smset(\0,X) \iso \1$.
+	Alternatively, note that $X^0 \iso \1$.
+	\item The constant functor $X\mapsto\0$ is not representable, for the same reason as in \cref{sol.representable_fun.2}.
+	\item The functor $\yon^\nn$ that sends $X\mapsto X^\nn$ is represented by $S=\nn$, by definition.
+	It sends each function $h \colon X \to Y$ to the function $h^\nn \colon X^\nn \to Y^\nn$ that sends each $g \colon \nn \to X$ to $g \then h \colon \nn \to Y$.
+	\item No $\smset \to \smset$ functor $X\mapsto \2^X$ is representable, for the same reason as in \cref{sol.representable_fun.2}.
+	(There \emph{is}, however, a functor $\smset\op \to \smset$ sending $X \mapsto 2^X$ that is understood to be representable in a more general sense.)
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.representable_nt}
@@ -846,6 +1013,21 @@ Prove that for any function $f\colon R\to S$, what we said was a natural transfo
 \end{tikzcd}
 \qedhere
 \]
+
+\begin{solution}
+To show that
+\[
+\begin{tikzcd}[ampersand replacement=\&]
+	X^S\ar[r, "h^S"]\ar[d, "X^f"']\&
+	Y^S\ar[d, "Y^f"]\\
+	X^R\ar[r, "h^R"']\&
+	Y^R\ar[ul, phantom, "?"]\&
+	\qedhere
+\end{tikzcd}
+\]
+commutes, we note that by \cref{prop.representable_nt}, both vertical maps compose functions from $S$ with $f \colon R \to S$ from the left, and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
+So by the associativity of composition, the diagram commutes.
+\end{solution}
 \end{exercise}
 
 \begin{exercise} \label{exc.representable_nt_components}
@@ -859,6 +1041,22 @@ Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions 
 	\item $R=\nn$, $S=\nn$, $f(n)=n+1$.
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colon X^S \to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$ by applying \cref{prop.representable_nt}, which says that $X^f$ sends each $g \colon S \to X$ to $f \then g \colon R \to X$.
+\begin{enumerate}
+    \item If $R=\5$, $S=\5$, and $f=\id$, then $X^f$ is the identity function on $X^\5$.
+    \item If $R=\2$, $S=\1$, and $f$ is the unique function, then $X^f$ sends each $g \in X$ (i.e. function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
+    We can think of $X^f$ as the diagonal $X \to X \times X$.
+	\item If $R=\1$, $S=\2$, and $f(1)=1$, then $X^f$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
+	We can think of $X^f$ as the left projection $X \times X \to X$.
+	\item If $R=\1$, $S=\2$, and $f(1)=2$, then $X^f$ sends each $g \colon \2 \to X$ to $g(2)$, viewed as a function $\1 \to X$.
+	We can think of $X^f$ as the right projection $X \times X \to X$.
+	\item If $R=\0$, $S=\5$, and $f$ is the unique function, then $X^f$ is the unique function $X^\5 \to X^\0 \iso \1$.
+	\item If $R=\nn$, $S=\nn$, and $f(n)=n+1$, then $X^f$ sends each $g \colon \nn \to X$ to the function $h \colon \nn \to X$ satisfying $h(n) = g(n+1)$ for all $n \in \nn$.
+	We can think of $X^f$ as removing the first term of an infinite sequence of elements of $X$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise} \label{exc.representable_nt_functorial}
@@ -872,6 +1070,17 @@ as follows.
 	\item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+    \item The fact that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity is just a generalization of \cref{exc.representable_nt_components} \cref{exc.representable_nt_components.id}.
+    For any set $X$, the $X$-component $X^{\id_S} \colon X^S \to X^S$ of $\yon^{\id_S}$ sends each $h \colon S \to X$ to $\id_S \then h = h$, so $X^{\id_S}$ is the identity on $X^S$.
+    Hence $\yon^{\id_S}$ is the identity on $\yon^S$.
+    \item Fix $f \colon R \to S$ and $g \colon S \to T$; we wish to show that $\yon^g \then \yon^f = \yon^{f \then g}$.
+    It suffices to show component-wise that $X^g \then X^f = X^{f \then g}$ for every set $X$.
+    Indeed, $X^g$ sends each $h \colon T \to X$ to $g \then h$; then $X^f$ sends $g \then h$ to $f \then g \then h = X^{f \then g}(h)$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
@@ -897,6 +1106,70 @@ Whoever solves this exercise can say they've proved the Yoneda Lemma.
 	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\nat(\yon^S,\yon^T)\cong S^T$.
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+    \item Given $a \in F(S)$, naturality of the maps $X^S \to F(X)$ that send $g \colon S \to X$ to $F(g)(a)$ amounts to the commutativity of
+    \[
+    \begin{tikzcd}[ampersand replacement=\&]
+    	X^S\ar[r, "h^S"]\ar[d, "F(-)(a)"']\&
+    	Y^S\ar[d, "F(-)(a)"]\\
+    	F(X)\ar[r, "F(h)"']\&
+    	F(Y)
+    \end{tikzcd}
+    \]
+    for all $h \colon X \to Y$.
+    The top map $h^S$ sends any $g \colon X \to S$ to $g \then h$ (\cref{def.representable}), which is then sent to $F(g \then h)(a)$ by the right map.
+    Meanwhile, the left map sends $g$ to $F(g)(a)$, which is then sent to $F(h)(F(g)(a))$ by the bottom map.
+    So by the functoriality of $F$, the square commutes.
+    
+    \item First, we show that for any natural transformation $m \colon \yon^S \to F$, we have that $m^{m_S(\id_S)} = m$.
+    Given a set $X$, the $X$-component of $m^{m_S(\id_S)}$ sends each $g \colon S \to X$ to $F(g)(m_S(\id_S))$; it suffices to show that this is also where the $X$-component of $m$ sends $g$.
+    Indeed, by the naturality of $m$, the square
+    \[
+    \begin{tikzcd}[ampersand replacement=\&]
+    	S^S\ar[r, "g^S"]\ar[d, "m_S"']\&
+    	X^S\ar[d, "m_X"]\\
+    	F(S)\ar[r, "F(g)"']\&
+    	F(X)
+    \end{tikzcd}
+    \]
+    commutes, so in particular
+    \begin{equation} \label{eq.finish_proof_yoneda}
+        F(g)(m_S(\id_S)) = m_X(g^S(\id_S)) = m_X(\id_S \then g) = m_X(g).
+    \end{equation}
+    In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
+    
+    \item Given functors $F, G \colon \smset^\smset$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
+    \[
+    \begin{tikzcd}[ampersand replacement=\&]
+    	\nat(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
+    	F(S)\ar[d, "\alpha_S"]\\
+    	\nat(\yon^S,G)\ar[r, "\sim"]\&
+    	G(S)
+    \end{tikzcd}
+    \]
+    commutes.
+    The top map sends any $m \colon \yon^S \to F$ to $m_S(\id_S)$, which in turn is sent by the right map to $\alpha_S(m_S(\id_S)) = (m \then \alpha)_S(\id_S)$.
+    This is also where the bottom map sends $m \then \alpha$, so the square commutes.
+    
+    \item Given a function $g \colon S \to X$, we wish to show that the naturality square on the left side of the diagram
+    \[
+    \begin{tikzcd}[ampersand replacement=\&]
+    	\nat(\yon^S,F)\ar[d, "\yon^g \then -"']\ar[r, "\sim"]\&
+    	F(S)\ar[d, "F(f)"]\\
+    	\nat(\yon^X,F)\ar[r, "\sim"]\&
+    	F(X)
+    \end{tikzcd}
+    \]
+    commutes.
+    The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(f \then \id_X) = m_X(g)$.
+    Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
+    So the square commutes by \eqref{eq.finish_proof_yoneda}.
+    
+    \item Just take $F = \yon^T$ in \cref{lemma.yoneda}.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 %---- Subsection ----%
@@ -965,6 +1238,31 @@ As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\s
 	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+We are given a set $I$ and a dependent set $(X_i)_{i \in I}$ for which $X_i = \1$ for every $i \in I$.
+\begin{enumerate}
+    \item \label{sol.on_sums_prods_sets.sum}
+    To show that $I \iso \sum_{i \in I} \1$, we note that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \ | \ i \in I\}$.
+    Then function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
+    
+    \item \label{sol.on_sums_prods_sets.prod}
+    To show that $\1 \iso \prod_{i \in I} \1$, it suffices to demonstrate that there is a unique dependent function $f \colon (i \in I) \to \1$.
+    As $\1 = \{1\}$, such a function $f$ must always send $i \in I$ to $1$.
+    This completely characterizes $f$, so there is only one such dependent function.
+    
+\end{enumerate}
+Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty collection of sets.
+\begin{enumerate}[resume]
+    \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
+    So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds. 
+    We say that this sort of statement is ``vacuously true.''
+    
+    \item As $I = \varnothing = \0$, we have $\0 = I \iso \sum_{i \in I} \1 = \sum_{i \in \varnothing} X_i$, where the middle isomorphism follows from \cref{sol.on_sums_prods_sets.sum} and the last equation follows from \cref{sol.on_sums_prods_sets.vac}.
+    
+    \item As $I = \varnothing = \0$, we have $\1 \iso \prod_{i \in I} \1 = \prod_{i \in \varnothing} X_i$, where the isomorphism on the left follows from \cref{sol.on_sums_prods_sets.prod} and the equation on the right follows from \cref{sol.on_sums_prods_sets.vac}.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex.dependent_product_as_sections}
@@ -977,8 +1275,25 @@ As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\s
     (Hint: it's a dependent function.)
     \item A \emph{section} of a function $r : A \to B$ is a function $s : B \to A$ such that $s \then r = \id_B$.
     Show that the dependent product is isomorphic to the set of sections of $\pi_1$:
-    $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}.$$
+    $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}.$$\qedhere
   \end{enumerate}
+\begin{solution}
+We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
+\begin{enumerate}
+    \item The second projection $\pi_2(i, x) = x$ sends each pair $p = (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
+    Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
+    This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
+    
+    \item To show that $\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$, we will exhibit maps in either direction and show that they are mutually inverse.
+    For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have that $f(i) \in X_i$ for all $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends each $i \in I$ to $(i, f(i))$.
+    Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is indeed a section of $\pi_1$.
+    Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$.
+    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_i(s(i)) = i$ for all $i \in I$, so we can write $s(i)$ as an ordered pair $(i, x_i)$ with $x_i \in X_i$.
+    So we can define a function $f_s \colon (i \in I) \to X_i$ that sends each $i \in I$ to $x_i$ (i.e. $\pi_2(s(i))$).
+    Then $s \mapsto f_s$ is a map $\{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\} \to \prod_{i \in I} X_i$.
+    By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 Where are we, and where are we going? We've defined dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
@@ -4116,5 +4431,11 @@ Thanks to Joachim Kock for telling me about the derivative $\dot{p}$ of a polyno
 
 
 See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani (containers), ....
+
+\Closesolutionfile{solutions}
+
+% \section{Exercise solutions}
+% \footnotesize
+% \input{solution-file1}
 
 \end{document}
