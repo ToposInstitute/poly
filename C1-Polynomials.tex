@@ -24,7 +24,7 @@ I will think about it.\\
 \section{Introduction}
 
 
-In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: middle school algebra.
+In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: high school algebra.
 \begin{align}\label{eqn.polynomial1892}
 \yon^\2+\yon+\1 \quad&\quad
 \textit{polynomial}
@@ -143,7 +143,6 @@ If you were a suitor choosing the arena you love, aesthetically speaking, which 
 	\item Your polynomial's name $p$ here.
 \end{enumerate}
 Any reason for your choice? Draw a sketch of your arena.
-
 \begin{solution}
 Aesthetically speaking, here's a beautiful arena:
 \[
@@ -322,7 +321,6 @@ All of the examples discussed here will be presented in some detail once we have
 
 \begin{exercise}\label{exc.changing_types}
 Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
-
 \begin{solution}
 When using an application, say a drawing program, there is often a menu at the top of the screen. The information I can send the system changes based on what menu I click. If no menu is clicked, I can interact in one way. When I click ``file" I can interact with the file system, saving or opening a file, and thus interacting with another ``part'' of the computer. The set of things I can do depends on context.
 \end{solution}
@@ -1228,7 +1226,7 @@ Its cardinality will always be the product of the cardinalities of $X_1$ and $X_
 \begin{exercise}\label{exc.on_sums_prods_sets}
 Let $I$ be a set and let $X_i=\1$ be a one-element set for each $i\in I$. 
 \begin{enumerate}
-	\item Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
+	\item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
 	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
 \end{enumerate}
 As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
@@ -1243,7 +1241,7 @@ As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\s
 We are given a set $I$ and a dependent set $(X_i)_{i \in I}$ for which $X_i = \1$ for every $i \in I$.
 \begin{enumerate}
     \item \label{sol.on_sums_prods_sets.sum}
-    To show that $I \iso \sum_{i \in I} \1$, we note that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \ | \ i \in I\}$.
+    To show that $I \iso \sum_{i \in I} \1$, we note that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \mid i \in I\}$.
     Then function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
     
     \item \label{sol.on_sums_prods_sets.prod}
@@ -1265,7 +1263,7 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{ex.dependent_product_as_sections}
+\begin{exercise}\label{exc.dependent_product_as_sections}
   Let $X_{(-)} : I \to \smset$ be a set depending on an $i \in I$. There is a
   projection function
   $\pi_1 : \sum_{i \in I} X_i \to I$
@@ -1284,13 +1282,14 @@ We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_
     Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
     This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
     
-    \item To show that $\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$, we will exhibit maps in either direction and show that they are mutually inverse.
+    \item Let $S := \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
     For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have that $f(i) \in X_i$ for all $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends each $i \in I$ to $(i, f(i))$.
     Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is indeed a section of $\pi_1$.
-    Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$.
-    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_i(s(i)) = i$ for all $i \in I$, so we can write $s(i)$ as an ordered pair $(i, x_i)$ with $x_i \in X_i$.
-    So we can define a function $f_s \colon (i \in I) \to X_i$ that sends each $i \in I$ to $x_i$ (i.e. $\pi_2(s(i))$).
-    Then $s \mapsto f_s$ is a map $\{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\} \to \prod_{i \in I} X_i$.
+    Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to S$.
+    
+    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_1(s(i)) = i$ for all $i \in I$, so we can write $s(i)$ as an ordered pair $(i, \pi_2(s(i)))$ with $\pi_2(s(i)) \in X_i$.
+    It follows that we can define a function $f_s \colon (i \in I) \to X_i$ that sends each $i \in I$ to  $\pi_2(s(i))$.
+    Then $s \mapsto f_s$ is a map $S \to \prod_{i \in I} X_i$.
     By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
 \end{enumerate}
 \end{solution}
@@ -1313,6 +1312,8 @@ denote the functors that respectively assign to each $X\in\smset$ the sets
   \qqand
 	(F\times G)(X)\coloneqq F(X)\times G(X).
 \]
+We may also denote the product functor $F \times G$ by $FG$.
+
 More generally, for any set $I$ and functors $(F_i)_{i\in I}$, let
 \[
 \sum_{i\in I}F_i\colon\smset\to\smset
@@ -1325,8 +1326,24 @@ denote the functors that respectively assign to each $X\in\smset$ the sum and pr
 	\qqand
 	\Big(\prod_{i\in I}F_i\Big)(X)\coloneqq\prod_{i\in I} F_i(X).
 \]
-We denote by $\0,\1\colon\smset\to\smset$ the constant functors that respectively assign $\0$ and $\1$ to each $X\in\smset$.
+Given a set $I\in\smset$, we will also use $I$ to denote the constant functor that assigns $I$ to each $X\in\smset$.
+In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors that respectively assign $\0$ and $\1$ to each $X\in\smset$.
 \end{definition}
+
+\begin{exercise} \label{exc.repeated_sum_is_product}
+Show that for a set $I \in \smset$ and a functor $F \colon \smset \to \smset$, the sum of $I$ copies of $F$ is isomorphic to the product of the constant functor $I$ and $F$:
+\[
+    \sum_{i \in I} F \iso IF.
+\]
+(Note that this is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
+\begin{solution}
+It suffices to show that for all $X \in \smset$,
+\[
+    \sum_{i \in I} F(X) \iso (IF)(X).
+\]
+The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$.
+\end{solution}
+\end{exercise}
 
 \begin{proposition}
 Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $\smset^\smset$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $\smset^\smset$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $\smset^\smset$.
@@ -1340,7 +1357,7 @@ We've finally arrived: we can define the category of polynomial functors!
 \paragraph{$\poly$, the category of polynomial functors}
 
 \begin{definition}[Polynomial functors]
-A \emph{polynomial functor} is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
+A \emph{polynomial functor} (or simply a \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
 \[p\cong\sum_{i\in I}\yon^{p[i]}\]
 to a sum of representables.
 A \emph{morphism of polynomial functors} is simply a natural transformation $p\to q$.
@@ -1348,8 +1365,17 @@ A \emph{morphism of polynomial functors} is simply a natural transformation $p\t
 
 So (up to isomorphism), a polynomial functor is just a sum of representables.
 
+\begin{remark}
+Given sets $I, A \in \smset$, it follows from \cref{exc.repeated_sum_is_product} that we have an isomorphism of polynomials
+\[
+    \sum_{i \in I} \yon^A \iso I\yon^A.
+\]
+So when we write down a polynomial, we will often combine identical representable summands $\yon^A$ by writing them in the form $I\yon^A$.
+In particular, the constant functor $\1$ is a representable functor ($\1 \iso \yon^\0$), so every constant functor $I$ is a polynomial functor: $I \iso \sum_{i \in I} \1$.
+\end{remark}
+
 \begin{example}\label{ex.pedantic_poly_eval}
-Consider the polynomial $\yon^\2+\2\yon+\1$. It denotes a functor $\smset\to\smset$; what does this functor do to the set $X\coloneqq\{a,b\}$? 
+Consider the polynomial $p \coloneqq \yon^\2+\2\yon+\1$. It denotes a functor $\smset\to\smset$; what does this functor do to the set $X\coloneqq\{a,b\}$? 
 To be very precise and pedantic, let's say
 \[
 I\coloneqq\4\qqand
@@ -1376,10 +1402,34 @@ In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the element
 	\item $p\coloneqq\yon$ and $X\coloneqq\nn$.
 \qedhere
 \end{enumerate}
+
+\begin{solution}
+Our goal is to write out the elements of $p(X)$ for each polynomial $p$ and set $X$ that we are given.
+\begin{enumerate}
+    \item If $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}$, then let $I \coloneqq \1$ and $p[1] \coloneqq \3$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
+    So
+    \[
+        p(X) \iso \{(1, 4, 4, 4), (1, 4, 4, 9), (1, 4, 9, 4), (1, 4, 9, 9), (1, 9, 4, 4), (1, 9, 4, 9), (1, 9, 9, 4), (1, 9, 9, 9)\}.
+    \]
+    
+    \item If $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$, then let $I \coloneqq \4$, $p[1] \coloneqq p[2] \coloneqq p[3] \coloneqq \2$, and $p[4] \coloneqq \1$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
+    So $p(X) \iso \{(1, a, a), (2, a, a), (3, a, a), (4)\}$.
+	
+	\item If $\coloneqq\0$ and $X\coloneqq\nn$, then let $I \coloneqq \0$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
+	So $p(X) \iso \0$.
+	Alternatively, we note that $\0$ is the constant functor that assigns $\0$ to every set. 
+	
+	\item If $p\coloneqq\4$ and $X\coloneqq\nn$, then let $I \coloneqq \4$ and $p[i] \coloneqq \0$ for every $i \in I$.
+	So $p(X) \iso \{(1), (2), (3), (4)\} \iso \4$.
+	
+	\item If $p\coloneqq\yon$ and $X\coloneqq\nn$, then let $I \coloneqq \1$ and $p[1] \coloneqq \1$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
+    So $p(X) \iso \{(1, n) \mid n \in \nn\}$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{example}
-Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should be able to act not only on sets but on functions. Let $X\coloneqq\{a_1,a_2,b_1\}$, $Y\coloneqq\{a,b,c\}$ and $f\colon X\to Y$ the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$ is shown below
+Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should be able to act not only on sets but on functions. Let $X\coloneqq\{a_1,a_2,b_1\}$, $Y\coloneqq\{a,b,c\}$, and $f\colon X\to Y$ be the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$ is shown below
 \[
 \begin{tikzcd}[row sep=2pt, column sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
 \LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
@@ -1403,7 +1453,17 @@ Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should b
 \end{example}
 
 \begin{exercise}
-Let $p=\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
+Let $p\coloneqq\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
+\begin{solution}
+Given $p\coloneqq\yon^\2+\yon$, we seek the induced function $p(f)\colon p(\1)\to p(\2)$ for a function $f\colon\1\to\2$ of our choice.
+We will choose $1 \mapsto 2$.
+We can evaluate
+\[
+    p(\1) \iso \{(1, 1, 1), (2, 1)\} \text{ and } p(\2) \iso \{(1, 1, 1), (1, 1, 2), (1, 2, 1), (1, 2, 2), (2, 1), (2, 2)\}.
+\]
+So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
+(If we had instead picked $1 \mapsto 1$ as our function $f$, then $p(f)$ would send $(1, 1, 1) \mapsto (1, 1, 1)$ and $(2, 1) \mapsto (2, 1)$.)
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.apply1}
@@ -1413,15 +1473,26 @@ p\cong\sum_{i\in p(\1)}\yon^{p[i]}.
 \end{equation}
 \end{proposition}
 \begin{proof}
-We need to show that $I\cong p(\1)$; the latter claim follows directly. In \cref{exc.on_sums_prods_sets} it was shown that $I\cong\sum_{i\in I}\1$, so we just need to show that $(\yon^A)(\1)\cong\1$ for any $A\in\smset$. But $1^A\cong 1$ because there is a unique function $A\to 1$ for any $A$.
+We need to show that $I\iso p(\1)$; the latter claim follows directly. In \cref{exc.on_sums_prods_sets} it was shown that $I\iso\sum_{i\in I}\1$, so we just need to show that $(\yon^{p[i]})(\1)\iso\1$ for every $i \in I$. But $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for any $p[i]$.
 \end{proof}
-
+We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a polynomial $p$ from high school algebra, which yields the sum of the coefficients of $p$.
 The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
 
 \begin{exercise}\label{exc.apply0}
-We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p=\yon^3+3\yon^2+4$, the set $p(\1)$ gives back the set of summands, in this case $\8$. 
+We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, the set $p(\1)$ gives back the set of summands, in this case $\8$. 
 
 What does $p(\0)$ give you?
+\begin{solution}
+We consider $p(\0)$ for arbitrary polynomials $p$.
+A representable functor $\yon^S$ for some $S \in \smset$ sends $\0 \mapsto \0$ if $S \neq \0$ (as there are then no functions $S \to \0$), but sends $\0 \mapsto \1$ if $S = \0$ (as there is a unique function $\0 \to \0$).
+So
+\[
+    p(\0) \iso \sum_{i \in p(\1)} (\yon^{p[i]})(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
+\]
+In other words, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
+For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0) = \4$.
+In the language of high school algebra, we might call $p(\0)$ the ``constant term'' of $p$.
+\end{solution}
 \end{exercise}
 
 %---- Subsection ----%
@@ -1459,10 +1530,10 @@ content of $p$.
 The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
 
 \begin{agda}
-record Delegation (w : Arena) (w' : Arena) : Set where
+record Delegation (p : Poly) (q : Poly) : Set where
    field 
-     passfwd : (decn p) -> (decn q)
-     passbck : (d : decn p) -> posy q (passfwd d) -> posy p d
+     passfwd : (pos p) -> (pos q)
+     passbck : (i : pos p) -> dir q (passfwd i) -> dir p i
 \end{agda}
 
 %This structure of passing information forward and backwards should look
@@ -4434,8 +4505,8 @@ See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani 
 
 \Closesolutionfile{solutions}
 
-% \section{Exercise solutions}
-% \footnotesize
-% \input{solution-file1}
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file1}
 
 \end{document}
