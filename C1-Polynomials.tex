@@ -24,12 +24,12 @@ I will think about it.\\
 \section{Introduction}
 
 
-In this chapter we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: high school algebra.
+In this book we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: high school algebra.
 \begin{align}\label{eqn.polynomial1892}
-\yon^\2+\yon+\1 \quad&\quad
+\yon^\2+\2\yon+\1 \quad&\quad
 \textit{polynomial}
 \intertext{
-All our polynomials (or just \emph{polys}) will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a set of mini-trees:
+All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be depicted as a forest of mini-trees:
 }
 \label{eqn.poly1892}
 \begin{tikzpicture}[trees]
@@ -38,60 +38,78 @@ All our polynomials (or just \emph{polys}) will involve one variable, $\yon$, ch
     child {};
   \node[right=.5 of 1] (2) {$\bullet$} 
     child {};
-  \node[right=.5 of 2] (3) {$\bullet$};
+  \node[right=.5 of 2] (3) {$\bullet$} 
+    child {};
+  \node[right=.5 of 3] (4) {$\bullet$};
 \end{tikzpicture}
-\quad&\quad\textit{arena}
+\quad&\quad\textit{forest}
 \end{align}
-Each mini-tree in \eqref{eqn.poly1892} corresponds to a power of $\yon$ in the polynomial given in \eqref{eqn.polynomial1892}.
-In particular, the mini-tree with $2$ leaves corresponds to $\yon^\2$; the mini-tree with $1$ leaf corresponds to $\yon$, which can be rewritten as $\yon^\1$; and the mini-tree with no leaves corresponds to $\1$, which can be rewritten as $\yon^0$.
-More technically, these mini-trees—rooted trees of which all leaves are children of the root—are called \emph{corollas}.
-So what we're calling an \emph{arena}, in this chapter, is a set of corollas. 
+More technically, each mini-tree---a rooted tree whose \emph{leaves} (the arrows) are all children of the \emph{root} (the solid dot)---is called a \emph{corolla}.
+So our \emph{forests} are always unions of corollas.
+Each corolla in \eqref{eqn.poly1892} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.polynomial1892}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas that each have $1$ leaf correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^0$.
 
-Intuitively, one might think of each corolla as representing a \emph{decision}. Associated to every decision is a set of \emph{options}. The three decisions we exhibit in \eqref{eqn.poly1892} are particularly interesting; they respectively have two options, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end.'' While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, their sum $\yon^\2+\yon+\1$ has very little theoretical interest; it's just a first example.
+We can label the roots and leaves of our forest, like so:
+\[
+%\label{eqn.labeled_forest}
+\begin{tikzpicture}[trees]
+  \node["$1$" below] (1) {$\bullet$} 
+    child {node {$1$}}
+    child {node {$2$}};
+  \node["$2$" below, right=.5 of 1] (2) {$\bullet$} 
+    child {node {$1$}};
+  \node["$3$" below, right=.5 of 2] (3) {$\bullet$} 
+    child {node {$1$}};
+  \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
+\end{tikzpicture}
+\]
+This suggests yet another depiction of the polynomial \eqref{eqn.polynomial1892}: as a \emph{dependent set} $(p[i])_{i \in I}$.
+Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
+In standard font, 4 represents the usual natural number. In sans serif font \4 represents the set $\3=\{1,2,3,4\}$ with 4 elements.
+}, the set of roots, and
+\begin{align} \label{eqn.arena}
+p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
+\end{align}
+so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
+We call the entire dependent set $(p[i])_{i \in I}$ an \emph{arena}.
+Each element $i \in I$ is a \emph{position} in the arena, and each element $d \in p[i]$ is a \emph{direction} at position $i$.
+So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
 
-In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times%
-\footnote{
-In standard font, 42 represents the usual natural number. In sans serif font \4\2 represents the set $\4\2=\{1,2,\ldots,42\}$ with 42 elements.
-}
-in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options.
-Likewise, there are 17 situations in which you have a decision with a single option.
-When you put all those decisions together, you have the \emph{arena} associated to $\4\2\yon^\3+\1\7\yon$. 
+% In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options.
+% Likewise, there are 17 situations in which you have a decision with a single option.
+% When you put all those decisions together, you have the \emph{arena} associated to $\4\2\yon^\3+\1\7\yon$. 
 
-Here is a table of terminology, capturing four different perspectives from which we may view our objects of study. The first column is book-wide terminology, the second is algebraic terminology about polynomials as in \eqref{eqn.polynomial1892}, the third is about the pictures of corollas as in \eqref{eqn.poly1892}, and the fourth column is intuitive terminology.
+Throughout this book, we will see several other ways of interpreting polynomials.
+Here is a table of terminology, capturing five different perspectives from which we may view our objects of study. The first column the terminology we just introduced for polynomials as dependent sets, as in \eqref{eqn.arena}; the second is algebraic terminology, as in \eqref{eqn.polynomial1892}; the third is the pictorial terminology of corolla forests, as in \eqref{eqn.poly1892}; the fourth column is dynamical systems terminology, which we will explore in \cref{**}; and the fifth column is decision-making terminology, which we will introduce in \cref{sec.poly.intro.dec} and further develop in \cref{**}.
 
 \begin{equation}\label{eqn.table_terminology}
-\small
-\begin{tabular}{llll}
-\multicolumn{4}{c}{\normalsize Terminology}\\
-\textbf{Arena} & \textbf{Polynomial} $p$ & \textbf{Decision Trees} & \textbf{Intuition}\\\hline
-Set of positions & $p(\1)$ & Set of roots & Set of situations\\
-Interface in position $i$ & Pure power summand $\yon^{p[i]}$ & Corolla & Decision\\
-Direction $c\in p[i]$ & Element of $p[i]$ & Leaf & Option
+\footnotesize
+\begin{tabular}{lllll}
+\multicolumn{5}{c}{\normalsize Polynomial Terminology}\\[3pt]
+\textbf{Arena} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & \textbf{Corolla forest} & \textbf{Mode-dependent interface} & \textbf{Set (?) of decisions}\\\hline
+Position & $i \in p(\1)$ & Root $\bullet$ & Output & Decision\\
+% Interface (???) in position $i$ & Pure power (representable) summand $\yon^{p[i]}$ & Corolla & (???) & Decision\\
+Direction & $d \in p[i]$ & Leaf $\uparrow$ & Input & Option
 \end{tabular}
 \end{equation}
 
+\begin{remark}
+Though a polynomial is a \emph{functor} and an arena is a \emph{dependent set}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are essentially two different syntaxes for the same object.
+For example, we may often directly refer to the positions and directions of a polynomial, when we mean the positions and directions of its associated arena.
+\end{remark}
 
-\begin{exercise}\label{exc.arenas}
-Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated arena.
+\begin{exercise}\label{exc.forest}
+Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
 \begin{enumerate}
-	\item Draw the arena whose name is $p$ as a set of corollas.
-	\item How many roots/positions does this arena have?
-	\item How many decisions does this represent?
-	\item For each corolla in the arena, say how many leaves it has.
-	\item For each decision, how many options does it have?
+	\item Draw the polynomial $p$ as a corolla forest.
+	\item How many roots does this forest have?
+	\item How many positions in the arena does this represent?
+	\item For each corolla in the forest, say how many leaves it has.
+	\item For each position in the arena, how many directions does it have?\qedhere
 \end{enumerate}
-Now referring instead to the polynomial $q\coloneqq\yon^\nn+\4\yon$:
-\begin{enumerate}[resume]
-	\item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
-	\item Does the polynomial $q$ have a pure-power summand $\yon$?
-	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
-	\qedhere
-\end{enumerate}
-
 \begin{solution}
-We are first considering the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
+We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
 \begin{enumerate}
-	\item Here is the arena $p$ drawn as a set of corollas (note that the order in which they are drawn does not matter):
+	\item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
 	\[
 	\begin{tikzpicture}[trees, sibling distance=3mm]
     \node (1) {$\bullet$} 
@@ -109,29 +127,56 @@ We are first considering the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
     \node[right=.3 of 4] (5) {$\bullet$};
   \end{tikzpicture}
   \]
-	\item It has five (5) positions (which we here are calling roots).
-	\item It represents five decisions, one per position.
-	\item \label{sol.arenas.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
-	\item The set of options for each decision is the same as the set of leaves for each corolla, so just copy the answer from \cref{sol.arenas.leaves}. Sheesh! Who wrote this.
+	\item It has five (5) roots.
+	\item It represents five positions, one per root.
+	\item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
+	\item The set of directions for each position is the same as the set of leaves for each corolla, so just copy the answer from \cref{sol.forest.leaves}. Sheesh! Who wrote this.
 \end{enumerate}
-Next we refer to the polynomial $q\coloneqq\yon^\nn+4\yon$.
+\end{solution}
+\end{exercise}
+
+One feature that sets our polynomials apart from the polynomials we are familiar with from high school algebra is that the coefficients and exponents are not, strictly speaking, numbers; rather, they are sets, like $\1 = \{1\}$ and $\2 = \{1, 2\}$.
+In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + 2^\rr\yon^\rr$.
+Of course, this makes their forests rather unwieldy to draw, but they can be approximated.
+We sketch the polynomial $\yon^\3 + \nn\yon^{[0,1]}$ as a forest below.
+\[%\label{eqn.represented_interval}
+\begin{tikzpicture}[trees, sibling distance=0.0625mm]
+  \node (1) {$\bullet$} 
+    child foreach \i in {1,2,3}
+    ;
+  \node[right=.7 of 1] (2) {$\bullet$} 
+    child foreach \i in {1,...,160}
+    ;
+  \node[right=1 of 2] (3) {$\bullet$} 
+    child foreach \i in {1,...,160}
+    ;
+  \node[right=1 of 3] (4) {$\bullet$} 
+    child foreach \i in {1,...,160}
+    ;
+  \node[right=.7 of 4] (5) {$\cdots$};
+\end{tikzpicture}
+\]
+
+\begin{exercise}
+Consider the polynomial $q\coloneqq\yon^\nn+\4\yon$.
+\begin{enumerate}[resume]
+	\item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
+	\item Does the polynomial $q$ have a pure-power summand $\yon$?
+	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
+	\qedhere
+\end{enumerate}
+\begin{solution}
+We refer to the polynomial $q\coloneqq\yon^\nn+4\yon$.
 \begin{enumerate}[resume]
 	\item No, $q$ does not have $\yon^\2$ as a pure-power summand.
 	\item Yes, $q$ does have $\yon$ as a pure-power summand.
 	\item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
 \end{enumerate}
 \end{solution}
-
 \end{exercise}
 
-\begin{remark}
-Though a polynomial is a \emph{functor} and an arena is a \emph{dependent set},
-they are so closely related that we do not make a distinction between a
-polynomial $p$ and its arena; they are two different syntaxes for the same object. 
-\end{remark}
-
 \begin{exercise}\label{exc.suitor_love}
-If you were a suitor choosing the arena you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
+If you were a suitor choosing the corolla forest you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
 \begin{enumerate}
 	\item $\yon^\2+\yon+\1$
 	\item $\yon^\2+\3\yon^\2+\3\yon+\1$
@@ -142,15 +187,15 @@ If you were a suitor choosing the arena you love, aesthetically speaking, which 
 	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
 	\item Your polynomial's name $p$ here.
 \end{enumerate}
-Any reason for your choice? Draw a sketch of your arena.
+Any reason for your choice? Draw a sketch of your forest.
 \begin{solution}
-Aesthetically speaking, here's a beautiful arena:
+Aesthetically speaking, here's the associated polynomial of a beautiful corolla forest:
 \[
 \yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
 \]
 It's reminiscent (and formally related) to the notion of lists: if $A$ is any set then $A^0+A^1+A^2+\cdots$ is the set of lists with entries in $A$. 
 
-Here's a picture of this lovely arena:
+Here's a picture of this lovely forest:
 \[
 	\begin{tikzpicture}[trees, sibling distance=3mm]
     \node (1) {$\bullet$};
@@ -345,9 +390,23 @@ Hopefully you now have an idea of what we mean by mode-dependence: interfaces an
 But $\poly$ is very versatile in its applications. Next we'll show how it relates to the making of decisions.
 
 %---- Subsection ----%
-\subsection{Decisions}
+\subsection{Decisions} \label{sec.poly.intro.dec}
+We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.polynomial1892} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves:
+\begin{equation} \label{eqn.forest2110}
+\begin{tikzpicture}[trees]
+  \node (1) {$\bullet$} 
+    child {}
+    child {};
+  \node[right=.5 of 1] (2) {$\bullet$} 
+    child {};
+  \node[right=.5 of 2] (3) {$\bullet$} 
+    child {};
+  \node[right=.5 of 3] (4) {$\bullet$};
+\end{tikzpicture}
+\end{equation}
+Concretely, we might think of each position as representing a \emph{decision}. Associated to every decision is a set of \emph{options} (directions). The three decisions we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: it's ``the end.'' While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+2\yon+\1$ has very little theoretical interest; it's just an example.
 
-Consider the following three trees, the first two of which are infinite (though that's hard to draw):
+Now consider the following three trees, the first two of which are infinite (though that's hard to draw):
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -1656,38 +1715,38 @@ Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon
 where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
 \end{proposition}
 \begin{proof}
-%We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
-%of $\poly$ --- a polynomial functor --- to an object of the category of
-%dependent lenses --- an arena. We want to show that this object assignment gives
-%an equivalence of categories. First, we can note that it is surjective up to isomorphism on
-%objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
-%functor
-%\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
-%and if we take the arena corresponding to the polynomial, we back where we
-%started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
-% 
-%Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
-%and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
-%\begin{align*}
-%  \poly(p,q)&=
-%  \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
-%  	\text{Definitions}\\&\cong
-%  \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
-%  	\text{Univ. prop. of coproduct}\\&\cong
-%  \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
-%  	\text{Yoneda lemma}
-%\end{align*}
-%This proves the first part of we called the summary. It says that a morphism
-%$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
-%function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
-%the second part just gives $f^\sharp_i$ directly for each $i$.
-%
-%We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
-%  p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
-%lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
-%
-%Finally, it remains to show that these isomorphisms are functorial. We leave
-%this to \cref{ex.poly_dependent_lens_functoriality}
+We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
+of $\poly$ --- a polynomial functor --- to an object of the category of
+dependent lenses --- an arena. We want to show that this object assignment gives
+an equivalence of categories. First, we can note that it is surjective up to isomorphism on
+objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
+functor
+\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
+and if we take the arena corresponding to the polynomial, we back where we
+started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
+
+Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
+and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
+\begin{align*}
+ \poly(p,q)&=
+ \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
+ 	\text{Definitions}\\&\cong
+ \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
+ 	\text{Univ. prop. of coproduct}\\&\cong
+ \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
+ 	\text{Yoneda lemma}
+\end{align*}
+This proves the first part of we called the summary. It says that a morphism
+$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
+function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
+the second part just gives $f^\sharp_i$ directly for each $i$.
+
+We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
+ p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
+lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
+
+Finally, it remains to show that these isomorphisms are functorial. We leave
+this to \cref{ex.poly_dependent_lens_functoriality}
 \end{proof}
 
 \begin{exercise}\label{ex.poly_dependent_lens_functoriality}
