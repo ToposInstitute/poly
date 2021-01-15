@@ -1437,21 +1437,20 @@ where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
 %(finish)
 %\end{example}
 
-\begin{proposition}
-Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
+\begin{theorem}\label{thm.elements}
+For any category $\ema{c}$, there is an adjunction
 \[
-\ema{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
+\adj{\smcat^\sharp/\ema{c}}{}{\int}{\bimod{\ema{c}}{\0}}
 \]
-for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
+where $\int$ is the usual category-of-elements (``Grothendieck'') construction. 
 
-Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
-\end{proposition}
-
+Moreover, $\int$ is fully faithful, and the unit map on $\smcat^\sharp/c$ sends $d\cof c$ to its vertical-cartesian factorization; see \cref{prop.factor_cofunctor}.
+\end{theorem}
 
 
 
 \section{The proarrow equipment}
-A type of categorical structure called pro arrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
+A type of categorical structure called proarrow equipment gives a nice way to organize what's going on with comonoids, cofunctors, bimodules, and maps between them. A pro arrow equipment is the type of double category, so it has objects, vertical morphisms, horizontal morphisms, and 2-cells; for us, the objects will be categories, the vertical morphisms will be cofunctors, and the horizontal morphisms will be parametric right adjoints.
 
 \subsection{Adjoint bimodules}
 
@@ -1463,8 +1462,15 @@ A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= l
 \end{proof}
 
 \begin{proposition}
-A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh\varphi]\ema{d}$.
+A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh{\varphi}]\ema{d}$; we denote its right adjoint bimodule (= left adjoint pra) by $\wc{\varphi}$,
+\begin{equation}\label{eqn.cof_adj_bimod}
+\begin{tikzcd}
+	\ema{c}\ar[r, biml-bimr, shift left=7pt, "\wc{\varphi}"]\ar[r, phantom, "\Rightarrow"]&
+	\ema{d}\ar[l, biml-bimr, shift left=7pt, "\wh{\varphi}"]
+\end{tikzcd}
+\end{equation}
 \end{proposition}
+Note that the adjunction notation in \eqref{eqn.cof_adj_bimod} is unambiguous: if you read $\ema{c}\bimodfrom\ema{d}$ in the bimodule direction---i.e.\ as a map from $\ema{c}$ to $\ema{d}$---then the notation indicates that $\wh{\varphi}$ is the left adjoint. If instead you read $\ema{c}\bimodfrom\ema{d}$ in the pra direction---i.e.\ as a map from $\ema{d}$ to $\ema{c}$---then the notation indicates that $\wh{\varphi}$ is the right adjoint.
 \begin{proof}
 **
 \end{proof}
@@ -1489,11 +1495,40 @@ A pra $\cat{C}\smset\to\cat{D}\smset$ is a left adjoint if it is of the form $\S
 \end{proof}
 
 \begin{corollary}\label{cor.cartesian_cof_extra_adjoint}
-If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a discrete opfibration $F\colon\cat{C}\to\cat{D}$, then there is an isomorphism $\wh{\varphi}\cong\Delta_F$. In particular, this gives rise to an adjoint triple.
+If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a discrete opfibration $F\colon\cat{C}\to\cat{D}$, then there is an isomorphism $\wh{\varphi}\cong\Delta_F$. 
+
+In particular, $\wh{\varphi}$ has an extra adjoint
+\[
+\begin{tikzcd}[column sep=large, background color=theoremcolor]
+	\ema{c}
+		\ar[r, biml-bimr, shift left=18pt, "\wc{\varphi}"]
+		\ar[r, phantom, shift left=10pt, "\Rightarrow"]
+		\ar[r, biml-bimr, shift left=-18pt, "\wt{\varphi}"']
+		\ar[r, phantom, shift left=-10pt, "\Leftarrow"]
+		&
+	\ema{d}
+		\ar[l, biml-bimr, "\wh{\varphi}" description]
+\end{tikzcd}
+\]
 \end{corollary}
 \begin{proof}
 **
 \end{proof}
+
+\begin{proposition}
+Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
+\[
+\ema{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
+\]
+for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
+
+Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
+\end{proposition}
+\begin{proof}
+**Construct this using \cref{thm.elements,cor.cartesian_cof_extra_adjoint}.**
+\end{proof}
+
+
 
 
 %-------- Section --------%
