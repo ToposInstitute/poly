@@ -1154,7 +1154,7 @@ For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
-Whoever solves this exercise can say they've proved the Yoneda Lemma.
+Whoever solves this exercise can say they've proved the Yoneda lemma.
 \begin{enumerate}
 	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
 	\item Show that the two mappings from \cref{lemma.yoneda} are mutually inverse.
@@ -1418,15 +1418,14 @@ Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are
 By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $\smset^\smset$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $\smset^\smset$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
-We've finally arrived: we can define the category of polynomial functors!
+We've finally arrived: we can define polynomial functors!
 
-\paragraph{$\poly$, the category of polynomial functors}
+\paragraph{What is a polynomial functor?}
 
 \begin{definition}[Polynomial functors]
 A \emph{polynomial functor} (or simply a \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
 \[p\cong\sum_{i\in I}\yon^{p[i]}\]
 to a sum of representables.
-A \emph{morphism of polynomial functors} is simply a natural transformation $p\to q$.
 \end{definition}
 
 So (up to isomorphism), a polynomial functor is just a sum of representables.
@@ -1564,6 +1563,29 @@ In the language of high school algebra, we might call $p(\0)$ the ``constant ter
 %---- Subsection ----%
 \subsection{Morphisms between polynomial functors}
 \label{subsec.understanding_mor_poly}
+
+Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $\smset^\smset$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
+This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
+
+\begin{definition}[Polynomial morphisms, $\poly$]
+Given polynomial functors $p$ and $q$, a \emph{morphism of polynomial functors} (or a \emph{polynomial morphism}) is a natural transformation $p\to q$.
+Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are polynomial morphisms.
+\end{definition}
+
+In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
+
+A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$, satisfying naturality squares.
+That's a lot of data to keep track of!
+Fortunately, there is a much simpler way to think about these polynomial morphisms, which we will discover with some help from our old friend, the Yoneda lemma.
+
+\begin{exercise}
+Given a representable polynomial $\yon^S$ for a set $S$ and another polynomial $q$, show that there is an isomorphism % Do I want to write out q??
+\[
+    \poly(\yon^S, q) \iso q(S)
+\]
+that is natural in both $S$ and $q$. % What does it mean to be natural in S, huh??
+Note that the left hand side denotes the set of morphisms from $\yon^S$ to $q$ in \poly. Hint: Use the Yoneda lemma (\cref{lemma.yoneda}).
+\end{exercise}
 
 For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
