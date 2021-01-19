@@ -3800,7 +3800,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \section{Cofree comonoids}\label{sec.cofree}
 
 %---- Subsection ----%
-\subsection{Introduction: Cofree comonoids and dynamical systems}
+\subsection{Introduction: Cofree comonoids and discrete dynamical systems}
 
 We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomial, then a dynamical system with interface $p$ consists of a set $S$ and a map of polynomials $f\colon S\yon^S\to p$. We think of positions in $p$ kind of like outputs---others can observe your position---but also as determining the set of inputs---directions---that could be input next.
 
@@ -4048,6 +4048,29 @@ Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
 \end{enumerate}
 \end{exercise}
 
+\begin{exercise}
+Let $p$ be a polynomial, let $Q\coloneqq\{q\in\qq\mid q\geq 0\}$ and consider the monoid $\yon^Q$ of nonnegative rational numbers under addition. Is it true that any cofunctor $\varphi\colon\cofree{p}\cof\yon^\qq$ is constant, i.e.\ that it factors as
+\[
+\cofree{p}\cof\yon\cof\yon^\qq?
+\]
+\begin{solution}
+Take $p\coloneqq\2\yon$, and consider the object $x\in\cofree{p}(\1)$ given by the stream
+\[
+x\coloneqq(2\,12\,112\,1112\,11112\,111112\ldots)
+\]
+(with spaces only for readability); note that every morphism emanating from $x$ has a different codomain. We need to give $\varphi^\sharp_i(q)$ for every $i\in\cofree{p}(\1)$ and $q\geq 0$. Define
+\[
+	\varphi^\sharp_i(q)\coloneqq
+	\begin{cases}
+		i&\tn{ if }i\neq x \tn{ or } q=0\\
+		x'&\tn{ if }i=x\tn{ and } q>0
+	\end{cases}
+\]
+where $x'\coloneqq(12\,112\,1112\,11112\,111112\ldots)$. There are three cofunctor conditions to check, namely identity, codomains, and composition. The codomain condition is vacuous since $\yon^Q$ has one object, and the identity condition holds by construction, because we always have $\varphi^\sharp_i(0)=i$. Now take $q_1,q_2\in Q$; we need to check that
+\[\varphi^\sharp_{\cod\varphi^\sharp_i(q_1)}(q_2)=^?\varphi^\sharp_i(q_1+q_2)\]
+holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. If $i=x$ and either $q_1>0$ or $q_2>0$, it is easy to check that both sides equal $x'$, so again it holds.
+\end{solution}
+\end{exercise}
 
 \paragraph{Decision trees.}
 
@@ -4599,8 +4622,8 @@ The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunct
 
 \Closesolutionfile{solutions}
 
-% \section{Exercise solutions}
-% \footnotesize
-% \input{solution-file2}
+ \section{Exercise solutions}
+ \footnotesize
+ \input{solution-file2}
 
 \end{document}
