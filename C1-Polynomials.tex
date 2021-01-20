@@ -856,12 +856,12 @@ What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are of
 
 Luckily, the Agda code is pretty easy to understand.
 \begin{agda}
-record Poly : Set where  -- a polynomial consists of 
+record Arena : Set where  -- an arena consists of 
    field                      -- two fields
      pos : Set                -- one called pos, a set, and
      dir : pos -> Set         -- one called dir,
                               -- a set for each element of the set pos
-\end{agda}  
+\end{agda}
 
 %---- Subsection ----%
 \subsection{Mathematical theory}\label{subsec.math_theory}
@@ -1103,7 +1103,7 @@ Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions 
 In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colon X^S \to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$ by applying \cref{prop.representable_nt}, which says that $X^f$ sends each $g \colon S \to X$ to $f \then g \colon R \to X$.
 \begin{enumerate}
     \item If $R=\5$, $S=\5$, and $f=\id$, then $X^f$ is the identity function on $X^\5$.
-    \item If $R=\2$, $S=\1$, and $f$ is the unique function, then $X^f$ sends each $g \in X$ (i.e. function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
+    \item If $R=\2$, $S=\1$, and $f$ is the unique function, then $X^f$ sends each $g \in X$ (i.e.\ function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
     We can think of $X^f$ as the diagonal $X \to X \times X$.
 	\item If $R=\1$, $S=\2$, and $f(1)=1$, then $X^f$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
 	We can think of $X^f$ as the left projection $X \times X \to X$.
@@ -1156,8 +1156,8 @@ For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\
 \begin{exercise}\label{exc.finish_proof_yoneda}
 Whoever solves this exercise can say they've proved the Yoneda lemma.
 \begin{enumerate}
-	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in \cref{lemma.yoneda} are natural in $X$.
-	\item Show that the two mappings from \cref{lemma.yoneda} are mutually inverse.
+	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in the proof sketch of \cref{lemma.yoneda} are natural in $X$.
+	\item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
 	\item Show that \eqref{eqn.yoneda} is natural in $F$.
 	\item Show that \eqref{eqn.yoneda} is natural in $S$.
 	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\nat(\yon^S,\yon^T)\cong S^T$.
@@ -1180,7 +1180,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     Meanwhile, the left map sends $g$ to $F(g)(a)$, which is then sent to $F(h)(F(g)(a))$ by the bottom map.
     So by the functoriality of $F$, the square commutes.
     
-    \item First, we show that for any natural transformation $m \colon \yon^S \to F$, we have that $m^{m_S(\id_S)} = m$.
+    \item We seek to show that the two maps from the proof sketch of \cref{lemma.yoneda} are mutually inverse. First, we show that for any natural transformation $m \colon \yon^S \to F$, we have that $m^{m_S(\id_S)} = m$.
     Given a set $X$, the $X$-component of $m^{m_S(\id_S)}$ sends each $g \colon S \to X$ to $F(g)(m_S(\id_S))$; it suffices to show that this is also where the $X$-component of $m$ sends $g$.
     Indeed, by the naturality of $m$, the square
     \[
@@ -1224,7 +1224,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
     So the square commutes by \eqref{eq.finish_proof_yoneda}.
     
-    \item Just take $F = \yon^T$ in \cref{lemma.yoneda}.
+    \item To show that $\nat(\yon^S, \yon^T) \iso S^T$, just take $F = \yon^T$ in \cref{lemma.yoneda}.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -1236,11 +1236,11 @@ We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smse
 
 So here's the deal. All of our polynomials will be polynomials in one variable, $\yon$; every other letter or number that shows up will represent a set.%
 \footnote{For those who clamor for polynomials in many variables, we will see in \cref{**} that the multivariable story falls out of the one-variable story.}
-For example, in the following crazy polynomial
-\begin{equation}\label{eqn.crazy_poly}
+For example, in the following bizarre polynomial
+\begin{equation}\label{eqn.biz_poly}
 p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^2},
 \end{equation}
-$\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.crazy_poly} to make sense.
+$\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.biz_poly} to make sense.
 
 The polynomials we already understand at this point are the pure power polynomials $\yon^A$ for some set $A$: they are representable functors $\yon^A\colon\smset\to\smset.$
 So to understand general polynomials like $p$, we just need to understand what the sums of functors are. It will be useful to discuss products of functors at the same time.
@@ -1250,7 +1250,7 @@ To undertand the sums and products of set-valued functors, we will first need to
 \paragraph{Dependent sums and products of sets.}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
-\emph{$I$-indexed collection of sets} --- a \emph{dependent set} ---- by $X\colon I\to\smset$ or more
+\emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more
 classically as $(X_i)_{i\in I}$. Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
 each set in the collection would give us a function $i \mapsto x_i$ where each
 $x_i\in X_i$. This is a sort of function we haven't seen before, at least in
@@ -1274,7 +1274,7 @@ Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. 
 \begin{example}\label{ex.two_sums_and_prods}
 If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. Their sum is the disjoint union
 \[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
-Its cardinality (i.e., the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
+Its cardinality (i.e.\ the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
 
 Meanwhile, their product is the usual Cartesian product
 \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
@@ -1332,7 +1332,7 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
     (Hint: it's a dependent function.)
     \item A \emph{section} of a function $r : A \to B$ is a function $s : B \to A$ such that $s \then r = \id_B$.
     Show that the dependent product is isomorphic to the set of sections of $\pi_1$:
-    $$\prod_{i \in I} X_i \cong \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}.$$\qedhere
+    $$\prod_{i \in I} X_i \cong \left\{s : I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.$$\qedhere
   \end{enumerate}
 \begin{solution}
 We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
@@ -1354,9 +1354,120 @@ We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_
 \end{solution}
 \end{exercise}
 
-Where are we, and where are we going? We've defined dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
+\paragraph{Interactions between sums and products.}
+Here's how to understand and work with a set that is written with both $\sum$'s and $\prod$'s, e.g.\ something like
+\begin{equation}\label{eqn.misc98339}
+\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
+\end{equation}
+To understand such an expression, ask yourself: ``to specify an element of this set, what choices must I make?'' % **Write pseudocode instead?? Indentation might be easier to understand
+
+To answer this question, begin by saying ``To choose an element of [the expression]..." followed by pronouncing the formula. Every time you see $\sum_{i\in I}$, say ``choose an element $i\in I$; then, ....'' Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ....'' At the very end when you see a set $X$, say ``choose an element of $X$.''
+(You may adjust words for clarity, the same way you would add parentheses to clarify a mathematical expression.)
+
+So the formula in \eqref{eqn.misc98339} would be pronounced as follows:
+\begin{quote}
+To choose an element of \eqref{eqn.misc98339}, first choose an element $i\in I$; then, for each $j\in J(i)$, choose an element $k\in K(i,j)$ along with an element of $X(i,j,k)$.
+\end{quote}
+Note that the choice of $k\in K(i,j)$ can depend on $i$ and $j$; it must be able to, because different values of $i$ and $j$ may lead to different sets $K(i,j)$.
+
+\begin{example}%[Notation for $\sum\prod$ stuff]
+\label{ex.notation_sum_prod}
+% Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.misc98339}.
+
+Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$, and let $X(i,j,k)=\{x,y\}$ for all $i,j,k$. Now the formula 
+\[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
+from \eqref{eqn.misc98339} has been given meaning as an actual set. Here is a list of all eight of its elements:
+\[
+\left\{
+\begin{gathered}
+	\big(1, j\mapsto(k_1,x)\big),\qquad
+	\big(1, j\mapsto(k_1,y)\big),\qquad
+	\big(1, j\mapsto(k_2,x)\big),\qquad
+	\big(1, j\mapsto(k_2,y)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\\
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big)
+\end{gathered}
+\right\}
+\]
+In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $j\in J(i)$ we chose an element $k\in K(i,j)$; then we concluded by choosing an element of $X(i,j,k)$.
+\end{example}
+
+\begin{exercise}
+With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
+\[\prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
+\begin{enumerate}
+	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
+	\item How many elements are in it?
+	\item Write out three of them in the style of \cref{ex.notation_sum_prod}.
+\qedhere
+\end{enumerate}
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; in particular, once the statement is written in Agda, its proof is one short line of Agda code. 
+
+\begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
+For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
+\begin{equation}\label{eqn.set_completely_distributive}
+\prod_{i\in I}\sum_{j\in J(i)}X(i,j)
+\cong
+\sum_{j\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i)).
+\end{equation}
+\end{proposition}
+\begin{proof}
+We'll do this the old-fashioned way: by giving a map from left to right, a
+map from right to left, and a proof that the two maps are mutually inverse. 
+
+First, let's go from left to right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, f_1(i))$ for every $i \in I$.
+We can then form the following pair in the right hand set:
+\[
+    (i \mapsto \pi_1(f(i)), i \mapsto \pi_2(f(i))).
+\]
+
+Now let's go from right to left. An element of the set on the right is a pair of dependent functions, $j \colon (i \in I) \to J(i)$ and $g \colon
+(i \in I) \to X(i, j(i))$. We then get an element of the set on the left as follows:
+\[i \mapsto (j(i), g(i)).\]
+
+Now, we just need to check that a round trip takes us back where we were. If we
+start on the right, our round trip gives us the pair
+\[(i \mapsto \pi_1(j(i), g(i)), i \mapsto \pi_2(j(i), g(i))).\]
+But $\pi_1(j(i), g(i)) = j(i)$ and $\pi_2(j(i), g(i)) = g(i)$ by definition, so
+we're back where we started. On the other hand, starting on the left gives us
+the function
+\[i \mapsto (\pi_1(f(i)), \pi_2(f(i))).\]
+But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.
+
+\erase{
+We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
+\[
+  \prod_{i\in I}X(i,j_0(i))\to 
+  X(i_0,j_0(i_0))\to
+  \sum_{j\in J(i_0)}X(i_0,j).
+\]
+We have now given the function from left to right. To go the other way..
+}
+\end{proof}
+
+% \begin{exercise}\label{ex.dependent_lens_calculation}
+%   Use \cref{prop.push_prod_sum_set} to give another proof of
+%   \cref{lem.dependent_lens_calculation}. (Hint: express the left hand side as a
+%   dependent sum.)
+% \end{exercise}
+
+Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating products and sums; using \eqref{eqn.set_completely_distributive}, you can always write it as a sum of products (in ``disjunctive normal form'').
+
+When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
+\[
+\prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{j\colon I\to J}\;\prod_{i\in I}X(i,j(i)).
+\]
 
 \paragraph{Dependent sums and products of functors $\smset\to\smset$.}
+
+Where are we, and where are we going? We've defined dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
 
 \begin{definition}[Dependent sums and products of functors $\smset\to\smset$]\label{def.sum_prod}
 For any two functors $F,G\colon\smset\to\smset$, let
@@ -1411,7 +1522,7 @@ In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors t
 \end{solution}
 \end{exercise}
 
-\begin{proposition}
+\begin{proposition} \label{prop.prods_coprods_set_endofuncs}
 Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $\smset^\smset$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $\smset^\smset$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $\smset^\smset$.
 \end{proposition}
 \begin{proof}
@@ -1574,212 +1685,85 @@ Then $\poly$ is the category whose objects are polynomial functors and whose mor
 
 In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
 
-A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$, satisfying naturality squares.
+\begin{proposition} \label{prop.poly_coprods}
+The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \in I}$.
+\end{proposition}
+\begin{proof}
+By \cref{prop.prods_coprods_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
+The full subcategory inclusion $\poly \to \smset^\smset$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
+\end{proof}
+
+A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$ such that the naturality squares commute.
 That's a lot of data to keep track of!
 Fortunately, there is a much simpler way to think about these polynomial morphisms, which we will discover with some help from our old friend, the Yoneda lemma.
 
-\begin{exercise}
-Given a representable polynomial $\yon^S$ for a set $S$ and another polynomial $q$, show that there is an isomorphism % Do I want to write out q??
+\begin{exercise} \label{exc.poly_morph_yoneda}
+Given a set $S$ and a polynomial $q$, show that a polynomial morphism $\yon^S \to q$ can be identified with an element of the set $q(S)$.
+That is, there is an isomorphism
 \[
-    \poly(\yon^S, q) \iso q(S)
+    \poly(\yon^S, q) \iso q(S).
 \]
-that is natural in both $S$ and $q$. % What does it mean to be natural in S, huh??
-Note that the left hand side denotes the set of morphisms from $\yon^S$ to $q$ in \poly. Hint: Use the Yoneda lemma (\cref{lemma.yoneda}).
+Moreover, show that this isomorphism is natural in both $S$ and $q$.
+Hint: Use the Yoneda lemma (\cref{lemma.yoneda}).
+\begin{solution}
+As $\poly(\yon^S, q)$ is defined to be $\nat(\yon^S, q)$\, the natural isomorphism $\poly(\yon^S, q) \iso q(S)$ follows directly from the Yoneda lemma (\cref{lemma.yoneda}) with $F = q$.
+\end{solution}
 \end{exercise}
 
-For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
-
-In particular, we're going to think about polynomials like $p$ and $q$ using the
-intuition from the beginning of the chapter, around the table in
-\eqref{eqn.table_terminology}. We said that we'd think of $p$ as a arena: a set
-of decisions you can make and what options you have. That is, $p(\1)$ is
-conceived as a set of decisions, and for every decision $i\in p(\1)$, we
-conceive of the set $p[i]$ as the options or \emph{options} available in that
-decision. Here's how we write $p$ as an arena:
-\[
-\begin{tikzcd}
-p(\1)\ar[r, "{p[-]}"]&\smset
-\end{tikzcd}
-\]
-Again, every decision $i\in p(\1)$ gets a set $p[i]$ of options: that's the whole
-content of $p$.
-%\begin{definition}\label{def.arena_poly}
-%  An \emph{arena} for the dependent doctrine is a \emph{dependent set} $A^-_{(-)} :
-%  A^+ \to \smset$; that is, functor from the discrete category on a set $A^+$
-%  into the category of sets. the set $A^-_{a}$ that each direction $a^-$ lives in
-%  depends on the position $a \in A^+$. We will write the arena $A^- : A^+ \to
-%  \smset$ as
-%  \[\lens{A^-_{a}}{a \in A^+}.\]
-%\end{definition}
-%
-%We have just noted that every polynomial $p$ gives an arena $\lens{p[i]}{i \in p(\1)}$ whose positions are the decisions in the polynomial and whose directions
-%are the options.
-
-The maps $f\colon p\to q$ of polynomials are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
-
-\begin{agda}
-record Delegation (p : Poly) (q : Poly) : Set where
-   field 
-     passfwd : (pos p) -> (pos q)
-     passbck : (i : pos p) -> dir q (passfwd i) -> dir p i
-\end{agda}
-
-%This structure of passing information forward and backwards should look
-%familiar; its a sort of lens! The difference between this sort of lens and the
-%sort that we saw in earlier chapters is that the \emph{signature} of the
-%passback can depend on which decision one is using. We will therefore refer to
-%these lenses as \emph{dependent lenses}.
-%\begin{definition}\label{def.dependent_lens}
-%   A \emph{dependent lens} $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
-%   \fromto \lens{B^-_{b}}{b \in B^+}$ consists of 
-%\begin{itemize}
-%  \item a \emph{passforward} function $f^+ : A^+ \to B^+$, and
-%\item a dependent \emph{passback} fucntion $f^{\sharp} : (a \in A^+) \to  (
-%  B^-_{f(a)} \to A^-_{a})$. That is, for every $a \in A^+$, we have a
-%  passback function $f^{\sharp}(a, -) : B^-_{f(a)} \to A^-_{a}$.
-%\end{itemize}
-%
-%The composite of the dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}
-%   \fromto \lens{B^-_{b}}{b \in B^+}$ with the dependent lens $\lens{f^{\sharp}}{f} : \lens{B^-_{b}}{b \in B^+}
-%   \fromto \lens{C^-_{c}}{c \in C^+}$ is given by 
-%\[
-%  \lens{g^{\sharp}}{g} \circ \lens{f^{\sharp}}{f} \coloneqq \lens{(a, c^-)
-%    \mapsto f^{\sharp}(a, g^{\sharp}(f(a), c^-))}{g \circ f}.
-%\]
-%This gives us the category of \emph{dependent lenses} $\Cat{DLens}$.
-%\end{definition}
-%
-%\begin{proposition}\label{prop.dlens_self_indexing}
-%Consider the functor $\smset\op\to\smcat$ sending each set $A$ to the slice category $\smset/A$, and sending each $f\colon B\to A$ to the functor $f^*\colon\smset/A\to\smset/B$. Then $\Cat{DLens}$ is equivalent to the category $L$ of lenses for this doctrine.
-%\end{proposition}
-%\begin{proof}
-%We define a functor $F\colon \Cat{DLens}\to L$ as follows. An arena $A\coloneqq \lens{A^-_{a}}{a \in A^+}\in\Ob\Cat{DLens}$, assigns a set $A^-_a$ to each $a\in A^+$; let $X\coloneqq\sum_{a\in A^+}A^-_a$ with its obvious map $X\to A^+$. Then $F(A)\coloneqq\lens{X}{A}$ is notation for an object in $L$. We leave it to the reader to give the functor on morphisms, and show that it is fully faithful and essentially surjective.
-%\end{proof}
-%
-%\begin{exercise}
-%Complete the proof of \cref{prop.dlens_self_indexing} as follows.
-%\begin{enumerate}
-%	\item To what morphism in $L$ does $F$ assign the morphism $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+}\fromto \lens{B^-_{b}}{b \in B^+}$?
-%  \item Show that $F$ is fully faithful.
-%  \item Show that $F$ is essentially surjective.
-% \qedhere 
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{remark}
-%Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials. We can think of a dependent lens $p\to q$ as in \cref{def.dependent_lens} diagrammatically as follows:
-%\begin{equation}\label{eqn.colax_poly_map}
-%\begin{tikzcd}[column sep=small]
-%	p(\1)\ar[dr, "{p[-]}"']\ar[rr, "f_1"]&~&
-%	q(\1)\ar[dl, "{q[-]}"]\\&
-%	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
-%\end{tikzcd}
-%\end{equation}
-%That is, $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
-%\end{remark}
-%
-%Dependent lenses are indeed a generalization of the lenses we saw in \cref{def.lens}.
-%
-%\begin{proposition}\label{prop.lenses_are_dependent_lenses}
-%  There is a fully faithful inclusion $\Cat{Lens}_{\smset} \hookrightarrow
-%  \Cat{DLens}$ interpreting the coKleisli arena $\lens{A^-}{A^+}$ as the \emph{constant}
-%  dependent arena $\lens{A^-}{a \in A^+}$ (that is, the constant functor $a
-%  \mapsto A^- : A^+ \to \smset$).
-%\end{proposition}
-%\begin{proof}
-%  We just need to check that the definition of dependent lens specializes
-%  appropriately to the definition of lens. So, suppose we have constant
-%  dependent arenas $\lens{A^-}{a \in A^+}$ and $\lens{B^-}{b \in B^+}$. Then a
-%  dependent lens $\lens{f^{\sharp}}{f} : $
-%\end{proof}
-%
-%
-%
-%\begin{lemma}\label{lem.dependent_lens_calculation}
-%  Using $\sum$s and $\prod$s, we can give a slick definition of dependent lens.
-%  We have a bijection 
-%\[\Cat{DLens}\left( \lens{A^-_{a}}{a \in A^+},\, \lens{B^-_{b}}{b \in B^+}
-%  \right) \cong \prod_{a \in A^+} \sum_{b \in B^+} (A^-_{a})^{(B^-_{b})}\quad\]
-%\end{lemma}
-%\begin{proof}
-%  This is a special case of the upcoming \cref{prop.push_prod_sum_set}, so we'll
-%  just sketch the proof here. 
-%
-%  A dependent lens $\lens{f^{\sharp}}{f} : \lens{A^-_{a}}{a \in A^+} \fromto
-%  \lens{B^-_{b}}{b \in B^+}$ consists of a map $f : A^+ \to B^+$ and a depedent
-%  map $f^{\sharp} : (a \in A^+) \to (B^-_{f(a)} \to A^-_a)$, while an element of
-%  the right ahnd side is dependent function
-%  $$(f, f^{\sharp}) : (a \in A^+) \to \sum_{b \in B^+} (B^-_b \to A^-_a)$$
-%  which takes an element of $a$ and yields a pair $(f(a), f^{\sharp}(a,-))$.
-%  These are just two different ways of pairing up the data.
-%\end{proof}
-%
-%It seems we are observing that the category of polynomial functors is
-%equivalent to the category of dependent lenses! Let's state this mathematically and prove it.
+Before we present our alternative characterization of polynomial morphisms, recall that every polynomial $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ is uniquely associated to a dependent set, $(p[i])_{i \in p(\1)}$, which we call its \emph{arena}, as in \eqref{eqn.arena}.
+Alternatively, we could write such a dependent set as a functor $p[-] \colon p(\1) \to \smset$, where we view the set $p(\1)$ as a discrete category.
+Below, we make use of this functor notation to express the arenas of polynomials.
 
 \begin{proposition}\label{prop.poly_maps_colax_prod_sum}
-%Taking a polynomial $p$ to its arena $\lens{p[i]}{i \in p(\1)}$ gives
-%an equivalence between $\poly$ and the category of dependent lenses.
-%
-%To summarize, we have an isomorphism
+Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials.
+Then we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
 \poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}
 \end{equation}
 %and composition of polynomial morphisms corresponds to composition of dependent lenses.
-Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p_i}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q_j}$ be polynomials. A morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
+% **Naturality???
+In other words, a morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
 \begin{equation}\label{eqn.colax_poly_map}
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, "p_-"']\ar[rr, "f_1"]&~&
-	q(\1)\ar[dl, "q_-"]\\&
+	p(\1)\ar[dr, "p{[-]}"']\ar[rr, "f_1"]&~&
+	q(\1)\ar[dl, "q{[-]}"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-where $f_1$ is a function (or functor between discrete categories) and $f^\sharp$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q_j\to p_i$.
+where $f_1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete categories) and $f^\sharp \colon q[f_1(-)] \to p[-]$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$. % **Maybe write an exercise about viewing dependent functions as natural transformations?
 \end{proposition}
 \begin{proof}
-We have an assignment $p \mapsto \lens{p[i]}{i \in p(\1)}$ which sends an object
-of $\poly$ --- a polynomial functor --- to an object of the category of
-dependent lenses --- an arena. We want to show that this object assignment gives
-an equivalence of categories. First, we can note that it is surjective up to isomorphism on
-objects, since to every arena $\lens{A^-_{a}}{a \in A^+}$ we get the polynomial
-functor
-\[\sum_{a \in A^+} \yon^{A^-_{a}}\]
-and if we take the arena corresponding to the polynomial, we back where we
-started since $\sum_{a \in A^+} \1^{A^-_{a}} \cong A^+$.
+By the universal property of the coproduct, we have an isomorphism
+\[
+    \poly\left(\sum_{i \in I}\yon^{p[i]}, q\right) \iso \prod_{i \in p(\1)} \poly(\yon^{p[i]}, q),
+\]
+so applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and unraveling the definitions of $p$ and $q$ yields \eqref{eqn.main_formula}.
 
-Next, we'll show that the set of natural transformations $\poly(p,q)$ between polynomial functors $p$
-and $q$ is isomorphic to the set of dependent lenses between their arenas. We have the following isomorphisms
-\begin{align*}
- \poly(p,q)&=
- \nat\Big(\sum_{i\in p(\1)}\yon^{p[i]},\;\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
- 	\text{Definitions}\\&\cong
- \prod_{i\in p(\1)}\nat\Big(\yon^{p[i]},\sum_{j\in q(\1)}\yon^{q[j]}\Big)&
- 	\text{Univ. prop. of coproduct}\\&\cong
- \prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}&
- 	\text{Yoneda lemma}
-\end{align*}
-This proves the first part of we called the summary. It says that a morphism
-$p\to q$ consists of: for every $i\in p(\1)$ both a choice of $j\in q(\1)$ and a
-function from $q[j]\to p[i]$; the first part determines $f$ (i.e.\ $f(i)=j$) and
-the second part just gives $f^\sharp_i$ directly for each $i$.
-
-We can now note that by \cref{lem.dependent_lens_calculation}, $\prod_{i\in
- p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}$ is isomorphic to the set of dependent
-lenses $\lens{p[i]}{i \in p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$.
-
-Finally, it remains to show that these isomorphisms are functorial. We leave
-this to \cref{ex.poly_dependent_lens_functoriality}
+The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f \colon (i \in p(\1)) \to \sum_{j \in q(\1)} p[i]^{q[j]}$, each of which is uniquely determined by its components: $\pi_1 \circ f$, which sends $i \in p(\1)$ to $\pi_1(f(i)) \in q(\1)$, and $\pi_2 \circ f$, which sends $i \in p(\1)$ with $j \coloneqq \pi_1(f(i))$ to an element of $p[i]^{q[j]}$, i.e.\ a function $q[j] \to p[i]$.
+These can be identified respectively with a (non-dependent) function $f_1 \coloneqq \pi_1 \circ f$ from $p(\1) \to q(\1)$ and a natural transformation $f^\sharp \colon q[f_1(-)] \to p[-]$.
 \end{proof}
 
-\begin{exercise}\label{ex.poly_dependent_lens_functoriality}
-Complete the proof of \cref{prop.poly_maps_colax_prod_sum}.
-\end{exercise}
+% For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
-%\begin{remark}
-%The fact in \eqref{eqn.main_formula} that a natural transformation between polynomial functors is
-%equivalently a dependent lens will be quite important to us; we will call it our
-%\emph{main formula} for the set of polynomial maps.
-%
+We have now greatly simplified our characterization of polynomial morphisms $f \colon p \to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they can be specified simply as a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$, without any additional restrictions.
+
+Here is where we begin to see the advantages of viewing polynomials as arenas.
+As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
+We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forwards'' \emph{on-positions} function $f_1$ from the positions of $p$ to the positions of $q$, along with, for every position $i$ of $p$, a ``backwards'' \emph{on-directions} function $f^\sharp_i$ from the directions of $q$ at $f_1(i)$ to the directions of $p$ at $i$.
+When we wish to emphasize the arena perspective, we will call the data of $(f_1, f^\sharp)$ a \emph{morphism of arenas} or \emph{arena morphism} between $p$ and $q$; but since \cref{prop.poly_maps_colax_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
+
+Here is how you would implement such a morphism in Agda:
+\begin{agda}
+record ArenaMorphism (p : Arena) (q : Arena) : Set where
+   field
+     onPos : (pos p) -> (pos q)
+     onDir : (i : pos p) -> dir q (onPos i) -> dir p i
+\end{agda}
+
+This forwards on-positions/backwards on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
+Recall from \cref{sec.poly.intro.dec} that we may view each position of an arena as a decision and the directions at that position as the options available for that decision.
+The morphisms $f\colon p\to q$ are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
+
 %In fact, this formula will be so important to us that we will often blur the
 %difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p[i]}{i \in
 %  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
@@ -1787,7 +1771,7 @@ Complete the proof of \cref{prop.poly_maps_colax_prod_sum}.
 %\end{remark}
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
-Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
+Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -1821,7 +1805,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$
   };
 \end{tikzpicture}
 \]
-To give a map of polynomials $p\to q$, one delegates each $p$-decision $i\in p(\1)$ to a $q$-decision $j\in q(\1)$, and then each option in $q[j]$ is passed back to one in $p[i]$.
+To give a map of polynomials $p\to q$, one sends each position $i\in p(\1)$ of $p$ to a position $j\in q(\1)$ of $q$, then sends each direction in $q[j]$ back to one in $p[i]$.
 
 How many ways are there to do this? Before answering this, let's just pick one.
 \[
@@ -1829,14 +1813,14 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	\node (p1) {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
-      child {coordinate (11)}
-      child {coordinate (12)}
-      child {coordinate (13)};
-    \node[right=1.5 of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)}
-      child {coordinate (22)}
-      child {coordinate (23)}
-      child {coordinate (24)};
+      child[blue!50!black] {coordinate (11)}
+      child[blue!50!black] {coordinate (12)}
+      child[blue!50!black] {coordinate (13)};
+    \node[right=1.5 of 1, red!75!black, "\tiny 1" below] (2) {$\bullet$} 
+      child[red!75!black] {coordinate (21)}
+      child[red!75!black] {coordinate (22)}
+      child[red!75!black] {coordinate (23)}
+      child[red!75!black] {coordinate (24)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
       \draw[postaction={decorate}] (21) to (13);
@@ -1850,12 +1834,12 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	\node (p2) [right=1 of p1] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
-      child {coordinate (11)};
-    \node[right=of 1, red!50!black, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)}
-      child {coordinate (22)}
-      child {coordinate (23)}
-      child {coordinate (24)};
+      child[blue!50!black] {coordinate (11)};
+    \node[right=of 1, red!75!black, "\tiny 1" below] (2) {$\bullet$} 
+      child[red!75!black] {coordinate (21)}
+      child[red!75!black] {coordinate (22)}
+      child[red!75!black] {coordinate (23)}
+      child[red!75!black] {coordinate (24)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
       \draw[postaction={decorate}] (21) to (11);
@@ -1869,7 +1853,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	\node (p3) [below right=-1.05cm and 1 of p2] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$} 
-      child {};
+      child[blue!50!black] {};
     \node[right=of 1, red!50!black, "\tiny 4" below] (2) {$\bullet$} 
 		;
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
@@ -1879,34 +1863,218 @@ How many ways are there to do this? Before answering this, let's just pick one.
 \]
 This represents one morphism $p\to q$.
 
-So how many different morphisms are there from $p$ to $q$? One way to figure it out is to use the formula \eqref{eqn.main_formula}, but that might need some explaining; we go through such notation in an interlude after \cref{exc.practice_poly_maps}. For now, we can just count ``pre-theoretically.''
+So how many different morphisms are there from $p$ to $q$? The first position of $p$ can be sent to any position of $q$: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to handle the first position of $p$: there are $3^4+3^2+3^0+3^0=92$. 
 
-The first $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. Delegating it to the first $q$-decision requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate all the ways to delegate the first $p$-decision: there are $3^4+3^2+3^0+3^0=92$. 
+The second position of $p$ can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this. 
+Similarly there are four ways to send the third position of $p$ to a position of $q$ and send back directions.
 
-The second $p$-decision can be delegated to $q$-decision 1, 2, 3, or 4. There are $1^4+1^2+1^0+1^0=4$ ways to do this; similarly there are four ways to delegate the third $p$-decision to a $q$-decision.
+In total, there are $92 \cdot 4 \cdot 4=1472$ morphisms $p\to q$.
 
-In total, there are $92*4*4=1472$ morphisms $p\to q$, just twenty less than the number of years between Jesus's famous year and Columbus's famous year. Coincidence? 
+Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
+\begin{align*}
+    |\poly(p, q)| &= \prod_{i \in p(\1)} |q(p[i])| \\
+    &= \prod_{i \in p(\1)} |p[i]|^4 + |p[i]|^2 + 2 \\
+    &= (3^4 + 3^2 + 2)(1^4 + 1^2 + 2)^2 \\
+    &= 92 \cdot 4^2 = 1472.
+\end{align*}
 \end{example}
 
 \begin{exercise}\label{exc.practice_poly_maps}
 \begin{enumerate}
-	\item Draw the polys (unions of corollas as in \cref{eqn.poly1892}) associated to $p\coloneqq\yon^3+\yon+1$, $q\coloneqq \yon^2+\yon^2+2$, and $r\coloneqq\yon^3$.
+	\item Draw the corolla forests associated to $p\coloneqq\yon^\3+\yon+\1$, $q\coloneqq \yon^\2+\yon^\2+\2$, and $r\coloneqq\yon^\3$.
 	\item Give an example of a morphism $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
-	\item Explain your morphism as a ``delegation'' in the sense of \cref{subsec.understanding_mor_poly}.
+	\item Explain your morphism intuitively as a delegation of decisions.
 	\item Explain in those terms why there can't be any morphisms $p\to r$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Here are the corolla forests associated to $p\coloneqq\yon^\3+\yon+\1$, $q\coloneqq \yon^\2+\yon^\2+\2$, and $r\coloneqq\yon^\3$ (with each root labeled for convenience).
+    \[
+    \begin{tikzpicture}[rounded corners]
+    	\node (p) [draw, blue!50!black, "$p$" above] {
+    	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+            \node["\tiny 1" below] (1) {$\bullet$} 
+              child {}
+              child {}
+              child {};
+            \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+              child {};
+            \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$};
+        \end{tikzpicture}
+        };
+    %
+    	\node (q) [draw, red!75!black, right=2 of p, "$q$" above] {
+    	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+            \node["\tiny 1" below] (1) {$\bullet$} 
+              child {}
+              child {};
+            \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+              child {}
+              child {};
+            \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$};
+            \node[right=.5 of 3,"\tiny 4" below] (4) {$\bullet$};
+        \end{tikzpicture}
+        };
+    %
+    	\node (r) [draw, green!50!black, right=2 of q, "$r$" above] {
+    	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny 1" below] (1) {$\bullet$} 
+          child {}
+          child {}
+          child {};
+        \end{tikzpicture}
+      };
+    \end{tikzpicture}
+    \]
+	\item Here is one possible morphism $p \to q$ (you may have drawn others).
+	\[
+    \begin{tikzpicture}
+    	\node (p1) {
+        	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+                \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+                  child[blue!50!black] {coordinate (11)}
+                  child[blue!50!black] {coordinate (12)}
+                  child[blue!50!black] {coordinate (13)};
+                \node[right=1.5 of 1, red!75!black, "\tiny 2" below] (2) {$\bullet$}
+                  child[red!75!black] {coordinate (21)}
+                  child[red!75!black] {coordinate (22)};
+                \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+                \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+                  \draw[postaction={decorate}] (21) to (13);
+                  \draw[postaction={decorate}] (22) to (11);
+                \end{scope}
+            \end{tikzpicture}	
+    	};	
+        %
+    	\node (p2) [right=1 of p1] {
+        	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+                \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
+                  child[blue!50!black] {coordinate (11)};
+                \node[right=of 1, red!75!black, "\tiny 4" below] (2) {$\bullet$};
+                \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+            \end{tikzpicture}	
+    	};	
+        %
+    	\node (p3) [below right=-1.05cm and 1 of p2] {
+        	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+                \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$};
+                \node[right=of 1, red!75!black, "\tiny 3" below] (2) {$\bullet$};
+                \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+            \end{tikzpicture}	
+    	};	
+    \end{tikzpicture}
+    \]
+    \item As depicted, our morphism delegates the first decision of $p$ to the second decision of $q$, whose first and second options are passed back to the third and first options, respectively, of the first decision of $p$.
+    Then the second decision of $p$ is delegated to the fourth decision of $q$, which has no options; effectively, the second decision of $p$ has been canceled.
+    Finally, the third decision of $p$ is delegated to the third decision of $q$, neither of which has any options.
+    \item There cannot be a morphism $p \to r$ for the following reason: if we delegate the third decision of $p$, which has no options, to the sole decision of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options associated with the third decision of $p$, as there are no such options.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
 \begin{enumerate}
-	\item Choose a polynomial $p$ and draw the associated poly as well as $\yon^\2$.
-	\item Count all the maps $\yon^2\to p$.
-	\item Is it equal to $p(\2)$?
+	\item Choose a polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
+	\item Count all the maps $\yon^2\to p$. How many are there?
+	\item Is the previous answer equal to $p(\2)$?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We let $p \coloneqq \yon^3 + 1$ (you could have selected others) and draw both $p$ and $\yon^\2$ as corolla forests, labeling each root for convenience.
+    \[
+    \begin{tikzpicture}[rounded corners]
+    	\node (y2) [draw, blue!50!black, "$\yon^\2$" above] {
+    	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+            \node["\tiny 1" below] (1) {$\bullet$} 
+              child {}
+              child {};
+        \end{tikzpicture}
+        };
+    %
+    	\node (p) [draw, red!75!black, right=2 of y2, "$p$" above] {
+    	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+            \node["\tiny 1" below] (1) {$\bullet$} 
+              child {}
+              child {}
+              child {};
+            \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$};
+        \end{tikzpicture}
+        };
+    \end{tikzpicture}
+    \]
+    \item We count all the maps from $\yon^\2$ to $p$.
+    The unique position of $\yon^\2$ can be sent to either position of $p$.
+    If it is sent to the first position of $p$, then there are $2$ directions of $\yon^\2$ for each of the $3$ directions at the first position of $p$ to be sent to, for a total of $2^3 = 8$ maps.
+    Otherwise, the unique position of $\yon^\2$ is sent to the second position of $p$---at which there are no directions, so there is exactly $1$ way to do this.
+    So we have $8 + 1 = 9$ maps from $\yon^\2$ to $p$.
+    \item Yes, the previous answer is equal to $p(\2) = 2^3 + 1 = 9$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+For each of the following polynomials $p,q$, compute the number of morphisms $p\to q$.
+\begin{enumerate}
+	\item $p=\yon^\3$,\quad $q=\yon^\4$.
+	\item $p=\yon^\3+\1$,\quad $q=\yon^\4$.
+	\item $p=\yon^\3+\1$,\quad $q=\yon^\4+\1$.
+	\item $p=\4\yon^\3+\3\yon^\2+\yon$,\quad $q=\yon$.
+	\item $p=\4\yon^\3$,\quad $q=\3\yon$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+Our goal is to compute the number of natural transformations $p\to q$ for each of the following polynomials $p,q$.
+By \eqref{eqn.main_formula}, we always have
+\[
+    |\poly(p, q)| = \prod_{i \in p(\1)} |q(p[i])|.
+\]
+\begin{enumerate}
+	\item If $p=\yon^\3$ and $q=\yon^\4$, then
+	\[
+	    |\poly(p, q)| = \prod_{i \in \1} |p[i]|^4 = 3^4 = 81.
+	\]
+	\item If $p=\yon^\3+\1$ and $q=\yon^\4$, then
+	\[
+	    |\poly(p, q)| = \prod_{i \in \2} |p[i]|^4 = 3^4 \cdot 0^4 = 0.
+	\]
+	\item If $p=\yon^\3+\1$ and $q=\yon^\4+\1$, then
+	\[
+	    |\poly(p, q)| = \prod_{i \in \2} |p[i]|^4 + 1 = (3^4 + 1)(0^4 + 1) = 82.
+	\]
+	\item If $p=\4\yon^\3+\3\yon^2\+\yon$ and $q=\yon$, then
+	\[
+	    |\poly(p, q)| = \prod_{i \in \8} |p[i]| = 3^4 \cdot 2^3 \cdot 1 = 648.
+	\]
+	\item If $p=\4\yon^\3$ and $q=\3\yon$, then
+	\[
+	    |\poly(p, q)| = \prod_{i \in \4} 3|p[i]| = (3 \cdot 3)^4 = 6561.
+	\]
+\qedhere
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.practice_sum_prod}
+\begin{enumerate}
+\item Is it true that the following are isomorphic?
+\begin{equation}\label{eqn.poly_p_q}
+  \poly(p,q)
+  \cong^?
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
+\end{equation}
+\item Is it true that the following are isomorphic?
+	\begin{equation}\label{eqn.useful_misc472}
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\Big).
+	\end{equation}
+\item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
 \qedhere
 \end{enumerate}
 \end{exercise}
+
+
 
 \begin{example}[Derivatives]\label{ex.derivatives}
 We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
@@ -1916,157 +2084,65 @@ We won't have much opportunity to use the following, but it may be interesting. 
 For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then 
 \[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
 Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
+Unsurprisingly, this coincides with the familiar notion of derivatives of polynomials from calculus.
 
 Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
 \[
-\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]}
+\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]}.
 \]
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride} and \cite{abbot2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of delegations from $p$ to $q$ such that each position in $p$ explicitly selects a $q$-option to be avoided. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of $q$-position $j$, as usual, together with a chosen option $d\in q[j]$. Then every $q$-option \emph{other than $d$} is passed back to an option in $p[i]$.
+A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of arena morphisms from $p$ to $q$ such that each position of $p$ explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every direction of $q$ at $j$ \emph{other than $d$} is sent back to an direction of $p$ at $i$.
 \end{example}
 
 \begin{exercise}
 The derivative is not very well-behaved category-theoretically. However, it is intriguing.
 \begin{enumerate}
-	\item What is the relationship between $\dot{p}(\1)$ and the total number of leaves in $p$?
+	\item What is the relationship between $\dot{p}(\1)$ and the total number of directions over all the positions of $p$?
 	\item Explain the canonical map $\dot{p}\yon\to p$ from \cref{ex.derivatives} in more detail.
 	\item Is there always a canonical map $p\to \dot{p}$?
 	\item Is there always a canonical map $\dot{p}\to p$?
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
 	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
-	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``avoiding options,'' how might you describe what is modeled by a map $p\yon\to q$?
+	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
+	\qedhere
 \end{enumerate}
-\end{exercise}
-
-\paragraph{Working with $\sum$ and $\prod$ formulas.}
-Here's how to understand and work with a set that involves $\sum$'s and $\prod$'s, e.g.\ something like
-\begin{equation}\label{eqn.misc98339}
-\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
-\end{equation}
-To understand it, you ask ``what is involved in choosing an element of this set?'' 
-
-The answer given by the formula \eqref{eqn.misc98339} begins by saying ``To choose an element of \eqref{eqn.misc98339}, first..." and then you begin pronouncing the formula. Every time you see $\sum_{i\in I}...$, say ``choose an element $i\in I$; then, ....'' Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ....'' At the very end when you see some $X$, say ``conclude by choosing an element of $X$.''
-
-So the formula in \eqref{eqn.misc98339} would be pronounced as follows:
-\begin{quote}
-To choose an element of \eqref{eqn.misc98339}, first choose an element $i\in I$. Then, for every $j\in J(i)$, choose an element $k\in K(i,j)$; then, conclude by choosing an element of $X(i,j,k)$.
-\end{quote}
-Note that the choice of $k\in k(i,j)$ can depend on $i$ and $j$; it must be able to because these sets $K(i,j)$ can be different for different $i,j$.
-
-\begin{example}[Notation for $\sum\prod$ stuff]\label{ex.notation_sum_prod}
-Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.misc98339}.
-
-Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$, and let $X(i,j,k)=\{x,y\}$ for all $i,j,k$. Now the formula 
-\[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
- has been given meaning as an actual set. Here is a list of all eight of its elements:
-\[
-\left\{
-\begin{gathered}
-	\big(1, j\mapsto(k_1,x)\big),\qquad
-	\big(1, j\mapsto(k_1,y)\big),\qquad
-	\big(1, j\mapsto(k_2,x)\big),\qquad
-	\big(1, j\mapsto(k_2,y)\big),\\
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\\
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big)
-\end{gathered}
-\right\}
-\]
-In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $j\in J(i)$ we chose an element $k\in K(i,j)$; then we concluded by choosing an element of $X(i,j,k)$.
-\end{example}
-
-\begin{exercise}
-With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
-\[\prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
+\begin{solution}
 \begin{enumerate}
-	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
-	\item How many elements are in it?
-	\item Write out three of them in the style of \cref{ex.notation_sum_prod}.
-\qedhere
+    \item We can evaluate $\dot{p}(\1)$ directly from the definition of $\dot{p}$ to obtain
+    \[
+        \dot{p}(\1) = \sum_{i \in p(\1)} \sum_{d \in p[i]} \1^{p[i]-\{d\}} \iso \sum_{i \in p(\1)} p[i],
+    \]
+    which is precisely the set of directions over all positions of $p$.
+    So there are as many elements of $\dot{p}(\1)$ as there are directions over all positions of $p$.
+    
+	\item Our goal is to characterize the canonical map $\dot{p}\yon\to p$.
+	If we unravel the definitions, this is a map
+	\[
+	    \sum_{i \in p(\1)} \sum_{d \in p[i]} \yon^{p[i]} \to \sum_{i \in p(\1)} \yon^{p[i]}.
+	\]
+	We observe that there is always such a map sending every position $(i, d) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
+	This is the canonical map.
+
+	\item There cannot always be a canonical map $p\to \dot{p}$, for if $p \coloneqq \1$, then $\dot{p} \coloneqq \0$, and there is no map $\1 \to \0$.
+	
+	\item We show that there cannot always be a canonical map $\dot{p}\to p$.
+	Take $p \coloneqq \yon$, so $\dot{p} \coloneqq \1$.
+	A map $\1 \to \yon$ must have an on-directions function $\1 \to \0$, but such a function does not exist.
+	
+	\item We show that even when there is a map $p \to q$, there is not necessarily a map $\dot{p}\to\dot{q}$.
+	Take $p \coloneqq \yon$ and $q \coloneqq \1$.
+	Then there is a map $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
+	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no map $\1 \to \0$.
+	
+	\item ???
+	
+	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
+	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
 \end{enumerate}
-\end{exercise}
-
-The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; for example once the statement is written in agda, its proof is one short line of agda code. 
-
-\begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
-For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
-\begin{equation}\label{eqn.set_completely_distributive}
-\sum_{j\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i))
-\cong
-\prod_{i\in I}\sum_{j\in J(i)}X(i,j).
-\end{equation}
-\end{proposition}
-\begin{proof}
-We'll do this the old-fashioned way: by giving a map from left to right, and a
-map from right to left, and showing that they are mutually inverse. 
-
-First, let's go from left to right. An element of the set on the left is a pair
-of a function $j \in \prod_{i \in I}J(i)$ together with a function $f \in
-\prod_{i \in I} X(i, j(i))$. We then get an element of the set on the right as follows:
-\[i \mapsto (j(i), f(i)).\]
-
-Now, let's go right to left. An element of the set on the right is a function $f
-\in \prod_{i \in I} \sum_{j \in J(i)} X(i, j)$. We can then form the following
-pair in the left hand set:
-\[((i \mapsto \pi_1f(i)), (i \mapsto \pi_2f(i)))\]
-where $\pi_1f(i)$ is the first component of the pair $f(i)$ and $\pi_2f(i)$
-is the second component.
-
-Now, we just need to check that a round trip takes us back where we were. If we
-start on the left, our round trip gives us the pair
-\[((i \mapsto \pi_1(j(i), f(i))), (i \mapsto \pi_2(j(i), f(i)))).\]
-But $\pi_1(j(i), f(i)) = j(i)$ and $\pi_2(j(i), f(i)) = f(i)$ by definition, so
-we're back where we started. On the other hand, starting on the right gives us
-the function
-\[i \mapsto (\pi_1f(i), \pi_2f(i)).\]
-But again, since $f(i)$ is the pairing of its components $\pi_1(f(i))$ and
-$\pi_2(f(i))$, we're back where we started.
-
-\erase{
-We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
-\[
-  \prod_{i\in I}X(i,j_0(i))\to 
-  X(i_0,j_0(i_0))\to
-  \sum_{j\in J(i_0)}X(i_0,j).
-\]
-We have now given the function from left to right. To go the other way..
-}
-\end{proof}
-
-\begin{exercise}\label{ex.dependent_lens_calculation}
-  Use \cref{prop.push_prod_sum_set} to give another proof of
-  \cref{lem.dependent_lens_calculation}. (Hint: express the left hand side as a
-  dependent sum.)
-\end{exercise}
-
-Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating sums and products; using \cref{eqn.set_completely_distributive}, you can always put it into sums-then-products (``disjunctive normal'') form.
-
-When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
-\[
-\prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{j\colon I\to J}\;\prod_{i\in I}X(i,j).
-\]
-
-\begin{exercise}\label{exc.practice_sum_prod}
-Let $p,q$ be polynomials as in \cref{prop.poly_maps_colax_prod_sum}. Recall from
-our main formula \eqref{eqn.main_formula} that there is an isomorphism between polynomia$\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}.$ 
-\begin{enumerate}
-\item Is it true that the following are isomorphic?
-\begin{equation}\label{eqn.poly_p_q}
-  \poly(p,q)
-  \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
-\end{equation}
-\item Is it true that there is an isomorphism
-	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\Big).
-	\end{equation}
-\item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
-\qedhere
-\end{enumerate}
+\end{solution}
 \end{exercise}
 
 
@@ -2081,20 +2157,13 @@ Any natural transformation $p\to q$ must send constants in $p$ to constants in $
 **Finish**
 \end{example}
 
-\begin{exercise}
-For each of the following $p,q$, count the number of natural transformations $p\to q$:
-\begin{enumerate}
-	\item $p=\yon^3$,\quad $q=\yon^4$.
-	\item $p=\yon^3+1$,\quad $q=\yon^4$.
-	\item $p=\yon^3+1$,\quad $q=\yon^4+1$.
-	\item $p=4\yon^3+3\yon^2+\yon$,\quad $q=\yon$.
-	\item $p=4\yon^3$,\quad $q=3\yon$.
-\qedhere
-\end{enumerate}
-\end{exercise}
+
+\paragraph{Translating between natural transformations and arena morphisms.}
+
+\paragraph{Composing arena morphisms.}
 
 \begin{exercise}[A functor $\Cat{Top}\to\poly$]
-This exercise is for those who know topological spaces and the maps between them. It will not be used again in this book.
+This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
 	\item Suppose that $X$ is a topological space. Organize its points and their neighborhoods into a polynomial $p_X$.
 	\item Give a formula by which any continuous map $X\to Y$ induces a map of polynomials $p_X\to p_Y$.
@@ -2102,9 +2171,26 @@ This exercise is for those who know topological spaces and the maps between them
 	\item Is it full? Faithful?
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item Given a topological space $X$, we can define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x \in X$ are the open neighborhoods of $x$.
+	In other words,
+	\[
+	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \subseteq X \ | \ x \in U, \, U \text{ open} \}}.
+	\]
+	\item For every continuous map $f \colon X \to Y$, we give a polynomial morphism $p_f \colon p_X \to p_Y$.
+	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f^{-1}(U)$ of $x$.
+	
+	\item To show that $p_X$ is functorial in $X$, we must show that this construction preserves identities and composition.
+	First, we show that for any topological space $X$, the polynomial morphism 
+	
+	\item Is it full? Faithful?
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-%---- Subsection ----%
+
+% %---- Subsection ----%
 \subsection{Prepare for dynamics}\label{subsec_prepare_dyn}
 
 As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
