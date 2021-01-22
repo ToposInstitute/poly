@@ -1250,8 +1250,9 @@ To undertand the sums and products of set-valued functors, we will first need to
 \paragraph{Dependent sums and products of sets.}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
-\emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more
-classically as $(X_i)_{i\in I}$. Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
+\emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more classically as $(X_i)_{i\in I}$.
+Indeed, when a functor $X \colon I \to \smset$ is understood to be a dependent set, we will denote $X(i)$ as $X_i$ for $i \in I$.
+Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
 each set in the collection would give us a function $i \mapsto x_i$ where each
 $x_i\in X_i$. This is a sort of function we haven't seen before, at least in
 this form --- its codomain \emph{depends} on the element we are applying it to.
@@ -1323,7 +1324,7 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
 \end{exercise}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
-  Let $X_{(-)} : I \to \smset$ be a set depending on an $i \in I$. There is a
+  Let $X : I \to \smset$ be a set depending on an $i \in I$. There is a
   projection function
   $\pi_1 : \sum_{i \in I} X_i \to I$
   defined by $\pi_1(i, x) = i$.
@@ -1336,7 +1337,7 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
     \qedhere
   \end{enumerate}
 \begin{solution}
-We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
+We have a dependent set $X : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
 \begin{enumerate}
     \item The second projection $\pi_2(i, x) = x$ sends each pair $p = (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
     Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
@@ -1355,21 +1356,55 @@ We have a dependent set $X_{(-)} : I \to \smset$ and a projection function $\pi_
 \end{solution}
 \end{exercise}
 
-\paragraph{Interactions between sums and products.}
-Here's how to understand and work with a set that is written with both $\sum$'s and $\prod$'s, e.g.\ something like
-\begin{equation}\label{eqn.misc98339}
-\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
-\end{equation}
-To understand such an expression, ask yourself: ``to specify an element of this set, what choices must I make?'' % **Write pseudocode instead?? Indentation might be easier to understand
+A helpful way to think about sum or product sets is by considering what choices must be made to specify an element of such a set.
+In the following examples, say that we have a dependent set $X \colon I \to \smset$.
 
-To answer this question, begin by saying ``To choose an element of [the expression]..." followed by pronouncing the formula. Every time you see $\sum_{i\in I}$, say ``choose an element $i\in I$; then, ....'' Every time you see $\prod_{j\in J}$, say ``for each $j\in J$, ....'' At the very end when you see a set $X$, say ``choose an element of $X$.''
-(You may adjust words for clarity, the same way you would add parentheses to clarify a mathematical expression.)
+Here we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
 
-So the formula in \eqref{eqn.misc98339} would be pronounced as follows:
 \begin{quote}
-To choose an element of \eqref{eqn.misc98339}, first choose an element $i\in I$; then, for each $j\in J(i)$, choose an element $k\in K(i,j)$ along with an element of $X(i,j,k)$.
+To choose an element of $\sum_{i \in I} X_i$: 
+\begin{enumerate}
+    \item choose an element $i \in I$;
+    \item choose an element of $X_i$.
+\end{enumerate}
 \end{quote}
+
+Then the projection $\pi_1$ from \cref{exc.dependent_product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
+
+Now we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
+
+\begin{quote}
+To choose an element of $\prod_{i \in I} X_i$: 
+\begin{enumerate}
+    \item for each element $i \in I$:
+    \begin{enumerate}[label=\arabic*.]
+        \item choose an element of $X_i$.
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+
+Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s like
+\begin{equation}\label{eqn.misc98339}
+A \coloneqq \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
+\end{equation}
+We can give the instructions for choosing an element of $A$ as a nested list, as follows.
+
+\begin{quote}
+To choose an element of $A$:
+\begin{enumerate}
+    \item choose an element $i \in I$;
+    \item for each element $j \in J(i)$:
+    \begin{enumerate}[label=\arabic*.]
+        \item choose an element $k \in K(i,j)$;
+        \item choose an element of $X(i,j,k)$.
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+
 Note that the choice of $k\in K(i,j)$ can depend on $i$ and $j$; it must be able to, because different values of $i$ and $j$ may lead to different sets $K(i,j)$.
+
+By describing $A$ like this, it is clear that each $a \in A$ can be projected to an element $\pi_1(a) \in I$ from step 1 and a dependent function $\pi_2(a)$ from step 2.
+This dependent function in turn sends each $j \in J(i)$ to a pair that can be projected to an element $\pi_1(\pi_2(a)(j)) \in K(i, j)$ from step 2.1 and an element $\pi_2(\pi_2(a)(j)) \in X(i,j,k)$ from step 2.2.
 
 \begin{example}%[Notation for $\sum\prod$ stuff]
 \label{ex.notation_sum_prod}
@@ -1385,10 +1420,10 @@ from \eqref{eqn.misc98339} has been given meaning as an actual set. Here is a li
 	\big(1, j\mapsto(k_1,y)\big),\qquad
 	\big(1, j\mapsto(k_2,x)\big),\qquad
 	\big(1, j\mapsto(k_2,y)\big),\\
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\\
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big),\qquad
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k_1,x)\big)
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k',x)\big),\qquad
+	\big(2, j\mapsto(k_1,x), j'\mapsto(k',y)\big),\\
+	\big(2, j\mapsto(k_1,y), j'\mapsto(k',x)\big),\qquad
+	\big(2, j\mapsto(k_1,y), j'\mapsto(k',y)\big)
 \end{gathered}
 \right\}
 \]
@@ -1396,49 +1431,86 @@ In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $
 \end{example}
 
 \begin{exercise}
-With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, consider the set
-\[\prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
+Consider the set
+\[B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
 \begin{enumerate}
-	\item Pronounce it using the ``To choose an element'' formulation just below \eqref{eqn.misc98339}.
-	\item How many elements are in it?
-	\item Write out three of them in the style of \cref{ex.notation_sum_prod}.
+	\item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \cref{eqn.misc98339}.
+	\item With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, how many elements are in $B$?
+	\item Write out three of these elements in the style of \cref{ex.notation_sum_prod}.
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+We are given the set
+\[
+    B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).
+\]
+\begin{enumerate}
+	\item Here are the instructions for choosing an element of $B$ as a nested list.
+	\begin{quote}
+	    To choose an element of $B$:
+	    \begin{enumerate}[label=\arabic*.]
+	        \item for each element $i \in I$:
+	        \begin{enumerate}[label=\arabic*.]
+	            \item choose an element $j \in J(i)$;
+	            \item for each element $k \in K(i, j)$:
+	            \begin{enumerate}[label=\arabic*.]
+	                \item choose an element of $X(i,j,k)$.
+	            \end{enumerate}
+	        \end{enumerate}
+	    \end{enumerate}
+	\end{quote}
+	\item Given $I\coloneqq\{1,2\}$, $J(1)\coloneqq\{j\}$, $J(2)\coloneqq\{j,j'\}$, $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, $K(2,j')\coloneqq\{k'\}$, and $X(i,j,k)=\{x,y\}$ for all $i,j,k$, our goal is to count the number of elements in $B$.
+	To compute the cardinality of $B$, we can use the fact that the cardinality of a sum (resp. product) is the sum (resp. product) of the cardinalities.
+	So
+	\begin{align*}
+	    |B| &= \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}|X(i,j,k)| \\
+	    &= \prod_{i\in \{1,2\}}\sum_{j\in J(i)}\prod_{k\in K(i,j)}2 \\
+	    &= \left(\sum_{j\in J(1)} 2^{|K(1,j)|}\right)\left(\sum_{j\in J(2)} 2^{|K(2,j)|}\right) \\
+	    &= \left(2^2\right)\left(2^1 + 2^1\right) = 16.
+	\end{align*}
+	\item Here are three of the elements of $B$ (you may have written down others):
+	\begin{itemize}
+	    \item $(1 \mapsto (j, k_1 \mapsto x, k_2 \mapsto y), 2 \mapsto (j', k' \mapsto x))$
+	    \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto y), 2 \mapsto (j, k_1 \mapsto y))$
+	    \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto x), 2 \mapsto (j', k' \mapsto y))$
+	\end{itemize}
+\qedhere
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-The following is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; in particular, once the statement is written in Agda, its proof is one short line of Agda code. 
+\paragraph{Expanding products of sums.}
+
+We will often encounter sums of dependent sets nested within products.
+The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; in particular, once the statement is written in Agda, its proof is one short line of Agda code. 
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
 For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
 \begin{equation}\label{eqn.set_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
 \cong
-\sum_{j\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,j(i)).
+\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
 \end{proposition}
 \begin{proof}
 We'll do this the old-fashioned way: by giving a map from left to right, a
 map from right to left, and a proof that the two maps are mutually inverse. 
 
-First, let's go from left to right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, f_1(i))$ for every $i \in I$.
+First, let's go from left to right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, \pi_1(f(i)))$ for every $i \in I$.
 We can then form the following pair in the right hand set:
 \[
     (i \mapsto \pi_1(f(i)), i \mapsto \pi_2(f(i))).
 \]
 
-Now let's go from right to left. An element of the set on the right is a pair of dependent functions, $j \colon (i \in I) \to J(i)$ and $g \colon
-(i \in I) \to X(i, j(i))$. We then get an element of the set on the left as follows:
-\[i \mapsto (j(i), g(i)).\]
+Now let's go from right to left. An element of the set on the right is a pair of dependent functions, $\bar{j} \colon (i \in I) \to J(i)$ and $g \colon
+(i \in I) \to X(i, \bar{j}(i))$. We then get an element of the set on the left as follows:
+\[i \mapsto (\bar{j}(i), g(i)).\]
 
 Now, we just need to check that a round trip takes us back where we were. If we
-start on the right, our round trip gives us the pair
-\[(i \mapsto \pi_1(j(i), g(i)), i \mapsto \pi_2(j(i), g(i))).\]
-But $\pi_1(j(i), g(i)) = j(i)$ and $\pi_2(j(i), g(i)) = g(i)$ by definition, so
-we're back where we started. On the other hand, starting on the left gives us
-the function
+start on the right from $(\bar{j}, g)$, our round trip gives us the pair
+\[(i \mapsto \pi_1(\bar{j}(i), g(i)), i \mapsto \pi_2(\bar{j}(i), g(i))).\]
+But $\pi_1(\bar{j}(i), g(i)) = \bar{j}(i)$ and $\pi_2(\bar{j}(i), g(i)) = g(i)$ by definition, so
+we're back where we started. On the other hand, starting on the left from $f$ gives us the function
 \[i \mapsto (\pi_1(f(i)), \pi_2(f(i))).\]
 But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.
 
@@ -1453,18 +1525,57 @@ We have now given the function from left to right. To go the other way..
 }
 \end{proof}
 
-% \begin{exercise}\label{ex.dependent_lens_calculation}
-%   Use \cref{prop.push_prod_sum_set} to give another proof of
-%   \cref{lem.dependent_lens_calculation}. (Hint: express the left hand side as a
-%   dependent sum.)
+When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
+
+\begin{corollary}
+For any set $I$, set $J$, and collection of sets $\{X(i, j)\}_{i \in I, j \in J}$, we have a bijection
+\begin{equation}
+    \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
+\end{equation}
+\end{corollary}
+\begin{proof}
+Just take $J(i) = J$ for all $i \in I$ in \cref{prop.push_prod_sum_set}.
+Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
+\end{proof}
+
+Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating products and sums; using \eqref{eqn.set_completely_distributive}, you can always write it as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
+This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
+
+% \begin{exercise} \label{exc.push_prod_sum_set}
+% \begin{enumerate}
+%     \item Rewrite
+%     \[
+%         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+%     \]
+%     so that every $\sum$ appears before every $\prod$.
+%     \item Rewrite
+%     \[
+%         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
+%     \]
+%     so that every $\sum$ appears before every $\prod$.\qedhere
+% \end{enumerate}
+% \begin{solution}
+% Our goal is to rewrite each expression so that every $\sum$ appears before every $\prod$.
+% \begin{enumerate}
+%     \item By applying \cref{prop.push_prod_sum_set}, we can rewrite
+%     \[
+%         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+%     \]
+%     as
+%     \[
+%         \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
+%     \]
+%     \item By applying \cref{prop.push_prod_sum_set}, we can rewrite
+%     \[
+%         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
+%     \]
+%     as
+%     \[
+%         \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
+%     \]
+% \end{enumerate}
+% \end{solution}
 % \end{exercise}
-
-Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating products and sums; using \eqref{eqn.set_completely_distributive}, you can always write it as a sum of products (in ``disjunctive normal form'').
-
-When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} is much easier:
-\[
-\prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{j\colon I\to J}\;\prod_{i\in I}X(i,j(i)).
-\]
 
 \paragraph{Dependent sums and products of functors $\smset\to\smset$.}
 
@@ -1504,21 +1615,21 @@ In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors t
 \begin{exercise} \label{exc.repeated_sum_is_product}
 \begin{enumerate}
 	\item Show that for a set $I \in \smset$ and a functor $F \colon \smset \to \smset$, the sum of $I$ copies of $F$ is isomorphic to the product of the constant functor $I$ and $F$:
-\[
-    \sum_{i \in I} F \iso IF.
-\]
-(Note that this is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
-	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or doesn't it matter for some reason?
+    \[
+        \sum_{i \in I} F \iso IF.
+    \]
+    (Note that this is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
+	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or does it not matter for some reason?
 \qedhere
 	\end{enumerate}
 \begin{solution}
 \begin{enumerate}
 	\item It suffices to show that for all $X \in \smset$,
-  \[
+    \[
       \sum_{i \in I} F(X) \iso (IF)(X).
-  \]
-  The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$.
-  \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$. 
+    \]
+    The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \cref{prop.push_prod_sum_set}.)
+    \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$. 
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -1751,6 +1862,7 @@ We have now greatly simplified our characterization of polynomial morphisms $f \
 Here is where we begin to see the advantages of viewing polynomials as arenas.
 As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
 We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forwards'' \emph{on-positions} function $f_1$ from the positions of $p$ to the positions of $q$, along with, for every position $i$ of $p$, a ``backwards'' \emph{on-directions} function $f^\sharp_i$ from the directions of $q$ at $f_1(i)$ to the directions of $p$ at $i$.
+
 When we wish to emphasize the arena perspective, we will call the data of $(f_1, f^\sharp)$ a \emph{morphism of arenas} or \emph{arena morphism} between $p$ and $q$; but since \cref{prop.poly_maps_colax_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
 
 Here is how you would implement such a morphism in Agda:
@@ -1855,7 +1967,7 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$} 
       child[blue!50!black] {};
-    \node[right=of 1, red!50!black, "\tiny 4" below] (2) {$\bullet$} 
+    \node[right=of 1, red!75!black, "\tiny 4" below] (2) {$\bullet$} 
 		;
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
   \end{tikzpicture}	
@@ -2073,6 +2185,24 @@ By \eqref{eqn.main_formula}, we always have
 \item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+\item We will show that
+\[
+  \poly(p,q)
+  \cong
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1.
+\]
+By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and $j \in q(\1)$, we have
+\[
+    p[i]^{q[j]} \iso \prod_{d \in q[j]} \sum_{c \in p[i]} \1.
+\]
+
+The right hand side denotes the set of dependent functions $(d \in q[j]) \to \sum_{c \in p[i]} \1$, but since $\sum_{c \in p[i]} \1$ does not actually depend on $d$, 
+
+\item 
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 
@@ -2094,7 +2224,7 @@ Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride} and \cite{abbot2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted in terms of arena morphisms from $p$ to $q$ such that each position of $p$ explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every direction of $q$ at $j$ \emph{other than $d$} is sent back to an direction of $p$ at $i$.
+A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each position of $p$ explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every direction of $q$ at $j$ \emph{other than $d$} is sent back to an direction of $p$ at $i$.
 \end{example}
 
 \begin{exercise}
@@ -2105,8 +2235,7 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	\item Is there always a canonical map $p\to \dot{p}$?
 	\item Is there always a canonical map $\dot{p}\to p$?
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
-	\item In terms of problems and solutions, explain what a map $p\to \dot{q}$ would say.
-	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
+% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
 	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
 	\qedhere
 \end{enumerate}
@@ -2138,10 +2267,13 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	Then there is a map $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
 	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no map $\1 \to \0$.
 	
-	\item ???
+% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
 	
-	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
-	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
+	\item We wish to describe a map $p\yon \to q$ in terms of ``unassigned to directions.''
+	Observe that as an arena, $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
+	We denote this extra direction at each position $i \in p(\1)$ of $p\yon$ by $\ast_i$.
+	So a map $f \colon p\yon\to q$ sends each position $i$ of $p$ to a position $j$ of $q$, but every direction of $q$ at $j$ could either be sent back to a direction of $p$ at $i$ or the extra direction $\ast_i$.
+	We can say that an arena morphism $f \colon p\yon \to q$ is like an arena morphism $p \to q$, except that any of the directions of $q$ may remain un assigned---i.e.\ we may have partial on-directions functions.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2152,11 +2284,11 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 %\cref{eqn.main_formula} describing the set of morphisms between two arbitrary
 %polynomial functors as dependent lenses. Let's practice.
 
-\begin{example}[Constants are sent to constants]\label{ex.const_to_const}
-Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
+% \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
+% Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^3$, then there are no maps $p\to q$. 
 
-**Finish**
-\end{example}
+% **Finish**
+% \end{example}
 
 
 \paragraph{Translating between natural transformations and arena morphisms.}
@@ -2196,7 +2328,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 
 As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
 
-Polynomial functors are a setting in which to speak about dynamics, data, and decision. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
+Polynomial functors are a setting in which to speak about dynamics, decisions, and data. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
 
 
 \paragraph{Finite products}
