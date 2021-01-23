@@ -982,7 +982,7 @@ In this section, we will set down the basic category-theoretic story of $\poly$,
 \subsection{Representable functors and the Yoneda lemma}
 
 \begin{definition} \label{def.representable}
-Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$. \footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).}
+Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).}
 
 We refer to $\yon^S$ as the functor \emph{represented by} $S$.
 \end{definition}
@@ -1150,7 +1150,7 @@ where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yo
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
-For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose component on $X$ is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
+For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
@@ -1287,7 +1287,7 @@ Its cardinality will always be the product of the cardinalities of $X_1$ and $X_
 Let $I$ be a set and let $X_i=\1$ be a one-element set for each $i\in I$. 
 \begin{enumerate}
 	\item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
-	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
+	\item \label{exc.on_sums_prods_sets.prod} Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
 \end{enumerate}
 As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
 \begin{enumerate}[resume]
@@ -1434,7 +1434,7 @@ In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $
 Consider the set
 \[B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
 \begin{enumerate}
-	\item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \cref{eqn.misc98339}.
+	\item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \eqref{eqn.misc98339}.
 	\item With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, how many elements are in $B$?
 	\item Write out three of these elements in the style of \cref{ex.notation_sum_prod}.
 \qedhere
@@ -1527,7 +1527,7 @@ We have now given the function from left to right. To go the other way..
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
 
-\begin{corollary}
+\begin{corollary} \label{prop.push_prod_sum_set_indep}
 For any set $I$, set $J$, and collection of sets $\{X(i, j)\}_{i \in I, j \in J}$, we have a bijection
 \begin{equation}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
@@ -1826,7 +1826,7 @@ Before we present our alternative characterization of polynomial morphisms, reca
 Alternatively, we could write such a dependent set as a functor $p[-] \colon p(\1) \to \smset$, where we view the set $p(\1)$ as a discrete category.
 Below, we make use of this functor notation to express the arenas of polynomials.
 
-\begin{proposition}\label{prop.poly_maps_colax_prod_sum}
+\begin{proposition}\label{prop.poly_maps_prod_sum}
 Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials.
 Then we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
@@ -1863,7 +1863,7 @@ Here is where we begin to see the advantages of viewing polynomials as arenas.
 As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
 We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forwards'' \emph{on-positions} function $f_1$ from the positions of $p$ to the positions of $q$, along with, for every position $i$ of $p$, a ``backwards'' \emph{on-directions} function $f^\sharp_i$ from the directions of $q$ at $f_1(i)$ to the directions of $p$ at $i$.
 
-When we wish to emphasize the arena perspective, we will call the data of $(f_1, f^\sharp)$ a \emph{morphism of arenas} or \emph{arena morphism} between $p$ and $q$; but since \cref{prop.poly_maps_colax_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
+When we wish to emphasize the arena perspective, we will call the data of $(f_1, f^\sharp)$ a \emph{morphism of arenas} or \emph{arena morphism} between $p$ and $q$; but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
 
 Here is how you would implement such a morphism in Agda:
 \begin{agda}
@@ -1900,7 +1900,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they ar
   \end{tikzpicture}
   };
 %
-	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -2180,7 +2180,7 @@ By \eqref{eqn.main_formula}, we always have
 \end{equation}
 \item Is it true that the following are isomorphic?
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Big(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\Big).
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\left(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\right)
 	\end{equation}
 \item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
 \qedhere
@@ -2197,8 +2197,23 @@ By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and 
 \[
     p[i]^{q[j]} \iso \prod_{d \in q[j]} \sum_{c \in p[i]} \1.
 \]
+Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
+\begin{align*}
+    \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets.prod}} \\
+    &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets}, \cref{exc.on_sums_prods_sets.sum}} \\
+    &\iso p[i]^{q[j]}.
+\end{align*}
 
-The right hand side denotes the set of dependent functions $(d \in q[j]) \to \sum_{c \in p[i]} \1$, but since $\sum_{c \in p[i]} \1$ does not actually depend on $d$, 
+\item We will show that
+\[
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\left(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\right).
+\]
+By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
+\begin{align*}
+    \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{i \in p(\1)} p[i]^{q[f_1(i)]}
+\end{align*}
 
 \item 
 \end{enumerate}
@@ -2292,8 +2307,253 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 
 
 \paragraph{Translating between natural transformations and arena morphisms.}
+We now know that we can specify a morphism of polynomials $p \to q$ in two ways: in the language of functors, by specifying a natural transformation from $p$ to $q$; or in the language of arenas, by specifying a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$.
+But what is the relationship between these two formulations?
+If you told me an arena morphism, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
+We want to be able to translate between these two languages.
 
-\paragraph{Composing arena morphisms.}
+Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
+The lemma itself forms the crux of the proof of \cref{prop.poly_maps_prod_sum}, that these two formulations of polynomial morphisms are equivalent; so unraveling this proof reveals the translation we seek.
+
+\begin{proposition} \label{prop.morph_arena_to_func}
+Let $p$ and $q$ be polynomial functors, and let $(f_1, f^\sharp)$ be a morphism between their associated arenas.
+Then the isomorphism in \eqref{eqn.main_formula} sends $(f_1, f^\sharp)$ to the natural transformation $f \colon p \to q$ whose $X$-component $f_X \colon p(X) \to q(X)$ for each $X \in \smset$ sends every
+\[
+    (i, g) \in \sum_{i \in p(\1)} X^{p[i]} \iso p(X),
+\]
+with $i \in p(\1)$ and $g \colon p[i] \to X$, to
+\[
+    (f_1(i), f^\sharp_i \then g) \in \sum_{j \in q(\1)} X^{q[j]} \iso q(X).
+\]
+\end{proposition}
+\begin{proof}
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_1, f^\sharp)$ can equivalently be thought of as a set of pairs $\{(f_1(i), f^\sharp_i)\}_{i \in I}$.
+Fixing $i \in I$, the pair $(f_1(i), f^\sharp_i)$ is an element of
+\[
+    \sum_{j \in q(\1)} p[i]^{q[j]} = q(p[i])
+\]
+(so $f_1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_1(i)] \to p[i]$).
+By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso \poly(\yon^{p[i]}, q)$, and by the proof of the Yoneda lemma, this isomorphism sends $(f_1(i), f^\sharp_i)$ to the natural transformation $f^i \colon \yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X \colon X^{p[i]} \to q(X)$ given by sending $g \colon p[i] \to X$ to
+\[
+    q(g)(f_1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_1(i), f^\sharp_i) = \left(f_1(i), g^{q[f_1(i)]}(f^\sharp_i)\right) = (f_1(i), f^\sharp_i \then g).
+\]
+Taken together, the collection of natural transformations $\{f^i\}_{i \in I}$ is an element of $\prod_{i \in I} \poly(\yon^{p[i]}, q)$.
+Applying the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}, we find that $\{f^i\}_{i \in I}$ corresponds to the natural transformation $f \colon p \to q$ we desire.
+\end{proof}
+
+\begin{example}
+Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the morphism $f \colon p \to q$ depicted below:
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child[blue!50!black] {coordinate (11)}
+      child[blue!50!black] {coordinate (12)}
+      child[blue!50!black] {coordinate (13)};
+    \node[right=1.5 of 1, red!75!black, "\tiny 1" below] (2) {$\bullet$} 
+      child[red!75!black] {coordinate (21)}
+      child[red!75!black] {coordinate (22)}
+      child[red!75!black] {coordinate (23)}
+      child[red!75!black] {coordinate (24)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (13);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (13);
+      \draw[postaction={decorate}] (24) to (13);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p2) [right=1 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
+      child[blue!50!black] {coordinate (11)};
+    \node[right=of 1, red!75!black, "\tiny 1" below] (2) {$\bullet$} 
+      child[red!75!black] {coordinate (21)}
+      child[red!75!black] {coordinate (22)}
+      child[red!75!black] {coordinate (23)}
+      child[red!75!black] {coordinate (24)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (11);
+      \draw[postaction={decorate}] (24) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p3) [below right=-1.05cm and 1 of p2] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 3" below] (1) {$\bullet$} 
+      child[blue!50!black] {};
+    \node[right=of 1, red!75!black, "\tiny 4" below] (2) {$\bullet$} 
+		;
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+  \end{tikzpicture}	
+	};	
+\end{tikzpicture}
+\]
+Fix a set $X \coloneqq \{a,b,c,d,e\}$.
+When viewed as a natural transformation, the morphism $f$ has as its $X$-component a function $f_X \colon p(X) \to q(X)$.
+In other words, for any element of $p(X)$, the morphism $f$ should be able to give us an element of $q(X)$.
+
+What does an element of $p(X)$ look like?
+Well, to specify such an element, we would need to choose a position $i$ of $p$ and a function $p[i] \to X$.
+We can depict this by selecting one of the corollas in the forest of $p$ and labeling each leaf of that corolla with an element of $X$.
+For example, here is one element $p(X)$, which we will call $z$:
+\[
+\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child[blue!50!black] {node {$c$}}
+      child[blue!50!black] {node {$e$}}
+      child[blue!50!black] {node {$a$}};
+\end{tikzpicture}
+\]
+Similarly, an element of $q(X)$ is just a corolla in the forest of $q$, with each leaf labeled by an element of $X$.
+So what element of $q(X)$ is $f_X(z)$?
+
+\cref{prop.morph_arena_to_func} tells us that $f_X(z)$ can be read off of the forest depiction of $f$ at position $1$:
+\[
+\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child[blue!50!black] {coordinate (11)}
+      child[blue!50!black] {coordinate (12)}
+      child[blue!50!black] {coordinate (13)};
+    \node[right=1.5 of 1, red!75!black, "\tiny 1" below] (2) {$\bullet$} 
+      child[red!75!black] {coordinate (21)}
+      child[red!75!black] {coordinate (22)}
+      child[red!75!black] {coordinate (23)}
+      child[red!75!black] {coordinate (24)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (13);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (13);
+      \draw[postaction={decorate}] (24) to (13);
+    \end{scope}
+\end{tikzpicture}	
+\]
+To draw $f_X(z)$, we first draw the corolla in the forest of $q$ to which $f_1$ sends $1 \in p(\1)$: the corolla on the right hand side above.
+Then we label each leaf of that corolla by following the arrow from that leaf (as given by $f^\sharp_i$) to a leaf of $p$ at $1$, and use the label there that is given by $z$.
+So $f_X(z)$ looks like
+\[
+\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node[red!75!black, "\tiny 1" below] (1) {$\bullet$} 
+      child[red!75!black] {node {$a$}}
+      child[red!75!black] {node {$c$}}
+      child[red!75!black] {node {$a$}}
+      child[red!75!black] {node {$a$}};
+\end{tikzpicture}
+\]
+\end{example}
+
+
+
+% \begin{example}
+% Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
+% \[
+% \begin{tikzpicture}[rounded corners]
+% 	\node (p1) [draw, blue!50!black, "$p$" above] {
+% 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+%     \node["\tiny 1" below] (1) {$\bullet$} 
+%       child {}
+%       child {}
+%       child {};
+%     \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+%       child {};
+%     \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+%       child {};
+%   \end{tikzpicture}
+%   };
+% %
+% 	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+% 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+%     \node["\tiny 1" below] (1) {$\bullet$} 
+%       child {}
+%       child {}
+%       child {}
+%       child {};
+%     \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+%       child {}
+%       child {};
+%     \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+%     ;
+%     \node[right=.5 of 3,"\tiny 4" below] (4) {$\bullet$}
+%     ;
+%   \end{tikzpicture}
+%   };
+% \end{tikzpicture}
+% \]
+% To give a map of polynomials $p\to q$, one sends each position $i\in p(\1)$ of $p$ to a position $j\in q(\1)$ of $q$, then sends each direction in $q[j]$ back to one in $p[i]$.
+
+% How many ways are there to do this? Before answering this, let's just pick one.
+% \end{example}
+
+
+% ** Add an exercise—labeled trees?
+
+\cref{prop.morph_arena_to_func} lets us translate from arena morphisms to natural transformations.
+The following corollary tells us how to go in the other direction.
+In particular, it justifies the notation $f_1$ for the on-positions function of $f$.
+
+\begin{corollary} \label{prop.morph_func_to_arena}
+Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
+Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the arena morphism $(f_1, f^\sharp)$ such that $f_1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
+\[
+    (f_1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
+\]
+\end{corollary}
+\begin{proof}
+By \cref{prop.morph_arena_to_func}, the $\1$-component $f_\1 \colon p(\1) \to q(\1)$ sends every $i \in p(\1)$ to $f_1(i) \in q(\1)$, so the on-positions function $f_1$ is equal to the $\1$-component $f_\1$.
+Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i, \id_{p[i]}) \in p(p[i])$, with $i \in p(\1)$, to $(f_1(i), f^\sharp_i \then \id_{p[i]}) = (f_1(i), f^\sharp_i)$.
+\end{proof}
+
+% ** More exercises??
+
+\paragraph{Identity and composition of arena morphisms.}
+
+%% **the category \poly of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and arena morphisms.
+
+%% **in order to really talk about the latter category, we need to be able to identity identity arena morphisms and describe how arena morphisms compose
+%% use this correspondence—identity arena morphism must be the arena morphism corresponding to the identity natural transformation
+
+%% **identity
+\begin{exercise}[Identity arena morphisms]
+Let $p$ be a polynomial and let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X \colon p(X) \to p(X)$ for each $X \in \smset$ is the identity function on $p(X)$; that is, $(\id_p)_X = \id_{p(X)}$.
+
+Use \cref{prop.morph_func_to_arena} to show that the arena morphism $((\id_p)_1, (\id_p)^\sharp)$ associated to $\id_p$ is such that $(\id_p)_1 \colon p(\1) \to p(\1)$ and $(\id_p)^\sharp_i \colon p[(\id_p)_1(i)] \to p[i]$ for $i \in p(\1)$ are all identity functions.
+\begin{solution}
+We wish to show that the arena morphism $((\id_p)_1, (\id_p)^\sharp)$ associated to the identity natural transformation $\id_p$ of a polynomial $p$ is such that $(\id_p)_1$ and every $(\id_p)^\sharp_i$ are all identity functions.
+Indeed, by \cref{prop.morph_func_to_arena}, for each $i \in p(\1)$, we have
+\[
+    ((\id_p)_1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i, \id_{p[i]}) = (i, \id_{p[i]}),
+\]
+as $(\id_p)_{p[i]}$ is the identity function on $p(p[i])$.
+\end{solution}
+\end{exercise}
+
+%% **composition
+\begin{exercise}[Composing arena morphisms]
+Let $p,q,$ and $r$ be polynomials, let $f \colon p \to q$ and $g \colon q \to r$ be natural transformations, and let $h \coloneqq f \then g$ be their composite, whose $X$-component $h_X \colon p(X) \to r(X)$ for each $X \in \smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X = f_X \then g_X$.
+
+Use \cref{prop.morph_func_to_arena} to show that the arena morphism $(h_1, h^\sharp)$ associated to $h$ satisfies $h_1 = f_1 \then g_1$ and $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
+\begin{solution}
+Given polynomial morphisms $f \colon p \to q, g \colon q \to r,$ and their composite $h \coloneqq f \then g$, we wish to show that the arena morphism $(h_1, h^\sharp)$ associated to $h$ satisfies $h_1 = f_1 \then g_1$ and $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
+Indeed, by \cref{prop.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, for each $i \in p(\1)$, we have
+\begin{align*}
+    (h_1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \\
+    &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
+    &= g_{p[i]}(f_1(i), f^\sharp_i) \tag{\cref{prop.morph_func_to_arena}} \\
+    &= (g_1(f_1(i)), g^\sharp_{f_1(i)} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
+\end{align*}
+\end{solution}
+\end{exercise}
+
+
+%% **exercise?
 
 \begin{exercise}[A functor $\Cat{Top}\to\poly$]
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
