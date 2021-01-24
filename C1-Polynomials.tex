@@ -3164,6 +3164,41 @@ The Turing machine interacts with the tape by asking for the value at the curren
 \end{enumerate}
 \end{exercise}
 
+\begin{example}[Paddling]\label{ex.paddler}
+Consider an entity with interface $\nn\yon$; its behavior will be a stream of natural numbers, any stream. What if we don't want to enable our entity to just jump around wildly. Instead, suppose we want to be very strict about what how far the entity can move and what makes it move.
+
+To accomplish this, we in fact use two entities, which we call \emph{paddler} and \emph{tracker}:%
+\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
+\[
+  \textit{paddler}\coloneqq\2\yon
+  \qqand
+  \textit{tracker}\coloneqq\nn\yon^\2
+\]
+The paddler has interface $\2\yon$ because it is blind and can only move its paddle left or right, $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the paddler (as an element $n\in\nn$) and it watch what the paddler does (as an element of $\2$). Their enclosure together
+\[
+\textit{tracker}\otimes\textit{paddler}\to\nn\yon
+\]
+is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's paddle position.
+
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+\[\varphi\colon S\yon^S\to\nn\yon^\2\]
+are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+\[
+  (p,i)\mapsto i,p'\mapsto
+	\begin{cases}
+		i&\tn{ if }p=p'\\
+		i+1&\tn{ if }p\neq p'
+	\end{cases}
+\]
+As advertised, when the paddle swishes, the tracker announces that the paddler has moved forward one unit; when the paddle stays still, the tracker announces that the paddler itself also stays still.
+\end{example}
+
+\begin{exercise}
+Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+
+When the paddle swishes once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle swishes twice in a row, the tracker increases its position by two units on the second swish! So if it is quiet for a while and then swishes three times in a row, the tracker will increase its position by one then two then two.
+\end{exercise}
+
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
 Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this situation in $\poly$?
 
@@ -3231,40 +3266,50 @@ Obviously, this is all quite complicated, intricate, and contrived. Our goal her
 \end{enumerate}
 \end{exercise}
 
-\begin{example}[Paddling]\label{ex.paddler}
-Consider an entity with interface $\nn\yon$; its behavior will be a stream of natural numbers, any stream. What if we don't want to enable our entity to just jump around wildly. Instead, suppose we want to be very strict about what how far the entity can move and what makes it move.
+\paragraph{Situations.}
 
-To accomplish this, we in fact use two entities, which we call \emph{paddler} and \emph{tracker}:
+Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation} for $p$, and denote the set of them by
 \[
-  \textit{paddler}\coloneqq\2\yon
-  \qqand
-  \textit{tracker}\coloneqq\nn\yon^\2
+\Gamma(p)\coloneqq\poly(p,\yon)
 \]
-The paddler has interface $\2\yon$ because it is blind and can only move its paddle left or right, $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the paddler (as an element $n\in\nn$) and it watch what the paddler does (as an element of $\2$). Their enclosure together
-\[
-\textit{tracker}\otimes\textit{paddler}\to\nn\yon
-\]
-is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's paddle position.
+as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation (perhaps a better word would be ``condition'', but that term is already used for rule or requirement) is what dictates what you'll see, given anything you might do. If the situation is that you're at a party, then that dictates what you'll receive, given your position. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
 
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
-\[\varphi\colon S\yon^S\to\nn\yon^\2\]
-are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+A map $p_1\otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situation is a useful concept.
+
+\begin{proposition}\label{prop.situations2}
+Given polynomials $p,q\in\poly$, there is a bijection
 \[
-  (p,i)\mapsto i,p'\mapsto
-	\begin{cases}
-		i&\tn{ if }p=p'\\
-		i+1&\tn{ if }p\neq p'
-	\end{cases}
+\Gamma(p\otimes q)\cong\smset(q(\1),\Gamma(p))\times\smset(p(\1),\Gamma(q)).
 \]
-As advertised, when the paddle swishes, the tracker announces that the paddler has moved forward one unit; when the paddle stays still, the tracker announces that the paddler itself also stays still.
-\end{example}
+\end{proposition}
+The idea is that for $p$ and $q$ to be enclosed together in a system simply means that the positions of each one become a situation for the other. 
+\begin{proof}
+This is a direct calculation.
+\begin{align*}
+	\Gamma(p\otimes q)&\coloneqq
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}(p[i]\times q[j]\\&\cong
+	\left(\prod_{i\in p(\1)}\prod_{j\in q(\1)}p[i]\right)\times
+		 \left(\prod_{i\in p(\1)}\prod_{j\in q(\1)}q[j]\right)\\&\cong
+	\smset(q(\1),\Gamma(p))\times\smset(p(\1),\Gamma(q))
+\end{align*}
+\end{proof}
 
 \begin{exercise}
-Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
-
-When the paddle swishes once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle swishes twice in a row, the tracker increases its position by two units on the second swish! So if it is quiet for a while and then swishes three times in a row, the tracker will increase its position by one then two then two.
+\begin{enumerate}
+	\item State a generalization of \cref{prop.situations2} for $n$-many polynomials $p_1,\ldots,p_n\in\poly$.
+	\item Prove it.
+\qedhere
+\end{enumerate}
 \end{exercise}
 
+\begin{exercise}
+We will use \cref{prop.situations2} to consider the interaction $\varphi$ between \textit{you} and \textit{chalk} from \cref{ex.pickup_chalk} as a pair of functions $\textit{you}\to\Gamma(\textit{chalk})$ and $\textit{chalk}\to\Gamma(\textit{you})$.
+\begin{enumerate}
+	\item How is the chalk's position a situation for you? That is, write the map $\textit{chalk}\to\Gamma(\textit{you})$.
+	\item How is your position a situation for the chalk? That is, write the map $\textit{you}\to\Gamma(\textit{chalk})$.
+\qedhere
+\end{enumerate}
+\end{exercise}
 
 \paragraph{The polynomial $S\yon^S$ as a comonad on $\smset$.}\label{page.poly_comonad}
 
