@@ -3165,64 +3165,68 @@ The Turing machine interacts with the tape by asking for the value at the curren
 \end{exercise}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
-Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How is this modeled in $\poly$?
+Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this situation in $\poly$?
 
-Let's say that your hand can be at one of two heights: down or up. Similarly, the chalk can be at one of two heights: down on the table or up in the air. Let's also that you can either press (apply pressure between your thumb and forefinger) or not press, and the chalk can either apply pressure outward (think ``equal and opposite'' to something pushing on it) or not.
+Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
 	H\coloneqq\{\text{down, up}\}
 	\qqand
 	P\coloneqq\{\text{press, no press}\}.
 \]
-Let's say that both you and the chalk can also receive pressure from the other, in which case we could define your interfaces as
+Your interface is $HP\yon^H$: producing a height and a pressure, receiving a height.
+
+As for the chalk, it is in one of two modes: in your possession or not. Either way it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's not in your possession (mode 1), that's the whole story, but when it is in your possession (mode 2) it also receives your hand's height. All together, here are the two interfaces:
 \[
-	\textit{you}\coloneqq HP\yon^P
+	\textit{you}\coloneqq HP\yon^H
 	\qqand
-	\textit{chalk}\coloneqq HP\yon^P.
+	\textit{chalk}\coloneqq \{1\}H\yon^P + \{2\}H\yon^{PH}.
 \]
 
-Everything seems symmetric so far, but two things make you special. First, you're really complicated \emph{inside}, i.e. you have many internal states; let's leave that part of you alone for now. The main thing we'll focus on is that you control the height of the chalk, not vice versa. That will be clear if you squint hard at the following formula for a map $\textit{you}\otimes\textit{chalk}\to\yon$:
+Now we want to give the interaction between you and the chalk. As we said before, you see the chalk's height. If your hand is at the height of the chalk, it receives your pressure. If it's in your possession, it also receives your hand's height. 
+
+To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
 \[
-	\big((h, p), (h', p')\big)\mapsto ()\mapsto
-	\begin{cases}
-		(\text{no press, no press})&
-			\text{ if $p$ = no press}\\
-		(\text{press, no press})&
-			\text{ if $p$ = press, $h\neq h'$}\\
-		(\text{press, press})&
-			\text{ if $p$ = press, $h=h'$}		
-	\end{cases}
+	HP\yon^H\otimes H\yon^P\To{\psi}\yon
+	\qqand
+	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
 \]
-This means that if you don't apply pressure, then neither of you feels pressure; if you apply pressure but your hand's height is not the same as the chalk's height, then you'll feel pressure but it won't; and if you apply pressure and your hand and the chalk are at the same height, then you'll both feel pressure.
+The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting; it is given by the following map
+\[
+  ((p,h),h')\mapsto
+  \begin{cases}
+  	(h',\text{no press})&\tn{ if }h\neq h'\\
+  	(h',p)&\tn{ if }h= h'
+  \end{cases}
+\]
+We'll use primes, e.g.\ $h'$ to denote variables associated to the chalk, and no primes, e.g.\ $h$ and $p$ to denote variables associated to you.
 
-So now we've got you and the chalk in a closed system together. Let's add some dynamics to the chalk and call it a day. The chalk is a pretty simple character: it has four states $C\coloneqq PH\cong\4$. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. As for your dynamics, it can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk  has only four states $C\coloneqq \2H\cong\4$: the $H$ coordinate is its current height and the other coordinate is its mode (1 or 2) corresponding to whether or not it is ``in your possession''. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
 \begin{equation}\label{eqn.chalk_dynamics}
-	PH\yon^{PH}\to PH\yon^P.
+	\2H\yon^{\2H}\to \{1\}H\yon^P + \{2\}H\yon^{PH}.
 \end{equation}
-
-As you might guess, the chalk reveals its full state to the world. However, it does do something interesting: if no pressure is coming in, the chalk falls down.%
-\footnote{You might want the falling down to be continuous, rather than discrete. In order to get continuous time, we need to use cofunctors, which are coming in \cref{chapter2}. But it somehow gets ahead of the point being made here. These examples can be as complicated as you want, e.g.\ do you want the chalk to break (see \cref{ex.bonds_break}) when it hits the table in certain ways? Let's instead simplify for now and see what ``picking up'' can even mean!}
-This is expressed by the following dynamics, defining \eqref{eqn.chalk_dynamics}:
-\[
-  (p,h)\mapsto(p,h),p'\mapsto
-	\begin{cases}
-		(\text{no press, down})&
-			\text{ if $p'$ = no press}\\
-		(\text{press}, h)&
-			\text{ if $p'$ = press}\\
-	\end{cases}	
-\]
-The internal pressure matches whatever comes in (if you push, the chalk pushes back), but the height goes to down unless pressure comes in.
-
-As for your dynamics, it can be whatever you want. You can repeatedly reach down with no pressure, apply pressure, reach up with pressure, release pressure, and repeat. This would repeatedly pick up the chalk, lift it (so the chalk is actually lifted, it's not just in your head), and then drop it. Or you could do something more complicated where you decide what to do based on whether you feel chalk or not: if you don't feel the chalk (*) you start tp really want to, so you try to find it (it's probably down, my friend), and then you pick it up and hold it for a long time, but then you get tired of it and let go. The world is your oyster.
+As you might guess, the chalk reveals its mode and height directly. If it's not in your possession it falls down unless you catch (apply pressure to) it; if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, defining \eqref{eqn.chalk_dynamics}:
+\begin{align*}
+  (1,h')&\mapsto
+  	\left(1,h',p\mapsto
+		\begin{cases}
+			(\text{down, no press})&\tn{ if }p=\text{no press}\\
+			(h',\text{press})&\tn{ if }p=\text{press}
+		\end{cases}\right)\\
+	(2, h')&\mapsto
+		\left(2,h',(h,p)\mapsto
+		\begin{cases}
+			(h,1)&\tn{ if }p=\text{no press}\\
+			(h,2)&\tn{ if }p=\text{press}
+		\end{cases}\right)
+\end{align*}
+Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
 \end{example}
 
-\begin{exercise}
-In \cref{ex.pickup_chalk}, something is wrong with the starred (*) statement. 
+\begin{exercise}\label{exc.pickup_chalk}
 \begin{enumerate}
-	\item What is wrong with it?
-	\item How could you fix the math so as to keep that intended semantics?
-	\item Now that the (*) statement is handled, change $\textit{you}$ to a new polynomial so that we'd say ``you can see where the chalk is''.
-	\item Make dynamics for the \emph{you} character, having whichever of the two sorts of body and whichever sort of behavior you want.
+	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
+	\item Provide dynamics to the \textit{you} character. For example, you repeatedly reach down and pick up the chalk, lift your hand, and drop it. 
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -3242,7 +3246,7 @@ The paddler has interface $\2\yon$ because it is blind and can only move its pad
 \]
 is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's paddle position.
 
-Let's leave the paddler's dynamics alone---how you have that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
 \[\varphi\colon S\yon^S\to\nn\yon^\2\]
 are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
 \[
@@ -3252,7 +3256,7 @@ are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
 		i+1&\tn{ if }p\neq p'
 	\end{cases}
 \]
-As advertised, when the paddle swishes, the tracker announces that the paddler has moved.
+As advertised, when the paddle swishes, the tracker announces that the paddler has moved forward one unit; when the paddle stays still, the tracker announces that the paddler itself also stays still.
 \end{example}
 
 \begin{exercise}
