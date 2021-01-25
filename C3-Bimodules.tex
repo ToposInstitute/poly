@@ -389,6 +389,7 @@ A dynamical system with interface $\yon$ is a map $S\yon^S\to\yon$.
 \end{enumerate}
 \end{exercise}
 
+
 %-------- Section --------%
 \section{Bimodules}\label{sec.bimodules}
 
@@ -818,6 +819,96 @@ The bicategory of polynomial functors in the sense of \cite{GK} is precisely tha
 **
 \end{proof}
 
+\begin{example}[Cellular automata]\label{ex.cellular_bimod}
+In \cref{ex.graph_interaction,exc.conway} we briefly discussed cellular automata; here we will discuss another way that cellular automata show up, this time in terms of bimodules.
+
+Suppose that $\src,\tgt\colon A\tto V$ is a graph, and consider the polynomial
+\[
+  g\coloneqq\sum_{v\in V}\yon^{\src\inv(v)}
+\]
+so that positions are vertices and directions are emanating arrows. It carries a natural bimodule structure
+\[
+V\yon\bimodfrom[g]V\yon
+\]
+where the right structure map uses $\tgt$; see \cref{exc.cellular_bimod} for details. A bimodule
+\[
+V\yon\bimodfrom[T]\0
+\]
+can be identified with a functor $T\colon V\to\smset$, i.e.\ it assigns to each vertex $v\in V$ a set. Let's call $T(v)$ the color set at $v$; for many cellular automata we will put $T(v)\cong\2$ for each $v$.
+
+Then a cellular automata on $g$ with color sets $T$ is given by a map
+\[
+\begin{tikzcd}
+	V\yon\ar[r, bimr-biml, "g"]\ar[rr, bend right=40pt, bimr-biml, "T"', "" name=T]&
+	V\yon\ar[r, bimr-biml, "T"]\ar[to=T, Rightarrow, "\alpha"]&
+	\0
+\end{tikzcd}
+\]
+Indeed, for every vertex $v\in V$ the map $\alpha$ gives a function
+\[
+\prod_{\src(a)=v}T(\tgt(a))\Too{\alpha_v} T(v),
+\]
+which we call the \emph{update} function. In other words, given the current color at the target of each arrow emanating from $v$, the function $\alpha_v$ returns a new color at $v$.
+
+Note that if $V\in\bimod{V\yon}{\0}$ is the terminal object, then the composite $V\yon\bimodfrom[g]V\yon\bimodfrom[V]\0$ is again $V$.
+\end{example}
+
+\begin{exercise}\label{exc.cellular_bimod}
+Let $\src,\tgt\colon A\tto V$ and $g$ and $T$ be as in \cref{ex.cellular_bimod}.
+\begin{enumerate}
+	\item Give the structure map $\lambda\colon g\to V\yon\tri g$
+	\item Give the structure map $\rho\colon g\to g\tri V\yon$.
+	\item Give the set $T$ and the structure map $T\to V\yon\tri T$ corresponding to the functor $V\to\smset$ that assigns $\2$ to each vertex.
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}[Running a cellular automaton]
+Let $g$ be a graph on vertex set $V$, let $T$ assign a color set to each $v\in V$, and let $\alpha$ be the update function for a cellular automaton. As in \cref{ex.cellular_bimod}, this is all given by a diagram
+\[
+\begin{tikzcd}
+	V\yon\ar[r, bimr-biml, "g"]\ar[rr, bend right=40pt, bimr-biml, "T"', "" name=T]&
+	V\yon\ar[r, bimr-biml, "T"]\ar[to=T, Rightarrow, "\alpha"]&
+	\0
+\end{tikzcd}
+\]
+To run the cellular automaton, one simply chooses a starting color in each vertex. We call this an initialization; it is given by a map of bimodules
+\begin{equation}\label{eqn.starting_color_v}
+\begin{tikzcd}
+	V\yon
+		\ar[r, bimr-biml, bend left, "V\yon"]
+		\ar[r, bimr-biml, bend right, "T"']\ar[r, phantom, "\hphantom{\scriptstyle\sigma}\Downarrow\scriptstyle\sigma"]&
+	V\yon
+\end{tikzcd}
+\end{equation}
+
+Now to run the cellular automaton on that initialization for $k\in\nn$ steps is given by the composite
+\[
+\begin{tikzcd}
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]\ar[rrrr, bend left, "V"]&
+	\cdots\ar[r, bimr-biml, "g"]&
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
+	\0\ar[d, equal]\ar[dl, phantom, "\Downarrow\scriptstyle\sigma"]\\
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&	
+	\cdots\ar[r, bimr-biml, "g"]&
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
+	V\yon\ar[r, bimr-biml, "T"]&
+	\0\ar[d, equal]\ar[dll, phantom, "\Downarrow\scriptstyle\alpha"]\\
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
+	\cdots\ar[r, bimr-biml, "g"]&|[alias=V]|
+	V\yon\ar[rr, bimr-biml, "T"]&&
+	\0\ar[d, equal]\\
+	V\yon\ar[rrrr, bimr-biml, "T"', "" name=T]&&&&
+	\0
+	\ar[from=V, to=V|-T, Rightarrow, "\alpha\circ\cdots\circ\alpha"]
+\end{tikzcd}
+\]
+\end{example}
+
+\begin{exercise}
+Explain why \eqref{eqn.starting_color_v} models an initialization, i.e.\ a way to choose a starting color in each vertex.
+\end{exercise}
 
 \begin{proposition}\label{prop.all_free_modules}
 Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
