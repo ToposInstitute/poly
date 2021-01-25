@@ -1839,9 +1839,8 @@ Below, we make use of this functor notation to express the arenas of polynomials
 Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials.
 Then we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
-\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}.
 \end{equation}
-%and composition of polynomial morphisms corresponds to composition of dependent lenses.
 % **Naturality???
 In other words, a morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
 \begin{equation}\label{eqn.colax_poly_map}
@@ -1856,15 +1855,13 @@ where $f_1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete ca
 \begin{proof}
 By the universal property of the coproduct, we have an isomorphism
 \[
-    \poly\left(\sum_{i \in I=p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i \in p(\1)} \poly(\yon^{p[i]}, q),
+    \poly\left(\sum_{i \in p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i \in p(\1)} \poly(\yon^{p[i]}, q),
 \]
 so applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and unraveling the definitions of $p$ and $q$ yields \eqref{eqn.main_formula}.
 
 The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f \colon (i \in p(\1)) \to \sum_{j \in q(\1)} p[i]^{q[j]}$, each of which is uniquely determined by its components: $\pi_1 \circ f$, which sends $i \in p(\1)$ to $\pi_1(f(i)) \in q(\1)$, and $\pi_2 \circ f$, which sends $i \in p(\1)$ with $j \coloneqq \pi_1(f(i))$ to an element of $p[i]^{q[j]}$, i.e.\ a function $q[j] \to p[i]$.
 These can be identified respectively with a (non-dependent) function $f_1 \coloneqq \pi_1 \circ f$ from $p(\1) \to q(\1)$ and a natural transformation $f^\sharp \colon q[f_1(-)] \to p[-]$.
 \end{proof}
-
-% For a seasoned category theorist, we've already said enough to calculate the set $\poly(p,q)$ of morphisms between polynomials $p$ and $q$: it's the set of natural transformations between $p$ and $q$, which are sums of representable functors. But it is worth going over this subject at a more leisurely pace, because it helps us insert some intuition that will be very useful later.
 
 We have now greatly simplified our characterization of polynomial morphisms $f \colon p \to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they can be specified simply as a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$, without any additional restrictions.
 
@@ -2189,14 +2186,14 @@ By \eqref{eqn.main_formula}, we always have
 \end{equation}
 \item Is it true that the following are isomorphic?
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\left(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\right)
+	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg)
 	\end{equation}
-\item If the answer to \#2 is ``yes,'' then say how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
+\item If the answer to \#2 is ``yes,'' then describe in the language of decision-making how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
 \qedhere
 \end{enumerate}
 \begin{solution}
-\begin{enumerate}
-\item We will show that
+\begin{longenum}
+\item We will show that, yes, the following isomorphism does hold:
 \[
   \poly(p,q)
   \cong
@@ -2209,27 +2206,50 @@ By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and 
 Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
 \begin{align*}
     \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag{\cref{prop.push_prod_sum_set_indep}} \\
-    &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets.prod}} \\
+    &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.prod}} \\
     &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets}, \cref{exc.on_sums_prods_sets.sum}} \\
     &\iso p[i]^{q[j]}.
 \end{align*}
 
-\item We will show that
+\item We will show that, yes, the following isomorphism does hold:
 \[
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\left(q[j],\prod_{\{i\in p(\1)\mid f_1(i)= j\}}p[i]\right).
+	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg).
 \]
 By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
 \begin{align*}
-    \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{i \in p(\1)} p[i]^{q[f_1(i)]}
+    \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{j \in q(\1)} \prod_{\substack{i \in p(\1) \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
+    &\iso \sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
+where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $\{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
 
-\item 
-\end{enumerate}
+\item To explain how the set
+\[
+	D_{p,q} \coloneqq \sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg)
+\]
+specifies a way of delegating decisions from $p$ to $q$, we first give the instructions for choosing an element of $D_{p,q}$ as a nested list:
+\begin{quote}
+To choose an element of $D_{p,q}$:
+\begin{longenum}
+    \item choose a function $f_1 \colon p(\1) \to q(\1)$;
+    \item for each element $j \in q(\1)$:
+    \begin{longenum}
+        \item for each element of $q[j]$:
+        \begin{longenum}
+            \item for each element $i \in p(\1)$ satisfying $f_1(i) = j$:
+            \begin{longenum}
+                \item choose an element of $p[i]$.
+            \end{longenum}
+        \end{longenum}
+    \end{longenum}
+\end{longenum}
+\end{quote}
+So $f_1$ delegates each of $p$'s decisions to one of $q$'s decisions.
+Then for every option of every decision $j$ of $q$, we choose an option of each of $p$'s decisions that has been delegated to $j$ by $f_1$.
+\end{longenum}
 \end{solution}
 \end{exercise}
-
-
 
 \begin{example}[Derivatives]\label{ex.derivatives}
 We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
@@ -2412,7 +2432,7 @@ In other words, for any element of $p(X)$, the morphism $f$ should be able to gi
 What does an element of $p(X)$ look like?
 Well, to specify such an element, we would need to choose a position $i$ of $p$ and a function $p[i] \to X$.
 We can depict this by selecting one of the corollas in the forest of $p$ and labeling each leaf of that corolla with an element of $X$.
-For example, here is one element $p(X)$, which we will call $z$:
+For example, here we depict an element $(1, g)$ of $p(X)$, where $g \colon p[1] \to X$ is given by $1 \mapsto c, 2 \mapsto e,$ and $3 \mapsto a$:
 \[
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
@@ -2421,10 +2441,10 @@ For example, here is one element $p(X)$, which we will call $z$:
       child[blue!50!black] {node {$a$}};
 \end{tikzpicture}
 \]
-Similarly, an element of $q(X)$ is just a corolla in the forest of $q$, with each leaf labeled by an element of $X$.
-So what element of $q(X)$ is $f_X(z)$?
+Similarly, an element of $q(X)$ can be drawn as a corolla in the forest of $q$, with each leaf labeled by an element of $X$.
+So what element of $q(X)$ is $f_X(1, g)$?
 
-\cref{prop.morph_arena_to_func} tells us that $f_X(z)$ can be read off of the forest depiction of $f$ at position $1$:
+\cref{prop.morph_arena_to_func} tells us that $f_X(1, g)$ can be read off of the forest depiction of $f$ at position $1$:
 \[
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
@@ -2445,9 +2465,9 @@ So what element of $q(X)$ is $f_X(z)$?
     \end{scope}
 \end{tikzpicture}	
 \]
-To draw $f_X(z)$, we first draw the corolla in the forest of $q$ to which $f_1$ sends $1 \in p(\1)$: the corolla on the right hand side above.
-Then we label each leaf of that corolla by following the arrow from that leaf (as given by $f^\sharp_i$) to a leaf of $p$ at $1$, and use the label there that is given by $z$.
-So $f_X(z)$ looks like
+To draw $f_X(1, g)$, we first draw the corolla in the forest of $q$ corresponding to $f_1(1)$: the corolla on the right hand side above.
+Then we label each leaf of that corolla by following the arrow from that leaf (as given by $f^\sharp_i$) to a leaf of $p$ at $1$, and use the label there that is given by $(1, g)$.
+So $f_X(1, g)$ looks like
 \[
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[red!75!black, "\tiny 1" below] (1) {$\bullet$} 
@@ -2458,49 +2478,6 @@ So $f_X(z)$ looks like
 \end{tikzpicture}
 \]
 \end{example}
-
-
-
-% \begin{example}
-% Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
-% \[
-% \begin{tikzpicture}[rounded corners]
-% 	\node (p1) [draw, blue!50!black, "$p$" above] {
-% 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-%     \node["\tiny 1" below] (1) {$\bullet$} 
-%       child {}
-%       child {}
-%       child {};
-%     \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
-%       child {};
-%     \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
-%       child {};
-%   \end{tikzpicture}
-%   };
-% %
-% 	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
-% 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-%     \node["\tiny 1" below] (1) {$\bullet$} 
-%       child {}
-%       child {}
-%       child {}
-%       child {};
-%     \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
-%       child {}
-%       child {};
-%     \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
-%     ;
-%     \node[right=.5 of 3,"\tiny 4" below] (4) {$\bullet$}
-%     ;
-%   \end{tikzpicture}
-%   };
-% \end{tikzpicture}
-% \]
-% To give a map of polynomials $p\to q$, one sends each position $i\in p(\1)$ of $p$ to a position $j\in q(\1)$ of $q$, then sends each direction in $q[j]$ back to one in $p[i]$.
-
-% How many ways are there to do this? Before answering this, let's just pick one.
-% \end{example}
-
 
 % ** Add an exercise—labeled trees?
 
@@ -2524,13 +2501,13 @@ Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i
 
 \paragraph{Identity and composition of arena morphisms.}
 
-%% **the category \poly of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and arena morphisms.
+Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and arena morphisms.
+But in order to actually discuss the latter category, we need to be able to give identity arena morphisms and describe how these arena morphisms compose.
+To do so, we can leverage our ability to translate back and forth between arena morphisms and natural transformations.
 
-%% **in order to really talk about the latter category, we need to be able to identity identity arena morphisms and describe how arena morphisms compose
-%% use this correspondence—identity arena morphism must be the arena morphism corresponding to the identity natural transformation
+For instance, given a polynomial $p$, the identity morphism of its associated arena should correspond to the identity natural transformation of $p$ as a functor.
 
-%% **identity
-\begin{exercise}[Identity arena morphisms]
+\begin{exercise}[Identity arena morphisms] \label{exc.arena_morph_id}
 Let $p$ be a polynomial and let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X \colon p(X) \to p(X)$ for each $X \in \smset$ is the identity function on $p(X)$; that is, $(\id_p)_X = \id_{p(X)}$.
 
 Use \cref{prop.morph_func_to_arena} to show that the arena morphism $((\id_p)_1, (\id_p)^\sharp)$ associated to $\id_p$ is such that $(\id_p)_1 \colon p(\1) \to p(\1)$ and $(\id_p)^\sharp_i \colon p[(\id_p)_1(i)] \to p[i]$ for $i \in p(\1)$ are all identity functions.
@@ -2544,8 +2521,9 @@ as $(\id_p)_{p[i]}$ is the identity function on $p(p[i])$.
 \end{solution}
 \end{exercise}
 
-%% **composition
-\begin{exercise}[Composing arena morphisms]
+Similarly, we should be able to deduce how two arena morphisms compose by translating them to natural transformations, composing those, then translating back to arena morphisms.
+
+\begin{exercise}[Composing arena morphisms] \label{exc.arena_morph_comp}
 Let $p,q,$ and $r$ be polynomials, let $f \colon p \to q$ and $g \colon q \to r$ be natural transformations, and let $h \coloneqq f \then g$ be their composite, whose $X$-component $h_X \colon p(X) \to r(X)$ for each $X \in \smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X = f_X \then g_X$.
 
 Use \cref{prop.morph_func_to_arena} to show that the arena morphism $(h_1, h^\sharp)$ associated to $h$ satisfies $h_1 = f_1 \then g_1$ and $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
@@ -2561,10 +2539,9 @@ Indeed, by \cref{prop.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, 
 \end{solution}
 \end{exercise}
 
+%% **Examples/exercises of composing two polynomial morphisms?
 
-%% **exercise?
-
-\begin{exercise}[A functor $\Cat{Top}\to\poly$]
+\begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
 	\item Suppose that $X$ is a topological space. Organize its points and their neighborhoods into a polynomial $p_X$.
@@ -2580,11 +2557,20 @@ This exercise is for those who know what topological spaces and continuous maps 
 	\[
 	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \subseteq X \ | \ x \in U, \, U \text{ open} \}}.
 	\]
-	\item For every continuous map $f \colon X \to Y$, we give a polynomial morphism $p_f \colon p_X \to p_Y$.
+	\item \label{exc.top_poly_func.morphs} For every continuous map $f \colon X \to Y$, we give a polynomial morphism $p_f \colon p_X \to p_Y$.
 	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f^{-1}(U)$ of $x$.
 	
-	\item To show that $p_X$ is functorial in $X$, we must show that this construction preserves identities and composition.
-	First, we show that for any topological space $X$, the polynomial morphism 
+	\item To show that $p_X$ is functorial in $X$, it suffices to show that sending continuous maps $f \colon X \to Y$ to their induced polynomial morphisms $p_f \colon p_X \to p_Y$ preserves identities and composition.
+	First, we show that for any topological space $X$, the polynomial morphism $p_{\id_X}$, where $\id_X$ is the identity map on $X$, is an identity morphism.
+	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x \in X$ the on-directions function $(p_f)^\sharp_x \colon p_X[x] \to p_X[x]$ sends $U \in p_X[x]$ to $(\id_X)^{-1}(U) = U$.
+	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is an identity morphism.
+	
+	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f \colon X \to Y$ and $g \colon Y \to Z$, we have $p_f \then p_g = p_{f \then g}$.
+	By \cref{exc.top_poly_func.morphs} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f \then g$, so it suffices to show that for all $x \in X$,
+	\[
+	    (p_{f \then g})^\sharp_x = (p_g)^\sharp_{f(x)} \then (p_f)^\sharp_x.
+	\]
+	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U \in p_Z[g(f(x))]$ to $(f \then g)^{-1}(U)$, while the right hand side sends $U$ to $f^{-1}(g^{-1}(U))$, but by elementary set theory, these sets are equal.
 	
 	\item Is it full? Faithful?
 \end{enumerate}
