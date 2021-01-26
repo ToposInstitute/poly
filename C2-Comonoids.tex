@@ -2565,6 +2565,38 @@ The cofunctor laws can be written in commutative diagram form as follows:
 \end{tikzcd}
 \end{gather*}
 
+\begin{example}[Admissible sections]\label{ex.admissible_section}
+Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, considered as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{Aguiar-thesis}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
+
+To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it. So the content of $\varphi$ is all found in $\varphi^\sharp$, which assigns to each object $i\in\cat{C}$ and natural number $n\in\nn$ a morphism $\varphi^\sharp(i,n)$ emanating from $i$. That seems like a lot of data, but we still have two laws to pare it down:
+\[
+  \varphi^\sharp(i,0)=i
+  \qqand
+  \varphi^\sharp(i,n+n')=\varphi^\sharp(\varphi^\sharp(i,n),n').
+\]
+Every natural number $n$ is a sum of 1's, so if we denote $\varphi^\sharp(i,1)$ by $\phi(i)$, we in fact have
+\[
+\varphi^\sharp(i,n)=\phi^{\circ n}i.
+\]
+That is, $\varphi^\sharp(i,n)$ is just the $n$-fold application of the one-step case, $\phi$.
+
+Thus an admissible section of $\cat{C}$ is given by choosing, for each object $i\in\cat{C}$, a morphism $\phi(i)\colon i\to i'$ emanating from $i$.
+\end{example}
+
+\begin{exercise}
+How many admissible sections does the category \fbox{$\bullet\to\bullet$} have?
+\end{exercise}
+
+\begin{exercise}
+Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers and let $\cat{N}$ be that of natural numbers as above.
+\begin{enumerate}
+	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
+	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
+	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backwards''?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
 \begin{example}[Systems of ODEs]
 A system of ordinary differentrial equations (ODEs) in $n$ variables, e.g.
 \begin{align*}
@@ -4685,15 +4717,27 @@ The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{
 The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
 \end{proof}
 
-\begin{proposition}\label{prop.catsharp_to_mon}
-The functor
-\[\smcat^\sharp(-,\yon^\nn)\colon\smcat^\sharp\to\Cat{Mon}\op\]
-represented by $\yon^\nn$ is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
-\end{proposition}
-\begin{proof}
-We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}. A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid. Let's denote this functor by $T\coloneqq\smcat^\sharp(-,\yon^\nn)$.
+Recall from \cref{ex.admissible_section} that an admissible section of a category $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\nn$.
 
-Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to T(\cat{C})$: it assigns to each $m\in M$ a policy in $\cat{C}$, preserving unit and multiplication.
+\begin{corollary}
+For any category $\cat{C}$, the set $\smcat^\sharp(\cat{C},\yon^\nn)$ of admissible sections has the structure of a monoid. Moreover, this construction is functorial
+\[\smcat^\sharp(-,\yon^\nn)\colon\smcat^\sharp\to\Cat{Mon}\op\]
+\end{corollary}
+\begin{proof}
+We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}.
+\end{proof}
+
+A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid.
+
+We use the notation $\cat{C}\mapsto\vec{\cat{C}}$ for the monoid of admissible sections.
+
+\begin{theorem}\label{thm.catsharp_to_mon}
+The admissible sections functor
+\[\smcat^\sharp\to\Cat{Mon}\op\]
+is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
+\end{theorem}
+\begin{proof}
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an admissible section $\cat{C}$, preserving unit and multiplication.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
@@ -4711,7 +4755,7 @@ where the functors denoted $U$ are forgetful functors.
 \begin{proof}
 Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\smcat^\sharp$ from \cref{prop.monoids_ff}, it is easy to check that the above diagram commutes. 
 
-The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{prop.catsharp_to_mon}.
+The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
 \end{proof}
 
 
