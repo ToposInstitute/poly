@@ -884,7 +884,7 @@ $\poly$ is a biCartesian closed category, meaning it has sums, products, and exp
 In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{**}; for now we continue with the highlights.
 
 \begin{proposition}
-Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal. Moreover $\otimes$ is also a closed monoidal structure that distributes over $+$.
+Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is also a closed monoidal structure that distributes over $+$.
 \end{proposition}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
@@ -2279,7 +2279,7 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	\item Is there always a canonical map $p\to \dot{p}$?
 	\item Is there always a canonical map $\dot{p}\to p$?
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
-% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
+% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.parallel_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
 	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
 	\qedhere
 \end{enumerate}
@@ -2311,7 +2311,7 @@ The derivative is not very well-behaved category-theoretically. However, it is i
 	Then there is a map $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
 	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no map $\1 \to \0$.
 	
-% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.dirichlet_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
+% 	\item Read the formula for $\otimes$ and $\ihom{-,-}$ in \eqref{eqn.parallel_def} and \eqref{eqn.dir_hom} and find a formula for a map $p\otimes\ihom{p,\yon}\to p'$ that works for any $p\in\poly$.
 	
 	\item We wish to describe a map $p\yon \to q$ in terms of ``unassigned to directions.''
 	Observe that as an arena, $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
@@ -2594,7 +2594,7 @@ As beautiful as the category $\poly$ is---and to be clear we have not really beg
 Polynomial functors are a setting in which to speak about dynamics, decisions, and data. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
 
 
-\paragraph{Products in $\poly$}
+\paragraph{The categorical product}
 The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_times}
@@ -2619,27 +2619,48 @@ which, as a coproduct of representables, is in $\poly$.
 % We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
-It follows from \cref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
+It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
 \begin{equation}\label{eqn.poly_times}
     p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
 \end{equation}
 
-\begin{exercise}\label{exc.poly_times}
-Use \cref{eqn.main_formula} to prove \cref{prop.poly_times}. In particular:
-\begin{enumerate}
-	\item Prove that $\1$ is terminal in $\poly$.
-	\item Prove that for polynomials $p,q$, their product is given by the formula in \eqref{eqn.poly_times}.
-\qedhere
-\end{enumerate}
-\end{exercise}
+% \begin{exercise}\label{exc.poly_times}
+% \begin{enumerate}
+% 	\item Use \eqref{eqn.main_formula} to verify that $\1$ is terminal in $\poly$.
+	
+% 	\item Use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
+% 	\[
+% 	    \poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)
+% 	\]
+% 	for all polynomials $p,q,r$.
+% \qedhere
+% \end{enumerate}
+% \begin{solution}
+% \begin{enumerate}
+%     \item To verify that $\1$ is terminal in $\poly$, we use \eqref{eqn.main_formula} to show that $\poly(p, \1) \iso \1$ for all $p \in \poly$:
+%     \[
+%         \poly(p, \1) \iso \prod_{i \in p(\1)} \sum_{j \in \1} p[i]^\0 \iso \prod_{i \in p(\1)} \1 \iso \1.
+%     \]
+    
+%     \item Given $p,q,r \in \poly$, we use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that $\poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)$.
+%     We have that
+%     \begin{align*}
+%         \poly(r, p \times q) &\iso \poly\left(r, \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]} \right) \\
+%         &\iso \prod_{k \in r(\1)} \sum_{i \in p(\1)} \sum_{j \in q(\1)} r[k]^{p[i] + q[j]} \tag*{\eqref{eqn.main_formula}} \\
+%         &\iso \prod_{k \in r(\1)} \left(\sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\sum_{j \in q(\1)} r[k]^{q[j]}\right)  \\
+%         &\iso \left(\prod_{k \in r(\1)} \sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\prod_{k \in r(\1)} \sum_{j \in q(\1)} r[k]^{q[j]}\right) 
+%     \end{align*}
+% \end{enumerate}
+% \end{solution}
+% \end{exercise}
 
-We will begin writing $pq$ rather than $p\times q$:
+We will sometimes write $pq$ rather than $p\times q$:
 \begin{equation} \tag{Notation}
 pq\coloneqq p\times q
 \end{equation}
 
 \begin{example}
-We can draw the product of two polynomials in terms of their associated polys. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+We can draw the product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -2653,7 +2674,7 @@ We can draw the product of two polynomials in terms of their associated polys. L
   \end{tikzpicture}
   };
 %
-	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -2669,7 +2690,8 @@ We can draw the product of two polynomials in terms of their associated polys. L
   };
 \end{tikzpicture}
 \]
-Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs of decisions, and for each pair we take the union the options.
+Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$.
+As arenas, we take all pairs of positions, and for each pair we take the disjoint union of the directions.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$pq$" above] {
@@ -2678,30 +2700,30 @@ Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs o
       child[blue!50!black] {}
       child[blue!50!black] {}
       child[blue!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {};
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
     \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
       child[blue!50!black] {}
       child[blue!50!black] {}
       child[blue!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {};
+      child[red!75!black] {}
+      child[red!75!black] {};
     \node[right=1.5 of 12, "\tiny {(1,3)}" below] (13) {$\bullet$} 
       child[blue!50!black] {}
       child[blue!50!black] {}
       child[blue!50!black] {};
     \node[right=1.5 of 13, "\tiny {(2,1)}" below] (21) {$\bullet$} 
       child[blue!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {};
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
     \node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$} 
       child[blue!50!black] {}
-      child[red!50!black] {}
-      child[red!50!black] {};
+      child[red!75!black] {}
+      child[red!75!black] {};
     \node[right=1.5 of 22, "\tiny {(2,3)}" below] (23) {$\bullet$} 
       child[blue!50!black] {};
 	\end{tikzpicture}
@@ -2710,30 +2732,62 @@ Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$. In pictures, we take all pairs o
 \]
 \end{example}
 
+In practice, we can multiply polynomial functors the same way we would multiply two polynomials in high school algebra.
 
-\paragraph{Parallel product}
+\begin{exercise} \label{exc.general_poly_times}
+\begin{enumerate}
+    \item \label{exc.general_poly_times.monomial} Show that for sets $A_1, B_1, A_2, B_2$, we have
+    \[
+        A_1\yon^{B_1} \times A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 + B_2}.
+    \]
+    \item \label{exc.general_poly_times.polynomial} Show that for sets $\{A_i\}_{i \in I}$ and $\{B_j\}_{j \in J}$, we have
+    \[
+        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i + B_j}.
+    \]
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We compute the product $A_1\yon^{B_1} \times A_2\yon^{B_2}$ using \eqref{eqn.poly_times}:
+    \begin{align*}
+        A_1\yon^{B_1} \times A_2\yon^{B_2} &\iso \left(\sum_{i \in A_1} \yon^{B_1}\right) \times \left(\sum_{j \in A_2} \yon^{B_2}\right) \\
+        &\iso \sum_{i \in A_1} \sum_{j \in A_2} \yon^{B_1 + B_2} \\
+        &\iso A_1 A_2\yon^{B_1 + B_2}.
+    \end{align*}
+
+    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ by setting $I_1 \coloneqq I$ and $I_2 \coloneqq J$ and applying \cref{prop.push_prod_sum_set}:
+    \begin{align*}
+        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} A_i\yon^{B_i} \\
+        &\iso \sum_{\bar{i} \in \prod_{k \in \2} I_k} \prod_{k \in \2} A_{\bar{i}(k)}\yon^{B_{\bar{i}(k)}} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} A_i\yon^{B_i} \times A_j\yon^{B_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i + B_j}
+    \end{align*}
+    where the last isomorphism follows from \cref{exc.general_poly_times.monomial}.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\paragraph{The parallel product}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
 
 \begin{definition}\label{def.dirichlet}
-Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$ is given by the formula:
-\begin{equation}\label{eqn.dirichlet_def}
+Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
+\begin{equation}\label{eqn.parallel_def}
 p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
-On arenas, this is defined by
-\begin{equation}\label{eqn.parallel_product_dependent}
-\sum_{i \in p(\1)}\yon^{p[i]} \otimes \sum_{j \in q(\1)}\yon^{q[j]} := \sum_{(i,j) \in p(\1) \times q(\1)}\yon^{p[i]\times q[j]}.
-\end{equation}
+% On arenas, this is defined by
+% \begin{equation}\label{eqn.parallel_product_dependent}
+% \sum_{i \in p(\1)}\yon^{p[i]} \otimes \sum_{j \in q(\1)}\yon^{q[j]} := \sum_{(i,j) \in p(\1) \times q(\1)}\yon^{p[i]\times q[j]}.
+% \end{equation}
 \end{definition}
 
-One should compare this with the formula for product of polynomials shown in \eqref{eqn.poly_times}. The difference is that parallel product multiplies exponents where regular product adds them.
+One should compare this with the formula for the product of polynomials shown in \eqref{eqn.poly_times}. The difference is that the parallel product multiplies exponents where the categorical product adds them.
 
-\begin{remark}
-  The reason we call this the parallel product is because it generalizes the
-  parallel product for lenses in \cref{sec.lens_discrete}.
-\end{remark}
+% \begin{remark}
+%   The reason we call this the parallel product is because it generalizes the parallel product for lenses in \cref{sec.lens_discrete}.
+% \end{remark}
 
 \begin{example}
-We can draw the product of two polynomials in terms of their associated polys. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+We can draw the parallel product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -2747,7 +2801,7 @@ We can draw the product of two polynomials in terms of their associated polys. L
   \end{tikzpicture}
   };
 %
-	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -2763,11 +2817,12 @@ We can draw the product of two polynomials in terms of their associated polys. L
   };
 \end{tikzpicture}
 \]
-Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we take all pairs of decisions, and for each pair we take the product of the options.
+Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$.
+As arenas, we take all pairs of positions, and for each pair we take the product of the directions.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$pq$" above] {
-	\begin{tikzpicture}[trees, sibling distance=1mm]
+	\node (p1) [draw, "$p \otimes q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2mm]
     \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
       child {}
       child {}
@@ -2782,7 +2837,7 @@ Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we ta
       child {}
       child {}
     ;
-    \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
+    \node[right=2 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
       child {}
       child {}
       child {}
@@ -2810,43 +2865,231 @@ Then $p\otimes q\cong\yon^{\1\2}+\yon^\6+\yon^\4+\yon^\2+\2$. In pictures, we ta
 \]
 \end{example}
 
-\begin{exercise}
-What is the parallel product of monomials
-\[
-A_1\yon^{B_1}\otimes A_2\yon^{B_2}?
-\]
+% \begin{exercise}
+% \begin{enumerate}
+%     \item Compute the parallel product of monomials $A_1\yon^{B_1}\otimes A_2\yon^{B_2}$.
+%     \item 
+% \end{enumerate}
+% \begin{solution}
+% The parallel product of monomials $A_1\yon^{B_1}\otimes A_2\yon^{B_2}$ is $A_1 A_2\yon^{B_1 B_2}$. 
+% \end{solution}
+% \end{exercise}
+
+
+\begin{exercise} \label{exc.general_poly_parallel_times}
+\begin{enumerate}
+    \item \label{exc.general_poly_parallel_times.monomial} Show that for sets $A_1, B_1, A_2, B_2$, we have
+    \[
+        A_1\yon^{B_1} \otimes A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 B_2}.
+    \]
+    \item \label{exc.general_poly_parallel_times.polynomial} Show that for sets $\{A_i\}_{i \in I}$ and $\{B_j\}_{j \in J}$, we have
+    \[
+        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i B_j}.
+    \]
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We compute the product $A_1\yon^{B_1} \otimes A_2\yon^{B_2}$ using \eqref{eqn.parallel_def}:
+    \begin{align*}
+        A_1\yon^{B_1} \otimes A_2\yon^{B_2} &\iso \left(\sum_{i \in A_1} \yon^{B_1}\right) \otimes \left(\sum_{j \in A_2} \yon^{B_2}\right) \\
+        &\iso \sum_{i \in A_1} \sum_{j \in A_2} \yon^{B_1 \times B_2} \\
+        &\iso A_1 A_2\yon^{B_1 B_2}.
+    \end{align*}
+
+    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ as follows:
+    \begin{align*}
+        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right) &\iso \left(\sum_{i \in I} \sum_{i' \in A_i} \yon^{B_i}\right) \otimes \left(\sum_{j \in J} \sum_{j' \in A_j} \yon^{B_j}\right) \\
+        &\iso \sum_{i \in I} \sum_{i' \in A_i} \sum_{j \in J} \sum_{j' \in A_j} \yon^{B_i \times B_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} \sum_{i' \in A_i} \sum_{j' \in A_j} \yon^{B_i B_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i B_j}.
+    \end{align*}
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
+
+
+
 \begin{exercise}
-Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\2\yon^\4$. Draw the following
-arenas using corollas:
+Let $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\2\yon^\4$.
 \begin{enumerate}
-	\item Draw $p$ and $q$ as arenas.
-	\item Draw $pq=p\times q$ as an arena.
-	\item Draw $p\otimes q$ as an arena.
+	\item Draw $p$ and $q$ as corolla forests.
+	\item Draw $pq=p\times q$ as a corolla forest.
+	\item Draw $p\otimes q$ as a corolla forest.
 \qedhere
 \end{enumerate}
+\begin{solution}
+Here $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\2\yon^\4$.
+\begin{enumerate}
+\item Here are $p$ and $q$ drawn as corolla forests:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {};
+  \end{tikzpicture}
+  };
+%
+	\node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {};
+    \node[right=1 of 1,"\tiny 2" below] (2) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+\item Here is $pq$ drawn as a corolla forest:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$pq$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
+    \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
+      child[blue!50!black] {}
+      child[blue!50!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
+    \node[right=1.5 of 12, "\tiny {(2,1)}" below] (21) {$\bullet$} 
+      child[blue!50!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
+    \node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$} 
+      child[blue!50!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {}
+      child[red!75!black] {};
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+\item Here is $p \otimes q$ drawn as a corolla forest:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$pq$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2mm]
+    \node["\tiny {(1,1)}" below] (11) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+    \node[right=2 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+   \node[right=1.5 of 12, "\tiny {(2,1)}" below] (21) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+ 	;    
+	\node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$} 
+      child {}
+      child {} 
+      child {}
+      child {}
+ 	;
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
-Consider the polynomials $p\coloneqq \2\yon^\2+3\yon$ and $q\coloneqq\yon^\4+\3\yon^\3$.
+Consider the polynomials $p\coloneqq \2\yon^\2+\3\yon$ and $q\coloneqq\yon^\4+\3\yon^\3$.
 \begin{enumerate}
 	\item What is $p\times q$?
 	\item What is $p\otimes q$?
 	\item What is the product of the following purely formal expression we'll see \emph{only this once!}:
 	\[
-	(2\mdot2^\yon+3\mdot 1^\yon+\1) \cdot 
-	(1\mdot4^\yon+3\mdot 3^\yon+\2)
+	(2\mdot2^\yon+3\mdot 1^\yon) \cdot 
+	(1\mdot4^\yon+3\mdot 3^\yon)
 	\]
-These are called Dirichlet series.
-	\item Do you see a connection between what the last two parts? If so, would
-    you say that it justifies the name ``Dirichlet product'' as another name for
-    the parallel product $\otimes$?
+    The factors of the above product are called Dirichlet series.
+	\item Describe the connection between the last two parts. (An alternative name we give for the parallel product $\otimes$ is the \emph{Dirichlet product}.) \qedhere
 \end{enumerate}
+\begin{solution}
+Here $p\coloneqq \2\yon^\2+\3\yon$ and $q\coloneqq\yon^\4+\3\yon^\3$.
+\begin{enumerate}
+    \item We compute $p \times q$ using \cref{exc.general_poly_times} \cref{exc.general_poly_times.polynomial}:
+    \begin{align*}
+        p \times q &\iso \2\yon^{\2 + \4} + (\2 \times \3)\yon^{\2 + \3} + \3\yon^{\1 + \4} + (\3 \times \3)\yon^{\1 + \3} \\
+        &\iso \2\yon^\6 + \6\yon^\5 + \3\yon^\5 + \9\yon^\4 \\
+        &\iso \2\yon^\6 + \9\yon^\5 + \9\yon^\4.
+    \end{align*}
+    
+    \item We compute $p \otimes q$ using \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.polynomial}:
+    \begin{align*}
+        p \otimes q &\iso \2\yon^{\2 \times \4} + (\2 \times \3)\yon^{\2 \times \3} + \3\yon^\4 + (\3 \times \3)\yon^\3 \\
+        &\iso \2\yon^\8 + \6\yon^\6 + \3\yon^\4 + \9\yon^\3.
+    \end{align*}
+    
+    \item We evaluate $(2\mdot2^\yon+3\mdot 1^\yon+1) \cdot 
+	(1\mdot4^\yon+3\mdot 3^\yon+2)$ using standard high school algebra:
+    \begin{align*}
+	    (2\mdot2^\yon+3\mdot 1^\yon) \cdot (1\mdot4^\yon+3\mdot 3^\yon) &= 2\cdot1\cdot2^\yon\cdot4^\yon + 2\cdot3\cdot2^\yon\cdot3^\yon + 3\cdot1\cdot1^\yon\cdot4^\yon + 3\cdot3\cdot1^\yon\cdot3^\yon \\
+	    &= 2\cdot8^\yon + 6\cdot6^\yon + 3\cdot4^\yon + 9\cdot3^\yon.
+	\end{align*}
+	
+	\item We describe the connection between the last two parts as follows.
+	Given a polynomial $p$, we let $d(p)$ denote the Dirichlet series $\sum_{i \in p(\1)} |p[i]|^\yon$.
+	Then by \eqref{eqn.parallel_def},
+	\begin{align*}
+	    d(p \otimes q) &= \sum_{i \in p(\1)} \sum_{j \in q(\1)} |p[i] \times q[j]|^\yon \\
+	    &= \sum_{i \in p(\1)} |p[i]|^\yon \sum_{j \in q(\1)} |q[j]|^\yon \\
+	    &= d(p) \cdot d(q).
+	\end{align*}
+	The last two parts are simply an example of this identity for a specific choice of $p$ and $q$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 What is $(\3\yon^\5+\6\yon^\2)\otimes\4$? Hint: $\4=\4\yon^\0$.
+\begin{solution}
+We compute $(\3\yon^\5+\6\yon^\2)\otimes\4$ using \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.polynomial} and the fact that $\4=\4\yon^\0$:
+\begin{align*}
+    (\3\yon^\5+\6\yon^\2)\otimes\4\yon^\0 &\iso (\3\times\4)\yon^{\5\times\0} + (\6\times\4)\yon^{\2\times\0} \\
+    &\iso \1\2\yon^\0 + \2\4\yon^\0 \\
+    &\iso \3\6.
+\end{align*}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.prepare_poly_smc}
@@ -2854,19 +3097,43 @@ Let $p,q,r\in\poly$ be any polynomials.
 \begin{enumerate}
   \item Show that there is an isomorphism $p\otimes\yon\cong p$.
   \item Show that there is an isomorphism $(p\otimes q)\otimes r\cong p\otimes (q\otimes r)$.
-  \item Show that there is an isomorphism $(p\otimes q)\cong(q\otimes p)$.
+  \item Show that there is an isomorphism $p\otimes q \cong q\otimes p$.
  \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+  \item We show that $p\otimes\yon\cong p$:
+  \begin{align*}
+      p \otimes y &\iso \sum_{i \in p(\1)} \sum_{j \in \1} \yon^{p[i] \times \1} \tag*{\eqref{eqn.parallel_def}} \\
+      &\iso \sum_{i \in p(\1)} \yon^{p[i]} \iso p.
+  \end{align*}
+  
+  \item We show that $(p\otimes q)\otimes r\cong p\otimes (q\otimes r)$:
+  \begin{align*}
+      (p \otimes q) \otimes r &\iso \left(\sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] \times q[j]}\right) \otimes r \tag*{\eqref{eqn.parallel_def}} \\
+      &\iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \left(\sum_{k \in r(\1)} \yon^{(p[i] \times q[j]) \times r[k]}\right) \tag*{\eqref{eqn.parallel_def}} \\
+      &\iso \sum_{i \in p(\1)} \left(\sum_{j \in q(\1)} \sum_{k \in r(\1)} \yon^{p[i] \times (q[j] \times r[k])}\right) \tag{Associativity of $\sum$ and $\times$} \\
+      &\iso p \otimes \left(\sum_{j \in q(\1)} \sum_{k \in r(\1)} \yon^{q[j] \times r[k]}\right) \tag*{\eqref{eqn.parallel_def}} \\
+      &\iso p \otimes (q \otimes r). \tag*{\eqref{eqn.parallel_def}} \\
+  \end{align*}
+  
+  \item We show that $(p\otimes q)\cong(q\otimes p)$:
+  \begin{align*}
+      p \otimes q &\iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] \times q[j]} \tag*{\eqref{eqn.parallel_def}} \\
+      &\iso \sum_{j \in q(\1)} \sum_{i \in p(\1)} \yon^{q[j] \times p[i]} \tag*{Commutativity of $\sum$ and $\times$} \\
+      &\iso q \otimes p. \tag*{\eqref{eqn.parallel_def}} \\
+  \end{align*}
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-In \cref{exc.prepare_poly_smc} we have gone most of the way to proving that $(\poly,\otimes,\yon)$ is a symmetric monoidal category. 
+In \cref{exc.prepare_poly_smc}, we have gone most of the way to proving that $(\poly,\yon,\otimes)$ is a symmetric monoidal category. 
 
 \begin{proposition}\label{prop.dirichlet_monoidal}
 The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parallel product from \cref{def.dirichlet}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
-Given maps of polynomials $f\colon p\to p'$ and $g\colon q\to q'$ we need to give a
-map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
+Given maps of polynomials $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
 (f\otimes g)_1(i,j)\coloneqq \big(f_1(i),g_1(j)\big)
 \]
@@ -2875,17 +3142,32 @@ On directions at $(i,j)\in p(\1)\times q(\1)$, define
   (f\otimes g)^\sharp_{(i,j)}(d,e)\coloneqq
   \big(f^\sharp_i(d),g^\sharp_j(e)\big).
 \]
-We have not proven all the coherences between the various isomorphisms, but we ask the reader to take it on trust or to check it for themselves. 
+Then \cref{exc.prepare_poly_smc} gives us the unitors, associator, and braiding.
+We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves. 
 \end{proof}
 
-\begin{exercise}
+\begin{exercise} \label{exc.some_parallel_prods}
 \begin{enumerate}
-	\item If $p=A$ and $q=B$ are constant polynomials, what is $p\otimes q$?
+	\item \label{exc.some_parallel_prods.const} If $p=A$ and $q=B$ are constant polynomials, what is $p\otimes q$?
 	\item If $p=A$ is constant and $q$ is arbitrary, what can you say about $p\otimes q$?
-	\item If $p=A\yon$ and $q=B\yon$ are linear polynomials, what is $p\otimes q$?
-	\item For arbitrary $p,q\in\poly$, what is the relationship between the sets $(p\otimes q)(\1)$ and $p(\1)\times q(\1)$?
+	\item \label{exc.some_parallel_prods.lin} If $p=A\yon$ and $q=B\yon$ are linear polynomials, what is $p\otimes q$?
+	\item \label{exc.some_parallel_prods.pos_prod} For arbitrary $p,q\in\poly$, what is the relationship between the sets $(p\otimes q)(\1)$ and $p(\1)\times q(\1)$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item By \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial}, we have $A \otimes B \iso AB$.
+    \item We use \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.polynomial} to compute $A \otimes q$:
+    \[
+        A \otimes q \iso \sum_{j \in q(\1)} A\yon^{\0 \times q[i]} \iso \sum_{j \in q(\1)} A \iso A \times q(\1).
+    \]
+    \item By \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial}, we have $A\yon \otimes B\yon \iso AB\yon$.
+    \item We show that $(p\otimes q)(\1)$ and $p(\1)\times q(\1)$ are isomorphic. By \eqref{eqn.parallel_def},
+    \[
+        (p \otimes q)(\1) \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \1^{p[i] \times q[j]} \iso p(\1) \times q(\1).
+    \]
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.dir_closed_classes}
@@ -2897,53 +3179,146 @@ Which of the following classes of polynomials are closed under $\otimes$? Note a
 	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials.
 	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials.
 	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials.
-	\item The set $\{p\in\poly\mid p(\1)\text{ is finite}\}$.
+	\item The set $\{p\in\poly\mid p(\1)\text{ is finite}\}$. \qedhere
 \end{enumerate}
+\begin{solution}
+For each of the following classes of polynomials, we determine whether they are closed under $\otimes$ and whether they contain $\yon$.
+\begin{enumerate}
+	\item The set $\{A\yon^\0\mid A\in\smset\}$ of constant polynomials is closed under $\otimes$ by the solution to \cref{exc.some_parallel_prods} \cref{exc.some_parallel_prods.const}.
+	But the set does not contain $\yon$, as $\yon$ is not a constant polynomial.
+	\item The set $\{A\yon\mid A\in\smset\}$ of linear polynomials is closed under $\otimes$ by the solution to \cref{exc.some_parallel_prods} \cref{exc.some_parallel_prods.lin} and does contain $\yon$, as $\yon \iso \1\yon$.
+	\item The set $\{A\yon+B\mid A,B\in\smset\}$ of affine polynomials is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.polynomial} yields
+	\[
+	    (A\yon + B) \otimes (A'\yon + B') \iso AA'\yon + AB' + BA' + BB'.
+	\]
+	The set contains $\yon$, as $\yon \iso \1\yon + \0 $.
+	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials is not closed under $\otimes$, for even though $\yon^\2 \iso \1\yon^\2 + \0\yon + \0$ is a quadratic polynomial, \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} implies that
+	\[
+	    \yon^\2 \otimes \yon^\2 \iso \yon^\4,
+	\]
+	which is not quadratic.
+	The set contains $\yon$, as $\yon \iso \0\yon^\2 + \1\yon + \0$.
+	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials is closed under $\otimes$ by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} and does contain $\yon$, as $\yon \iso \1\yon^\1$.
+	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} yields
+	\[
+	    S\yon^S \otimes T\yon^T \iso ST\yon^{ST}.
+	\]
+	The set contains $\yon$, as $\yon \iso \1\yon^\1$.
+	\item The set $\{p\in\poly\mid p(\1)\text{ is finite}\}$ is closed under $\otimes$ by the solution to \cref{exc.some_parallel_prods} \cref{exc.some_parallel_prods.pos_prod}.
+	The set contains $\yon$, as $\yon(\1) \iso \1$ is finite.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
 What is the smallest class of polynomials that's closed under $\otimes$ and contains $\yon$?
+\begin{solution}
+The smallest class of polynomials that's closed under $\otimes$ and contains $\yon$ is just $\{\yon\}$.
+This is because by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial}, we have $\yon \otimes \yon \iso \yon$.
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 \[
-(p_1+p_2)\otimes q\cong (p_1\otimes q)+(p_2\otimes q)
+(p_1+p_2)\otimes q\cong (p_1\otimes q)+(p_2\otimes q).
 \qedhere
 \]
+\begin{solution}
+We show that $(p_1 + p_2) \otimes q \iso (p_1 \otimes q) + (p_2 \otimes q)$ using \eqref{eqn.parallel_def}:
+\begin{align*}
+    (p_1 + p_2) \otimes q &\iso \sum_{k \in \2} \sum_{i \in p_k(\1)} \sum_{j \in q(\1)} \yon^{p_k[i] \times q[j]} \\
+    &\iso \sum_{i \in p_1(\1)} \sum_{j \in q(\1)} \yon^{p_1[i] \times q[j]} + \sum_{i \in p_2(\1)} \sum_{j \in q(\1)} \yon^{p_2[i] \times q[j]} \\
+    &\iso (p_1 \otimes q) + (p_2 \otimes q).
+\end{align*}
+\end{solution}
 \end{exercise}
 
-\begin{proposition}
-For any monoidal structure $(I,\odot)$ on $\smset$, there is a corresponding monoidal structure on $\poly$ with unit $\yon^I$. It is given by Day convolution, and it distributes over $+$. 
+\begin{proposition} \label{prop.day}
+For any monoidal structure $(I,\star)$ on $\smset$, there is a corresponding monoidal structure $(\yon^I, \odot)$ on $\poly$, where $\odot$ is the Day convolution.
+Moreover, $\odot$ distributes over coproducts. 
 
-In the case of $(0,+)$ and $(1,\times)$, this procedure returns the $(1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
+In the case of $(\0,+)$ and $(\1,\times)$, this procedure returns the $(\1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
 \end{proposition}
 \begin{proof}
-Day convolution always takes a monoidal structure on $\smset$ and returns one on functors $\smset\to\smset$; the issue is whether $\poly$ is closed under the resulting monoidal product. We will show that it is, roughly because every polynomial is a coproduct of representables.
+Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $\smset^\smset$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
+To prove that this monoidal structure restricts to $\poly$, it suffices to show that $\poly$ is closed under the Day convolution.
 
-**
+Given polynomials $p\coloneqq\sum_{i \in p(\1)} \yon^{p[i]}$ and $q\coloneqq\sum_{j \in q(\1)} \yon^{q[j]}$, their Day convolution is given by the coend
+\begin{equation} \label{eqn.day_conv.coend}
+    p \odot q \iso \int^{(A,B)\in\smset^\2} \yon^{A \star B} \times p(A) \times q(B).
+\end{equation}
+We can rewrite the product $p(A) \times q(B)$ as
+\[
+    p(A) \times q(B) \iso \left(\sum_{i \in p(\1)} A^{p[i]}\right) \times \left(\sum_{j \in q(\1)} B^{q[i]}\right) \iso \sum_{(i,j) \in p(\1) \times q(\1)} A^{p[i]} \times B^{q[i]} %\\
+    % &\iso \sum_{(i,j) \in p(\1) \times q(\1)} \smset(p[i], A) \times \smset(q[j], B) \\
+    % &\iso \sum_{(i,j) \in p(\1) \times q(\1)} \smset^\2((p[i], q[j]), (A, B))
+\]
+So because products distribute over coproducts in $\smset$ and coends commute with coproducts, we can rewrite \eqref{eqn.day_conv.coend} as
+\[
+    p \odot q \iso \sum_{(i,j) \in p(\1) \times q(\1)} \int^{(A,B)\in\smset^\2} \yon^{A \star B} \times A^{p[i]} \times B^{q[i]},
+\]
+which, by the co-Yoneda lemma, can be rewritten as
+\begin{equation} \label{eqn.day_conv.poly}
+    p \odot q \iso \sum_{(i,j) \in p(\1) \times q(\1)} \yon^{p[i] \star q[j]}
+\end{equation}
+in $\poly$.
+That the Day convolution distributes over coproducts also follows from the fact that products distribute over coproducts in $\smset$ and coends commute with coproducts; or, alternatively, directly from \eqref{eqn.day_conv.poly}.
+
+We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$ when $(I, \star) = (\0, +)$ and $(\yon^I, \odot) = (\yon, \otimes)$ when $(I, \star) = (\1, \times)$.
 \end{proof}
 
 \begin{exercise}
 \begin{enumerate}
 	\item Show that the operation $(A, B)\mapsto A+AB+B$ on $\smset$ is associative.
-	\item Show that $0$ is unital for the above operation.
-	\item Let $(1,\odot)$ denote the corresponding monoidal product on $\poly$. What is $(\yon^\3+\yon)\odot(\2\yon^\2+\2)$?
+	\item Show that $\0$ is unital for the above operation.
+	\item Let $(\1,\odot)$ denote the corresponding monoidal product on $\poly$. Compute $(\yon^\3+\yon)\odot(\2\yon^\2+\2)$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item To show that the operation $(A, B)\mapsto A+AB+B$ on $\smset$ is associative, we observe that
+    \begin{align*}
+        (A + AB + B) + (A + AB + B)C + C &\iso A + AB + B + AC + ABC + BC + C \\
+        &\iso A + AB + ABC + AC + B + BC + C \\
+        &\iso A + A(B + BC + C) + (B + BC + C).
+    \end{align*}
+    \item To show that $\0$ is unital for this operation, we observe that
+    \[
+        (A, \0) \mapsto A + A\0 + \0 \iso A
+    \]
+    and
+    \[
+        (\0, B) \mapsto \0 + \0B + B \iso B.
+    \]
+    \item We let $(\1,\odot)$ denote the corresponding monoidal product on $\poly$ and evaluate $(\yon^\3+\yon)\odot(\2\yon^\2+\2)$.
+    By \eqref{eqn.day_conv.poly}, with $A \star B \iso A + AB + B$, we have
+    \begin{align*}
+        (\yon^\3+\yon)\odot(\2\yon^\2+\2) &\iso (\yon^\3+\yon^\1)\odot(\yon^\2+\yon^\2+\yon^\0+\yon^\0) \\
+        &\iso \yon^{\3\star\2} + \yon^{\3\star\2} + \yon^{\3\star\0} + \yon^{\3\star\0} + \yon^{\1\star\2} + \yon^{\1\star\2} + \yon^{\1\star\0} + \yon^{\1\star\0} \\
+        &\iso \2\yon^{\1\1} + \2\yon^\3 + \2\yon^\5 + \2\yon^\1.
+    \end{align*}
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \paragraph{$\otimes$-monoids in $\poly$}
 
 \begin{definition}
-A \emph{$\otimes$-monoid in $\poly$} consists of a polynomial $m$, a map $(*)\colon m\otimes m\to m$, and a position $e\colon\yon\to m$ that form a monoid in $(\poly,\yon,\otimes)$.
+A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, a position $\eta\colon\yon\to m$, and a map $\mu\colon m\otimes m\to m$ that form a monoid in $(\poly,\yon,\otimes)$.
 \end{definition}
+% ** Show that a map y -> m is a position of m?
 
-These have a kind of swarm-like semantics, making individuals able to summarize the positions of a group of subordinates, as well as distribute instructions to those subordinates in a coherent way. 
+These $\otimes$-monoids have a kind of swarm-like semantics, letting individuals summarize the positions of a group of subordinates and distribute instructions to those subordinates in a coherent way.
 
-\begin{exercise}
-Explain how $\odot$ has the ``swarm-like'' semantics described above.
-\end{exercise}
+More precisely, any $\otimes$-monoid gives rise to a canonical morphism $\mu^{n-1} \colon m^{\otimes n} \to m$ for each $n \in \nn$, which can be thought of as an $n$-ary operation on $m$.\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} The on-positions function $(\mu^{n-1})_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple of positions $(i_j)_{j \in \ord{n}}$ to a single position $i'$, while the on-directions function $(\mu^{n-1})^\sharp_{(i_j)_{j \in \ord{n}}} \colon m[i'] \to \prod_{j \in \ord{n}} m[i_j]$ at that $n$-tuple sends every direction at $i'$ to $n$ directions of $m$, one at every position in the $n$-tuple.
+
+% \begin{exercise}
+% Explain how $\otimes$ has the ``swarm-like'' semantics described above.
+% \end{exercise}
 
 \begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]
-If $(M,e,(*))$ is a monoid in $(\smset,1,\times)$ then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid, roughly because $A\yon\otimes B\yon\cong (A\times B)\yon$. This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
+If $(M,e,*)$ is a monoid in $(\smset,1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid, roughly because $A\yon\otimes B\yon\cong (A\times B)\yon$. This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
 \end{example}
 
 \begin{example}[Comonoids in $\smset$ give representable $\otimes$-monoids]
@@ -2951,20 +3326,25 @@ Every comonoid $(S,\epsilon,\delta)$ in $(\smset,1,\times)$ gives rise to a $\ot
 \end{example}
 
 \begin{example}
-Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. Take $e=0$ and $(a,b)\mapsto(a+b, t\mapsto (\frac{at}{a+b},\frac{bt}{a+b}))$. This forms a $\otimes$-monoid.
+Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \frac{at}{a+b},\frac{bt}{a+b}$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
 \end{example}
 
 \begin{proposition}
 If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also carries a $\otimes$-monoid structure.
 \end{proposition}
+\begin{proof}
 
-\begin{proposition}[Free $\otimes$-monoid]
-The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint.
+\end{proof}
+
+\begin{proposition}[Free $\otimes$-monoid] \label{prop.free_parallel_monoid}
+The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint sending $p$ to $\sum_{n \in \nn} p^{\otimes n}$.
 \end{proposition}
 \begin{proof}
-The carrier $p'$ of the free $\otimes$-monoid on $p$ has positions $p'(\1)\cong\Set{List}(p(\1))$, i.e.\ lists of positions in $p$. Given a position $\ell=(i_1,\ldots,i_n)$, the direction-set there is given by $\prod_{j\in\ord{n}} p[j]$.
-**
+By \cref{prop.day}, $\otimes$ distributes over coproducts, so the result follows from \cite[Chapter~VII, Theorem~2]{MacLane:1998a} (or \cite[Proposition~2.2]{Nlab:category_of_monoids}).
 \end{proof}
+
+\cref{prop.free_parallel_monoid} tells us that the carrier of the free $\otimes$-monoid on $p$ has as positions elements of $\Set{List}(p(\1))$, i.e.\ lists of positions of $p$.
+Given a position $\ell=(i_1,\ldots,i_n)$, the set of directions there is given by $\prod_{j\in\ord{n}} p[i_j]$.
 
 \paragraph{Bimorphic lenses}\label{page.bimorphic_lens}
 
@@ -2991,15 +3371,13 @@ Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. H
 \end{tikzpicture}
 \]
 
-
 The formula for morphisms between these is particularly simple:
-\[
-  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
-  \cong
-  \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1)
-\]
-
-It says that to give a morphism from one monomial to another, you just need to give two functions. Let's rewrite it to make those two functions explicit:
+\begin{align*}
+  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right) &\iso \prod_{a \in A_1} \sum_{a' \in A_2} B_1^{B_2} \tag*{\eqref{eqn.main_formula}} \\
+  &\iso \smset(A_1, A_2 \times B_1^{B_2}) \\
+  &\iso \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1).
+\end{align*}
+It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-diredtions functions:
 \[
   \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
   \cong
@@ -3013,34 +3391,56 @@ It says that to give a morphism from one monomial to another, you just need to g
   	  f^\sharp&\colon A_1\times B_2\to B_1
     \end{aligned}
     $
-  }
+  }.
   \right\}
 \]
-Ordinarily, the $f^\sharp$ is more involved in that its type depends on $f_1$, but for monomials every decision has the same number of options, so to speak.
+Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each input position and output position of $f_1$.
+But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
 
-The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The morphisms $A_1\yon^{B_1}\to A_2\yon^{B_2}$ break up into two functions which people give special names:
+The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_1, f^\sharp$ corresponding to a morphism $f \colon A_1\yon^{B_1}\to A_2\yon^{B_2}$ are given special names:
 \begin{equation}\label{eqn.bimorphic_lens}
 \begin{aligned}
-	\text{get}&\colon A_1\to A_2\\
-	\text{set}&\colon A_1\times B_2\to B_1
+	\text{get} \coloneqq f_1 &\colon A_1\to A_2\\
+	\text{set} \coloneqq f^\sharp &\colon A_1\times B_2\to B_1
 \end{aligned}
 \end{equation}
-The idea is that each $A$-decision ``gets'' a $B$-decision, and every option there in $B$ ``sets'' an option back in $A$
+The idea is that each position $a \in A_1$ of $A_1\yon^{B_1}$ ``gets'' a position $f_1(a) \in A_2$ of $A_2\yon^{B_2}$, and given $a \in A_1$, every direction at $f_1(a)$ in $B_2$ ``sets'' a direction back at $a$ in $B_1$.
 
-We will use the term \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
+We will call a polynomial morphism between two monomials a \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
 
 \begin{remark}
-Consider lenses between polynomials of the form $S\yon^S$. In terms of arenas, the set of options for each decision $s\in S$ is again just the set $S$ of decisions. So decisions are all about ``which $s\in S$ you're at, and which one you want to be at next".
+Consider the monomial $S\yon^S$. As an arena, the set of positions is $S$, and the set of directions at each position $s\in S$ is again just $S$.
+In the language of decision-making, each $s \in S$ is a decision where the options you have to choose from are always just the decisions in $S$ again.
+Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
+We will formalize this idea in \cref{**}.
 
-A lens, i.e.\ a polynomial map $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate $S$-decisions to $T$-decisions. Among them, some lenses are considered to be ``very well behaved'' because they give $T$ a more sensible form of control. Namely, they are the ones that satisfy the following for all $s\in S$ and $t,t'\in T$:
-\[
-	\text{get}(\text{set}(s,t))=t
-	\qquad
-  \text{set}(s,\text{get}(s))=s
-  \qquad
-  \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
-\]
-We will see these emerge from more general theory in \cref{??}.
+A lens (i.e.\ a polynomial map) $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+When you need to make a decision at $s \in S$, you ask your friend at $\text{get}(s) \in T$ for help.
+If your friend selects option $t \in T$, then you know to select option $\text{set}(s, t) \in S$.
+
+But what happens when we string together these decisions into cycles?
+Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
+In this scenario, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves well with respect to the movements of both you and your friend:
+\begin{enumerate}
+    \item If your friend chooses to stay put, then you should stay put, too.
+    This is reflected by the equation
+    \[
+        \text{set}(s,\text{get}(s))=s.
+    \]
+    
+    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
+    This is reflected by the equation
+    \[
+        \text{get}(\text{set}(s,t))=t.
+    \]
+
+    \item If your friend moves to $t$, then to $t'$, the end result on you should not be any different than if your friend had just directly moved to $t'$ in the first place.
+    This is reflected by the equation
+    \[
+        \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
+    \]
+\end{enumerate}
+We will see these three conditions emerge from more general theory in \cref{**}.
 \end{remark}
 
 
@@ -3052,35 +3452,20 @@ Let's start putting all this $\poly$ stuff to use.
 %---- Subsection ----%
 \subsection{Moore machines}
 
-Remember Moore machines from \cref{def.deterministic_system}? 
+We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can return output and be updated according to input.
 
-\begin{definition}\label{def.moore_machine_again}
-If $A$, $B$, and $A$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
+\begin{definition}\label{def.moore_machine}
+If $A$, $B$, and $S$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
 \begin{align*}
 	\text{expose}&\colon S\to B\\
 	\text{update}&\colon S\times A\to S 
 \end{align*}
 \end{definition}
 
-Look familiar?  It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a map of polynomials
-\[
-S\yon^S\to B\yon^A
-\]
-or to say it another way, a lens from $(S,S)\to(A,B)$ in the sense of \cref{eqn.bimorphic_lens}.
-
-\begin{example}\label{ex.counting_trajectory}
-There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine of type $(\1,\nn)$ with states $\nn$. The polynomial map $\nn\yon^\nn\to\nn\yon$ is given by identity on positions and $n\mapsto n+1$ on directions
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
-	\node[poly, cod, linear, right=of s] (p) {$\vphantom{1}$\nodepart{two}$n$};
-	\draw (s_pos) to[first] (p_pos);
-	\draw (p_dir) to[last] (s_dir);
-\end{tikzpicture}
-\]
-\end{example}
-
-We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine_again}, though the latter is much simpler and we'll spend much of the section on it. After some examples, we'll briefly preview something we're going to spend a lot of time later, namely what's special about $S\yon^S$; then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same system.
+We can visualize a Moore machine as a set $S$ of possible states.
+At any point in time, the machine is in one of those states: say $s \in S$.
+While there, whenever we ask the machine to produce output, it will give us $\text{expose}(s) \in B$.
+But if we feed the machine input $a \in A$, the machine will switch to a new state, $\text{update}(s, a)$.
 
 \begin{example}\label{ex.Moore_three}
 Here's a picture of a Moore machine with $S\coloneqq\3$ states:
@@ -3095,23 +3480,50 @@ Here's a picture of a Moore machine with $S\coloneqq\3$ states:
   };
 \end{tikzpicture}
 \]
-Each state is labeled by its exposed value, i.e.\ element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+Each state is labeled by its exposed value, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
 
-You can imagine barking ``orange! orange! green! orange!'' etc. at this machine, and it running through states.
+You can imagine barking ``orange! orange! green! orange!'' etc. at this machine to make it run through its states.
 \end{example}
+%% ** Explain more, maybe? Add an exercise?
+
+Does \cref{def.moore_machine} look familiar?
+It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a lens (i.e.\ map of monomials)
+\[
+S\yon^S\to B\yon^A,
+\]
+with $\text{get} \coloneqq \text{expose}$ and $\text{set} \coloneqq \text{update}$.
+
+%% ** Exercise to turn the example above into a lens?
+
+\begin{example}\label{ex.counting_trajectory}
+There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine of type $(\1,\nn)$ with states $\nn$. The polynomial map $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
+% \[
+% \begin{tikzpicture}[polybox, mapstos]
+% 	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
+% 	\node[poly, cod, linear, right=of s] (p) {$\vphantom{1}$\nodepart{two}$n$};
+% 	\draw (s_pos) to[first] (p_pos);
+% 	\draw (p_dir) to[last] (s_dir);
+% \end{tikzpicture}
+% \]
+\end{example}
+%% ** Introduce polyboxes??
+
+We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine}, though the latter is much simpler---we'll spend much of the section on it. 
+After some examples, we'll briefly preview something we have already hinted at and will spend a lot of time on later, nameley what's special about $S\yon^S$.
+Then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same system.
 
 \begin{example}\label{ex.R2_moore}
 Here's a(n infinite) Moore machine with states $\rr^2$:
 \[
 \rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^2$, which we might think of as a position in 2-d space, and its input type is $[0,1]\times[0,2\pi]$, which we might think of a command to move a certain distance in a certain direction. The map itself is given by the lens:
+Its output type is $\rr^2$, which we might think of as a position in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align}
   \rr^2&\To{\text{get}}\rr^2&
-  \rr^2\times[0,1]\times[0,2\pi]&\To{\text{put}}\rr^2
+  \rr^2\times[0,1]\times[0,2\pi)&\To{\text{set}}\rr^2
   	\nonumber\\\label{eqn.r2moore}
-  (a,b)&\mapsto(a,b)&
-  (a,b,r,\theta)&\mapsto(a+r\cos\theta, b+r\sin\theta)
+  (x,y)&\mapsto(x,y)&
+  (x,y,r,\theta)&\mapsto(x+r\cos\theta, y+r\sin\theta)
 \end{align}
 \end{example}
 
