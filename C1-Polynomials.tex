@@ -3311,38 +3311,80 @@ A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, a position $\
 
 These $\otimes$-monoids have a kind of swarm-like semantics, letting individuals summarize the positions of a group of subordinates and distribute instructions to those subordinates in a coherent way.
 
-More precisely, any $\otimes$-monoid gives rise to a canonical morphism $\mu^{n-1} \colon m^{\otimes n} \to m$ for each $n \in \nn$, which can be thought of as an $n$-ary operation on $m$.\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} The on-positions function
-\[
-    (\mu^{n-1})_1 \colon m(\1)^n \to m(\1)
-\]
-sends every $n$-tuple of positions $(i_j)_{j \in \ord{n}}$ to a single position $i'$, while the on-directions function
-\[
-    (\mu^{n-1})^\sharp_{(i_j)_{j \in \ord{n}}} \colon m[i'] \to \prod_{j \in \ord{n}} m[i_j]
-\]
-at that $n$-tuple sends every direction at $i'$ to $n$ directions of $m$, one at every position in the $n$-tuple.
+\begin{equation}\label{eqn.swarm}
+\begin{tikzpicture}[oriented WD]
+	\node[bb={0}{0}] at (1.6,4)     (x1) {$m$};
+	\node[bb={0}{0}] at (1.2,8) (x2) {$m$};
+	\node[bb={0}{0}] at (2,7)     (x3) {$m$};
+	\node[bb={0}{0}] at (2.5,10)     (x4) {$m$};
+	\node[bb={0}{0}] at (3,2)     (x5) {$m$};
+	\node[bb={0}{0}] at (4,4)     (x6) {$m$};
+	\node[bb={0}{0}] at (4,8)     (x7) {$m$};
+	\node[bb={0}{0}] at (5,5)   (x8) {$m$};
+	\node[bb={0}{0}] at (5.8,6)   (x9) {$m$};
+	\node[bb={0}{0}] at (4.6,11)     (x0) {$m$};
+	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(x2) (x3) (x4)] (o1) {};
+	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(x6) (x7) (x8) (x9)] (o2) {};
+	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(o1) (o2) (x1) (x5) (x0)] (o2) {};
+\end{tikzpicture}
+\end{equation}
+Each box in this picture is labeled $m$. Whenever a box has $n$-many subboxes, it represents a map $m^{\otimes n}\to m$, for which the monoid structure gives us a canonical map
+\[m^{\otimes n} \to m.\]
+Formally we might denote it $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
 
-% \begin{exercise}
-% Explain how $\otimes$ has the ``swarm-like'' semantics described above.
-% \end{exercise}
+The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions, one for each subordinate, to a single position $i'\coloneqq\mu(i)$, while the on-directions function 
+\[\mu^\sharp_{i} \colon m[i'] \to m[i_1]\times\cdots\times m[i_n]\] 
+at that $n$-tuple $i$ distributes a direction at $i'$ to a direction for each  subordinates, at whatever position it's currently in.
 
-\begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]
+
+\begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]\label{ex.tensor_monoid_linear}
 If $(M,e,*)$ is a monoid in $(\smset,1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid, roughly because $A\yon\otimes B\yon\cong (A\times B)\yon$. This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
 \end{example}
 
-\begin{example}[Comonoids in $\smset$ give representable $\otimes$-monoids]
-Every comonoid $(S,\epsilon,\delta)$ in $(\smset,1,\times)$ gives rise to a $\otimes$-monoid structure on $\yon^S$. This construction is again (contravariantly) functorial and fully faithful.
+\begin{example}[Sets give representable $\otimes$-monoids]\label{ex.tensor_monoid_rep}
+For any set $S$, the polynomial $\yon^S$ carries a canonical $\otimes$-monoid structure. Indeed there is a unique map $\yon\to\yon^S$ to serve as the unit. The map $\mu\colon\yon^S\otimes\yon^S\to\yon^S$ amounts to a function $S\to S\times S$, for which we use the diagonal.
+
+This construction is again (contravariantly) functorial and fully faithful.
 \end{example}
 
-\begin{example}
+\begin{example}\label{ex.swarm_reals}
 Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \frac{at}{a+b},\frac{bt}{a+b}$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
 \end{example}
 
-\begin{proposition}
+\begin{exercise}
+Explain how to think of \cref{ex.swarm_reals} in terms of swarms of dynamical systems.
+\begin{solution}
+Looking at the picture \eqref{eqn.swarm}, suppose a big box $m$ has $n$-many subordinates, which we call little boxes; we're considering a map $\mu\colon m^{\otimes n}\to m$. Suppose each little box has its own dynamics. Then the map $\mu$ gives us dynamics on the whole. What is it?
+
+Each little box is publishing its position, which is a nonnegative real number. The big box adds up these real numbers, and that is its position. Now position might be the wrong word, given that map, so maybe ``energy usage'' is better. The energy usage of the big box is the sum of the energy usages of its subordinates.
+
+Now a direction comes in to the big box; it is a nonnegative real number. Perhaps this represents how much energy the big box is being granted at the next time step. This energy is then distributed according to whatever fraction of the whole the current boxes are currently using. This operation is monoidal, meaning that no matter how many subordinates each box has, it will be coherent with forgetting the intermediary boxes that are doing the summarizing.
+\end{solution}
+\end{exercise}
+
+\begin{proposition}\label{prop.tensor_tensor_monoids}
 If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also carries a $\otimes$-monoid structure.
 \end{proposition}
-\begin{proof}
 
-\end{proof}
+\begin{exercise}
+Sketch a proof of \cref{prop.tensor_tensor_monoids}.
+\begin{solution}
+This is true in any symmetric monoidal category. The unit $\yon\to m\otimes n$ is given by the tensor of the units, 
+\[\yon\cong\yon\otimes\yon\To{\eta_m\otimes\eta_n}m\otimes n\]
+and the monoidal product is given by swapping (that's where the symmetry is used) and using the monoidal products
+\[
+(m\otimes n)\otimes(m\otimes n)\to (m\otimes m)\otimes(n\otimes n)\To{\mu_m\otimes\mu_n}m\otimes n
+\]
+The laws are easy to verify.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Give a $\otimes$-monoid structure on $\nn\yon^\5$.
+\begin{solution}
+We know one exists by \cref{ex.tensor_monoid_linear,ex.tensor_monoid_rep,prop.tensor_tensor_monoids}, since $\nn$ has a monoid structure given by $0,+$. The monoid structure then adds positions and just copies directions.
+\end{solution}
+\end{exercise}
 
 \begin{proposition}[Free $\otimes$-monoid] \label{prop.free_parallel_monoid}
 The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint sending $p$ to $\sum_{n \in \nn} p^{\otimes n}$.
@@ -3354,11 +3396,26 @@ By \cref{prop.day}, $\otimes$ distributes over coproducts, so the result follows
 \cref{prop.free_parallel_monoid} tells us that the carrier of the free $\otimes$-monoid on $p$ has as positions elements of $\Set{List}(p(\1))$, i.e.\ lists of positions of $p$.
 Given a position $\ell=(i_1,\ldots,i_n)$, the set of directions there is given by $\prod_{j\in\ord{n}} p[i_j]$.
 
+\begin{exercise}
+Explain how to think of the free monoid on a polynomial $p\in\poly$ in terms of swarms of dynamical systems.
+\begin{solution}
+From \cref{prop.free_parallel_monoid}, we know that the carrier of the free monoid on $p$ is
+\[
+	p'\coloneqq\sum_{n \in \nn} p^{\otimes n}
+\]
+So a $p'$-dynamical system can readout any list $i'\coloneqq[i_1,\ldots,i_n]$ of $p$-positions as its output and given such a list it takes in a list $[d_1,\ldots,d_n]$ of directions at those positions. 
+
+Now if a big box contains a bunch of little boxes as subordinates, their ``short'' lists of positions are concatenated to form the ``long'' position list for the big box. Given a long list of directions there, it is chopped up into short lists of the appropriate lengths so that they can be dispersed to the subordinates.
+\end{solution}
+\end{exercise}
+
 \paragraph{Bimorphic lenses}\label{page.bimorphic_lens}
 
 Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
 \[
-\begin{tikzpicture}[trees, sibling distance=1mm]
+\begin{tikzpicture}
+\node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
+	\begin{tikzpicture}[trees, sibling distance=1mm]
 	\foreach \i in {1,...,5}
 	{
     \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$} 
@@ -3376,6 +3433,8 @@ Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. H
       child {}
     ;
 	};
+	\end{tikzpicture}
+};
 \end{tikzpicture}
 \]
 
