@@ -3305,11 +3305,11 @@ We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$
 \paragraph{$\otimes$-monoids in $\poly$}
 
 \begin{definition}
-A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, a position $\eta\colon\yon\to m$, and a map $\mu\colon m\otimes m\to m$ that form a monoid in $(\poly,\yon,\otimes)$.
+A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, called the \emph{carrier}, a position $\eta\colon\yon\to m$, called the \emph{unit};,and a map $\mu\colon m\otimes m\to m$, called the \emph{multiplication}, that form a monoid in $(\poly,\yon,\otimes)$.
 \end{definition}
 % ** Show that a map y -> m is a position of m?
 
-These $\otimes$-monoids have a kind of swarm-like semantics, letting individuals summarize the positions of a group of subordinates and distribute instructions to those subordinates in a coherent way.
+These $\otimes$-monoids have a kind of swarm-like semantics, letting supervisors summarize the positions of a crew of subordinates and distribute instructions to those subordinates in a coherent way.
 
 \begin{equation}\label{eqn.swarm}
 \begin{tikzpicture}[oriented WD]
@@ -3328,21 +3328,41 @@ These $\otimes$-monoids have a kind of swarm-like semantics, letting individuals
 	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(o1) (o2) (x1) (x5) (x0)] (o2) {};
 \end{tikzpicture}
 \end{equation}
-Each box in this picture is labeled $m$. Whenever a box has $n$-many subboxes, it represents a map $m^{\otimes n}\to m$, for which the monoid structure gives us a canonical map
-\[m^{\otimes n} \to m.\]
-Formally we might denote it $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
+Each box in this picture is labeled $m$. Whenever a box has $n$ subboxes, it represents the canonical map
+\[m^{\otimes n} \to m\]
+given by the monoid structure on $m$.
+We can think of this map as an (associative, unital) $n$-ary multiplication operation on $m$.
+Formally we might denote it by $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
 
-The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions, one for each subordinate, to a single position $i'\coloneqq\mu(i)$, while the on-directions function 
-\[\mu^\sharp_{i} \colon m[i'] \to m[i_1]\times\cdots\times m[i_n]\] 
-at that $n$-tuple $i$ distributes a direction at $i'$ to a direction for each  subordinates, at whatever position it's currently in.
+The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_1(i)$.
+In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, combining their decisions into a list to send to their supervisor, who will make a single decision corresponding to that list.
 
+Meanwhile, the on-directions function
+\[
+    \mu^\sharp_{i} \colon m[i'] \to m[i_1]\times\cdots\times m[i_n]
+\] 
+at the $n$-tuple $i$ sends every direction at $i'$ to a direction at each of the $n$ positions in $i$.
+Continuing our decision-making analogy, the supervisor chooses a single option to distribute to all the subordinates, telling them which option to pick for each of their individual decisions.
+This relationship between subordinates and their supervisor gives us our swarm-like semantics for $\otimes$-monoids.
 
 \begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]\label{ex.tensor_monoid_linear}
-If $(M,e,*)$ is a monoid in $(\smset,1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid, roughly because $A\yon\otimes B\yon\cong (A\times B)\yon$. This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
+If $(M,e,*)$ is a monoid in $(\smset,1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid.
+Here the unit $\eta \colon \yon \to M\yon$ specifies the position $e \in M$, and since $M\yon \otimes M\yon \iso (M \times M)\yon$, the multiplication is a map $\mu \colon (M \times M)\yon \to M\yon$.
+This map is equal to $* \colon M \times M \to M$ on positions and the identity on directions.
+
+We may interpret the swarm-like semantics of this $\otimes$-monoid.
+Every decision has but a single option, so no choices need to be made.
+So we can think of the decisions simply as straightforward actions; any crew of subordinates can send their actions to their supervisor as a one-action summary via $*$, and there is no need for the supervisor to send any directions back.
+
+This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
 \end{example}
 
 \begin{example}[Sets give representable $\otimes$-monoids]\label{ex.tensor_monoid_rep}
-For any set $S$, the polynomial $\yon^S$ carries a canonical $\otimes$-monoid structure. Indeed there is a unique map $\yon\to\yon^S$ to serve as the unit. The map $\mu\colon\yon^S\otimes\yon^S\to\yon^S$ amounts to a function $S\to S\times S$, for which we use the diagonal.
+For any set $S$, the polynomial $\yon^S$ carries a canonical $\otimes$-monoid structure: the unit is the unique map $\eta\colon\yon\to\yon^S$, while the multiplication $\mu\colon\yon^S\otimes\yon^S\to\yon^S$ is the identity on positions and the diagonal $S\to S\times S$ on directions.
+
+We may interpret the swarm-like semantics of this $\otimes$-monoid.
+There is only one kind of decision to be made, always with the same options.
+So there is no need for the subordinates to tell their supervisor what decision they are making; all the supervisor has to do is select an option, and every subordinate will know to select that option, too.
 
 This construction is again (contravariantly) functorial and fully faithful.
 \end{example}
@@ -3352,7 +3372,7 @@ Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and t
 \end{example}
 
 \begin{exercise}
-Explain how to think of \cref{ex.swarm_reals} in terms of swarms of dynamical systems.
+Explain how to interpret the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
 \begin{solution}
 Looking at the picture \eqref{eqn.swarm}, suppose a big box $m$ has $n$-many subordinates, which we call little boxes; we're considering a map $\mu\colon m^{\otimes n}\to m$. Suppose each little box has its own dynamics. Then the map $\mu$ gives us dynamics on the whole. What is it?
 
@@ -3370,10 +3390,10 @@ If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also
 Sketch a proof of \cref{prop.tensor_tensor_monoids}.
 \begin{solution}
 This is true in any symmetric monoidal category. The unit $\yon\to m\otimes n$ is given by the tensor of the units, 
-\[\yon\cong\yon\otimes\yon\To{\eta_m\otimes\eta_n}m\otimes n\]
+\[\yon\cong\yon\otimes\yon\To{\eta_m\otimes\eta_n}m\otimes n,\]
 and the monoidal product is given by swapping (that's where the symmetry is used) and using the monoidal products
 \[
-(m\otimes n)\otimes(m\otimes n)\to (m\otimes m)\otimes(n\otimes n)\To{\mu_m\otimes\mu_n}m\otimes n
+(m\otimes n)\otimes(m\otimes n)\to (m\otimes m)\otimes(n\otimes n)\To{\mu_m\otimes\mu_n}m\otimes n.
 \]
 The laws are easy to verify.
 \end{solution}
@@ -3399,7 +3419,7 @@ Given a position $\ell=(i_1,\ldots,i_n)$, the set of directions there is given b
 \begin{exercise}
 Explain how to think of the free monoid on a polynomial $p\in\poly$ in terms of swarms of dynamical systems.
 \begin{solution}
-From \cref{prop.free_parallel_monoid}, we know that the carrier of the free monoid on $p$ is
+From \cref{prop.free_parallel_monoid}, we know that the carrier of the free $\otimes$-monoid on $p$ is
 \[
 	p'\coloneqq\sum_{n \in \nn} p^{\otimes n}
 \]
@@ -3519,19 +3539,19 @@ Let's start putting all this $\poly$ stuff to use.
 %---- Subsection ----%
 \subsection{Moore machines}
 
-We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can return output and be updated according to input.
+We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can yield output and be updated according to input.
 
 \begin{definition}\label{def.moore_machine}
 If $A$, $B$, and $S$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
 \begin{align*}
-	\text{expose}&\colon S\to B\\
+	\text{yield}&\colon S\to B\\
 	\text{update}&\colon S\times A\to S 
 \end{align*}
 \end{definition}
 
 We can visualize a Moore machine as a set $S$ of possible states.
 At any point in time, the machine is in one of those states: say $s \in S$.
-While there, whenever we ask the machine to produce output, it will give us $\text{expose}(s) \in B$.
+While there, whenever we ask the machine to produce output, it will give us $\text{yield}(s) \in B$.
 But if we feed the machine input $a \in A$, the machine will switch to a new state, $\text{update}(s, a)$.
 
 \begin{example}\label{ex.Moore_three}
@@ -3547,7 +3567,7 @@ Here's a picture of a Moore machine with $S\coloneqq\3$ states:
   };
 \end{tikzpicture}
 \]
-Each state is labeled by its exposed value, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+Each state is labeled by the value it yields, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
 
 You can imagine barking ``orange! orange! green! orange!'' etc. at this machine to make it run through its states.
 \end{example}
@@ -3558,7 +3578,7 @@ It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a lens (i
 \[
 S\yon^S\to B\yon^A,
 \]
-with $\text{get} \coloneqq \text{expose}$ and $\text{set} \coloneqq \text{update}$.
+with $\text{get} \coloneqq \text{yield}$ and $\text{set} \coloneqq \text{update}$.
 
 %% ** Exercise to turn the example above into a lens?
 
@@ -3586,8 +3606,8 @@ Here's a(n infinite) Moore machine with states $\rr^2$:
 \]
 Its output type is $\rr^2$, which we might think of as a position in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align}
-  \rr^2&\To{\text{get}}\rr^2&
-  \rr^2\times[0,1]\times[0,2\pi)&\To{\text{set}}\rr^2
+  \rr^2&\To{\text{yield}}\rr^2&
+  \rr^2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^2
   	\nonumber\\\label{eqn.r2moore}
   (x,y)&\mapsto(x,y)&
   (x,y,r,\theta)&\mapsto(x+r\cos\theta, y+r\sin\theta)
@@ -3595,40 +3615,99 @@ Its output type is $\rr^2$, which we might think of as a position in the 2-dimen
 \end{example}
 
 \begin{exercise}
-Explain in words what is going on in \eqref{eqn.r2moore}.
+Explain in words what the Moore machine in \cref{ex.R2_moore} does.
+\begin{solution}
+At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^2$, as recorded by its state.
+Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{yield}(x, y) = (x, y)$.
+But if we give the machine input of the form $(r, \theta)$ for some distance $r \in [0,1]$ and direction $\theta \in [0, 2\pi)$, the machine will move by that distance, in that direction, going from $(x, y)$ to
+\[
+    \text{update}(x,y,r,\theta) = (x,y) + r(\cos\theta, \sin\theta)
+\]
+(here we treat $\rr^2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ in the direction of $\theta$).
+\end{solution}
 \end{exercise}
 
-\begin{example}[From functions to Moore machines]\label{ex.funs_to_moore}
+\begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
 For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
 
-It is given by the map $(\id_B,\texttt{const} f)\colon B\yon^B\to B\yon^A$. That is, it is identity on positions (outputs the state directly), and on inputs is the function $B\times A\To{\pi}A\To{f} B$ that drops the current position and then applies $f$ to the input.
+It is given by the map $(\id_B,\texttt{const} \ f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, yielding the state directly as output, and on directions it is the function $B\times A\To{\pi}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
 
-If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, the machine's output will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoriless} because the current output does not depend on any internal memory.
+If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
 \end{example}
 
 \begin{exercise}\label{exc.funs_to_moore}
-Suppose given a function $f\colon A\times B\to B$.
+Suppose we are given a function $f\colon A\times B\to B$.
 \begin{enumerate}
 	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
 	\item Would you say the machine is memoriless?
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We seek an $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ corresponding to the function $f\colon A\times B\to B$.
+    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a function $\text{yield} \colon B \to B$ and a function $\text{update} \colon B \times A \to B$.
+    So we can simply let the yield function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
+    
+    \item Generally, such a machine is not memoryless.
+    Unlike in \cref{ex.funs_to_moore}, the update function $B \times A \iso A \times B \To{f} B$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
+    
+    However, if $f$ factors through the projection $\pi \colon A \times B \to A$, i.e.\ if $f$ can be written as a composite $A \times B \To{\pi} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine corresponding to $f'$, as in \cref{ex.funs_to_moore}.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
-Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$:
+Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$, and explain in words what the corresponding Moore machine does (there may be multiple possible solutions):
 \begin{enumerate}
-	\item a \emph{discrete dynamical system}, i.e.\ a set $S$ and a function $S\to S$.
+	\item a \emph{discrete dynamical system}, i.e.\ a set of states $S$ and a transition function $S\to S$ that tells us how to move from state to state.
 	\item a \emph{magma}, i.e.\ a set $S$ and a function $S\times S\to S$.
-	\item a set $S$ and a subset $S'\ss S$.
-\qedhere
+	\item a set $S$ and a subset $S'\ss S$.\qedhere
 \end{enumerate}
+\begin{solution}
+For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a morphism $S\yon^S \to B\yon^A$, i.e.\ a function $\text{yield} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
+\begin{enumerate}
+    \item Given a discrete dynamical system, consisting of a set of states $S$ and a transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$; so $\text{yield} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
+    The corresponding Moore machine has a single choice of input (you could think of it as a button that says ``advance to the next state'') and always produces the same output (which effectively tells us nothing).
+    So it is just a set of states, and a deterministic way to move from state to state.
+    
+    We could have also set $A \coloneqq \0$ and $B \coloneqq S$, so that $\text{yield} \coloneqq n$ and $\text{update} \colon S \times \0 \to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its output, which happens to refer to some state.
+    
+    \item Given a magma, consisting of a set $S$ and a function $m \colon S \times S \to S$, we can set $A \coloneqq S$ and $B \coloneqq 1$.
+    Then $\text{yield} \colon S \to \1$ is unique, while $\text{update} \colon S \times S \to S$ is equal to $m$.
+    The corresponding Moore machine always produces the same output.
+    It uses the binary operation $m$ to combine the current state with the input---which also refers to a state---to obtain the new state.
+    
+    Note that, since $m$ is not guaranteed to be commutative, we could also set the update function to be $m$ with its inputs swapped.
+    The difference here is that the new state is given by applying $m$ with the input on the left and the current state on the right, rather than the other way around.
+    
+    We could have also set $A \coloneqq \0$ and $B \coloneqq S^S$, so that $\text{update} \colon S \times \0 \to S$ is unique, while currying $m$ gives $\text{yield}$, so that $\text{yield}(s)$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
+    Alternatively, $\text{yield}(s)$ could be the function $s' \mapsto m(s', s)$.
+    Either way, this is a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
+    
+    \item Given a set $S$ and a subset $S' \subseteq S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
+    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{yield} \colon S \to 2$ by
+    \[
+        \text{yield}(s) =
+        \begin{cases}
+            1 & \text{if } s \in S' \\
+            2 & \text{if } s \notin S',
+        \end{cases}
+    \]
+    so that $S'$ can be recovered from the yield function as its fiber over $1$.
+    Alternatively, we could define the yield function so that $S'$ is instead its fiber over $2$.
+    The corresponing Moore machine never moves between its states, but gives one of two outputs indicating whether or not the current state is in the subset $S'$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
 
-Add to its state a ``health meter,'' which has a value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$. %% Lose how much health?? Output the health or no??
+\begin{solution}
+We modify the Moore machine from \cref{ex.R2_moore} as follows.
+% **
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.file_reader}
@@ -4060,7 +4139,7 @@ In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileRead
 
 Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
 current position $s$ and a terminal position $t$. For our interface, we'll have
-two modes, each of which exposes an ascii character:
+two modes, each of which yields an ascii character:
 \[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
 \]
 %%
@@ -4076,16 +4155,16 @@ We'll define this by cases:
 
 Our file reader will be $\fun{Accepting}$ if its current position is the
 terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
-expose the ascii character at the current position.
+yield the ascii character at the current position.
 \begin{align*}
-  \expose{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
+  \yield{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
 \end{align*}
 
 While the file reader is $\fun{Busy}$, it will step forward through the file.
 When it is $\fun{Accepting}$, it will set its new current and terminal position
 to be the input. 
 \begin{align*}
-  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\expose{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
+  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\yield{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\yield{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
 \end{align*}
 
 Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
@@ -4171,9 +4250,9 @@ Since everything involved is a monomial---the parallel product of monomials is a
 \[
   \text{get}\colon CB\to C
   \qqand
-  \text{put}\colon CBA\to ABC
+  \text{set}\colon CBA\to ABC
 \]
-The first says ``inside the system you have boxes outputting values of type $C$ and $B$. The system needs to produce an output of type $C$; how shall I obtain it?'' The second says ``the system is providing an input value of type $A$, and inside the system you have boxes outputting values of type $C$ and $B$. These boxes need input values of type $A$, $B$, and $C$; how shall I obtain them?'' The answer of course is that \emph{get} is given by projection $(c,b)\mapsto c$ and \emph{put} is given by a permutation $(c,b,a)\mapsto (a,b,c)$. The wiring diagram is a picture that tells us which maps to use.
+The first says ``inside the system you have boxes outputting values of type $C$ and $B$. The system needs to produce an output of type $C$; how shall I obtain it?'' The second says ``the system is providing an input value of type $A$, and inside the system you have boxes outputting values of type $C$ and $B$. These boxes need input values of type $A$, $B$, and $C$; how shall I obtain them?'' The answer of course is that \emph{get} is given by projection $(c,b)\mapsto c$ and \emph{set} is given by a permutation $(c,b,a)\mapsto (a,b,c)$. The wiring diagram is a picture that tells us which maps to use.
 
 \begin{exercise}
 \begin{enumerate}
@@ -4439,8 +4518,8 @@ Let's use these vectors to define the internal dynamics of each system. Each sys
 	\big((x,y),(x',y')\big)&\Mapsto{\text{get}}(x,y)
 \end{align*}
 \begin{align*}
-	\rr^2\times\rr^2\times(\rr^2-(0,0))&\To{\text{put}}\rr^2\times\rr^2\\
-	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{put}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
+	\rr^2\times\rr^2\times(\rr^2-(0,0))&\To{\text{set}}\rr^2\times\rr^2\\
+	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{set}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
 \end{align*}
 \end{example}
 
@@ -4811,14 +4890,14 @@ Which of the four classes above are closed under
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
 \end{proposition}
 \begin{proof}
-By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{proposition}\label{prop.ff_lin_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 \end{proposition}
 \begin{proof}
-By \cref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{theorem}\label{thm.adjoint_quadruple}
@@ -4847,11 +4926,11 @@ For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(
 \smset(p(\1),A)\cong\poly(p,A)\qquad
 \smset(A,p(\1))\cong\poly(A\yon,p).
 \]
-All three come from our main formula, \cref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
+All three come from our main formula, \eqref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
 \end{proof}
 
 \begin{exercise}\label{exc.adjoint_quadruple}
-Here we prove the remainder of \cref{thm.adjoint_quadruple} using \cref{eqn.main_formula}:
+Here we prove the remainder of \cref{thm.adjoint_quadruple} using \eqref{eqn.main_formula}:
 \begin{enumerate}
 	\item Provide a natural isomorphism $\smset(A,p(\0))\cong\poly(A,p)$.
 	\item Provide a natural isomorphism $\smset(p(\1),A)\cong\poly(p,A)$.
@@ -4913,7 +4992,7 @@ We have the following chain of natural isomorphisms:
   	&\text{Definition of product}\\&\cong
   \prod_{i\in p(\1)}\sum_{j\in\1}{p[i]}^A
   	&\text{Trivial sum}\\&\cong
-  \poly(p,\yon^A).&\cref{eqn.main_formula}
+  \poly(p,\yon^A).&\eqref{eqn.main_formula}
 \end{align*}
 
 \end{proof}
@@ -4981,7 +5060,7 @@ Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{
 \end{exercise}
 
 \begin{exercise}[Epi-mono factorization]\label{exc.mono_epi_poly}
-Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \cref{eqn.colax_poly_map}.
+Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \eqref{eqn.colax_poly_map}.
 \begin{enumerate}
 	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
 	\item Is your factorization unique up to isomorphism?
@@ -5047,7 +5126,7 @@ Finish the proof of \cref{prop.coprod_prod_poly} as follows.
 \end{exercise}
 
 \begin{exercise}
-Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p[i]$ according to \cref{eqn.prod_polys}? Does it check out?
+Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p[i]$ according to \eqref{eqn.prod_polys}? Does it check out?
 \end{exercise}
 
 \begin{proposition}\label{prop.completely_distributive}
@@ -5128,7 +5207,7 @@ We have the following chain of natural isomorphisms
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p[i]+q[j])^{r[k]}\\&\cong
 	\poly(p\times q,r).
 \end{align*}
-The last step uses \cref{eqn.main_formula,prop.poly_times}.
+The last step uses \eqref{eqn.main_formula,prop.poly_times}.
 \end{proof}
 
 \begin{exercise}
@@ -5140,7 +5219,7 @@ Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is
 
 
 \begin{exercise}
-Using \cref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
+Using \eqref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
 \end{exercise}
 
 \begin{theorem}\label{thm.poly_limits}
@@ -5449,7 +5528,7 @@ Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} 
 Every morphism in $\poly$ can be uniquely factored as a vertical morphism followed by a cartesian morphism.
 \end{proposition}
 \begin{proof}
-Recall from \cref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
+Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
 \begin{tikzcd}[column sep=small]
 	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[rr, "f_1"]&~&
@@ -5574,7 +5653,7 @@ Prove that the unique map $f\colon\yon\to\1$ is exponentiable.
 \begin{solution}
 Choose $p\in\poly$ and $q'\in\poly/\yon$. Then there is $q\in\poly$ such that $q'\cong q\yon$, equipped with the projection $q\yon\to\yon$. The pushforward is given by the exponential
 \[f_*(q\yon)\coloneqq q^\yon\]
-from the cartesian closure; see \cref{eqn.exponential}. Indeed, we have
+from the cartesian closure; see \eqref{eqn.exponential}. Indeed, we have
 \begin{align*}
 	\poly/\yon(f^*p,q\yon)&\cong
 	\poly/\yon(p\yon,q\yon)\\&\cong
