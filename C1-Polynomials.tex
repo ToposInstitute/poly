@@ -365,7 +365,7 @@ All of the examples discussed here will be presented in some detail once we have
 \end{example}
 
 \begin{exercise}\label{exc.changing_types}
-Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your situation.
+Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your setting.
 \begin{solution}
 When using an application, say a drawing program, there is often a menu at the top of the screen. The information I can send the system changes based on what menu I click. If no menu is clicked, I can interact in one way. When I click ``file" I can interact with the file system, saving or opening a file, and thus interacting with another ``part'' of the computer. The set of things I can do depends on context.
 \end{solution}
@@ -378,7 +378,7 @@ And there's even more that's wrong with the above description. Namely, when I mo
 \begin{example}\label{ex.pond_eyeballs}
 Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
 
-Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two situations, one with $n$-many options, and the other with only one option. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
+Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two settings, one with $n$-many options, and the other with only one option. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
 
 The point is, however, is that any other eyeball may be capable of noticing if $e$ is opened or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
 
@@ -3768,7 +3768,7 @@ When the paddle swishes once and stops, the tracker increases its position by on
 \end{exercise}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
-Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this situation in $\poly$?
+Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
 
 Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
@@ -3840,7 +3840,7 @@ Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation}
 \[
 \Gamma(p)\coloneqq\poly(p,\yon)
 \]
-as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation (perhaps a better word would be ``condition'', but that term is already used for rule or requirement) is what dictates what you'll see, given anything you might do. If the situation is that you're at a party, then that dictates what you'll receive, given your position. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
+as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation is what dictates what you'll see, given anything you might do. If the situation is that you're at a party, then that dictates what you'll receive, given your position. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
 
 A map $p_1\otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situation is a useful concept.
 
@@ -4740,9 +4740,9 @@ What it also means is that if you want, you can put a little dynamical system in
 
 
 The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is an operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ and an isomorphism
-\[
+\begin{equation}\label{eqn.monoidal_closure}
   \poly(p\otimes q,r)\cong\poly(p,\ihom{q,r})
-\]
+\end{equation}
 natural in $p,q,r$. The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.dir_hom}
 	\ihom{q,r}\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
@@ -4758,14 +4758,18 @@ $}
 where the sum is indexed by $f\in\poly(p,q)$.
 \end{exercise}
 
-\begin{example}\label{ex.double_dual}
+\begin{example}\label{ex.dirichlet_dual}
 For any $A\in\smset$ we have
 \[
   \ihom{\yon^A,\yon}\cong A\yon
   \qqand
   \ihom{A\yon,\yon}\cong\yon^A.
 \]
-These both follow directly from \eqref{eqn.dir_hom}.
+More generally, for any polynomial $p\in\poly$ we have
+\begin{equation}\label{eqn.dir_dual}
+  [p,\yon]\cong\Gamma(p)\yon^{p(\1)}.
+\end{equation}
+All these facts follow directly from \eqref{eqn.dir_hom}.
 \end{example}
 
 \begin{exercise}
@@ -4837,7 +4841,7 @@ For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 
 \begin{exercise}
 \begin{enumerate}
-	\item For any $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is identity, using eval and \cref{ex.double_dual}.
+	\item For any $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is identity, using eval and \cref{ex.dirichlet_dual}.
 	\item Show that maps of the four types $\kappa_{11}$, $\kappa_{12}$, $\kappa_{21}$, $\kappa_{22}$ shown in \cref{ex.bonds_break} can be obtained by tensoring together identity maps and eval maps.
 \qedhere
 \end{enumerate}
@@ -5031,6 +5035,44 @@ We have the following chain of natural isomorphisms:
 \begin{exercise}
 Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.dirichlet_closure}.
 \end{exercise}
+
+\begin{corollary}[Principle monomial]\label{cor.principle_monomial}
+There is an adjunction
+\[
+\adj{\poly}{{(p(\1),\Gamma(p)}}{A\yon^B}{\smset\times\smset\op}
+\]
+where the functors are labeled by where they send $p\in\poly$ and $(A,B)\in\smset\times\smset\op$.
+\end{corollary}
+\begin{proof}
+**
+\end{proof}
+
+\begin{exercise}
+Use \cref{cor.principle_monomial,prop.dirichlet_closure,eqn.dir_dual} to prove \cref{prop.situations2}, i.e.\ that there is an isomorphism
+\[
+\Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
+\]
+for any $p,q\in\poly$.
+\begin{solution}
+The universal properties of the adjunctions
+\[
+  \adj[40pt]{\poly}{{(-(\1),\Gamma(-))}}{-\yon^-}{\smset\times\smset\op}
+  \qqand
+  \adj{\poly}{-\otimes q}{{[q,-]}}{\poly}
+\]
+together with the isomorphism $[p,\yon]\cong \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give the following chain of isomorphisms:
+\begin{align*}
+	\Gamma(p\otimes q)&=
+	\poly(p\otimes q,\yon)\\&\cong
+	\poly(p,[q,\yon])\\&\cong
+	\poly(p,\Gamma(q)\yon^{q(\1)})\\&\cong
+	(\smset\times\smset\op)\Big(\big((p(\1),\Gamma(p)\big),\big(\Gamma(q),q(\1)\big)\Big)\\&\cong
+	\smset\big(p(\1),\Gamma(q)\big)\;\times\;\smset\big(q(\1),\Gamma(p)\big).
+\qedhere
+\end{align*}
+\end{solution}
+\end{exercise}
+
 
 \paragraph{Epi-mono factorization.}
 
