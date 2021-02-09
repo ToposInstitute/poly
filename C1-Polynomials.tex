@@ -3335,7 +3335,7 @@ We can think of this map as an (associative, unital) $n$-ary multiplication oper
 Formally we might denote it by $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
 
 The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_1(i)$.
-In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, combining their decisions into a list to send to their supervisor, who will make a single decision corresponding to that list.
+In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, summarizing all $n$ of their decisions as a single decision for their supervisor to make.
 
 Meanwhile, the on-directions function
 \[
@@ -3345,8 +3345,11 @@ at the $n$-tuple $i$ sends every direction at $i'$ to a direction at each of the
 Continuing our decision-making analogy, the supervisor chooses a single option to distribute to all the subordinates, telling them which option to pick for each of their individual decisions.
 This relationship between subordinates and their supervisor gives us our swarm-like semantics for $\otimes$-monoids.
 
+The coherence of the monoid ensures that if we have a nested hierarchy in which intermediary supervisors are themselves subordinates of a higher supervisor, we may forget the intermediary supervisors without altering the relationship.
+In other words, we may ignore the intermediary subboxes in \eqref{eqn.swarm}.
+
 \begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]\label{ex.tensor_monoid_linear}
-If $(M,e,*)$ is a monoid in $(\smset,1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid.
+If $(M,e,*)$ is a monoid in $(\smset,\1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid structure.
 Here the unit $\eta \colon \yon \to M\yon$ specifies the position $e \in M$, and since $M\yon \otimes M\yon \iso (M \times M)\yon$, the multiplication is a map $\mu \colon (M \times M)\yon \to M\yon$.
 This map is equal to $* \colon M \times M \to M$ on positions and the identity on directions.
 
@@ -3368,17 +3371,22 @@ This construction is again (contravariantly) functorial and fully faithful.
 \end{example}
 
 \begin{example}\label{ex.swarm_reals}
-Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \frac{at}{a+b},\frac{bt}{a+b}$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
+Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \left(\frac{at}{a+b},\frac{bt}{a+b}\right)$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
 \end{example}
 
 \begin{exercise}
-Explain how to interpret the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
+Give an interpretation of the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
 \begin{solution}
-Looking at the picture \eqref{eqn.swarm}, suppose a big box $m$ has $n$-many subordinates, which we call little boxes; we're considering a map $\mu\colon m^{\otimes n}\to m$. Suppose each little box has its own dynamics. Then the map $\mu$ gives us dynamics on the whole. What is it?
+Here is one interpretation of the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
+In a crew of $n$ subordinates, each subordinate $i \in \ord{n}$ must determine how much of Product T to give back to a stakeholder who has has contributed some quantity $a_i \in \rr_{\geq0}$ of Resource A.
+The subordinates pool together the total amount $\sum_{i \in \ord{n}} a_i$ of Resource A that they have received, which they pass on to their supervisor.
+The supervisor, who sees only this total, uses it to decide (through unspecified means) the total quantity $t \in \rr_{\geq0}$ of Product T to be split between the stakeholders.
+Upon receiving this quantity, each subordinate can give their stakeholder their cut $a_i t / \sum_{i \in \ord{n}} a_i$ of Product T proportional to their contribution of Resource A.
+% Looking at the picture \eqref{eqn.swarm}, suppose a big box $m$ has $n$-many subordinates, which we call little boxes; we're considering a map $\mu\colon m^{\otimes n}\to m$. Suppose each little box has its own dynamics. Then the map $\mu$ gives us dynamics on the whole. What is it?
 
-Each little box is publishing its position, which is a nonnegative real number. The big box adds up these real numbers, and that is its position. Now position might be the wrong word, given that map, so maybe ``energy usage'' is better. The energy usage of the big box is the sum of the energy usages of its subordinates.
+% Each little box is publishing its position, which is a nonnegative real number. The big box adds up these real numbers, and that is its position. Now position might be the wrong word, given that map, so maybe ``energy usage'' is better. The energy usage of the big box is the sum of the energy usages of its subordinates.
 
-Now a direction comes in to the big box; it is a nonnegative real number. Perhaps this represents how much energy the big box is being granted at the next time step. This energy is then distributed according to whatever fraction of the whole the current boxes are currently using. This operation is monoidal, meaning that no matter how many subordinates each box has, it will be coherent with forgetting the intermediary boxes that are doing the summarizing.
+% Now a direction comes in to the big box; it is a nonnegative real number. Perhaps this represents how much energy the big box is being granted at the next time step. This energy is then distributed according to whatever fraction of the whole the current boxes are currently using. This operation is monoidal, meaning that no matter how many subordinates each box has, it will be coherent with forgetting the intermediary boxes that are doing the summarizing.
 \end{solution}
 \end{exercise}
 
@@ -3389,7 +3397,9 @@ If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also
 \begin{exercise}
 Sketch a proof of \cref{prop.tensor_tensor_monoids}.
 \begin{solution}
-This is true in any symmetric monoidal category. The unit $\yon\to m\otimes n$ is given by the tensor of the units, 
+Given that $m, n$ carry $\otimes$-monoid structures, we give an $\otimes$-monoidal structure carried by $m\otimes n$.
+In fact, the following works in any symmetric monoidal category.
+The unit $\yon\to m\otimes n$ is given by the tensor of the units,
 \[\yon\cong\yon\otimes\yon\To{\eta_m\otimes\eta_n}m\otimes n,\]
 and the monoidal product is given by swapping (that's where the symmetry is used) and using the monoidal products
 \[
@@ -3402,28 +3412,44 @@ The laws are easy to verify.
 \begin{exercise}
 Give a $\otimes$-monoid structure on $\nn\yon^\5$.
 \begin{solution}
-We know one exists by \cref{ex.tensor_monoid_linear,ex.tensor_monoid_rep,prop.tensor_tensor_monoids}, since $\nn$ has a monoid structure given by $0,+$. The monoid structure then adds positions and just copies directions.
+We give a $\otimes$-monoid structure on $\nn\yon^\5$.
+We have that $(\nn, 0, +)$ is a monoid in $(\smset, \1, \times)$, so by \cref{ex.tensor_monoid_linear}, there is a $\otimes$-monoid whose carrier is $\nn\yon$, whose unit is the position $0$, and whose multiplication $\mu$ is given by $+$.
+Meanwhile, by \cref{ex.tensor_monoid_rep}, $\yon^\5$ carries a canonical $\otimes$-monoid structure with a uniquely determined unit and a multiplication $\mu'$ that is the identity on positions and the diagonal on directions.
+So we can apply \cref{prop.tensor_tensor_monoids} to obtain an $\otimes$-monoid whose carrier is $\nn\yon^\5$, whose unit is $0$, and whose multiplication is the map
+\[
+\nn\yon^\5 \otimes \nn\yon^\5 \iso (\nn\yon \otimes \yon^\5)\otimes(\nn\yon \otimes \yon^\5) \to (\nn\yon \otimes \nn\yon)\otimes(\yon^\5 \otimes \yon^\5) \To{\mu \otimes \mu'} \nn\yon \otimes \yon^\5 \iso \nn\yon^\5
+\]
+given by $+$ on positions and the diagonal on directions.
+The subordinates report the sum of the natural number labels of their individual decisions to their supervisor, who selects one of $5$ options for all subordinates to select.
+
+There are other solutions; for one thing, $(\nn, 0, +)$ is not the only monoidal structure on $\nn$ in $\smset$.
 \end{solution}
 \end{exercise}
 
 \begin{proposition}[Free $\otimes$-monoid] \label{prop.free_parallel_monoid}
-The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint sending $p$ to $\sum_{n \in \nn} p^{\otimes n}$.
+The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint sending $p$ to a $\otimes$-monoid whose carrier is $\sum_{n \in \nn} p^{\otimes n}$.
 \end{proposition}
 \begin{proof}
 By \cref{prop.day}, $\otimes$ distributes over coproducts, so the result follows from \cite[Chapter~VII, Theorem~2]{MacLane:1998a} (or \cite[Proposition~2.2]{Nlab:category_of_monoids}).
+In particular, the unit of the free $\otimes$-monoid is the unique position of the summand $p^{\otimes 0} \iso \yon$ of $\sum_{n \in \nn} p^{\otimes n}$, while the multiplication is given by its components
+\[
+    p^{\otimes i} \otimes p^{\otimes j} \iso p^{\otimes (i + j)} \to \sum_{n \in \nn} p^{\otimes n}
+\]
+for $i, j \in \nn$.
 \end{proof}
 
 \cref{prop.free_parallel_monoid} tells us that the carrier of the free $\otimes$-monoid on $p$ has as positions elements of $\Set{List}(p(\1))$, i.e.\ lists of positions of $p$.
-Given a position $\ell=(i_1,\ldots,i_n)$, the set of directions there is given by $\prod_{j\in\ord{n}} p[i_j]$.
+Given a position $\ell=(i_1,\ldots,i_n)$, the set of directions there is given by $\prod_{j\in\ord{n}} p[i_j]$; i.e., the directions of the carrier at a list of positions of $p$ are just directions of $p$ at each position in the list.
 
 \begin{exercise}
-Explain how to think of the free monoid on a polynomial $p\in\poly$ in terms of swarms of dynamical systems.
+Give an interpretation of the swarm-like semantics of the free $\otimes$-monoid on a polynomial $p\in\poly$.
 \begin{solution}
-From \cref{prop.free_parallel_monoid}, we know that the carrier of the free $\otimes$-monoid on $p$ is
-\[
-	p'\coloneqq\sum_{n \in \nn} p^{\otimes n}
-\]
-So a $p'$-dynamical system can readout any list $i'\coloneqq[i_1,\ldots,i_n]$ of $p$-positions as its output and given such a list it takes in a list $[d_1,\ldots,d_n]$ of directions at those positions. 
+We give an interpretation of the swarm-like semantics of the free $\otimes$-monoid on a polynomial $p\in\poly$.
+From \cref{prop.free_parallel_monoid}, we know that the carrier of the free $\otimes$-monoid on $p$ has as positions lists of positions of $p$.
+So each subordinate faces a list of decisions of $p$, and these lists are all concatenated into a single list of decisions of $p$ that is sent to their supervisor.
+For each decision of $p$ in the list, the supervisor selects an option, which is then sent back to the subordinate who asked about that decision.
+
+% So a $p'$-dynamical system can readout any list $i'\coloneqq[i_1,\ldots,i_n]$ of $p$-positions as its output and given such a list it takes in a list $[d_1,\ldots,d_n]$ of directions at those positions. 
 
 Now if a big box contains a bunch of little boxes as subordinates, their ``short'' lists of positions are concatenated to form the ``long'' position list for the big box. Given a long list of directions there, it is chopped up into short lists of the appropriate lengths so that they can be dispersed to the subordinates.
 \end{solution}
