@@ -902,9 +902,9 @@ $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\
 	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
 \end{tikzcd}
 \hspace{.6in}
-\adjr[50pt]{\smset\op}{\yon^A}{\Gamma p}{\poly}.
+\adjr[50pt]{\smset\op}{\yon^A}{\Gamma(p)}{\poly}.
 \end{equation*}
-Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$.
+Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$; in particular, $\Gamma(p) \coloneqq \poly(p, \yon)$.
 \end{proposition}
 
 There's a lot we're leaving out of this summary, just so we can hit the highlights.
@@ -3600,16 +3600,17 @@ You can imagine barking ``orange! orange! green! orange!'' etc. at this machine 
 %% ** Explain more, maybe? Add an exercise?
 
 Does \cref{def.moore_machine} look familiar?
-It's easy to see that an $(A,B)$ Moore machine with states $S$ is just a lens (i.e.\ map of monomials)
+It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens (i.e.\ map of monomials)
 \[
 S\yon^S\to B\yon^A,
 \]
 with $\text{get} \coloneqq \text{yield}$ and $\text{set} \coloneqq \text{update}$.
+Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
 
 %% ** Exercise to turn the example above into a lens?
 
 \begin{example}\label{ex.counting_trajectory}
-There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine of type $(\1,\nn)$ with states $\nn$. The polynomial map $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
+There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine with states $\nn$ and interface $\nn\yon$. The associated polynomial map $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
 % \[
 % \begin{tikzpicture}[polybox, mapstos]
 % 	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
@@ -3621,16 +3622,16 @@ There is a dynamical system that takes unchanging input and produces as output t
 \end{example}
 %% ** Introduce polyboxes??
 
-We can generalize both $S\yon^S$ and $B\yon^A$ in \cref{def.moore_machine}, though the latter is much simpler---we'll spend much of the section on it. 
-After some examples, we'll briefly preview something we have already hinted at and will spend a lot of time on later, nameley what's special about $S\yon^S$.
-Then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same system.
+We can generalize both $S\yon^S$ and the interface $B\yon^A$ in \cref{def.moore_machine}, though the latter is much simpler---we'll spend much of the section on it. 
+After some examples, we'll briefly preview something we have already hinted at and will spend a lot of time on later, namely what's special about $S\yon^S$.
+Then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same state system.
 
 \begin{example}\label{ex.R2_moore}
 Here's a(n infinite) Moore machine with states $\rr^2$:
 \[
 \rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^2$, which we might think of as a position in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
+Its output type is $\rr^2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align}
   \rr^2&\To{\text{yield}}\rr^2&
   \rr^2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^2
@@ -3654,7 +3655,7 @@ But if we give the machine input of the form $(r, \theta)$ for some distance $r 
 \end{exercise}
 
 \begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
-For any function $f\colon A\to B$ there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
+For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
 
 It is given by the map $(\id_B,\texttt{const} \ f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, yielding the state directly as output, and on directions it is the function $B\times A\To{\pi}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
 
@@ -3729,50 +3730,139 @@ For each of the following constructs, we find $A, B \in \smset$ such that the co
 \begin{exercise}
 Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
 
-Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose health whenever the $x$-coordinate of its position is negative. Use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$. %% Lose how much health?? Output the health or no??
+Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose half its health whenever it moves to a location whose $x$-coordinate is negative. Do not output its health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
 We modify the Moore machine from \cref{ex.R2_moore} as follows.
-% **
+The original Moore machine had a state set $\rr^2$, so to add a health meter with values in $[0,10]$, we take the Cartesian product to obtain the new state set $\rr^2 \times [0,10]$.
+The inputs and outputs are unchanged, so the Moore machine is a lens
+\[
+    \rr^2 \times [0,10] \yon^{\rr^2 \times [0,10]} \to \rr^2 \yon^{[0,1] \times [0,2\pi)}.
+\]
+Its yield function $\rr^2 \times [0,10] \to \rr^2$ is the canonical projection, as the machine only outputs its location in $\rr^2$ and not its health; while its update function
+\[
+    \rr^2 \times [0,10] \times [0,1] \times [0,2\pi) \to \rr^2 \times [0,10]
+\]
+sends $(x, y, h, r, \theta)$ to
+\[
+    (x + hr\cos\theta, y + hr\sin\theta, h'),
+\]
+where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and $h' = h$ otherwise.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.file_reader}
-Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$. Suppose given such a file and refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions. Make a robot (Moore machine) whose output type is $\Set{ascii}$ and whose input type is
-\[
-\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}
-\]
-Given an input, if it is of the form $(s,t)$ then the robot goes to position $s$ in the file and begins reading (assuming it receives the ``continue'' signal) one character at a time, until it reaches position $t$. Then it continually outputs ``done'' until it receives another $(s,t)$ pair.
-\end{exercise}
+Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
+We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions in the file and, for each position $i \in \ord{n}$, the value $f(i)$ as the character at position $i$.
 
-When we get to generalized Moore machines, we will be able to let the robot ``close its port,'' so that while it can't receive signals while it's busy reading; see \cref{ex.generalized_file_reader}.
+Given a file $f$, make a robot (Moore machine) whose output type is $\Set{ascii} + \{\text{done}\}$
+and whose input type is
+\[
+\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}.
+\]
+For any input, if it is of the form $(s,t)$, then the robot should go to position $s$ in the file and read the character at that position.
+If the input is ``continue,'' the robot should move to the next position (i.e.\ from $s$ to $s+1$) and read that character—unless the new position would be greater than $t$, in which case the robot should continually output ``done'' until it receives another $(s,t)$ pair.
+\begin{solution}
+Given a file $f \colon \ord{n} \to \Set{ascii}$, we construct our file-reading robot as a Moore machine as follows.
+There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ tracks the robot's current position in the file, while $t$ tracks the position where the robot should stop.
+But we will also include a ``done'' state to record when the robot has passed the stop position.
+So the Moore machine is a lens
+\[
+    (\ord{n}^\2+\{\text{done}\})\yon^{\ord{n}^\2+\{\text{done}\}} \to (\Set{ascii} + \{\text{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}}.
+\]
+If the robot's current state is ``done,'' then the robot should output ``done.'' Otherwise, the robot should output the character at its current position in the file.
+So its yield function $\ord{n}^\2+\{\text{done}\} \to \Set{ascii} + \{\text{done}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
+Meanwhile, the update function
+\[
+    (\ord{n}^\2+\{\text{done}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}) \to \ord{n}^\2+\{\text{done}\}
+\]
+sends any state with input $(s,t)$ to the state $(s,t)$.
+On the other hand, if the input is ``continue,'' an old state $(i,t)$ is sent to the new state $(i+1,t)$ if $i + 1 \leq t$ and ``done'' otherwise.
+Finally, if the old state is ``done'' and the input is ``continue,'' the new state is still ``done.''
+\end{solution}
+\end{exercise}
+While \cref{exc.file_reader} gives us a functioning file-reading robot, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of positions before the robot has finished reading from the previous range.
+When we introduce generalized Moore machines, we will be able to let the robot ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
 
 \begin{exercise}[Tape of a Turing machine]
-A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of ``current'' position. Thus the set of states of the tape is $T\coloneqq V^\zz\times\zz$.
+A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of the ``current'' position. Thus the set of states of the tape is $V^\zz\times\zz$.
 
-The Turing machine interacts with the tape by asking for the value at the current position, an element of $V$, and by telling it to change the value there as well as whether to move left or right. Thus the output of the tape is $V$ and the input is $V\times\{L,R\}$.
+The Turing machine interacts with the tape by asking for the value at the current position, an element of $V$, and by telling it to change the value there as well as whether to move left (i.e.\ decrease the current position by $1$) or right (i.e.\ increase by $1$). Thus the set of outputs of the tape is $V$ and the set of inputs is $V\times\{L,R\}$.
 
 \begin{enumerate}
 	\item Give the form of the tape as a Moore machine, i.e.\ map of polynomials $t\colon S\yon^S\to p$ for appropriate $S\in S$ and $p\in\poly$.
 	\item Write down the specific $t$ that makes it act like a tape as specified above.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item A Turing machine has states $V^\zz \times \zz$, outputs $V$, and inputs $V \times \{L, R\}$, so as a Moore machine, it is a map of polynomials
+    \[
+        t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
+    \]
+    \item The yield function of $t$ should output the value at the current position of the tape. So $\text{yield} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
+    Meanwhile, the update function of $t$ should write the input value of $V$ at the current position of the tape, then move according to whether the second input value is $L$ (left) or $R$ (right).
+    So
+    \[
+        \text{update} \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
+    \]
+    sends old tape $f \colon \zz \to V$, old position $c \in \zz$, new value $v \in V$, and direction $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ satisfying
+    \[
+        f'(n) =
+        \begin{cases}
+            v & \text{if } n = c \\
+            f(n) & \text{if } n \neq c
+        \end{cases}
+    \]
+    and the new position $c-1$ if $D=L$ and $c+1$ if $D = R$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-\begin{example}[Paddling]\label{ex.paddler}
-Consider an entity with interface $\nn\yon$; its behavior will be a stream of natural numbers, any stream. What if we don't want to enable our entity to just jump around wildly. Instead, suppose we want to be very strict about what how far the entity can move and what makes it move.
+\paragraph{Regular languages}
 
-To accomplish this, we in fact use two entities, which we call \emph{paddler} and \emph{tracker}:%
+Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
+
+\begin{definition}\label{def.dfa}
+A \emph{deterministic finite state automaton} consists of
+\begin{enumerate}
+	\item a finite set $S$, elements of which are called \emph{states}
+	\item a finite set $A$, elements of which are called \emph{input symbols},
+	\item a function $u\colon S\times A\to S$, called the \emph{update function},
+	\item an element $s_0\in S$, called the \emph{initial state},
+	\item a subset $F\ss S$, called the \emph{accept states}.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}
+A deterministic finite state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of maps
+\[
+\yon\to S\yon^S\to \2\yon^A.
+\]
+\end{proposition}
+\begin{proof}
+A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
+A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \subseteq S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
+\end{proof}
+
+
+\begin{example}[Paddling]\label{ex.paddler}
+Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
+We may interpret each natural number as the machine's current location.
+What if we don't want this machine to jump around wildly?
+Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+
+To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
 \footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
 \[
   \textit{paddler}\coloneqq\2\yon
   \qqand
   \textit{tracker}\coloneqq\nn\yon^\2
 \]
-The paddler has interface $\2\yon$ because it is blind and can only move its paddle left or right, $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the paddler (as an element $n\in\nn$) and it watch what the paddler does (as an element of $\2$). Their enclosure together
+The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
 \[
 \textit{tracker}\otimes\textit{paddler}\to\nn\yon
 \]
-is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's paddle position.
+is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's direction.
 
 Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
 \[\varphi\colon S\yon^S\to\nn\yon^\2\]
@@ -3780,17 +3870,17 @@ are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
 \[
   (p,i)\mapsto i,p'\mapsto
 	\begin{cases}
-		i&\tn{ if }p=p'\\
-		i+1&\tn{ if }p\neq p'
+		i&\tn{if }p=p'\\
+		i+1&\tn{if }p\neq p'.
 	\end{cases}
 \]
-As advertised, when the paddle swishes, the tracker announces that the paddler has moved forward one unit; when the paddle stays still, the tracker announces that the paddler itself also stays still.
+As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
 \end{example}
 
 \begin{exercise}
 Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
 
-When the paddle swishes once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle swishes twice in a row, the tracker increases its position by two units on the second swish! So if it is quiet for a while and then swishes three times in a row, the tracker will increase its position by one then two then two.
+When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
 \end{exercise}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
@@ -3802,16 +3892,20 @@ Let's say that your hand can be at one of two heights, down or up, and that you 
 	\qqand
 	P\coloneqq\{\text{press, no press}\}.
 \]
-Your interface is $HP\yon^H$: producing a height and a pressure, receiving a height.
+Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
 
-As for the chalk, it is in one of two modes: in your possession or not. Either way it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's not in your possession (mode 1), that's the whole story, but when it is in your possession (mode 2) it also receives your hand's height. All together, here are the two interfaces:
+As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
 \[
 	\textit{you}\coloneqq HP\yon^H
 	\qqand
-	\textit{chalk}\coloneqq \{1\}H\yon^P + \{2\}H\yon^{PH}.
+	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
 \]
 
-Now we want to give the interaction between you and the chalk. As we said before, you see the chalk's height. If your hand is at the height of the chalk, it receives your pressure. If it's in your possession, it also receives your hand's height. 
+Now we want to give the interaction between you and the chalk.
+As we said before, you see the chalk's height.
+If your hand is not at the height of the chalk, the chalk receives no pressure.
+Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
+Furthermore, if the chalk is in your possession, it also receives your hand's height. 
 
 To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
 \[
@@ -3820,55 +3914,63 @@ To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the
 	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
 \]
 The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting; it is given by the following map
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
 \[
-  ((p,h),h')\mapsto
+  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
   \begin{cases}
-  	(h',\text{no press})&\tn{ if }h\neq h'\\
-  	(h',p)&\tn{ if }h= h'
+  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
+  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
   \end{cases}
 \]
-We'll use primes, e.g.\ $h'$ to denote variables associated to the chalk, and no primes, e.g.\ $h$ and $p$ to denote variables associated to you.
 
-So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. As for your dynamics, it can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk  has only four states $C\coloneqq \2H\cong\4$: the $H$ coordinate is its current height and the other coordinate is its mode (1 or 2) corresponding to whether or not it is ``in your possession''. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession''. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
 \begin{equation}\label{eqn.chalk_dynamics}
-	\2H\yon^{\2H}\to \{1\}H\yon^P + \{2\}H\yon^{PH}.
+	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
 \end{equation}
-As you might guess, the chalk reveals its mode and height directly. If it's not in your possession it falls down unless you catch (apply pressure to) it; if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, defining \eqref{eqn.chalk_dynamics}:
+As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
 \begin{align*}
-  (1,h')&\mapsto
-  	\left(1,h',p\mapsto
-		\begin{cases}
-			(\text{down, no press})&\tn{ if }p=\text{no press}\\
-			(h',\text{press})&\tn{ if }p=\text{press}
-		\end{cases}\right)\\
-	(2, h')&\mapsto
-		\left(2,h',(h,p)\mapsto
-		\begin{cases}
-			(h,1)&\tn{ if }p=\text{no press}\\
-			(h,2)&\tn{ if }p=\text{press}
-		\end{cases}\right)
+  (\text{out}, h_\textit{chalk})&\mapsto
+  	\left(\text{out}, h_\textit{chalk},
+		\begin{aligned}
+			\text{no press} &\mapsto (\text{out, down}) \\
+			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
+		\end{aligned}\right)\\
+	(\text{in}, h_\textit{chalk})&\mapsto
+		\left(\text{in},h_\textit{chalk},
+		\begin{aligned}
+			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
+			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
+		\end{aligned}\right)
 \end{align*}
 Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
 \end{example}
 
 \begin{exercise}\label{exc.pickup_chalk}
 \begin{enumerate}
-	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
-	\item Provide dynamics to the \textit{you} character. For example, you repeatedly reach down and pick up the chalk, lift your hand, and drop it. 
+	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
+	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
+    This amounts to a function $HPH \to HHP$.
+    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
+    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
+    So we will give your dynamics as a polynomial morphism $\3\yon^\3 \to HP\yon^H$, where the yield function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
+    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \paragraph{Situations.}
-
 Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation} for $p$, and denote the set of them by
 \[
 \Gamma(p)\coloneqq\poly(p,\yon)
 \]
-as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation is what dictates what you'll see, given anything you might do. If the situation is that you're at a party, then that dictates what you'll receive, given your position. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
+as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation is what dictates what you'll see (your input), given anything you might do (your output). If the situation is that you're at a party, then that dictates what direction you'll receive, given what position you take. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
 
-A map $p_1\otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situation is a useful concept.
+A map $p_1\otimes \cdots \otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situations are a useful concept.
 
 \begin{proposition}\label{prop.situations2}
 Given polynomials $p,q\in\poly$, there is a bijection
@@ -3880,11 +3982,13 @@ The idea is that for $p$ and $q$ to be enclosed together in a system simply mean
 \begin{proof}[Proof of \cref{prop.situations2}]
 This is a direct calculation.
 \begin{align*}
-	\Gamma(p\otimes q)&\coloneqq
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}(p[i]\times q[j]\\&\cong
-	\left(\prod_{i\in p(\1)}\prod_{j\in q(\1)}p[i]\right)\times
-		 \left(\prod_{i\in p(\1)}\prod_{j\in q(\1)}q[j]\right)\\&\cong
-	\smset(q(\1),\Gamma(p))\times\smset(p(\1),\Gamma(q))
+	\Gamma(p\otimes q) &\coloneqq
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}(p[i]\times q[j]) \\
+	&\cong
+	\left(\prod_{j\in q(\1)}\prod_{i\in p(\1)}p[i]\right)\times
+		 \left(\prod_{i\in p(\1)}\prod_{j\in q(\1)}q[j]\right) \\
+	&\cong
+	\smset(q(\1),\Gamma(p))\times\smset(p(\1),\Gamma(q)).
 \end{align*}
 \end{proof}
 
@@ -3900,8 +4004,8 @@ This is a direct calculation.
 \begin{exercise}
 We will use \cref{prop.situations2} to consider the interaction $\varphi$ between \textit{you} and \textit{chalk} from \cref{ex.pickup_chalk} as a pair of functions $\textit{you}\to\Gamma(\textit{chalk})$ and $\textit{chalk}\to\Gamma(\textit{you})$.
 \begin{enumerate}
-	\item How is the chalk's position a situation for you? That is, write the map $\textit{chalk}\to\Gamma(\textit{you})$.
-	\item How is your position a situation for the chalk? That is, write the map $\textit{you}\to\Gamma(\textit{chalk})$.
+	\item How is the chalk's position a situation for you? That is, write the map $\textit{chalk}(1)\to\Gamma(\textit{you})$.
+	\item How is your position a situation for the chalk? That is, write the map $\textit{you}(1)\to\Gamma(\textit{chalk})$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -3940,44 +4044,19 @@ the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^
 \footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
 and the elements of $S$ are called states. It is no coincidence that we also refer to elements of $S$ as states. 
 
-Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1} they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
+Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
 \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
-
-\paragraph{Regular languages}
-
-Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
-
-\begin{definition}\label{def.dfa}
-A \emph{deterministic finite state automaton} consists of
-\begin{enumerate}
-	\item a finite set $S$, elements of which are called \emph{states}
-	\item a finite set $A$, elements of which are called \emph{input symbols},
-	\item a function $u\colon S\times A\to S$, called the \emph{update function},
-	\item an element $s_0\in S$, called the \emph{initial state},
-	\item a subset $F\ss S$, called the \emph{accept states}.
-\end{enumerate}
-\end{definition}
-
-\begin{proposition}
-A deterministic finite state automaton can be identified with a pair of maps
-\[
-\yon\to S\yon^S\to \2\yon^A.
-\]
-\end{proposition}
-\begin{proof}
-A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$. A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$---which can be identified with a subset of $S$---together with a function $S\times A\to S$, which is the rest of the required structure.
-\end{proof}
-
 
 \paragraph{Products: two interfaces operating on the same system.}
 
-One thing we can use right away in our thinking about dynamical systems is products of polynomials. The universal property of products says that for any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$ there is a unique map $s\to p_1p_2$. In the context of Moore machines, we have the following.
+One thing we can use right away in our thinking about dynamical systems is products of polynomials.
+For any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$, the universal property of products gives us a map $s\to p_1p_2$. In the context of Moore machines, we have the following.
 
 \begin{proposition}
-Suppose given an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
+Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
 \end{proposition}
 \begin{proof}
-We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence by the universal property of products we have a map
+We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence, by the universal property of products, we have a map
 \[
   S\yon^S\to
   (B_1\yon^{A_1})\times(B_2\yon^{A_2})
@@ -4192,7 +4271,7 @@ Add to \cref{ex.movement_options} as follows.
 \end{exercise}
 
 \begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but make the robot have a different interface when it is in read-mode: namely, one where it cannot take in signals.
+In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but give the robot a different interface when it is in read-mode: namely, one where it cannot take in signals.
 
 Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
 current position $s$ and a terminal position $t$. For our interface, we'll have
