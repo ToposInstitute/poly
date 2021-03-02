@@ -3305,7 +3305,7 @@ We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$
 \paragraph{$\otimes$-monoids in $\poly$}
 
 \begin{definition}
-A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, called the \emph{carrier}, a position $\eta\colon\yon\to m$, called the \emph{unit};,and a map $\mu\colon m\otimes m\to m$, called the \emph{multiplication}, that form a monoid in $(\poly,\yon,\otimes)$.
+A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, called the \emph{carrier}; a position $\eta\colon\yon\to m$, called the \emph{unit}; and a map $\mu\colon m\otimes m\to m$, called the \emph{multiplication}, that form a monoid in $(\poly,\yon,\otimes)$.
 \end{definition}
 % ** Show that a map y -> m is a position of m?
 
@@ -3666,7 +3666,7 @@ If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, t
 Suppose we are given a function $f\colon A\times B\to B$.
 \begin{enumerate}
 	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
-	\item Would you say the machine is memoriless?
+	\item Would you say the machine is memoryless?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -3844,126 +3844,87 @@ A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
 A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \subseteq S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
 \end{proof}
 
+\paragraph{Products: two interfaces operating on the same system.}
 
-\begin{example}[Paddling]\label{ex.paddler}
-Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
-We may interpret each natural number as the machine's current location.
-What if we don't want this machine to jump around wildly?
-Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+One thing we can use right away in our thinking about dynamical systems is products of polynomials.
+For any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$, the universal property of products gives us a map $s\to p_1p_2$. In the context of Moore machines, we have the following.
 
-To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
-\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
+\begin{proposition}
+Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
+\end{proposition}
+\begin{proof}
+We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence, by the universal property of products, we have a map
 \[
-  \textit{paddler}\coloneqq\2\yon
-  \qqand
-  \textit{tracker}\coloneqq\nn\yon^\2
-\]
-The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
-\[
-\textit{tracker}\otimes\textit{paddler}\to\nn\yon
-\]
-is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's direction.
+  S\yon^S\to
+  (B_1\yon^{A_1})\times(B_2\yon^{A_2})
+  \cong(B_1B_2)\yon^{A_1+A_2},
+\] 
+as desired.
+\end{proof}
 
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
-\[\varphi\colon S\yon^S\to\nn\yon^\2\]
-are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+In other words, if there are two or more interfaces that drive a single set of states, we can combine them.
+
+\begin{example} \label{ex.labeled_transition}
+Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
 \[
-  (p,i)\mapsto i,p'\mapsto
-	\begin{cases}
-		i&\tn{if }p=p'\\
-		i+1&\tn{if }p\neq p'.
-	\end{cases}
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{-2}\ar[d, green!50!black]&
+  	\LMO{4}\ar[l, green!50!black]\\
+  	\LMO[under]{-8}\ar[loop left, green!50!black]&
+  	\LMO[under]{16}\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
 \]
-As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
+
+The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+  	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
+  	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
+As for the possible inputs, we now have the option of giving either an input from $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
 \end{example}
 
-\begin{exercise}
-Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+\begin{exercise}[Toward event-based systems]
+Let $f\colon S\yon^S\to B\yon^A$ be a Moore machine. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
 
-When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
-\end{exercise}
-
-\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
-Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
-
-Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
-\[
-	H\coloneqq\{\text{down, up}\}
-	\qqand
-	P\coloneqq\{\text{press, no press}\}.
-\]
-Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
-
-As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
-\[
-	\textit{you}\coloneqq HP\yon^H
-	\qqand
-	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\]
-
-Now we want to give the interaction between you and the chalk.
-As we said before, you see the chalk's height.
-If your hand is not at the height of the chalk, the chalk receives no pressure.
-Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
-Furthermore, if the chalk is in your possession, it also receives your hand's height. 
-
-To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
-\[
-	HP\yon^H\otimes H\yon^P\To{\psi}\yon
-	\qqand
-	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
-\]
-The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
-\[
-  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
-  \begin{cases}
-  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
-  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
-  \end{cases}
-\]
-
-So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession''. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
-\begin{equation}\label{eqn.chalk_dynamics}
-	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\end{equation}
-As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
-\begin{align*}
-  (\text{out}, h_\textit{chalk})&\mapsto
-  	\left(\text{out}, h_\textit{chalk},
-		\begin{aligned}
-			\text{no press} &\mapsto (\text{out, down}) \\
-			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
-		\end{aligned}\right)\\
-	(\text{in}, h_\textit{chalk})&\mapsto
-		\left(\text{in},h_\textit{chalk},
-		\begin{aligned}
-			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
-			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
-		\end{aligned}\right)
-\end{align*}
-Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
-\end{example}
-
-\begin{exercise}\label{exc.pickup_chalk}
-\begin{enumerate}
-	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
-	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
-\qedhere
-\end{enumerate}
+So suppose we want to allow our machine not to do anything. That is, rather than needing to press a button in $A$ at each time step, we want to be able to \emph{not} press any button, in which case the machine just stays where it is. We want a new machine $f'\colon S\yon^S\to p$ that has this behavior; what is $p$ and what is $f'$?
 \begin{solution}
-\begin{enumerate}
-    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
-    This amounts to a function $HPH \to HHP$.
-    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
-    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
-    So we will give your dynamics as a polynomial morphism $\3\yon^\3 \to HP\yon^H$, where the yield function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
-    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
-\end{enumerate}
+Given a Moore machine $f\colon S\yon^S\to B\yon^A$, we seek a new machine $f'\colon S\yon^S\to p$ that has the added option to provide no input at a step so that the machine does not change.
+We can think of this as having two different interfaces acting on the same system: the original interface $B\yon^A$ of $f$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the system.
+This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
+So the interface is $\yon$.
+
+If $\yon$ were the only interface acting on the system, we would have a Moore machine $g \colon S\yon^S \to \yon$ whose yield function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
+Then $p$ is the product of the two interfaces $B\yon^A$ and $\yon$, while $f' \colon S\yon^S \to p$ is the unique map induced by $f \colon S\yon^S \to B\yon^A$ and $g \colon S\yon^S \to \yon$.
+In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a yield function $S \to B$ that is the same as the yield function of $f$ and an update function $S \times (A + \1) \to S$ that behaves like the update function of $f$ when the input is from $A$ but does not change the state when the input is from $\1$.
 \end{solution}
 \end{exercise}
 
-\paragraph{Situations.}
+\paragraph{Parallel products: juxtaposing machines.}
+
+\paragraph{Composing morphisms: wrapper interfaces.} % migrating interfaces? overlaying interfaces?
+
+\paragraph{Situations.} % Fields? Enclosures?
 Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation} for $p$, and denote the set of them by
 \[
 \Gamma(p)\coloneqq\poly(p,\yon)
@@ -4034,6 +3995,45 @@ The situations functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoid
 \]
 satisfying certain well-known laws. We won't prove this unless or until we need it.
 
+\begin{example}[Paddling]\label{ex.paddler}
+Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
+We may interpret each natural number as the machine's current location.
+What if we don't want this machine to jump around wildly?
+Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+
+To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
+\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
+\[
+  \textit{paddler}\coloneqq\2\yon
+  \qqand
+  \textit{tracker}\coloneqq\nn\yon^\2
+\]
+The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
+\[
+\textit{tracker}\otimes\textit{paddler}\to\nn\yon
+\]
+is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's direction.
+
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+\[\varphi\colon S\yon^S\to\nn\yon^\2\]
+are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+\[
+  (p,i)\mapsto i,p'\mapsto
+	\begin{cases}
+		i&\tn{if }p=p'\\
+		i+1&\tn{if }p\neq p'.
+	\end{cases}
+\]
+As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
+\end{example}
+
+\begin{exercise}
+Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+
+When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
+\end{exercise}
+
+
 \paragraph{The polynomial $S\yon^S$ as a comonad on $\smset$.}\label{page.poly_comonad}
 
 A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
@@ -4042,78 +4042,10 @@ A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped wit
 \]
 the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
 \footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
-and the elements of $S$ are called states. It is no coincidence that we also refer to elements of $S$ as states. 
+and the elements of $S$ are called states. \niu{Are they??} It is no coincidence that we also refer to elements of $S$ as states. \niu{How does the interpretation of the store comonad as a data structure indexed by $S$ along with a ``current location'' element in $S$ actually relate to this?}
 
 Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
 \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
-
-\paragraph{Products: two interfaces operating on the same system.}
-
-One thing we can use right away in our thinking about dynamical systems is products of polynomials.
-For any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$, the universal property of products gives us a map $s\to p_1p_2$. In the context of Moore machines, we have the following.
-
-\begin{proposition}
-Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
-\end{proposition}
-\begin{proof}
-We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence, by the universal property of products, we have a map
-\[
-  S\yon^S\to
-  (B_1\yon^{A_1})\times(B_2\yon^{A_2})
-  \cong(B_1B_2)\yon^{A_1+A_2},
-\] 
-as desired.
-\end{proof}
-
-\begin{example} \label{ex.labeled_transition}
-Consider two four-state dynamical systems $4\yon^4\to \rr\yon^{\{r,b\}}$ and $4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
-\[
-\begin{tikzpicture}
-	\node[draw] (1) {
-  \begin{tikzcd}[row sep=15pt]
-  	\LMO{3.14}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
-  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
-  	\LMO[under]{1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
-  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
-  \end{tikzcd}
-	};
-	\node[draw, right=of 1] {
-  \begin{tikzcd}[row sep=15pt]
-  	\LMO{2}\ar[d, green!50!black]&
-  	\LMO{4}\ar[l, green!50!black]\\
-  	\LMO[under]{8}\ar[loop left, green!50!black]&
-  	\LMO[under]{16}\ar[ul, green!50!black]
-  \end{tikzcd}
-  };
- \end{tikzpicture}
-\]
-
-The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
-\[
-\begin{tikzpicture}
-	\node[draw] (1) {
-  \begin{tikzcd}
-  	\LMO{(3.14,2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
-  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
-  	\LMO[under]{(1.41,8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
-  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
-  \end{tikzcd}
-  };
-\end{tikzpicture}
-\]
-\end{example}
-
-In other words, if there are two or more interfaces that drive a single set of states, we can combine them.
-
-
-
-\begin{exercise}[Toward event-based systems]
-Let $f\colon S\yon^S\to B\yon^A$ be a Moore machine. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
-
-So suppose we want to allow our machine not to do anything. That is, rather than needing to press a button in $A$ at each time step, we want to be able to \emph{not} press any button, in which case the machine just stays where it is. We want a new machine $f'\colon S\yon^S\to p$ that has this behavior; what is $p$ and what is $f'$?
-\end{exercise}
-
-
 
 %---- Subsection ----%
 \subsection{Dependent Systems}
@@ -4126,18 +4058,28 @@ A \emph{dependent system} is a map of polynomials
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
 \end{definition}
 
-We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p=B\yon^A$ for sets $A,B$. A polynomial might be $p=B_1\yon^{A_1}+\cdots+B_k\yon^{A_k}$ (though it doesn't have to be finite), so the output is an element of the coproduct $B_1+\cdots+B_k$, and the choice of output determines what sort of input you get. What kind of output is that?
+We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p\coloneqq B\yon^A$ for sets $A,B$.
+For the standard Moore machines that we have been working with, the set of inputs was always fixed; if the interface were $B\yon^A$, the set of inputs would always be $A$.
 
-We now begin to think of outputs not only as outward expressions, but as positions that one takes within ones arena, terminology we've been using all along. If the arena is your body, this would be positions of your body. This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc. In fact, all talking and gesturing is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
+On the other hand, an arbitrary polynomial looks like $p\coloneqq\sum_{j \in J} B_j\yon^{A_j}$.
+So the output of a dependent system with interface $p$ is an element of the coproduct $\sum_{j \in J} B_j$.
+Then which $B_j$ the output is in determines the sort of input $A_j$ you get.
+The set of inputs is no longer constant; it varies depending on the current output.
+What kind of system has that kind of a relationship between its inputs and outputs?
 
-\slogan{The position you're in is itself a sensory organ, a hand outstretched, an eye open or closed.}
+Well, we can begin to think of outputs not only as outward expressions, but as positions that one takes within one's arena---terminology we've been using all along.
+If the arena is your body, then your outputs would be the positions that your body could take.
+This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc.
+In fact, every form of output you provide, from talking to gesturing to moving another object, is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
+
+\slogan{The position you're in is itself a sensory organ: a hand outstretched, an eye open or closed.}
 
 If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
 
-But however you think of dependent systems, we need to get a feel for how they work. Let's start with something familiar.
+But however you think of dependent systems, we need to get a feel for how they work mathematically. Let's start with something familiar.
 
 \begin{example}\label{ex.regular_lang_stop}
-Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in ones language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
+Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in one's language. For that, rather than use a map $S\yon^S\to 2\yon^A$, we could use a map
 \[
 (f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
 \]
@@ -4334,6 +4276,86 @@ On positions define
 
 \begin{exercise}
 Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+\end{exercise}
+
+\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
+Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
+
+Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
+\[
+	H\coloneqq\{\text{down, up}\}
+	\qqand
+	P\coloneqq\{\text{press, no press}\}.
+\]
+Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
+
+As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
+\[
+	\textit{you}\coloneqq HP\yon^H
+	\qqand
+	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\]
+
+Now we want to give the interaction between you and the chalk.
+As we said before, you see the chalk's height.
+If your hand is not at the height of the chalk, the chalk receives no pressure.
+Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
+Furthermore, if the chalk is in your possession, it also receives your hand's height. 
+
+To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
+\[
+	HP\yon^H\otimes H\yon^P\To{\psi}\yon
+	\qqand
+	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
+\]
+The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
+\[
+  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
+  \begin{cases}
+  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
+  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
+  \end{cases}
+\]
+
+So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession''. We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+\begin{equation}\label{eqn.chalk_dynamics}
+	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\end{equation}
+As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
+\begin{align*}
+  (\text{out}, h_\textit{chalk})&\mapsto
+  	\left(\text{out}, h_\textit{chalk},
+		\begin{aligned}
+			\text{no press} &\mapsto (\text{out, down}) \\
+			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
+		\end{aligned}\right)\\
+	(\text{in}, h_\textit{chalk})&\mapsto
+		\left(\text{in},h_\textit{chalk},
+		\begin{aligned}
+			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
+			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
+		\end{aligned}\right)
+\end{align*}
+Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
+\end{example}
+
+\begin{exercise}\label{exc.pickup_chalk}
+\begin{enumerate}
+	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
+	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
+    This amounts to a function $HPH \to HHP$.
+    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
+    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
+    So we will give your dynamics as a polynomial morphism $\3\yon^\3 \to HP\yon^H$, where the yield function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
+    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 %---- Subsection ----%
