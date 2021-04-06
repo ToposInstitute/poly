@@ -1277,7 +1277,7 @@ Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. 
 \[
 \sum_{i\in I}X_i:=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
 \qqand
-\prod_{i\in I}X_i:=\{f : (i \in I) \to X_i\}.
+\prod_{i\in I}X_i:=\{f \colon (i \in I) \to X_i\}.
 \]
 \end{definition}
 
@@ -1333,26 +1333,26 @@ Now $I = \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty 
 \end{exercise}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
-  Let $X : I \to \smset$ be a set depending on an $i \in I$. There is a
+  Let $X \colon I \to \smset$ be a set depending on an $i \in I$. There is a
   projection function
-  $\pi_1 : \sum_{i \in I} X_i \to I$
+  $\pi_1 \colon \sum_{i \in I} X_i \to I$
   defined by $\pi_1(i, x) = i$.
   \begin{enumerate}
     \item What is the signature of the second projection $\pi_2(i, x) = x$?
     (Hint: it's a dependent function.)
-    \item A \emph{section} of a function $r : A \to B$ is a function $s : B \to A$ such that $s \then r = \id_B$.
+    \item A \emph{section} of a function $r \colon A \to B$ is a function $s \colon B \to A$ such that $s \then r = \id_B$.
     Show that the dependent product is isomorphic to the set of sections of $\pi_1$:
-    \[\prod_{i \in I} X_i \cong \left\{s : I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.\]
+    \[\prod_{i \in I} X_i \cong \left\{s \colon I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.\]
     \qedhere
   \end{enumerate}
 \begin{solution}
-We have a dependent set $X : I \to \smset$ and a projection function $\pi_1 : \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
+We have a dependent set $X \colon I \to \smset$ and a projection function $\pi_1 \colon \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
 \begin{enumerate}
     \item The second projection $\pi_2(i, x) = x$ sends each pair $p = (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
     Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
     This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
     
-    \item Let $S := \{s : I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
+    \item Let $S := \{s \colon I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
     For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have that $f(i) \in X_i$ for all $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends each $i \in I$ to $(i, f(i))$.
     Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is indeed a section of $\pi_1$.
     Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to S$.
@@ -1884,7 +1884,7 @@ Recall from \cref{sec.poly.intro.dec} that we may view each position of an arena
 The morphisms $f\colon p\to q$ are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
 
 %In fact, this formula will be so important to us that we will often blur the
-%difference between a dependent lens $\lens{f^{\sharp}}{f} : \lens{p[i]}{i \in
+%difference between a dependent lens $\lens{f^{\sharp}}{f} \colon \lens{p[i]}{i \in
 %  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
 %q$ it corresponds to.
 %\end{remark}
@@ -2763,6 +2763,43 @@ In practice, we can multiply polynomial functors the same way we would multiply 
     \end{align*}
     where the last isomorphism follows from \cref{exc.general_poly_times.monomial}.
 \end{enumerate}
+\end{solution}
+\end{exercise}
+
+As arena morphisms, the canonical projections $\pi \colon pq \to p$ and $\phi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
+
+\begin{exercise}
+Show that for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ described above do in fact satisfy the universal property of the product of $p$ and $q$.
+\begin{solution}
+We wish to show that for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ as described in the text are such that, for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
+\begin{equation} \label{eq.prod_univ_prop}
+\begin{tikzcd}
+	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
+	p & pq. \ar[l, "\pi"] \ar[u, "\phi"'] \\
+\end{tikzcd}
+\end{equation}
+In order for \eqref{eq.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
+\begin{equation} \label{eq.prod_univ_prop_pos}
+\begin{tikzcd}
+	r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
+	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\phi_\1"'] \\
+\end{tikzcd}
+\end{equation}
+But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\phi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eq.prod_univ_prop_pos} commutes.
+Hence $h$ is uniquely characterized on positions.
+In particular, it must send each $k \in r(\1)$ to the pair $(f_\1(k), g_\1(k)) \in (pq)(\1)$.
+
+Then the commutativity of \eqref{eq.prod_univ_prop} on directions suggests that for every $k \in r(\1)$, the following diagram of sets commutes:
+\begin{equation} \label{eq.prod_univ_prop_dir}
+\begin{tikzcd}[sep=large]
+	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_\1(k), g_\1(k))}"] \\
+	p[f_\1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1(k), g_\1(k))}"'] & (pq)[(f_\1(k), g_\1(k))]. \ar[ul, "h^\sharp_k"', dashed] \\
+\end{tikzcd}
+\end{equation}
+As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\phi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eq.prod_univ_prop_dir} commutes.
+Hence $h$ is also uniquely characterized on directions, so it is unique overall.
+Moreover, we have shown that we can define $h$ on positions so that \eqref{eq.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eq.prod_univ_prop_dir} commutes.
+As the commutativity of \eqref{eq.prod_univ_prop_pos} and \eqref{eq.prod_univ_prop_dir} together imply the commutativity of \eqref{eq.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eq.prod_univ_prop} commutes.
 \end{solution}
 \end{exercise}
 
@@ -4224,7 +4261,7 @@ two modes, each of which yields an ascii character:
 %% Jaz: In Haskell, this would read
 %%      data \Out{FileReader} = Accepting ascii | Busy ascii
 %%
-For our input, we need a family $\In{FileReader} : \Out{FileReader} \to \smset$.
+For our input, we need a family $\In{FileReader} \colon \Out{FileReader} \to \smset$.
 We'll define this by cases:
 \begin{align*}
   \In{FileReader}(\fun{Accepting}(c)) &= \State{FileReader}, \\
@@ -4954,7 +4991,7 @@ For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 \begin{exercise}
 \begin{enumerate}
 	\item Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}.
-	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes
+	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
 	\[
 	\begin{tikzcd}
 		p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
