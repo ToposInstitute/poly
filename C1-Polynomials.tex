@@ -2539,6 +2539,33 @@ Indeed, by \cref{prop.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, 
 \end{solution}
 \end{exercise}
 
+% \begin{example}[Commutative diagrams in $\poly$] \label{ex.comm_poly}
+% The above exercise tells us how to interpret commutative diagrams in $\poly$.
+% Given polynomials $p, q, r$ and natural transformations $f \colon p \to q, g \colon q \to r,$ and $h \colon p \to r$ with associated arena morphisms $(f_1, f^\sharp)$, $(g_1, g^\sharp)$, and $(h_1, h^\sharp)$, the diagram
+% \[
+% \begin{tikzcd}
+%     p \ar[r, "f"] \ar[dr, "h"'] & q \ar[d, "g"] \\
+%     & r
+% \end{tikzcd}
+% \]
+% commutes in $\poly$ if and only if the diagram
+% \[
+% \begin{tikzcd}
+%     p(\1) \ar[r, "f_1"] \ar[dr, "h_1"'] & q(\1) \ar[d, "g_1"] \\
+%     & r(\1)
+% \end{tikzcd}
+% \]
+% commutes in $\smset$ and, for each $i \in p(\1)$, the diagram
+% \[
+% \begin{tikzcd}
+%     p[i] & q[f_1(i)] \ar[l, "f^\sharp_i"'] \\
+%     & r[h_1(i)] \ar[u, "g^\sharp_{f_1(i)}"'] \ar[ul, "h^\sharp_i"]
+% \end{tikzcd}
+% \]
+% commutes in $\smset$.
+% We can use this fact to determine whether a given diagram in $\poly$ commutes.
+% \end{example}
+
 %% **Examples/exercises of composing two polynomial morphisms?
 
 \begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
@@ -2768,10 +2795,11 @@ In practice, we can multiply polynomial functors the same way we would multiply 
 
 As arena morphisms, the canonical projections $\pi \colon pq \to p$ and $\phi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
 
-\begin{exercise}
-Show that for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ described above do in fact satisfy the universal property of the product of $p$ and $q$.
+\begin{exercise} \label{exc.poly_prod}
+Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
 \begin{solution}
-We wish to show that for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ as described in the text are such that, for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
+We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ as described in the text satisfy the universal property of the product.
+That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
 \begin{equation} \label{eq.prod_univ_prop}
 \begin{tikzcd}
 	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
@@ -2803,7 +2831,7 @@ As the commutativity of \eqref{eq.prod_univ_prop_pos} and \eqref{eq.prod_univ_pr
 \end{solution}
 \end{exercise}
 
-\paragraph{The parallel product}
+\paragraph{The parallel product} \label{sec.parallel_prod}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
 
 \begin{definition}\label{def.dirichlet}
@@ -3881,13 +3909,19 @@ A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
 A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \subseteq S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
 \end{proof}
 
+\niu{More about regular languages, either in this section or the next. Maybe this section should just be called ``deterministic finite state automata.''}
+
 \paragraph{Products: two interfaces operating on the same system.}
 
 One thing we can use right away in our thinking about dynamical systems is products of polynomials.
+Products give us a way to combine multiple polynomials into one, and in particular, the product of monomials is still a monomial.
+So it should not come as a surprise that they allow us to combine multiple Moore machines.
+What is interesting is that the behavior of this new Moore machine has a natural interpretation in terms of the behaviors of the original machines.
+
 For any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$, the universal property of products gives us a map $s\to p_1p_2$. In the context of Moore machines, we have the following.
 
-\begin{proposition}
-Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1B_2)$-Moore machine, again with state set $S$.
+\begin{proposition} \label{prop.moore_prod}
+Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1 B_2)$-Moore machine, again with state set $S$.
 \end{proposition}
 \begin{proof}
 We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence, by the universal property of products, we have a map
@@ -3899,7 +3933,17 @@ We are given maps of polynomials $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\
 as desired.
 \end{proof}
 
-In other words, if there are two or more interfaces that drive a single set of states, we can combine them.
+\begin{corollary}
+Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S$ for each $i \in \ord{n}$. Then there is an induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine, again with state set $S$.
+\end{corollary}
+\begin{proof}
+The result follows from \cref{prop.moore_prod} by induction on $n$.
+\end{proof}
+
+By \cref{exc.poly_prod}, if each $(A_i,B_i)$-Moore machine has $\text{yield}_i$ as its yield function and $\text{update}_i$ as its update function, then the induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a yield function that sends $s \in S$ to the $n$-tuple $(\text{yield}_i(s))_{i \in \ord{n}}$ and an update function that sends $(s, a) \in S \times \sum_{i \in \ord{n}} A_i$ to $\text{update}_i(s, a)$ if $a \in A_i$.
+
+In other words, if there are multiple interfaces that can drive the same set of states, we can view them as a single interface that drives the states together.
+This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once.
 
 \begin{example} \label{ex.labeled_transition}
 Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
@@ -3938,7 +3982,7 @@ The universal property of products provides a unique way to put these systems to
 \end{tikzpicture}
 \]
 Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
-As for the possible inputs, we now have the option of giving either an input from $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
+As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
 \end{example}
 
 \begin{exercise}[Toward event-based systems]
@@ -3958,6 +4002,77 @@ In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a yield function 
 \end{exercise}
 
 \paragraph{Parallel products: juxtaposing machines.}
+
+Another way to combine two polynomials is by taking their parallel product, as in \cref{sec.parallel_prod}.
+As with the categorical product, the parallel product of monomials is still a monomial.
+So parallel products give us another way to create new Moore machines from old ones by combining them.
+
+\begin{proposition} \label{prop.moore_parallel_prod}
+Suppose we have an $(A_1,B_1)$-Moore machine with state set $S_1$ and an $(A_2,B_2)$-Moore machine with state set $S_2$. Then there is an induced $(A_1 A_2,B_1 B_2)$-Moore machine with state set $S_1 S_2$.
+\end{proposition}
+\begin{proof}
+We are given maps of polynomials $S_1\yon^{S_1}\to B_1\yon^{A_1}$ and $S_2\yon^{S_2}\to B_2\yon^{A_2}$, so we can take their parallel product to get a map
+\[
+  S_1 S_2\yon^{S_1 S_2} \cong (S_1 \yon^{S_1}) \otimes (S_2 \yon^{S_2}) \to
+  (B_1\yon^{A_1})\otimes(B_2\yon^{A_2})
+  \cong(B_1 B_2)\yon^{A_1 A_2},
+\] 
+as desired.
+\end{proof}
+
+\begin{corollary}
+Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S_i$ for each $i \in \ord{n}$. Then there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $\prod_{i \in \ord{n}} S_i$.
+\end{corollary}
+\begin{proof}
+The result follows from \cref{prop.moore_parallel_prod} by induction on $n$.
+\end{proof}
+
+By \cref{prop.dirichlet_monoidal}, if each $(A_i,B_i)$-Moore machine has $\text{yield}_i$ as its yield function and $\text{update}_i$ as its update function, then the induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a yield function that sends the $n$-tuple of states $(s_i)_{i \in \ord{n}} \in \prod_{i \in \ord{n}} S$ to the $n$-tuple of outputs $(\text{yield}_i(s))_{i \in \ord{n}}$ and an update function that sends $((s_i)_{i \in \ord{n}}, (a_i)_{i \in \ord{n}}) \in S \times \prod_{i \in \ord{n}} A_i$ to $(\text{update}_i(s_i, a_i))_{i \in \ord{n}}$.
+In other words, if there are multiple interfaces that drive the same set of states, we can view them as a single interface that drives the states together.
+This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once.
+
+\begin{example} \label{ex.labeled_transition}
+Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{-2}\ar[d, green!50!black]&
+  	\LMO{4}\ar[l, green!50!black]\\
+  	\LMO[under]{-8}\ar[loop left, green!50!black]&
+  	\LMO[under]{16}\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
+\]
+
+The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+  	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
+  	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
+As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
+\end{example}
+
+
+
 
 \paragraph{Composing morphisms: wrapper interfaces.} % migrating interfaces? overlaying interfaces?
 
