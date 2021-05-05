@@ -3632,7 +3632,7 @@ The monoidal product of $\Delta_I\op$ can then be interpreted as list concatenat
 The monoidal unit must then be the empty list $[]$.
 We could give analogous notation for $\Delta_I$.
 
-The counits $[i] \to []$ and comultiplications $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the tensor product, while satisfying associativity and left and right unit laws.
+The counits $[i] \to []$ and comultiplications $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
 For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
 \[
     ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
@@ -3664,7 +3664,7 @@ In particular, for a small set $I$ and a category $\cat{C}_i \in \smcat^\sharp$ 
 
 Before we give the proof of the proposition above, let us examine what it says concretely in the case of binary products.
 
-\begin{example}[Binary products in $\smcat^\sharp$]
+\begin{example}[Binary products in $\smcat^\sharp$] \label{ex.bin_prod}
 For each $i \in \2$, let $\cat{C}_i$ be the category corresponding to the comonoid $(\ema{c}_i, \epsilon_i, \delta_i)$ in $\poly$.
 Then we can define $C \colon \Delta_\2\op \to \poly$ to be the canonical monoidal functor sending each $[i]$ to $\ema{c}_i$.
 \cref{prop.sharp_products} asserts that $\lim C$ is the product of $\cat{C}_1$ and $\cat{C}_2$ in $\smcat^\sharp$. But what kind of a polynomial is $\lim C$, and what is its comonoid structure?
@@ -3691,14 +3691,126 @@ So we can generalize \eqref{eq.lim_example} to say that
 commutes.
 
 Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
+Let us focus, then, on only those projections.
+Together, they form the commutative diagram
+\begin{equation} \label{eq.lim_projs}
+\begin{tikzcd}
+    \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
+    \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
+    \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
+\end{tikzcd}
+\end{equation}
+It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eq.lim_projs} and the limit of the bottom row of \eqref{eq.lim_projs}.
+In particular, the limit of the top row of \eqref{eq.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
+\begin{quote}
+\begin{enumerate}[label=1.\arabic*.]
+    \item choose an object $c_1 \in \cat{C}_1$;
+    \item for each morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+    \begin{enumerate}[label=2.\arabic*.]
+        \item choose an object $d_2 \in \cat{C}_2$;
+        \item for each morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+        \begin{enumerate}[label=3.\arabic*.]
+            \item choose an object $c_3 \in \cat{C}_1$;
+            \item for each morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+            $\quad \cdots$,
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
+The limit of the bottom row of \eqref{eq.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
+From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
 
-% So to specify ___, it suffices to specify ___.
+So every position of $\lim C$ yields a pair of these structures.
+We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
+But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eq.lim_projs}.
+For instance, the fact that the diagram
+\begin{equation}
+\begin{tikzcd}
+    \lim C \ar[r, "\pi_{[1,2]}"] \ar[dr, "\pi_{[2]}"'] & \ema{c}_1 \tri \ema{c}_2 \ar[d, "\epsilon_1 \tri \ema{c}_2"] \\
+    & \ema{c}_2
+\end{tikzcd}
+\end{equation}
+commutes implies that, when following the above instructions, the object $d_2$ chosen for the identity morphism on $c_1$ in the left structure must also be the first object chosen when constructing the right structure.
+Similar diagrams render all such objects chosen for identity morphisms when constructing these structures redundant.
+So, in the end, we have a one-to-one correspondence between positions of $\lim C$ and pairs of structures that can be constructed by following these instructions:
+\begin{quote}
+\begin{enumerate}[label=1.\arabic*.]
+    \item choose an object $c_1 \in \cat{C}_1$;
+    \item for each nonidentity morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+    \begin{enumerate}[label=2.\arabic*.]
+        \item choose an object $d_2 \in \cat{C}_2$;
+        \item for each nonidentity morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+        \begin{enumerate}[label=3.\arabic*.]
+            \item choose an object $c_3 \in \cat{C}_1$;
+            \item for each nonidentity morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+            $\quad \cdots$
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+for the left structure, and
+\begin{quote}
+\begin{enumerate}[label=1.\arabic*.]
+    \item choose an object $d_1 \in \cat{C}_2$;
+    \item for each nonidentity morphism $g_1$ in $\cat{C}_2$ with domain $d_1$:
+    \begin{enumerate}[label=2.\arabic*.]
+        \item choose an object $c_2 \in \cat{C}_1$;
+        \item for each nonidentity morphism $f_2$ in $\cat{C}_1$ with domain $c_2$:
+        \begin{enumerate}[label=3.\arabic*.]
+            \item choose an object $d_3 \in \cat{C}_2$;
+            \item for each nonidentity morphism $g_3$ in $\cat{C}_2$ with domain $d_3$:
+            
+            $\quad \cdots$
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+for the right structure.
+These pairs are then the objects of $\cat{C}_1 \times^\sharp \cat{C}_2$.
+The morphisms from each object are the sequences of morphisms formed by starting from the top of either set of instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (g_1), (f_1, g_2), (g_1, f_2),$ $(f_1, g_2, f_3)$ and $(g_1, f_2, g_3)$.
+In particular, the identity morphism is $()$.
+
+We illustrate how to determine the codomain of each nonidentity morphism using an example.
+To find the codomain of the morphism $(g_1, f_2)$, obtained from steps 1.2 and 2.2 in the right structure, we need to determine the left and right structures of the codomain.
+Its right structure is easy to describe: it is simply the structure obtained by following the remaining instructions, starting from step 3.1, nested under step 2.2 for $f_2$; the recursive nature of these instructions ensures that this is, in fact, a valid right structure.
+As for the left structure of the codomain, we can construct it as follows:
+\begin{quote}
+\begin{enumerate}[label=1.\arabic*.]
+    \item choose the object $\cod(f_2) \in \cat{C}_1$;
+    \item for each nonidentity morphism $f'_2$ in $\cat{C}_1$ with domain $\cod(f_2)$:
+    \begin{enumerate}[label=2.\arabic*.]
+        \item if $f_2 \then f'_2$ is not the identity, then follow the steps nested under step 2.2 for $f_2 \then f'_2$ in the instructions above for constructing the original right structure;
+        \item otherwise, 
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+
+$\cod(f_2)$ in $\cat{C}_1$, then, for each nonidentity morphism $f'_2$ in $\cat{C}_1$ 
+
+
+%codomains...
+
+% example for (f_1, g_2)
+
+
+\end{example}
+
+\begin{example}[Products of discrete categories are products of sets]
+Given sets $S$ and $T$, consider the corresponding discrete categories $S\yon$ and $T\yon$.
+Then by \cref{ex.bin_prod}, the product $S\yon \times^\sharp T\yon$ is the discrete category $(S \times T)\yon$.
+\end{example}
+
+\begin{example}[Products of one-object categories are coproducts of monoids]
+Given monoids $M$ and $N$, consider the corresponding one-object categories $\yon^M$ and $\yon^N$.
+Then by \cref{ex.bin_prod}, the product $\yon^M \times^\sharp \yon^N$ is the one-object category $\yon^{M \ast N}$, where $M \ast N$ is the free product (i.e.\ the coproduct) of the monoids $M$ and $N$.
 \end{example}
 
 
-
 \begin{example}[Unexpectedly-many objects]\label{ex.unexpectedly_many_objects}
-Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. The product $\cat{C}\times^\sharp\cat{C}$ of $\cat{C}$ with itself, taken in $\smcat^\sharp$, has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
+Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. By \cref{ex.bin_prod}, the product $\cat{C}\times^\sharp\cat{C}$ has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
 \begin{itemize}
     \item the sequence $s_1$ starts with either $A_1$ or $B_1$;
     \item the sequence $s_2$ starts with either $A_2$ or $B_2$; and
@@ -3724,11 +3836,11 @@ For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LM
 % \end{enumerate}
 % \end{exercise}
 
-% \begin{example}[Event-based systems]
-% Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
+\begin{example}[Event-based systems]
+Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
 
 % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
-% \end{example}
+\end{example}
 
 \begin{proof}[Proof of \cref{prop.sharp_products}]
 We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its counit and comultiplication.
@@ -3744,6 +3856,8 @@ In particular, we can construct the comultiplication $\delta \colon \lim C \to (
 It is routine to verify that the appropriate diagrams commute.
 
 (Verify comonoid laws)
+
+(Give projections; check that these are comonoid morphisms)
 
 (Verify universal property of product)
 \end{proof}
