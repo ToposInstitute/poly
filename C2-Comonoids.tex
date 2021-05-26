@@ -48,9 +48,9 @@ We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
-\[
+\begin{equation} \label{eqn.composite_formula_circ}
 p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
-\]
+\end{equation}
 \end{proposition}
 \begin{proof}
 We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
@@ -59,20 +59,21 @@ p\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
 \qqand
 q\cong\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
-For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sigma$ in \eqref{eqn.composite_formula} as a $\sigma\prod$. The result 
+For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula} as a $\sum\prod$. The result 
 \begin{equation}\label{eqn.composition_formula_sums_first}
   p\circ q\cong
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]},$}
+  \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$}
 \end{equation}
-(written slightly bigger for clarity) is clearly a polynomial.
+(written slightly bigger for clarity), is clearly a polynomial.
 \end{proof}
 
-The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition namely
+The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
 \[
 p\tri q\coloneqq p\circ q.
 \]
-The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when handwriting it fast, it's ok if it morphs into a $\circ$, but we'll soon see that it is quite evocative in terms of trees, and again it leaves $\circ$ for other uses.
+The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
+But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered, and we'll soon see that it is quite evocative in terms of trees, and again it leaves $\circ$ for other uses.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
 \begin{equation}\label{eqn.composite_formula}
@@ -94,18 +95,45 @@ p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}
 \begin{exercise}
 Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \begin{enumerate}
-	\item What is $q^\2$?
-	\item What is $\yon^2\tri q$? 
+	\item What is $\yon^\2\tri q$? 
 	\item What is $\yon^\1\tri q$?
-	\item What is $(\yon^\2+\yon)\tri q$? This is what $p\tri q$ ``should be''.
+	\item What is $(\yon^\2+\yon^\1)\tri q$? This is what $p\tri q$ ``should be.''
 	\item How many functions $j_1\colon p[1]\to q(\1)$ are there?
 	\item For each function $j_1$ as above, what is $\sum_{d\in p[1]} q[j_1(d)]$?
-	\item How many functions $j_2\colon p[2]\to q(\2)$ are there?
+	\item How many functions $j_2\colon p[2]\to q(\1)$ are there?
 	\item For each function $j_2$ as above, what is $\sum_{d\in p[2]} q[j_2(d)]$?
 	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$.
-	\item Does the result agree with what $p\tri q$ should be?
+	Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
+\begin{solution}
+We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
+\begin{enumerate}
+    \item By standard polynomial multiplication, we have that $\yon^\2 \tri q \iso q^2 \iso \yon^\6 + 2\yon^\3 + \1$.
+    \item We have that $\yon^\1 \tri q \iso q \iso \yon^\3 + \1$.
+    \item Combining the previous parts, we have that $(\yon^\2 + \yon^\1) \tri q \iso q^2 + q^1 \iso \yon^\6 + \3\yon^\3 + \2$.
+    \item Since $p[1] \iso \2$ and $q(\1) \iso \2$, there are $2^2 = 4$ functions $p[1] \to q(\1)$.
+    \item When $j_1 \colon p[1] \to q(\1)$ is one of the two possible bijections, we have that
+    \[
+        \sum_{d \in p[1]} q[j_1(d)] \iso q[1] + q[2] \iso \3 + \0 \iso \3.
+    \]
+    When $j_1 \colon p[1] \to q(\1)$ sends everything to $1 \in q(\1)$, we have that
+    \[
+        \sum_{d \in p[1]} q[j_1(d)] \iso q[1] + q[1] \iso \3 + \3 \iso \6.
+    \]
+    Finally, when $j_1 \colon p[1] \to q(\1)$ sends everything to $2 \in q(\1)$, we have that
+    \[
+        \sum_{d \in p[1]} q[j_1(d)] \iso q[2] + q[2] \iso \0 + \0 \iso \0.
+    \]
+    \item Since $p[2] \iso \1$ and $q(\1) \iso \2$, there are $2^1 = 2$ functions $p[2] \to q(\1)$.
+    \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{d \in p[2]} q[j_2(d)] \iso q[1] \iso \3$, and when $j_2 \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{d \in p[2]} q[j_2(d)] \iso q[2] \iso \0$.
+    \item From the previous parts, we have that
+    \[
+        \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
+    \]
+    which agrees with what $p \tri q$ should be.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.composites_of_specials}
@@ -115,9 +143,17 @@ Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with c
 	\item If $p$ and $q$ are constant, show that $p\tri q$ is too. Give a formula for it.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item Given representable polynomials $p \coloneqq \yon^A$ and $q \coloneqq \yon^B$, we have that $p \tri q \iso \left(\yon^B\right)^A \iso \yon^{AB}$, which is also representable.
+	\item Given linear polynomials $p \coloneqq A\yon$ and $q \coloneqq B\yon$, we have that $p \tri q \iso A(B\yon) \iso AB\yon$, which is also linear.
+	\item Given constant polynomials $p \coloneqq A$ and $q \coloneqq B$, we have that $p \tri q \iso A$, which is also constant (see also \cref{exc.composing_with_constants}).
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-In terms of corollas, composition product $p\tri q$ is given by glueing $q$-corollas onto the tips of $p$-corollas in every possible way. Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, which as in \cref{eqn.trees_for_gazing} we draw as follows
+In terms of corollas, the forest of the composition product $p\tri q$ is given by gluing corollas from the forest of $q$ onto the leaves of corollas from the forest of $p$ in every possible way.
+Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, whose corolla forests we draw as follows:
 \begin{equation}\label{eqn.pq_misc39}
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -232,7 +268,7 @@ It has six positions; the first has six directions, the second, third, and fifth
 Usually, we will prefer the \eqref{eqn.prefered_composite} style rather than the more pedantic \eqref{eqn.actual_composite} style.
 
 \begin{exercise}
-Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the following.
+Use $p,q$ as in \eqref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the following.
 \begin{enumerate}
 	\item Draw $q\tri p$.
 	\item Draw $p\tri p$.
@@ -241,6 +277,16 @@ Use $p,q$ as in \cref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the followin
 	\item Draw $r\tri r\tri r$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+We have $p,q$ as in \eqref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$.
+\begin{enumerate}
+    \item **
+    \item 
+    \item 
+    \item 
+    \item 
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{proposition}
@@ -267,6 +313,18 @@ Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which
 	\item $p\otimes \yon^A\cong p\tri\yon^A$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+Here $A$ and $B$ are sets and $p$ is a polynomial.
+\begin{enumerate}
+	\item The isomorphism exists: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
+	\item The isomorphism exists: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
+	\item The isomorphism does not necessarily exist: while $A\otimes B \iso AB$, we have that $A\tri B \iso A$.
+	\item The isomorphism exists: we have that $A\yon \otimes p \iso \sum_{i \in p(\1)} A\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} A\yon^{p[i]} \iso Ap \iso A\yon\tri p$.
+	\item The isomorphism does not necessarily exist: if, say, $p = B$, then $\yon^A \otimes B \iso B$, while $\yon^A \tri B \iso B^A$.
+	\item The isomorphism does not necessarily exist: if, say, $p = \yon^B$, then $\yon^B \otimes A\yon \iso A\yon^B$, while $\yon^B \otimes A\yon \iso (A\yon)^B \iso A^B\yon^B$.
+	\item The isomorphism exists: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{p[i]} \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 Here is a curious fact relating composition and the closure operation adjoint to $\otimes$. Recall that for any two polynomials $p,q$, there is a polynomial $[p,q]\in\poly$.
@@ -405,10 +463,28 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 \begin{exercise}\label{exc.composing_with_constants}
 \begin{enumerate}
 	\item Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
-	\item Is it true that if $X$ is a set (considered as a constant polynomial) and $p$ is any polynomial, then $X\tri p\cong X$?
-	\item Is it true that if $X$ is a set and $p$ is a polynomial then $p\tri X\cong p(X)$, where $p(X)$ is the set given by applying $p$ as a functor to $X$?
+	\item Show that if $X$ is a set (considered as a constant polynomial) and $p$ is any polynomial, then $X\tri p\cong X$.
+	\item \label{exc.composing_with_constants.appl} Show that if $X$ is a set and $p$ is a polynomial, then $p\tri X\cong p(X)$, where $p(X)$ is the set given by applying $p$ as a functor to $X$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+\end{enumerate}
+Below, $X$ is a set and $p$ is a polynomial.
+\begin{enumerate}[resume]
+    \item A constant functor composed with any functor is still the same constant functor, so $X \tri p \iso X$.
+    We can also verify this using \cref{eqn.composite_formula}:
+    \[
+        X \tri p \iso \sum_{i \in X} \prod_{d \in \varnothing} \sum_{j \in p(\1)} \prod_{e \in p[j]} \yon \iso \sum_{i \in X} \1 \iso X.
+    \]
+    \item When viewed as functors, it is easy to see that $p \tri X \iso p(X)$.
+    We can also verify this using \cref{eqn.composite_formula}:
+    \[
+        p \tri X \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \prod_{e \in \varnothing} \yon \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \1 \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} X \iso \sum_{i \in p(\1)} X^{p[i]} \iso p(X).
+    \]
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 
@@ -473,28 +549,38 @@ Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that
 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
 \end{equation}
 If so, why? If not, give a counterexample.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex.compose_yon}
 For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\cong\yon\tri p$.
 \begin{enumerate}
 	\item Thinking of polynomials as functors $\smset\to\smset$, what functor does $\yon$ represent?
-	\item Why is $p\cong\yon$ isomorphic to $p$?
+	\item Why is $p\tri\yon$ isomorphic to $p$?
 	\item In terms of tree pictures, draw $\yon\tri p$ and $p\tri\yon$, and explain pictorially how to see the isomorphisms $\yon\tri p\cong p\cong p\tri\yon$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item The polynomial $\yon$ is the identity functor on $\smset$.
+    \item Composing any functor with the identity functor yields the original functor, so $p \tri \yon \iso p$.
+    \item **
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Monoidal structure $(\poly,\tri,\yon)$}\label{subsec.monoidal_struc_tri}
+\subsection{The monoidal structure $(\poly,\tri,\yon)$}\label{subsec.monoidal_struc_tri}
 
-The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved, in particular it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$ the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category. For us $\cat{C}\coloneqq\smset$, and we are only using polynomial functors, not all functors, so there is a tiny bit to do, but it's accomplished by \cref{rop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
+The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved; in particular, it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$, the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category, with functor composition as the monoidal product. For us, $\cat{C}\coloneqq\smset$; yet we are only using polynomial functors, not all functors, so there is a tiny bit more to check, but it's accomplished by \cref{prop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
 However, even though the formal theory of functors and natural transformations knocks the monoidality of $\tri$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
 
-For any $f\colon p\to p'$ and $g\colon q\to q'$, we want to define a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
+For any $f\colon p\to p'$ and $g\colon q\to q'$, we should obtain a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
 
-Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (corolla / position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'[f_1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
+Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (i.e.\ position) $i\in p(\1)$ is assigned a decision $f_1(i)\in p'(\1)$. Then every option $d\in p'[f_1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
 
 \begin{example}\label{ex.circ_prod_on_morphisms}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
@@ -691,7 +777,7 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 \end{tikzpicture}
 \]
 
-Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\colon p\to p'$ and $g\colon q\to q'$. Let's just pick something relatively at random
+Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p'$ and $g\colon q\to q'$. Let's just pick something relatively at random:
 \[
 \begin{tikzpicture}
 	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
@@ -748,7 +834,7 @@ Ok, now suppose someone gives us delegations (morphisms / dependent lenses) $f\c
 	};	
 \end{tikzpicture}
 \]
-Then we can form the induced delegation (morphism / dependent lens) $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$), we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+Then we can form the induced delegation $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$), we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
 
 Our six pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
 \[
@@ -936,7 +1022,7 @@ we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in 
 For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. But the easiest way to think of $p\tripow{n}$ is as height-$n$ trees with node labels and branching as dictated by $p$.
 
 \begin{exercise}
-Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with''.
+Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with.''
 \end{exercise}
 
 
@@ -1033,7 +1119,7 @@ The case $k=2$ looks like this
   	\draw (r_dir) to[last] (p_dir);
 \end{tikzpicture}
 \end{equation}
-and is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process''. 
+and is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process.'' 
 
 Suppose we're $p$ and someone gives us a decision $i\in p(\1)$ to make: we're supposed to pick an element of $p[i]$. Luckily, by virtue of our morphism $f\colon p\to q_1\tri\cdots\tri q_k$, consisting of steps $f_1,\ldots,f_k$ and an interpretation $f^\sharp$, we have a process to follow by which we can make the decision. Our first step is to ask $q_1$ to make decision $f_1(i)$. It dutifully chooses some option, say $e_1\in q_1[f_1(i)]$. We know exactly what to do: our second step is to ask $q_2$ to make decision $f_2(i,e_1)$. It dutifully chooses some option, say $e_2\in q_2[f_2(i,e_1)]$. We continue with the plan through step $k$, at which point we ask $q_k$ to make decision $f_k(i,e_1,\ldots,e_{k-1})$. It dutifully chooses some option, say $e_k$, which we then interpret via our passback function $f^\sharp$ to obtain the desired decision $f^\sharp(i,e_1,\ldots,e_k)\in p[i]$.
 
@@ -1297,7 +1383,28 @@ Formally, this just comes down to the fact that coproducts and products of funct
 \end{proof}
 
 \begin{exercise}\label{exc.left_dist}
-Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \cref{prop.poly_closed_comp}.
+Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \cref{eqn.composite_formula}.
+\begin{solution}
+Given $p,q,r \in \poly$, recall that the positions of the sum $p+q$ form the set $p(\1)+q(\1)$, while the directions at each position $i \in p(\1) + q(\1)$ correspond to the directions in $p[i]$ if $i \in p(\1)$ and the directions in $q[i]$ if $i \in q(\1)$.
+So by \cref{eqn.composite_formula}, we have that
+\[
+\begin{split}
+    (p + q) \tri r &\iso \sum_{i \in p(\1)+q(\1)} \prod_{d \in (p+q)[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
+    &\iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon + \sum_{i \in q(\1)} \prod_{d \in q[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
+    &\iso p \tri r + q \tri r.
+\end{split}
+\]
+We can also recall that the positions of the product $pq$ form the set $p(\1) \times q(\1)$, while the directions at each position $(i, i') \in p(\1) \times q(\1)$ correspond to the directions in $p[i] + q[i']$.
+So by \cref{eqn.composite_formula}, we have that
+\[
+\begin{split}
+    (pq) \tri r &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \ \prod_{d \in p[i] + q[i']} \ \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
+    &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \left(\prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \left(\prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
+    &\iso \left(\sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right)\left(\sum_{i' \in q(\1)} \prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
+    &\iso (p \tri r)(q \tri r).
+\end{split}
+\]
+\end{solution}
 \end{exercise}
 
 \begin{example}[Picturing the left distributivity of $\tri$ over $\times$]\label{ex.picturing_dist}
@@ -1473,15 +1580,23 @@ Follow \cref{ex.picturing_dist} with $+$ in place of $\times$: use pictures to g
 \end{exercise}
 
 \begin{exercise}
-Show that the distributivities of \cref{ex.picturing_dist,exc.picturing_dist} do not hold on the other side:
+Show that the distributivities of \cref{prop.left_dist} do not hold on the other side:
 \begin{enumerate}
 	\item Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
 	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\cong(p\tri q)+(p\tri r)$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Let $p \coloneqq \yon + \1, q \coloneqq \1,$ and $r \coloneqq \0$.
+    Then $p \tri (qr) \iso (\yon + \1) \tri \0 \iso \1$, while $(p \tri q)(p \tri r) \iso ((\yon + \1) \tri \1)((\yon + \1) \tri \0) \iso \2 \times \1 \iso \2$.
+    \item Again let $p \coloneqq \yon + \1, q \coloneqq \1,$ and $r \coloneqq \0$.
+    Then $p \tri (q+r) \iso (\yon + \1) \tri \1 \iso \2$, while $(p \tri q)+(p \tri r) \iso ((\yon + \1) \tri \1)+((\yon + \1) \tri \0) \iso \2 + \1 \iso \3$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-A connected limit is one whose indexing category $J$ is (nonempty and) connected. That is, $J$ has at least one object and any two objects are connected by a finite zigzag of arrows.
+A connected limit is one whose indexing category $J$ is nonempty and connected. That is, $J$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 
 \begin{example}
 The following categories are connected:
@@ -1532,10 +1647,29 @@ Use \cref{thm.connected_limits} in the following.
 	\[
 	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r)
 	\]
-	\item Show that the distributivity $pq\tri r\cong (p\tri r)(q\tri r)$ is a special case of \cref{thm.connected_limits}.
+	\item Show that the distributivity $(pq)\tri r\cong (p\tri r)(q\tri r)$ is a special case of \cref{thm.connected_limits}.
 	\item Show that for any set $A$ and polynomials $p,q$, we have an isomorphism $A(p\tri q)\cong (Ap)\tri q$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Given a polynomial functor $p \colon \smset \to \smset$, we wish to show that $p$ preserves connected limits of sets; that is, for a connected category $J$ and a functor $X \colon J \to \smset$, we have
+    \[
+        p\left(\lim_{j \in J} X_j\right) \iso \lim_{j \in J} p(X_j).
+    \]
+    But we can identify $\smset$ with the full subcategory of constant functors in $\poly$ and instead view $X$ as a functor into $\poly$.
+    Then by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}, the left hand side of the isomorphism we seek is isomorphic to $p\tri\left(\lim_{j \in J} X_j\right)$, while the right hand side is isomorphic to $\lim_{j \in J} \left(p \tri X_j\right)$.
+    These are isomorphic by \cref{thm.connected_limits}.
+    \item Given $p,q,r \in \poly$, we wish to show that $p \tri (qr) \iso (p \tri q) \times_{(p \tri \1)} (p \tri r)$.
+    As $\1$ is terminal in $\poly$, the product $qr$ can also be written as the pullback $q \times_\1 r$.
+    While products are not connected limits, pullbacks are, so by \cref{thm.connected_limits}, they are preserved by precomposition with $p$.
+    Hence the desired isomorphism follows.
+    \item As in the previous part, we can write $pq$ as the pullback $p \times_\1 q$.
+    By \cref{thm.connected_limits}, this connected limit is preserved by composition with $r$, so $(pq) \tri r \iso (p \tri r) \times_{\1 \tri r} (q \tri r) \iso (p \tri r) \times_\1 (q \tri r) \iso (p \tri r)(q \tri r)$. (Here we use the fact that $\1 \tri r \iso \1$ by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}.)
+    \item Given a set $A$ and polynomials $p,q$, the left-distributivity of $\tri$ over products implies that $(Ap)\tri q \iso (A\tri q)(p \tri q)$, while \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} implies that $A \tri q \iso A$.
+    So $(Ap)\tri q \iso A(p \tri q)$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 While we're here, it will be helpful to record the following.
@@ -1615,6 +1749,12 @@ are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal
 	\item Find a polynomial $q$ and a vertical morphism $f\colon p\to p'$ such that $(f\tri\id_q)\colon (p\tri q)\to (p'\tri q)$ is not vertical.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 %-------- Section --------%
@@ -2295,7 +2435,9 @@ In both pictures, one can see that the composite map is the identity. We would d
 
 \begin{exercise}
 Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
-\[\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}\]
+\[
+\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}
+\]
 For this exercise, you are not being asked to check the unitality or associativity conditions.
 \end{exercise}
 
@@ -2617,6 +2759,10 @@ Thus an admissible section of $\cat{C}$ is given by choosing, for each object $i
 
 \begin{exercise}
 How many admissible sections does the category \fbox{$\bullet\to\bullet$} have?
+\begin{solution}
+We seek the number of admissible sections of the category \fbox{$\bullet\to\bullet$}.
+There are $2$ choices of morphisms emanating from the object on the left, and $1$ choice of morphism emanating from the object on the right, for a total of $2 \cdot 1 = 2$ admissible sections.
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
@@ -2690,18 +2836,29 @@ Let $\cat{C}$ be a category. The \emph{emanation polynomial for $\cat{C}$} is th
 \]
 \end{definition}
 
-\begin{exercise}
+\begin{exercise} \label{exc.ema_polys}
 What is the emanation polynomial for each of the following categories?
 \begin{enumerate}
 	\item \boxCD{exercisecolor}{$A\Too{f}B$}?
 	\item \boxCD{exercisecolor}{$B\From{f}A\To{g}C$}?
 	\item The empty category?
-	\item The monoid $(\nn,0,+)$?
+	\item \label{exc.ema_polys.nat_monoid} The monoid $(\nn,0,+)$?
 	\item A monoid $(M, e, *)$?
-	\item The poset $(\nn,\leq)$?
+	\item \label{exc.ema_polys.nat_poset} The poset $(\nn,\leq)$?
 	\item The poset $(\nn,\geq)$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item The category \boxCD{white}{$A\Too{f}B$} has $2$ morphisms out of $A$ and $1$ morphism out of $B$, so its emanation polynomial is $\yon^\2 + \yon$.
+	\item The category \boxCD{white}{$B\From{f}A\To{g}C$} has $3$ morphisms out of $A$ and $1$ morphism out of each of $B$ and $C$, so its emanation polynomial is $\yon^\3 + 2\yon$.
+	\item The empty category has no objects, so its emanation polynomial is the empty sum $\0$.
+	\item The monoid $(\nn,0,+)$ has $1$ object, and its morphisms form the set $\nn$, so its emanation polynomial is $\yon^\nn$.
+	\item The monoid $(M, e, *)$ has $1$ object, and its morphisms form the set $M$, so its emanation polynomial is $\yon^M$.
+	\item The poset $(\nn,\leq)$ has $\nn$ as its set of objects, and there is exactly one morphism from every $n \in \nn$ to each element of $\{n' \in \nn \ | \ n \leq n'\} \iso \nn$ (and no other morphisms from $n$), so the emanation polynomial of the poset is $\nn\yon^\nn$.
+	\item The poset $(\nn,\geq)$ has $\nn$ as its set of objects, and there is exactly one morphism from every $n \in \nn$ to each element of $\{0, 1, \ldots, n\} \iso \ord{n}+\1$ (and no other morphisms from $n$), so the emanation polynomial of the poset is $\sum_{n \in \nn} \yon^{\ord{n}+\1} \iso \yon^\1 + \yon^\2 + \yon^\3 + \cdots$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 A category $\cat{C}$ is more than its emanation polynomial $\ema{c}$, and a comonoid $(\ema{c},\epsilon,\delta)$ in $\poly$ is more than its carrier polynomial $\ema{c}$. The identities of $\cat{C}$ are all captured by the counit $\epsilon\colon\ema{c}\to\yon$ and the codomain and composition information of $\cat{C}$ are all captured by the comultiplication map $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$. Our goal is to make this clear so that we can justly proclaim:
@@ -3024,7 +3181,7 @@ Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality an
 \end{exercise}
 
 
-\begin{example}[Monoid Action]\label{ex.monoid_action}
+\begin{example}[Monoid action]\label{ex.monoid_action}
 Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha \colon M \times S \to S$ is an action. There is an associated category $\cat{A}$ with emanation polynomial $S \yon ^ M$. In other words, it has objects set $S$ and for every $s \in S$ there is an outgoing morphism for each $m \in M$, namely $s \To {m} \alpha (m , s)$. 
 \end{example}
 
@@ -3035,6 +3192,17 @@ With notation as in \cref{ex.monoid_action},
     \item What is the composite of two morphisms in $\cat{A}$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+Here $(M,e,*)$ is a monoid, $S$ is a set, $\alpha \colon M \times S \to S$ is an action, and $\cat{A}$ is the associated category with emanation polynomial $S\yon^M$; in particular, for each $s \in S$ and $m \in M$, there is a morphism $s \To{m} \alpha(m,s)$.
+\begin{enumerate}
+    \item We wish to identify the identity morphism for each object $s \in \cat{A}$.
+    This should be a morphism whose domain and codomain are $s$.
+    By the laws of monoid actions, $\alpha(m,s)$ is guaranteed to be $s$ if $m = e$.
+    Hence, it only makes sense for the identity morphism of $s$ to be the morphism $s \To{e} s$.
+    \item Given a morphism $s \To{m} \alpha(m,s)$, we wish to determine its composite with another morphism $\alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$.
+    By the laws of monoid actions, we have that $\alpha(n,\alpha(m,s)) = \alpha(n*m,s)$, so it makes sense for the composite $s \To{m} \alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$ to be the morphism $s \To{n*m} \alpha(n*m,s)$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 
@@ -3045,7 +3213,7 @@ For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\colone
 We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}c_n$ is also a comonoid.
 \end{example}
 
-\begin{example}[What category is $S\yon^S$?]
+\begin{example}[What category is $S\yon^S$?] \label{ex.state_comonad}
 The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}=(p,\epsilon,\delta)$, where $p=S\yon^S$ for some set $S$. Now we know that comonoids correspond to categories. So what category $\cat{S}$ corresponds to $\com{S}$?
 
 By the work above, we know that $\cat{S}$ has object set $S=p(\1)$, and that for every object $s\in S$ there are $S$-many emanating morphisms, though we don't yet know their codomains nor the composition formula. 
@@ -3115,10 +3283,13 @@ Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category
 
 \begin{exercise}
 We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
+\begin{solution}
+The linear polynomial $A\yon$ corresponds to a category whose objects form the set $A$ and whose only morphisms are identities: in other words, it is the discrete category on $A$.
+\end{solution}
 \end{exercise}
 
 \begin{definition}
-Let $\cat{C}$ be a category and $c\in\Ob(\cat{C})$ an object. The \emph{degree of $c$}, denoted $\deg(c)$ is the set of arrows in $\cat{C}$ that emanate from $c$.
+Let $\cat{C}$ be a category and $c\in\Ob(\cat{C})$ an object. The \emph{degree of $c$}, denoted $\deg(c)$, is the set of arrows in $\cat{C}$ that emanate from $c$.
 
 If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
 \end{definition}
@@ -3129,16 +3300,33 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 	\item Is it possible for an object in $\cat{C}$ to have degree $0$?
 	\item Find a category that has an object of degree $\nn$.
 	\item How many categories are there that have just one linear and one quadradic (degree 2) object?
-	\item Is the above the same as asking how many comonad structures on $\yon^\2+\yon$ there are?
+	\item Is the above the same as asking how many comonoid structures on $\yon^\2+\yon$ there are?
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item If every object in $\cat{C}$ is linear, then the only morphisms in $\cat{C}$ are the identity morphisms, so $\cat{C}$ must be a discrete category.
+    \item It is not possible for an object in $\cat{C}$ to have degree $0$, as every object must have at least an identity morphism emanating from it.
+    \item Some possible examples of categories with objects of degree $\nn$ are the monoid $(\nn, 0, +)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_monoid}), the poset $(\nn, \leq)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_poset}), and the state category on $\nn$ (see \cref{ex.state_comonad}).
+    \item There are $3$ categories with just one linear and one quadratic object. They can be distinguished by the behavior of the single non-identity morphism.
+    Either its domain and its codomain are distinct, in which case we have the walking arrow category; or its domain and its codomain are the same, in which case it can be composed with itself to obtain either itself or the identity, yielding two more categories for a total of three.
+    \item Yes: since categories correspond to comonoids, there are as many categories with one linear and one quadratic object as there are comonoid structures on $\yon^\2 + \yon$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{ex.star_shaped}
 \begin{enumerate}
-	\item Find a category structure for the polynomial $\yon^{\ord{n}+1}+\ord{n}\yon$.
+	\item Find a category structure for the polynomial $\yon^{\ord{n}+\1}+\ord{n}\yon$.
 	\item Would you call your category ``star-shaped''?
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Take the discrete category on $\ord{n}$ and adjoin a unique initial object $A$, so that the only non-identity morphisms are the morphisms from $A$ to each of the other objects exactly once.
+    Then this category has the emanation polynomial $\yon^{\ord{n}+\1} + \ord{n}\yon$.
+    \item This category could be thought of as ``star-shaped,'' with the initial object in the center with morphisms leading out to the other $n$ objects as spokes.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
@@ -3325,11 +3513,11 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 
 \begin{exercise}
 \begin{enumerate}
-	\item Over two discrete objects $\{A,B\}$, how many cofunctors are there
-\[
-\yon^\2+\yon\cong\fbox{$A\to B$}\too\fbox{$A\tto B$}\cong\yon^\3+\yon
-\]
-from the walking arrow category to the walking parallel-arrows category?
+	\item Over two discrete objects $\{A,B\}$, how many cofunctors
+    \[
+        \yon^\2+\yon\cong\fbox{$A\to B$}\cof\fbox{$A\tto B$}\cong\yon^\3+\yon
+    \]
+    are there from the walking arrow category to the walking parallel-arrows category?
 	\item What is meant more precisely by ``over two discrete objects $\{A,B\}$'' above?
 \qedhere
 \end{enumerate}
@@ -3836,18 +4024,28 @@ For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LM
 % \end{enumerate}
 % \end{exercise}
 
-\begin{example}[Event-based systems]
-Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
+\begin{example}
+Let $I$ be a set and $I\yon$ the associated discrete category, and let $(M,e,*)$ be a monoid and $\yon^M$ the associated one-object category.
+Then by \cref{ex.bin_prod}, the product $I\yon \times^\sharp \yon^M$ is the category $I^M\yon^M$.
+Its objects are functions $i \colon M \to I$, while its morphisms have the form $i \To{m} (m' \mapsto i(m * m'))$ for each $i \colon M \to I$ and $m \in M$.
+
+Given $i \colon M \to I$, its identity morphism is the morphism $i \To{e} i$ corresponding to $e \in M$; given $m, n \in M$, the composite of the morphisms $i \To{m} (m' \mapsto i(m * m')) \To{n} (m' \mapsto i(m * n * m'))$ is the morphism $i \To{m * n} (m' \mapsto i(m * n * m'))$.
 
 % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
 \end{example}
+
+% \begin{example}[Event-based systems]
+% Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
+
+% % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
+% \end{example}
 
 \begin{proof}[Proof of \cref{prop.sharp_products}]
 We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its counit and comultiplication.
 The counit $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
 
-To construct the comultiplication, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of counits), so $\tri$ preserves $\Delta_I\op$-shaped limits.
-It follows that
+To construct the comultiplication, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of counits), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
+As $C$ is monoidal, it follows that
 \[
     (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
 \]
@@ -3905,7 +4103,7 @@ Check that the terminal comonoid is $\yon$.
 The forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic.
 \end{proposition}
 \begin{proof}
-The fact that a forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via an obvious generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
+The fact that a forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via a straightforward generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
 \end{proof}
 
 \begin{corollary}
@@ -4158,7 +4356,7 @@ We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomi
 
 The way this map $f$ leads to something that seems to ``go on repeatedly'' is that $\ema{s}\coloneqq S\yon^S$ is a comonoid, so we have maps $\ema{s}\To{\delta}\ema{s}\tripow{n}\To{f\tripow{n}}p\tripow{n}$ for all $n$. This says that given any initial position in $S$, we automatically get a position in $p$, and for every direction there, another position in $p$, and for every direction there, another position in $p$, and so on $n$ times. This is the dynamics.
 
-So the above all works because we have a polynomial map $S\yon^S\to p$, where $S\yon^S$ is the underlying polynomial of a polynomial comonad. Since ``underlying polynomial'' is a functor $U\colon\smcat^\sharp\to\poly$, a seasoned category theorist might be tempted to ask, is there an adjunction
+So the above all works because we have a polynomial map $S\yon^S\to p$, where $S\yon^S$ is the underlying polynomial of a polynomial comonad. Since ``underlying polynomial'' is a functor $U\colon\smcat^\sharp\to\poly$, a seasoned category theorist might be tempted to ask the following: is there an adjunction
 \[
 \poly(U\com{C},p)\cong\smcat^\sharp(\com{C},\cofree{p}),
 \]
@@ -4249,7 +4447,7 @@ Indeed, in \cref{def.cofree}, when we speak of a (possibly infinite) tree in $p$
 
 Let's imagine some actual elements of $\tr_p$:
 \begin{itemize}
-	\item The binary tree that's ``all red all the time''.
+	\item The binary tree that's ``all red all the time.''
 	\item The binary tree where odd layers are red and even layers are blue.
 	\item The tree where all the nodes are red, except for the right-most branch, which is always green.%
 	\footnote{\;Note that branches are actually unordered, so it's technically wrong to think of it as a line of green up the \emph{right side}. Instead, it's just a line of green going up the tree forever.}
@@ -4433,7 +4631,7 @@ This is very much how positions $t\in\cofree{p}$ look. Such a position is a deci
 So a position $t$ is like a future: it is a current decision, and for every option there, a new decision tree. It's all the decisions you could possibly make, and for each actual choice, it's a new future. A direction at $t$ is just a choice of finite path through the tree: a sequence of choices. 
 
 \begin{exercise}
-If someone says that they understand a future to be a decision tree $t\in\cofree{p}$, explain in your own words how they're thinking about the term ``future''. How does it agree or disagree with your own intuition about what a ``future'' is?
+If someone says that they understand a future to be a decision tree $t\in\cofree{p}$, explain in your own words how they're thinking about the term ``future.'' How does it agree or disagree with your own intuition about what a ``future'' is?
 \end{exercise}
 
 \begin{exercise}
@@ -4649,7 +4847,7 @@ The cofree comonoid is given by the limit of this diagram.
 
 Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ordered sets---including the empty set---and its morphisms are order-preserving injections. For any copointed polynomial $q\To{\epsilon}\yon$, we get a diagram $Q\colon\Delta_+\to\poly$ as above, and this is functorial in $q$.
 
-\begin{theorem}\label{thm.cofree}
+\begin{theorem}\label{thm.cofree2}
 For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
 \[
 \adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Cpt}(\poly)}.
@@ -4711,7 +4909,7 @@ commutes for any $m,n\in\nn$. Both triangle equations are straightforward.
 \end{proof}
 
 \begin{remark}
-The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree} is fairly standard; see \cite{lack2010note}. Nelson Niu has also constructed the cofree comonoid on a polynomial using a different limit diagram
+The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree2} is fairly standard; see \cite{lack2010note}. Nelson Niu has also constructed the cofree comonoid on a polynomial using a different limit diagram
 \[
 \begin{tikzcd}
 	\yon\ar[d]&
@@ -4800,7 +4998,7 @@ Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
 The following exercise is useful when considering the (topos-theoretic) logic of dynamical systems. Namely, it will allow us to specify legal subtrees of height $n$.
 \begin{enumerate}
     \item Choose a polynomial $q$ and a map $\epsilon \colon q \to \yon$, i.e. a copointed polynomial.
-    \item Recall from \cref{thm.cofree} that the carrier $\bar{q}$ of the cofree comonoid $\cofree{q} = (\bar{q}, \epsilon, \delta)$ is constructed as a limit
+    \item Recall from \cref{thm.cofree2} that the carrier $\bar{q}$ of the cofree comonoid $\cofree{q} = (\bar{q}, \epsilon, \delta)$ is constructed as a limit
     \[
       \bar{q} = \lim \left(
 \begin{tikzcd}
@@ -4900,9 +5098,9 @@ Here are some similarities. We still get a cofunctor $F\colon\cat{C}\to\cofree{p
 
 But in fact we get a little more from $F$, and this is where the differences come in. Namely, given a direction $d\in p[i]$, we get the morphism $F^\sharp_c(d)$ itself. In the state category $S\yon^S$, there is a unique morphism between every two objects, so this passed-back morphism carries no data beyond what its codomain is. But for a more general comonoid $\cat{C}$, the morphisms \emph{do} carry data. 
 
-Thus we can think of a map $\ema{c}\to p$ as a dynamical system that ``records its history''. That is, given a path $\cofree{p}$, a sequence of inputs to our dynamical system, we get a morphism in $\cat{C}$. If, unlike in a state category $S\yon^S$, there are multiple morphisms between objects, we will know which one was actually taken by the system.
+Thus we can think of a map $\ema{c}\to p$ as a dynamical system that ``records its history.'' That is, given a path $\cofree{p}$, a sequence of inputs to our dynamical system, we get a morphism in $\cat{C}$. If, unlike in a state category $S\yon^S$, there are multiple morphisms between objects, we will know which one was actually taken by the system.
 
-This seems like a nice generalization of dynamical systems---history-recording dynamical systems---and may have some use. However, we will see in \cref{chapter.bimod} that there are strpmg theoretical reason to emphasize the ahistorical state categories $S\yon^S$. For one thing, the category of all such $S\yon^S$-style dynamical systems on $p$ forms a topos for any $p\in\poly$.
+This seems like a nice generalization of dynamical systems---history-recording dynamical systems---and may have some use. However, we will see in \cref{chapter.bimod} that there are strong theoretical reasons to emphasize the ahistorical state categories $S\yon^S$. For one thing, the category of all such $S\yon^S$-style dynamical systems on $p$ forms a topos for any $p\in\poly$.
 
 
 %---- Subsection ----%
