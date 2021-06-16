@@ -1523,7 +1523,7 @@ we're back where we started. On the other hand, starting on the left from $f$ gi
 But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.
 
 \erase{
-We start with the function from left to right. To give such a function it suffices by the universal property of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
+We start with the function from left to right. To give such a function it suffices by the universal properties of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
 \[
   \prod_{i\in I}X(i,j_0(i))\to 
   X(i_0,j_0(i_0))\to
@@ -1883,7 +1883,7 @@ Recall from \cref{sec.poly.intro.dec} that we may view each position of an arena
 The morphisms $f\colon p\to q$ are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
 
 %In fact, this formula will be so important to us that we will often blur the
-%difference between a dependent lens $\lens{f^{\sharp}}{f} \colon \lens{p[i]}{i \in
+%difference between a dependent lens $\lens{f^\sharp}{f} \colon \lens{p[i]}{i \in
 %  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
 %q$ it corresponds to.
 %\end{remark}
@@ -2183,7 +2183,7 @@ By \eqref{eqn.main_formula}, we always have
   \cong^?
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
 \end{equation}
-\item Is it true that the following are isomorphic?
+\item \label{exc.practice_sum_prod.useful} Is it true that the following are isomorphic?
 	\begin{equation}\label{eqn.useful_misc472}
 	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg)
 	\end{equation}
@@ -2206,19 +2206,19 @@ Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
 \begin{align*}
     \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag{\cref{prop.push_prod_sum_set_indep}} \\
     &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.prod}} \\
-    &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets}, \cref{exc.on_sums_prods_sets.sum}} \\
+    &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}} \\
     &\iso p[i]^{q[j]}.
 \end{align*}
 
 \item We will show that, yes, the following isomorphism does hold:
 \[
-	\poly(p,q)\cong\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg).
+	\poly(p,q) \iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg).
 \]
 By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
     &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{j \in q(\1)} \prod_{\substack{i \in p(\1) \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{j \in q(\1)} \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
     &\iso \sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
 where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $\{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
@@ -2599,7 +2599,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U \in p_Z[g(f(x))]$ to $(f \then g)^{-1}(U)$, while the right hand side sends $U$ to $f^{-1}(g^{-1}(U))$, but by elementary set theory, these sets are equal.
 	
 	\item The functor is not full.
-	Consider the spaces $X = \2$ with the indiscrete topology (i.e. the only open sets are the empty set and $X$) and $Y = \2$ with the discrete topology (i.e. all subsets are open).
+	Consider the spaces $X = \2$ with the indiscrete topology (i.e.\ the only open sets are the empty set and $X$) and $Y = \2$ with the discrete topology (i.e.\ all subsets are open).
 	Then $p_X \iso \2\yon$ and $p_Y \iso \2\yon^\2$, so our functor induces a function from the set of continuous functions $X \to Y$ to the set of polynomial morphisms $\2\yon \to \2\yon^\2$.
 	We claim that this function is not surjective: in particular, consider the polynomial morphism $h \colon \2\yon \to \2\yon^\2$ that is the identity on positions (and uniquely defined on directions).
 	Then a continuous function $f \colon X \to Y$ that our functor sends to $h$ must also be the identity on the underlying sets of $X$ and $Y$.
@@ -4112,10 +4112,16 @@ When the paddle switches once and stops, the tracker increases its position by o
 
 \paragraph{Situations.} % Fields? Enclosures?
 Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation} for $p$, and denote the set of them by
-\[
+\begin{equation} \label{eqn.gamma_def}
 \Gamma(p)\coloneqq\poly(p,\yon)
-\]
-as we did in \cref{prop.adjoint_quadruple}. The idea for the name is that a situation is what dictates what you'll see (your input), given anything you might do (your output). If the situation is that you're at a party, then that dictates what direction you'll receive, given what position you take. So a situation $\gamma\in\Gamma(p)$ takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
+\end{equation}
+as we did in \cref{prop.adjoint_quadruple}.
+By \eqref{eqn.main_formula}, we have that
+\begin{equation} \label{eqn.gamma_prod}
+    \Gamma(p) \iso \prod_{i \in p(\1)} p[i],
+\end{equation}
+so a situation $\gamma \in \Gamma(p)$ can be thought of as a dependent function that takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
+The idea for the name is that a situation dictates what you'll see (the input you receive), given anything you might do (the output you provide). If the situation is that you're at a party, then that dictates what direction you'll receive, given what position you take.
 
 A map $p_1\otimes \cdots \otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situations are a useful concept.
 
@@ -4806,7 +4812,7 @@ Let's think of elements of $B$ and $B'$ not as outputs, but as positions.
 	\node at (q_in1) {\faEye};
 \end{tikzpicture}
 \]
-Then given both positions $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e. what values of $(a,a')$ we get.
+Then given both positions $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e.\ what values of $(a,a')$ we get.
 \end{example}
 
 \begin{example}
@@ -5037,63 +5043,147 @@ What it also means is that if you want, you can put a little dynamical system in
 
 The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
 \begin{equation}\label{eqn.monoidal_closure}
-  \poly(p\otimes q,r)\cong\poly(p,\ihom{q,r})
+  \poly(p\otimes q,r) \iso \poly(p,\ihom{q,r})
 \end{equation}
 natural in $p,q,r$.
 The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.dir_hom}
-	\ihom{q,r}\coloneqq\prod_{j\in q(\1)}r\circ(q[j]\yon)
+	\ihom{q,r} \coloneqq \prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
+Here $\circ$ denotes standard functor composition; informally, $r \circ (q[j]\yon)$ is the polynomial you get when you replace each appearance of $\yon$ in $r$ by $q[j]\yon$.
+Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will see in more depth in \cref{chapter.comon}.
 
-% todo: oops, we haven't really talked about \circ / \tri yet
+Before we prove that the isomorphism \eqref{eqn.monoidal_closure} holds naturally, let us investigate the properties of the closure operation, starting with some simple examples.
 
 \begin{exercise}
+Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
+\begin{enumerate}
+	\item $q\coloneqq \0$ and $r$ arbitrary.
+	\item $q\coloneqq \1$ and $r$ arbitrary.
+	\item $q\coloneqq\yon$ and $r$ arbitrary.
+	\item $q\coloneqq A$ for $A\in\smset$ (constant) and $r$ arbitrary.
+	\item $q\coloneqq A\yon$ for $A\in\smset$ (linear) and $r$ arbitrary.
+	\item $q\coloneqq\yon^\2+\2\yon$ and $r\coloneqq\2\yon^\3+\3$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+Our goal is to compute $\ihom{q,r}$ for various values of $q, r \in \poly$.
+\begin{enumerate}
+    \item If $q \coloneqq \0$, then $q(\1) \iso \0$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r}$ is an empty product.
+    Hence $\ihom{q,r} \iso \1$.
+    \item If $q \coloneqq \1$, then $q(\1) \iso \1$ and $q[1] \iso \0$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso r \circ (\0\yon) \iso r(\0)$.
+    \item If $q \coloneqq \yon$, then $q(\1) \iso \1$ and $q[1] \iso \1$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso r \circ (\1\yon) \iso r$.
+	\item If $q \coloneqq A$ for $A \in \smset$, then $q(\1) \iso A$ and $q[j] \iso \0$ for every $j \in A$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\0\yon)) \iso r(\0)^A$.
+	\item If $q \coloneqq A\yon$ for $A\in\smset$, then $q(\1) \iso A$ and $q[j] \iso \1$ for every $j \in A$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\1\yon)) \iso r^A$.
+	\item If $q\coloneqq\yon^\2+\2\yon$ and $r\coloneqq\2\yon^\3+\3$, then by \eqref{eqn.dir_hom},
+	\begin{align*}
+	    \ihom{q,r} &\iso (r \circ (\2\yon))(r \circ (\1\yon))^\2 \\
+	    &\iso \left(\2(\2\yon)^\3 + \3\right)\left(\2\yon^\3 + \3\right)^\2 \\
+	    &\iso \6\4\yon^\9 + \2\0\4\yon^\6 + \1\8\0\yon^\3 + \2\7 \\
+	\end{align*}
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.sum_times_closure}
+Show that for any polynomials $p_1,p_2,q$, we have an isomorphism
+\[
+\ihom{p_1 + p_2, q} \iso \ihom{p_1, q} \times \ihom{p_2, q}.
+\]
+\begin{solution}
+We wish to show that for all $p_1, p_2, q \in \poly$, we have $\ihom{p_1 + p_2, q} \iso \ihom{p_1, q} \times \ihom{p_2, q}$.
+By \eqref{eqn.dir_hom},
+\[
+    \ihom{p_1 + p_2, q} \iso \left(\prod_{i \in p_1(\1)} q \circ (p_1[i]\yon)\right) \left(\prod_{i \in p_2(\1)} q \circ (p_2[i]\yon)\right) \iso \ihom{p_1, q} \times \ihom{p_2, q}.
+\]
+\end{solution}
+\end{exercise}
+
+\begin{exercise} \label{exc.dir_hom_sum}
 Show that there is an isomorphism
 \[
 \scalebox{1.3}{$\displaystyle
-[q,r]\cong\sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_1(j)]}
+\ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_1(j)]}
 $}
 \]
 where the sum is indexed by $f\in\poly(q,r)$.
 \begin{solution}
-**
-% We may compute
-% \begin{align*}
-%     [q, r] &\iso \sum_{f \colon p \to q} \yon^{\sum_{i \in q(\1)} r[f(i)]} \tag*{\cref{eqn.dir_hom}} \\
-%     &\iso 
-% \end{align*}
+We may compute
+\begin{align*}
+    \ihom{q, r} &\iso \prod_{j \in q(\1)} r \circ (q[j]\yon) \tag*{\eqref{eqn.dir_hom}} \\
+    &\iso \prod_{j \in q(\1)} \, \sum_{k \in r(\1)} (q[j]\yon)^{r[k]} \tag{Replacing each $\yon$ in $r$ by $q[j]\yon$} \\
+    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_1(j)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \left(\prod_{j \in q(\1)} q[j]^{r[f_1(j)]} \right)\left(\prod_{j \in q(\1)} \yon^{r[f_1(j)]} \right) \\
+    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \; \sum_{f^\sharp \in \prod_{j \in q(\1)} q[j]^{r[f_1(j)]}} \yon^{\sum_{j \in q(\1)} r[f_1(j)]} \\
+    &\iso \sum_{f \colon q \to r} \yon^{\sum_{j \in q(\1)} r[f_1(j)]}. \tag{\cref{prop.poly_maps_prod_sum}}
+\end{align*}
 \end{solution}
 \end{exercise}
 
 \begin{example}\label{ex.dirichlet_dual}
 For any $A\in\smset$ we have
 \[
-  \ihom{\yon^A,\yon}\cong A\yon
+  \ihom{\yon^A,\yon} \iso A\yon
   \qqand
-  \ihom{A\yon,\yon}\cong\yon^A.
+  \ihom{A\yon,\yon} \iso \yon^A.
 \]
 More generally, for any polynomial $p\in\poly$ we have
 \begin{equation}\label{eqn.dir_dual}
-  [p,\yon]\cong\Gamma(p)\yon^{p(\1)}.
+  \ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}.
 \end{equation}
 All these facts follow directly from \eqref{eqn.dir_hom}.
 \end{example}
 
 \begin{exercise}
-Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
-\begin{enumerate}
-	\item $q\coloneqq 0$ and $r$ arbitrary.
-	\item $q\coloneqq 1$ and $r$ arbitrary.
-	\item $q\coloneqq\yon$ and $r$ arbitrary.
-	\item $q\coloneqq A$ and $r\coloneqq B$ for $A,B\in\smset$ (constants).
-	\item $q\coloneqq A\yon$ and $r\coloneqq B\yon$ for $A,B\in\smset$ (linears).
-	\item $q\coloneqq\2\yon^\3+\yon^\2$ and $r\coloneqq\4\yon^\2+\7$.
-\qedhere
-\end{enumerate}
+Verify the three facts above.
+\begin{solution}
+We have that
+\[
+    \ihom{\yon^A, \yon} \iso \prod_{j \in \yon^A(\1)} \yon \circ (\yon^A[j]\yon) \iso \prod_{j \in \1} A\yon \iso A\yon,
+\]
+that
+\[
+    \ihom{A\yon, \yon} \iso \prod_{j \in A\yon(\1)} \yon \circ ((A\yon)[j]\yon) \iso \prod_{j \in A} \yon \iso \yon^A,
+\]
+and that
+\begin{align*}
+    \ihom{p, \yon} &\iso \sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]} \tag{\cref{exc.dir_hom_sum}} \\
+    &\iso \sum_{f \in \Gamma(p)} \yon^{\sum_{i \in p(\1)} \1} \\
+    &\iso \Gamma(p)\yon^{p(\1)}.
+\end{align*}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
-Show that for any $p\in\poly$, if there is an isomorphism $\ihom{\ihom{p,\yon},\yon}\cong p$, then $p$ is either linear $A\yon$ or representable $\yon^A$ for some $A$. Hint: first show that $p$ must be a monomial.
+Show that for any $p\in\poly$, if there is an isomorphism $\ihom{\ihom{p,\yon},\yon} \iso p$, then $p$ is either linear $A\yon$ or representable $\yon^A$ for some $A$. Hint: first show that $p$ must be a monomial.
+\begin{solution}
+Given $p \in \poly$ and an isomorphism $\ihom{\ihom{p,\yon},\yon} \iso p$, we wish to show that $p$ is either linear or representable.
+Applying \eqref{eqn.dir_dual} twice, we have that
+\[
+    p \iso \ihom{\ihom{p,\yon},\yon} \iso \Gamma\left(\Gamma(p)\yon^{p(\1)}\right)\yon^{\Gamma(p)}.
+\]
+We can compute the coefficient of $p$ via \eqref{eqn.gamma_prod} to obtain
+\[
+    \Gamma\left(\Gamma(p)\yon^{p(\1)}\right) \iso \prod_{\gamma \in \Gamma(p)} p(\1) \iso p(\1)^{\Gamma(p)}.
+\]
+Hence
+\begin{equation} \label{eqn.p_as_gamma_monomial}
+    p \iso p(\1)^{\Gamma(p)}\yon^{\Gamma(p)}.
+\end{equation}
+In particular, $p$ is a monomial, so we can write $p \coloneqq B\yon^A$ for some $A,B \in \smset$.
+Then $p(\1) \iso B$ and \eqref{eqn.gamma_prod} tells us that $\Gamma(p) \iso A^B$.
+It follows from \eqref{eqn.p_as_gamma_monomial} that $A \iso A^B$ and that $B \iso B^A$.
+
+We conclude with some elementary set theory.
+If either one of $A$ or $B$ were $\1$, then $p$ would be either linear or representable, and we would be done.
+Meanwhile, if either one of $A$ or $B$ were $\0$, then the other would be $\1$, and we would again be done.
+Otherwise, $|A|,|B| \geq 2$.
+But by Cantor's theorem,
+\[
+    |B| < \big|\2^B\big| \leq \big|A^B\big| = |A| \qqand |A| < \big|\2^A\big| \leq \big|B^A\big| = |B|,
+\]
+a contradiction.
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.dirichlet_closure}
@@ -5105,36 +5195,54 @@ With $\ihom{-,-}$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorph
 \begin{proof}
 We have the following chain of natural isomorphisms:
 \begin{align*}
-	\poly(p\otimes q,r)&\cong
-	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]q[j]},r\Big)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]q[j]},r)\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p[i]q[j])\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]},r\circ(q[j]\yon))\\&\cong
-	\prod_{i\in p(\1)}\poly\Big(\yon^{p[i]},\prod_{j\in q(\1)}r\circ(q[j]\yon)\Big)\\&\cong
-	\poly(p,\ihom{q,r}).&
-	\qedhere
+	\poly(p\otimes q,r)
+	&\iso
+	\poly\Big(\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]q[j]},r\Big) \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]q[j]},r)
+	\tag{Universal property of coproducts} \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r(p[i]q[j])
+	\tag{Yoneda lemma} \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly(\yon^{p[i]},r\circ(q[j]\yon))
+	\tag{Yoneda lemma} \\
+	&\iso
+	\poly\Big(\sum_{i\in p(\1)}\yon^{p[i]},\prod_{j\in q(\1)}r\circ(q[j]\yon)\Big)
+	\tag{Universal property of (co)products} \\
+	&\iso
+	\poly(p,\ihom{q,r}).
 \end{align*}
 \end{proof}
 
 \begin{exercise}\label{exc.poly_plug_1}
 Show that for any $p,q$ we have an isomorphism of sets
 \[
-\poly(p,q)\cong\ihom{p,q}(\1).
+\poly(p,q) \iso \ihom{p,q}(\1).
 \]
 Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use 
-\eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p\cong p$.
+\eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p \iso p$.
+\begin{solution}
+The isomorphism $\poly(p,q) \iso \ihom{p,q}(\1)$ follows directly from \cref{exc.dir_hom_sum} when both sides are applied to $\1$.
+Alternatively, we can apply \cref{prop.dirichlet_closure}.
+Since $p \iso \yon \otimes p$, we have that
+\begin{align*}
+    \poly(p, q) &\iso \poly(\yon \otimes p, q) \\
+    &\iso \poly(\yon, \ihom{p,q}) \tag*{\eqref{eqn.poly_closure_brackets}} \\
+    &\iso \ihom{p,q}(\1). \tag{Yoneda lemma}
+\end{align*}
+\end{solution}
 \end{exercise}
 
-
-For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
+The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} map
 \begin{equation}\label{eqn.eval_dirichlet}
   \fun{eval}\colon \ihom{p,q}\otimes p\too q.
 \end{equation}
 
-\begin{exercise}
+\begin{exercise} \label{exc.eval_dirichlet}
 \begin{enumerate}
-	\item Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}.
-	\item Show that for any $p,q,r$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
+	\item Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.poly_closure_brackets}. \label{exc.eval_dirichlet.explicit}
+	\item Show that for any $p,q,r \in \poly$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
 	\[
 	\begin{tikzcd}
 		p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
@@ -5142,16 +5250,64 @@ For any $p,q\in\poly$ there is a canonical \emph{evaluation} map
 		r
 	\end{tikzcd}
 	\]
-\qedhere
+	\qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
+    \[
+        \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
+    \]
+    Then the evaluation map is the map corresponding to the identity morphism on $\ihom{p,q}$ under the above isomorphism.
+    To recover this map, we can start from the identity morphism on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
+    To start, \cref{exc.dir_hom_sum} implies that
+    \begin{align*}
+        \poly(\ihom{p,q}, \ihom{p,q})
+        &\iso
+        \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
+        &\iso
+        \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
+    \end{align*}
+    where the second isomorphism follows from the universal properties of products and coproducts.
+    In particular, under this isomorphism, the identity morphism on $\ihom{p,q}$ corresponds to a collection of morphisms, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
+    \[
+        \prod_{i' \in p(\1)} \yon^{q[f_1(i')]} \to \yon^{q[f_1(i)]} \to \sum_{g \colon q[f_1(i)] \to p[i]} \yon^{q[f_1(i)]} \iso (p[i]\yon)^{q[f_1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
+    \]
+    of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_1(i)$.
+    On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_1(i)] \to \sum_{i' \in p(\1)} q[f_1(i')]$ with index $i' = i$.
+    
+    We can reinterpret each of these maps as a map
+    \[
+        \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
+    \]
+    that, on positions, picks out the position $f_1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_1(i)] \to p[i]$ and the inclusion $q[f_1(i)] \to \sum_{i' \in p(\1)} q[f_1(i')]$.
+    Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
+    \item **
+    % \item The fact that for any $p,q,r $
+    % follows from the natural isomorphism given in \eqref{eqn.poly_closure_brackets}, but we can also construct this map explicitly. (Can we?)
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item For any $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is identity, using eval and \cref{ex.dirichlet_dual}.
+	\item For any set $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is the identity on $S$ using eval and \cref{ex.dirichlet_dual}.
 	\item Show that maps of the four types $\kappa_{11}$, $\kappa_{12}$, $\kappa_{21}$, $\kappa_{22}$ shown in \cref{ex.bonds_break} can be obtained by tensoring together identity maps and eval maps.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-diretions map is the identity by using eval and \cref{ex.dirichlet_dual}.
+    The example shows that
+    \[
+        \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
+    \]
+    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_dirichlet}, we obtain an evaluation map $\fun{eval} \colon S\yon^S \to \yon$.
+    By the solution to \cref{exc.eval_dirichlet} \cref{exc.eval_dirichlet.explicit}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
+    In other words, it is indeed the identity on directions.
+    \item **
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{example}[Modeling your environment without knowing what it is]
@@ -5168,14 +5324,6 @@ To investigate this just a bit, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p
 Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,\yon}$. The robot's states model environmental conditions.
 \end{example}
 
-
-\begin{exercise}\label{exc.sum_times_closure}
-Show that for any polynomials $p_1,p_2,q$, we have an isomorphism
-\[
-[p_1+p_2,q]\cong[p_1,q]\times[p_2,q].
-\]
-\end{exercise}
-
 \begin{example}[Chu $\&$]
 Suppose given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
 \[
@@ -5187,15 +5335,15 @@ One might call these ``$r$-Chu spaces.'' One operation you can do with these as 
 \[
 \varphi_1\&\varphi_2\colon (p_1\times p_2)\otimes (q_1+q_2)\to r
 \]
-Suppose given a position in $p_1$ and a position in $p_2$. Then given a position in either $q_1$ or $q_2$, one evaluates either $\varphi_1$ or $\varphi_2$ respectively to get a position in $r$; given a direction there, one returns the corresponding direction in $q_1$ or $q_2$ respectively, as well as a direction in $p_1\times p_2$ which is either a direction in $p_1$ or in $p_2$.
+Suppose we are given a position in $p_1$ and a position in $p_2$. Then given a position in either $q_1$ or $q_2$, one evaluates either $\varphi_1$ or $\varphi_2$ respectively to get a position in $r$; given a direction there, one returns the corresponding direction in $q_1$ or $q_2$ respectively, as well as a direction in $p_1\times p_2$ which is either a direction in $p_1$ or in $p_2$.
 
 This sounds complicated, but it can be done formally, once we have monoidal closure. We first rearrange both $\varphi_1,\varphi_2$ to be $p$-centric, using monoidal currying:
 \[
-\psi_1\colon p_1\to [q_1,r]
+\psi_1\colon p_1\to \ihom{q_1,r}
 \qqand
-\psi_2\colon p_2\to [q_2,r]
+\psi_2\colon p_2\to \ihom{q_2,r}
 \]
-Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to[q_1,r]\times[q_2,r]$. Now we use \cref{exc.sum_times_closure} to see that $[q_1,r]\times[q_2,r]\cong[q_1+q_2,r]$, and then finally monoidal-uncurry to obtain $p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
+Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\times\ihom{q_2,r}$. Then we apply \cref{exc.sum_times_closure} to see that $\ihom{q_1,r}\times\ihom{q_2,r}\cong\ihom{q_1+q_2,r}$, and finally monoidal-uncurry to obtain $(p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
 \end{example}
 
 
@@ -5208,38 +5356,74 @@ The category $\poly$ has very useful formal properties, including completion und
 \subsection{Special polynomials and adjunctions}
 
 There are a few special classes of polynomials that are worth discussing: 
-\begin{enumerate}
+\begin{enumerate}[label=\alph*)]
 	\item constant polynomials $\0,\1,\2,A$; 
 	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
-	\item pure-powers polynomials, $\1, \yon, \yon^\2, \yon^A$; and 
+	\item pure-power (or representable) polynomials $\1, \yon, \yon^\2, \yon^A$; and 
 	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
 \end{enumerate}
-The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. The third puts a copy of $\smset\op$ inside $\poly$, and the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec_prepare_dyn} (page~\pageref{page.bimorphic_lens}).
+The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. 
+The third puts a copy of $\smset\op$ inside $\poly$.
+Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec_prepare_dyn} (page~\pageref{page.bimorphic_lens}).
 
 \begin{exercise}
 Which of the four classes above are closed under
 \begin{enumerate}
-	\item the cocartesian monoidal structure $(\0,+)$?
-	\item the cartesian monoidal structure $(\1,\times)$?
-	\item the parallel monoidal structure $(\yon,\otimes)$?
-	\item composition of polynomials $p\circ q$?%
-	\footnote{Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will see in \cref{chapter.comon}.}
+	\item the cocartesian monoidal structure $(\0,+)$ (i.e.\ addition)?
+	\item the cartesian monoidal structure $(\1,\times)$ (i.e.\ multiplication)?
+	\item the parallel monoidal structure $(\yon,\otimes)$ (i.e.\ taking the parallel product)?
+	\item composition of polynomials $p\circ q$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+Here $A, B, A', B' \in \smset$.
+\begin{enumerate}
+    \item We determine whether various classes of polynomials are closed under addition.
+    \begin{enumerate}
+        \item Constant polynomials are closed under addition: given constants $A, B$, their sum $A + B$ is also a constant polynomial.
+        \item Linear polynomials are closed under addition: given linear polynomials $A\yon, B\yon$, their sum $A\yon + B\yon \iso (A + B)\yon$ is also a linear polynomial.
+        \item Representable polynomials are \emph{not} closed under addition: for example, $\yon$ is a representable polynomial, but the sum of $\yon$ with itself, $\2\yon$, is not.
+        \item Monomials are \emph{not} closed under addition: for example, $\yon$ and $\2\yon^\3$ are monomials, but their sum $\yon + \2\yon^\3$ is not.
+    \end{enumerate}
+    \item We determine whether various classes of polynomials are closed under multiplication.
+    The results below follow from \cref{exc.general_poly_times} \cref{exc.general_poly_times.monomial}.
+    \begin{enumerate}
+        \item Constant polynomials are closed under multiplication: given constants $A, B$, their product $AB$ is also a constant polynomial.
+        \item Linear polynomials are \emph{not} closed under multiplication: for example, $\yon$ and $\2\yon$ are linear polynomials, but their product $\2\yon^\2$ is not.
+        \item Representable polynomials are closed under multiplication: given representables $\yon^A, \yon^B$, their product $\yon^{A+B}$ is also a representable polynomial.
+        \item Monomials are closed under multiplication: given monomials $B\yon^A, B'\yon^{A'}$, their product $BB'\yon^{A+A'}$ is also a monomial.
+    \end{enumerate}
+    \item We determine whether various classes of polynomials are closed under taking parallel products.
+    The results below follow from \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial}.
+    \begin{enumerate}
+        \item Constant polynomials are closed under taking parallel products: given constants $A, B$, their parallel product $AB$ is also a constant polynomial.
+        \item Linear polynomials are closed under taking parallel products: given linear polynomials $A\yon, B\yon$, their parallel product $AB\yon$ is also a linear polynomial.
+        \item Representable polynomials are closed under taking parallel products: given representables $\yon^A, \yon^B$, their parallel product $\yon^{AB}$ is also a representable polynomial.
+        \item Monomials are closed under taking parallel products: given monomials $B\yon^A, B'\yon^{A'}$, their parallel product $BB'\yon^{AA'}$ is also a monomial.
+    \end{enumerate}
+    \item We determine whether various classes of polynomials are closed under composition. (Recall that we can think of computing the composite $p \circ q$ of $p, q \in \poly$ as replacing each appearance of $\yon$ in $p$ with $q$.)
+    \begin{enumerate}
+        \item Constant polynomials are closed under composition: given constants $A, B$, their composite $A \circ B \iso A$ is also a constant polynomial.
+        \item Linear polynomials are closed under composition: given linear polynomials $A\yon, B\yon$, their composite $A\yon \circ B\yon \iso A(B\yon) \iso AB\yon$ is also a linear polynomial.
+        \item Representable polynomials are closed under composition: given representables $\yon^A, \yon^B$, their composite $\yon^A \circ \yon^B \iso (\yon^B)^A \iso \yon^{BA}$ is also a representable polynomial.
+        \item Monomials are closed under taking parallel products: given monomials $B\yon^A, B'\yon^{A'}$, their composite $B\yon^A \circ B'\yon^{A'} \iso B(B'\yon^{A'})^A \iso BB'^A\yon^{A'A}$ is also a monomial.
+    \end{enumerate}
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.ff_const_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\0\to\0$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and, for each $a\in A$, a function $\0\to\0$. There is only one function $\0\to\0$, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{proposition}\label{prop.ff_lin_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one such function, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{theorem}\label{thm.adjoint_quadruple}
@@ -5262,59 +5446,108 @@ where the functors have been labeled by where they send $A\in\smset$ and $p\in \
 Both rightward functors are fully faithful.
 \end{theorem}
 \begin{proof}
-For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; it is $\poly(A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly} give us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
+For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; by the Yoneda lemma, it is the functor $\poly(\yon^A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}, gives us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
 \[
-\smset(A,p(\0))\cong\poly(A,p)\qquad
-\smset(p(\1),A)\cong\poly(p,A)\qquad
-\smset(A,p(\1))\cong\poly(A\yon,p).
+\poly(A,p)\iso\smset(A,p(\0))\qquad
+\poly(p,A)\iso\smset(p(\1),A)\qquad
+\poly(A\yon,p)\iso\smset(A,p(\1)).
 \]
-All three come from our main formula, \eqref{eqn.main_formula}; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
+All three come from our formula \eqref{eqn.main_formula} for computing general hom-sets in $\poly$; we leave the details to the reader in \cref{exc.adjoint_quadruple}.
 \end{proof}
 
 \begin{exercise}\label{exc.adjoint_quadruple}
 Here we prove the remainder of \cref{thm.adjoint_quadruple} using \eqref{eqn.main_formula}:
 \begin{enumerate}
-	\item Provide a natural isomorphism $\smset(A,p(\0))\cong\poly(A,p)$.
-	\item Provide a natural isomorphism $\smset(p(\1),A)\cong\poly(p,A)$.
-	\item Provide a natural isomorphism $\smset(A,p(\1))\cong\poly(A\yon,p)$.
+	\item Provide a natural isomorphism $\poly(A,p)\iso\smset(A,p(\0))$.
+	\item \label{exc.adjoint_quadruple.pos_const} Provide a natural isomorphism $\poly(p,A)\iso\smset(p(\1),A)$.
+	\item \label{exc.adjoint_quadruple.linear_pos} Provide a natural isomorphism $\poly(A\yon,p)\iso\smset(A,p(\1))$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+We complete the proof of \cref{thm.adjoint_quadruple} by exhibiting three natural isomorphisms, all special cases of \eqref{eqn.main_formula}, as follows.
+\begin{enumerate}
+    \item By \eqref{eqn.main_formula}, we have the natural isomorphism
+    \[
+        \poly(A, p) % \iso \prod_{a \in A} \sum_{i \in p(\1)} A[a]^{p[i]}
+        \iso \prod_{a \in A} \sum_{i \in p(\1)} \0^{p[i]}.
+    \]
+    As $\0^{p[i]}$ is $\1$ if $p[i] \iso \0$ and $\0$ otherwise, it follows that
+    \[
+        \poly(A, p) \iso \prod_{a \in A} \{ i \in p(\1) \ | \ p[i] \iso \0 \} \iso \prod_{a \in A} p(\0) \iso \smset(A, p(0)).
+    \]
+    \item By \eqref{eqn.main_formula}, we have the natural isomorphism
+    \begin{align*}
+        \poly(p, A) %&\iso \prod_{i \in p(\1)} \sum_{a \in A} p[i]^{A[a]} \\
+        &\iso \prod_{i \in p(\1)} \sum_{a \in A} p[i]^\0 \\
+        &\iso \prod_{i \in p(\1)} \sum_{a \in A} \1 \\
+        &\iso \prod_{i \in p(\1)} A \\
+        &\iso \smset(p(\1), A).
+    \end{align*}
+    \item By \eqref{eqn.main_formula}, we have the natural isomorphism
+    \begin{align*}
+        \poly(A\yon, p) %&\iso \prod_{a \in A} \sum_{i \in p(\1)} (A\yon)[a]^{p[i]} \\
+        &\iso \prod_{a \in A} \sum_{i \in p(\1)} \1^{p[i]} \\
+        &\iso \prod_{a \in A} \sum_{i \in p(\1)} \1 \\
+        &\iso \prod_{a \in A} p(\1) \\
+        &\iso \smset(A, p(\1)).
+    \end{align*}
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{exercise}\label{exc.positions_maps_yon}
 Show that for any polynomial $p$, its set $p(\1)$ of positions is in bijection with the set of functions $\yon\to p$.
+\begin{solution}
+Given $p \in \poly$, we wish to show that $p(\1)$ is in bijection with the set of functions $\yon \to p$.
+In fact, this follows directly from the Yoneda lemma, but we can also invoke the isomorphism from \cref{exc.adjoint_quadruple} \cref{exc.adjoint_quadruple.linear_pos} with $A \coloneqq \1$ to observe that
+\[
+    p(1) \iso \smset(\1, p(\1)) \iso \poly(\yon, p).
+\]
+\end{solution}
 \end{exercise}
 
-In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is also a right adjoint---and hence that we have the \emph{quadruple} of adjunctions in \eqref{eqn.adjoints_galore}---is special to $A=\0,\1$.
+In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is itself the left adjoint of the left adjoint of $p\mapsto p(\0)$---and hence that we have the \emph{quadruple} of adjunctions in \eqref{eqn.adjoints_galore}---is special to $A=\0,\1$.
 
-Next we note that the set of polynomial morphisms $p\to q$ 
+Next we note that the set of polynomial morphisms $p\to q$ % todo: what was the rest of this sentence??
+% copower-hom-power two-variable adjunction
 
 \begin{proposition}\label{prop.two_var_adj}
-There is a two-variable adjunction between $\smset$, $\poly$, and $\poly$:%
+There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:%
 \footnote{The first set $\poly(Ap,q)$ involves the $A$-fold coproduct of $p$ and the middle set $\poly(p,q^A)$ involves the $A$-fold product of $q$, neither of which we have proven exists. For organizational purposes, we put that off until \cref{prop.coprod_prod_poly}.
 }
 \begin{align}\label{eqn.two_var_adj}
-\poly(Ap,q)\cong\poly(p,q^A)\cong\smset(A,\poly(p,q)).
+\poly(Ap,q) \iso \smset(A,\poly(p,q)) \iso \poly(p,q^A).
 \end{align}
 \end{proposition}
 \begin{proof}
-Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of $q$, the universal properties of coproduct and product give isomorphisms
+Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of $q$, the universal properties of coproducts and products give natural isomorphisms
 \[\poly(Ap,q)\cong\prod_{a\in A}\poly(p,q)\cong\poly(p,q^A).\]
-The middle set is in bijection with $\smset(A,\poly(p,q))$, completing the proof.
+The middle set is naturally isomorphic to $\smset(A,\poly(p,q))$, completing the proof.
 \end{proof}
 
-Replacing $q$ with $p$ and replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the following using the Yoneda lemma.
+Replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the following using the Yoneda lemma.
 
 \begin{corollary}\label{cor.substituting_adj}
 For any set $B$ there is an adjunction
 \[
-\adj{\smset}{A\yon^B}{p(B)}{\poly}
+\adj{\smset}{A\yon^B}{q(B)}{\poly}
 \]
-where the functors are labeled by where they send $p\in\poly$ and $A\in\smset$.
+where the functors are labeled by where they send $q\in\poly$ and $A\in\smset$.
 \end{corollary}
 
 \begin{exercise}
 Prove \cref{cor.substituting_adj} from \cref{prop.two_var_adj}.
+\begin{solution}
+To prove \cref{cor.substituting_adj}, it suffices to exhibit a natural isomorphism
+\[
+    \poly(A\yon^B, q) \iso \smset(A, q(B)).
+\]
+Replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the natural isomorphism
+\[
+    \poly(A\yon^B, q) \iso \smset(A, \poly(\yon^B, q)).
+\]
+By the Yoneda lemma, $\poly(\yon^B, q)$ is naturally isomorphic to $q(B)$, yielding the desired result.
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.yoneda_left_adjoint}
@@ -5322,59 +5555,73 @@ The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
 \[
 \adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
 \]
-where $\Gamma(p)\coloneqq\prod_{i\in p(\1)}p[i]$.
+where $\Gamma(p) \coloneqq \poly(p, \yon) \iso \prod_{i\in p(\1)}p[i]$, as in \eqref{eqn.gamma_def} and \eqref{eqn.gamma_prod}.
+That is, there is a natural isomorphism
+\begin{equation*}
+    \poly(p, \yon^A) \iso \smset(A, \Gamma(p)).
+\end{equation*}
 \end{proposition}
 \begin{proof}
-We have the following chain of natural isomorphisms:
-\begin{align*}
-  \smset(A,\Gamma(p))&\cong
-  \Big(\prod_{i\in p(\1)}p[i]\Big)^A
-  	&\text{Definition of function}\\&\cong
-  \prod_{i\in p(\1)}{p[i]}^A
-  	&\text{Definition of product}\\&\cong
-  \prod_{i\in p(\1)}\sum_{j\in\1}{p[i]}^A
-  	&\text{Trivial sum}\\&\cong
-  \poly(p,\yon^A).&\eqref{eqn.main_formula}
-\end{align*}
-
+By \eqref{eqn.main_formula}, we have the natural isomorphism
+\[
+    \poly(p, \yon^A) \iso \prod_{i \in p(\1)} p[i]^A,
+\]
+which in turn is naturally isomorphic to $\smset(A, \Gamma(p))$ by \eqref{eqn.gamma_prod}.
 \end{proof}
 
-\begin{exercise}
-Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.dirichlet_closure}.
-\end{exercise}
+% \begin{exercise} % Already basically done
+% Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.dirichlet_closure}.
+% \end{exercise}
 
 \begin{corollary}[Principle monomial]\label{cor.principle_monomial}
 There is an adjunction
 \[
-\adj{\poly}{{(p(\1),\Gamma(p)}}{A\yon^B}{\smset\times\smset\op}
+    \adj{\poly}{{(p(\1),\Gamma(p))}}{A\yon^B}{\smset\times\smset\op}
 \]
 where the functors are labeled by where they send $p\in\poly$ and $(A,B)\in\smset\times\smset\op$.
+That is, there is a natural isomorphism
+\begin{equation} \label{eqn.principle_monomial}
+    \poly(p, A\yon^B) \iso \smset(p(1), A) \times \smset(B, \Gamma(p)).
+\end{equation}
 \end{corollary}
 \begin{proof}
-**
+By the universal property of the product of $A$ and $\yon^B$, we have a natural isomorphism
+\[
+    \poly(p, A\yon^B) \iso \poly(p, A) \times \poly(p, \yon^B).
+\]
+Then the desired natural isomorphism follows from \cref{exc.adjoint_quadruple} \cref{exc.adjoint_quadruple.pos_const} and \cref{prop.yoneda_left_adjoint}.
 \end{proof}
 
 \begin{exercise}
-Use \cref{cor.principle_monomial,prop.dirichlet_closure,eqn.dir_dual} to prove \cref{prop.situations2}, i.e.\ that there is an isomorphism
+Use \eqref{eqn.principle_monomial} together with \eqref{eqn.dir_dual} and \eqref{eqn.poly_closure_brackets} to find an alternative proof for \cref{prop.situations2}, i.e.\ that there is an isomorphism
 \[
-\Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
+    \Gamma(p\otimes q) \iso \smset\big(q(\1),\Gamma(p)\big) \times \smset\big(p(\1),\Gamma(q)\big).
 \]
 for any $p,q\in\poly$.
 \begin{solution}
-The universal properties of the adjunctions
-\[
-  \adj[40pt]{\poly}{{(-(\1),\Gamma(-))}}{-\yon^-}{\smset\times\smset\op}
-  \qqand
-  \adj{\poly}{-\otimes q}{{[q,-]}}{\poly}
-\]
-together with the isomorphism $[p,\yon]\cong \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give the following chain of isomorphisms:
+% The universal properties of the adjunctions
+% \[
+%       \adj[40pt]{\poly}{{(-(\1),\Gamma(-))}}{-\yon^-}{\smset\times\smset\op}
+%       \qqand
+%       \adj{\poly}{-\otimes q}{{\ihom{q,-}}}{\poly}
+% \]
+% from \cref{cor.principle_monomial,prop.dirichlet_closure} together with the isomorphism $\ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give
+We have the following chain of natural isomorphisms:
 \begin{align*}
-	\Gamma(p\otimes q)&=
-	\poly(p\otimes q,\yon)\\&\cong
-	\poly(p,[q,\yon])\\&\cong
-	\poly(p,\Gamma(q)\yon^{q(\1)})\\&\cong
-	(\smset\times\smset\op)\Big(\big((p(\1),\Gamma(p)\big),\big(\Gamma(q),q(\1)\big)\Big)\\&\cong
-	\smset\big(p(\1),\Gamma(q)\big)\;\times\;\smset\big(q(\1),\Gamma(p)\big).
+	\Gamma(p \otimes q) &=
+	\poly(p \otimes q,\yon) 
+	\tag*{\eqref{eqn.gamma_def}} \\
+	&\iso
+	\poly(p, \ihom{q,\yon}) 
+	\tag*{\eqref{eqn.poly_closure_brackets}} \\
+	&\iso
+	\poly(p, \Gamma(q)\yon^{q(\1)})
+	\tag*{\eqref{eqn.dir_dual}} \\
+% 	&\iso
+% 	(\smset\times\smset\op)\Big(\big((p(\1),\Gamma(p)\big),\big(\Gamma(q),q(\1)\big)\Big) \\
+	&\iso
+	\smset\big(p(\1),\Gamma(q)\big) \times \smset\big(q(\1),\Gamma(p)\big).
+	\tag*{\eqref{eqn.principle_monomial}}
 \qedhere
 \end{align*}
 \end{solution}
@@ -5384,56 +5631,100 @@ together with the isomorphism $[p,\yon]\cong \Gamma(p)\yon^{p(\1)}$ from \eqref{
 \paragraph{Epi-mono factorization.}
 
 \begin{proposition}\label{prop.monics_in_poly}
-Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is a monomorphism iff the function $f_1\colon p(\1)\to q(\1)$ is a monomorphism in $\smset$ and, for each $i\in p(\1)$ the function $f_i^\sharp\colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
+Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}
-\noindent$\Rightarrow$: Suppose that $f$ is a monomorphism. Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms. We need to show that for any $i\in p(\1)$ the function $f_i^\sharp\colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $g^\sharp f_i^\sharp=h^\sharp f_i^\sharp$. They can be identified with morphisms $\yon^A\tto p$ whose compositions with $f$ are equal, hence $g=h$ by assumption, and hence $g^\sharp=h^\sharp$ as desired.
+To prove the forward direction, suppose that $f$ is a monomorphism.
+Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms, so the on-positions function $f_1$ is also a monomorphism.
 
-\noindent$\Leftarrow$: Suppose that $f_1$ is a monomorphism and that for each $i\in p(\1)$ the function $f_i^\sharp$ is an epimorphism. Let $r$ be a polynomial, $g,h\colon r\tto p$ two morphisms, and suppose $fg=fh$. Then $f_1g_1=f_1h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $g^\sharp_kf^\sharp_{g_1k}=h^\sharp_kf^\sharp_{g_1k}$ for any $k\in r(\1)$. But $f^\sharp_{g_1k}$ is an epimorphism, so in fact $g^\sharp_k=h^\sharp_k$, as desired.
+We now need to show that for any $i\in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)] \to p[i]$ is an epimorphism.
+Suppose we are given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $f^\sharp_i \then g^\sharp = f^\sharp_i \then h^\sharp$.
+Then there exist morphisms $g,h \colon \yon^A \tto p$ whose on-positions functions both pick out $i$ and whose on-directions functions are $g^\sharp$ and $h^\sharp$, so that $g \then f = h \then f$.
+As $f$ is a monomorphism, $g = h$; in particular, their on-directions functions $g^\sharp$ and $h^\sharp$ are equal, as desired.
+
+Conversely, suppose that $f_1$ is a monomorphism and that, for each $i\in p(\1)$, the function $f^\sharp_i$ is an epimorphism.
+Let $r$ be a polynomial and $g,h\colon r\tto p$ be two morphisms such that $g \then f = h \then f$.
+Then $g_1 \then f_1 = h_1 \then f_1$, which implies $g_1 = h_1$; we'll consider $g_1$ the default representation.
+We also have that $f^\sharp_{g_1(k)} \then g^\sharp_k = f^\sharp_{g_1(k)} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_1(k)}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
 \end{proof}
 
 \begin{example}\label{ex.clock_in_N}
 Choose a finite nonempty set $\ord{k}$ for $1\leq k\in\nn$, e.g.\ $\ord{k}=\1\2$. There is a monomorphism
 \[
-(f,f^\sharp)\colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
+f \colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
 \]
 such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory \cref{ex.counting_trajectory} $\nn\yon^\nn\to\yon$.
 
-On positions we have $f(i)=i$, for all natural numbers $1\leq i\leq k$. On directions we have $f^\sharp(n)=n\mod k$.
+On positions, we have $f_1(i)=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
 \end{example}
 
 \begin{exercise}
-In \cref{ex.clock_in_N} we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This allows us to turn any dynamical system with $\nn$-many states into a dynamical system with 12 states, while keeping the same interface, say $p$. 
+In \cref{ex.clock_in_N}, we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This allows us to turn any dynamical system with $\nn$-many states into a dynamical system with 12 states, while keeping the same interface---say, $p$. 
 
 Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen to relate to the behavior of the old system $\nn\yon^\nn\to p$.
+\begin{solution}
+We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cref{ex.clock_in_N}.
+Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with yield function $g_1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_1(n)] \to \nn$ for each state $n \in \nn$.
+Then the new composite dynamical system $h \coloneqq f \then g$ has a yield function $h_1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_1(i) = g_1(f_1(i)) = g_1(i)$, the same output that the original system yielded in the state $i \in \nn$.
+Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_1(i)] \to \1\2$ which, given an input $d \in p[g_1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
+In other words, the new system behaves like the old system but with only the states in $\1\2 \subseteq \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.epis_in_poly}
-Let $(f_1,f^\sharp)\colon p\to q$ be a morphism in $\poly$. It is an epimorphism iff the function $f_1\colon p(\1)\to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$ the induced function 
+Let $f \colon p \to q$ be a morphism in $\poly$. It is an epimorphism if and only if the function $f_1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
 \[
-f^\flat_j\colon q[j]\to\prod_{\{i\in p(\1)\,\mid\, f_1(i)=j\}}p[i]
+    f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_1(i)=j}} p[i]
 \]
 from \eqref{eqn.useful_misc472} is a monomorphism.
 \end{proposition}
 \begin{proof}
-\noindent$\Rightarrow$: Suppose that $f$ is an epimorphism. Since $p\mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms. We need to show that for any $j\in q(\1)$ the  function $f^\flat_j$ is a monomorphism in $\smset$. Suppose given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon A\tto q[j]$ with $f^\flat_jg^\sharp=f^\flat_jh^\sharp$. They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
+To prove the forward direction, suppose that $f$ is an epimorphism. Since $p \mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms, so the on-positions function $f_1$ is also a epimorphism.
 
-\noindent$\Leftarrow$: Suppose that $f_1$ is an epimorphism and that for each $j\in q(\1)$ the function $f^\flat_j$ is a monomorphism. Let $r$ be a polynomial, $g,h\colon q\tto r$ two morphisms, and suppose $gf=hf$. Then $g_1f_1=h_1f_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation. We also have that $f^\sharp_ig^\sharp_{fi}=f^\sharp_ih^\sharp_{fi}$ for any $i\in p(\1)$. Then, in particular, for any $j\in q(\1)$ the two composites
+We now need to show that for any $j\in q(\1)$, the induced function $f^\flat_j$ is a monomorphism.
+Suppose we are given a set $A$ and a pair of functions $g',h'\colon A\tto q[j]$ with $g' \then f^\flat_j = h' \then f^\flat_j$.
+They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
+
+Then we can construct morphisms $g,h \colon q \tto \yon^A+\1$ whose on-positions functions both send $j$ to the first position, corresponding to $\yon^A$, and all other positions to the second position, corresponding to $\1$.
+In addition, we let the on-directions functions be $g^\sharp_j \coloneqq g'$ and $h^\sharp_j \coloneqq h'$.
+Then $f \then g = f \then h$.
+As $f$ is an epimorphism, $g = h$; in particular, their on-directions functions are equal, so $g' = h'$, as desired.
+
+Conversely, suppose that $f_1$ is an epimorphism and that, for each $j\in q(\1)$,0 the function $f^\flat_j$ is a monomorphism. 
+Let $r$ be a polynomial and $g,h\colon q\tto r$ be two morphisms such that $f \then g = f \then h$.
+Then $f_1 \then g_1 = f_1 \then h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation.
+We also have that $g^\sharp_{f_1(i)} \then f^\sharp_i = h^\sharp_{f_1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
+It follows that, for any $j \in q(\1)$, the two composites
 \[
 \begin{tikzcd}
-	r[g_1j]\ar[r, shift left, "g^\sharp_j"]\ar[r, shift right, "h^\sharp_j"']&q[j]\ar[r, "f^\flat_j"]&\displaystyle\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}p[i]
+	r[g_1(j)] \ar[r, shift left, "g^\sharp_j"] \ar[r, shift right, "h^\sharp_j"'] & q[j] \ar[r, "f^\flat_j"] & \displaystyle\prod_{\substack{i\in p(\1), \\ f_1(i)=j}} p[i]
 \end{tikzcd}
 \]
 are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
 \end{proof}
 
+% Insert exercise exploring the difference between the epi proposition and the one about monos
+
 \begin{exercise}
 Show that the only way for a map $p\to\yon$ to \emph{not} be an epimorphism is when $p=0$.
+\begin{solution}
+Given $p \in \poly$ and a map $f \colon p \to \yon$, we will use \cref{prop.epis_in_poly} to show that either $f$ is an epimorphism or $p = \0$.
+First, note that $f_1 \colon p(\1) \to \1$ must be an epimorphism unless $p(\1) \iso \0$, in which case $p = \0$.
+Next, note that the induced function
+\[
+    f^\flat \colon \1 \to \prod_{i\in p(\1)} p[i]
+\]
+from \eqref{eqn.useful_misc472} must be a monomorphism if it exists, but we know from the solution to \cref{exc.practice_sum_prod} \cref{exc.practice_sum_prod.useful} that if $f$ exists, then the corresponding $f^\flat$ must exist as well.
+So it follows from \cref{prop.epis_in_poly} that either $f$ is an epimorphism or $p = \0$.
+\end{solution}
 \end{exercise}
 
-\begin{proposition}
+\begin{exercise}
 Let $A$ and $B$ be sets and $AB$ their product. Find an epimorphism $\yon^A+\yon^B\surj\yon^{AB}$.
-\end{proposition}
+\begin{solution}
+
+\end{solution}
+\end{exercise}
 
 \begin{exercise}
 Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
@@ -5485,7 +5776,7 @@ Their coproduct is
 \begin{equation}\label{eqn.sum_polys}
 \sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{p_a[i]}
 \end{equation}
-which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of coproduct; see \cref{exc.check_coprod_prod}.
+which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of the coproduct; see \cref{exc.check_coprod_prod}.
 
 We claim that the product of this collection is
 \begin{equation}\label{eqn.prod_polys}
@@ -5493,7 +5784,7 @@ We claim that the product of this collection is
 \prod_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong
 \sum_{i\colon \prod_{a\in A}p_a(\1)}\yon^{\sum_{a\in A}p_a[i(a)]}.
 \end{equation}
-Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of product; see \cref{exc.check_coprod_prod}.
+Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of products; see \cref{exc.check_coprod_prod}.
 \end{proof}
 
 \begin{exercise}\label{exc.check_coprod_prod}
@@ -5664,7 +5955,7 @@ Given polynomials $q,q',r$ and morphism $q\To{f} r\From{f'} q'$, the pullback
 \qqand
 \begin{tikzcd}
 	p[(i,i')]\ar[from=r]\ar[from=d]&
-	q'[i']\ar[from=d, "(f')_{i'}^\sharp"']\\
+	q'[i']\ar[from=d, "(f')^\sharp_{i'}"']\\
 	q[i]\ar[from=r, "f^\sharp_i"]&
 	r[f_1(i)]\ar[ul, phantom, very near end, "\ulcorner"]
 \end{tikzcd}
@@ -5897,7 +6188,7 @@ For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}_a^\sharp\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too. We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}.
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}^\sharp_a\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too. We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}.
 
 
 \begin{definition}[Vertical, cartesian]
