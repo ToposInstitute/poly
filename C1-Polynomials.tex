@@ -877,7 +877,7 @@ record Arena : Set where  -- an arena consists of
 The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
 
 \begin{proposition}
-$\poly$ is a biCartesian closed category, meaning it has sums, products, and exponential objects. It supports the simply typed lambda calculus.
+$\poly$ is a biCartesian closed category, meaning it has sums, products, and exponential objects. It therefore supports the simply typed lambda calculus.
 \end{proposition}
 
 In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{**}; for now we continue with the highlights.
@@ -1200,7 +1200,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     \end{tikzcd}
     \]
     commutes, so in particular
-    \begin{equation} \label{eq.finish_proof_yoneda}
+    \begin{equation} \label{eqn.finish_proof_yoneda}
         F(g)(m_S(\id_S)) = m_X(g^S(\id_S)) = m_X(\id_S \then g) = m_X(g).
     \end{equation}
     In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
@@ -1230,7 +1230,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     commutes.
     The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(f \then \id_X) = m_X(g)$.
     Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
-    So the square commutes by \eqref{eq.finish_proof_yoneda}.
+    So the square commutes by \eqref{eqn.finish_proof_yoneda}.
     
     \item To show that $\nat(\yon^S, \yon^T) \iso S^T$, just take $F = \yon^T$ in \cref{lemma.yoneda}.
 \end{enumerate}
@@ -1805,6 +1805,10 @@ Then $\poly$ is the category whose objects are polynomial functors and whose mor
 
 In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
 
+\paragraph{Coproducts of polynomials.}
+
+Since polynomial functors are defined as arbitrary sums of representables, coproducts in $\poly$ are quite easy to understand.
+
 \begin{proposition} \label{prop.poly_coprods}
 The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \in I}$.
 \end{proposition}
@@ -1812,6 +1816,22 @@ The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \
 By \cref{prop.prods_coprods_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
 The full subcategory inclusion $\poly \to \smset^\smset$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
 \end{proof}
+
+Explicitly, given polynomials $\{p_i\}_{i \in I}$, their coproduct is
+\begin{equation} \label{eqn.poly_coprod}
+    \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]},
+\end{equation}
+which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{def.sum_prod}.
+Binary coproducts are thus given by binary sums of functors, denoted by $+$.
+In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and $q$, their coproduct $p+q$ is given as follows.
+The set of positions of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
+At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the directions of $p$ at $i$; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the directions of $q$ at $j$.
+% It follows that the initial object of $\poly$ is $\0$, and that binary coproducts are given by
+% \begin{equation} \label{eqn.poly_plus}
+%     p + q = ???
+% \end{equation}
+
+\paragraph{Polynomial morphisms, concretely.}
 
 A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$ such that the naturality squares commute.
 That's a lot of data to keep track of!
@@ -2217,11 +2237,11 @@ Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
 By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \prod_{j \in q(\1)} \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
-    &\iso \sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
+    &\iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $\{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_1^{-1}(j) = \{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
 
 \item To explain how the set
 \[
@@ -2247,6 +2267,27 @@ To choose an element of $D_{p,q}$:
 So $f_1$ delegates each of $p$'s decisions to one of $q$'s decisions.
 Then for every option of every decision $j$ of $q$, we choose an option of each of $p$'s decisions that has been delegated to $j$ by $f_1$.
 \end{longenum}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}%\label{exc.poly_coprod}
+Use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
+\[
+    \poly\left(\sum_{i \in I} p_i, q\right) \iso \prod_{i \in I} \poly(p_i, q)
+\]
+for all polynomials $\{p_i\}_{i \in I}$ and $q$, as expected from the universal property of coproducts.
+\begin{solution}
+Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
+\begin{align*}
+    \poly\left(\sum_{i \in I} p_i, q\right)
+    &\iso \poly\left(\sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]}, q\right)
+    \tag*{\eqref{eqn.poly_coprod}} \\
+    &\iso \prod_{(i,j) \in \sum_{i \in I} p_i(\1)} q(p_i[j])
+    \tag*{\eqref{eqn.main_formula}} \\
+    &\iso \prod_{i \in I} \prod_{j \in p_i(\1)} q(p_i[j]) \\
+    &\iso \prod_{i \in I} \poly(p_i, q).
+    \tag*{\eqref{eqn.main_formula}}
+\end{align*}
 \end{solution}
 \end{exercise}
 
@@ -2486,7 +2527,7 @@ In particular, it justifies the notation $f_1$ for the on-positions function of 
 
 \begin{corollary} \label{prop.morph_func_to_arena}
 Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
-Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the arena morphism $(f_1, f^\sharp)$ such that $f_1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
+Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the arena morphism $(f_1, f^\sharp)$ for which $f_1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
 \[
     (f_1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
 \]
@@ -2538,32 +2579,85 @@ Indeed, by \cref{prop.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, 
 \end{solution}
 \end{exercise}
 
-% \begin{example}[Commutative diagrams in $\poly$] \label{ex.comm_poly}
-% The above exercise tells us how to interpret commutative diagrams in $\poly$.
-% Given polynomials $p, q, r$ and natural transformations $f \colon p \to q, g \colon q \to r,$ and $h \colon p \to r$ with associated arena morphisms $(f_1, f^\sharp)$, $(g_1, g^\sharp)$, and $(h_1, h^\sharp)$, the diagram
-% \[
+\begin{example}[Commutative diagrams in $\poly$] \label{ex.comm_poly}
+The above exercise tells us how to interpret commutative diagrams in $\poly$ as commutative diagrams in the more familiar setting of $\smset$.
+Given polynomials $p, q, r$ and natural transformations $f \colon p \to q, g \colon q \to r,$ and $h \colon p \to r$, the diagram
+\[
+\begin{tikzcd}
+    p \ar[r, "f"] \ar[dr, "h"'] & q \ar[d, "g"] \\
+    & r
+\end{tikzcd}
+\]
+commutes in $\poly$ if and only if the forwards on-positions diagram
+\[
+\begin{tikzcd}
+    p(\1) \ar[r, "f_1"] \ar[dr, "h_1"'] & q(\1) \ar[d, "g_1"] \\
+    & r(\1)
+\end{tikzcd}
+\]
+commutes in $\smset$ and, for each $i \in p(\1)$, the backwards on-directions diagram
+\[
+\begin{tikzcd}
+    p[i] & q[f_1(i)] \ar[l, "f^\sharp_i"'] \\
+    & r[h_1(i)] \ar[u, "g^\sharp_{f_1(i)}"'] \ar[ul, "h^\sharp_i"]
+\end{tikzcd}
+\]
+commutes in $\smset$.
+We can use this fact to determine whether a given diagram in $\poly$ commutes.
+\end{example}
+
+\begin{exercise}
+Verify that, for $p, q \in \poly$, the polynomial $p+q$ given by the binary sum of $p$ and $q$ satisfies the universal property of the coproduct of $p$ and $q$.
+That is, provide morphisms $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$, then show that for any other polynomial $r$ with morphisms $f \colon p \to r$ and $g \colon q \to r$, there exists a unique morphism $h \colon p+q \to r$---shown dashed---making the following diagram commute:
+\begin{equation} \label{eqn.coprod_univ_prop}
+\begin{tikzcd}
+	p \ar[r, "\iota"] \ar[dr, "f"'] &
+	p + q \ar[d, "h", dashed] &
+	q \ar[l, "\kappa"'] \ar[dl, "g"] \\
+	& r
+\end{tikzcd}
+\end{equation}
+Hint: Use \cref{ex.comm_poly} to determine whether a diagram commutes.
+\begin{solution}
+We provide $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$ as follows.
+On positions, they are the canonical inclusions $\iota_1 \colon p(\1) \to p(\1)+q(\1)$ and $\kappa_1 \colon q(\1) \to p(\1)+q(\1)$; on directions, they are identities.
+We wish to show that, for $p, q \in \poly$, the polynomial $p+q$ along with $\iota$ and $\kappa$ satisfy the universal property of the coproduct.
+That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to p+q$ for which the diagram \eqref{eqn.coprod_univ_prop} commutes.
+% \begin{equation} \label{eqn.coprod_univ_prop}
 % \begin{tikzcd}
-%     p \ar[r, "f"] \ar[dr, "h"'] & q \ar[d, "g"] \\
-%     & r
+% 	r & q \ar[l, "g"'] \ar[d, "\kappa"] \\
+% 	p \ar[u, "f"] \ar[r, "\iota"'] & p+q \ar[ul, "h", dashed].
 % \end{tikzcd}
-% \]
-% commutes in $\poly$ if and only if the diagram
-% \[
-% \begin{tikzcd}
-%     p(\1) \ar[r, "f_1"] \ar[dr, "h_1"'] & q(\1) \ar[d, "g_1"] \\
-%     & r(\1)
-% \end{tikzcd}
-% \]
-% commutes in $\smset$ and, for each $i \in p(\1)$, the diagram
-% \[
-% \begin{tikzcd}
-%     p[i] & q[f_1(i)] \ar[l, "f^\sharp_i"'] \\
-%     & r[h_1(i)] \ar[u, "g^\sharp_{f_1(i)}"'] \ar[ul, "h^\sharp_i"]
-% \end{tikzcd}
-% \]
-% commutes in $\smset$.
-% We can use this fact to determine whether a given diagram in $\poly$ commutes.
-% \end{example}
+% \end{equation}
+
+We apply \cref{ex.comm_poly}.
+In order for \eqref{eqn.coprod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
+\begin{equation} \label{eqn.coprod_univ_prop_pos}
+\begin{tikzcd}
+	p(\1) \ar[r, "\iota_1"] \ar[dr, "f_1"'] &
+	p(\1) + q(\1) \ar[d, "h_1", dashed] &
+	q(\1) \ar[l, "\kappa_1"'] \ar[dl, "g_1"] \\
+	& r(\1)
+\end{tikzcd}
+\end{equation}
+But since $p(1)+q(\1)$ along with the inclusions $\iota_1$ and $\kappa_1$ form the coproduct of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_1$ for which \eqref{eqn.coprod_univ_prop_pos} commutes.
+Hence $h$ is uniquely characterized on positions.
+In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_1(i)$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_1(j)$.
+
+Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $i \in p(\1)$ and $j \in q(\1)$, the following diagrams of sets must commute:
+\begin{equation} \label{eqn.coprod_univ_prop_dir}
+\begin{tikzcd}[sep=large]
+	p[i] & (p+q)[(1,i)] \ar[l, "\iota^\sharp_i"'] & (p+q)[(2,j)] \ar[r, "\kappa^\sharp_j"] & q[j] \\
+	& r[f_1(i)] \ar[ul, "f^\sharp_i"] \ar[u, "h^\sharp_{(1,i)}"', dashed] & r[g_1(j)] \ar[u, "h^\sharp_{(2,j)}", dashed] \ar[ur, "g^\sharp_j"']
+\end{tikzcd}
+\end{equation}
+But $(p+q)[(1,i)] \iso p[i]$ and $\iota^\sharp_i$ is the identity, so we must have $h^\sharp_{(1,i)} = f^\sharp_i$.
+Similarly, $(p+q)[(2,j)] \iso q[j]$ and $\kappa^\sharp_j$ is the identity, so we must have $h^\sharp_{(2,j)} = g^\sharp_j$.
+Hence $h$ is also uniquely characterized on directions, so it is unique overall.
+Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.coprod_univ_prop_pos} commutes, and that we can define $h$ on directions such that the diagrams in \eqref{eqn.coprod_univ_prop_dir} commute.
+As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eqref{eqn.coprod_univ_prop_dir} together imply the commutativity of \eqref{eqn.coprod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.coprod_univ_prop} commutes.
+\end{solution}
+\end{exercise}
 
 %% **Examples/exercises of composing two polynomial morphisms?
 
@@ -2611,7 +2705,6 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{solution}
 \end{exercise}
 
-
 % %---- Subsection ----%
 \subsection{Prepare for dynamics}\label{subsec_prepare_dyn}
 
@@ -2623,7 +2716,7 @@ Polynomial functors are a setting in which to speak about dynamics, decisions, a
 \paragraph{The categorical product}
 The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
-\begin{proposition}\label{prop.poly_times}
+\begin{proposition}\label{prop.poly_prods}
 The category $\poly$ has arbitrary products. 
 \end{proposition}
 \begin{proof}
@@ -2635,7 +2728,7 @@ It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
 Indeed, given polynomials $\{p_i\}_{i \in I}$, by \cref{prop.push_prod_sum_set}, their product is
 \begin{equation} \label{eqn.poly_prod}
-    \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
+    \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
 \end{equation}
 which, as a coproduct of representables, is in $\poly$.
 % We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are in standard notation, then
@@ -2645,12 +2738,7 @@ which, as a coproduct of representables, is in $\poly$.
 % We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
-It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
-\begin{equation}\label{eqn.poly_times}
-    p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
-\end{equation}
-
-% \begin{exercise}\label{exc.poly_times}
+\begin{exercise}%\label{exc.poly_prod}
 % \begin{enumerate}
 % 	\item Use \eqref{eqn.main_formula} to verify that $\1$ is terminal in $\poly$.
 	
@@ -2659,26 +2747,53 @@ It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1
 % 	    \poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)
 % 	\]
 % 	for all polynomials $p,q,r$.
-% \qedhere
+	
+% 	\item
+	Use \eqref{eqn.main_formula}
+% 	and \eqref{eqn.poly_prod}
+	to verify that
+	\[
+	    \poly\left(q, \prod_{i \in I} p_i\right) \iso \prod_{i \in I} \poly(q, p_i)
+	\]
+	for all polynomials $\{p_i\}_{i \in I}$ and $q$, as expected from the universal property of products.
+\qedhere
 % \end{enumerate}
-% \begin{solution}
+\begin{solution}
 % \begin{enumerate}
-%     \item To verify that $\1$ is terminal in $\poly$, we use \eqref{eqn.main_formula} to show that $\poly(p, \1) \iso \1$ for all $p \in \poly$:
-%     \[
-%         \poly(p, \1) \iso \prod_{i \in p(\1)} \sum_{j \in \1} p[i]^\0 \iso \prod_{i \in p(\1)} \1 \iso \1.
-%     \]
+    % \item To verify that $\1$ is terminal in $\poly$, we use \eqref{eqn.main_formula} to show that $\poly(p, \1) \iso \1$ for all $p \in \poly$:
+    % \[
+    %     \poly(p, \1) \iso \prod_{i \in p(\1)} \sum_{j \in \1} p[i]^\0 \iso \prod_{i \in p(\1)} \1 \iso \1.
+    % \]
     
-%     \item Given $p,q,r \in \poly$, we use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that $\poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)$.
-%     We have that
-%     \begin{align*}
-%         \poly(r, p \times q) &\iso \poly\left(r, \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]} \right) \\
-%         &\iso \prod_{k \in r(\1)} \sum_{i \in p(\1)} \sum_{j \in q(\1)} r[k]^{p[i] + q[j]} \tag*{\eqref{eqn.main_formula}} \\
-%         &\iso \prod_{k \in r(\1)} \left(\sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\sum_{j \in q(\1)} r[k]^{q[j]}\right)  \\
-%         &\iso \left(\prod_{k \in r(\1)} \sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\prod_{k \in r(\1)} \sum_{j \in q(\1)} r[k]^{q[j]}\right) 
-%     \end{align*}
+    % \item Given $p,q,r \in \poly$, we use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
+    % \begin{align*}
+    %     \poly(r, p \times q) &\iso \poly\left(r, \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]} \right)
+    %     \tag*{\eqref{eqn.poly_times}} \\
+    %     &\iso \prod_{k \in r(\1)} \sum_{i \in p(\1)} \sum_{j \in q(\1)} r[k]^{p[i] + q[j]} \tag*{\eqref{eqn.main_formula}} \\
+    %     &\iso \prod_{k \in r(\1)} \left(\sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\sum_{j \in q(\1)} r[k]^{q[j]}\right)  \\
+    %     &\iso \left(\prod_{k \in r(\1)} \sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\prod_{k \in r(\1)} \sum_{j \in q(\1)} r[k]^{q[j]}\right) \\
+    %     &\iso \poly(r, p) \times \poly(r, q).
+    %     \tag*{\eqref{eqn.main_formula}}
+    % \end{align*}
+    
+    % \item
+    Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.main_formula} to verify that
+    \begin{align*}
+        \poly\left(q, \prod_{i \in I} p_i\right) &\iso \prod_{k \in q(\1)} \left(\prod_{i \in I} p_i\right)(q[k])
+        \tag*{\eqref{eqn.main_formula}} \\
+        &\iso \prod_{k \in q(\1)} \prod_{i \in I} p_i(q[k]) \\
+        &\iso \prod_{i \in I} \prod_{k \in q(\1)} p_i(q[k]) \\
+        &\iso \prod_{i \in I} \poly(q, p_i).
+        \tag*{\eqref{eqn.main_formula}}
+    \end{align*}
 % \end{enumerate}
-% \end{solution}
-% \end{exercise}
+\end{solution}
+\end{exercise}
+
+It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
+\begin{equation}\label{eqn.poly_times}
+    p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
+\end{equation}
 
 We will sometimes write $pq$ rather than $p\times q$:
 \begin{equation} \tag{Notation}
@@ -2799,34 +2914,35 @@ Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_
 \begin{solution}
 We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ as described in the text satisfy the universal property of the product.
 That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
-\begin{equation} \label{eq.prod_univ_prop}
+\begin{equation} \label{eqn.prod_univ_prop}
 \begin{tikzcd}
 	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
-	p & pq. \ar[l, "\pi"] \ar[u, "\phi"'] \\
+	p & pq. \ar[l, "\pi"] \ar[u, "\phi"'] 
 \end{tikzcd}
 \end{equation}
-In order for \eqref{eq.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
-\begin{equation} \label{eq.prod_univ_prop_pos}
+We apply \cref{ex.comm_poly}.
+In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
+\begin{equation} \label{eqn.prod_univ_prop_pos}
 \begin{tikzcd}
-	r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
-	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\phi_\1"'] \\
+	r(\1) \ar[d, "f_1"'] \ar[r, "g_1"] \ar[dr, "h_1", dashed] & q(\1) \\
+	p(\1) & (pq)(\1). \ar[l, "\pi_1"] \ar[u, "\phi_1"'] 
 \end{tikzcd}
 \end{equation}
-But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\phi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eq.prod_univ_prop_pos} commutes.
+But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_1$ and $\phi_1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $k \in r(\1)$ to the pair $(f_\1(k), g_\1(k)) \in (pq)(\1)$.
+In particular, it must send each $k \in r(\1)$ to the pair $(f_1(k), g_1(k)) \in (pq)(\1)$.
 
-Then the commutativity of \eqref{eq.prod_univ_prop} on directions suggests that for every $k \in r(\1)$, the following diagram of sets commutes:
-\begin{equation} \label{eq.prod_univ_prop_dir}
+Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
+\begin{equation} \label{eqn.prod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
-	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_\1(k), g_\1(k))}"] \\
-	p[f_\1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1(k), g_\1(k))}"'] & (pq)[(f_\1(k), g_\1(k))]. \ar[ul, "h^\sharp_k"', dashed] \\
+	r[k] & q[g_1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_1(k), g_1(k))}"] \\
+	p[f_1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_1(k), g_1(k))}"'] & (pq)[(f_1(k), g_1(k))]. \ar[ul, "h^\sharp_k"', dashed] 
 \end{tikzcd}
 \end{equation}
-As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\phi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eq.prod_univ_prop_dir} commutes.
+As $(pq)[(f_1(k), g_1(k))] \iso p[f_1(k)] + q[g_1(k)]$ along with the inclusions $\pi^\sharp_{(f_1(k), g_1(k))}$ and $\phi^\sharp_{(f_1(k), g_1(k))}$ form the coproduct of $p[f_1(k)]$ and $q[g_1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
 Hence $h$ is also uniquely characterized on directions, so it is unique overall.
-Moreover, we have shown that we can define $h$ on positions so that \eqref{eq.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eq.prod_univ_prop_dir} commutes.
-As the commutativity of \eqref{eq.prod_univ_prop_pos} and \eqref{eq.prod_univ_prop_dir} together imply the commutativity of \eqref{eq.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eq.prod_univ_prop} commutes.
+Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
+As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
 \end{solution}
 \end{exercise}
 
@@ -5067,15 +5183,15 @@ Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
 \qedhere
 \end{enumerate}
 \begin{solution}
-Our goal is to compute $\ihom{q,r}$ for various values of $q, r \in \poly$.
+We compute $\ihom{q,r}$ for various values of $q, r \in \poly$ using \eqref{eqn.dir_hom}.
 \begin{enumerate}
-    \item If $q \coloneqq \0$, then $q(\1) \iso \0$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r}$ is an empty product.
+    \item If $q \coloneqq \0$, then $q(\1) \iso \0$, so $\ihom{q,r}$ is an empty product.
     Hence $\ihom{q,r} \iso \1$.
-    \item If $q \coloneqq \1$, then $q(\1) \iso \1$ and $q[1] \iso \0$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso r \circ (\0\yon) \iso r(\0)$.
-    \item If $q \coloneqq \yon$, then $q(\1) \iso \1$ and $q[1] \iso \1$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso r \circ (\1\yon) \iso r$.
-	\item If $q \coloneqq A$ for $A \in \smset$, then $q(\1) \iso A$ and $q[j] \iso \0$ for every $j \in A$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\0\yon)) \iso r(\0)^A$.
-	\item If $q \coloneqq A\yon$ for $A\in\smset$, then $q(\1) \iso A$ and $q[j] \iso \1$ for every $j \in A$, so by \eqref{eqn.dir_hom}, we have that $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\1\yon)) \iso r^A$.
-	\item If $q\coloneqq\yon^\2+\2\yon$ and $r\coloneqq\2\yon^\3+\3$, then by \eqref{eqn.dir_hom},
+    \item If $q \coloneqq \1$, then $q(\1) \iso \1$ and $q[1] \iso \0$, so $\ihom{q,r} \iso r \circ (\0\yon) \iso r(\0)$.
+    \item If $q \coloneqq \yon$, then $q(\1) \iso \1$ and $q[1] \iso \1$, so $\ihom{q,r} \iso r \circ (\1\yon) \iso r$.
+	\item If $q \coloneqq A$ for $A \in \smset$, then $q(\1) \iso A$ and $q[j] \iso \0$ for every $j \in A$, so $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\0\yon)) \iso r(\0)^A$.
+	\item If $q \coloneqq A\yon$ for $A\in\smset$, then $q(\1) \iso A$ and $q[j] \iso \1$ for every $j \in A$, so $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\1\yon)) \iso r^A$.
+	\item If $q\coloneqq\yon^\2+\2\yon$ and $r\coloneqq\2\yon^\3+\3$, then
 	\begin{align*}
 	    \ihom{q,r} &\iso (r \circ (\2\yon))(r \circ (\1\yon))^\2 \\
 	    &\iso \left(\2(\2\yon)^\3 + \3\right)\left(\2\yon^\3 + \3\right)^\2 \\
@@ -5627,8 +5743,8 @@ We have the following chain of natural isomorphisms:
 \end{solution}
 \end{exercise}
 
-
-\paragraph{Epi-mono factorization.}
+%---- Subsection ----%
+\subsection{Epi-mono factorization}
 
 \begin{proposition}\label{prop.monics_in_poly}
 Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
@@ -5690,7 +5806,7 @@ In addition, we let the on-directions functions be $g^\sharp_j \coloneqq g'$ and
 Then $f \then g = f \then h$.
 As $f$ is an epimorphism, $g = h$; in particular, their on-directions functions are equal, so $g' = h'$, as desired.
 
-Conversely, suppose that $f_1$ is an epimorphism and that, for each $j\in q(\1)$,0 the function $f^\flat_j$ is a monomorphism. 
+Conversely, suppose that $f_1$ is an epimorphism and that, for each $j\in q(\1)$, the function $f^\flat_j$ is a monomorphism. 
 Let $r$ be a polynomial and $g,h\colon q\tto r$ be two morphisms such that $f \then g = f \then h$.
 Then $f_1 \then g_1 = f_1 \then h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation.
 We also have that $g^\sharp_{f_1(i)} \then f^\sharp_i = h^\sharp_{f_1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
@@ -5714,7 +5830,7 @@ Next, note that the induced function
 \[
     f^\flat \colon \1 \to \prod_{i\in p(\1)} p[i]
 \]
-from \eqref{eqn.useful_misc472} must be a monomorphism if it exists, but we know from the solution to \cref{exc.practice_sum_prod} \cref{exc.practice_sum_prod.useful} that if $f$ exists, then the corresponding $f^\flat$ must exist as well.
+from \eqref{eqn.useful_misc472} must be a monomorphism.
 So it follows from \cref{prop.epis_in_poly} that either $f$ is an epimorphism or $p = \0$.
 \end{solution}
 \end{exercise}
@@ -5722,127 +5838,116 @@ So it follows from \cref{prop.epis_in_poly} that either $f$ is an epimorphism or
 \begin{exercise}
 Let $A$ and $B$ be sets and $AB$ their product. Find an epimorphism $\yon^A+\yon^B\surj\yon^{AB}$.
 \begin{solution}
-
+Given sets $A$ and $B$, by \cref{prop.epis_in_poly}, a morphism $f \colon \yon^A + \yon^B \to \yon^{AB}$ is an epimorphism if its on-positions function $f_1 \colon \2 \to \1$ is an epimorphism (which must be true) and if the induced function
+\[
+    f^\flat \colon AB \to \prod_{i \in \2} (\yon^A + \yon^B)[i] \iso AB
+\]
+is a monomorphism.
+If we take the on-directions functions $AB \to A$ and $AB \to B$ of $f$ to be the canonical projections, then the induced function $f^\flat \colon AB \to AB$ would be the identity, which is indeed a monomorphism.
+So $f$ would be an epimorphism.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Suppose $f$ is both a mono and an epi; it is an iso? (That is, is $\poly$ \emph{balanced}?)
+Suppose a polynomial morphism is both a monomorphism and an epimorphism; it is then an isomorphism? (That is, is $\poly$ \emph{balanced}?)
+
+Hint: You may use the following facts.
+\begin{enumerate}
+    \item A function that is both a monomorphism and an epimorphism in $\smset$ is an isomorphism.
+    \item A polynomial morphism is an isomorphism if and only if the on-positions function is an isomorphism and every on-directions function is an isomorphism.
+\end{enumerate}
+\begin{solution}
+Let $f \colon p \to q$ be a morphism in $\poly$ that is both a monomorphism and an epimorphism.
+We claim that $f$ is an isomorphism.
+By \cref{prop.monics_in_poly} and \cref{prop.epis_in_poly}, the on-positions function $f_1 \colon p(\1) \to q(\1)$ is both a monomorphism and an epimorphism, so it is an isomorphism.
+Meanwhile, \cref{prop.epis_in_poly} says that, for each $j \in q(\1)$, the induced function
+\[
+    f^\flat_j \colon q[j] \to \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]
+\]
+is a monomorphism.
+As $f_1$ is an isomorphism, it follows that for each $i \in p(\1)$, the function
+\[
+    f^\flat_{f_1(i)} \colon q[f_1(i)] \to p[i]
+\]
+is a monomorphism.
+But this is just the on-directions function $f^\sharp_i$ of $f$.
+From \cref{prop.monics_in_poly}, we also know that $f^\sharp_i$ is an epimorphism.
+It follows that every on-directions function of $f$ is an isomorphism.
+Hence $f$ itself is an isomorphism.
+\end{solution}
 \end{exercise}
 
 \begin{exercise}[Epi-mono factorization]\label{exc.mono_epi_poly}
-Suppose $p,q\in\poly$ are polynomials and $f=(f_1,f^\sharp)\colon p\to q$ is a morphism with notation as in \eqref{eqn.colax_poly_map}.
+% Suppose $p,q\in\poly$ are polynomials and $f \colon p \to q$ is a morphism.
 \begin{enumerate}
 	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
 	\item Is your factorization unique up to isomorphism?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
-
-
 
 %---- Subsection ----%
 \subsection{Limits, colimits, and cartesian closure}
 
+We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
 We will now see that $\poly$ has all limits and colimits, and moreover it is cartesian closed.
-
-Let's begin with something fairly simple: that $+$ gives a coproduct in $\poly$. We could have said this elementary fact much earlier, but we were in a rush to get to the applications in \cref{sec.poly.dyn_sys}.
-
-\begin{exercise} \label{exc.poly_coprods}
-Show that the category $\poly$ has finite coproducts as follows.
-\begin{enumerate}
-	\item \label{exc.poly_coprods.init} Show that $\0$ is an initial object in $\poly$, i.e.\ that for any polynomial $p$ there is a unique morphism $\0\to p$.
-	\item Show that the standard sum of polynomials $p_1+p_2$ is a coproduct of $p_1$ and $p_2$. That is, provide morphisms $p_1\to p_1+p_2\from p_2$ and show that for any other $q$ with morphisms $p_1\To{f_1} q\From{f_2} p_2$, there exists a unique morphism $p_1+p_2\to q$---shown dashed---making the following diagram commute 
-	\[
-	\begin{tikzcd}
-		p_1\ar[r]\ar[dr, "f_1"']&
-		p_1+p_2\ar[d, dashed]&
-		p_2\ar[l]\ar[dl, "f_2"]\\&
-		q
-	\end{tikzcd}
-	\qedhere
-	\]
-\end{enumerate}
-\end{exercise}
-
-The general case of coproducts and products is not much more difficult.
-
-\begin{proposition}\label{prop.coprod_prod_poly}
-The category $\poly$ has coproducts and products.
-\end{proposition}
-\begin{proof}
-Let $A$ be a set and $p\colon A\to\poly$ a collection of polynomials $(p_a)_{a\in A}$.%
-Their coproduct is
-\begin{equation}\label{eqn.sum_polys}
-\sum_{a\in A}p_a=\sum_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong\sum_{(a,i)\in\sum_{a\in A}p_a(\1)}\yon^{p_a[i]}
-\end{equation}
-which is manifestly a sum of representables, i.e.\ a polynomial, and which one can check satisfies the universal property of the coproduct; see \cref{exc.check_coprod_prod}.
-
-We claim that the product of this collection is
-\begin{equation}\label{eqn.prod_polys}
-\prod_{a\in A}p_a=
-\prod_{a\in A}\sum_{i\in p_a(\1)}\yon^{p_a[i]}\cong
-\sum_{i\colon \prod_{a\in A}p_a(\1)}\yon^{\sum_{a\in A}p_a[i(a)]}.
-\end{equation}
-Again, it is a sum of representables, so a polynomial, and one can check that it satisfies the universal property of products; see \cref{exc.check_coprod_prod}.
-\end{proof}
-
-\begin{exercise}\label{exc.check_coprod_prod}
-Finish the proof of \cref{prop.coprod_prod_poly} as follows.
-\begin{enumerate}
-	\item Show that \eqref{eqn.sum_polys} satisfies the universal property for coproduct of polynomials.
-	\item Show that \eqref{eqn.prod_polys} satisfies the universal property for product of polynomials.
-\qedhere
-\end{enumerate}
-\end{exercise}
 
 \begin{exercise}
 Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p[i]$ according to \eqref{eqn.prod_polys}? Does it check out?
 \end{exercise}
 
-\begin{proposition}\label{prop.completely_distributive}
-The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b),})_{a\in A, b\in B_a}$, there is an isomorphism
-\[
-  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
-  \cong
-	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
-\]
-\end{proposition}
-\begin{proof}
-By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b),}
-  \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b),}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a)),}\to p_{(a_0, b_0(a_0)),}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. This establishes the morphism.
+% \begin{proposition}\label{prop.completely_distributive}
+% The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b),})_{a\in A, b\in B_a}$, there is an isomorphism
+% \[
+%   \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
+%   \cong
+% 	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
+% \]
+% \end{proposition}
+% \begin{proof}
+% By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b),}
+%   \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b),}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a)),}\to p_{(a_0, b_0(a_0)),}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. This establishes the morphism.
   
-  To see that it is an isomorphism in $\poly$, i.e.\ a natural isomorphism of functors, it suffices to check it on components. So fix $X\in\smset$. The induced map
-  \[
-  \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
-  \cong
-	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
-  \]
-  is exactly as in \cref{prop.push_prod_sum_set}, which we proved is an isomorphism. This completes the proof.
-\end{proof}
+%   To see that it is an isomorphism in $\poly$, i.e.\ a natural isomorphism of functors, it suffices to check it on components. So fix $X\in\smset$. The induced map
+%   \[
+%   \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
+%   \cong
+% 	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
+%   \]
+%   is exactly as in \cref{prop.push_prod_sum_set}, which we proved is an isomorphism. This completes the proof.
+% \end{proof}
 
-\begin{exercise}
-How is the usual distributive law,
-\[
-p(q+r)\cong pq+pr
-\]
-for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
-\end{exercise}
+% \begin{exercise}
+% How is the usual distributive law,
+% \[
+% p(q+r)\cong pq+pr
+% \]
+% for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
+% \end{exercise}
 
 \paragraph{Cartesian closure}
-For any two polynomials $q,r$, define $r^q\in\poly$ by the following formula
+For any two polynomials $q,r$, define $r^q\in\poly$ by the formula
 \begin{equation}\label{eqn.exponential}
-  r^q\coloneqq\prod_{i\in q(\1)}r\circ(\yon+q[j])
+  r^q\coloneqq\prod_{j\in q(\1)}r\circ(\yon+q[j])
 \end{equation}
 where $\circ$ denotes composition.
 
 Before proving that this really is an exponential in $\poly$, which we do in \cref{thm.poly_cart_closed}, we first get some practice with it.
 
 \begin{example}
-Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$ and the polynomial $\yon^\1$ simply as $\yon$, so it better be true that the there is an isomorphism 
-\[\yon^A\cong (\yon^\1)^{(A\yon^\0)}\]
-in order for the notation to be consistent. Luckily, this is true. Checking \eqref{eqn.exponential}, we have
-\[(\yon^\1)^{A\yon^\0}=\prod_{a\in A}\yon\circ(\0+\yon)\cong\yon^A\]
+Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$, so it better be true that the there is an isomorphism 
+\[
+    \yon^A \iso \yon^{A\yon^\0}
+\]
+in order for the notation to be consistent. 
+Luckily, this is true.
+By \eqref{eqn.exponential}, we have
+\[
+    \yon^{A\yon^\0} = \prod_{a\in A} \yon \circ (\yon+\0) \iso \yon^A
+\]
 \end{example}
 
 \begin{exercise}
@@ -5857,47 +5962,88 @@ Compute the following exponentials in $\poly$ using \eqref{eqn.exponential}:
 	\item $(\yon^A)^{\yon^B}$ for arbitrary sets $A,B\in\smset$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+We use \eqref{eqn.exponential} to compute various exponentials.
+Here $p \in \poly$ and $A, B \in \smset$.
+\begin{enumerate}
+    \item We have that $p^\0$ is an empty product, so $p^\0 \iso \1$ as expected.
+	\item We have that $p^\1 \iso p \circ (\yon + \0) \iso p$, as expected.
+	\item We have that $\1^p \iso \prod_{i \in p(\1)} \1 \circ (\yon + p[i]) \iso \1$, as expected.
+	\item We have that $A^p \iso \prod_{i \in p(\1)} A \circ (\yon + p[i]) \iso A^{p(\1)}$.
+	\item We have that $\yon^\yon \iso \yon \circ (\yon + \1) \iso \yon + \1$.
+	\item We have that $\yon^{\4\yon} \iso \prod_{j \in \4} \yon \circ (\yon + \1) \iso (\yon + \1)^\4 \iso \yon^\4 + \4\yon^\3 + \6\yon^\2 + \4\yon + \1$.
+	\item We have that $(\yon^A)^{\yon^B} \iso (\yon^A) \circ (\yon + B) \iso (\yon + B)^A \iso \sum_{f \colon A \to \2} B^{f^{-1}(1)} \yon^{f^{-1}(2)}$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
+% \begin{exercise} % Immediate from previous exercise
+% Using \eqref{eqn.exponential}, show that the functor $\smset\to\poly$ that sends each set $A$ to the constant polynomial $A$ preserves exponentials.
+% That is, given sets $A, B \in \smset$, the set $B^A$ as a constant polynomial coincides with the exponential in $\poly$ that is the constant polynomial $B$ raised to the constant polynomial $A$.
+% \begin{solution}
+% By \eqref{eqn.exponential}, the exponential that is the constant polynomial $B$ raised to the constant polynomial $A$ can be written as
+% \[
+%     \prod_{a \in A} B \circ (\yon + A[a]) \iso \prod_{a \in A} B \iso B^A.
+% \]
+% \end{solution}
+% \end{exercise}
 
 \begin{theorem}\label{thm.poly_cart_closed}
 The category $\poly$ is Cartesian closed. That is, we have a natural isomorphism
 \[
-  \poly(p,r^q)\cong\poly(p\times q,r),
+    \poly(p,r^q) \iso \poly(p\times q,r),
 \]
 where $r^q$ is the polynomial defined in \eqref{eqn.exponential}.
 \end{theorem}
 \begin{proof}
-We have the following chain of natural isomorphisms
+We have the following chain of natural isomorphisms:
 \begin{align*}
-	\poly(p,r^q)&\cong
-	\poly\Big(p,\prod_{j\in q(\1)}r\circ (\yon+q[j])\Big)\\&\cong
-	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q[j]))\\&\cong
-	\prod_{j\in q(\1)}\prod_{i\in p(\1)}\poly(\yon^{p[i]},r\circ(\yon+q[j]))\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p[i]+q[j])\\&\cong
-	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p[i]+q[j])^{r[k]}\\&\cong
-	\poly(p\times q,r).
+	\poly(p, r^q) &\iso
+	\poly\Big(p, \prod_{j \in q(\1)} r \circ (\yon+q[j])\Big)
+	\tag*{\eqref{eqn.exponential}} \\
+% 	&\iso
+% 	\prod_{j\in q(\1)}\poly(p,r\circ(\yon+q[j]))
+% 	\tag{Universal property of products} \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\poly\big(\yon^{p[i]},r\circ(\yon+q[j])\big)
+	\tag{Universal property of (co)products} \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}r\circ(p[i]+q[j])
+	\tag{Yoneda lemma} \\
+	&\iso
+	\prod_{i\in p(\1)}\prod_{j\in q(\1)}\sum_{k\in r(\1)}(p[i]+q[j])^{r[k]}
+	\\
+	&\iso
+	\prod_{(i,j) \in (p \times q)(\1)} \; \sum_{k\in r(\1)}(p \times q)[(i, j)]^{r[k]}
+	\tag*{\eqref{eqn.poly_times}} \\
+	&\iso
+	\poly(p \times q,r).
+	\tag*{\eqref{eqn.main_formula}}
 \end{align*}
-The last step uses \eqref{eqn.main_formula,prop.poly_times}.
 \end{proof}
 
 \begin{exercise}
 Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is a canonical evaluation map
-\begin{equation}\label{eqn.eval_times}
-	\text{eval}\colon q\times p^q\to p.
-\end{equation}
+\begin{equation*}%\label{eqn.eval_times}
+	\text{eval}\colon p^q \times q \to p.
+\end{equation*}
+\begin{solution}
+By \cref{thm.poly_cart_closed}, there is a natural isomorphism
+\[
+    \poly(p^q, p^q) \iso \poly(p^q \times q, p).
+\]
+Under this isomorphism, there exists a map $\text{eval} \colon p^q \times q \to p$ corresponding to the identity map on $p^q$.
+The map $\text{eval}$ is the canonical evaluation map.
+\end{solution}
 \end{exercise}
 
-
-\begin{exercise}
-Using \eqref{eqn.exponential}, show that the functor $\smset\to\poly$ sends exponentials to exponentials.
-\end{exercise}
+\paragraph{Limits and colimits}
 
 \begin{theorem}\label{thm.poly_limits}
 The category $\poly$ has all limits.
 \end{theorem}
 \begin{proof}
-Recall that a category has all limits iff it has equalizers and products, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has equalizers. 
+Recall that a category has all limits if and only if it has equalizers and products, so by \cref{prop.poly_prods} it suffices to show that $\poly$ has equalizers. 
 
 Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q[f(e)]}$, i.e.\ two functions $q[f(e)]\tto p_e$. Defining $p'[e]\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
 \[
@@ -5975,7 +6121,7 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 The category $\poly$ has all colimits.
 \end{theorem}
 \begin{proof}
-Recall that a category has all colimits iff it has coequalizers and coproducts, so by \cref{prop.coprod_prod_poly} it suffices to show that $\poly$ has coequalizers.
+Recall that a category has all colimits iff it has coequalizers and coproducts, so by \cref{prop.poly_coprods} it suffices to show that $\poly$ has coequalizers.
 
 Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. The pair of functions
 \[f_1(\1),f_2(\1)\colon p(\1)\tto q(\1)\] 
@@ -6168,10 +6314,8 @@ For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
 Moreover, the left adjoint is fully faithful iff $n\leq 1$ or $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$, i.e.\ iff each polynomial has at least two positions.
 \end{proposition}
 \begin{proof}
-
+**
 \end{proof}
-
-
 
 %---- Subsection ----%
 \subsection{Monoidal $*$-bifibration over $\smset$}
