@@ -2790,6 +2790,41 @@ which, as a coproduct of representables, is in $\poly$.
 \end{solution}
 \end{exercise}
 
+\begin{exercise}
+Let $p_1\coloneqq\yon+\1, p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$.
+What is $\prod_{i\in\3}p_i$ according to \eqref{eqn.poly_prod}? Is the answer what you would expect?
+\begin{solution}
+Given $p_1\coloneqq\yon+\1,p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$, we compute $\prod_{i\in\3}p_i$ via \eqref{eqn.poly_prod} as follows:
+\begin{align*}
+    \prod_{i\in\3} p_i
+    &\iso
+    \sum_{\bar{j} \in \prod_{i\in\3} p_i(\1)} \yon^{\sum_{i\in\3} p_i[\bar{j}(i)]}
+    \tag*{\eqref{eqn.poly_prod}} \\
+    &\iso
+    \sum_{\bar{j} \colon (i\in\3) \to p_i(\1)} \yon^{p_1[\bar{j}(1)] + p_2[\bar{j}(2)] + p_3[\bar{j}(3)]} \\
+    &\iso
+    \yon^{p_1[1] + p_2[1] + p_3[1]}
+    + \yon^{p_1[1] + p_2[2] + p_3[1]}
+    + \yon^{p_1[1] + p_2[3] + p_3[1]} \\
+    &+ \yon^{p_1[2] + p_2[1] + p_3[1]}
+    + \yon^{p_1[2] + p_2[2] + p_3[1]}
+    + \yon^{p_1[2] + p_2[3] + p_3[1]} \\
+    &\iso
+    \yon^{\1 + \1 + \2}
+    + \yon^{\1 + \0 + \2}
+    + \yon^{\1 + \0 + \2} \\
+    &+ \yon^{\0 + \1 + \2}
+    + \yon^{\0 + \0 + \2}
+    + \yon^{\0 + \0 + \2} \\
+    % &\iso
+    % \yon^\4 + \yon^\3 + \yon^\3 + \yon^\3 + \yon^\2 + \yon^\2 \\
+    &\iso
+    \yon^\4 + \3\yon^\3 + \2\yon^\2,
+\end{align*}
+as we might expect from standard polynomial multiplication.
+\end{solution}
+\end{exercise}
+
 It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
 \begin{equation}\label{eqn.poly_times}
     p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
@@ -5894,10 +5929,6 @@ Hence $f$ itself is an isomorphism.
 
 We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
 We will now see that $\poly$ has all limits and colimits, and moreover it is cartesian closed.
-
-\begin{exercise}
-Let $A=\2$ and $p\colon A\to\poly$ be given by $p_1\coloneqq\yon+\1$ and $p_2\coloneqq\yon+\2$. What is $\prod_{i\in\2}p[i]$ according to \eqref{eqn.prod_polys}? Does it check out?
-\end{exercise}
 
 % \begin{proposition}\label{prop.completely_distributive}
 % The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b),})_{a\in A, b\in B_a}$, there is an isomorphism
