@@ -840,7 +840,7 @@ We refer to \eqref{eqn.myschema} and \eqref{eqn.mytables} to characterize the ca
     \item The name suggests that $I(\text{String})$ is the set of all possible strings of characters.
     Perhaps this could be defined as $\bigcup_{n \in \nn} A^n$, where $A$ is our alphabet of allowed characters, which may include the English letters, spaces, digits, and whatever other characters we allow.
     At the very least, since FirstName and Name are both morphisms to String, every entry in the FirstName and Name columns must be in $I(\text{String})$.
-    So all we know for sure is that $\{\text{Alan, Ruth, Carla, Sales, IT}\} \subseteq I(\text{String})$.
+    So all we know for sure is that $\{\text{Alan, Ruth, Carla, Sales, IT}\} \ss I(\text{String})$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -877,14 +877,23 @@ record Arena : Set where  -- an arena consists of
 The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
 
 \begin{proposition}
-$\poly$ is a biCartesian closed category, meaning it has sums, products, and exponential objects. It therefore supports the simply typed lambda calculus.
+$\poly$ has all products and coproducts and is completely distributive.
+$\poly$ also has exponential objects, making it a biCartesian closed category.
+It therefore supports the simply typed lambda calculus.
 \end{proposition}
-
-In fact $\poly$ has infinite coproducts, infinite products, and is completely distributive. We'll explain all of this in \cref{**}; for now we continue with the highlights.
+\begin{proof}
+We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{**}, and that $\poly$ has exponential objects in \cref{thm.poly_cart_closed}.
+\end{proof}
 
 \begin{proposition}
-Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is also a closed monoidal structure that distributes over $+$.
+Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is also a closed monoidal structure that distributes over coproducts.
 \end{proposition}
+\begin{proof}
+We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{**} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{**}.
+Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{**}.
+In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
+Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
+\end{proof}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
@@ -905,6 +914,9 @@ $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\
 \end{equation*}
 Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$; in particular, $\Gamma(p) \coloneqq \poly(p, \yon)$.
 \end{proposition}
+\begin{proof}
+We will prove that $\poly$ has an adjoint quadruple with $\smset$ in \cref{thm.adjoint_quadruple}, and that it has an adjoint quadruple with $\smset\op$ in \cref{prop.yoneda_left_adjoint}.
+\end{proof}
 
 There's a lot we're leaving out of this summary, just so we can hit the highlights.
 
@@ -1468,7 +1480,7 @@ We are given the set
 	    \end{enumerate}
 	\end{quote}
 	\item Given $I\coloneqq\{1,2\}$, $J(1)\coloneqq\{j\}$, $J(2)\coloneqq\{j,j'\}$, $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, $K(2,j')\coloneqq\{k'\}$, and $X(i,j,k)=\{x,y\}$ for all $i,j,k$, our goal is to count the number of elements in $B$.
-	To compute the cardinality of $B$, we can use the fact that the cardinality of a sum (resp. product) is the sum (resp. product) of the cardinalities.
+	To compute the cardinality of $B$, we can use the fact that the cardinality of a sum (resp.\ product) is the sum (resp.\ product) of the cardinalities.
 	So
 	\begin{align*}
 	    |B| &= \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}|X(i,j,k)| \\
@@ -2241,7 +2253,7 @@ By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
     &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
     &\iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_1^{-1}(j) = \{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_1\inv(j) = \{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
 
 \item To explain how the set
 \[
@@ -2675,14 +2687,14 @@ This exercise is for those who know what topological spaces and continuous maps 
 	\item Given a topological space $X$, we can define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x \in X$ are the open neighborhoods of $x$.
 	In other words,
 	\[
-	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \subseteq X \ | \ x \in U, \, U \text{ open} \}}.
+	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \ss X \ | \ x \in U, \, U \text{ open} \}}.
 	\]
 	\item \label{exc.top_poly_func.morphs} For every continuous map $f \colon X \to Y$, we give a polynomial morphism $p_f \colon p_X \to p_Y$.
-	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f^{-1}(U)$ of $x$.
+	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f\inv(U)$ of $x$.
 	
 	\item To show that $p_X$ is functorial in $X$, it suffices to show that sending continuous maps $f \colon X \to Y$ to their induced polynomial morphisms $p_f \colon p_X \to p_Y$ preserves identities and composition.
 	First, we show that for any topological space $X$, the polynomial morphism $p_{\id_X}$, where $\id_X$ is the identity map on $X$, is an identity morphism.
-	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x \in X$ the on-directions function $(p_f)^\sharp_x \colon p_X[x] \to p_X[x]$ sends $U \in p_X[x]$ to $(\id_X)^{-1}(U) = U$.
+	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x \in X$ the on-directions function $(p_f)^\sharp_x \colon p_X[x] \to p_X[x]$ sends $U \in p_X[x]$ to $(\id_X)\inv(U) = U$.
 	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is an identity morphism.
 	
 	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f \colon X \to Y$ and $g \colon Y \to Z$, we have $p_f \then p_g = p_{f \then g}$.
@@ -2690,7 +2702,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 	\[
 	    (p_{f \then g})^\sharp_x = (p_g)^\sharp_{f(x)} \then (p_f)^\sharp_x.
 	\]
-	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U \in p_Z[g(f(x))]$ to $(f \then g)^{-1}(U)$, while the right hand side sends $U$ to $f^{-1}(g^{-1}(U))$, but by elementary set theory, these sets are equal.
+	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U \in p_Z[g(f(x))]$ to $(f \then g)\inv(U)$, while the right hand side sends $U$ to $f\inv(g\inv(U))$, but by elementary set theory, these sets are equal.
 	
 	\item The functor is not full.
 	Consider the spaces $X = \2$ with the indiscrete topology (i.e.\ the only open sets are the empty set and $X$) and $Y = \2$ with the discrete topology (i.e.\ all subsets are open).
@@ -3358,7 +3370,8 @@ On directions at $(i,j)\in p(\1)\times q(\1)$, define
   \big(f^\sharp_i(d),g^\sharp_j(e)\big).
 \]
 Then \cref{exc.prepare_poly_smc} gives us the unitors, associator, and braiding.
-We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves. 
+We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves.
+Alternatively, we invoke the Day convolution to obtain the monoidal structure $(\yon, \otimes)$ directly in \cref{prop.day}.
 \end{proof}
 
 \begin{exercise} \label{exc.some_parallel_prods}
@@ -3547,7 +3560,7 @@ Each box in this picture is labeled $m$. Whenever a box has $n$ subboxes, it rep
 \[m^{\otimes n} \to m\]
 given by the monoid structure on $m$.
 We can think of this map as an (associative, unital) $n$-ary multiplication operation on $m$.
-Formally we might denote it by $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu^{-1} = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
+Formally we might denote it by $\mu^{n-1}$, so that $\mu=\mu^1\colon m\otimes m\to m$,\footnote{Here $\mu\inv = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
 
 The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_1(i)$.
 In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, summarizing all $n$ of their decisions as a single decision for their supervisor to make.
@@ -3953,7 +3966,7 @@ For each of the following constructs, we find $A, B \in \smset$ such that the co
     Alternatively, $\text{yield}(s)$ could be the function $s' \mapsto m(s', s)$.
     Either way, this is a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
     
-    \item Given a set $S$ and a subset $S' \subseteq S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
+    \item Given a set $S$ and a subset $S' \ss S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
     Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{yield} \colon S \to 2$ by
     \[
         \text{yield}(s) =
@@ -4083,7 +4096,7 @@ A deterministic finite state automaton with a set of states $S$ and a set of inp
 \end{proposition}
 \begin{proof}
 A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
-A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \subseteq S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
+A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \ss S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
 \end{proof}
 
 \niu{More about regular languages, either in this section or the next. Maybe this section should just be called ``deterministic finite state automata.''}
@@ -5845,7 +5858,7 @@ We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cre
 Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with yield function $g_1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_1(n)] \to \nn$ for each state $n \in \nn$.
 Then the new composite dynamical system $h \coloneqq f \then g$ has a yield function $h_1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_1(i) = g_1(f_1(i)) = g_1(i)$, the same output that the original system yielded in the state $i \in \nn$.
 Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_1(i)] \to \1\2$ which, given an input $d \in p[g_1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
-In other words, the new system behaves like the old system but with only the states in $\1\2 \subseteq \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
+In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
 \end{solution}
 \end{exercise}
 
@@ -6030,7 +6043,7 @@ Here $p \in \poly$ and $A, B \in \smset$.
 	\item We have that $A^p \iso \prod_{i \in p(\1)} A \circ (\yon + p[i]) \iso A^{p(\1)}$.
 	\item We have that $\yon^\yon \iso \yon \circ (\yon + \1) \iso \yon + \1$.
 	\item We have that $\yon^{\4\yon} \iso \prod_{j \in \4} \yon \circ (\yon + \1) \iso (\yon + \1)^\4 \iso \yon^\4 + \4\yon^\3 + \6\yon^\2 + \4\yon + \1$.
-	\item We have that $(\yon^A)^{\yon^B} \iso (\yon^A) \circ (\yon + B) \iso (\yon + B)^A \iso \sum_{f \colon A \to \2} B^{f^{-1}(1)} \yon^{f^{-1}(2)}$.
+	\item We have that $(\yon^A)^{\yon^B} \iso (\yon^A) \circ (\yon + B) \iso (\yon + B)^A \iso \sum_{f \colon A \to \2} B^{f\inv(1)} \yon^{f\inv(2)}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6101,64 +6114,92 @@ The map $\text{eval}$ is the canonical evaluation map.
 The category $\poly$ has all limits.
 \end{theorem}
 \begin{proof}
-Recall that a category has all limits if and only if it has equalizers and products, so by \cref{prop.poly_prods} it suffices to show that $\poly$ has equalizers. 
+A category has all limits if and only if it has products and equalizers, so by \cref{prop.poly_prods}, it suffices to show that $\poly$ has equalizers. 
 
-Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. Let $E\to p(\1)\tto q(\1)$ be an equalizer of the functions $f_1(\1),$ and $f_2(\1)$ in $\smset$. For each $e\in E$, write $f(e)\coloneqq f_1(e)=f_2(e)$; we have two polynomial morphisms $\yon^{p_e}\tto\yon_{q[f(e)]}$, i.e.\ two functions $q[f(e)]\tto p_e$. Defining $p'[e]\in\smset$ to be their coequalizer, we can define a polynomial $p'$ as follows:
+We claim that equalizers in $\poly$ are simply equalizers on positions and coequalizers on directions.
+More precisely, let $f,g \colon p \tto q$ be two maps of polynomials.
+We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a map, but we will use the term to refer to either just the object or just the map when the context is clear.}
+We define its set of positions $p'(\1)$ to be the equalizer of $f_1,g_1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
 \[
-  p'\coloneqq\sum_{e\in E}\yon^{p'[e]}
+    p'(\1) \coloneqq \{i \in p(\1) \ | \ f_1(i) = g_1(i)\}.
 \]
-which comes equipped with a morphism $g\colon p'\to p$. One can check that it is an equalizer of $f_1,f_2$; see \cref{exc.poly_limits}.
+Then for each $i \in p'(\1)$, we can define the set of directions $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_1(i)] \tto p[i]$.
+In this way, we obtain a polynomial $p'$ that comes equipped with a morphism $e \colon p' \to p$.
+One can check that $p'$ together with $e$ satisfies the universal property of the equalizer of $f$ and $g$; see \cref{exc.poly_limits}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_limits}
 Complete the proof of \cref{thm.poly_limits} as follows:
 \begin{enumerate}
-	\item We said that $p'$ comes equipped with a morphism $g\colon p'\to p$; what is it?
-	\item Show that $g\then f_1=g\then f_2$.
-	\item Show that $g$ is an equalizer of the pair $f_1,f_2$.
+	\item We said that $p'$ comes equipped with a morphism $e \colon p' \to p$; what is it?
+	\item Show that $e \then f = e \then g$.
+	\item Show that $e$ is the equalizer of the pair $f,g$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item The morphism $e \colon p' \to p$ can be characterized as follows.
+    The on-positions function $e_1 \colon p'(\1) \to p(\1)$ is the equalizer of $f_1, g_1 \colon p(\1) \tto q(\1)$ in $\smset$.
+    In particular, $e_1$ is the canonical inclusion that sends each element of $p'(\1)$ to the same element in $p(\1)$.
+    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_1(i)] \tto p[i]$ in $\smset$.
+    
+    \item To show that $e \then f = e \then g$, it suffices to show that both sides are equal on positions and on directions.
+    On positions, $e_1$ is defined to be the equalizer of $f_1$ and $g_1$, so $e_1 \then f_1 = e_1 \then g_1$.
+    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i$ is defined to be the coequalizer of $f^\sharp_i$ and $g^\sharp_i$, so $f^\sharp_i \then e^\sharp_i = g^\sharp_i \then e^\sharp_i$.
+    
+    \item To show that $e$ is the equalizer of $f$ and $g$, it suffices to show that for any $r \in \poly$ and map $a \colon r \to p$ satisfying $a \then f = a \then g$, there exists a unique map $h \colon r \to p'$ for which $a = h \then e$, so that the following diagram commutes.
+    \begin{equation*} %\label{eqn.eq_univ_prop}
+    \begin{tikzcd}
+        p' \ar[r, "e"] & p \ar[r, "f", shift left] \ar[r, "g"', shift right] & q \\
+        r \ar[u, "h", dashed] \ar[ur, "a"']
+    \end{tikzcd}
+    \end{equation*}
+    In order for $a = h \then e$ to hold, we must have $a_1 = h_1 \then e_1$ on positions.
+    But we have that $a_1 \then f_1 = a_1 \then g_1$, so by the universal property of $p'(\1)$ and the map $e_1$ as the equalizer of $f_1$ and $g_1$ in $\smset$, there exists a unique $h_1$ for which $a_1 = h_1 \then e_1$.
+    Hence $h$ is uniquely characterized on positions.
+    In particular, it must send each $k \in r(\1)$ to $a_1(k) \in p'(\1)$.
+    
+    Then for $a = h \then e$ to hold on directions, we must have that $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$ for each $k \in r(\1)$.
+    But we have that $f^\sharp_{a_1(k)} \then a^\sharp_{a_1(k)} = g^\sharp_{a_1(k)} \then a^\sharp_{a_1(k)}$, so by the universal property of $p'[a_1(k)]$ and the map $e^\sharp_{a_1(k)}$ as the coequalizer of $f^\sharp_{a_1(k)}$ and $g^\sharp_{a_1(k)}$ in $\smset$, there exists a unique $h^\sharp_k$ for which $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$, so that the diagram below commutes.
+    \begin{equation*} %\label{eqn.eq_univ_prop_dir}
+    \begin{tikzcd}[sep=large]
+        p'[a_1(k)] \ar[d, "h^\sharp_k"', dashed] & p[a_1(k)] \ar[l, "e^\sharp_{a_1(k)}"'] \ar[dl, "a^\sharp_k"] & q[f_1(a_1(k))] \ar[l, "f^\sharp_{a_1(k)}"', shift right] \ar[l, "g^\sharp_{a_1(k)}", shift left] \\
+        r[k]
+    \end{tikzcd}
+    \end{equation*}
+    Hence $h$ is also uniquely characterized on directions, so it is unique overall.
+    Moreover, we have shown that we can define $h$ on positions so that $a_1 = h_1 \then e_1$, and that we can define $h$ on directions such that $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$ for all $k \in r(\1)$.
+    It follows that there exists $h$ for which $a = h \then e$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-\begin{exercise}
-Let $p$ be any polynomial.
-\begin{enumerate}
-	\item There is a canonical choice of morphism $\eta\colon p\to p(\1)$; what is it?
-	\item Suppose given an element $i\in p(\1)$, i.e.\ a function $\1\to p(\1)$.
-	\item What is the pullback
-	\[
-	\begin{tikzcd}
-	?\ar[r]\ar[d]&
-	p\ar[d, "\eta"]\\
-	\1\ar[r, "i"']&
-	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
-	\end{tikzcd}
-	\qedhere
-	\]
-\end{enumerate}
-\end{exercise}
+% **Talk about how limits are just limits on positions and colimits on directions
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
-Given polynomials $q,q',r$ and morphism $q\To{f} r\From{f'} q'$, the pullback 
+Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback 
 \[
 \begin{tikzcd}
-	p\ar[r]\ar[d]&
+	p\ar[r, "g'"]\ar[d, "g"']&
 	q'\ar[d, "f'"]\\
 	q\ar[r, "f"']&
 	r\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
- is given as follows. The set of positions in $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$. On each $p$-position, say $(i, i')$ with $f_1(i)=f'_1(i')$, we take the directions set of $p$ in that position to be the  pushout of the directions $q[i]$ and $q'[i']$ over $r[f_1(i)]=r[f_1'(i')]$:
+ is given as follows.
+ The set of positions of $p$ is the pullback of the positions of $q$ and $q'$ over those of $r$ in $\smset$.
+ Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_1(i)=f'_1(i')$, we take the set of directions $p[(i, i')]$ to be the pushout of the directions $q[i]$ and $q'[i']$ over $r[f_1(i)]=r[f_1'(i')]$ in $\smset$.
+ These pullback and pushout squares also given the morphisms $g$ and $g'$ on positions and on directions:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
-	p(\1)\ar[r]\ar[d]&
+	p(\1)\ar[r, "g'_1"]\ar[d, "g_1"']&
 	q'(\1)\ar[d, "f_1'"]\\
 	q(\1)\ar[r, "f_1"']&
 	r(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \qqand
 \begin{tikzcd}
-	p[(i,i')]\ar[from=r]\ar[from=d]&
+	p[(i,i')]\ar[from=r, "(g')^\sharp_{(i,i')}"']\ar[from=d, "g^\sharp_{(i,i')}"]&
 	q'[i']\ar[from=d, "(f')^\sharp_{i'}"']\\
 	q[i]\ar[from=r, "f^\sharp_i"]&
 	r[f_1(i)]\ar[ul, phantom, very near end, "\ulcorner"]
@@ -6167,48 +6208,181 @@ Given polynomials $q,q',r$ and morphism $q\To{f} r\From{f'} q'$, the pullback
 \end{example}
 
 \begin{exercise}
+Let $p$ be any polynomial.
+\begin{enumerate}
+	\item There is a canonical choice of morphism $\eta\colon p\to p(\1)$; what is it?
+	\item Given an element $i\in p(\1)$, i.e.\ a function (or morphism between constant polynomials) $i\colon\1\to p(\1)$, let $p_i$ be the pullback
+	\[
+	\begin{tikzcd}
+	p_i\ar[r, "g"]\ar[d, "f"']&
+	p\ar[d, "\eta"]\\
+	\1\ar[r, "i"']&
+	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
+	\end{tikzcd}
+	\]
+	What is $p_i$? What are the maps $f \colon p_i \to \1$ and $g \colon p_i \to p$? \qedhere
+\end{enumerate}
+\begin{solution}
+Here $p \in \poly$.
+\begin{enumerate}
+    \item The canonical morphism $\eta \colon p \to p(\1)$ is the identity $\eta_1 \colon p(\1) \to p(\1)$ on positions and the empty function on directions.
+    
+    \item On positions, we have that $p_i(\1)$ along with $f_1$ and $g_1$ form the following pullback square in $\smset$:
+    \[
+	\begin{tikzcd}
+    	p_i(\1) \ar[r, "g_1"] \ar[d, "f_1"'] &
+    	p(\1) \ar[d, equals] \\
+    	\1 \ar[r, "i"'] &
+    	p(\1) \ar[ul, phantom, very near end, "\lrcorner"]
+	\end{tikzcd}
+	\]
+	So $p_i(\1) \coloneqq \{(a, i') \in \1 \times p(\1) \ | \ i = i' \} = \{(1, i)\}$, with $f_1$ uniquely determined and $g_1$ picking out $i \in p(\1)$.
+	Then on directions, we have that $p_i[(1,i)]$ along with $f^\sharp_{(1,i)}$ and $g^\sharp_{(1,i)}$ form the following pushout square in $\smset$:
+	\[
+	\begin{tikzcd}
+    	p_i[(1,i)] \ar[from=r, "g^\sharp_{(1,i)}"'] \ar[from=d, "f^\sharp_{(1,i)}"] &
+    	p[i] \ar[from=d, "!"'] \\
+    	\varnothing \ar[from=r, "!"] &
+    	\varnothing \ar[ul, phantom, very near end, "\ulcorner"]
+    \end{tikzcd}
+    \]
+    So $p_i[(1,i)] \coloneqq p[i]$, with $f^\sharp_{(1,i)}$ uniquely determined and $g^\sharp_{(1,i)}$ as the identity.
+    It follows that $p_i \coloneqq \{(1,i)\}\yon^{p[i]} \iso \yon^{p[i]}$, where $f \colon p_i \to \1$ is uniquely determined and $g \colon p_i \to p$ picks out $i \in p(\1)$ on positions and is the identity on $p[i]$ on directions.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
 Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yon+\1$.
 \begin{enumerate}
 	\item Choose morphisms $f\colon q\to r$ and $f'\colon q'\to r$ and write them down.
-	\item Find the pullback of your diagram.
+	\item Find the pullback of $q\To{f} r\From{f'} q'$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item There are many possible answers, but one morphism $f \colon q \to r$, on positions, sends $1 \in q(\1)$ (corresponding to $\yon^\2$) to $2 \in r(\1)$ (corresponding to $\1$) and $2 \in q(\1)$ (corresponding to $\yon$) to $1 \in r(\1)$ (corresponding to $\yon$).
+    Then the on-directions functions $f^\sharp_1 \colon \0 \to \2$ and $f^\sharp_2 \colon \1 \to \1$ are uniquely determined.
+    Another morphism $f' \colon q' \to r$, on positions, sends $1 \in q'(\1)$ (corresponding to one of the $\yon^\3$ terms) to $2 \in r(\1)$ and both $2 \in q'(\1)$ (corresponding to the other $\yon^\3$ term) and $3 \in q'(\1)$ (corresponding to the $\yon^\2$ term) to $1 \in r(\1)$.
+    Then the on-directions function $(f')^\sharp_1 \colon \0 \to \3$ is uniquely determined, while we can let $(f')^\sharp_2 \colon \1 \to \3$ pick out $3$ and $(f')^\sharp_3 \colon \1 \to \2$ pick out $1$.
+    
+    \item We compute the pullback $p$ along with the morphisms $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
+    We can compute $p(\1)$ by taking the pullback in $\smset$:
+    \[
+        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \ | \ f_1(i) = f'_1(i)\} = \{(1,1), (2,2), (2,3)\}.
+    \]
+    Moreover, the on-positions functions $g_1$ and $g'_1$ send each pair in $p(\1)$ to its left component and its right component, respectively.
+    
+    To compute the set of directions at each position of $p$, we must compute a pushout.
+    At $(1,1)$, we have $r[f_1(1)] = r[f'_1(1)] = r[2] = \0$, so the pushout $p[(1,1)]$ is just the sum $q[1] + q'[1] = \2 + \3 \iso \5$.
+    Moreover, the on-directions functions $g^\sharp_{(1,1)}$ and $(g')^\sharp_{(1,1)}$ are the canonical inclusions $\2 \to \2 + \3$ and $\3 \to \2 + \3$.
+    
+    At $(2,2)$, we have $r[f_1(2)] = r[f'_1(2)] = r[1] = \1$, with $f^\sharp_2$ picking out $1 \in \1 = q[2]$ and $(f')^\sharp_2$ picking out $3 \in \3 = q'[2]$.
+    So the pushout $p[(2,2)]$ is the set $\1 + \3 = \{(1,1), (2,1), (2,2), (2,3)\}$ but with $(1,1)$ identified with $(2,3)$; we can think of it as the set of equivalence classes $p[(2,2)] \iso \{\{(1,1), (2,3)\}, \{(2,1)\}, \{(2,2)\}\} \iso \3$.
+    Moreover, the on-directions function $g^\sharp_{(2,2)}$ maps $1 \mapsto \{(1,1), (2,3)\}$, while the on-directions function $(g')^\sharp_{(2,2)}$ maps $1 \mapsto \{(2,1)\}, 2 \mapsto \{(2,2)\},$ and $3 \mapsto \{(1,1), (2,3)\}$.
+    
+    Finally, at $(2,3)$, we have $r[f_1(2)] = r[f'_1(3)] = r[1] = \1$, with $f^\sharp_2$ still picking out $1 \in \1 = q[2]$ and $(f')^\sharp_3$ picking out $1 \in \2 = q'[3]$.
+    So the pushout $p[(2,3)]$ is the set $\1 + \2 = \{(1,1), (2,1), (2,2)\}$ but with $(1,1)$ identified with $(2,1)$; we can think of it as the set of equivalence classes $p[(2,3)] \iso \{\{(1,1), (2,1)\}, \{(2,2)\}\} \iso \2$.
+    Moreover, the on-directions function $g^\sharp_{(2,3)}$ maps $1 \mapsto \{(1,1), (2,1)\}$, while the on-directions function $(g')^\sharp_{(2,3)}$ maps $1 \mapsto \{(1,1), (2,1)\}$ and $2 \mapsto \{(2,2)\}$.
+
+    It follows that $p \iso \yon^\5 + \yon^\3 + \yon^\2$, with $g$ and $g'$ as described.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{theorem}\label{thm.poly_colimits}
 The category $\poly$ has all colimits.
 \end{theorem}
 \begin{proof}
-Recall that a category has all colimits iff it has coequalizers and coproducts, so by \cref{prop.poly_coprods} it suffices to show that $\poly$ has coequalizers.
+A category has all colimits if and only if it has coproducts and coequalizers, so by \cref{prop.poly_coprods}, it suffices to show that $\poly$ has coequalizers.
 
-Let $f_1,f_2\colon p\tto q$ be two maps of polynomials. The pair of functions
-\[f_1(\1),f_2(\1)\colon p(\1)\tto q(\1)\] 
-define a graph $G\colon\fbox{$\bullet\tto\bullet$}\to\smset$ whose set $C$ of connected components is given by the coequalizer $g\colon q(\1)\to C$ of $f_1(\1)$ and $f_2(\1)$. The coequalizer of $f_1$ and $f_2$ will turn out to be a $C$-indexed sum of representables, each of which is given by a limit of a diagram of representables from $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
+Let $s,t \colon p \tto q$ be two maps of polynomials.
+We construct the coequalizer $q'$ of $s$ and $t$ as follows.
+The pair of functions $s_1, t_1 \colon p(\1) \tto q(\1)$ define a graph $G \colon \fbox{$\bullet\tto\bullet$} \to \smset$ with vertices in $q(\1)$, edges in $p(\1)$, sources indicated by $s_1$, and targets indicated by $t_1$.
+Then the set $C$ of connected components of $G$ is given by the coequalizer $g_1 \colon q(\1) \to C$ of $s_1$ and $t_1$.
+We define the set of positions of $q'$ to be $C$.
+Each set of directions of $q'$ will be a limit of a diagram of sets of directions of $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
 
-For each connected component $c\in C$, we have a connected subgraph $G_c\ss G$ with vertices $V_c\coloneqq g\inv(c)$ and edges $E_c\coloneqq f_1\inv(g\inv(c))=f_2\inv(g\inv(c))$. Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated representable $\yon^{p[e]}$ (resp.\ $\yon^{q[v]}$).
+For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_1\inv(c)$ and edges $E_c \coloneqq s_1\inv(g_1\inv(c)) = t_1\inv(g_1\inv(c))$.
+Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated set of directions $p[e]$ (resp.\ $q[v]$).
 
-The category of elements $\int G_c$ is a bipartite graph with objects $V+E$ and with two sorts of morphisms, $e\to f_1(e)$ and $e\to f_2(e)$, associated to each $e\in E_c$; all non-identity arrows point from an object in $E$ to an object in $V$. There is a functor $F\colon(\int G_c)\op\to\smset$ sending every $v\mapsto q[v]$, every $e\mapsto p[e]$, and every morphism to a function between them, namely either $(f_1^\sharp)_e\colon q[f_1(e)]\to p[e]$ or $(f_2^\sharp)_e\colon q[f_2(e)]\to p[e]$. Define $q'[c]\in\smset$ to be the limit $q'[c]\coloneqq\lim F\in\smset$ of $F$.
+The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_1(e)$ and $e \to t_1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$. %**This is a cofunctor into graph category, right?
+There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_1(e)] \to p[e]$.
+So we can define $q'[c]$ to be the limit of $F$ in $\smset$.
 
-We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'[c]}$ is the coequalizer of $f_1$ and $f_2$. We leave the completion proof to the interested reader in \cref{exc.poly_colimits}.
+We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'[c]}$ is the coequalizer of $s$ and $t$. We leave the complete proof to the interested reader in \cref{exc.poly_colimits}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_colimits}
 Complete the proof of \cref{thm.poly_colimits} as follows:
 \begin{enumerate}
-	\item Provide a map $g\colon q\to q'$ and show that $f_1\then g=f_2\then g$.
-	\item Show that $g$ is a coequalizer of the pair $f_1,f_2$.
+	\item Provide a map $g \colon q \to q'$.
+	\item Show that $s \then g = t \then g$.
+	\item Show that $g$ is a coequalizer of the pair $s, t$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We define a map $g \colon q \to q'$ as follows.
+    The on-positions function $g_1 \colon q(\1) \to q'(\1)$ is the coequalizer of $s_1, t_1 \colon p(\1) \tto q(\1)$.
+    In particular, $g_1$ sends each vertex in $q(\1)$ to its corresponding connected component in $q'(\1) = C$.
+    Then for each $v \in q(\1)$, if we let its corresponding connected component be $c \coloneqq g_1(v)$, we can define the on-directions function $g^\sharp_v \colon q'[c] \to q[v]$ to be the projection from the limit $q'[c]$ to its component $q[v]$.
+    
+    \item To show that $s \then g = t \then g$, we must show that both sides are equal on positions and on directions.
+    The on-positions function $g_1$ is defined to be the coequalizer of $s_1$ and $t_1$, so $s_1 \then g_1 = t_1 \then g_1$.
+    So it suffices to show that for all $e \in p(\1)$, if we let its corresponding connected component be $c \coloneqq g_1(s_1(e)) = g_1(t_1(e))$, then the following diagram of on-directions functions commutes:
+    \[
+    \begin{tikzcd}[sep=small]
+        & q[s_1(e)] \ar[dl, "s^\sharp_e"'] \\
+        p[e] & & q'[c] \ar[ul, "g^\sharp_{s_1(e)}"'] \ar[dl, "g^\sharp_{t_1(e)}"] \\
+        & q[t_1(e)] \ar[ul, "t^\sharp_e"]
+    \end{tikzcd}
+    \]
+    But this is automatically true by the definition of $q'[c]$ as a limit---specifically the limit of a functor with $s^\sharp_e$ and $t^\sharp_e$ in its image---and the definitions of $g^\sharp_{s_1(e)}$ and $g^\sharp_{t_1(e)}$ as projections from this limit.
+    
+    \item To show that $g$ is the coequalizer of $s$ and $t$, it suffices to show that for any $r \in \poly$ and map $f \colon q \to r$ satisfying $s \then f = t \then f$, there exists a unique map $h \colon q' \to r$ for which $f = g \then h$, so that the following diagram commutes.
+    \begin{equation*} %\label{eqn.eq_univ_prop}
+    \begin{tikzcd}
+        p \ar[r, "s", shift left] \ar[r, "t"', shift right] & q \ar[r, "g"] \ar[dr, "f"'] & q' \ar[d, "h", dashed] \\
+        & & r
+    \end{tikzcd}
+    \end{equation*}
+    In order for $f = g \then h$ to hold, we must have $f_1 = g_1 \then h_1$ on positions.
+    But we have that $s_1 \then f_1 = t_1 \then f_1$, so by the universal property of $q'(\1)$ and the map $g_1$ as the coequalizer of $s_1$ and $t_1$ in $\smset$, there exists a unique $h_1$ for which $f_1 = g_1 \then h_1$.
+    Hence $h$ is uniquely characterized on positions.
+    In particular, it must send each connected component $c \in q'(\1)$ to the element in $r(\1)$ to which $f_1$ sends every vertex $v \in V_c = g_1\inv(c)$ that lies in the connected component $c$.
+    
+    Then for $f = g \then h$ to hold on directions, we must have that $f^\sharp_v = h^\sharp_{g_1(v)} \then g^\sharp_v$ for each $v \in q(\1)$.
+    Put another way, given $c \in q'(\1)$, we must have that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
+    But $s \then f = t \then f$ implies that for each $e \in E_c = s_1\inv(g_1\inv(c)) = t_1\inv(g_1\inv(c)) \ss p(\1)$, the following diagram of on-directions functions commutes:
+    \[
+    \begin{tikzcd}[sep=small]
+        & q[s_1(e)] \ar[dl, "s^\sharp_e"'] \\
+        p[e] & & r[f_1(v)] \ar[ul, "f^\sharp_{s_1(e)}"'] \ar[dl, "f^\sharp_{t_1(e)}"] \\
+        & q[t_1(e)] \ar[ul, "t^\sharp_e"]
+    \end{tikzcd}
+    \]
+    It follows that $r[f_1(v)]$ together with the maps $\{f^\sharp_v\}_{v \in V_c}$ form a cone over the functor $F$.
+    So by the universal property of the limit $q'[c]$ of $F$ with projection maps $\{g^\sharp_v\}_{v \in V_c}$, there exists a unique $h^\sharp_c \colon r[f_1(v)] \to q'[c]$ for which $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
+    Hence $h$ is also uniquely characterized on directions, so it is unique overall.
+    Moreover, we have shown that we can define $h$ on positions so that $f_1 = g_1 \then h_1$, and that we can define $h$ on directions such that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for all $c \in q'(\1)$ and $v \in V_c$.
+    It follows that there exists $h$ for which $f = g \then h$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{example}
-Given a diagram in $\poly$, one could either take its colimit as \emph{polynomial} functors (its colimit in $\poly)$ or its colimit simply as a diagram of functors. These can yield different results.
+Given a diagram in $\poly$, one could either take its colimit as a diagram of \emph{polynomial} functors (i.e.\ its colimit in $\poly)$ or its colimit simply as a diagram of functors (i.e.\ its colimit in $\smset^\smset$).
+These can yield different results, as evidenced by the fact that, per the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $\smset^\smset$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
 
-For example, consider the two projections $\yon^\2\to\yon$, i.e.\ the diagram
-\[
-\yon^\2\tto\yon.
-\]
-In $\poly$, the colimit is $\1$. But as functors, the colimit is the functor
+As a concrete example, consider the two projections $\yon^\2\to\yon$, which form the diagram
+\begin{equation} \label{eqn.2_projs}
+    \yon^\2\tto\yon.
+\end{equation}
+According to \cref{thm.poly_colimits}, the colimit of \eqref{eqn.2_projs} in $\poly$ has the coequalizer of $\1 \tto \1$, namely $\1$, as its set of positions, and the limit of the diagram $\1 \tto \2$ consisting of the two inclusions as its sole set of directions.
+But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is $\1$.
+
+But as functors, the colimit of \eqref{eqn.2_projs} is the functor
 \[
   X\mapsto
   \begin{cases}
@@ -6216,6 +6390,7 @@ In $\poly$, the colimit is $\1$. But as functors, the colimit is the functor
   	\1&\tn{ if }X\neq\0
   \end{cases}
 \]
+(its universal property can be explicitly verified).
 \end{example}
 
 \begin{exercise}
@@ -6244,7 +6419,7 @@ Recall (\cref{prop.adjoint_quadruple}) that for any polynomial $p$, there are ca
 	\yon^\8\ar[ul, phantom, very near start, "\ulcorner"]
 \end{tikzcd}
 \]
-	\item Is the pushout of a Cartesian map always Cartesian?
+	\item Is the pushout of a Cartesian map always Cartesian? % **We haven't intro'd Cartesian maps yet
 \end{enumerate}
 \end{exercise}
 
