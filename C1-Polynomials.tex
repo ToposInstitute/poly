@@ -3619,11 +3619,11 @@ Upon receiving this quantity, each subordinate can give their stakeholder their 
 \end{exercise}
 
 \begin{example}\label{ex.list_monoids}
-Here are two examples of $\otimes$-monoid structures carried by
-\[\ell\coloneqq\1+\yon+\yon^\2+\yon^\3+\cdots,\]
- the ``list'' polynomial. The first monoid structure we'll discuss is commutative, the second is not. We will check that they satisfy the conditions in \cref{exc.list_monoids}
+Here are two examples of $\otimes$-monoid structures carried by 
+\[\ell\coloneqq\1+\yon+\yon^\2+\cdots,\]
+the ``list'' polynomial. The first monoid structure we'll discuss is commutative, the second is not. We will check that they satisfy the necessary conditions of an $\otimes$-monoid in \cref{exc.list_monoids}.
 
-We get a commutative $\otimes$-monoid via the Cartesian map $\yon\to\ell$ sending $\yon\mapsto\yon$ and the Cartesian map $\ell\otimes\ell\to\ell$ that on positions sends $(i,j)\mapsto i\times j$ and on directions is the pair of coordinate projections.
+We get a commutative $\otimes$-monoid via the Cartesian map $\yon\to\ell$ sending $\yon\mapsto\yon$ and the Cartesian map $\ell\otimes\ell\to\ell$ that on positions sends $(i,j)\mapsto i\times j$ and on directions is the pair of coordinate projections. % **Haven't defined Cartesian maps yet
 
 We get a noncommutative $\otimes$-monoid via the map $\yon\to\ell$ sending $\yon\mapsto\1$ and the map $\ell\otimes\ell\to\ell$ that on positions sends $(i,j)\mapsto i+j$ and on directions is given by
 \[
@@ -6393,37 +6393,62 @@ But as functors, the colimit of \eqref{eqn.2_projs} is the functor
   	\1&\tn{ if }X\neq\0
   \end{cases}
 \]
-(its universal property can be explicitly verified).
+% (its universal property can be explicitly verified). **Why?
 \end{example}
 
 \begin{exercise}
-Recall (\cref{prop.adjoint_quadruple}) that for any polynomial $p$, there are canonical maps
+By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical maps
 \[
-	p(\1)\yon\to p
+	\epsilon \colon p(\1)\yon\to p
 	\qqand
-	p\to \yon^{\Gamma p}.
+	\eta \colon p\to \yon^{\Gamma(p)}.
 \]
 \begin{enumerate}
-	\item What is the canonical map $\5\yon\to\3\yon^\2+\2\yon$?
-	\item What is the canonical map $\3\yon^\2+\2\yon\to\yon^\8$?
-	\item Show that the following are pushouts in $\poly$:
-\[
-\begin{tikzcd}
-	p(\1)\yon\ar[r, "!"]\ar[d]&
-	\yon\ar[d, "!"]\\
-	p\ar[r]&
-	\yon^{\Gamma p}\ar[ul, phantom, very near start, "\ulcorner"]
-\end{tikzcd}
-\qqand
-\begin{tikzcd}
-	\5\yon\ar[r, "!"]\ar[d]&
-	\yon\ar[d, "!"]\\
-	\3\yon^{\2}+\2\yon\ar[r]&
-	\yon^\8\ar[ul, phantom, very near start, "\ulcorner"]
-\end{tikzcd}
-\]
-	\item Is the pushout of a Cartesian map always Cartesian? % **We haven't intro'd Cartesian maps yet
+	\item Characterize the behavior of the canonical map $\epsilon \colon p(\1)\yon\to p$.
+	\item Characterize the behavior of the canonical map $\eta \colon p\to \yon^{\Gamma(p)}$.
+	\item Show that the following is a pushout in $\poly$:
+    \begin{equation} \label{eqn.pushout_adjoint}
+    \begin{tikzcd}
+    	p(\1)\yon\ar[r, "!"]\ar[d, "\epsilon"']&
+    	\yon\ar[d, "!"]\\
+    	p\ar[r, "\eta"']&
+    	\yon^{\Gamma(p)}\ar[ul, phantom, very near start, "\ulcorner"]
+    \end{tikzcd}
+    \end{equation}
+% 	\item Is the pushout of a Cartesian map always Cartesian? % **We haven't intro'd Cartesian maps yet
 \end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We characterize the map $\epsilon \colon p(\1)\yon \to p$ as follows.
+    On positions, it is the identity on $p(\1)$.
+    Then for each $i \in p(\1)$, on directions, it is the unique map $p[i] \to \1$.
+    
+    \item We characterize the map $\eta \colon p \to \yon^{\Gamma(p)}$ as follows.
+    On positions, it is the unique map $p(\1) \to \1$.
+    Then for each $i \in p(\1)$, on directions, it is the canonical projection $\Gamma(p) \iso \prod_{i' \in p(\1)} p[i'] \to p[i]$.
+    
+    \item Showing that \eqref{eqn.pushout_adjoint} is a pushout square is equivalent to showing that, in the diagram
+    \begin{equation} \label{eqn.coeq_adjoint}
+    \begin{tikzcd}[sep=large]
+        & \yon \ar[d, "\iota"] \ar[dr, "!"] \\
+        p(\1)\yon \ar[ur, "!"] \ar[dr, "\epsilon"'] \ar[r, "s", shift left] \ar[r, "t"', shift right] & \yon + p \ar[r, "g"] & \yon^{\Gamma(p)} \\
+        & p \ar[u, "\iota'"'] \ar[ur, "\eta"']
+    \end{tikzcd}
+    \end{equation}
+    in which $\iota, \iota'$ are the canonical inclusions and the four triangles commute, $\yon^{\Gamma(p)}$ equipped with the morphism $g$ is the coequalizer of $s$ and $t$.
+    To do so, we apply \cref{thm.poly_colimits} to compute the coequalizer $q'$ of $s$ and $t$.
+    The set of positions of $q'$ is the coequalizer of $s_1 = (! \then \iota)_1$, which sends every $i \in p(\1)$ to the position of $\yon + p$ corresponding to the summand $\yon$, and $t_1 = (\epsilon \then \iota')_1$, which sends each $i \in p(\1)$ to the corresponding position in the summand $p$ of $\yon + p$.
+    It follows that the coequalizer of $s_1$ and $t_1$ is $\1$, so $q'(\1) \iso \1$.
+    
+    Then the set of directions of $q'$ at its sole position is the limit of the functor $F$ whose image consists of morphisms of the form $\1 \to \1$ or $p[i] \to \1$ for every $i \in p(\1)$.
+    It follows that the limit of $F$ is just a product, namely $\prod_{i \in p(\1)} p[i] \iso \Gamma(p)$.
+    Hence $q' \iso \yon^{\Gamma(p)}$, as desired.
+    
+    It remains to check that the upper right and lower right triangles in \eqref{eqn.coeq_adjoint} commute.
+    The upper right triangle must commute by the uniqueness of morphisms $\yon \to \yon^{\Gamma(p)}$; and the lower right triangle must commute on positions.
+    Moreover, the on-directions function of the coequalizer morphism $g$ at each position $i \in p(\1) \ss (\yon+p)(\1)$ must be the canonical projection $\Gamma(p) \to p[i]$, which matches the behavior of the corresponding on-directions function of $\eta$; hence the lower right triangle also commutes on directions.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.tensor_as_pushout}
