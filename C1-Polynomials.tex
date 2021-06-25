@@ -6205,7 +6205,7 @@ Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback
 	p[(i,i')]\ar[from=r, "(g')^\sharp_{(i,i')}"']\ar[from=d, "g^\sharp_{(i,i')}"]&
 	q'[i']\ar[from=d, "(f')^\sharp_{i'}"']\\
 	q[i]\ar[from=r, "f^\sharp_i"]&
-	r[f_1(i)]\ar[ul, phantom, very near end, "\ulcorner"]
+	r[f_1(i)]\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
 \end{example}
@@ -6246,7 +6246,7 @@ Here $p \in \poly$.
     	p_i[(1,i)] \ar[from=r, "g^\sharp_{(1,i)}"'] \ar[from=d, "f^\sharp_{(1,i)}"] &
     	p[i] \ar[from=d, "!"'] \\
     	\varnothing \ar[from=r, "!"] &
-    	\varnothing \ar[ul, phantom, very near end, "\ulcorner"]
+    	\varnothing \ar[ul, phantom, very near end, "\lrcorner"]
     \end{tikzcd}
     \]
     So $p_i[(1,i)] \coloneqq p[i]$, with $f^\sharp_{(1,i)}$ uniquely determined and $g^\sharp_{(1,i)}$ as the identity.
@@ -6463,22 +6463,22 @@ For polynomials $p,q$, the following is a pushout:
 \]
 \end{proposition}
 \begin{proof}
-All the maps shown are identity on positions, so the displayed diagram is the coproduct over all $(i,j)\in p(\1)\times q(\1)$ of the diagram shown left
+All the maps shown are identities on positions, so the displayed diagram is the coproduct over all $(i,j)\in p(\1)\times q(\1)$ of the diagram shown left
 \[
 \begin{tikzcd}
 	\yon\ar[r]\ar[d]&
 	\yon^{q[j]}\ar[d]\\
 	\yon^{p[i]}\ar[r]&
-	\yon^{p[i]\times q[j]}\ar[ul, phantom,very near start, "\ulcorner"]
+	\yon^{p[i]\times q[j]}\ar[ul, phantom, very near start, "\ulcorner"]
 \end{tikzcd}
 \begin{tikzcd}
-	\1\ar[dr, phantom, "\lrcorner"]&
+	\1\ar[dr, phantom, very near end, "\ulcorner"]&
 	q[j]\ar[l]\\
 	p[i]\ar[u]&
 	p[i]\times q[j]\ar[l]\ar[u]
 \end{tikzcd}
 \]
-where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image under the Yoneda embedding of the diagram of sets shown right, which is clearly a limit. The result follows by \cref{prop.yoneda_left_adjoint}.
+where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image under the Yoneda embedding of the diagram of sets shown right, which is clearly a pullback. The result follows by \cref{prop.yoneda_left_adjoint}.
 \end{proof}
 
 This means that to give a map $\varphi\colon p\otimes q\to r$, it suffices to give two maps $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The map $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the map $\varphi_q$ says how information about $p$'s position is transferred to $q$.
@@ -6572,7 +6572,7 @@ For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
 		{}{}
 		{p_1\otimes\cdots\otimes p_n/\poly}
 \]
-Moreover, the left adjoint is fully faithful iff $n\leq 1$ or $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$, i.e.\ iff each polynomial has at least two positions.
+Moreover, the left adjoint is fully faithful if and only if $n\leq 1$ or $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$, i.e.\ if and only if each polynomial has at least two positions.
 \end{proposition}
 \begin{proof}
 **
@@ -6584,7 +6584,10 @@ Moreover, the left adjoint is fully faithful iff $n\leq 1$ or $|p_i(\1)|\geq 2$ 
 We will see that the functor $p\mapsto p(\1)$ has special properties making it what
 \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
 
-For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then we get a new polynomial $f^*p$ with positions $A$. The notation here agrees with that in \cref{thm.poly_lcc}: it is given by a pullback
+For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a morphism between constant polynomials.
+Then we get a new polynomial $f^*p$ with positions $A$, as follows.
+%The notation here agrees with that in \cref{thm.poly_lcc}:
+It is given by a pullback
 \begin{equation}\label{eqn.f^*_defined}
 \begin{tikzcd}
 	f^*p\ar[r, "\fun{cart}"]\ar[d]&
@@ -6593,11 +6596,16 @@ For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$. Then
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$. Since it is an isomorphismon positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions. Since on each position $a\in A$, the function $f^\sharp_a$ is an isomorphism on directions (both domain and codomain are the empty set), and since the $a$-position of $f^*p$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each function $\fun{cart}^\sharp_a\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism too. We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}.
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$.
+Since $\eta_p$ is an isomorphism on positions and $p\mapsto p(\1)$ is a right adjoint, the map $f^*p\to A$ is also an isomorphism on positions and $\fun{cart}_1 = f$.
+Furthermore, for each position $a \in A$, the on-directions function $f^\sharp_a \colon \0 \to \0$ is trivially an isomorphism; since the set of directions of $f^*p$ at $a$ is constructed by a pushout (see \cref{ex.pullbacks_in_poly}), each on-directions function $\fun{cart}^\sharp_a\colon p[f(a)]\to(f^*p)[a]$ is an isomorphism, too.
+We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}.
 
 
 \begin{definition}[Vertical, cartesian]
-Let $f\colon p\to q$ be a morphism of polynomials. It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism. It is called \emph{cartesian} if, for each $i\in p(\1)$ the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
+Let $f\colon p\to q$ be a morphism of polynomials.
+It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism.
+It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
 \begin{proposition}\label{prop.vert_cart_factorization}
@@ -6613,23 +6621,37 @@ Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written
 \end{tikzcd}
 \hspace{1in}
 \begin{tikzcd}
-	p(\1)\ar[dr, bend right, "p_-"']\ar[r, equal, ""' name=equal]&
+	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[r, equal, ""' name=equal]&
 	p(\1)\ar[d, "{q[f_1(-)]}" description]\ar[r, "f_1"]&
 	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The object $\sum{i\in p(\1)}\yon^{q[f_1i]}$ is clearly unique up to isomorphism.
+The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_1(i)]}$ is clearly unique up to isomorphism.
 \end{proof}
 
 \begin{proposition}
-Vertical morphisms satisfy 2/3: given $p\To{f}q\To{g}r$ with $h=g\circ f$, if any two of $f,g,h$ are vertical, then so is the third.
+Vertical morphisms satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then g$, if any two of $f,g,h$ are vertical, then so is the third.
 
-If $g$ is Cartesian then $h$ is cartesian iff $f$ is cartesian.
+If $g$ is cartesian, then $h$ is cartesian if and only if $f$ is cartesian.
 \end{proposition}
+\begin{proof}
+Given $h = f \then g$, we have that $h_1 = f_1 \then g_1$.
+Since isomorphisms satisfy 2-out-of-3, it follows that vertical morphisms satisfy 2-out-of-3 as well.
+
+Now assume $g$ is cartesian.
+On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$.
+Since $g^\sharp_{f_1(i)}$ is an isomorphism, it follows that every $h^\sharp_i$ is an isomorphism if and only if every $f^\sharp_i$ is an isomorphism, so $h$ is cartesian if and only if $f$ is cartesian.
+\end{proof}
 
 \begin{exercise}
-Give an example of polynomials $p,q,r$ and maps $p\To{f}q\To{g}r$ such that $f$ and $g\circ f$ are cartesian but $g$ is not.
+Give an example of polynomials $p,q,r$ and maps $p\To{f}q\To{g}r$ such that $f$ and $f \then g$ are cartesian but $g$ is not.
+\begin{solution}
+Consider the maps $\yon \To{f} \yon^\2 + \yon \To{g} \yon$ where $f$ is the canonical inclusion and $g$ is uniquely determined on positions and picks out $1 \in \2$ and $1 \in \1$ on directions.
+Then the only on-directions function of $f$ is a function $\1 \to \1$, an isomorphism, so $f$ is cartesian.
+Meanwhile, one of the on-directions functions of $g$ is a function $\1 \to \2$, which is not an isomorphism, so $g$ is not cartesian.
+Finally, $f \then g$ can only be the unique morphism $\yon \to \yon$, namely the identity, which is cartesian.
+\end{solution}
 \end{exercise}
 
 Recall that for any polynomial $p$, there is a corresponding function $\pi_p\colon\dot{p}(\1)\to p(\1)$, i.e.\ the set of directions mapping to the set of positions. A map of polynomials $(f_1,f^\sharp)\colon p\to q$ can then be described as a function $f_1\colon p(\1)\to q(\1)$ and a function
@@ -6672,6 +6694,9 @@ is a pullback.
 
 \begin{exercise}
 Prove \cref{prop.cart_as_nt}.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.monoidal_pres_carts}
