@@ -896,7 +896,14 @@ Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
 \end{proof}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
-$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
+$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:\footnote{
+	We use the notation 
+	$\begin{tikzcd}[ampersand replacement=\&]
+		C\ar[r, shift left=4pt, "L"]\&
+		D\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
+	\end{tikzcd}$
+	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $C\Rightarrow R\circ L$ and the counit $L\circ R\Rightarrow D$ of the adjunction.
+}
 \begin{equation*}%\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt]
   \smset
@@ -1547,14 +1554,14 @@ We have now given the function from left to right. To go the other way..
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
 
-\begin{corollary} \label{prop.push_prod_sum_set_indep}
+\begin{corollary} \label{cor.push_prod_sum_set_indep}
 For any set $I$, set $J$, and collection of sets $\{X(i, j)\}_{i \in I, j \in J}$, we have a bijection
-\begin{equation}
+\begin{equation} \label{eqn.push_prod_sum_set_indep}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
 \end{corollary}
 \begin{proof}
-Just take $J(i) = J$ for all $i \in I$ in \cref{prop.push_prod_sum_set}.
+Just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive}.
 Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
 \end{proof}
 
@@ -1577,7 +1584,7 @@ This is analogous to how products of sums in high school algebra can always be e
 % \begin{solution}
 % Our goal is to rewrite each expression so that every $\sum$ appears before every $\prod$.
 % \begin{enumerate}
-%     \item By applying \cref{prop.push_prod_sum_set}, we can rewrite
+%     \item By applying \eqref{eqn.set_completely_distributive}, we can rewrite
 %     \[
 %         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
 %     \]
@@ -1585,7 +1592,7 @@ This is analogous to how products of sums in high school algebra can always be e
 %     \[
 %         \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
 %     \]
-%     \item By applying \cref{prop.push_prod_sum_set}, we can rewrite
+%     \item By applying \eqref{eqn.set_completely_distributive}, we can rewrite
 %     \[
 %         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
 %     \]
@@ -1648,7 +1655,7 @@ In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors t
     \[
       \sum_{i \in I} F(X) \iso (IF)(X).
     \]
-    The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \cref{prop.push_prod_sum_set}.)
+    The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \eqref{eqn.set_completely_distributive}.)
     \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$. 
 \end{enumerate}
 \end{solution}
@@ -2234,9 +2241,9 @@ By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and 
 \[
     p[i]^{q[j]} \iso \prod_{d \in q[j]} \sum_{c \in p[i]} \1.
 \]
-Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
+Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
 \begin{align*}
-    \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
     &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.prod}} \\
     &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}} \\
     &\iso p[i]^{q[j]}.
@@ -2246,10 +2253,10 @@ Indeed, by \cref{prop.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
 \[
 	\poly(p,q) \iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg).
 \]
-By \eqref{eqn.main_formula} and \cref{prop.push_prod_sum_set_indep}, we have
+By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
     &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
     &\iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
@@ -2738,7 +2745,7 @@ By \cref{prop.prods_coprods_set_endofuncs}, the category $\smset^\smset$ has arb
 The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
-Indeed, given polynomials $\{p_i\}_{i \in I}$, by \cref{prop.push_prod_sum_set}, their product is
+Indeed, given polynomials $\{p_i\}_{i \in I}$, by \eqref{eqn.set_completely_distributive}, their product is
 \begin{equation} \label{eqn.poly_prod}
     \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
 \end{equation}
@@ -2942,7 +2949,7 @@ In practice, we can multiply polynomial functors the same way we would multiply 
         &\iso A_1 A_2\yon^{B_1 + B_2}.
     \end{align*}
 
-    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ by setting $I_1 \coloneqq I$ and $I_2 \coloneqq J$ and applying \cref{prop.push_prod_sum_set}:
+    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
     \begin{align*}
         \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} A_i\yon^{B_i} \\
         &\iso \sum_{\bar{i} \in \prod_{k \in \2} I_k} \prod_{k \in \2} A_{\bar{i}(k)}\yon^{B_{\bar{i}(k)}} \\
@@ -3371,7 +3378,7 @@ On directions at $(i,j)\in p(\1)\times q(\1)$, define
 \]
 Then \cref{exc.prepare_poly_smc} gives us the unitors, associator, and braiding.
 We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves.
-Alternatively, we invoke the Day convolution to obtain the monoidal structure $(\yon, \otimes)$ directly in \cref{prop.day}.
+Alternatively, we may invoke the Day convolution to obtain the monoidal structure $(\yon, \otimes)$ directly (see \cref{prop.day}).
 \end{proof}
 
 \begin{exercise} \label{exc.some_parallel_prods}
@@ -3638,10 +3645,16 @@ For example, suppose the position is $i=3, j=5$; it is sent to position $8$. Giv
 	\item Check that the first $\otimes$-monoid structure announced in \cref{ex.list_monoids} really satisfies the necessary equations.
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
 Find a $\otimes$-monoid structure carried by the polynomial $1+\yon$.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.tensor_tensor_monoids}
@@ -4038,6 +4051,7 @@ On the other hand, if the input is ``continue,'' an old state $(i,t)$ is sent to
 Finally, if the old state is ``done'' and the input is ``continue,'' the new state is still ``done.''
 \end{solution}
 \end{exercise}
+
 While \cref{exc.file_reader} gives us a functioning file-reading robot, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of positions before the robot has finished reading from the previous range.
 When we introduce generalized Moore machines, we will be able to let the robot ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
 
@@ -4302,6 +4316,9 @@ As advertised, when the paddle switches, the tracker announces that the machine 
 Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
 
 When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \paragraph{Situations.} % Fields? Enclosures?
@@ -4321,13 +4338,13 @@ A map $p_1\otimes \cdots \otimes p_n\to\yon$ puts these $n$ interfaces in a situ
 
 \begin{proposition}\label{prop.situations2}
 Given polynomials $p,q\in\poly$, there is a bijection
-\[
+\begin{equation} \label{eqn.situations2}
 \Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
-\]
+\end{equation}
 \end{proposition}
 The idea is that for $p$ and $q$ to be enclosed together in a system simply means that the positions of each one become a situation for the other. 
 \begin{proof}[Proof of \cref{prop.situations2}]
-This is a direct calculation.
+This is a direct calculation:
 \begin{align*}
 	\Gamma(p\otimes q) &\iso
 	\prod_{i\in p(\1)}\prod_{j\in q(\1)}(p[i]\times q[j]) \\
@@ -4341,21 +4358,21 @@ This is a direct calculation.
 
 \begin{exercise}
 \begin{enumerate}
-	\item State and prove a generalization of \cref{prop.situations2} for $n$-many polynomials $p_1,\ldots,p_n\in\poly$.
+	\item State and prove a generalization of \eqref{eqn.situations2} from \cref{prop.situations2} for $n$-many polynomials $p_1,\ldots,p_n\in\poly$.
 	\item Generalize the ``idea'' statement between \cref{prop.situations2} and its proof.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We generalize \cref{prop.situations2} for $n$ polynomials as follows.
+    \item We generalize \eqref{eqn.situations2} for $n$ polynomials as follows.
     Given polynomials $p_1,\ldots,p_n\in\poly$, we claim there is a bijection
     \[
         \Gamma\left(\bigotimes_{i=1}^n p_i \right) \iso \prod_{i=1}^n \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right).
     \]
-    The $n=1$ case is clear, and the $n=2$ case is given by \cref{prop.situations2}.
+    The $n=1$ case is clear, and the $n=2$ case is given by \eqref{eqn.situations2}.
     Then by induction on $n$, we have
     \begin{align*}
-        \Gamma\left(\bigotimes_{i=1}^n p_i \right) &\iso \smset\left(p_n(\1), \Gamma\left(\bigotimes_{i=1}^{n-1} p_i \right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{\cref{prop.situations2}} \\
+        \Gamma\left(\bigotimes_{i=1}^n p_i \right) &\iso \smset\left(p_n(\1), \Gamma\left(\bigotimes_{i=1}^{n-1} p_i \right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag*{\eqref{eqn.situations2}} \\
         &\iso \smset\left(p_n(\1), \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n-1, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Inductive hypothesis} \\
         &\iso \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Universal properties of products and internal homs},
     \end{align*}
@@ -4367,12 +4384,15 @@ This is a direct calculation.
 
 % todo: change where this goes
 \begin{exercise}
-We will use \cref{prop.situations2} to consider the interaction $\varphi$ between \textit{you} and \textit{chalk} from \cref{ex.pickup_chalk} as a pair of functions $\textit{you}(\1)\to\Gamma(\textit{chalk})$ and $\textit{chalk}(\1)\to\Gamma(\textit{you})$.
+We will use \eqref{eqn.situations2} to consider the interaction $\varphi$ between \textit{you} and \textit{chalk} from \cref{ex.pickup_chalk} as a pair of functions $\textit{you}(\1)\to\Gamma(\textit{chalk})$ and $\textit{chalk}(\1)\to\Gamma(\textit{you})$.
 \begin{enumerate}
 	\item How is the chalk's position a situation for you? That is, write the map $\textit{chalk}(\1)\to\Gamma(\textit{you})$.
 	\item How is your position a situation for the chalk? That is, write the map $\textit{you}(\1)\to\Gamma(\textit{chalk})$.
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.gamma_pres_coproduct}
@@ -4477,6 +4497,9 @@ The state without any outgoing arrows is the ``accept'' state for a regular lang
 	\item Name a word that is not accepted by this machine.
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}[Graphs] \label{ex.graph_dyn}
@@ -4492,6 +4515,9 @@ The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, whe
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
 Draw the associated labeled transition system as in \cref{ex.labeled_transition}.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}[Adding a pause button]\label{ex.pause}
@@ -4535,6 +4561,9 @@ To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two mor
 
 \begin{exercise}
 Find what you think is an interesting generalization of deterministic finite state automata that you can model using generalized Moore machines.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}\label{ex.movement_options}
@@ -4579,6 +4608,9 @@ Add to \cref{ex.movement_options} as follows.
 	\item Define a morphism of polynomials $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}\label{ex.generalized_file_reader}
@@ -4645,6 +4677,9 @@ On positions define
 
 \begin{exercise}
 Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
@@ -4788,6 +4823,9 @@ The first says ``inside the system you have boxes outputting values of type $C$ 
 	\item What is the morphism of polynomials corresponding to this diagram?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 Now suppose given a dynamical system in each inner box:
@@ -4838,6 +4876,9 @@ Consider the following wiring diagram.
 	\item Suppose we are given dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{exercise}[Long division]
@@ -4877,6 +4918,9 @@ Consider the following wiring diagram.
 \end{tikzpicture}
 \]
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}[Graphs as interaction diagrams]\label{ex.graph_interaction}
@@ -4919,6 +4963,9 @@ This exercise is for those who are familiar with Conway's Game of Life. We will 
 	\item What is the appropriate dynamical system map $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 %\begin{exercise}[Cellular automata]\label{exc.cellular_automata}
@@ -5058,6 +5105,9 @@ Let $p,q\coloneqq\nn\yon^\nn$.
 	\item Suppose each system starts in state $1\in\nn$. What is the trajectory of the $p$-system?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
@@ -5071,6 +5121,9 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 	\item Change the setup in any way so that the robots only extend a port to hear the other's signal when the distance between them is less than 1. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 So what is a map $p_1\otimes\cdots\otimes p_k\to q$ in general? It's a protocol by which he $k$-many participants $p_i$ together decide what decision $q$ must make, as well as how $q$'s choice among its options (the decision once made) is passed back and distributed as an option at each $p_i$.
@@ -5102,6 +5155,9 @@ Change \cref{ex.cell_auto_vote_interaction} slightly by changing the outer box.
 	\item What would it mean to change \eqref{eqn.polymap_misc9237} to a map $\bigotimes_{v\in V}p_v\to\yon^A$ for some $A$?
 \qedhere
 \end{enumerate}
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{example}\label{ex.bonds_break}
@@ -5306,10 +5362,10 @@ We may compute
 \begin{align*}
     \ihom{q, r} &\iso \prod_{j \in q(\1)} r \circ (q[j]\yon) \tag*{\eqref{eqn.dir_hom}} \\
     &\iso \prod_{j \in q(\1)} \, \sum_{k \in r(\1)} (q[j]\yon)^{r[k]} \tag{Replacing each $\yon$ in $r$ by $q[j]\yon$} \\
-    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_1(j)]} \tag{\cref{prop.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_1(j)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
     &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \left(\prod_{j \in q(\1)} q[j]^{r[f_1(j)]} \right)\left(\prod_{j \in q(\1)} \yon^{r[f_1(j)]} \right) \\
     &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \; \sum_{f^\sharp \in \prod_{j \in q(\1)} q[j]^{r[f_1(j)]}} \yon^{\sum_{j \in q(\1)} r[f_1(j)]} \\
-    &\iso \sum_{f \colon q \to r} \yon^{\sum_{j \in q(\1)} r[f_1(j)]}. \tag{\cref{prop.poly_maps_prod_sum}}
+    &\iso \sum_{f \colon q \to r} \yon^{\sum_{j \in q(\1)} r[f_1(j)]}. \tag*{\eqref{eqn.main_formula}}
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -5418,7 +5474,7 @@ Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use
 \eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p \iso p$.
 \begin{solution}
 The isomorphism $\poly(p,q) \iso \ihom{p,q}(\1)$ follows directly from \cref{exc.dir_hom_sum} when both sides are applied to $\1$.
-Alternatively, we can apply \cref{prop.dirichlet_closure}.
+Alternatively, we can apply \eqref{eqn.poly_closure_brackets}.
 Since $p \iso \yon \otimes p$, we have that
 \begin{align*}
     \poly(p, q) &\iso \poly(\yon \otimes p, q) \\
@@ -5707,8 +5763,8 @@ Next we note that the set of polynomial morphisms $p\to q$ % todo: what was the 
 
 \begin{proposition}\label{prop.two_var_adj}
 There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:%
-\footnote{The first set $\poly(Ap,q)$ involves the $A$-fold coproduct of $p$ and the middle set $\poly(p,q^A)$ involves the $A$-fold product of $q$, neither of which we have proven exists. For organizational purposes, we put that off until \cref{prop.coprod_prod_poly}.
-}
+% \footnote{The first set $\poly(Ap,q)$ involves the $A$-fold coproduct of $p$ and the middle set $\poly(p,q^A)$ involves the $A$-fold product of $q$, neither of which we have proven exists. For organizational purposes, we put that off until \cref{prop.coprod_prod_poly}.
+% }
 \begin{align}\label{eqn.two_var_adj}
 \poly(Ap,q) \iso \smset(A,\poly(p,q)) \iso \poly(p,q^A).
 \end{align}
@@ -5719,7 +5775,7 @@ Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of
 The middle set is naturally isomorphic to $\smset(A,\poly(p,q))$, completing the proof.
 \end{proof}
 
-Replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the following using the Yoneda lemma.
+Replacing $p$ with $\yon^B$ in \eqref{eqn.two_var_adj}, we obtain the following using the Yoneda lemma.
 
 \begin{corollary}\label{cor.substituting_adj}
 For any set $B$ there is an adjunction
@@ -5736,7 +5792,7 @@ To prove \cref{cor.substituting_adj}, it suffices to exhibit a natural isomorphi
 \[
     \poly(A\yon^B, q) \iso \smset(A, q(B)).
 \]
-Replacing $p$ with $\yon^B$ in \cref{prop.two_var_adj}, we obtain the natural isomorphism
+Replacing $p$ with $\yon^B$ in \eqref{eqn.two_var_adj} from \cref{prop.two_var_adj}, we obtain the natural isomorphism
 \[
     \poly(A\yon^B, q) \iso \smset(A, \poly(\yon^B, q)).
 \]
@@ -5751,9 +5807,9 @@ The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
 \]
 where $\Gamma(p) \coloneqq \poly(p, \yon) \iso \prod_{i\in p(\1)}p[i]$, as in \eqref{eqn.gamma_def} and \eqref{eqn.gamma_prod}.
 That is, there is a natural isomorphism
-\begin{equation*}
+\begin{equation} \label{eqn.yoneda_left_adjoint}
     \poly(p, \yon^A) \iso \smset(A, \Gamma(p)).
-\end{equation*}
+\end{equation}
 \end{proposition}
 \begin{proof}
 By \eqref{eqn.main_formula}, we have the natural isomorphism
@@ -5783,7 +5839,7 @@ By the universal property of the product of $A$ and $\yon^B$, we have a natural 
 \[
     \poly(p, A\yon^B) \iso \poly(p, A) \times \poly(p, \yon^B).
 \]
-Then the desired natural isomorphism follows from \cref{exc.adjoint_quadruple} \cref{exc.adjoint_quadruple.pos_const} and \cref{prop.yoneda_left_adjoint}.
+Then the desired natural isomorphism follows from \cref{exc.adjoint_quadruple} \cref{exc.adjoint_quadruple.pos_const} and \eqref{eqn.yoneda_left_adjoint}.
 \end{proof}
 
 \begin{exercise}
@@ -5991,7 +6047,7 @@ We will now see that $\poly$ has all limits and colimits, and moreover it is car
 %   \cong
 % 	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
 %   \]
-%   is exactly as in \cref{prop.push_prod_sum_set}, which we proved is an isomorphism. This completes the proof.
+%   is exactly as in \eqref{eqn.set_completely_distributive}, which we proved is an isomorphism. This completes the proof.
 % \end{proof}
 
 % \begin{exercise}
@@ -6499,7 +6555,9 @@ Suppose given polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otime
 \]
 \end{corollary}
 \begin{proof}
-By induction on $n\in\nn$. When $n=0$ the wide pushout has no legs and the empty tensor product is $\yon$, so the result holds. If the result holds for $n$ then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
+We proceed by induction on $n\in\nn$.
+When $n=0$, the wide pushout has no legs and the empty tensor product is $\yon$, so the result holds.
+If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
 \end{proof}
 
 We can use \cref{cor.tensor_as_pushout} to characterize interaction patterns. Given polynomials $p_1,\ldots, p_n,$ and $q$, and a map
@@ -6788,9 +6846,6 @@ from the cartesian closure; see \eqref{eqn.exponential}. Indeed, we have
 \end{align*}
 \end{solution}
 \end{exercise}
-
-
-
 
 For any set $A$, let $\poly[A.]$ denote the category whose objects are polynomials $p$ equipped with an isomorphism $A\cong p(\1)$, and whose morphisms are polynomial maps respecting the isomorphisms with $A$.
 
