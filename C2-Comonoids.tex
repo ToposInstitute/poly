@@ -1,4 +1,11 @@
+% !TeX root = C2-Comonoids.tex
 \documentclass[Book-Poly]{subfiles}
+
+\IfEq{\jobname}{\detokenize{Book-Poly}}{}{%
+    \externaldocument{C0-Preface}
+    \externaldocument{C1-Polynomials}
+}
+
 \begin{document}
 %
 
@@ -8,7 +15,7 @@
 
 \chapter{A different category of categories}\label{chapter.comon}
 
-We have seen that the category of polynomial functors---sums of representables $\smset\to\smset$ and the natural transformations between them---has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interface and wiring pattern based on their internal states.
+We have seen that the category of polynomial functors---sums of representables $\smset\to\smset$ and the natural transformations between them---has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
 In this chapter we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically. 
 
@@ -26,7 +33,7 @@ Finally in \cref{sec.cofree} we will discuss the cofree comonoid construction th
 
 In \cref{chapter.poly} we saw that the category $\poly$ of polynomial functors is a very well-behaved category in which to think about dynamical systems of quite a general nature.
 
-But we left one thing---what in some sense is the most interesting part of the story---out entirely. That thing is quite simple to state, and yet has profound consequences. Namely: polynomials can be composed:
+But we touched upon one thing---what in some sense is the most interesting part of the story---only briefly. That thing is quite simple to state, and yet has profound consequences. Namely, polynomials can be composed:
 \[
 \yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1.
 \]
@@ -36,36 +43,37 @@ It turns out that this operation, which we'll see soon is a monoidal product, ha
 
 The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this chapter will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
 
-As in \cref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
+As in \eqref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
 \begin{equation}\label{eqn.sum_p1_again}
 p\cong\sum_{i\in p(\1)}\yon^{p[i]},
 \end{equation}
-and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of direction at position $i$.
+and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of directions at position $i$.
 
 %---- Subsection ----%
 \subsection{Defining the composition product}
 We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
-Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor and we have the following isomorphisms
+Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor, and we have the following isomorphism:
 \begin{equation} \label{eqn.composite_formula_circ}
 p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 \end{proposition}
 \begin{proof}
-We can rewrite \cref{eqn.sum_p1_again} for $p$ and $q$ as
+We can rewrite \eqref{eqn.sum_p1_again} for $p$ and $q$ as
 \[
 p\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
 \qqand
 q\cong\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
-For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for their composite. To see this is a polynomial, we use \cref{prop.completely_distributive}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula} as a $\sum\prod$. The result 
-\begin{equation}\label{eqn.composition_formula_sums_first}
+For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for their composite.
+To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula_circ} as a $\sum\prod$ to obtain
+\begin{align}\label{eqn.composition_formula_sums_first}
   p\circ q\cong
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$}
-\end{equation}
-(written slightly bigger for clarity), is clearly a polynomial.
+  \sum_{i\in p(\1)} \; \sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$}
+\end{align}
+(written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
 
 The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
@@ -572,7 +580,7 @@ For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\co
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{The monoidal structure $(\poly,\tri,\yon)$}\label{subsec.monoidal_struc_tri}
+\subsection{The monoidal structure $(\poly, \tri, \yon)$}\label{subsec.monoidal_struc_tri}
 
 The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved; in particular, it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$, the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category, with functor composition as the monoidal product. For us, $\cat{C}\coloneqq\smset$; yet we are only using polynomial functors, not all functors, so there is a tiny bit more to check, but it's accomplished by \cref{prop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
@@ -998,7 +1006,7 @@ Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $
 That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
 \end{exercise}
 
-\paragraph{Pronouncing polynomial composites.}
+\paragraph{Pronouncing polynomial composites}
 
 We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
 \[p=\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon\]
@@ -3463,7 +3471,7 @@ Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true
 \end{proof}
 
 
-\paragraph{Examples of cofunctors.}
+\paragraph{Examples of cofunctors}
 
 We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
 
@@ -4226,7 +4234,7 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Dirichlet monoidal product on $\smcat^\sharp$.}
+\paragraph{Dirichlet monoidal product on $\smcat^\sharp$}
 
 The usual product of categories gives a monoidal operation on comonoids too, even though it is not a product in $\smcat^\sharp$. The carrier polynomial of the product is the $\otimes$-product of the carrier polynomials.
 
@@ -4632,7 +4640,7 @@ holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. 
 \end{solution}
 \end{exercise}
 
-\paragraph{Decision trees.}
+\paragraph{Decision trees}
 
 When you talk about your future, what exactly might you be talking about? In some sense you can make choices that change what will happen to you, but in another sense it's as though for each such choice there is something beyond your control that makes a new situation for you. You're constantly in the position of needing to make a choice, but its results are beyond your control.
 
@@ -4658,7 +4666,7 @@ Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free
 
 We will sketch how one can formally construct $\cofree{p}$ from $p$. The first step is called copointing, and it's pretty easy: just multiply $p$ by $\yon$. It adds a kind of ``default'' direction to each position in $p$.
 
-\paragraph{Copointing.}
+\paragraph{Copointing}
 
 \begin{definition}[Copointed polynomial]
 A \emph{copointed polynomial} is a pair $(p,\epsilon)$, where $p\in\poly$ is a polynomial and $\epsilon\colon p\to\yon$ is a morphism in $\poly$.
@@ -4749,7 +4757,7 @@ Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ 
 \end{exercise}
 
 
-\paragraph{Constructing the cofree comonoid.}
+\paragraph{Constructing the cofree comonoid}
 
 It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ $p$-trees is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
 
@@ -5075,7 +5083,7 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
 Consider the walking arrow category $\cat{W}=\fbox{$\bullet\to\bullet$}$. Draw the cofunctor $\cat{W}\to\cofree{\yon^\2+\yon}$.
 \end{exercise}
 
-\paragraph{Dynamical systems and graph fibrations.}
+\paragraph{Dynamical systems and graph fibrations}
 
 In \cref{ex.cofree_dyn_sys}, there's a certain relationship we can see between the graph we associate to the dynamical system $S\yon^S\to p$, namely 
 \[
@@ -5100,7 +5108,7 @@ Indeed, there is a map of graphs from the latter to the former, which sends all 
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Replacing $S\yon^S$ by another comonoid.}
+\paragraph{Replacing $S\yon^S$ by another comonoid}
 
 For any interface $p$, we defined a dependent dynamical system---also called a generalized Moore machine---to be a set $S$ and a polynomial map $S\yon^S\to p$. But now it seems that what really makes this work is that $S\yon^S$ underlies a comonoid. This suggests that we could instead have defined a dependent dynamical system to be a comonoid $\cat{C}=(\ema{c},\epsilon,\delta)$ together with a map $\ema{c}\to p$. What are the similarities and differences?
 
