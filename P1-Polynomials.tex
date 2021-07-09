@@ -1,19 +1,17 @@
-% !TeX root = C1-Polynomials.tex
+% !TeX root = P1-Polynomials.tex
 \documentclass[Book-Poly]{subfiles}
-
-\IfEq{\jobname}{\detokenize{Book-Poly}}{}{%
-    \externaldocument{C0-Preface}
-}
-
 \begin{document}
-%
 
 
 \setcounter{chapter}{0}%Just finished 0.
+
+%---------------- Part ----------------%
+\part{The category of polynomial functors}\label{part.poly}
+
 \Opensolutionfile{solutions}[solution-file1]
 
 %------------ Chapter ------------%
-\chapter{Polynomial functors and dynamics}\label{chapter.poly}
+\chapter{Introduction: Perspectives~on~polynomials}\label{ch.poly.intro}
 
 \begin{quote}
 It is a treasury box!\\
@@ -23,11 +21,6 @@ I will think about it.\\
 \mbox{}\hfill --Andr\'e Joyal, Summer 2020,\\
 \mbox{}\hfill personal communication.
 \end{quote}
-
-%\tableofcontents*
-
-%-------- Section --------%
-\section{Introduction}%\label{sec.poly.intro}
 
 In this book we will investigate a remarkable category called $\poly$. We will see its intimate relationship with dynamic processes, decision-making, and the storage and transformation of data. But our story begins with something quite humble: high school algebra.
 \begin{align}\label{eqn.poly_example}
@@ -224,8 +217,8 @@ Before we can really get into this story, let's summarize where we're going: pol
 The category of polynomial functors is a jackpot. Its beauty flows without bound}
 but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
-%---- Subsection ----%
-\subsection{Dynamical systems} %\label{sec.poly.intro.dyn_sys}
+%-------- Section --------%
+\section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
 
 % Explain how people should think about dynamical systems: a clock, computer...
 % connecting them
@@ -403,8 +396,8 @@ Suppose the world was made out of a vast number of identical units, each with it
 \end{remark}
 
 
-%---- Subsection ----%
-\subsection{Decisions} \label{sec.poly.intro.dec}
+%-------- Section --------%
+\section{Decisions} \label{sec.poly.intro.dec}
 We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly_example} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves:
 \begin{equation} \label{eqn.forest2110}
 \begin{tikzpicture}[trees]
@@ -768,8 +761,8 @@ But decisions aren't just about choosing; they're also about trying to accomplis
 \]
 More formally, these are called \emph{sieves}. They form the elements of a logical system called a Heyting algebra: you can take any two sieves and form the intersection or union (which correspond to AND and OR), or even things like implication, negation, and existential and universal quantification. This will give us a calculus of win-conditions for any type $p$ decision stream.
 
-%---- Subsection ----%
-\subsection{Data}
+%-------- Section --------%
+\section{Data} \label{sec.poly.intro.data}
 
 Data is information, maybe thought of as quantized into atomic pieces, but where these atomic pieces are somehow linked together according to a conceptual structure. When a person or organization uses certain data repeatedly, they often find it useful to put their data in a database. This requires organizing the little pieces into a conceptual structure. So when you hear ``database,'' just think of it as a conceptual structure filled with examples.
 
@@ -861,8 +854,8 @@ There's a very important thing that we do with databases: we query them. We ask 
 This sort of question is formally called a ``union of conjunctive queries.'' We will see this sort of query is intimately connected with $\poly$.
 We will also see how databases can be conceived in terms of dynamical systems.
 
-%---- Subsection ----%
-\subsection{Implementation}
+%-------- Section --------%
+\section{Implementation} \label{sec.poly.intro.code}
 
 Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types, such as Agda.
 
@@ -877,8 +870,8 @@ record Arena : Set where  -- an arena consists of
                               -- a set for each element of the set pos
 \end{agda}
 
-%---- Subsection ----%
-\subsection{Mathematical theory}\label{subsec.math_theory}
+%-------- Section --------%
+\section{Mathematical theory} \label{sec.poly.intro.math_theory}
 
 The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
 
@@ -1004,15 +997,22 @@ If you skipped over any of that---or all of that---it'll be no problem whatsoeve
 
 Let's begin.
 
+\Closesolutionfile{solutions}
 
 %-------- Section --------%
-\section{Introduction to $\poly$ as a category} \label{sec.poly.as_cat}
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file1}
 
+\Opensolutionfile{solutions}[solution-file2]
+
+%------------ Chapter ------------%
+\chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
 
 In this section, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. We begin with the category $\smset$ of sets and functions, and what is arguably the fundamental theorem of category theory, the Yoneda lemma.
 
-%---- Subsection ----%
-\subsection{Representable functors and the Yoneda lemma}
+%-------- Section --------%
+\section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
 
 \begin{definition} \label{def.representable}
 Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).}
@@ -1262,8 +1262,8 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Polynomials: sums of representables}
+%-------- Section --------%
+\section{Polynomials: sums of representables} \label{sec.poly.func_nat.repr_sum}
 
 We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use the term ``polynomial'' in this way.
 
@@ -1280,7 +1280,8 @@ So to understand general polynomials like $p$, we just need to understand what t
 
 To undertand the sums and products of set-valued functors, we will first need to understand the sums and products of sets.
 
-\subsubsection{Dependent sums and products of sets}
+%---- Subsection ----%
+\subsection{Dependent sums and products of sets} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_set}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
 \emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more classically as $(X_i)_{i\in I}$.
@@ -1512,7 +1513,8 @@ We are given the set
 \end{solution}
 \end{exercise}
 
-\subsubsection{Expanding products of sums}
+%---- Subsection ----%
+\subsection{Expanding products of sums} \label{subsec.poly.func_nat.repr_sum.expand}
 
 We will often encounter sums of dependent sets nested within products.
 The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; in particular, once the statement is written in Agda, its proof is one short line of Agda code. 
@@ -1610,7 +1612,8 @@ This is analogous to how products of sums in high school algebra can always be e
 % \end{solution}
 % \end{exercise}
 
-\subsubsection{Dependent sums and products of functors $\smset\to\smset$}
+%---- Subsection ----%
+\subsection{Dependent sums and products of functors $\smset\to\smset$} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_func}
 
 Where are we, and where are we going? We've defined dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
 
@@ -1676,7 +1679,8 @@ By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that
 
 We've finally arrived: we can define polynomial functors!
 
-\subsubsection{What is a polynomial functor?}
+%---- Subsection ----%
+\subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
 
 \begin{definition}[Polynomial functors]
 A \emph{polynomial functor} (or simply a \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
@@ -1816,9 +1820,9 @@ In the language of high school algebra, we might call $p(\0)$ the ``constant ter
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Morphisms between polynomial functors}
-\label{subsec.understanding_mor_poly}
+%-------- Section --------%
+\section{Morphisms between polynomial functors}
+\label{sec.poly.func_nat.morph}
 
 Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $\smset^\smset$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
@@ -1830,7 +1834,9 @@ Then $\poly$ is the category whose objects are polynomial functors and whose mor
 
 In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
 
-\subsubsection{Coproducts of polynomials}
+%---- Subsection ----%
+\subsection{Coproducts of polynomials}
+\label{subsec.poly.func_nat.morph.coprod}
 
 Since polynomial functors are defined as arbitrary sums of representables, coproducts in $\poly$ are quite easy to understand.
 
@@ -1856,7 +1862,8 @@ At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q
 %     p + q = ???
 % \end{equation}
 
-\subsubsection{Polynomial morphisms, concretely.}
+%---- Subsection ----%
+\subsection{Polynomial morphisms, concretely} \label{subsec.poly.func_nat.morph.concrete}
 
 A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$ such that the naturality squares commute.
 That's a lot of data to keep track of!
@@ -2413,8 +2420,8 @@ Here $p, q \in \poly$.
 % **Finish**
 % \end{example}
 
-
-\subsubsection{Translating between natural transformations and arena morphisms.}
+%---- Subsection ----%
+\subsection{Translating between natural transformations and arena morphisms} \label{subsec.poly.func_nat.morph.translate}
 We now know that we can specify a morphism of polynomials $p \to q$ in two ways: in the language of functors, by specifying a natural transformation from $p$ to $q$; or in the language of arenas, by specifying a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$.
 But what is the relationship between these two formulations?
 If you told me an arena morphism, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
@@ -2578,7 +2585,8 @@ Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i
 
 % ** More exercises??
 
-\subsubsection{Identity and composition of arena morphisms}
+%---- Subsection ----%
+\subsection{Identity and composition of arena morphisms} \label{subsec.poly.func_nat.morph.id_comp}
 
 Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and arena morphisms.
 But in order to actually discuss the latter category, we need to be able to give identity arena morphisms and describe how these arena morphisms compose.
@@ -2744,15 +2752,15 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{solution}
 \end{exercise}
 
-% %---- Subsection ----%
-\subsection{Prepare for dynamics}\label{sec.poly.as_cat.prepare_dyn}
+%-------- Section --------%
+\section{Prepare for dynamics} \label{sec.poly.func_nat.prepare_dyn}
 
 As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
 
 Polynomial functors are a setting in which to speak about dynamics, decisions, and data. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
 
-
-\subsubsection{The categorical product}
+%---- Subsection ----%
+\subsection{The categorical product} \label{subsec.poly.func_nat.prepare_dyn.prod}
 The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
@@ -3020,7 +3028,8 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 \end{solution}
 \end{exercise}
 
-\subsubsection{The parallel product} \label{sec.parallel_prod}
+%---- Subsection ----%
+\subsection{The parallel product} \label{subsec.poly.func_nat.prepare_dyn.par}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
 
 \begin{definition}\label{def.dirichlet}
@@ -3557,7 +3566,8 @@ We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$
 \end{solution}
 \end{exercise}
 
-\subsubsection{$\otimes$-monoids in $\poly$}
+%---- Subsection ----%
+\subsection{$\otimes$-monoids in $\poly$} \label{subsec.poly.func_nat.prepare_dyn.par_monoid}
 
 \begin{definition}
 A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, called the \emph{carrier}; a position $\eta\colon\yon\to m$, called the \emph{unit}; and a map $\mu\colon m\otimes m\to m$, called the \emph{multiplication}, that form a monoid in $(\poly,\yon,\otimes)$---that is, they must satisfy certain equations.
@@ -3759,7 +3769,8 @@ Given a longer list of directions there, it is then chopped up into shorter list
 %Let $\cat{O}$ be an operad (with one object), so that $\cat{O}_n$ denotes the set of $n$-ary operations for any $n\in\nn$. Then the polynomial $\sum_{n\in\nn}\cat{O}_n$ carries a $\otimes$-monoid structure.
 %\end{proposition}
 
-\subsubsection{Bimorphic lenses}\label{sec.poly.as_cat.prepare_dyn.bimorphic_lens}
+%---- Subsection ----%
+\subsection{Bimorphic lenses}\label{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}
 
 Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
 \[
@@ -3860,14 +3871,22 @@ In this scenario, there are a few conditions that a lens $S\yon^S \to T\yon^T$ s
 We will see these three conditions emerge from more general theory in \cref{**}.
 \end{remark}
 
+\Closesolutionfile{solutions}
 
 %-------- Section --------%
-\section{Dynamical systems using $\poly$}\label{sec.poly.dyn_sys}
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file2}
+
+\Opensolutionfile{solutions}[solution-file3]
+
+%------------ Chapter ------------%
+\chapter{Dynamical systems as polynomial~morphisms} \label{ch.poly.dyn_sys}
 
 Let's start putting all this $\poly$ stuff to use. 
 
-%---- Subsection ----%
-\subsection{Moore machines}
+%-------- Section --------%
+\section{Moore machines}
 
 We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can yield output and be updated according to input.
 
@@ -4124,7 +4143,8 @@ The Turing machine interacts with the tape by asking for the value at the curren
 \end{solution}
 \end{exercise}
 
-\subsubsection{Regular languages}
+%---- Subsection ----%
+\subsection{Regular languages}
 
 Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
 
@@ -4152,7 +4172,8 @@ A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identif
 
 \niu{More about regular languages, either in this section or the next. Maybe this section should just be called ``deterministic finite state automata.''}
 
-\subsubsection{Products: interfaces operating on the same system}
+%---- Subsection ----%
+\subsection{Products: interfaces operating on the same system}
 
 One thing we can use right away in our thinking about dynamical systems is products of polynomials.
 Products give us a way to combine multiple polynomials into one, and in particular, the product of monomials is still a monomial.
@@ -4242,7 +4263,8 @@ In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a yield function 
 \end{solution}
 \end{exercise}
 
-\subsubsection{Parallel products: juxtaposing machines}
+%---- Subsection ----%
+\subsection{Parallel products: juxtaposing machines}
 
 Another way to combine two polynomials is by taking their parallel product, as in \cref{sec.parallel_prod}.
 As with the categorical product, the parallel product of monomials is still a monomial.
@@ -4313,7 +4335,8 @@ This single Moore machine can receive inputs from any one of the original machin
 % As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
 % \end{example}
 
-\subsubsection{Composing morphisms: wrapper interfaces} % migrating interfaces? overlaying interfaces?
+%---- Subsection ----%
+\subsection{Composing morphisms: wrapper interfaces} % migrating interfaces? overlaying interfaces?
 
 \begin{example}[Paddling]\label{ex.paddler}
 Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
@@ -4356,7 +4379,8 @@ When the paddle switches once and stops, the tracker increases its position by o
 \end{solution}
 \end{exercise}
 
-\subsubsection{Situations} % Fields? Enclosures?
+%---- Subsection ----%
+\subsection{Situations} % Fields? Enclosures?
 Let $p$ be a polynomial. We will refer to a map $p\to\yon$ as a \emph{situation} for $p$, and denote the set of them by
 \begin{equation} \label{eqn.gamma_def}
 \Gamma(p)\coloneqq\poly(p,\yon)
@@ -4471,8 +4495,8 @@ satisfying certain well-known laws. We won't prove this unless or until we need 
 % Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
 % \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
 
-% %---- Subsection ----%
-\subsection{Dependent systems}
+%---- Section ----%
+\section{Dependent systems}
 
 Everything we've done above was for interfaces of the form $B\yon^A$, i.e.\ for monomials. But the theory works just as well for an arbitrary $p$, a sum of monomials.
 
@@ -4797,8 +4821,8 @@ Obviously, this is all quite complicated, intricate, and contrived. Our goal her
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Wiring diagrams}
+%---- Section ----%
+\section{Wiring diagrams}
 
 We want our dynamical systems to interact with each other.
 \begin{equation}\label{eqn.control_diag}
@@ -5047,8 +5071,8 @@ For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color
 \end{enumerate}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{General interaction}
+%---- Section ----%
+\section{General interaction}
 
 In general, we want systems that can change their interface---remove a port, add a port, change the type of a port, etc.---based on their internal states. But when such systems interact with others, the interaction pattern must be able to accommodate all of the various combinations of interfaces.
 
@@ -5323,9 +5347,8 @@ In other words, if $p$ thinks it's deciding how $q_1,\ldots,q_k$ are wired up in
 What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it be constantly choosing interaction patterns. Let's see how it works.
 
 
-%---- Subsection ----%
-\subsection{Closure of $\otimes$}%[-,-]
-
+%---- Section ----%
+\section{Closure of $\otimes$}%[-,-]
 
 The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
 \begin{equation}\label{eqn.monoidal_closure}
@@ -5653,14 +5676,22 @@ This sounds complicated, but it can be done formally, once we have monoidal clos
 Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\times\ihom{q_2,r}$. Then we apply \cref{exc.sum_times_closure} to see that $\ihom{q_1,r}\times\ihom{q_2,r}\cong\ihom{q_1+q_2,r}$, and finally monoidal-uncurry to obtain $(p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
 \end{example}
 
+\Closesolutionfile{solutions}
 
 %-------- Section --------%
-\section{Bonus math about the category $\poly$}\label{sec.bonus_poly}
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file3}
+
+\Opensolutionfile{solutions}[solution-file4]
+
+%------------ Chapter ------------%
+\chapter{More categorical properties of polynomials} \label{sec.bonus_poly}
 
 The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.comon} if so inclined. Better yet might be to just gently leaf through \cref{sec.bonus_poly}, to see how well-behaved and versatile the category $\poly$ really is.
 
-%---- Subsection ----%
-\subsection{Special polynomials and adjunctions}
+%-------- Section --------%
+\section{Special polynomials and adjunctions}
 
 There are a few special classes of polynomials that are worth discussing: 
 \begin{enumerate}[label=\alph*)]
@@ -5671,7 +5702,7 @@ There are a few special classes of polynomials that are worth discussing:
 \end{enumerate}
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. 
 The third puts a copy of $\smset\op$ inside $\poly$.
-Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{sec.poly.as_cat.prepare_dyn.bimorphic_lens}.
+Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}.
 
 \begin{exercise}
 Which of the four classes above are closed under
@@ -5934,8 +5965,8 @@ We have the following chain of natural isomorphisms:
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Epi-mono factorization}
+%-------- Section --------%
+\section{Epi-mono factorization}
 
 \begin{proposition}\label{prop.monics_in_poly}
 Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
@@ -6080,8 +6111,8 @@ Hence $f$ itself is an isomorphism.
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Limits, colimits, and cartesian closure}
+%-------- Section --------%
+\section{Limits, colimits, and cartesian closure}
 
 We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
 We will now see that $\poly$ has all limits and colimits, and moreover it is cartesian closed.
@@ -6115,7 +6146,9 @@ We will now see that $\poly$ has all limits and colimits, and moreover it is car
 % for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
 % \end{exercise}
 
-\subsubsection{Cartesian closure}
+%---- Subection ----%
+\subsection{Cartesian closure}
+
 For any two polynomials $q,r$, define $r^q\in\poly$ by the formula
 \begin{equation}\label{eqn.exponential}
   r^q\coloneqq\prod_{j\in q(\1)}r\circ(\yon+q[j])
@@ -6224,7 +6257,8 @@ The map $\text{eval}$ is the canonical evaluation map.
 \end{solution}
 \end{exercise}
 
-\subsubsection{Limits and colimits}
+%---- Subection ----%
+\subsection{Limits and colimits}
 
 \begin{theorem}\label{thm.poly_limits}
 The category $\poly$ has all limits.
@@ -6693,8 +6727,8 @@ Moreover, the left adjoint is fully faithful if and only if $n\leq 1$ or $|p_i(\
 **
 \end{proof}
 
-%---- Subsection ----%
-\subsection{Monoidal $*$-bifibration over $\smset$}
+%-------- Section --------%
+\section{Monoidal $*$-bifibration over $\smset$}
 
 We will see that the functor $p\mapsto p(\1)$ has special properties making it what
 \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
@@ -6995,20 +7029,21 @@ If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 and the op-cartesian morphisms are clearly preserved since projections in the second line match with projections in the first.
 \end{proof}
 
-%-------- Section --------%
-\section{Summary and further reading}
+% %-------- Section --------%
+% \section{Summary and further reading}
 
-...
+% ...
 
-Thanks to Joachim Kock for telling us about the derivative $\dot{p}$ of a polynomial and the relationship between $\dot{p}(\1)$ and the total number of leaves of $p$.
+% Thanks to Joachim Kock for telling us about the derivative $\dot{p}$ of a polynomial and the relationship between $\dot{p}(\1)$ and the total number of leaves of $p$.
 
 
-See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani (containers), ....
+% See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani (containers), ....
 
 \Closesolutionfile{solutions}
 
+%-------- Section --------%
 \section{Exercise solutions}
 \footnotesize
-\input{solution-file1}
+\input{solution-file4}
 
 \end{document}

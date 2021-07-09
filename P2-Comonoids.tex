@@ -1,35 +1,32 @@
-% !TeX root = C2-Comonoids.tex
+% !TeX root = P2-Comonoids.tex
 \documentclass[Book-Poly]{subfiles}
-
-\IfEq{\jobname}{\detokenize{Book-Poly}}{}{%
-    \externaldocument{C0-Preface}
-    \externaldocument{C1-Polynomials}
-}
 
 \begin{document}
 %
 
+\setcounter{chapter}{4}%Just finished 4.
 
-\setcounter{chapter}{1}%Just finished 1.
-\Opensolutionfile{solutions}[solution-file2]
+\part{A different category of categories}\label{chapter.comon}
 
-\chapter{A different category of categories}\label{chapter.comon}
+\Opensolutionfile{solutions}[solution-file5]
+
+%------------ Chapter ------------%
+\chapter{The composition product}\label{sec.composition_prod}
 
 We have seen that the category of polynomial functors---sums of representables $\smset\to\smset$ and the natural transformations between them---has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
-In this chapter we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically. 
+In this part we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically. 
 
 In particular, we will see that the comonoids for the composition monoidal structure on $\poly$ are precisely categories. However, the morphisms are different---they are often called \emph{cofunctors}---and so we get a second category $\smcat^\sharp$ of categories and cofunctors. But the core groupoids of each---the groupoid of small categories and all functor isomorphisms between them, as well as the groupoid of small categories and all cofunctor isomorphisms between them---are isomorphic as groupoids. In other words, the following slogan is justified:
 \slogan{Polynomial comonads are precisely categories.}
 
 Cofunctors are not too familiar, but we will explain how to think of them in a variety of ways. We will see that whereas a functor $\cat{C}\to\cat{D}$ gives a kind of ``picture'' of $\cat{C}$ inside $\cat{D}$, a cofunctor $\cat{C}\cof\cat{D}$ gives a kind of $\cat{D}$-shaped ``crystallization'' of $\cat{C}$, one that is intuitively more geometric, more like creating neighborhoods. We will see in \cref{chapter.bimod} that there is another kind of morphism between comonoids, namely the bimodules, that are perhaps more familiar: they are the so-called \emph{parametric right adjoints}, or in perhaps more friendly terms, \emph{data migration functors} between copresheaf categories.
 
-The plan for this chapter is to first introduce what is perhaps the most interesting monoidal structure on $\poly$, namely the composition product; we do so in \cref{sec.composition_prod}. We'll give a bunch of examples and ways to think about it in terms that relate to dynamical systems and our work so far. Then in \cref{sec.comonoids_in_poly} we'll discuss comonoids in $\poly$ and explain why they are categories in down-to-earth, set-theoretic terms. We will also discuss the morphisms between them.
+The plan for this part is to first introduce what is perhaps the most interesting monoidal structure on $\poly$, namely the composition product; we do so in \cref{sec.composition_prod}. We'll give a bunch of examples and ways to think about it in terms that relate to dynamical systems and our work so far. Then in \cref{sec.comonoids_in_poly} we'll discuss comonoids in $\poly$ and explain why they are categories in down-to-earth, set-theoretic terms. We will also discuss the morphisms between them.
 
 Finally in \cref{sec.cofree} we will discuss the cofree comonoid construction that takes any polynomial and returns a category. We will show how it relates to decision trees, as one may see in combinatorial game theory.
 
-%-------- Section --------%
-\section{The composition product}\label{sec.composition_prod}
+%%%%% ** old preamble above
 
 In \cref{chapter.poly} we saw that the category $\poly$ of polynomial functors is a very well-behaved category in which to think about dynamical systems of quite a general nature.
 
@@ -49,8 +46,8 @@ p\cong\sum_{i\in p(\1)}\yon^{p[i]},
 \end{equation}
 and refer to $p(\1)$ as the set of positions, and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of directions at position $i$.
 
-%---- Subsection ----%
-\subsection{Defining the composition product}
+%-------- Section --------%
+\section{Defining the composition product}
 We begin with the definition of composition product.
 
 \begin{proposition}\label{prop.poly_closed_comp}
@@ -579,8 +576,8 @@ For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\co
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{The monoidal structure $(\poly, \tri, \yon)$}\label{subsec.monoidal_struc_tri}
+%-------- Section --------%
+\section{The monoidal structure $(\poly, \tri, \yon)$}\label{subsec.monoidal_struc_tri}
 
 The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved; in particular, it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$, the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category, with functor composition as the monoidal product. For us, $\cat{C}\coloneqq\smset$; yet we are only using polynomial functors, not all functors, so there is a tiny bit more to check, but it's accomplished by \cref{prop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
 
@@ -1006,7 +1003,8 @@ Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $
 That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
 \end{exercise}
 
-\paragraph{Pronouncing polynomial composites}
+%---- Subsection ----%
+\subsection{Pronouncing polynomial composites}
 
 We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
 \[p=\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon\]
@@ -1034,8 +1032,8 @@ Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri
 \end{exercise}
 
 
-%---- Subsection ----%
-\subsection{Working with composites}\label{subsec.working_with_composites}
+%-------- Section --------%
+\section{Working with composites}\label{subsec.working_with_composites}
 
 We need a way of talking about maps to composites.%
 \footnote{It would be nice to also have a nice way of talking about maps \emph{out of} composites; however that is more difficult.} 
@@ -1373,8 +1371,8 @@ One can now visualize the information flow through this sequence of delegations.
 Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, given $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)\colon r\to r'$. Show what happens when one adds a map $\yon^X\to p\tri q\tri r$ from a representable.
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Mathematical aspects of $\tri$}
+%-------- Section --------%
+\section{Mathematical aspects of $\tri$}
 
 We now want to get at more subtle aspects of $p\tri q$. We begin with the following.
 
@@ -1765,8 +1763,16 @@ are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal
 \end{solution}
 \end{exercise}
 
-%-------- Section --------%
-\section{Comonoids in $\poly$}\label{sec.comonoids_in_poly}
+\Closesolutionfile{solutions}
+
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file5}
+
+\Opensolutionfile{solutions}[solution-file6]
+
+%------------ Chapter ------------%
+\chapter{Polynomial comonoids}\label{sec.comonoids_in_poly}
 
 \slogan{Imagine a sort of realm, where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from an original place counts as a single move. What sort of realm is this?}
 
@@ -2105,7 +2111,8 @@ Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Speeding up dynamical systems}
+%---- Section ----%
+\section{Speeding up dynamical systems}
 
 Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
 
@@ -2192,7 +2199,8 @@ So for example starting at initial state $n=0$, we get the following output stre
 \[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
 \end{example}
 
-\paragraph{Other comonoids}
+%-------- Subsection --------%
+\section{Other comonoids}
 
 Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
 
@@ -2593,7 +2601,7 @@ Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polyno
 %One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
 %\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
 %
-%Now we draw $\delta\then(\delta\tri \fl{p})$ and $\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
+%Now we draw $\delta\then(\delta\tri \fl{p})$ and X$\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
 %\[
 %\begin{tikzpicture}[trees, bend right=60,
 %level 1/.style={sibling distance=5mm},
@@ -2707,7 +2715,8 @@ are the objects of a category, where the set of morphisms emanating from each st
 We will see this category again in \cref{ex.streams_cofree}.
 \end{example}
 
-\subsection{Comonoids in $\poly$ are categories}
+%-------- Section --------%
+\section{Comonoids in $\poly$ are categories}
 
 It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
 
@@ -3188,7 +3197,8 @@ Let $\cat{C}$ be a category, $\ema{c}$ its emanation polynomial, and $i\in\Ob(\c
 If so, describe it; if not, give a counterexample.
 \end{exercise}
 
-\subsection{Examples showing the correspondence between comonoids and categories}
+%-------- Section --------%
+\section{Examples showing the correspondence between comonoids and categories}
 
 \begin{example}[Monoids]\label{ex.monoids}
 Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
@@ -3352,8 +3362,8 @@ Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that o
 \end{exercise}
 
 
-%---- Subsection ----%
-\subsection{Morphisms of comonoids are cofunctors}
+%-------- Section --------%
+\section{Morphisms of comonoids are cofunctors}
 
 Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$.
 
@@ -3470,8 +3480,8 @@ With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we hav
 Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
 \end{proof}
 
-
-\paragraph{Examples of cofunctors}
+%---- Subsection ----%
+\subsection{Examples of cofunctors}
 
 We saw in \cref{thm.ahman_uustalu}, summarized in \cref{ex.cofunctors_comon_homs}, that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
 
@@ -3712,8 +3722,8 @@ Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r
 \end{enumerate}
 \end{exercise}
 
-
-\paragraph{Very well behaved lenses}
+%---- Subsection ----%
+\subsection{Very well behaved lenses}
 
 In the functional programming community, there is an important notion of very well-behaved lenses. These turn out to be precisely the cofunctors between state categories. Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
 
@@ -3815,8 +3825,8 @@ Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S
 
 When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
 
-%---- Subsection ----%
-\subsection{Products in $\smcat^\sharp$}
+%-------- Section --------%
+\section{Products in $\smcat^\sharp$}
 
 Products in $\smcat^\sharp$ are fascinating. Given categories $\cat{C}$ and $\cat{D}$, the set of objects in their $\smcat$-product is given by the product of their sets of objects, but this is not the case in $\smcat^\sharp$. So what is an object in $\cat{C}\times^\sharp\cat{D}$ (the usual categorical product, but taken in $\smcat^\sharp)$? 
 
@@ -4078,8 +4088,8 @@ It is routine to verify that the appropriate diagrams commute.
 (Verify universal property of product)
 \end{proof}
 
-%---- Subsection ----%
-\subsection{Some math about $\smcat^\sharp$}
+%-------- Section --------%
+\section{Some math about $\smcat^\sharp$}
 We refer to morphisms between polynomial comonoids as cofunctors, again eliding the difference between comonoids in $\poly$ and categories.
 
 
@@ -4234,7 +4244,8 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Dirichlet monoidal product on $\smcat^\sharp$}
+%---- Subsection ----%
+\subsection{Dirichlet monoidal product on $\smcat^\sharp$}
 
 The usual product of categories gives a monoidal operation on comonoids too, even though it is not a product in $\smcat^\sharp$. The carrier polynomial of the product is the $\otimes$-product of the carrier polynomials.
 
@@ -4362,13 +4373,19 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %\end{exercise}
 %
 
+\Closesolutionfile{solutions}
 
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file6}
+
+\Opensolutionfile{solutions}[solution-file7]
+
+%------------ Chapter ------------%
+\chapter{Cofree polynomial comonoids}\label{sec.cofree}
 
 %-------- Section --------%
-\section{Cofree comonoids}\label{sec.cofree}
-
-%---- Subsection ----%
-\subsection{Introduction: Cofree comonoids and discrete dynamical systems}
+\section{Introduction: Cofree comonoids and discrete dynamical systems}
 
 We can now return to dynamical systems. Recall that if $p\in\poly$ is a polynomial, then a dynamical system with interface $p$ consists of a set $S$ and a map of polynomials $f\colon S\yon^S\to p$. We think of positions in $p$ kind of like outputs---others can observe your position---but also as determining the set of inputs---directions---that could be input next.
 
@@ -4391,8 +4408,8 @@ where the functors have been named by where they send $(\ema{c},\epsilon,\delta)
 \end{theorem}
 This will be proved as \cref{??}.
 
-%---- Subsection ----%
-\subsection{Cofree comonoids as trees}\label{subsec.cofree_tree}
+%-------- Section --------%
+\section{Cofree comonoids as trees}\label{subsec.cofree_tree}
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
 Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) $p$-trees}.
@@ -4640,7 +4657,8 @@ holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. 
 \end{solution}
 \end{exercise}
 
-\paragraph{Decision trees}
+%---- Subsection ----%
+\subsection{Decision trees}
 
 When you talk about your future, what exactly might you be talking about? In some sense you can make choices that change what will happen to you, but in another sense it's as though for each such choice there is something beyond your control that makes a new situation for you. You're constantly in the position of needing to make a choice, but its results are beyond your control.
 
@@ -4661,12 +4679,13 @@ Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free
 \end{enumerate}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Formal construction of $\cofree{p}$}
+%-------- Section --------%
+\section{Formal construction of $\cofree{p}$}
 
 We will sketch how one can formally construct $\cofree{p}$ from $p$. The first step is called copointing, and it's pretty easy: just multiply $p$ by $\yon$. It adds a kind of ``default'' direction to each position in $p$.
 
-\paragraph{Copointing}
+%---- Subsection ----%
+\subsection{Copointing}
 
 \begin{definition}[Copointed polynomial]
 A \emph{copointed polynomial} is a pair $(p,\epsilon)$, where $p\in\poly$ is a polynomial and $\epsilon\colon p\to\yon$ is a morphism in $\poly$.
@@ -4756,8 +4775,8 @@ Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ 
 \end{enumerate}
 \end{exercise}
 
-
-\paragraph{Constructing the cofree comonoid}
+%---- Subsection ----%
+\subsection{Constructing the cofree comonoid}
 
 It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.cofree_tree}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ $p$-trees is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
 
@@ -4977,8 +4996,8 @@ The cofree comonoid functor is lax monoidal; in particular, we have maps
 for any $p,q\in\poly$.
 \end{proposition}
 
-%---- Subsection ----%
-\subsection{$\sys(p)$ is a topos}
+%-------- Section --------%
+\section{$\sys(p)$ is a topos}
 
 \begin{theorem}\label{thm.cofree_coalgebras}
 Let $\cofree{p}$ be the cofree comonoid on $p\in\poly$. There is an equivalence of categories
@@ -4996,8 +5015,8 @@ A consequence of this is that $\sys(p)$ forms a topos, and hence has a ready-mad
 
 
 
-%---- Subsection ----%
-\subsection{Morphisms between cofree comonoids}
+%-------- Section --------%
+\section{Morphisms between cofree comonoids}
 Given a morphism of polynomials $\varphi \colon p \to q$, the cofree functor gives us a map of comonoids $\cofree{\varphi} \colon \cofree {p} \to \cofree{q}$, which works as follows.
 
 An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $e \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (e)$.
@@ -5034,10 +5053,8 @@ The following exercise is useful when considering the (topos-theoretic) logic of
 \end{enumerate}
 \end{exercise}
 
-
-
-%---- Subsection ----%
-\subsection{Consequences of adjointness}
+%-------- Section --------%
+\section{Consequences of adjointness}
 
 %\[
 %\begin{tikzpicture}[polybox, tos]
@@ -5083,7 +5100,8 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
 Consider the walking arrow category $\cat{W}=\fbox{$\bullet\to\bullet$}$. Draw the cofunctor $\cat{W}\to\cofree{\yon^\2+\yon}$.
 \end{exercise}
 
-\paragraph{Dynamical systems and graph fibrations}
+%---- Subsection ----%
+\subsection{Dynamical systems and graph fibrations}
 
 In \cref{ex.cofree_dyn_sys}, there's a certain relationship we can see between the graph we associate to the dynamical system $S\yon^S\to p$, namely 
 \[
@@ -5108,7 +5126,8 @@ Indeed, there is a map of graphs from the latter to the former, which sends all 
 \end{enumerate}
 \end{exercise}
 
-\paragraph{Replacing $S\yon^S$ by another comonoid}
+%---- Subsection ----%
+\subsection{Replacing $S\yon^S$ by another comonoid}
 
 For any interface $p$, we defined a dependent dynamical system---also called a generalized Moore machine---to be a set $S$ and a polynomial map $S\yon^S\to p$. But now it seems that what really makes this work is that $S\yon^S$ underlies a comonoid. This suggests that we could instead have defined a dependent dynamical system to be a comonoid $\cat{C}=(\ema{c},\epsilon,\delta)$ together with a map $\ema{c}\to p$. What are the similarities and differences?
 
@@ -5121,8 +5140,8 @@ Thus we can think of a map $\ema{c}\to p$ as a dynamical system that ``records i
 This seems like a nice generalization of dynamical systems---history-recording dynamical systems---and may have some use. However, we will see in \cref{chapter.bimod} that there are strong theoretical reasons to emphasize the ahistorical state categories $S\yon^S$. For one thing, the category of all such $S\yon^S$-style dynamical systems on $p$ forms a topos for any $p\in\poly$.
 
 
-%---- Subsection ----%
-\subsection{Some math about cofree comonoids}
+%-------- Section --------%
+\section{Some math about cofree comonoids}
 
 \begin{proposition}\label{prop.cofree_free_on_graph}
 For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. That is, there is a graph $G_p$ whose associated free category in the usual sense (the category of vertices and paths in $G_p$) is isomorphic to $\cofree{p}$.
@@ -5215,13 +5234,10 @@ Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\smcat^\sharp$ 
 The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
 \end{proof}
 
-
-
-
 \Closesolutionfile{solutions}
 
- \section{Exercise solutions}
- \footnotesize
- \input{solution-file2}
+\section{Exercise solutions}
+\footnotesize
+\input{solution-file7}
 
 \end{document}
