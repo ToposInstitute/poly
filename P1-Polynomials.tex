@@ -62,7 +62,7 @@ We can label the roots and leaves of our forest, like so:
 \]
 This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as a \emph{dependent set} $(p[i])_{i \in I}$.
 Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
-In standard font, 4 represents the usual natural number. In sans serif font \4 represents the set $\3=\{1,2,3,4\}$ with 4 elements.
+In standard font, 4 represents the usual natural number. In sans serif font \4 represents the set $\4=\{1,2,3,4\}$ with 4 elements.
 }, the set of roots, and
 \begin{align} \label{eqn.arena_example}
 p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
@@ -70,6 +70,7 @@ p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[
 so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
 We call the entire dependent set $(p[i])_{i \in I}$ an \emph{arena}.
 Each element $i \in I$ is a \emph{position} in the arena, and each element $d \in p[i]$ is a \emph{direction} at position $i$.
+We will sometimes refer to the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} at $i$ of $p$, and each element $d \in p[i]$ as a \emph{$p[i]$-direction}.
 So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
 
 % In a polynomial like $\4\2\yon^\3+\1\7\yon$, the pure power term $\yon^\3$ has a coefficient of \4\2 next to it, so the corolla with three leaves shows up 42 times in the associated arena. Intuitively, there are 42 situations in which you have a decision with three options.
@@ -77,16 +78,23 @@ So the relationship between the arena perspective and the forest picture is that
 % When you put all those decisions together, you have the \emph{arena} associated to $\4\2\yon^\3+\1\7\yon$. 
 
 Throughout this book, we will see several other ways of interpreting polynomials.
-Here is a table of terminology, capturing five different perspectives from which we may view our objects of study. The first column the terminology we just introduced for polynomials as dependent sets, as in \eqref{eqn.arena_example}; the second is algebraic terminology, as in \eqref{eqn.poly_example}; the third is the pictorial terminology of corolla forests, as in \eqref{eqn.forest_example}; the fourth column is dynamical systems terminology, which we will explore in \cref{**}; and the fifth column is decision-making terminology, which we will introduce in \cref{sec.poly.intro.dec} and further develop in \cref{**}.
+Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
+The first row shows the algebraic terminology, as in \eqref{eqn.poly_example};
+the second row shows the terminology we just introduced for polynomials as dependent sets, as in \eqref{eqn.arena_example};
+the third shows the pictorial terminology of corolla forests, as in \eqref{eqn.forest_example};
+the fourth shows dynamical systems terminology, which we will explore in \cref{ch.poly.dyn_sys};
+and the fifth row shows decision-making terminology, which we will introduce in \cref{sec.poly.intro.dec}.% and further develop in \cref{**}.
 
 \begin{equation}%\label{eqn.table_terminology}
 \footnotesize
-\begin{tabular}{lllll}
-\multicolumn{5}{c}{\normalsize Polynomial Terminology}\\[3pt]
-\textbf{Arena} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & \textbf{Corolla forest} & \textbf{Mode-dependent interface} & \textbf{Set (?) of decisions}\\\hline
-Position & $i \in p(\1)$ & Root $\bullet$ & Output & Decision\\
-% Interface (???) in position $i$ & Pure power (representable) summand $\yon^{p[i]}$ & Corolla & (???) & Decision\\
-Direction & $d \in p[i]$ & Leaf $\uparrow$ & Input & Option
+\begin{tabular}{l|ll}
+\multicolumn{3}{c}{\normalsize Polynomial Terminology}\\[3pt]
+$p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $d \in p[i]$ \\
+\textbf{arena} & position & direction \\
+\textbf{corolla forest} & root $\bullet$ & leaf $\uparrow$ \\
+\textbf{(mode-dependent) interface} & output & input \\
+\textbf{menu} & decision & option \\
+% Interface (???) in position $i$ & Pure power (representable) summand $\yon^{p[i]}$ & Corolla & (???) & Decision
 \end{tabular}
 \end{equation}
 
@@ -94,6 +102,7 @@ Direction & $d \in p[i]$ & Leaf $\uparrow$ & Input & Option
 Though a polynomial is a \emph{functor} and an arena is a \emph{dependent set}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are essentially two different syntaxes for the same object.
 For example, we may often directly refer to the positions and directions of a polynomial, when we mean the positions and directions of its associated arena.
 \end{remark}
+% ** We haven't really explained *how* a polynomial is a functor yet
 
 \begin{exercise}%\label{exc.forest}
 Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
@@ -102,7 +111,7 @@ Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corol
 	\item How many roots does this forest have?
 	\item How many positions in the arena does this represent?
 	\item For each corolla in the forest, say how many leaves it has.
-	\item For each position in the arena, how many directions does it have?\qedhere
+	\item For each position in the arena, how many directions does it have? \qedhere
 \end{enumerate}
 \begin{solution}
 We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
@@ -128,21 +137,21 @@ We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
 	\item It has five (5) roots.
 	\item It represents five positions, one per root.
 	\item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
-	\item The set of directions for each position is the same as the set of leaves for each corolla, so just copy the answer from \cref{sol.forest.leaves}. Sheesh! Who wrote this.
+	\item The set of directions for each position is the same as the set of leaves for each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 One feature that sets our polynomials apart from the polynomials we are familiar with from high school algebra is that the coefficients and exponents are not, strictly speaking, numbers; rather, they are sets, like $\1 = \{1\}$ and $\2 = \{1, 2\}$.
-In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + 2^\rr\yon^\rr$.
+In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + \2^\rr\yon^\rr$.
 Of course, this makes their forests rather unwieldy to draw, but they can be approximated.
 We sketch the polynomial $\yon^\3 + \nn\yon^{[0,1]}$ as a forest below.
 \[%\label{eqn.represented_interval}
 \begin{tikzpicture}[trees, sibling distance=0.0625mm]
   \node (1) {$\bullet$} 
-    child foreach \i in {1,2,3}
+    child[sibling distance=3mm] foreach \i in {1,2,3}
     ;
-  \node[right=.7 of 1] (2) {$\bullet$} 
+  \node[right=1 of 1] (2) {$\bullet$} 
     child foreach \i in {1,...,160}
     ;
   \node[right=1 of 2] (3) {$\bullet$} 
@@ -157,7 +166,7 @@ We sketch the polynomial $\yon^\3 + \nn\yon^{[0,1]}$ as a forest below.
 
 \begin{exercise}
 Consider the polynomial $q\coloneqq\yon^\nn+\4\yon$.
-\begin{enumerate}[resume]
+\begin{enumerate}
 	\item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
 	\item Does the polynomial $q$ have a pure-power summand $\yon$?
 	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
@@ -165,7 +174,7 @@ Consider the polynomial $q\coloneqq\yon^\nn+\4\yon$.
 \end{enumerate}
 \begin{solution}
 We refer to the polynomial $q\coloneqq\yon^\nn+4\yon$.
-\begin{enumerate}[resume]
+\begin{enumerate}
 	\item No, $q$ does not have $\yon^\2$ as a pure-power summand.
 	\item Yes, $q$ does have $\yon$ as a pure-power summand.
 	\item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
@@ -191,7 +200,7 @@ Aesthetically speaking, here's the associated polynomial of a beautiful corolla 
 \[
 \yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
 \]
-It's reminiscent (and formally related) to the notion of lists: if $A$ is any set then $A^0+A^1+A^2+\cdots$ is the set of lists with entries in $A$. 
+It's reminiscent (and formally related) to the notion of lists: if $A$ is any set then $A^\0+A^\1+A^\2+\cdots$ is the set of lists (i.e.\ finite ordered sequences) with entries in $A$. 
 
 Here's a picture of this lovely forest:
 \[
@@ -220,19 +229,18 @@ but we have not yet begun to deliver. So let's introduce some of the application
 %-------- Section --------%
 \section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
 
-% Explain how people should think about dynamical systems: a clock, computer...
+% ** Explain how people should think about dynamical systems: a clock, computer...
 % connecting them
 % maybe draw the same picture
 
-You may already be familiar with dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In the context of this chapter, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
+You may already be familiar with dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In this book, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
 \begin{enumerate}
-	\item The interface of the system can change shape through time.
-	\item The wiring diagram connecting a bunch of systems can change in time.
+	\item The interface of the system---the way in which it can be interacted with---can change shape through time.
+	\item The wiring diagram connecting a bunch of systems can change through time.
 	\item One can speed up the dynamics of a system.
 	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
 	\item The dynamical systems on any interface form a topos.
 \end{enumerate}
-
 To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
 \begin{equation}\label{eqn.wired_forever}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
@@ -844,10 +852,10 @@ We refer to \eqref{eqn.myschema} and \eqref{eqn.mytables} to characterize the ca
 \end{solution}
 \end{exercise}
 
-There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me everyone that's either the admin person of the Math department or their manager.''
+There's a very important thing that we do with databases: we query them. We ask them questions like ``tell me the First Name of every Employee that's either the Admin of the Sales department or their Manager.''
 \begin{minted}{mysql}
  FOR    d: Department, e: Employee
- WHERE  Name(d)="Math" AND
+ WHERE  Name(d)="Sales" AND
         (e=Admin(d) OR e=Mngr(Admin(d)))
  RETURN FirstName(e)
 \end{minted}
@@ -995,14 +1003,14 @@ For any category $\cat{C}$ the category of left $\com{C}$-modules is equivalent 
 
 If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will cover each of the above results in detail over the course of this book. There are many avenues for study, but we need to push forward.
 
-Let's begin.
+In the next chapter, we'll begin.
 
 \Closesolutionfile{solutions}
 
 %-------- Section --------%
 \section{Exercise solutions}
-\footnotesize
-\input{solution-file1}
+{\footnotesize
+\input{solution-file1}}
 
 \Opensolutionfile{solutions}[solution-file2]
 
@@ -2324,7 +2332,7 @@ Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we 
 \end{exercise}
 
 \begin{example}[Derivatives]\label{ex.derivatives}
-We won't have much opportunity to use the following, but it may be interesting. The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
+The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
 \[
 \dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]-\{d\}}.
 \]
@@ -3875,8 +3883,8 @@ We will see these three conditions emerge from more general theory in \cref{**}.
 
 %-------- Section --------%
 \section{Exercise solutions}
-\footnotesize
-\input{solution-file2}
+{\footnotesize
+\input{solution-file2}}
 
 \Opensolutionfile{solutions}[solution-file3]
 
@@ -5680,8 +5688,8 @@ Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\ti
 
 %-------- Section --------%
 \section{Exercise solutions}
-\footnotesize
-\input{solution-file3}
+{\footnotesize
+\input{solution-file3}}
 
 \Opensolutionfile{solutions}[solution-file4]
 
@@ -7043,7 +7051,7 @@ and the op-cartesian morphisms are clearly preserved since projections in the se
 
 %-------- Section --------%
 \section{Exercise solutions}
-\footnotesize
-\input{solution-file4}
+{\footnotesize
+\input{solution-file4}}
 
 \end{document}
