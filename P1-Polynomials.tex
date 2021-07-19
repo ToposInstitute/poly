@@ -4180,6 +4180,8 @@ A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
 A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \ss S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
 \end{proof}
 
+One could also make a version of this story where, whenever the machine hits an accept-state, it stops; again, to do this requires polynomials (in this case, $\yon^A+1$), which we'll get to in \cref{sec.dependent_systems}.
+
 \niu{More about regular languages, either in this section or the next. Maybe this section should just be called ``deterministic finite state automata.''}
 
 %---- Subsection ----%
@@ -4215,7 +4217,7 @@ The result follows from \cref{prop.moore_prod} by induction on $n$.
 By \cref{exc.poly_prod}, if each $(A_i,B_i)$-Moore machine has $\text{yield}_i$ as its yield function and $\text{update}_i$ as its update function, then the induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a yield function that sends $s \in S$ to the $n$-tuple $(\text{yield}_i(s))_{i \in \ord{n}}$ and an update function that sends $(s, a) \in S \times \sum_{i \in \ord{n}} A_i$ to $\text{update}_i(s, a)$ if $a \in A_i$.
 
 In other words, if there are multiple interfaces that can drive the same set of states, we can view them as a single interface that drives the states together.
-This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once.
+This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once. It's as though each of the machines can see where the combined system is at any time, but only one of them can actually operate it at any given time.
 
 \begin{example} \label{ex.labeled_transition}
 Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
@@ -4506,7 +4508,7 @@ satisfying certain well-known laws. We won't prove this unless or until we need 
 % \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
 
 %---- Section ----%
-\section{Dependent systems}
+\section{Dependent systems}\label{sec.dependent_systems}
 
 Everything we've done above was for interfaces of the form $B\yon^A$, i.e.\ for monomials. But the theory works just as well for an arbitrary $p$, a sum of monomials.
 
