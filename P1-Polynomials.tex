@@ -4267,7 +4267,7 @@ So suppose we want to allow our machine not to do anything. That is, rather than
 Given a Moore machine $f\colon S\yon^S\to B\yon^A$, we seek a new machine $f'\colon S\yon^S\to p$ that has the added option to provide no input at a step so that the machine does not change.
 We can think of this as having two different interfaces acting on the same system: the original interface $B\yon^A$ of $f$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the system.
 This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
-So the interface is $\yon$.
+So the interface we want to add on is $\yon$.
 
 If $\yon$ were the only interface acting on the system, we would have a Moore machine $g \colon S\yon^S \to \yon$ whose yield function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
 Then $p$ is the product of the two interfaces $B\yon^A$ and $\yon$, while $f' \colon S\yon^S \to p$ is the unique map induced by $f \colon S\yon^S \to B\yon^A$ and $g \colon S\yon^S \to \yon$.
@@ -4278,9 +4278,9 @@ In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a yield function 
 %---- Subsection ----%
 \subsection{Parallel products: juxtaposing machines}
 
-Another way to combine two polynomials is by taking their parallel product, as in \cref{sec.parallel_prod}.
+Another way to combine two polynomials is by taking their parallel product, as in \cref{subsec.poly.func_nat.prepare_dyn.par}.
 As with the categorical product, the parallel product of monomials is still a monomial.
-So parallel products give us another way to create new Moore machines from old ones by combining them.
+So parallel products give us another way to create new Moore machines from old ones by combining them. In fact it's about as easy as one could hope: you just multiply the set of states, multiply the set of inputs, and multiply the set of outputs.
 
 \begin{proposition} \label{prop.moore_parallel_prod}
 Suppose we have an $(A_1,B_1)$-Moore machine with state set $S_1$ and an $(A_2,B_2)$-Moore machine with state set $S_2$. Then there is an induced $(A_1 A_2,B_1 B_2)$-Moore machine with state set $S_1 S_2$.
@@ -4294,6 +4294,8 @@ We are given maps of polynomials $S_1\yon^{S_1}\to B_1\yon^{A_1}$ and $S_2\yon^{
 \] 
 as desired.
 \end{proof}
+
+Roughly speaking, the new system has inputs $A_1\times A_2$, outputs $B_1\times B_2$, and states $S_1\times S_2$. It just runs each of the two systems in parallel. We'll give the more general $n$-ary case and then explain it in detail.
 
 \begin{corollary}
 Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S_i$ for each $i \in \ord{n}$. Then there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $\prod_{i \in \ord{n}} S_i$.
@@ -4367,16 +4369,16 @@ The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) a
 \[
 \textit{tracker}\otimes\textit{paddler}\to\nn\yon
 \]
-is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$, so that we can see the tracker's announcement and the tracker can see the paddler's direction.
+whichi is a map $\2\yon\otimes\nn\yon^\2\cong\2\nn\yon^\2\to\nn\yon$ is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$. This lets us see the tracker's announcement (in $\nn$) and let's tracker see the paddler's direction.
 
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead we'll focus here on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
 \[\varphi\colon S\yon^S\to\nn\yon^\2\]
-are given by the map given on elements $p,p'\in\2$ and $i\in\nn$ by the formula:
+are given by the map given on elements $d,d'\in\2$ and $i\in\nn$ by the formula:
 \[
-  (p,i)\mapsto i,p'\mapsto
+  (d,i)\mapsto i,d'\mapsto
 	\begin{cases}
-		i&\tn{if }p=p'\\
-		i+1&\tn{if }p\neq p'.
+		i&\tn{if }d=d'\\
+		i+1&\tn{if }d\neq d'.
 	\end{cases}
 \]
 As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
@@ -4402,8 +4404,24 @@ By \eqref{eqn.main_formula}, we have that
 \begin{equation} \label{eqn.gamma_prod}
     \Gamma(p) \iso \prod_{i \in p(\1)} p[i],
 \end{equation}
-so a situation $\gamma \in \Gamma(p)$ can be thought of as a dependent function that takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$.
-The idea for the name is that a situation dictates what you'll see (the input you receive), given anything you might do (the output you provide). If the situation is that you're at a party, then that dictates what direction you'll receive, given what position you take.
+so a situation $\gamma \in \Gamma(p)$ can be thought of as a dependent function that takes every position $i\in p(\1)$ and returns a direction $\gamma(i)\in p[i]$. The notation $\Gamma(p)$ comes from the common mathematical term ``global section''. But the idea for the name we use is that a situation $\gamma$ dictates what you'll see (the input you receive), given anything you might do (the output you provide). If the situation is that you're at a party, then that dictates what direction you'll receive, given what position you take. A situation is that which gives you input, no matter where you happen to be looking.
+
+\begin{exercise}
+Let $S\yon^S\to B\yon^A$ be a $(A,B)$-Moore machine.
+\begin{enumerate}
+	\item Is it true that a situation $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
+	\item What would a situation $\gamma\colon B\yon^A\to\yon$ represent semantically?
+	\item Given such a $\gamma$, how do you interpret the composite $S\yon^S\to\yon$?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item No, it represents a function $B\to A$!
+	\item A map $\gamma\colon B\yon^A\to\yon$, i.e.\ a function $B\to A$ represents a situation in which we automatically respond an input $A$ for each output $B$.
+	\item Given such a $\gamma$, as well as our original Moore-machine $S\yon^S\to B\yon^A$, we interpret the composite $S\yon^S\to\yon$, i.e.\ function $S\to S$ as a function that sends each state to the updated state, based on how it outputs via the moore machine and the corresponding input via the situation.
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 A map $p_1\otimes \cdots \otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situations are a useful concept.
 
@@ -4413,7 +4431,7 @@ Given polynomials $p,q\in\poly$, there is a bijection
 \Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
 \end{equation}
 \end{proposition}
-The idea is that for $p$ and $q$ to be enclosed together in a system simply means that the positions of each one become a situation for the other. 
+The idea is that for $p$ and $q$ to be enclosed together in a system simply means that each $p$-position gives a situation for $q$, and each $q$-position gives a situation for $p$. 
 \begin{proof}[Proof of \cref{prop.situations2}]
 This is a direct calculation:
 \begin{align*}
