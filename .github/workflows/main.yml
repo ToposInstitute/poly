@@ -1,0 +1,24 @@
+on: push
+name: Build PDF on push
+jobs:
+  run-latex:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2.3.2
+    - name: Compile LaTeX document
+      uses: xu-cheng/latex-action@v2
+      with:
+        root_file: Book-Poly.tex
+        post_compile: "latexmk -c"
+    - name: Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ${{ secrets.SERVER_FTP_ADDRESS }}
+        username: ${{ secrets.SERVER_FTP_USERNAME }}
+        password: ${{ secrets.SERVER_FTP_PASSWORD }}
+        server-dir: ${{ github.event.repository.name }}/
+        exclude: .git*
+          - .git*/**
+          -  **/.git*/**
+        log-level: verbose
