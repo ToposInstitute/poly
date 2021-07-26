@@ -10,15 +10,19 @@ jobs:
       uses: xu-cheng/latex-action@v2
       with:
         root_file: Book-Poly.tex
-        post_compile: "latexmk -c && rm Book-Poly.dvi"
         args: "-shell-escape"
+    - name: Populate output directory
+      run: |
+        mkdir output
+        mv Book-Poly.pdf output
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         server: ${{ secrets.SERVER_FTP_ADDRESS }}
         username: ${{ secrets.SERVER_FTP_USERNAME }}
         password: ${{ secrets.SERVER_FTP_PASSWORD }}
-        server-dir: ${{ github.event.repository.name }}/
+        local-dir: output/
+        server-dir: poly-book/
         exclude: .git*
           - .git*/**
           -  **/.git*/**
