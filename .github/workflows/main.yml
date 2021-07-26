@@ -10,11 +10,8 @@ jobs:
       uses: xu-cheng/latex-action@v2
       with:
         root_file: Book-Poly.tex
-        args: "-shell-escape"
-    - name: Populate output directory
-      run: |
-        mkdir output
-        mv ./Book-Poly.pdf output/poly-book.pdf
+        latexmk_shell_escape: true
+        post-compile: "mkdir output/ && mv Book-Poly.pdf output/poly-book.pdf"
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
