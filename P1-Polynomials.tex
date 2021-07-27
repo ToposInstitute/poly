@@ -231,27 +231,44 @@ but we have not yet begun to deliver. So let's introduce some of the application
 %-------- Section --------%
 \section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
 
-% ** Explain how people should think about dynamical systems: a clock, computer...
-% connecting them
-% maybe draw the same picture
+When we say ``dynamical system,'' we are referring to a concept that may be familiar: a machine that stores an internal state.
+The machine may yield output according to its current state, while it may also receive input that updates this state.
 
-You may already be familiar with dynamical systems---machines of various sorts---which have an internal state that can be read out to other systems, as well as updated based on input received from other systems. In this book, we'll be looking mainly at deterministic systems, but with a lot of interesting new options:
-\begin{enumerate}
-	\item The interface of the system---the way in which it can be interacted with---can change shape through time.
-	\item The wiring diagram connecting a bunch of systems can change through time.
-	\item One can speed up the dynamics of a system.
-	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
-	\item The dynamical systems on any interface form a topos.
-\end{enumerate}
-To give some intuition for the first two, imagine yourself as a system, wired up to other systems. You have some input ports: your eyes, your ears, etc., and you have some output ports: your speech, your gestures, etc. And you connect with other systems: your family, your colleagues, the GPS of your phone, etc.
-\begin{equation}\label{eqn.wired_forever}
+For example, the internal state of a digital clock may consist of the time and the display format (``12-hour'' vs. ``24-hour'').
+If the time is six minutes past noon and the display format is ``12-hour,'' the clock will display ``12:06pm'' as its output.
+If the time is twenty minutes till midnight and the display format is ``24-hour,'' the clock will instead display ``23:40.''
+
+Meanwhile, the clock may receive input via one button that increments its time by one minute and another button that toggles between the two display formats.
+At the press of a button, the internal state will change depending on which button was pressed and what the previous internal state was.
+
+So our digital clock is a very simple dynamical system.
+We can think of its input buttons and its output display as the way in which the clock interacts with the outside world---its \emph{interface}.
+
+Here's one way the clock might interact with the outside world: my finger is on the minute button, while your finger is on the format button, and the clock is facing you so that only you can read its display.
+In fact, we could think of ourselves as a couple of (particularly complex) dynamical systems as well, with each of our interfaces connected with the interface of the clock.
+We could model this scenario with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular wiring pattern:
+\begin{equation*}
+\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+	\node[bb={3}{3}, green!25!black] (X12) {\tiny me};
+	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
+	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
+	\draw (X21_out1) to (X22_in1);
+	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+          (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
+	\draw (X12_out2) to (X21_in2);
+\end{tikzpicture}
+\end{equation*}
+
+Of course, there is a lot going on in the world around us that we haven't drawn.
+We each have some input ports: our eyes, our ears, etc., and some output ports: our speech, our gestures, etc. We can connect with other systems: our family, our colleagues, etc. And we can think of all of these systems as subsystems of one larger system interacting with the world.
+\begin{equation} \label{eqn.wired_forever}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
 	\node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
-	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny you};
+	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny me};
 	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
-	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny GPS};
-	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny me};
-  \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
+	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
+	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
+  \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X11) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
 	\draw (X21_out1) to (X22_in1);
 	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
           (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
@@ -261,7 +278,7 @@ To give some intuition for the first two, imagine yourself as a system, wired up
 	\draw (Z_in1'|-X11_in2) to (X11_in2);	
 	\draw (Z_in2'|-X12_in2) to (X12_in2);
 	\draw (X12_out2) to (X21_in2);
-	\draw (X21_out2) to (Z_out2'|-X21_out2);
+% 	\draw (X21_out2) to (Z_out2'|-X21_out2);
 	 \draw let \p1=(X12.south east), \p2=(X12.south west), \n1={\y1-\bby}, \n2=\bbportlen in
 	  (X12_out3) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X12_in3);
 	\draw let \p1=(X22.north east), \p2=(X11.north west), \n1={\y2+\bby}, \n2=\bbportlen in
@@ -269,15 +286,32 @@ To give some intuition for the first two, imagine yourself as a system, wired up
 	\draw (X13_out1) to (Z_out1'|-X13_out1);
 \end{tikzpicture}
 \end{equation}
-We wrote a little question for you at the top of the diagram. Isn't there something a little funny about wiring diagrams? Maybe for old-fashioned machines, you would wire things together once and they'd stay like that for the life of the machine. But my phone connects to different Wi-Fi stations at different times, I drop my connection to Alice for weeks at a time, etc. So wiring diagrams should be able to change in time; $\poly$ will let us do that.
+
+We wrote a little question for you at the top of the diagram.
+Isn't there something a little funny about the way we've connected these systems?
+Maybe for very simple machines, you would wire things together once and they'd stay like that for the life of the machine.
+But you could turn your eyes away from the clock to look at Bob, Alice drops her connection to me for weeks at a time, and I would really like to be able to lift my finger off of the clock to do something else.
+So
+\slogan{the way systems connect can change over time.}
+In fact, $\poly$ will let us express this.
+
+% In this book, we'll be looking at dynamical systems with a lot of interesting new options:
+% \begin{enumerate}
+% 	\item The interface of the system---the way in which it can be interacted with---can change shape through time.
+% 	\item The wiring diagram connecting a bunch of systems can change through time.
+% % 	\item One can speed up the dynamics of a system.
+% % 	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
+% % 	\item The dynamical systems on any interface form a topos.
+% \end{enumerate}
+% To give some intuition for the first two, imagine yourself as a system, wired up to other systems. 
+
 
 \begin{example}\label{ex.changing_wiring_bonds_supplier_assemble}
-Here are some familiar circumstances where we see wiring diagrams changing in time.
+Here are some familiar circumstances where we see wiring patterns changing over time.
 \begin{enumerate}[itemsep=0pt]
 %	\item Airplanes only communicate when they get near enough;
-%	\item A phone is connected to 4G or to wifi depending on circumstances;
 %	\item A person can choose when to open (receive input through) their eyes and when to speak (produce output);\goodbreak
-	\item When too much force is applied to a material, bonds can break;
+	\item When too much force is applied to a material, bonds can break:
 \end{enumerate}
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
@@ -309,10 +343,10 @@ Here are some familiar circumstances where we see wiring diagrams changing in ti
 \end{tikzpicture}
 \]
 \begin{quote}
-In materials science the Young's modulus accounts for how much force can be transferred across a material as its endpoints are pulled apart. When the material breaks, the two sides can no longer feel evidence of each other. Thinking of pulling as sending a signal (a signal of force), we might say that the ability of internal entities to send signals to each other---the connectivity of the wiring diagram---is being measured by Young's modulus. It will also be visible within $\poly$.
+In materials science, the Young's modulus accounts for how much force can be transferred across a material as its endpoints are pulled apart. When the material breaks, the two sides can no longer feel evidence of each other. Thinking of pulling as sending a signal (a signal of force), we might say that the ability of internal entities to send signals to each other---the connectivity of the wiring diagram---is being measured by the Young's modulus. It will also be visible within $\poly$.
 \end{quote}
 \begin{enumerate}[resume]
-	\item A company may change its supplier at any time;
+	\item A company may change its supplier at any time:
 \end{enumerate}
 \begin{equation*}%\label{eqn.supplier}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
@@ -335,7 +369,7 @@ In materials science the Young's modulus accounts for how much force can be tran
 \end{tikzpicture}
 \end{equation*}
 \begin{quote}
-The company can get widgets either from supplier 1 or supplier 2; we could imagine this choice is completely up to the company. The company can decide based on the quality of widgets it has received in the past, i.e.\ when the company gets a bad widget, it updates an internal variable, and sometimes that variable passes a threshold making the company switch states. Whatever its strategy for deciding, we should be able to encode it in $\poly$.
+The company can get widgets either from supplier 1 or supplier 2; we could imagine this choice is completely up to the company. The company can decide based on the quality of widgets it has received in the past: when the company gets a bad widget, it updates an internal variable, and sometimes that variable passes a threshold making the company switch states. Whatever its strategy for deciding, we should be able to encode it in $\poly$.
 \end{quote}
 \begin{enumerate}[resume]
 	\item When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
@@ -372,30 +406,52 @@ Have you ever assembled something? Your internal states dictate the wiring patte
 All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory (\cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}).
 \end{example}
 
-\begin{exercise}%\label{exc.changing_types}
-Think of another example where systems are sending each other information, but where the sort of information or who it's being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your setting.
+\begin{exercise}%\label{exc.changing_types} % the sort of information or 
+Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your setting.
 \begin{solution}
-When using an application, say a drawing program, there are often buttons I can click at the top of the screen. The information I can send the system changes based on which button I click. If no button is clicked, my options for interacting with the program include clicking any one of the buttons. When I click the ``File" button, I can interact with the file system, saving or opening a file, thus interacting with another ``part'' of the computer. The set of things I can do depends on context, including whatever I did before.
+When I am carrying my phone in my house, my phone will connect to my Wi-Fi router. But my phone may send me a reminder that tells me to leave my house. 
+Once I carry my phone far enough away, it will disconnect from my router and connect to a cellular network instead.
+While I am outside, I might then press a button on my phone to disconnect it from the cellular network to reduce my data usage, so that it is no longer connectd to any network.
 \end{solution}
 \end{exercise}
 
-But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes and you need to use your words. Sometimes I'm in a tunnel and my phone can't receive GPS. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. Our ports themselves change in time. We will be able to say all this using $\poly$.
+But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes, and you need to use your words. Sometimes I'm in a tunnel and my car can't receive a radio signal. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. So
+\slogan{a system's interface itself can change over time.} % with the setting?
+We will be able to say all this using $\poly$ as well.
 
-And there's even more that's wrong with the above description. Namely, when I move my eyes, that's actually something you can see---e.g.\ whether I'm looking at you. When I turn around, I see different things, and \emph{you can notice I'm turned around}! When I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves. So my output is actually achieved by changing position. The model in $\poly$ will be able to express this too.
+And there's even more that's wrong with the above description.
+Namely, when I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves.
+The display of an analog clock is literally the positions of its hands.
+So
+\slogan{the output of a system is essentially the position it takes.}
+Moreover, when I move my eyes, that's something you can actually see---you can tell if I'm looking at you.
+When I turn around, I see different things, and \emph{you can notice I'm turned around}!
+In other words,
+\slogan{the range of inputs a system can receive depends on the position it currently outputs.}
+This is integral to our model of dynamical systems in $\poly$, and why we say that outputs correspond to positions and inputs to directions---with an entire interface represented by a polynomial.
 
 \begin{example}\label{ex.pond_eyeballs}
 Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
 
-Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which intuitively consists of two settings: one with $n$-many options, and the other with only one option. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
+Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which consists of two positions: an ``open'' position with $n$-many possible inputs it may perceive, and a ``closed'' position with only one. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
 
-The point, however, is that any other eyeball may be capable of noticing if $e$ is opened or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
+The point, however, is that any other eyeball may be capable of noticing if $e$ is open or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
 
 Talk about real-world applications! 
 \end{example}
 
-Hopefully you now have an idea of what we mean by mode-dependence: interfaces and wiring diagrams changing in time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and wiring diagrams in this sense. 
+\begin{exercise}
+Give another example of a system where the range of possible inputs the system can receive is dependent on what output the system is currently providing.
+\begin{solution}
+Consider a computer application whose output is an image displayed on the screen.
+This image consists of buttons I can click, and each button-click is a possible input that the application can receive.
+Clicking a button will alter the display, including which buttons are now available to be clicked.
+For example, when I click the ``File'' button, the ``File'' menu will appear, allowing me to click other buttons like the ``New Window'' button.
+So the set of inputs I can send to the system (i.e.\ buttons I can click) is directly dependent on the output the system sends to me (i.e.\ the image displayed on the screen).
+\end{solution}
+\end{exercise}
 
-But $\poly$ is very versatile in its applications. In \cref{sec.poly.intro.dec} we'll show how it relates to the making of decisions. First a quick remark.
+Hopefully you now have an idea of what we mean by \emph{mode-dependence}: interfaces and wiring patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and wiring patterns in this sense. 
 
 \begin{remark}
 We ended \cref{ex.pond_eyeballs} by joking about ``real-world applications,'' because a pond of eyeballs is about the most bizarre thing one can imagine. But recall Nobel physicist Frank Wilczek's quote from the preface:
@@ -405,6 +461,7 @@ For me, though, it is difficult to resist the idea that space-time is not essent
 Suppose the world was made out of a vast number of identical units, each with its own behavior, able to connect and disconnect with neighbors, and even disappear from the world of cause and effect. We may not even be interested in what our world is actually made of---just what these units are able to do. Is there such an elementary unit that could produce all other dynamical systems? The $\yon^\2+\yon$ eyeballs give a sense of a very simple interface---open and perceiving a single distinction about the world, or closed and making no distinctions---that we could imagine building an entire world from.
 \end{remark}
 
+It turns out $\poly$ is very versatile in its applications. In the next section, we'll show how it relates to decision-making.
 
 %-------- Section --------%
 \section{Decisions} \label{sec.poly.intro.dec}
