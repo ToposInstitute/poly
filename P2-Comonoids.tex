@@ -13,22 +13,24 @@
 %------------ Chapter ------------%
 \chapter{The composition product}\label{sec.composition_prod}
 
-We have seen that the category of polynomial functors---sums of representables $\smset\to\smset$ and the natural transformations between them---has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
-In this part we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically. 
+% In this chapter we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically, as we will see in later chapters. 
 
-In particular, we will see that the comonoids for the composition monoidal structure on $\poly$ are precisely categories. However, the morphisms are different---they are often called \emph{cofunctors}---and so we get a second category $\smcat^\sharp$ of categories and cofunctors. But the core groupoids of each---the groupoid of small categories and all functor isomorphisms between them, as well as the groupoid of small categories and all cofunctor isomorphisms between them---are isomorphic as groupoids. In other words, the following slogan is justified:
-\slogan{Polynomial comonads are precisely categories.}
+% In particular, we will see that the comonoids for the composition monoidal structure on $\poly$ are precisely categories. However, the morphisms are different---they are often called \emph{cofunctors}---and so we get a second category $\smcat^\sharp$ of categories and cofunctors. But the core groupoids of each---the groupoid of small categories and all functor isomorphisms between them, as well as the groupoid of small categories and all cofunctor isomorphisms between them---are isomorphic as groupoids. In other words, the following slogan is justified:
+% \slogan{Polynomial comonads are precisely categories.}
 
-Cofunctors are not too familiar, but we will explain how to think of them in a variety of ways. We will see that whereas a functor $\cat{C}\to\cat{D}$ gives a kind of ``picture'' of $\cat{C}$ inside $\cat{D}$, a cofunctor $\cat{C}\cof\cat{D}$ gives a kind of $\cat{D}$-shaped ``crystallization'' of $\cat{C}$, one that is intuitively more geometric, more like creating neighborhoods. We will see in \cref{chapter.bimod} that there is another kind of morphism between comonoids, namely the bimodules, that are perhaps more familiar: they are the so-called \emph{parametric right adjoints}, or in perhaps more friendly terms, \emph{data migration functors} between copresheaf categories.
+% Cofunctors are not too familiar, but we will explain how to think of them in a variety of ways. We will see that whereas a functor $\cat{C}\to\cat{D}$ gives a kind of ``picture'' of $\cat{C}$ inside $\cat{D}$, a cofunctor $\cat{C}\cof\cat{D}$ gives a kind of $\cat{D}$-shaped ``crystallization'' of $\cat{C}$, one that is intuitively more geometric, more like creating neighborhoods. We will see in \cref{chapter.bimod} that there is another kind of morphism between comonoids, namely the bimodules, that are perhaps more familiar: they are the so-called \emph{parametric right adjoints}, or in perhaps more friendly terms, \emph{data migration functors} between copresheaf categories.
 
-The plan for this part is to first introduce what is perhaps the most interesting monoidal structure on $\poly$, namely the composition product; we do so in \cref{sec.composition_prod}. We'll give a bunch of examples and ways to think about it in terms that relate to dynamical systems and our work so far. Then in \cref{sec.comonoids_in_poly} we'll discuss comonoids in $\poly$ and explain why they are categories in down-to-earth, set-theoretic terms. We will also discuss the morphisms between them.
+% The plan for this part is to first introduce what is perhaps the most interesting monoidal structure on $\poly$, namely the composition product; we do so in this chapter. We'll give a bunch of examples and ways to think about it in terms that relate to dynamical systems and our work so far. Then in \cref{sec.comonoids_in_poly} we'll discuss comonoids in $\poly$ and explain why they are categories in down-to-earth, set-theoretic terms. We will also discuss the morphisms between them.
 
-Finally in \cref{sec.cofree} we will discuss the cofree comonoid construction that takes any polynomial and returns a category. We will show how it relates to decision trees, as one may see in combinatorial game theory.
+% Finally in \cref{sec.cofree} we will discuss the cofree comonoid construction that takes any polynomial and returns a category. We will show how it relates to decision trees, as one may see in combinatorial game theory.
 
 %%%%% ** old preamble above
 
-In \cref{chapter.poly} we saw that the category $\poly$ of polynomial functors is a very well-behaved category in which to think about dynamical systems of quite a general nature.
+
+
+
+We have seen that the category $\poly$ of polynomial functors has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
 But we touched upon one thing---what in some sense is the most interesting part of the story---only briefly. That thing is quite simple to state, and yet has profound consequences. Namely, polynomials can be composed:
 \[
@@ -38,13 +40,13 @@ What could be simpler?
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time. There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p[i]$, landing at a position $j$ in $q$, choosing a direction in $q[j]$, and then landing... somewhere.''
 
-The composition product has many surprises up its sleeve, as we'll see. We've told many of them to you already in \cref{subsec.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, this part will get us into decision trees, databases, and more dynamics, and it's all based on $\circ$.
+The composition product has many surprises up its sleeve, as we'll see in the following chapters. We've given you a glimpse of many of them already in \cref{sec.poly.intro.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, $\circ$ will get us into decision trees, databases, and more dynamics, as well as the interactions between these.
 
-As in \eqref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
-\begin{equation}\label{eqn.sum_p1_again}
-p\cong\sum_{i\in p(\1)}\yon^{p[i]},
-\end{equation}
-and refer to $p(\1)$ as the set of positions (or position-set), and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of directions (or direction-set) at position $i$.
+% As in \eqref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
+% \begin{equation}\label{eqn.sum_p1_again}
+% p\cong\sum_{i\in p(\1)}\yon^{p[i]},
+% \end{equation}
+% and refer to $p(\1)$ as the set of positions (or position-set), and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of directions (or direction-set) at position $i$.
 
 %-------- Section --------%
 \section{Defining the composition product}
@@ -57,84 +59,91 @@ p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]
 \end{equation}
 \end{proposition}
 \begin{proof}
-We can rewrite \eqref{eqn.sum_p1_again} for $p$ and $q$ as
+We can rewrite $p$ and $q$ as
 \[
-p\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
+p\iso\sum_{i\in p(\1)}\yon^{p[i]}\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
 \qqand
-q\cong\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+q\iso\sum_{j\in q(\1)}\yon^{q[j]}\iso\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \]
-For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for their composite.
+For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for the composite $p \circ q$.
 To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula_circ} as a $\sum\prod$ to obtain
-\begin{align}\label{eqn.composition_formula_sums_first}
+\begin{align}\label{eqn.composite_formula_sums_first_circ}
   p\circ q\cong
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)} \; \sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$}
+  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
 \end{align}
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
 
-The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or collections of corollas. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
+The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or corolla forests. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
 \[
 p\tri q\coloneqq p\circ q.
 \]
 The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
-But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered, and we'll soon see that it is quite evocative in terms of trees, and again it leaves $\circ$ for other uses.
+But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered.
+Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
 
-We repeat the important formulas from \cref{prop.poly_closed_comp} in the new notation:
+We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
 \begin{equation}\label{eqn.composite_formula}
 p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 
-\[
-\begin{tikzpicture}[polybox, baseline=(helper)]
-	\node[poly] (p) {$d:p[i]$\nodepart{two}$i:p(\1)$};
-	\node[poly, above=of p] (q) {$e:q[j]$\nodepart{two}$j:q(\1)$};
-	\coordinate (helper) at ($(p.north)!.5!(q.south)$);
-\end{tikzpicture}
-\quad\cong\quad
-\begin{tikzpicture}[polybox, baseline=(p.east)]
-	\node[poly] (p) {$(d:p[i], e:q[j(d)]$)\nodepart{two}$(i:p(1), j: p[i]\to q(\1))$};
-\end{tikzpicture}
-\]
+\begin{align}\label{eqn.composite_formula_sums_first}
+  p\circ q\cong
+  \scalebox{1.3}{$\displaystyle
+  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
+\end{align}
+
+% \[
+% \begin{tikzpicture}[polybox, baseline=(helper)]
+% 	\node[poly] (p) {$d:p[i]$\nodepart{two}$i:p(\1)$};
+% 	\node[poly, above=of p] (q) {$e:q[j]$\nodepart{two}$j:q(\1)$};
+% 	\coordinate (helper) at ($(p.north)!.5!(q.south)$);
+% \end{tikzpicture}
+% \quad\cong\quad
+% \begin{tikzpicture}[polybox, baseline=(p.east)]
+% 	\node[poly] (p) {$(d:p[i], e:q[j(d)]$)\nodepart{two}$(i:p(1), j: p[i]\to q(\1))$};
+% \end{tikzpicture}
+% \]
 
 \begin{exercise}
-Let's consider \eqref{eqn.composition_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
+Let's consider \eqref{eqn.composite_formula_sums_first} piece by piece, with concrete polynomials $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \begin{enumerate}
 	\item What is $\yon^\2\tri q$? 
 	\item What is $\yon^\1\tri q$?
 	\item What is $(\yon^\2+\yon^\1)\tri q$? This is what $p\tri q$ ``should be.''
-	\item How many functions $j_1\colon p[1]\to q(\1)$ are there?
-	\item For each function $j_1$ as above, what is $\sum_{d\in p[1]} q[j_1(d)]$?
-	\item How many functions $j_2\colon p[2]\to q(\1)$ are there?
-	\item For each function $j_2$ as above, what is $\sum_{d\in p[2]} q[j_2(d)]$?
-	\item Write out $\sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]}$.
+	\item How many functions $\bar{j_1}\colon p[1]\to q(\1)$ are there?
+	\item For each function $\bar{j_1}$ as above, what is $\sum_{d\in p[1]} q[\bar{j_1}(d)]$?
+	\item How many functions $\bar{j_2}\colon p[2]\to q(\1)$ are there?
+	\item For each function $\bar{j_2}$ as above, what is $\sum_{d\in p[2]} q[\bar{j_2}(d)]$?
+	\item Write out \[\sum_{i\in p(\1)}\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}.\]
 	Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
 \begin{solution}
 We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \begin{enumerate}
-    \item By standard polynomial multiplication, we have that $\yon^\2 \tri q \iso q^2 \iso \yon^\6 + 2\yon^\3 + \1$.
+    \item By standard polynomial multiplication, we have that $\yon^\2 \tri q \iso q \times q \iso \yon^\6 + \2\yon^\3 + \1$.
     \item We have that $\yon^\1 \tri q \iso q \iso \yon^\3 + \1$.
-    \item Combining the previous parts, we have that $(\yon^\2 + \yon^\1) \tri q \iso q^2 + q^1 \iso \yon^\6 + \3\yon^\3 + \2$.
+    \item Combining the previous parts, we have that $(\yon^\2 + \yon^\1) \tri q \iso q \times q + q \iso \yon^\6 + \3\yon^\3 + \2$.
     \item Since $p[1] \iso \2$ and $q(\1) \iso \2$, there are $2^2 = 4$ functions $p[1] \to q(\1)$.
-    \item When $j_1 \colon p[1] \to q(\1)$ is one of the two possible bijections, we have that
+    \item When $\bar{j_1} \colon p[1] \to q(\1)$ is one of the two possible bijections, we have that
     \[
-        \sum_{d \in p[1]} q[j_1(d)] \iso q[1] + q[2] \iso \3 + \0 \iso \3.
+        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[1] + q[2] \iso \3 + \0 \iso \3.
     \]
-    When $j_1 \colon p[1] \to q(\1)$ sends everything to $1 \in q(\1)$, we have that
+    When $\bar{j_1} \colon p[1] \to q(\1)$ sends everything to $1 \in q(\1)$, we have that
     \[
-        \sum_{d \in p[1]} q[j_1(d)] \iso q[1] + q[1] \iso \3 + \3 \iso \6.
+        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[1] + q[1] \iso \3 + \3 \iso \6.
     \]
-    Finally, when $j_1 \colon p[1] \to q(\1)$ sends everything to $2 \in q(\1)$, we have that
+    Finally, when $\bar{j_1} \colon p[1] \to q(\1)$ sends everything to $2 \in q(\1)$, we have that
     \[
-        \sum_{d \in p[1]} q[j_1(d)] \iso q[2] + q[2] \iso \0 + \0 \iso \0.
+        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[2] + q[2] \iso \0 + \0 \iso \0.
     \]
     \item Since $p[2] \iso \1$ and $q(\1) \iso \2$, there are $2^1 = 2$ functions $p[2] \to q(\1)$.
-    \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{d \in p[2]} q[j_2(d)] \iso q[1] \iso \3$, and when $j_2 \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{d \in p[2]} q[j_2(d)] \iso q[2] \iso \0$.
+    \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{d \in p[2]} q[\bar{j_2}(d)] \iso q[1] \iso \3$, and when $\bar{j_2} \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{d \in p[2]} q[\bar{j_2}(d)] \iso q[2] \iso \0$.
     \item From the previous parts, we have that
     \[
-        \sum_{i\in p(\1)}\sum_{j_i\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
+        \sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
     \]
     which agrees with what $p \tri q$ should be.
 \end{enumerate}
@@ -294,17 +303,30 @@ We have $p,q$ as in \eqref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$.
 \end{solution}
 \end{exercise}
 
-\begin{proposition}
-For any polynomials $p,q\in\poly$, there is a cartesian map
-\[p\otimes q\to p\tri q.\]
-It constitutes a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
-\end{proposition}
-\begin{proof}
-For $p,q$, the map is given by
+\begin{example}
+For any $p$ and $q$ there is an interesting cartesian map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation. It looks like this:
 \[
-  (i\in p(\1), j\in q(\1))\mapsto(i, d\in p[i]\mapsto j, (d,e)\in p[i]\times q[j]\mapsto (d,e))
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (p) {$(d,e)$\nodepart{two}$(i,j)$};
+	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
+	\node[poly, cod, above=of q] (r) {$e$\nodepart{two}$j$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+\end{tikzpicture}
 \]
-\end{proof}
+In other words, $p\tri q$ is allowed to have $j$ depend on $d$, whereas $p\otimes q$ is not; the map is in some sense the inclusion of the order-independent part. And of course we can flip the order using the symmetry $q\otimes p\cong p\otimes q$. This is, we just as well have a map $p\otimes q\to q\tri p$.
+
+Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique map $\yon\to\yon$.
+In fact the maps $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
+In particular, $o_{p,q}$ commutes with associators and unitors. 
+
+This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
+\end{example}
+
+% \[
+%   (i\in p(\1), j\in q(\1))\mapsto(i, d\in p[i]\mapsto j, (d,e)\in p[i]\times q[j]\mapsto (d,e))
+% \]
 
 \begin{exercise}
 Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which of the following isomorphisms exist?
@@ -351,25 +373,6 @@ For any set $A\in\smset$ and any polynomial $p\in\poly$, there is an isomorphism
 	[A\yon,p]
 \end{align*}
 \end{proof}
-
-\begin{example}
-For any $p$ and $q$ there is an interesting map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation. It looks like this:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (p) {$(d,e)$\nodepart{two}$(i,j)$};
-	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
-	\node[poly, cod, above=of q] (r) {$e$\nodepart{two}$j$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-\end{tikzpicture}
-\]
-In other words, $p\tri q$ is allowed to have $j$ depend on $d$, whereas $p\otimes q$ is not; the map is in some sense the inclusion of the order-independent part. And of course we can flip the order using the symmetry $q\otimes p\cong p\otimes q$. This is, we just as well have a map $p\otimes q\to q\tri p$.
-
-Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, and the identity is the unique map $\yon\to\yon$. The maps $o_{p,q}$ should commute with associators and unitors. 
-
-This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
-\end{example}
 
 \begin{example}\label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
