@@ -480,7 +480,12 @@ We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly
 \end{equation}
 Concretely, we might think of each position as representing a \emph{decision}. Associated to every decision is a set of \emph{options} (directions). The three decisions we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.'' While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
 
-Now consider the following three trees, the first two of which are infinite (though that's hard to draw):
+This perspective will prove insightful in \cref{sec.poly.func_nat.morph}, when we start to discuss the \emph{morphisms} between two polynomials.
+As a sneak peek, it turns out that a morphism is just a way of \emph{delegating} decisions from one menu to another.
+We'll cover this in more detail in \cref{sec.poly.func_nat.morph}.
+
+Now consider the following three trees.
+The first two are infinite, but that's hard to draw, so we've included just the first five levels:
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -596,114 +601,114 @@ Now consider the following three trees, the first two of which are infinite (tho
 \node (c) [red, right=2 of b] {$\bullet$};
 \end{tikzpicture}
 \]
-These are patterned examples---and we'll understand what this pattern is more clearly in \cref{**}---of what we will call \emph{decision streams}. Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a level-3 abbreviation of a finite stream):
-\[
-\begin{tikzpicture}[trees]
-\begin{scope}[
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (a) {$\bullet$}
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child {node {$\bullet$}
-  			}
-    		child {node {$\bullet$}
-  				child 
-  				child
-  			}
-    	}
-    	child {node {$\bullet$}
-  			}
-    }
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-  		}
-  		child {node {$\bullet$}
-    		child {node {$\bullet$}
-  			}
-    		child {node {$\bullet$}
-  			}
-  		}
-  	}
-  ;
-\end{scope}
-\begin{scope}[
-  level 1/.style={sibling distance=13mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (b) [right=4 of a] {$\bullet$}
-    child {node {$\bullet$}
-    }
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child {node {$\bullet$}
-  			}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-  		}
-  		child {node {$\bullet$}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-  		}
-  	}
-  ;
-\end{scope}
-\begin{scope}[
-  level 1/.style={sibling distance=13mm},
-  level 2/.style={sibling distance=8mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (c) [right=4 of b] {$\bullet$}
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-  		}
-  		child {node {$\bullet$}
-    		child {node {$\bullet$}
-  			}
-    		child {node {$\bullet$}
-  			}
-  		}
-    }
-    child {node {$\bullet$}
-  	}
-  ;
-\end{scope}
-\end{tikzpicture}
-\]
-
-The set of such decision streams forms the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that every corolla in these diagrams has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1\iso\yon^\0$.
+These are patterned examples---and we'll understand what this pattern is more clearly in \cref{**}---of what we will call \emph{decision streams}.
+% Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a level-3 abbreviation of a finite stream):
+% \[
+% \begin{tikzpicture}[trees]
+% \begin{scope}[
+%   level 1/.style={sibling distance=20mm},
+%   level 2/.style={sibling distance=10mm},
+%   level 3/.style={sibling distance=5mm},
+%   level 4/.style={sibling distance=2.5mm}]
+%   \node (a) {$\bullet$}
+%     child {node {$\bullet$}
+%     	child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   			}
+%     		child {node {$\bullet$}
+%   				child 
+%   				child
+%   			}
+%     	}
+%     	child {node {$\bullet$}
+%   			}
+%     }
+%     child {node {$\bullet$}
+%     	child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   				child
+%   				child
+%   			}
+%     		child {node {$\bullet$}
+%   				child
+%   				child
+%   			}
+%   		}
+%   		child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   			}
+%     		child {node {$\bullet$}
+%   			}
+%   		}
+%   	}
+%   ;
+% \end{scope}
+% \begin{scope}[
+%   level 1/.style={sibling distance=13mm},
+%   level 2/.style={sibling distance=10mm},
+%   level 3/.style={sibling distance=5mm},
+%   level 4/.style={sibling distance=2.5mm}]
+%   \node (b) [right=4 of a] {$\bullet$}
+%     child {node {$\bullet$}
+%     }
+%     child {node {$\bullet$}
+%     	child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   			}
+%     		child {node {$\bullet$}
+%   				child
+%   				child
+%   			}
+%   		}
+%   		child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   				child
+%   				child
+%   			}
+%     		child {node {$\bullet$}
+%   				child
+%   				child
+%   			}
+%   		}
+%   	}
+%   ;
+% \end{scope}
+% \begin{scope}[
+%   level 1/.style={sibling distance=13mm},
+%   level 2/.style={sibling distance=8mm},
+%   level 3/.style={sibling distance=5mm},
+%   level 4/.style={sibling distance=2.5mm}]
+%   \node (c) [right=4 of b] {$\bullet$}
+%     child {node {$\bullet$}
+%     	child {node {$\bullet$}
+%   		}
+%   		child {node {$\bullet$}
+%     		child {node {$\bullet$}
+%   			}
+%     		child {node {$\bullet$}
+%   			}
+%   		}
+%     }
+%     child {node {$\bullet$}
+%   	}
+%   ;
+% \end{scope}
+% \end{tikzpicture}
+% \]
+Decision streams form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that these trees are built up of smaller corollas, each of which has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1\iso\yon^\0$.
 We say that each such decision stream has type $\yon^\2+\yon^\0$.
 
 \begin{exercise}\label{exc.decision_streams}
 \begin{enumerate}
-	\item Draw a level-3 abbreviation of a decision stream of type $\yon^\2+\yon^\0$.
-	\item Draw a level-4 abbreviation of a decision stream of type $\yon$.
-	\item Draw a level-3 abbreviation of a decision stream of type $\nn\yon^\2$ by labeling every node with a natural number.
+	\item Draw the first three levels of a decision stream of type $\yon^\2+\yon^\0$.
+	\item Draw the first four levels of a decision stream of type $\yon$.
+	\item Draw a the first three levels of a decision stream of type $\nn\yon^\2$ by labeling every node with a natural number.
 	\qedhere
 \end{enumerate}
 
 \begin{solution}
 \begin{enumerate}
-	\item Here's a level-3 abbreviation of a decision stream of type $\yon^\2+\yon^\0$.
+	\item Here are the first three levels of a decision stream of type $\yon^\2+\yon^\0$.
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=20mm},
@@ -727,7 +732,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
   ;
 \end{tikzpicture}
 \]
-	\item Here's a level-4 abbreviation of a decision stream of type $\yon$.
+	\item Here are the first four levels of a decision stream of type $\yon$.
 \[
 \begin{tikzpicture}[trees]
 	\node (a) {$\bullet$}
@@ -738,7 +743,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
 			}}};
 \end{tikzpicture}
 \]
-	\item Here's a level-3 abbreviation of a decision stream of type $\nn\yon^\2$ where we indicate the position of each node by labeling it with a natural number.
+	\item Here are the first three levels of a decision stream of type $\nn\yon^\2$ where we indicate the position of each node by labeling it with a natural number.
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=20mm},
@@ -758,7 +763,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
     }
     child {node {$314159$}
     	child {node {$1000$}
-   				child
+  				child
   				child
   		}
 			child {node {$1296$}
@@ -955,7 +960,7 @@ We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it h
 Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is also a closed monoidal structure that distributes over coproducts.
 \end{proposition}
 \begin{proof}
-We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{**} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{**}.
+We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
 Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{**}.
 In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
 Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
@@ -968,7 +973,7 @@ $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\
 		C\ar[r, shift left=4pt, "L"]\&
 		D\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
 	\end{tikzcd}$
-	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $C\Rightarrow R\circ L$ and the counit $L\circ R\Rightarrow D$ of the adjunction.
+	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $C\Rightarrow R \circ L$ and the counit $L \circ R\Rightarrow D$ of the adjunction.
 }
 \begin{equation*}%\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt]
@@ -1082,7 +1087,7 @@ In this chapter, we will set down the basic category-theoretic story of $\poly$,
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
 
 \begin{definition} \label{def.representable}
-Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we denote their composite morphism $A \to C$ as $f \then g$ (instead of the usual $g \circ f$).}
+Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, depending on which is more natural to think about.}
 
 We refer to functors of this form as \emph{representable functors}, or simply as \emph{representables}.
 In particular, we call $\yon^S$ the functor \emph{represented by} $S$.

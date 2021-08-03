@@ -34,7 +34,7 @@ We have seen that the category $\poly$ of polynomial functors has quite a bit of
 
 But we touched upon one thing---what in some sense is the most interesting part of the story---only briefly. That thing is quite simple to state, and yet has profound consequences. Namely, polynomials can be composed:
 \[
-\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\cong\yon^\2+\2\yon+\1.
+\yon^\2\circ(\yon+\1)=(\yon+\1)^\2\iso\yon^\2+\2\yon+\1.
 \]
 What could be simpler?
 
@@ -50,12 +50,21 @@ The composition product has many surprises up its sleeve, as we'll see in the fo
 
 %-------- Section --------%
 \section{Defining the composition product}
-We begin with the definition of composition product.
+We begin with the definition of the composition product in terms of polynomials as functors.
+
+\subsection{Composite functors}
+
+\begin{definition} \label{def.comp}
+Given polynomial functors $p, q$, we let $p \circ q$ denote their composite as functors.
+That is, $p \circ q \colon \smset \to \smset$ sends each set $X$ to the set $p(q(X))$.
+\end{definition}
+
+Functor composition gives a monoidal structure on the category $\smset^\smset$ of functors $\smset\to\smset$, but to check that the full subcategory $\poly$ of $\smset^\smset$ inherits this monoidal structure, we need to verify that the composite of two functors in $\poly$ is still a functor in $\poly$.
 
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor, and we have the following isomorphism:
 \begin{equation} \label{eqn.composite_formula_circ}
-p\circ q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+p\circ q\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 \end{proposition}
 \begin{proof}
@@ -68,14 +77,18 @@ q\iso\sum_{j\in q(\1)}\yon^{q[j]}\iso\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for the composite $p \circ q$.
 To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula_circ} as a $\sum\prod$ to obtain
 \begin{align}\label{eqn.composite_formula_sums_first_circ}
-  p\circ q\cong
+  p\circ q\iso
   \scalebox{1.3}{$\displaystyle
   \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
 \end{align}
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
 
-The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as composition; more often we think of it as a certain operation on arenas, or corolla forests. Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
+\begin{corollary} \label{cor.comp_monoidal}
+The category $\poly$ has a monoidal structure $(\yon,\circ)$, where $\yon$ is the identity functor and $\circ$ is given by composition.
+\end{corollary}
+
+Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
 \[
 p\tri q\coloneqq p\circ q.
 \]
@@ -85,11 +98,11 @@ Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
 \begin{equation}\label{eqn.composite_formula}
-p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+p\tri q\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
 \end{equation}
 
 \begin{align}\label{eqn.composite_formula_sums_first}
-  p\circ q\cong
+  p\tri q\iso
   \scalebox{1.3}{$\displaystyle
   \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
 \end{align}
@@ -116,7 +129,7 @@ Let's consider \eqref{eqn.composite_formula_sums_first} piece by piece, with con
 	\item For each function $\bar{j_1}$ as above, what is $\sum_{d\in p[1]} q[\bar{j_1}(d)]$?
 	\item How many functions $\bar{j_2}\colon p[2]\to q(\1)$ are there?
 	\item For each function $\bar{j_2}$ as above, what is $\sum_{d\in p[2]} q[\bar{j_2}(d)]$?
-	\item Write out \[\sum_{i\in p(\1)}\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}.\]
+	\item Write out \[\sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}.\]
 	Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
@@ -166,11 +179,35 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
-In terms of corollas, the forest of the composition product $p\tri q$ is given by gluing corollas from the forest of $q$ onto the leaves of corollas from the forest of $p$ in every possible way.
+The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as functor composition; more often we think of it as a certain operation on arenas or corolla forests.
+
+\subsection{Composite arenas}
+
+Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of what it says about the positions and directions of the corresponding arenas.
+The position-set of $p \tri q$ is
+\begin{equation} \label{eqn.comp_pos}
+    (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\bar{j_i} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
+\end{equation}
+In other words, specifying a position of $p \tri q$ amounts to first specifying a $p$-position $i$, then specifying a function $\bar{j_i} \colon p[i] \to q(\1)$, i.e.\ a $q$-position $\bar{j_i}(d)$ for each $p[i]$-direction $d$.
+
+Given such a position $(i, \bar{j_i})$ of $p \tri q$, the direction-set of $p \tri q$ at $(i, \bar{j_i})$ is
+\begin{equation} \label{eqn.comp_dir}
+    (p \tri q)[(i, \bar{j_i})] \iso \sum_{d \in p[i]} q[\bar{j_i}(d)].
+\end{equation}
+So a direction of $p \tri q$ at $(i, \bar{j_i})$ consists of a $p[i]$-direction $d$ and a $q[\bar{j_i}(d)]$-direction.
+
+While this description completely characterizes $p \tri q$ as an arena, it is a bit of a mouthful.
+But it turns out to have a very natural interpretation when we translate from arenas to corolla forests.
+
+\subsection{Composite corolla forests}
+
+In fact, the forest of $p\tri q$ is given by gluing corollas from the forest of $q$ onto the leaves of corollas from the forest of $p$ in every possible way.
+We will demonstrate this using an example.
+
 Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, whose corolla forests we draw as follows:
 \begin{equation}\label{eqn.pq_misc39}
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, blue!50!black, "$p$" above] {
+	\node (p1) [draw, blue!50!black, "\color{blue!50!black} $p$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -180,7 +217,7 @@ Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, whose corolla for
   \end{tikzpicture}
   };
 %
-	\node (p2) [draw, red!50!black, right=2 of p1, "$q$" above] {
+	\node (p2) [draw, red!75!black, right=2 of p1, "\color{red!75!black} $q$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -192,64 +229,104 @@ Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, whose corolla for
   };
 \end{tikzpicture}
 \end{equation}
-Then their composite $p\tri q$ is obtained by stacking the corollas like so:
-\begin{equation}\label{eqn.prefered_composite}
+By \eqref{eqn.comp_pos}, choosing a position of $p \tri q$ amounts to first choosing a root $i$ from the forest of $p$, then choosing a root from the forest of $q$ for every leaf emanating from $i$.
+So we may depict $(p \tri q)(\1)$ by gluing roots from $q$ to leaves in $p$ in every possible way, as follows:
+\begin{equation}\label{eqn.comp_pos_forest}
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "``$p\tri q$''" above] {
+	\node (p1) [draw, "``$(${\color{blue!50!black} $p$}$\:\tri\:${\color{red!75!black}$q$}$)(\1)$''" above] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=8mm},
-	  level 2/.style={sibling distance=2.5mm}]
+	  blue!50!black]
+    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 1" above] {$\bullet$}}
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 1" above] {$\bullet$}};
+%
+    \node[blue!50!black, right=1.5 of 1, "\tiny 1" below] (2) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 1" above] {$\bullet$}}
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 2" above] {$\bullet$}};
+%
+    \node[blue!50!black, right=1.5 of 2, "\tiny 1" below] (3) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 2" above] {$\bullet$}}
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 1" above] {$\bullet$}};
+%
+    \node[blue!50!black, right=1.5 of 3, "\tiny 1" below] (4) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 2" above] {$\bullet$}}
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 2" above] {$\bullet$}};
+%
+    \node[blue!50!black, right=1.2 of 4, "\tiny 2" below] (5) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 1" above] {$\bullet$}};
+%
+    \node[blue!50!black, right=1 of 5, "\tiny 2" below] (6) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black, "\color{red!75!black} \tiny 2" above] {$\bullet$}};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\end{equation}
+Now fix one of the positions of $p \tri q$ drawn above: a root $i$ from $p$ and a root from $q$ glued to every leaf emanating from $i$.
+By \eqref{eqn.comp_dir}, a direction of $p \tri q$ at that position consists of a leaf $d$ emanating from the root $i$ from $p$ and a second leaf emanating from the root from $q$ that has been glued to $d$.
+In other words, in the following picture, where we have glued not just roots but entire corollas from $q$ to leaves in $p$, the directions of $p \tri q$ at the position corresponding to each tree are the rooted paths\footnote{A \emph{rooted path} of a rooted tree is a path up the tree that starts from the root.} of that tree of length $2$ (we omit the labels):
+\begin{equation}\label{eqn.prefered_composite}
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "``{\color{blue!50!black} $p$}$\:\tri\:${\color{red!75!black}$q$}''" above] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=2.5mm},
+	  blue!50!black]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-				child
+      child {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-				child
+      child {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-				child
+      child {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-				child
+      child {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}
+      child {node[red!75!black] {$\bullet$}
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
-      	child
-				child
-				child
+      child {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
-    \node[blue!50!black, right=1.2 of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+    \node[blue!50!black, right=1 of 5] (6) {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
   \end{tikzpicture}
   };
 \end{tikzpicture}
 \end{equation}
-It has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions. In total, we read off that $p\tri q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$. We put the $p\tri q$ in scare quotes because, to be pedantic, we should smash the two levels together and redraw $p\tri q$ as follows:
+Equivalently, we can think of the directions in the picture above as the leaves at the second level of each tree.
+So $p \tri q$ has six positions; the first has six directions, the second, third, and fifth have three directions, and the fourth and sixth have no directions.
+In total, we can read off that $p\tri q$ is isomorphic to $\yon^\6+\3\yon^\3+\2$.
+
+We put the $p\tri q$ in scare quotes above \eqref{eqn.prefered_composite} because, to be pedantic, the corolla forest of $p \tri q$ has the two levels smashed together as follows:
 \begin{equation}\label{eqn.actual_composite}
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$p\tri q$" above] {
@@ -279,7 +356,7 @@ It has six positions; the first has six directions, the second, third, and fifth
   };
 \end{tikzpicture}
 \end{equation}
-Usually, we will prefer the \eqref{eqn.prefered_composite} style rather than the more pedantic \eqref{eqn.actual_composite} style.
+Usually, we will prefer the style of \eqref{eqn.prefered_composite} rather than the more pedantic style of \eqref{eqn.actual_composite}.
 
 \begin{exercise}
 Use $p,q$ as in \eqref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$ in the following.
@@ -303,84 +380,86 @@ We have $p,q$ as in \eqref{eqn.pq_misc39} and $r\coloneqq \yon^\2+\1$.
 \end{solution}
 \end{exercise}
 
-\begin{example}
-For any $p$ and $q$ there is an interesting cartesian map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation. It looks like this:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (p) {$(d,e)$\nodepart{two}$(i,j)$};
-	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
-	\node[poly, cod, above=of q] (r) {$e$\nodepart{two}$j$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-\end{tikzpicture}
-\]
-In other words, $p\tri q$ is allowed to have $j$ depend on $d$, whereas $p\otimes q$ is not; the map is in some sense the inclusion of the order-independent part. And of course we can flip the order using the symmetry $q\otimes p\cong p\otimes q$. This is, we just as well have a map $p\otimes q\to q\tri p$.
+% ** Move next example & exercise til after morphs into composites/polyboxes discussed
+% \begin{example}
+% For any $p$ and $q$ there is an interesting cartesian map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation. It looks like this:
+% \[
+% \begin{tikzpicture}[polybox, mapstos]
+% 	\node[poly, dom] (p) {$(d,e)$\nodepart{two}$(i,j)$};
+% 	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
+% 	\node[poly, cod, above=of q] (r) {$e$\nodepart{two}$j$};
+%   	\draw (p_pos) to[first] (q_pos);
+%   	\draw (q_dir) to[climb] (r_pos);
+%   	\draw (r_dir) to[last] (p_dir);
+% \end{tikzpicture}
+% \]
+% In other words, $p\tri q$ is allowed to have $j$ depend on $d$, whereas $p\otimes q$ is not; the map is in some sense the inclusion of the order-independent part. And of course we can flip the order using the symmetry $q\otimes p\cong p\otimes q$. This is, we just as well have a map $p\otimes q\to q\tri p$.
 
-Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique map $\yon\to\yon$.
-In fact the maps $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
-In particular, $o_{p,q}$ commutes with associators and unitors. 
+% Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique map $\yon\to\yon$.
+% In fact the maps $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
+% In particular, $o_{p,q}$ commutes with associators and unitors. 
 
-This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
-\end{example}
+% This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
+% \end{example}
 
 % \[
 %   (i\in p(\1), j\in q(\1))\mapsto(i, d\in p[i]\mapsto j, (d,e)\in p[i]\times q[j]\mapsto (d,e))
 % \]
 
-\begin{exercise}
-Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which of the following isomorphisms exist?
-\begin{enumerate}
-	\item $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
-	\item $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
-	\item $A\otimes B\cong A\tri B$?
-	\item $A\yon\otimes p\cong A\yon\tri p$?
-	\item $\yon^A\otimes p\cong \yon^A\tri p$?
-	\item $p\otimes A\yon\cong p\tri A\yon$?
-	\item $p\otimes \yon^A\cong p\tri\yon^A$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-Here $A$ and $B$ are sets and $p$ is a polynomial.
-\begin{enumerate}
-	\item The isomorphism exists: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
-	\item The isomorphism exists: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
-	\item The isomorphism does not necessarily exist: while $A\otimes B \iso AB$, we have that $A\tri B \iso A$.
-	\item The isomorphism exists: we have that $A\yon \otimes p \iso \sum_{i \in p(\1)} A\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} A\yon^{p[i]} \iso Ap \iso A\yon\tri p$.
-	\item The isomorphism does not necessarily exist: if, say, $p = B$, then $\yon^A \otimes B \iso B$, while $\yon^A \tri B \iso B^A$.
-	\item The isomorphism does not necessarily exist: if, say, $p = \yon^B$, then $\yon^B \otimes A\yon \iso A\yon^B$, while $\yon^B \otimes A\yon \iso (A\yon)^B \iso A^B\yon^B$.
-	\item The isomorphism exists: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{p[i]} \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
+% \begin{exercise}
+% Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which of the following isomorphisms exist?
+% \begin{enumerate}
+% 	\item $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
+% 	\item $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
+% 	\item $A\otimes B\cong A\tri B$?
+% 	\item $A\yon\otimes p\cong A\yon\tri p$?
+% 	\item $\yon^A\otimes p\cong \yon^A\tri p$?
+% 	\item $p\otimes A\yon\cong p\tri A\yon$?
+% 	\item $p\otimes \yon^A\cong p\tri\yon^A$?
+% \qedhere
+% \end{enumerate}
+% \begin{solution}
+% Here $A$ and $B$ are sets and $p$ is a polynomial.
+% \begin{enumerate}
+% 	\item The isomorphism exists: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
+% 	\item The isomorphism exists: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
+% 	\item The isomorphism does not necessarily exist: while $A\otimes B \iso AB$, we have that $A\tri B \iso A$.
+% 	\item The isomorphism exists: we have that $A\yon \otimes p \iso \sum_{i \in p(\1)} A\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} A\yon^{p[i]} \iso Ap \iso A\yon\tri p$.
+% 	\item The isomorphism does not necessarily exist: if, say, $p = B$, then $\yon^A \otimes B \iso B$, while $\yon^A \tri B \iso B^A$.
+% 	\item The isomorphism does not necessarily exist: if, say, $p = \yon^B$, then $\yon^B \otimes A\yon \iso A\yon^B$, while $\yon^B \otimes A\yon \iso (A\yon)^B \iso A^B\yon^B$.
+% 	\item The isomorphism exists: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{p[i]} \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
+% \end{enumerate}
+% \end{solution}
+% \end{exercise}
 
-Here is a curious fact relating composition and the closure operation adjoint to $\otimes$. Recall that for any two polynomials $p,q$, there is a polynomial $[p,q]\in\poly$.
+% ** Find a home for this
+% Here is a curious fact relating composition and the closure operation adjoint to $\otimes$. Recall that for any two polynomials $p,q$, there is a polynomial $[p,q]\in\poly$.
  
-\begin{proposition}
-For any set $A\in\smset$ and any polynomial $p\in\poly$, there is an isomorphism
-\[
-\yon^A\tri p\cong[A\yon,p].
-\]
-\end{proposition}
-\begin{proof}
-\begin{align*}
-	\yon^A\tri p&\cong
-	\prod_{a\in A}\sum_{i\in p(\1)}\yon^{p[i]}\\&\cong
-	\sum_{i\colon A\to p(\1)}\prod_{a\in A}\yon^{p[i(a)]}\\&\cong
-	\sum_{i\colon A\to p(\1)}\yon^{\sum_{a\in A}p[i(a)]}\\&\cong
-	\sum_{\varphi\colon A\yon\to p}\yon^{\sum_{a\in A\yon(\1)}
-	p[\varphi_1(a)]}\\&\cong
-	[A\yon,p]
-\end{align*}
-\end{proof}
+% \begin{proposition}
+% For any set $A\in\smset$ and any polynomial $p\in\poly$, there is an isomorphism
+% \[
+% \yon^A\tri p\cong[A\yon,p].
+% \]
+% \end{proposition}
+% \begin{proof}
+% \begin{align*}
+% 	\yon^A\tri p&\cong
+% 	\prod_{a\in A}\sum_{i\in p(\1)}\yon^{p[i]}\\&\cong
+% 	\sum_{i\colon A\to p(\1)}\prod_{a\in A}\yon^{p[i(a)]}\\&\cong
+% 	\sum_{i\colon A\to p(\1)}\yon^{\sum_{a\in A}p[i(a)]}\\&\cong
+% 	\sum_{\varphi\colon A\yon\to p}\yon^{\sum_{a\in A\yon(\1)}
+% 	p[\varphi_1(a)]}\\&\cong
+% 	[A\yon,p]
+% \end{align*}
+% \end{proof}
 
-\begin{example}\label{ex.apply_2}
+\begin{example}[Composing polynomials with constants] \label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
 
-It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
+It's not hard to see that $p(X)\iso p\tri X$. Here's a picture, where $p\coloneqq\yon^\3+\yon+\1$ and $X\coloneqq\2$.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, blue!50!black, "$p$" left] {
+	\node (p1) [draw, blue!50!black, "\color{blue!50!black} $p$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -394,7 +473,7 @@ It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\colone
   \end{tikzpicture}
   };
 %
-	\node (p2) [draw, red!50!black, right=2 of p1, "$X$" above] {
+	\node (p2) [draw, red!75!black, right=2 of p1, "\color{red!75!black}$X$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$};
     \node[right=.5 of 1,"\tiny 2" below] (4) {$\diamond$};
@@ -407,56 +486,56 @@ It's not hard to see that $p(X)\cong p\tri X$. Here's a picture, where $p\colone
 Let's see how $(\yon^\3+\yon+\1)\tri\2$ looks.
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$p\tri X$" above] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+	\node (p1) [draw, "{\color{blue!50!black} $p$}$\:\tri\:${\color{red!75!black}$X$}" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm, blue!50!black]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\bullet$}};
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\bullet$}};
     \node[blue!50!black, right=of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\diamond$}};
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\diamond$}};
     \node[blue!50!black, right=of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\bullet$}};
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\bullet$}};
     \node[blue!50!black, right=of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\diamond$}};
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\diamond$}};
     \node[blue!50!black, right=of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\bullet$}};
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\bullet$}};
     \node[blue!50!black, right=of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\bullet$}}
-      child {node[red!50!black] {$\diamond$}};
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\bullet$}}
+      child {node[red!75!black] {$\diamond$}};
     \node[blue!50!black, right=of 6] (7) {$\bullet$} 
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\bullet$}};
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\bullet$}};
     \node[blue!50!black, right=of 7] (8) {$\bullet$} 
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\diamond$}}
-      child {node[red!50!black] {$\diamond$}};
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\diamond$}}
+      child {node[red!75!black] {$\diamond$}};
     \node[blue!50!black, right=.8 of 8] (9) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}};
+      child {node[red!75!black] {$\bullet$}};
     \node[blue!50!black, right=.6 of 9] (10) {$\bullet$} 
-      child {node[red!50!black] {$\diamond$}};
+      child {node[red!75!black] {$\diamond$}};
     \node[blue!50!black, right=.6 of 10] (11) {$\bullet$};
 	\end{tikzpicture}
 	};
 \end{tikzpicture}
 \]
-It has $11$ positions and no open leaves, which means it's a set (constant polynomial), namely $p\tri X\cong \1\1$.
+It has $11$ positions and no level-$2$ leaves, which means it's a set (constant polynomial, with no directions), namely $p\tri X\iso \1\1$.
 
 We could also draw $X\tri p$, since both are perfectly valid polynomials. Here it is:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p2) [draw, red!50!black, "$X\tri p$" above] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+	\node (p2) [draw, "{\color{red!75!black}$X$}$\:\tri\:${\color{blue!50!black} $p$}" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm, red!75!black]
     \node["\tiny 1" below] (1) {$\bullet$};
     \node[right=.5 of 1,"\tiny 2" below] (4) {$\diamond$};
     \node[above=10pt of 4] {};
@@ -465,14 +544,14 @@ We could also draw $X\tri p$, since both are perfectly valid polynomials. Here i
   };
 \end{tikzpicture}
 \]
-Each of the open leaves in $X$---of which there are none---is filled with a corolla from $p$.
+Each of the leaves in $X$---of which there are none---is given a corolla from $p$.
 \end{example}
 
 \begin{exercise}\label{exc.composing_with_constants}
 \begin{enumerate}
 	\item Choose a polynomial $p$ and draw $p\tri\1$ in the style of \cref{ex.apply_2}.
-	\item Show that if $X$ is a set (considered as a constant polynomial) and $p$ is any polynomial, then $X\tri p\cong X$.
-	\item \label{exc.composing_with_constants.appl} Show that if $X$ is a set and $p$ is a polynomial, then $p\tri X\cong p(X)$, where $p(X)$ is the set given by applying $p$ as a functor to $X$.
+	\item Show that if $X$ is a set (considered as a constant polynomial) and $p$ is any polynomial, then $X\tri p\iso X$.
+	\item \label{exc.composing_with_constants.appl} Show that if $X$ is a set and $p$ is a polynomial, then $p\tri X\iso p(X)$, where $p(X)$ is the set given by applying $p$ as a functor to $X$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -482,12 +561,12 @@ Each of the open leaves in $X$---of which there are none---is filled with a coro
 Below, $X$ is a set and $p$ is a polynomial.
 \begin{enumerate}[resume]
     \item A constant functor composed with any functor is still the same constant functor, so $X \tri p \iso X$.
-    We can also verify this using \cref{eqn.composite_formula}:
+    We can also verify this using \eqref{eqn.composite_formula}:
     \[
         X \tri p \iso \sum_{i \in X} \prod_{d \in \varnothing} \sum_{j \in p(\1)} \prod_{e \in p[j]} \yon \iso \sum_{i \in X} \1 \iso X.
     \]
     \item When viewed as functors, it is easy to see that $p \tri X \iso p(X)$.
-    We can also verify this using \cref{eqn.composite_formula}:
+    We can also verify this using \eqref{eqn.composite_formula}:
     \[
         p \tri X \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \prod_{e \in \varnothing} \yon \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \1 \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} X \iso \sum_{i \in p(\1)} X^{p[i]} \iso p(X).
     \]
@@ -495,85 +574,85 @@ Below, $X$ is a set and $p$ is a polynomial.
 \end{solution}
 \end{exercise}
 
+% **Move the proposition & exercise below to part about coclosure
+% \begin{proposition}\label{prop.flipping_reps_lins}
+% For all sets $A,B$, we have the following adjunction:
+% \[
+% \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
+% \]
+% Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
+% \end{proposition}
 
-\begin{proposition}\label{prop.flipping_reps_lins}
-For all sets $A,B$, we have the following adjunction:
-\[
-\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
-\]
-Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
-\end{proposition}
+% \[
+% \begin{tikzpicture}
+% 	\node (p1) {
+%   \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
+%   	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
+%   \end{tikzpicture}
+%   };
+%  \node[right=4 of p1] (p2) {
+%  \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
+%   	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
+% 		\draw (p_pos) to[first] (yA_pos);
+% 		\draw (yA_dir) to[climb] (q_pos);
+% 		\draw (q_dir) to[climb] (By_pos);
+% 		\draw (By_dir) to[last] (p_dir);
+%  \end{tikzpicture}
+%  };
+%  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
+% \end{tikzpicture} 
+% \]
+% Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
+% \begin{proof}
+% We prove this in two pieces: that
+% \begin{equation} \label{eqn.flipping1}
+% \poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
+% \end{equation}
+% and that
+% \begin{equation} \label{eqn.flipping2}
+% \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
+% \end{equation}
 
-\[
-\begin{tikzpicture}
-	\node (p1) {
-  \begin{tikzpicture}[polybox,tos]
-  	\node[poly, "$p$" left] (p) {};
-  	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
-  	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
-  	\node[poly, right=2 of p, "$q$" right] (q) {};
-  	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
-  \end{tikzpicture}
-  };
- \node[right=4 of p1] (p2) {
- \begin{tikzpicture}[polybox,tos]
-  	\node[poly, "$p$" left] (p) {};
-  	\node[poly, right=2 of p, "$q$" right] (q) {};
-  	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
-  	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
-		\draw (p_pos) to[first] (yA_pos);
-		\draw (yA_dir) to[climb] (q_pos);
-		\draw (q_dir) to[climb] (By_pos);
-		\draw (By_dir) to[last] (p_dir);
- \end{tikzpicture}
- };
- \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
-\end{tikzpicture} 
-\]
-Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
-\begin{proof}
-We prove this in two pieces: that
-\begin{equation} \label{eqn.flipping1}
-\poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
-\end{equation}
-and that
-\begin{equation} \label{eqn.flipping2}
-\poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
-\end{equation}
+% For \cref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+% Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
+% So this follows from the corresponding universal properties.
 
-For \cref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
-Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
-So this follows from the corresponding universal properties.
+% For \cref{eqn.flipping2}, we first write out the two sets by hand.
+% To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
+% Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
+% These are clearly isomorphic.
+% \end{proof}
 
-For \cref{eqn.flipping2}, we first write out the two sets by hand.
-To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
-Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
-These are clearly isomorphic.
-\end{proof}
-
-\begin{exercise}
-Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
-\begin{equation}\label{eqn.monomials_and_comp}
-	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
-\end{equation}
-If so, why? If not, give a counterexample.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+% \begin{exercise}
+% Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
+% \begin{equation}\label{eqn.monomials_and_comp}
+% 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
+% \end{equation}
+% If so, why? If not, give a counterexample.
+% \begin{solution}
+% **
+% \end{solution}
+% \end{exercise}
 
 \begin{exercise}\label{ex.compose_yon}
-For any $p\in\poly$ there are natural isomorphisms $p\cong p\tri \yon$ and $p\cong\yon\tri p$.
+For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso\yon\tri p$.
 \begin{enumerate}
 	\item Thinking of polynomials as functors $\smset\to\smset$, what functor does $\yon$ represent?
-	\item Why is $p\tri\yon$ isomorphic to $p$?
-	\item In terms of tree pictures, draw $\yon\tri p$ and $p\tri\yon$, and explain pictorially how to see the isomorphisms $\yon\tri p\cong p\cong p\tri\yon$.
+	\item Why are $p\tri\yon$ and $\yon\tri p$ isomorphic to $p$?
+	\item In terms of tree pictures, draw $\yon\tri p$ and $p\tri\yon$, and explain pictorially how to see the isomorphisms $p\tri\yon \iso p \iso \yon\tri p$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item The polynomial $\yon$ is the identity functor on $\smset$.
-    \item Composing any functor with the identity functor yields the original functor, so $p \tri \yon \iso p$.
+    \item Composing any functor with the identity functor yields the original functor, so $p\tri\yon \iso p \iso \yon\tri p$.
     \item **
 \end{enumerate}
 \end{solution}
@@ -604,7 +683,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
   \end{tikzpicture}
   };
 %
-	\node (q) [draw, red!50!black, above=1 of p, "$q=$" left] {
+	\node (q) [draw, red!75!black, above=1 of p, "$q=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
@@ -641,49 +720,49 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			};
 %
     \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 			};
 %
     \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			};
 %
     \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 			};
 %
     \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
       	child
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 			};
   \end{tikzpicture}
@@ -820,7 +899,7 @@ Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p
 	};	
 	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!50!black, "\tiny 1" below] (1) {$\bullet$} 
+    \node[red!75!black, "\tiny 1" below] (1) {$\bullet$} 
       child {coordinate (11)}
       child {coordinate (12)};
     \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
@@ -834,7 +913,7 @@ Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p
 %
 	\node (p4) [below right=-1.05 and 1 of p3] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!50!black, "\tiny 2" below] (1) {$\bullet$} 
+    \node[red!75!black, "\tiny 2" below] (1) {$\bullet$} 
       child {coordinate (11)};
     \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
@@ -851,49 +930,49 @@ Our six pictures below leave out the fact that the red corollas on the right are
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] (11') {$\bullet$} 
+      child {node[red!75!black] (11') {$\bullet$} 
       	child {coordinate (11)}
 				child {coordinate (12)}
 			}
-      child {node[red!50!black] (12') {$\bullet$} 
+      child {node[red!75!black] (12') {$\bullet$} 
       	child {coordinate (13)}
 				child {coordinate (14)}
 			};
 %
     \node[blue!50!black, right=5 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] (21') {$\bullet$} 
+      child {node[red!75!black] (21') {$\bullet$} 
       	child {coordinate (21)}
 				child {coordinate (22)}
 			}
-      child {node[red!50!black] (22') {$\bullet$} 
+      child {node[red!75!black] (22') {$\bullet$} 
       	child {coordinate (23)}
 			};
 %
     \node[blue!50!black, below=1.3 of 1] (3) {$\bullet$} 
-      child {node[red!50!black] (31') {$\bullet$} 
+      child {node[red!75!black] (31') {$\bullet$} 
       	child {coordinate (31)}
 			}
-      child {node[red!50!black] (32') {$\bullet$} 
+      child {node[red!75!black] (32') {$\bullet$} 
       	child {coordinate (32)}
 				child {coordinate (33)}
 			};
 %
     \node[blue!50!black] at (2|-3) (4) {$\bullet$} 
-      child {node[red!50!black] (41') {$\bullet$} 
+      child {node[red!75!black] (41') {$\bullet$} 
       	child {coordinate (41)}
 			}
-      child {node[red!50!black] (42') {$\bullet$} 
+      child {node[red!75!black] (42') {$\bullet$} 
       	child {coordinate (42)}
 			};
 %
     \node[blue!50!black, below=1.3 of 3] (5) {$\bullet$} 
-      child {node[red!50!black] (51') {$\bullet$} 
+      child {node[red!75!black] (51') {$\bullet$} 
       	child {coordinate (51)}
 				child {coordinate (52)}
 			};
 %
     \node[blue!50!black] at (4|-5) (6) {$\bullet$} 
-      child {node[red!50!black] (61') {$\bullet$} 
+      child {node[red!75!black] (61') {$\bullet$} 
       	child {coordinate (61)}
 			};
 		\end{scope}
@@ -1154,7 +1233,7 @@ For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C
   \end{tikzpicture}
   };
 %
-	\node (q) [draw, red!50!black, right=2 of p, "$q=$" left] {
+	\node (q) [draw, red!75!black, right=2 of p, "$q=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=4mm]
     \node["\tiny $C$" below] (1) {$\bullet$} 
       child {node[above, font=\tiny] {$U$}}
@@ -1182,7 +1261,7 @@ Here is a picture of a map $p\to q\tri r$:
     \node["\tiny $A$" below] (1) {$\bullet$} 
       child {coordinate (11')}
       child {coordinate (12')};
-    \node[right=2 of 1, red!50!black,"\tiny $C$" below] (1') {$\bullet$}
+    \node[right=2 of 1, red!75!black,"\tiny $C$" below] (1') {$\bullet$}
     	child {node[red] {$\bullet$}
 				child {coordinate (1'1)}
 				child {coordinate (1'2)}
@@ -1197,7 +1276,7 @@ Here is a picture of a map $p\to q\tri r$:
 %
     \node (2) [right=3 of 1',"\tiny $B$" below] {$\bullet$} 
       child {coordinate (21')};
-    \node[right=2 of 2, red!50!black,"\tiny $D$" below] (2') {$\bullet$}
+    \node[right=2 of 2, red!75!black,"\tiny $D$" below] (2') {$\bullet$}
 			child{node[red] {$\bullet$}
 				child {coordinate (2'1)}
 				child {coordinate (2'2)}
@@ -1433,7 +1512,7 @@ We want an intuitive understanding of this left-distributivity. Let $p\coloneqq\
     \node[right=.5 of q1] (q2) {$\bullet$};
   \end{tikzpicture}
   };
-	\node (r) [draw, red!50!black, right=1 of q, "$r$" above] {
+	\node (r) [draw, red!75!black, right=1 of q, "$r$" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node (r1) {$\bullet$} 
       child {}
@@ -1451,45 +1530,45 @@ Then $pq\cong\yon^\2+\yon$ and we can draw $pq\tri r$ as follows:
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			};
 %
     \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1.3 of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			};
 %
     \node[blue!50!black, right=1.3 of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1 of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
       	child
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}
+      child {node[red!75!black] {$\bullet$}
       };
   \end{tikzpicture}
 	};
@@ -1503,12 +1582,12 @@ Or we can compute $p\tri r$ and $q\tri r$ seperately:
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (p1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			};
     \node[blue!50!black, right=.5 of p1] (p2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
   \end{tikzpicture}
   };
@@ -1518,12 +1597,12 @@ Or we can compute $p\tri r$ and $q\tri r$ seperately:
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (q1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			};
     \node[blue!50!black, right=.5 of q1] (q2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
     \node[blue!50!black, right=.5 of q2] (q3) {$\bullet$};		
   \end{tikzpicture}
@@ -1538,45 +1617,45 @@ and multiply them together by taking each tree from $p\tri r$ and pairing it wit
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
 				child
 			};
 %
     \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1 of 2] (3) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
       	child
       	child
 			};
 %
     \node[blue!50!black, right=1 of 3] (4) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 				child
 				child
 			};
 %
     \node[blue!50!black, right=1.3 of 4] (5) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!50!black] {$\bullet$} 
+      child {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!50!black] {$\bullet$}
+      child {node[red!75!black] {$\bullet$}
       };	  	
 	\end{tikzpicture}
 	};
