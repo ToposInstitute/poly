@@ -1235,8 +1235,8 @@ In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colo
 
 \begin{exercise} \label{exc.representable_nt_functorial}
 Show that the construction in \cref{prop.representable_nt} is functorial
-\begin{equation}
-\yon^-\colon\smset\op\to\smset^\smset,
+\begin{equation} \label{eqn.yoneda_embedding}
+\yon^-\colon\smset\op\to[\smset,\smset],
 \end{equation}
 as follows.
 \begin{enumerate}
@@ -1260,14 +1260,14 @@ as follows.
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
 Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
 \begin{equation}\label{eqn.yoneda}
-F(S)\cong\nat(\yon^S,F)
+F(S)\iso\nat(\yon^S,F)
 \end{equation}
 where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
 \end{lemma}
 \begin{proof}[Sketch of proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
-For any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is natural in $X$ and that these two constructions are mutually inverse.
+Conversely, for any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$, and that these two constructions, $m\mapsto m_S$ and $a\mapsto m^a$, are mutually inverse.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
@@ -1277,7 +1277,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
 	\item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
 	\item Show that \eqref{eqn.yoneda} is natural in $F$.
 	\item Show that \eqref{eqn.yoneda} is natural in $S$.
-	\item As a corollary of \cref{lemma.yoneda}, show that $\yon^-\colon\smset\op\to\smset^\smset$ is fully faithful, in particular that there is an isomorphism $\nat(\yon^S,\yon^T)\cong S^T$.
+	\item As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to[\smset,\smset]$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
 \qedhere
 \end{enumerate}
 
@@ -1314,7 +1314,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     \end{equation}
     In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
     
-    \item Given functors $F, G \colon \smset^\smset$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
+    \item Given functors $F, G \colon [\smset,\smset]$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
     \[
     \begin{tikzcd}[ampersand replacement=\&]
     	\nat(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
@@ -1349,9 +1349,10 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
 %-------- Section --------%
 \section{Polynomials: sums of representables} \label{sec.poly.func_nat.repr_sum}
 
-We've seen that for any set $A$, the symbol $\yon^A$ represents a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense the name ``polynomial'' doesn't quite fit, because in algebra polynomials are often taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use the term ``polynomial'' in this way.
+We've seen that for any set $A$, the symbol $\yon^A$ denotes a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense, the name ``polynomial'' doesn't quite fit: in algebra, polynomials are generally taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use the term ``polynomial'' in this way.
 
-So here's the deal. All of our polynomials will be polynomials in one variable, $\yon$; every other letter or number that shows up will represent a set.%
+So here's the deal. All of our polynomials will be polynomials in one variable, namely $\yon$.
+Every other letter or number that shows up will represent a set.%
 \footnote{For those who clamor for polynomials in many variables, we will see in \cref{**} that the multivariable story falls out of the one-variable story.}
 For example, in the following bizarre polynomial
 \begin{equation}\label{eqn.biz_poly}
@@ -1370,16 +1371,15 @@ To undertand the sums and products of set-valued functors, we will first need to
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
 \emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more classically as $(X_i)_{i\in I}$.
 Indeed, when a functor $X \colon I \to \smset$ is understood to be a dependent set, we will denote $X(i)$ as $X_i$ for $i \in I$.
-Choosing one element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
-each set in the collection would give us a function $i \mapsto x_i$ where each
+A single element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
+every set in the collection would give us a function $i \mapsto x_i$, where each
 $x_i\in X_i$. This is a sort of function we haven't seen before, at least in
 this form --- its codomain \emph{depends} on the element we are applying it to.
 Think of a vector field $v$: to each point $p$ it assignes a tangent vector
 $v_p$ in the tangent space \emph{at $p$}. We can write the signature of such a
 function as
 \[f \colon (i \in I) \to X_i.\]
-We call this a \emph{dependent function}, since its codomain depends on the
-element of its domain we are applying it to.
+We call this a \emph{dependent function}, since its codomain depends on the element of its domain that we are applying it to.
 
 \begin{definition}[Dependent sums and products of sets]
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{sum} $\sum_{i\in I}X_i$ and \emph{product} $\prod_{i\in I}X_i$ of this collection are the sets
@@ -1410,8 +1410,8 @@ Let $I$ be a set and let $X_i\coloneqq\1$ be a one-element set for each $i\in I$
 As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
 \begin{enumerate}[resume]
 	\item Is it true that $X_i=\1$ for each $i\in I$?
-	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$.
-	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$.
+	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$, to justify the statement ``the empty sum is $\0$.''
+	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$, to justify the statement ``the empty product is $\1$.''
 \qedhere
 \end{enumerate}
 
@@ -1477,7 +1477,7 @@ We have a dependent set $X \colon I \to \smset$ and a projection function $\pi_1
 A helpful way to think about sum or product sets is by considering what choices must be made to specify an element of such a set.
 In the following examples, say that we have a dependent set $X \colon I \to \smset$.
 
-Here we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
+Below, we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
 
 \begin{quote}
 To choose an element of $\sum_{i \in I} X_i$: 
@@ -1489,30 +1489,30 @@ To choose an element of $\sum_{i \in I} X_i$:
 
 Then the projection $\pi_1$ from \cref{exc.dependent_product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
 
-Now we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
+Next, we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
 
 \begin{quote}
 To choose an element of $\prod_{i \in I} X_i$: 
 \begin{enumerate}
     \item for each element $i \in I$:
-    \begin{enumerate}[label=\arabic*.]
+    \begin{enumerate}[label*=\arabic*.]
         \item choose an element of $X_i$.
     \end{enumerate}
 \end{enumerate}
 \end{quote}
 
-Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s like
+Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s, such as
 \begin{equation}\label{eqn.misc98339}
 A \coloneqq \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
 \end{equation}
-We can give the instructions for choosing an element of $A$ as a nested list, as follows.
+The instructions for choosing an element of $A$ form a nested list, as follows.
 
 \begin{quote}
 To choose an element of $A$:
 \begin{enumerate}
     \item choose an element $i \in I$;
     \item for each element $j \in J(i)$:
-    \begin{enumerate}[label=\arabic*.]
+    \begin{enumerate}[label*=\arabic*.]
         \item choose an element $k \in K(i,j)$;
         \item choose an element of $X(i,j,k)$.
     \end{enumerate}
@@ -1528,7 +1528,7 @@ This dependent function in turn sends each $j \in J(i)$ to a pair that can be pr
 \label{ex.notation_sum_prod}
 % Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.misc98339}.
 
-Let $I=\{1,2\}$, let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$, let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$, and let $X(i,j,k)=\{x,y\}$ for all $i,j,k$. Now the formula 
+Let $I=\{1,2\}$; let $J(1)=\{j\}$ and $J(2)\coloneqq\{j,j'\}$; let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$; and let $X(i,j,k)=\{x,y\}$ for all $i,j,k$. Now the formula 
 \[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
 from \eqref{eqn.misc98339} has been given meaning as an actual set. Here is a list of all eight of its elements:
 \[
@@ -1550,7 +1550,7 @@ In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $
 
 \begin{exercise}
 Consider the set
-\[B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\]
+\begin{equation}\label{eqn.prod_sum_prod}B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\end{equation}
 \begin{enumerate}
 	\item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \eqref{eqn.misc98339}.
 	\item With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, how many elements are in $B$?
@@ -1568,10 +1568,10 @@ We are given the set
 	    To choose an element of $B$:
 	    \begin{enumerate}[label=\arabic*.]
 	        \item for each element $i \in I$:
-	        \begin{enumerate}[label=\arabic*.]
+	        \begin{enumerate}[label*=\arabic*.]
 	            \item choose an element $j \in J(i)$;
 	            \item for each element $k \in K(i, j)$:
-	            \begin{enumerate}[label=\arabic*.]
+	            \begin{enumerate}[label*=\arabic*.]
 	                \item choose an element of $X(i,j,k)$.
 	            \end{enumerate}
 	        \end{enumerate}
@@ -1597,18 +1597,20 @@ We are given the set
 \end{solution}
 \end{exercise}
 
+From here on out, we won't write out the full sequence of nested instructions corresponding to every dependent sum or product; we'll assume you're able to read them for yourself.
+
 %---- Subsection ----%
 \subsection{Expanding products of sums} \label{subsec.poly.func_nat.repr_sum.expand}
 
-We will often encounter sums of dependent sets nested within products.
-The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. It is almost trivial, once you understand what it's saying; in particular, once the statement is written in Agda, its proof is one short line of Agda code. 
+We will often encounter sums of dependent sets nested within products, as in \eqref{eqn.prod_sum_prod}.
+The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. Though we will take the time to walk you through its proof, it is almost trivial, once you understand what it's saying. For one thing, it is exactly how you would expect the distributive property of multiplication over addition to work, following the same sort of process that you would use to multiply multi-digit numbers from grade school or polynomials from high school algebra; for another, once the statement is written in Agda, its proof is one short line of Agda code. 
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
 For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
 \begin{equation}\label{eqn.set_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
 \cong
-\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
+\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).\footnote{We draw a bar over $j$ in $\bar{j}$ to remind ourselves that $\bar{j}$ is no longer just an index but a (dependent) function.}
 \end{equation}
 \end{proposition}
 \begin{proof}
@@ -1631,17 +1633,17 @@ start on the right from $(\bar{j}, g)$, our round trip gives us the pair
 But $\pi_1(\bar{j}(i), g(i)) = \bar{j}(i)$ and $\pi_2(\bar{j}(i), g(i)) = g(i)$ by definition, so
 we're back where we started. On the other hand, starting on the left from $f$ gives us the function
 \[i \mapsto (\pi_1(f(i)), \pi_2(f(i))).\]
-But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.
+But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.%
 
-\erase{
-We start with the function from left to right. To give such a function it suffices by the universal properties of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
-\[
-  \prod_{i\in I}X(i,j_0(i))\to 
-  X(i_0,j_0(i_0))\to
-  \sum_{j\in J(i_0)}X(i_0,j).
-\]
-We have now given the function from left to right. To go the other way..
-}
+% \erase{
+% We start with the function from left to right. To give such a function it suffices by the universal properties of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
+% \[
+%   \prod_{i\in I}X(i,j_0(i))\to 
+%   X(i_0,j_0(i_0))\to
+%   \sum_{j\in J(i_0)}X(i_0,j).
+% \]
+% We have now given the function from left to right. To go the other way..
+% }
 \end{proof}
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
@@ -1657,7 +1659,8 @@ Just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive
 Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
 \end{proof}
 
-Below, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see alternating products and sums; using \eqref{eqn.set_completely_distributive}, you can always write it as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
+In this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
+Using \eqref{eqn.set_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
 
 % \begin{exercise} \label{exc.push_prod_sum_set}
@@ -1696,10 +1699,12 @@ This is analogous to how products of sums in high school algebra can always be e
 % \end{solution}
 % \end{exercise}
 
+Now that we have defined dependent sums and products of sets, we are ready to define dependent sums and products of set-valued functors.
+
 %---- Subsection ----%
 \subsection{Dependent sums and products of functors $\smset\to\smset$} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_func}
 
-Where are we, and where are we going? We've defined dependent sums and products of sets; that's where we are. Our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
+Remember: our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
 
 \begin{definition}[Dependent sums and products of functors $\smset\to\smset$]\label{def.sum_prod}
 For any two functors $F,G\colon\smset\to\smset$, let
@@ -1738,27 +1743,38 @@ In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors t
     \[
         \sum_{i \in I} F \iso IF.
     \]
-    (Note that this is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
+    (This is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
 	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or does it not matter for some reason?
+	\item Show that the product of $I$ copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
+	\[
+	    \prod_{i \in I} \yon \iso \yon^I.
+	\]
+	(This is analogous to the fact from basic arithmetic that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
 \qedhere
 	\end{enumerate}
 \begin{solution}
 \begin{enumerate}
-	\item It suffices to show that for all $X \in \smset$,
+	\item It suffices to show that for all $X\in\smset$,
     \[
-      \sum_{i \in I} F(X) \iso (IF)(X).
+      \sum_{i\in I} F(X) \iso (IF)(X).
     \]
     The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \eqref{eqn.set_completely_distributive}.)
-    \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$. 
+    \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$.
+    \item It suffices to show that for all $X\in\smset$,
+    \[
+        \prod_{i\in I} \yon(X) \iso \yon^I(X).
+    \]
+    We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
+    So both sides are isomorphic to the set of functions $I\to X$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{proposition} \label{prop.prods_coprods_set_endofuncs}
-Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $\smset^\smset$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $\smset^\smset$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $\smset^\smset$.
+Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $[\smset,\smset]$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $[\smset,\smset]$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $[\smset,\smset]$.
 \end{proposition}
 \begin{proof}
-By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $\smset^\smset$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $\smset^\smset$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $[\smset,\smset]$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $[\smset,\smset]$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
 We've finally arrived: we can define polynomial functors!
@@ -1908,7 +1924,7 @@ In the language of high school algebra, we might call $p(\0)$ the ``constant ter
 \section{Morphisms between polynomial functors}
 \label{sec.poly.func_nat.morph}
 
-Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $\smset^\smset$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
+Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $[\smset,\smset]$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
 
 \begin{definition}[Polynomial morphisms, $\poly$]
@@ -1916,7 +1932,7 @@ Given polynomial functors $p$ and $q$, a \emph{morphism of polynomial functors} 
 Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are polynomial morphisms.
 \end{definition}
 
-In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
+In other words, $\poly$ is the full subcategory of $[\smset,\smset]$ spanned by the polynomial functors: we take the category $[\smset,\smset]$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
 
 %---- Subsection ----%
 \subsection{Coproducts of polynomials}
@@ -1928,8 +1944,8 @@ Since polynomial functors are defined as arbitrary sums of representables, copro
 The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \in I}$.
 \end{proposition}
 \begin{proof}
-By \cref{prop.prods_coprods_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
-The full subcategory inclusion $\poly \to \smset^\smset$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
+By \cref{prop.prods_coprods_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary coproducts given by $\sum_{i \in I}$.
+The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
 \end{proof}
 
 Explicitly, given polynomials $\{p_i\}_{i \in I}$, their coproduct is
@@ -2853,8 +2869,8 @@ The category $\poly$ has arbitrary products.
 \begin{proof}
 The proof is very similar to that of \cref{prop.poly_coprods}.
 
-By \cref{prop.prods_coprods_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
-The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
+By \cref{prop.prods_coprods_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary products given by $\prod_{i \in I}$.
+The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
 Indeed, given polynomials $\{p_i\}_{i \in I}$, by \eqref{eqn.set_completely_distributive}, their product is
@@ -3589,7 +3605,7 @@ Moreover, $\odot$ distributes over coproducts.
 In the case of $(\0,+)$ and $(\1,\times)$, this procedure returns the $(\1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
 \end{proposition}
 \begin{proof}
-Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $\smset^\smset$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
+Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $[\smset,\smset]$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
 To prove that this monoidal structure restricts to $\poly$, it suffices to show that $\poly$ is closed under the Day convolution.
 
 Given polynomials $p\coloneqq\sum_{i \in p(\1)} \yon^{p[i]}$ and $q\coloneqq\sum_{j \in q(\1)} \yon^{q[j]}$, their Day convolution is given by the coend
@@ -6631,8 +6647,8 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{exercise}
 
 \begin{example}
-Given a diagram in $\poly$, one could either take its colimit as a diagram of \emph{polynomial} functors (i.e.\ its colimit in $\poly)$ or its colimit simply as a diagram of functors (i.e.\ its colimit in $\smset^\smset$).
-These can yield different results, as evidenced by the fact that, per the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $\smset^\smset$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
+Given a diagram in $\poly$, one could either take its colimit as a diagram of \emph{polynomial} functors (i.e.\ its colimit in $\poly)$ or its colimit simply as a diagram of functors (i.e.\ its colimit in $[\smset,\smset]$).
+These can yield different results, as evidenced by the fact that, per the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $[\smset,\smset]$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
 
 As a concrete example, consider the two projections $\yon^\2\to\yon$, which form the diagram
 \begin{equation} \label{eqn.2_projs}
