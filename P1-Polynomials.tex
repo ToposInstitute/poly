@@ -29,7 +29,7 @@ In this book we will investigate a remarkable category called $\poly$. We will s
 \yon^\2+\2\yon+\1 \quad&\quad
 \textit{polynomial}
 \intertext{
-All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be drawn as a forest of mini-trees:
+Such polynomials will form the objects of $\poly$. All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be drawn as a forest of mini-trees:
 }
 \label{eqn.forest_example}
 \begin{tikzpicture}[trees]
@@ -225,7 +225,7 @@ Here's a picture of this lovely forest:
 
 Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to dynamics, decisions, and data. We speak superlatively of $\poly$:
 \slogan{
-The category of polynomial functors is a jackpot. Its beauty flows without bound}
+The category of polynomials is a jackpot. Its beauty flows without bound}
 but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
 %-------- Section --------%
@@ -478,7 +478,7 @@ We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly
   \node[right=.5 of 3] (4) {$\bullet$};
 \end{tikzpicture}
 \end{equation}
-Concretely, we might think of each position as representing a \emph{decision}. Associated to every decision is a set of \emph{options} (directions). The three decisions we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.'' While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
+Concretely, we might think of each position as representing a \emph{decision}. Associated to every decision is a set of \emph{options} (directions). The four decisions we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.'' %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
 
 This perspective will prove insightful in \cref{sec.poly.func_nat.morph}, when we start to discuss the \emph{morphisms} between two polynomials.
 As a sneak peek, it turns out that a morphism is just a way of \emph{delegating} decisions from one menu to another.
@@ -929,7 +929,7 @@ We will also see how databases can be conceived in terms of dynamical systems.
 %-------- Section --------%
 \section{Implementation} \label{sec.poly.intro.code}
 
-Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types, such as Agda.
+Everything we talk about can actually be implemented in a computer without much difficulty, at least if you have access to a language that supports dependent types, such as Agda or Idris.
 
 What we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of \emph{positions} in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a direction.
 
@@ -937,7 +937,7 @@ Luckily, the Agda code is pretty easy to understand.
 \begin{agda}
 record Arena : Set where  -- an arena consists of 
    field                      -- two fields
-     pos : Set                -- one called pos, a set, and
+     pos : Set                -- one called pos, a set; and
      dir : pos -> Set         -- one called dir,
                               -- a set for each element of the set pos
 \end{agda}
@@ -945,7 +945,7 @@ record Arena : Set where  -- an arena consists of
 %-------- Section --------%
 \section{Mathematical theory} \label{sec.poly.intro.math_theory}
 
-The applications of $\poly$ are quite diverse and interesting, including dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
+The applications of $\poly$ are quite diverse and interesting, encapsulating dynamics, data, and decisions. However it is how the mathematics of $\poly$ supports these applications that is so fantastic. For experts, here are some reasons for the excitement.
 
 \begin{proposition}
 $\poly$ has all products and coproducts and is completely distributive.
@@ -953,28 +953,23 @@ $\poly$ also has exponential objects, making it a biCartesian closed category.
 It therefore supports the simply typed lambda calculus.
 \end{proposition}
 \begin{proof}
-We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{**}, and that $\poly$ has exponential objects in \cref{thm.poly_cart_closed}.
+We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{**}, and that it has exponential objects in \cref{thm.poly_cart_closed}.
 \end{proof}
 
 \begin{proposition}
-Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is also a closed monoidal structure that distributes over coproducts.
+Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
 \end{proposition}
 \begin{proof}
 We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
 Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{**}.
+
 In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
 Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
+In \cref{**}, we will show that $\circ$ preserves connected limits, and in \cref{**}, we will show that $\circ$ is left coclosed.
 \end{proof}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
-$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:\footnote{
-	We use the notation 
-	$\begin{tikzcd}[ampersand replacement=\&]
-		C\ar[r, shift left=4pt, "L"]\&
-		D\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
-	\end{tikzcd}$
-	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $C\Rightarrow R \circ L$ and the counit $L \circ R\Rightarrow D$ of the adjunction.
-}
+$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
 \begin{equation*}%\label{eqn.adjoints_galore}
 \begin{tikzcd}[column sep=60pt]
   \smset
@@ -988,12 +983,19 @@ $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\
 	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
 \end{tikzcd}
 \hspace{.6in}
-\adjr[50pt]{\smset\op}{\yon^A}{\Gamma(p)}{\poly}.
+\adjr[50pt]{\smset\op}{\yon^A}{\Gamma(p)}{\poly}.\footnote{
+	We use the notation 
+	$\begin{tikzcd}[ampersand replacement=\&]
+		\cat{C}\ar[r, shift left=4pt, "L"]\&
+		\cat{D}\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
+	\end{tikzcd}$
+	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $\cat{C}\Rightarrow R \circ L$ and the counit $L \circ R\Rightarrow \cat{D}$ of the adjunction.
+}
 \end{equation*}
 Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$; in particular, $\Gamma(p) \coloneqq \poly(p, \yon)$.
 \end{proposition}
 \begin{proof}
-We will prove that $\poly$ has an adjoint quadruple with $\smset$ in \cref{thm.adjoint_quadruple}, and that it has an adjoint quadruple with $\smset\op$ in \cref{prop.yoneda_left_adjoint}.
+We will prove that $\poly$ has an adjoint quadruple with $\smset$ in \cref{thm.adjoint_quadruple}, and that it has an adjoint pair with $\smset\op$ in \cref{prop.yoneda_left_adjoint}.
 \end{proof}
 
 There's a lot we're leaving out of this summary, just so we can hit the highlights.
@@ -1013,29 +1015,29 @@ The category $\comon$ has finite coproducts and products, and coproducts in $\co
 \end{proposition}
 
 \begin{proposition}
-The functor $\comon\to\poly$ has a right adjoint
+The forgetful functor $U\colon\comon\to\poly$ has a right adjoint
 \[
-\adjr{\poly}{\com{K}_-}{u_-}{\comon},
+\adjr{\poly}{\cofree{-}}{U}{\comon}
 \]
 called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
 \end{proposition}
 
 \begin{proposition}
-The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the functor $u_-\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
+The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the forgetful functor $U\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
 \end{proposition}
 
 
 
 \begin{proposition}\label{prop.sysp[i]s_topos}
 For any polynomial $p$, the category
-\[\sys(p)\cong\com{K}_p\set\]
-of dynamical systems on $p$ forms a topos.
+\[\sys(p)\cong[\cofree{p},\smset]\]
+of dynamical systems on $p$ forms a topos.\footnote{We use the notation $[\cat{C}, \cat{D}]$ to denote the category of functors $\cat{C}\to\cat{D}$.}
 \end{proposition}
 
 The proposition above indicates that there is a full-fledged logic of dynamical systems inhabiting any interface, while the following proposition implies that these logics can be combined and compared.
 
 \begin{proposition}\label{prop.poly_map_pregeo_topos}
-A morphism $p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes
+A morphism $p\to q$ of polynomials induces a pre-geometric morphism between their respective toposes:
 \[
 \adj{\sys(p)}{}{}{\sys(q)}.
 \]
@@ -1046,23 +1048,23 @@ The following propositions suggest that the whole story of dynamics carries a st
 \begin{proposition}
 Suppose that the category $\cat{C}$ corresponds under \cref{prop.ahman_uustalu1} to the comonoid $\com{C}$. Then there is an equivalence of categories
 \[
-\Cat{Bimod}(\com{C},0)\cong\cat{C}\set
+\Cat{Bimod}(\com{C},0)\cong[\cat{C},\smset]
 \]
-between $(\com{C},0)$-bimodules and $\cat{C}$-copresheaves.
+between $(\com{C},0)$-bimodules\footnote{Technically, what we are calling bimodules over a pair of comonoids are really bi\emph{co}modules, but we will use the simpler term throughout.} and $\cat{C}$-copresheaves.
 \end{proposition}
-We will use the convention that the comonoid $\com{C}$ corresponds to category $\cat{C}$, and similarly for $\com{D}$ and $\cat{D}$, etc. 
+We will use the convention that the comonoid $\com{C}$ corresponds to category $\cat{C}$ under \cref{prop.ahman_uustalu1}, and similarly for $\com{D}$ and $\cat{D}$, etc. 
+
+\begin{proposition}
+For any category $\cat{C}$, the category of left $\com{C}$-modules is equivalent to the category of functors $\cat{C}\to\poly$:
+\[\Cat{Bimod}(\com{C},\yon)\cong\Cat{Fun}(\cat{C},\poly).\]
+\end{proposition}
 
 \begin{proposition}[Garner]
 For any categories $\cat{C}$ and $\cat{D}$, there is an equivalence of categories
 \[
-\Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}(\cat{C}\set,\cat{D}\set)
+\Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}([\cat{D},\smset],[\cat{C},\smset])
 \]
 between that of bimodules between comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
-\end{proposition}
-
-\begin{proposition}
-For any category $\cat{C}$ the category of left $\com{C}$-modules is equivalent to the category of functors $\cat{C}\to\poly$,
-\[\Cat{Bimod}(\com{C},\yon)\cong\Cat{Fun}(\cat{C},\poly).\]
 \end{proposition}
 
 If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will cover each of the above results in detail over the course of this book. There are many avenues for study, but we need to push forward.
@@ -1081,16 +1083,25 @@ We'll begin in the next chapter.
 %------------ Chapter ------------%
 \chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
 
-In this chapter, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. We begin with the category $\smset$ of sets and functions, and what is arguably the fundamental theorem of category theory, the Yoneda lemma.
+In this chapter, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about dynamical systems, decisions, and data. 
+We will formally introduce the objects of $\poly$: polynomial functors.
+We will also study the natural transformations between these functors, which are $\poly$'s morphisms.
+Finally, we'll present some of $\poly$'s most versatile categorical properties.
+
+But we'll begin by examining a specific kind of polynomial functor that you may already be familiar with---representable functors on the category $\smset$ of sets and functions.
+We'll highlight how these functors are closely related to what is arguably the fundamental theorem of category theory, the Yoneda lemma.
 
 %-------- Section --------%
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
+
+Representable functors form the basis of the category $\poly$.
+Much of the following theory is applicable for general functors into $\smset$; but for now, we are only interested in functors $\smset\to\smset$.
 
 \begin{definition} \label{def.representable}
 Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, depending on which is more natural to think about.}
 
 We refer to functors of this form as \emph{representable functors}, or simply as \emph{representables}.
-In particular, we call $\yon^S$ the functor \emph{represented by} $S$.
+In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set} of $\yon^S$.
 \end{definition}
 
 The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the polynomials corresponding to various representables, namely the pure powers:
@@ -1145,7 +1156,7 @@ For each of the following functors $\smset\to\smset$, say if it is representable
 \end{enumerate}
 
 \begin{solution}
-Our goal is to say whether various functors are representable (of the form $X\mapsto\smset(S,X)$ for some $S$, called the representing set).
+Our goal is to say whether various functors are representable and, for those that are, what the representing set is.
 \begin{enumerate}
 	\item The identity functor $X\mapsto X$ is represented by $S=\1$: a function $\1 \to X$ is just an element of $X$, so $\smset(\1,X) \iso X$.
 	Alternatively, note that $X^1 \iso X$.
@@ -1229,7 +1240,7 @@ Show that the construction in \cref{prop.representable_nt} is functorial
 \end{equation}
 as follows.
 \begin{enumerate}
-	\item Show that for any set $S$, we have $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
+	\item Show that for any set $S$, we have that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
 	\item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
 \qedhere
 \end{enumerate}
