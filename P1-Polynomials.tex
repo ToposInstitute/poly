@@ -1356,7 +1356,7 @@ Every other letter or number that shows up will represent a set.%
 \footnote{For those who clamor for polynomials in many variables, we will see in \cref{**} that the multivariable story falls out of the one-variable story.}
 For example, in the following bizarre polynomial
 \begin{equation}\label{eqn.biz_poly}
-p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^2},
+p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^\2},
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\3$ denotes the set $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote some arbitrary sets that should have already been defined in order for \eqref{eqn.biz_poly} to make sense.
 
@@ -1381,7 +1381,7 @@ function as
 \[f \colon (i \in I) \to X_i.\]
 We call this a \emph{dependent function}, since its codomain depends on the element of its domain that we are applying it to.
 
-\begin{definition}[Dependent sums and products of sets]
+\begin{definition}[Dependent sums and products of sets] \label{def.dep_sums_prods_sets}
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{sum} $\sum_{i\in I}X_i$ and \emph{product} $\prod_{i\in I}X_i$ of this collection are the sets
 \[
 \sum_{i\in I}X_i:=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
@@ -1399,7 +1399,6 @@ Meanwhile, their product is the usual Cartesian product
 \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
 Its cardinality will always be the product of the cardinalities of $X_1$ and $X_2$.
 \end{example}
-
 
 \begin{exercise}\label{exc.on_sums_prods_sets}
 Let $I$ be a set and let $X_i\coloneqq\1$ be a one-element set for each $i\in I$. 
@@ -1440,6 +1439,12 @@ Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the uniqu
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+We'll assume you're already familiar with the following fact, which justifies why we call the constructions in \cref{def.dep_sums_prods_sets} sums and products.
+
+\begin{proposition}
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$).
+\end{proposition}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
   Let $X \colon I \to \smset$ be a set depending on an $i \in I$. There is a
@@ -1603,13 +1608,13 @@ From here on out, we won't write out the full sequence of nested instructions co
 \subsection{Expanding products of sums} \label{subsec.poly.func_nat.repr_sum.expand}
 
 We will often encounter sums of dependent sets nested within products, as in \eqref{eqn.prod_sum_prod}.
-The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice} or the \emph{completely distributive property}, in this case of $\smset$. Though we will take the time to walk you through its proof, it is almost trivial, once you understand what it's saying. For one thing, it is exactly how you would expect the distributive property of multiplication over addition to work, following the same sort of process that you would use to multiply multi-digit numbers from grade school or polynomials from high school algebra; for another, once the statement is written in Agda, its proof is one short line of Agda code. 
+The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice}. Though we will take the time to walk you through its proof, it is almost trivial, once you understand what it's saying. For one thing, it is exactly how you would expect the distributive property of multiplication over addition to work, following the same sort of process that you would use to multiply multi-digit numbers from grade school or polynomials from high school algebra; for another, once the statement is written in Agda, its proof is one short line of Agda code. 
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
-For any set $I$, collection of sets $\{J(i)\}_{i\in I}$, and collection of sets $\{X(i,j)\}_{i\in i, j\in J(i)}$, we have a bijection
+For any set $I$, sets $(J(i))_{i\in I}$, and sets $(X(i,j))_{i\in I, j\in J(i)}$, we have a bijection
 \begin{equation}\label{eqn.set_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
-\cong
+\iso
 \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).\footnote{We draw a bar over $j$ in $\bar{j}$ to remind ourselves that $\bar{j}$ is no longer just an index but a (dependent) function.}
 \end{equation}
 \end{proposition}
@@ -1633,23 +1638,13 @@ start on the right from $(\bar{j}, g)$, our round trip gives us the pair
 But $\pi_1(\bar{j}(i), g(i)) = \bar{j}(i)$ and $\pi_2(\bar{j}(i), g(i)) = g(i)$ by definition, so
 we're back where we started. On the other hand, starting on the left from $f$ gives us the function
 \[i \mapsto (\pi_1(f(i)), \pi_2(f(i))).\]
-But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.%
-
-% \erase{
-% We start with the function from left to right. To give such a function it suffices by the universal properties of products and coproducts to fix an arbitrary $j_0\in\prod_{i\in I}J(i)$ and $i_0\in I$, and provide a function $\prod_{i\in I}X(i,j_0(i))\to\sum_{j\in J(i_0)}X(i_0,j)$. We do so by first projecting onto the $i_0$ factor and then including into the $j_0(i_0)$ summand
-% \[
-%   \prod_{i\in I}X(i,j_0(i))\to 
-%   X(i_0,j_0(i_0))\to
-%   \sum_{j\in J(i_0)}X(i_0,j).
-% \]
-% We have now given the function from left to right. To go the other way..
-% }
+But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, we're back where we started.
 \end{proof}
 
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
 
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
-For any set $I$, set $J$, and collection of sets $\{X(i, j)\}_{i \in I, j \in J}$, we have a bijection
+For any set $I$, set $J$, and sets $(X(i, j))_{i \in I, j \in J}$, we have a bijection
 \begin{equation} \label{eqn.push_prod_sum_set_indep}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
@@ -1659,9 +1654,36 @@ Just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive
 Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
 \end{proof}
 
-In this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
+Throughout this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
 Using \eqref{eqn.set_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
+
+It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
+In general, we refer to a category having this property as follows.
+
+\begin{definition}
+A category $\cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\cat{C}$, we have an isomorphism
+\begin{equation}\label{eqn.cat_completely_distributive}
+\prod_{i\in I}\sum_{j\in J(i)}X(i,j)
+\iso
+\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
+\end{equation}
+\end{definition}
+
+So \cref{prop.push_prod_sum_set} states that $\smset$ is completely distributive.
+We'll see shortly that $\poly$ is, too.
+Of course, \cref{cor.push_prod_sum_set_indep} generalizes to all completely distributive categories as well.
+
+\begin{corollary} \label{cor.push_prod_sum_obj_indep}
+Let $\cat{C}$ be a completely distributive category.
+For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{C}$, we have a bijection
+\begin{equation} \label{eqn.push_prod_sum_obj_indep}
+    \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
+\end{equation}
+\end{corollary}
+\begin{proof}
+Again, just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
+\end{proof}
 
 % \begin{exercise} \label{exc.push_prod_sum_set}
 % \begin{enumerate}
@@ -1699,27 +1721,41 @@ This is analogous to how products of sums in high school algebra can always be e
 % \end{solution}
 % \end{exercise}
 
-Now that we have defined dependent sums and products of sets, we are ready to define dependent sums and products of set-valued functors.
+Now that we have defined dependent sums and products of sets, we are ready to tackle dependent sums and products of set-valued functors.
 
 %---- Subsection ----%
 \subsection{Dependent sums and products of functors $\smset\to\smset$} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_func}
 
-Remember: our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^2$, $\yon$, and $\1$ are functors, we just need to define sums of functors $\smset\to\smset$. But we might as well define products of functors at the same time, because they'll very much come in handy.
+Remember: our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^\2$, $\yon$, and $\1$ are functors, we just need to interpret sums of functors $\smset\to\smset$.
+But we might as well examine products of functors at the same time, because they'll very much come in handy.
+And both these concepts generalize to limits and colimits in $[\smset,\smset]$.
 
-\begin{definition}[Dependent sums and products of functors $\smset\to\smset$]\label{def.sum_prod}
+\begin{proposition} \label{prop.presheaf_lim_ptwise}
+The category $[\smset,\smset]$ has all small limits and colimits, and they are computed pointwise.
+That is, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to[\smset,\smset]$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
+\[
+    \left(\lim_{j\in\cat{J}} F(j)\right)(X) \iso \lim_{j\in\cat{J}} \left(F(j)(X)\right) \qqand \left(\colim_{j\in\cat{J}} F(j)\right)(X) \iso \colim_{j\in\cat{J}} \left(F(j)(X)\right)
+\]
+natural in $X$.
+\end{proposition}
+\begin{proof}
+This is a special case of a more general fact, where $[\smset,\smset]$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+\end{proof}
+
+\begin{example}[Dependent sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
 For any two functors $F,G\colon\smset\to\smset$, let
 \[
   (F+G)\colon\smset\to\smset
   \qqand
   (F\times G)\colon\smset\to\smset
 \]
-denote the functors that respectively assign to each $X\in\smset$ the sets
+respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of $F$ and $G$ in $[\smset,\smset]$.\footnote{We may also denote the product functor $F \times G$ by $FG$.}
+Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
 \[
-  (F+G)(X)\coloneqq F(X)+G(X)
+  (F+G)(X)\iso F(X)+G(X)
   \qqand
-	(F\times G)(X)\coloneqq F(X)\times G(X).
+	(F\times G)(X)\iso F(X)\times G(X).
 \]
-We may also denote the product functor $F \times G$ by $FG$.
 
 More generally, for any set $I$ and functors $(F_i)_{i\in I}$, let
 \[
@@ -1727,55 +1763,87 @@ More generally, for any set $I$ and functors $(F_i)_{i\in I}$, let
 \qqand
 \prod_{i\in I}F_i\colon\smset\to\smset
 \]
-denote the functors that respectively assign to each $X\in\smset$ the sum and product of sets
+respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of the functors $(F_i)_{i\in I}$.
+Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
 \[
-	\Big(\sum_{i\in I}F_i\Big)(X)\coloneqq\sum_{i\in I} F_i(X)
+	\left(\sum_{i\in I}F_i\right)(X)\iso\sum_{i\in I} F_i(X)
 	\qqand
-	\Big(\prod_{i\in I}F_i\Big)(X)\coloneqq\prod_{i\in I} F_i(X).
+	\left(\prod_{i\in I}F_i\right)(X)\iso\prod_{i\in I} F_i(X).
 \]
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor that assigns $I$ to each $X\in\smset$.
 In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors that respectively assign $\0$ and $\1$ to each $X\in\smset$.
-\end{definition}
+As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset$, \cref{prop.presheaf_lim_ptwise} tells us that the constant functor $\0$ (resp.\ $\1$) is the is the initial (resp.\ terminal) object in $[\smset,\smset]$.
+\end{example}
 
 \begin{exercise} \label{exc.repeated_sum_is_product}
 \begin{enumerate}
 	\item Show that for a set $I \in \smset$ and a functor $F \colon \smset \to \smset$, the sum of $I$ copies of $F$ is isomorphic to the product of the constant functor $I$ and $F$:
     \[
-        \sum_{i \in I} F \iso IF.
+        \sum_{i \in I}F\iso IF.
     \]
     (This is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
-	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or does it not matter for some reason?
-	\item Show that the product of $I$ copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
-	\[
-	    \prod_{i \in I} \yon \iso \yon^I.
-	\]
-	(This is analogous to the fact from basic arithmetic that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
-\qedhere
+	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or does it not matter for some reason?\qedhere
 	\end{enumerate}
 \begin{solution}
 \begin{enumerate}
-	\item It suffices to show that for all $X\in\smset$,
+	\item It suffices to show that for all $X\in\smset$, there is an isomorphism
     \[
-      \sum_{i\in I} F(X) \iso (IF)(X).
+      \sum_{i\in I} F(X) \iso (IF)(X)
     \]
-    The left hand side is isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \eqref{eqn.set_completely_distributive}.)
+    natural in $X$.
+    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \eqref{eqn.set_completely_distributive}.)
     \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$.
-    \item It suffices to show that for all $X\in\smset$,
-    \[
-        \prod_{i\in I} \yon(X) \iso \yon^I(X).
-    \]
-    We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
-    So both sides are isomorphic to the set of functions $I\to X$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{proposition} \label{prop.prods_coprods_set_endofuncs}
-Referring to the notation in \cref{def.sum_prod}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $[\smset,\smset]$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $[\smset,\smset]$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $[\smset,\smset]$.
-\end{proposition}
-\begin{proof}
-By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $[\smset,\smset]$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $[\smset,\smset]$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
-\end{proof}
+\begin{exercise}
+\begin{enumerate}
+    \item Show that for a set $I\in\smset$, the product of $I$ copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
+	\[
+	    \prod_{i\in I}\yon\iso\yon^I.
+	\]
+	(This is analogous to the fact from basic arithmetic that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
+	\item Show that the product of $I$ copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
+	\[
+	    \prod_{i\in I}\yon^A\iso\yon^{IA}.
+	\]
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item It suffices to show that for all $X\in\smset$, there is an isomorphism
+    \[
+        \prod_{i\in I} \yon(X) \iso \yon^I(X).
+    \]
+    natural in $X$.
+    We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
+    So both sides are naturally isomorphic to the set of functions $I\to X$.
+    \item It suffices to show that for all $X\in\smset$, there is an isomorphism
+    \[
+        \prod_{i\in I} \yon^A(X) \iso \yon^{IA}(X).
+    \]
+    natural in $X$.
+    We have that $\yon^A(X)\iso X^A$ and that $\yon^{IA}(X)\iso X^{IA}$.
+    By currying, both sides are naturally isomorphic to the set of functions $I\times A\to X$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{remark}
+From here on out, given $I\in\smset$ and a functor $F\colon\smset\to\smset$, we define
+\[
+    F^I\coloneqq\prod_{i\in I}F.
+\]
+The exercise above shows that this notation does not conflict with the way we write representable functors as powers of the identity functor $\yon$.
+The exercise also shows how the power of a representable functor can be simplified to a single representable functor.
+\end{remark}
+
+% \begin{proposition} \label{prop.prods_coprods_set_endofuncs}
+% Referring to the notation in \cref{ex.sum_prod_set_endofuncs}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $[\smset,\smset]$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $[\smset,\smset]$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $[\smset,\smset]$.
+% \end{proposition}
+% \begin{proof}
+% By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $[\smset,\smset]$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $[\smset,\smset]$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+% \end{proof}
 
 We've finally arrived: we can define polynomial functors!
 
@@ -1944,15 +2012,15 @@ Since polynomial functors are defined as arbitrary sums of representables, copro
 The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \in I}$.
 \end{proposition}
 \begin{proof}
-By \cref{prop.prods_coprods_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary coproducts given by $\sum_{i \in I}$.
+By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary coproducts given by $\sum_{i \in I}$.
 The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
 \end{proof}
 
-Explicitly, given polynomials $\{p_i\}_{i \in I}$, their coproduct is
+Explicitly, given polynomials $(p_i)_{i \in I}$, their coproduct is
 \begin{equation} \label{eqn.poly_coprod}
     \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]},
 \end{equation}
-which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{def.sum_prod}.
+which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{ex.sum_prod_set_endofuncs}.
 Binary coproducts are thus given by binary sums of functors, denoted by $+$.
 In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and $q$, their coproduct $p+q$ is given as follows.
 The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
@@ -2247,13 +2315,13 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
 For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
 \begin{enumerate}
 	\item Choose a polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
-	\item Count all the maps $\yon^2\to p$. How many are there?
+	\item Count all the maps $\yon^\2\to p$. How many are there?
 	\item Is the previous answer equal to $p(\2)$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We let $p \coloneqq \yon^3 + 1$ (you could have selected others) and draw both $p$ and $\yon^\2$ as corolla forests, labeling each root for convenience.
+    \item We let $p \coloneqq \yon^\3 + 1$ (you could have selected others) and draw both $p$ and $\yon^\2$ as corolla forests, labeling each root for convenience.
     \[
     \begin{tikzpicture}[rounded corners]
     	\node (y2) [draw, blue!50!black, "$\yon^\2$" above] {
@@ -2314,7 +2382,7 @@ By \eqref{eqn.main_formula}, we always have
 	\[
 	    |\poly(p, q)| = \prod_{i \in \2} |p[i]|^4 + 1 = (3^4 + 1)(0^4 + 1) = 82.
 	\]
-	\item If $p=\4\yon^\3+\3\yon^2\+\yon$ and $q=\yon$, then
+	\item If $p=\4\yon^\3+\3\yon^\2+\yon$ and $q=\yon$, then
 	\[
 	    |\poly(p, q)| = \prod_{i \in \8} |p[i]| = 3^4 \cdot 2^3 \cdot 1 = 648.
 	\]
@@ -2407,7 +2475,7 @@ Use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
 \[
     \poly\left(\sum_{i \in I} p_i, q\right) \iso \prod_{i \in I} \poly(p_i, q)
 \]
-for all polynomials $\{p_i\}_{i \in I}$ and $q$, as expected from the universal property of coproducts.
+for all polynomials $(p_i)_{i \in I}$ and $q$, as expected from the universal property of coproducts.
 \begin{solution}
 Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
 \begin{align*}
@@ -2542,7 +2610,7 @@ with $i \in p(\1)$ and $g \colon p[i] \to X$, to
 \]
 \end{proposition}
 \begin{proof}
-As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_1, f^\sharp)$ can equivalently be thought of as a set of pairs $\{(f_1(i), f^\sharp_i)\}_{i \in I}$.
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_1, f^\sharp)$ can equivalently be thought of as multiple pairs $((f_1(i), f^\sharp_i))_{i \in I}$.
 Fixing $i \in I$, the pair $(f_1(i), f^\sharp_i)$ is an element of
 \[
     \sum_{j \in q(\1)} p[i]^{q[j]} = q(p[i])
@@ -2552,8 +2620,8 @@ By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso 
 \[
     q(g)(f_1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_1(i), f^\sharp_i) = \left(f_1(i), g^{q[f_1(i)]}(f^\sharp_i)\right) = (f_1(i), f^\sharp_i \then g).
 \]
-Taken together, the collection of natural transformations $\{f^i\}_{i \in I}$ is an element of $\prod_{i \in I} \poly(\yon^{p[i]}, q)$.
-Applying the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}, we find that $\{f^i\}_{i \in I}$ corresponds to the natural transformation $f \colon p \to q$ we desire.
+Taken together, the natural transformations $(f^i)_{i \in I}$ form an element of $\prod_{i \in I} \poly(\yon^{p[i]}, q)$.
+Applying the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}, we find that $(f^i)_{i \in I}$ corresponds to the natural transformation $f \colon p \to q$ we desire.
 \end{proof}
 
 \begin{example}
@@ -2869,11 +2937,11 @@ The category $\poly$ has arbitrary products.
 \begin{proof}
 The proof is very similar to that of \cref{prop.poly_coprods}.
 
-By \cref{prop.prods_coprods_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary products given by $\prod_{i \in I}$.
+By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary products given by $\prod_{i \in I}$.
 The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
-Indeed, given polynomials $\{p_i\}_{i \in I}$, by \eqref{eqn.set_completely_distributive}, their product is
+Indeed, given polynomials $(p_i)_{i \in I}$, by \eqref{eqn.set_completely_distributive}, their product is
 \begin{equation} \label{eqn.poly_prod}
     \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
 \end{equation}
@@ -2902,7 +2970,7 @@ which, as a coproduct of representables, is in $\poly$.
 	\[
 	    \poly\left(q, \prod_{i \in I} p_i\right) \iso \prod_{i \in I} \poly(q, p_i)
 	\]
-	for all polynomials $\{p_i\}_{i \in I}$ and $q$, as expected from the universal property of products.
+	for all polynomials $(p_i)_{i \in I}$ and $q$, as expected from the universal property of products.
 \qedhere
 % \end{enumerate}
 \begin{solution}
@@ -3063,7 +3131,7 @@ In practice, we can multiply polynomial functors the same way we would multiply 
     \[
         A_1\yon^{B_1} \times A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 + B_2}.
     \]
-    \item \label{exc.general_poly_times.polynomial} Show that for sets $\{A_i\}_{i \in I}$ and $\{B_j\}_{j \in J}$, we have
+    \item \label{exc.general_poly_times.polynomial} Show that for sets $(A_i)_{i \in I}$ and $(B_j)_{j \in J}$, we have
     \[
         \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i + B_j}.
     \]
@@ -3245,7 +3313,7 @@ As arenas, we take all pairs of positions, and for each pair we take the product
     \[
         A_1\yon^{B_1} \otimes A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 B_2}.
     \]
-    \item \label{exc.general_poly_parallel_times.polynomial} Show that for sets $\{A_i\}_{i \in I}$ and $\{B_j\}_{j \in J}$, we have
+    \item \label{exc.general_poly_parallel_times.polynomial} Show that for sets $(A_i)_{i \in I}$ and $(B_j)_{j \in J}$, we have
     \[
         \left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i B_j}.
     \]
@@ -4055,14 +4123,14 @@ After some examples, we'll briefly preview something we have already hinted at a
 Then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same state system.
 
 \begin{example}\label{ex.R2_moore}
-Here's a(n infinite) Moore machine with states $\rr^2$:
+Here's a(n infinite) Moore machine with states $\rr^\2$:
 \[
-\rr^2\yon^{\rr^2}\to\rr^2\yon^{[0,1]\times[0,2\pi)}%]
+\rr^\2\yon^{\rr^\2}\to\rr^\2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
+Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align*}
-  \rr^2&\To{\text{yield}}\rr^2&
-  \rr^2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^2
+  \rr^\2&\To{\text{yield}}\rr^\2&
+  \rr^\2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^\2
   	%\nonumber\\\label{eqn.r2moore}
   	\\
   (x,y)&\mapsto(x,y)&
@@ -4073,13 +4141,13 @@ Its output type is $\rr^2$, which we might think of as a location in the 2-dimen
 \begin{exercise}
 Explain in words what the Moore machine in \cref{ex.R2_moore} does.
 \begin{solution}
-At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^2$, as recorded by its state.
+At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^\2$, as recorded by its state.
 Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{yield}(x, y) = (x, y)$.
 But if we give the machine input of the form $(r, \theta)$ for some distance $r \in [0,1]$ and direction $\theta \in [0, 2\pi)$, the machine will move by that distance, in that direction, going from $(x, y)$ to
 \[
     \text{update}(x,y,r,\theta) = (x,y) + r(\cos\theta, \sin\theta)
 \]
-(here we treat $\rr^2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ in the direction of $\theta$).
+(here we treat $\rr^\2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ in the direction of $\theta$).
 \end{solution}
 \end{exercise}
 
@@ -4162,14 +4230,14 @@ Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Us
 Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose half its health whenever it moves to a location whose $x$-coordinate is negative. Do not output its health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
 We modify the Moore machine from \cref{ex.R2_moore} as follows.
-The original Moore machine had a state set $\rr^2$, so to add a health meter with values in $[0,10]$, we take the Cartesian product to obtain the new state set $\rr^2 \times [0,10]$.
+The original Moore machine had a state set $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the Cartesian product to obtain the new state set $\rr^\2 \times [0,10]$.
 The inputs and outputs are unchanged, so the Moore machine is a lens
 \[
-    \rr^2 \times [0,10] \yon^{\rr^2 \times [0,10]} \to \rr^2 \yon^{[0,1] \times [0,2\pi)}.
+    \rr^\2 \times [0,10] \yon^{\rr^\2 \times [0,10]} \to \rr^\2 \yon^{[0,1] \times [0,2\pi)}.
 \]
-Its yield function $\rr^2 \times [0,10] \to \rr^2$ is the canonical projection, as the machine only outputs its location in $\rr^2$ and not its health; while its update function
+Its yield function $\rr^\2 \times [0,10] \to \rr^\2$ is the canonical projection, as the machine only outputs its location in $\rr^\2$ and not its health; while its update function
 \[
-    \rr^2 \times [0,10] \times [0,1] \times [0,2\pi) \to \rr^2 \times [0,10]
+    \rr^\2 \times [0,10] \times [0,1] \times [0,2\pi) \to \rr^\2 \times [0,10]
 \]
 sends $(x, y, h, r, \theta)$ to
 \[
@@ -4337,7 +4405,7 @@ Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}
  \end{tikzpicture}
 \]
 
-The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4427,7 +4495,7 @@ This single Moore machine can receive inputs from any one of the original machin
 %  \end{tikzpicture}
 % \]
 
-% The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+% The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
 % \[
 % \begin{tikzpicture}
 % 	\node[draw] (1) {
@@ -5242,7 +5310,7 @@ Then given both positions $(b,b')$, the interaction pattern $f$ tells us what th
 \end{example}
 
 \begin{example}
-Suppose you have two systems $p,q$, both having the same type $p=q\coloneqq\rr^2\yon^{\rr^2-(0,0)}$. 
+Suppose you have two systems $p,q$, both having the same type $p=q\coloneqq\rr^\2\yon^{\rr^\2-(0,0)}$. 
 \[
 \begin{tikzpicture}
 	\node (m1) {\faMotorcycle};
@@ -5257,7 +5325,7 @@ Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye ca
 
 Let's have the two systems constantly approaching each other with a force equal to the reciprocal of the squared distance between them. If they finally collide, let's have the whole thing come to a halt.
 
-To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{stop}\}$. The morphism $\rr^2\yon^{\rr^2-(0,0)}\otimes\rr^2\yon^{\rr^2-(0,0)}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
+To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{stop}\}$. The morphism $\rr^\2\yon^{\rr^\2-(0,0)}\otimes\rr^\2\yon^{\rr^\2-(0,0)}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
 \[
   \big((x_1,y_1),(x_2,y_2)\big)\mapsto
 	\begin{cases}
@@ -5271,13 +5339,13 @@ On directions, we use the function
 \]
 so that each system is able to see the vector pointing from it to the other system (unless that vector is zero, in which case the whole thing has halted). 
 
-Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^2\times\rr^2$. To define a map of polynomials $S\yon^S\to\rr^2\yon^{\rr^2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
+Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^\2\times\rr^\2$. To define a map of polynomials $S\yon^S\to\rr^\2\yon^{\rr^\2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
 \begin{align*}
-	\rr^2\times\rr^2&\To{\text{get}}\rr^2\\
+	\rr^\2\times\rr^\2&\To{\text{get}}\rr^\2\\
 	\big((x,y),(x',y')\big)&\Mapsto{\text{get}}(x,y)
 \end{align*}
 \begin{align*}
-	\rr^2\times\rr^2\times(\rr^2-(0,0))&\To{\text{set}}\rr^2\times\rr^2\\
+	\rr^\2\times\rr^\2\times(\rr^\2-(0,0))&\To{\text{set}}\rr^\2\times\rr^\2\\
 	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{set}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
 \end{align*}
 \end{example}
@@ -5394,9 +5462,9 @@ By distributivity and the universal property of coproducts, it suffices to give 
 \]
 The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary. We take the last map $\kappa_{22}$ to be an identity (the forces from outside are passed to the two internal boxes). The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L, f_2),(f_1,f_R))$.
 
-Now that we have the arenas wired together, it remains to give the dynamics on the internal boxes. The states in the two cases will be identical, namely $S\coloneqq F+1$, meaning that at any point the system will either be in the state of holding a force or not. The dynamics will be identical as well, up to a symmetry swapping left and right; let's work with the first. Its interface is $p_1=F\yon^{FF}+\yon^F$ and its dynamics are given by
-\[\Phi_1\colon (F+1)\yon^{F+1}\to F\yon^{FF}+\yon^F\]
-which splits up as the coproduct of $F\yon^{F+1}\to F\yon^{FF}$ and $\yon^{F+1}\to\yon^F$. The second map corresponds to when the connection is broken; it is given by projection, meaning it just updates the state to be the received force. The first map  $F\yon^{F+1}\to F\yon^{FF}$ corresponds to the case where the system is holding some force, is receiving two input forces and must update its state and produce one output force. For the passforward $F\to F$, let's use identity meaning it outputs the force it's holding. For the passback $F(FF)\to \{\const{Just}\}F+\{\const{Nothing}\}$, let's use the map $(f,(f_L,f_2))\mapsto t(f_L,f_2)$ defined here:
+Now that we have the arenas wired together, it remains to give the dynamics on the internal boxes. The states in the two cases will be identical, namely $S\coloneqq F+\1$, meaning that at any point the system will either be in the state of holding a force or not. The dynamics will be identical as well, up to a symmetry swapping left and right; let's work with the first. Its interface is $p_1=F\yon^{FF}+\yon^F$ and its dynamics are given by
+\[\Phi_1\colon (F+\1)\yon^{F+\1}\to F\yon^{FF}+\yon^F\]
+which splits up as the coproduct of $F\yon^{F+\1}\to F\yon^{FF}$ and $\yon^{F+\1}\to\yon^F$. The second map corresponds to when the connection is broken; it is given by projection, meaning it just updates the state to be the received force. The first map  $F\yon^{F+\1}\to F\yon^{FF}$ corresponds to the case where the system is holding some force, is receiving two input forces and must update its state and produce one output force. For the passforward $F\to F$, let's use identity meaning it outputs the force it's holding. For the passback $F(FF)\to \{\const{Just}\}F+\{\const{Nothing}\}$, let's use the map $(f,(f_L,f_2))\mapsto t(f_L,f_2)$ defined here:
 \[
 t(f_L,f_2)\coloneqq
 \begin{cases}
@@ -5428,7 +5496,7 @@ We want to consider the case of a company $C$ that may change its supplier based
 {Change\\supplier!};
 \end{tikzpicture}
 \]
-The company has interface $2\yon^W$, and the each supplier has interface $W\yon$; let's take the total system interface (undrawn) to be the closed system $\yon$. Then this mode-dependent wiring diagram is just a map $2\yon^W\otimes W\yon\otimes W\yon\to\yon$. Its on-positions function $2W^2\to1$ is uniquely determined, and its on-directions function $2W^2\to W$ is the evaluation. In other words, the company's position determines which supplier from which it receives widgets.
+The company has interface $\2\yon^W$, and the each supplier has interface $W\yon$; let's take the total system interface (undrawn) to be the closed system $\yon$. Then this mode-dependent wiring diagram is just a map $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$. Its on-positions function $\2W^\2\to1$ is uniquely determined, and its on-directions function $\2W^\2\to W$ is the evaluation. In other words, the company's position determines which supplier from which it receives widgets.
 \end{example}
 
 \begin{example}\label{ex.assemble_machine}
@@ -5460,7 +5528,7 @@ When someone assembles a machine, their own outputs dictate the connection patte
 \end{equation}
 In order for the above picture to make sense, $A$ has the same output that $B$ has as input, say $X$, and we need a default value $x_0\in X$ for $B$ to input when not connected to $A$.
 
-We could say that the person in \eqref{eqn.someone2} has interface $2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+We could say that the person in \eqref{eqn.someone2} has interface $\2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $\2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
 We can easily generalize \cref{ex.assemble_machine}. Indeed, we will see in the next section that there is a polynomial $\ihom{q_1\otimes\cdots\otimes q_k\,,\,r}$ of all ways  $q_1,\ldots,q_k$ can interact in $r$, and that a map from some $p$ to it is just a bigger interaction pattern:
@@ -6637,8 +6705,8 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
         & q[t_1(e)] \ar[ul, "t^\sharp_e"]
     \end{tikzcd}
     \]
-    It follows that $r[f_1(v)]$ together with the maps $\{f^\sharp_v\}_{v \in V_c}$ form a cone over the functor $F$.
-    So by the universal property of the limit $q'[c]$ of $F$ with projection maps $\{g^\sharp_v\}_{v \in V_c}$, there exists a unique $h^\sharp_c \colon r[f_1(v)] \to q'[c]$ for which $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
+    It follows that $r[f_1(v)]$ together with the maps $(f^\sharp_v)_{v \in V_c}$ form a cone over the functor $F$.
+    So by the universal property of the limit $q'[c]$ of $F$ with projection maps $(g^\sharp_v)_{v \in V_c}$, there exists a unique $h^\sharp_c \colon r[f_1(v)] \to q'[c]$ for which $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
     Hence $h$ is also uniquely characterized on directions, so it is unique overall.
     Moreover, we have shown that we can define $h$ on positions so that $f_1 = g_1 \then h_1$, and that we can define $h$ on directions such that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for all $c \in q'(\1)$ and $v \in V_c$.
     It follows that there exists $h$ for which $f = g \then h$.
