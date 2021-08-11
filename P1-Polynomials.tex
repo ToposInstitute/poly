@@ -953,7 +953,7 @@ $\poly$ also has exponential objects, making it a biCartesian closed category.
 It therefore supports the simply typed lambda calculus.
 \end{proposition}
 \begin{proof}
-We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{**}, and that it has exponential objects in \cref{thm.poly_cart_closed}.
+We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{prop.poly_completely_distributive}, and that it has exponential objects in \cref{thm.poly_cart_closed}.
 \end{proof}
 
 \begin{proposition}
@@ -1071,10 +1071,9 @@ If you skipped over any of that---or all of that---it'll be no problem whatsoeve
 
 We'll begin in the next chapter.
 
-\Closesolutionfile{solutions}
-
 %-------- Section --------%
 \section{Exercise solutions}
+\Closesolutionfile{solutions}
 {\footnotesize
 \input{solution-file1}}
 
@@ -1611,7 +1610,7 @@ We will often encounter sums of dependent sets nested within products, as in \eq
 The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice}. Though we will take the time to walk you through its proof, it is almost trivial, once you understand what it's saying. For one thing, it is exactly how you would expect the distributive property of multiplication over addition to work, following the same sort of process that you would use to multiply multi-digit numbers from grade school or polynomials from high school algebra; for another, once the statement is written in Agda, its proof is one short line of Agda code. 
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
-For any set $I$, sets $(J(i))_{i\in I}$, and sets $(X(i,j))_{i\in I, j\in J(i)}$, we have a bijection
+For any set $I$, sets $(J(i))_{i\in I}$, and sets $(X(i,j))_{i\in I, j\in J(i)}$, we have a natural isomorphism
 \begin{equation}\label{eqn.set_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
 \iso
@@ -1644,7 +1643,7 @@ But again, since $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(
 When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
 
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
-For any set $I$, set $J$, and sets $(X(i, j))_{i \in I, j \in J}$, we have a bijection
+For any set $I$, set $J$, and sets $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
 \begin{equation} \label{eqn.push_prod_sum_set_indep}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
@@ -1654,15 +1653,11 @@ Just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive
 Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
 \end{proof}
 
-Throughout this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
-Using \eqref{eqn.set_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
-This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
-
 It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
 In general, we refer to a category having this property as follows.
 
 \begin{definition}
-A category $\cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\cat{C}$, we have an isomorphism
+A category $\cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\cat{C}$, we have a natural isomorphism
 \begin{equation}\label{eqn.cat_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
 \iso
@@ -1676,7 +1671,7 @@ Of course, \cref{cor.push_prod_sum_set_indep} generalizes to all completely dist
 
 \begin{corollary} \label{cor.push_prod_sum_obj_indep}
 Let $\cat{C}$ be a completely distributive category.
-For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{C}$, we have a bijection
+For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{C}$, we have a natural isomorphism
 \begin{equation} \label{eqn.push_prod_sum_obj_indep}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
@@ -1684,6 +1679,11 @@ For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{
 \begin{proof}
 Again, just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
 \end{proof}
+
+Throughout this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
+Using \eqref{eqn.cat_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
+This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
+
 
 % \begin{exercise} \label{exc.push_prod_sum_set}
 % \begin{enumerate}
@@ -1775,6 +1775,13 @@ In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors t
 As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset$, \cref{prop.presheaf_lim_ptwise} tells us that the constant functor $\0$ (resp.\ $\1$) is the is the initial (resp.\ terminal) object in $[\smset,\smset]$.
 \end{example}
 
+\begin{proposition}\label{prop.set_endofunc_distrib}
+The category $[\smset,\smset]$ is completely distributive.
+\end{proposition}
+\begin{proof}
+This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $[\smset,\smset]$ are computed pointwise (\cref{prop.presheaf_lim_ptwise} and, in particular, \cref{ex.sum_prod_set_endofuncs}).
+\end{proof}
+
 \begin{exercise} \label{exc.repeated_sum_is_product}
 \begin{enumerate}
 	\item Show that for a set $I \in \smset$ and a functor $F \colon \smset \to \smset$, the sum of $I$ copies of $F$ is isomorphic to the product of the constant functor $I$ and $F$:
@@ -1791,7 +1798,7 @@ As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset
       \sum_{i\in I} F(X) \iso (IF)(X)
     \]
     natural in $X$.
-    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, the result also follows from \eqref{eqn.set_completely_distributive}.)
+    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, since $[\smset,\smset]$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}.)
     \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$.
 \end{enumerate}
 \end{solution}
@@ -1837,13 +1844,6 @@ From here on out, given $I\in\smset$ and a functor $F\colon\smset\to\smset$, we 
 The exercise above shows that this notation does not conflict with the way we write representable functors as powers of the identity functor $\yon$.
 The exercise also shows how the power of a representable functor can be simplified to a single representable functor.
 \end{remark}
-
-% \begin{proposition} \label{prop.prods_coprods_set_endofuncs}
-% Referring to the notation in \cref{ex.sum_prod_set_endofuncs}, the functors $\0$ and $\1$ are respectively an initial object and a terminal object in $[\smset,\smset]$, the operations $+$ and $\times$ are respectively a binary coproduct and a binary product in $[\smset,\smset]$, and the operations $\sum_{i\in I}$ and $\prod_{i\in I}$ are arbitrary coproducts and products in $[\smset,\smset]$.
-% \end{proposition}
-% \begin{proof}
-% By \cref{ex.two_sums_and_prods,exc.on_sums_prods_sets}, it suffices to show that $\sum_{i\in I}F_i$ and $\prod_{i\in I}F_i$ are a sum and product in $[\smset,\smset]$. This itself is a special case of a more general fact, where sums and products are replaced by arbitrary colimits and limits, and where $[\smset,\smset]$ is replaced by an arbitrary functor category $\cat{C}^\cat{D}$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
-% \end{proof}
 
 We've finally arrived: we can define polynomial functors!
 
@@ -2009,7 +2009,7 @@ In other words, $\poly$ is the full subcategory of $[\smset,\smset]$ spanned by 
 Since polynomial functors are defined as arbitrary sums of representables, coproducts in $\poly$ are quite easy to understand.
 
 \begin{proposition} \label{prop.poly_coprods}
-The category $\poly$ has arbitrary coproducts, given by the operation $\sum_{i \in I}$.
+The category $\poly$ has arbitrary coproducts, coinciding with coproducts in $[\smset,\smset]$ given by the operation $\sum_{i \in I}$.
 \end{proposition}
 \begin{proof}
 By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary coproducts given by $\sum_{i \in I}$.
@@ -2021,14 +2021,11 @@ Explicitly, given polynomials $(p_i)_{i \in I}$, their coproduct is
     \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]},
 \end{equation}
 which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{ex.sum_prod_set_endofuncs}.
-Binary coproducts are thus given by binary sums of functors, denoted by $+$.
+Binary coproducts are thus given by binary sums of functors, denoted by $+$, while the initial object of $\poly$ is the constant polynomial $\0$.
+
 In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and $q$, their coproduct $p+q$ is given as follows.
 The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
-At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the directions of $p$ at $i$; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the directions of $q$ at $j$.
-% It follows that the initial object of $\poly$ is $\0$, and that binary coproducts are given by
-% \begin{equation} \label{eqn.poly_plus}
-%     p + q = ???
-% \end{equation}
+At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the $p[i]$-directions; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the $q[j]$-directions.
 
 %---- Subsection ----%
 \subsection{Polynomial morphisms, concretely} \label{subsec.poly.func_nat.morph.concrete}
@@ -2058,41 +2055,41 @@ Below, we make use of this functor notation to express the arenas of polynomials
 Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials.
 Then we have an isomorphism
 \begin{equation}\label{eqn.main_formula}
-\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}.
+\poly(p,q)\cong\prod_{i\in p(\1)}\sum_{j\in q(\1)}{p[i]}^{q[j]}
 \end{equation}
-% **Naturality???
-In other words, a morphism $p\to q$ can be identified with a pair $(f_1,f^\sharp)$
+natural in $p$ and $q$.
+In other words, a morphism $p\to q$ can be identified with a pair $(f_\1,f^\sharp)$
 \begin{equation}\label{eqn.colax_poly_map}
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, "p{[-]}"']\ar[rr, "f_1"]&~&
+	p(\1)\ar[dr, "p{[-]}"']\ar[rr, "f_\1"]&~&
 	q(\1)\ar[dl, "q{[-]}"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-where $f_1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete categories) and $f^\sharp \colon q[f_1(-)] \to p[-]$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$. % **Maybe write an exercise about viewing dependent functions as natural transformations?
+where $f_\1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_\1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
 \end{proposition}
 \begin{proof}
-By the universal property of the coproduct, we have an isomorphism
+By the universal property of the coproduct, we have a natural isomorphism
 \[
     \poly\left(\sum_{i \in p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i \in p(\1)} \poly(\yon^{p[i]}, q),
 \]
 so applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and unraveling the definitions of $p$ and $q$ yields \eqref{eqn.main_formula}.
 
 The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f \colon (i \in p(\1)) \to \sum_{j \in q(\1)} p[i]^{q[j]}$, each of which is uniquely determined by its components: $\pi_1 \circ f$, which sends $i \in p(\1)$ to $\pi_1(f(i)) \in q(\1)$, and $\pi_2 \circ f$, which sends $i \in p(\1)$ with $j \coloneqq \pi_1(f(i))$ to an element of $p[i]^{q[j]}$, i.e.\ a function $q[j] \to p[i]$.
-These can be identified respectively with a (non-dependent) function $f_1 \coloneqq \pi_1 \circ f$ from $p(\1) \to q(\1)$ and a natural transformation $f^\sharp \colon q[f_1(-)] \to p[-]$.
+These can be identified respectively with a (non-dependent) function $f_\1 \coloneqq \pi_1 \circ f$ from $p(\1) \to q(\1)$ and a natural transformation $f^\sharp \colon q[f_\1(-)] \to p[-]$.
 \end{proof}
 
-We have now greatly simplified our characterization of polynomial morphisms $f \colon p \to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they can be specified simply as a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$, without any additional restrictions.
+We have now greatly simplified our characterization of polynomial morphisms $f \colon p \to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they can be specified simply as a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$, without any additional restrictions.
 
 Here is where we begin to see the advantages of viewing polynomials as arenas.
 As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
-We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forwards'' \emph{on-positions} function $f_1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backwards'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_1(i)$ to the direction-set of $p$ at $i$.
+We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forwards'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backwards'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
 
-When we wish to emphasize the arena perspective, we will call the data of $(f_1, f^\sharp)$ a \emph{morphism of arenas} or \emph{arena morphism} between $p$ and $q$; but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
+When we wish to emphasize the arena perspective, we will call the data of $(f_\1, f^\sharp)$ a \emph{morphism of arenas}, an \emph{arena morphism}, or a \emph{lens} between $p$ and $q$ (see \cref{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}); but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
 
 Here is how you would implement such a morphism in Agda:
 \begin{agda}
-record ArenaMorphism (p : Arena) (q : Arena) : Set where
+record Lens (p : Arena) (q : Arena) : Set where
    field
      onPos : (pos p) -> (pos q)
      onDir : (i : pos p) -> dir q (onPos i) -> dir p i
@@ -2397,22 +2394,22 @@ By \eqref{eqn.main_formula}, we always have
 
 \begin{exercise}\label{exc.practice_sum_prod}
 \begin{enumerate}
-\item Is it true that the following are isomorphic?
+\item Show that the following are isomorphic:
 \begin{equation}\label{eqn.poly_p_q}
   \poly(p,q)
   \cong^?
   \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
 \end{equation}
-\item \label{exc.practice_sum_prod.useful} Is it true that the following are isomorphic?
+\item \label{exc.practice_sum_prod.useful} Show that the following are isomorphic:
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg)
+	\poly(p,q)\cong^?\sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg)
 	\end{equation}
-\item If the answer to \#2 is ``yes,'' then describe in the language of decision-making how any element of the right-hand side gives a way of delegating decisions from $p$ to $q$. If ``no,'' give intuition for why the two sets are not isomorphic.
+\item Describe in the language of decision-making how any element of the right-hand side of \eqref{eqn.useful_misc472} gives a way of delegating decisions from $p$ to $q$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{longenum}
-\item We will show that, yes, the following isomorphism does hold:
+\item We will show that the following isomorphism holds:
 \[
   \poly(p,q)
   \cong
@@ -2430,33 +2427,33 @@ Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
     &\iso p[i]^{q[j]}.
 \end{align*}
 
-\item We will show that, yes, the following isomorphism does hold:
+\item We will show that the following isomorphism holds:
 \[
-	\poly(p,q) \iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg).
+	\poly(p,q) \iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg).
 \]
 By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_1(i)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
-    &\iso \sum_{f_1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
-    &\iso \sum_{f_1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
+    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_\1(i)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
+    &\iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_1\inv(j) = \{i \in p(1) \ | \ f_1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_\1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_\1\inv(j) = \{i \in p(1) \ | \ f_\1(i) = j\}$ for each $j \in q(\1)$.
 
 \item To explain how the set
 \[
-	D_{p,q} \coloneqq \sum_{f_1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_1(i) = j}}p[i]\Bigg)
+	D_{p,q} \coloneqq \sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg)
 \]
 specifies a way of delegating decisions from $p$ to $q$, we first give the instructions for choosing an element of $D_{p,q}$ as a nested list:
 \begin{quote}
 To choose an element of $D_{p,q}$:
 \begin{longenum}
-    \item choose a function $f_1 \colon p(\1) \to q(\1)$;
+    \item choose a function $f_\1 \colon p(\1) \to q(\1)$;
     \item for each element $j \in q(\1)$:
     \begin{longenum}
         \item for each element of $q[j]$:
         \begin{longenum}
-            \item for each element $i \in p(\1)$ satisfying $f_1(i) = j$:
+            \item for each element $i \in p(\1)$ satisfying $f_\1(i) = j$:
             \begin{longenum}
                 \item choose an element of $p[i]$.
             \end{longenum}
@@ -2464,8 +2461,8 @@ To choose an element of $D_{p,q}$:
     \end{longenum}
 \end{longenum}
 \end{quote}
-So $f_1$ delegates each of $p$'s decisions to one of $q$'s decisions.
-Then for every option of every decision $j$ of $q$, we choose an option of each of $p$'s decisions that has been delegated to $j$ by $f_1$.
+So $f_\1$ delegates each of $p$'s decisions to one of $q$'s decisions.
+Then for every option of every decision $j$ of $q$, we choose an option of each of $p$'s decisions that has been delegated to $j$ by $f_\1$.
 \end{longenum}
 \end{solution}
 \end{exercise}
@@ -2508,7 +2505,7 @@ Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride} and \cite{abbot2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every $q[j]$-direction \emph{other than $d$} is sent back to a $p[i]$-direction.
+A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every $q[j]$-direction \emph{other than $d$} is sent back to a $p[i]$-direction.
 \end{example}
 
 \begin{exercise} \label{exc.deriv_directions}
@@ -2564,7 +2561,7 @@ Here $p, q \in \poly$.
 	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no map $\1 \to \0$.
 	
 	\item We show that there is a canonical map $g \colon \ihom{p,\yon} \otimes p \to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}.
-	The on-positions function $g_1$ takes $f \in \prod_{i \in p(\1)} p[i]$ and $i \in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i \in p(\1)$ and $f(i) \in p[i]$.
+	The on-positions function $g_\1$ takes $f \in \prod_{i \in p(\1)} p[i]$ and $i \in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i \in p(\1)$ and $f(i) \in p[i]$.
 	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $d \in p[i]$ to $(i, d) \in p(\1) \times p[i]$.
 
 	\item We wish to describe a map $p\yon \to q$ in terms of ``unassigned to directions.''
@@ -2589,36 +2586,140 @@ Here $p, q \in \poly$.
 % \end{example}
 
 %---- Subsection ----%
-\subsection{Translating between natural transformations and arena morphisms} \label{subsec.poly.func_nat.morph.translate}
-We now know that we can specify a morphism of polynomials $p \to q$ in two ways: in the language of functors, by specifying a natural transformation from $p$ to $q$; or in the language of arenas, by specifying a function $f_1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_1(i)] \to p[i]$.
+\subsection{Arena morphisms as lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
+
+Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
+\[
+\begin{tikzpicture}
+\node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
+	\begin{tikzpicture}[trees, sibling distance=1mm]
+	\foreach \i in {1,...,5}
+	{
+    \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$} 
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+      child {}
+    ;
+	};
+	\end{tikzpicture}
+};
+\end{tikzpicture}
+\]
+
+The formula for morphisms between these is particularly simple:
+\begin{align*}
+  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right) &\iso \prod_{a \in A_1} \sum_{a' \in A_2} B_1^{B_2} \tag*{\eqref{eqn.main_formula}} \\
+  &\iso \smset(A_1, A_2 \times B_1^{B_2}) \\
+  &\iso \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1).
+\end{align*}
+It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
+\[
+  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
+  \iso
+  \left\{
+    (f_\1,f^\sharp)
+  \;\middle|\;
+  	\parbox{1.2in}{
+    $
+    \begin{aligned}
+  	  f_\1&\colon A_1\to A_2\\
+  	  f^\sharp&\colon A_1\times B_2\to B_1
+    \end{aligned}
+    $
+  }.
+  \right\}
+\]
+Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
+But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
+
+The monomials in $\poly$ and the morphisms between them form a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon A_1\yon^{B_1}\to A_2\yon^{B_2}$ are given special names:
+\begin{equation}\label{eqn.bimorphic_lens}
+\begin{aligned}
+	\text{get} \coloneqq f_\1 &\colon A_1\to A_2\\
+	\text{set} \coloneqq f^\sharp &\colon A_1\times B_2\to B_1
+\end{aligned}
+\end{equation}
+The idea is that each position $a \in A_1$ of $A_1\yon^{B_1}$ ``gets'' a position $f_\1(a) \in A_2$ of $A_2\yon^{B_2}$, and given $a \in A_1$, every direction at $f_\1(a)$ in $B_2$ ``sets'' a direction back at $a$ in $B_1$.
+
+So an arena morphism between two monomials is just a bimorphic lens, or a lens for short.
+Then an arena morphism between any two arenas is a kind of generalized lens.
+In fact, henceforth we will refer to arena morphisms simply as \emph{lenses}.
+
+\begin{example}
+Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
+In the language of decision-making, each $s \in S$ is a decision where the options you have to choose from are always just the decisions in $S$ again.
+Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
+We will formalize this idea in \cref{**}.
+
+A lens $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+When you need to make a decision at $s \in S$, you ask your friend at $\text{get}(s) \in T$ for help.
+If your friend selects option $t \in T$, then you know to select option $\text{set}(s, t) \in S$.
+
+But what happens when we string together these decisions into cycles?
+Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
+In this scenario, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves well with respect to the movements of both you and your friend:
+\begin{enumerate}
+    \item If your friend chooses to stay put, then you should stay put, too.
+    This is reflected by the equation
+    \[
+        \text{set}(s,\text{get}(s))=s.
+    \]
+    
+    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
+    This is reflected by the equation
+    \[
+        \text{get}(\text{set}(s,t))=t.
+    \]
+
+    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
+    This is reflected by the equation
+    \[
+        \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
+    \]
+\end{enumerate}
+We will see these three conditions emerge from more general theory in \cref{**}.
+\end{example}
+
+%---- Subsection ----%
+\subsection{Translating between natural transformations and lenses} \label{subsec.poly.func_nat.morph.translate}
+We now know that we can specify a morphism of polynomials $p \to q$ in two ways: in the language of functors, by specifying a natural transformation from $p$ to $q$; or in the language of arenas, by specifying a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
 But what is the relationship between these two formulations?
-If you told me an arena morphism, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
+If you told me a lens, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
 We want to be able to translate between these two languages.
 
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
 The lemma itself forms the crux of the proof of \cref{prop.poly_maps_prod_sum}, that these two formulations of polynomial morphisms are equivalent; so unraveling this proof reveals the translation we seek.
 
 \begin{proposition} \label{prop.morph_arena_to_func}
-Let $p$ and $q$ be polynomial functors, and let $(f_1, f^\sharp)$ be a morphism between their associated arenas.
-Then the isomorphism in \eqref{eqn.main_formula} sends $(f_1, f^\sharp)$ to the natural transformation $f \colon p \to q$ whose $X$-component $f_X \colon p(X) \to q(X)$ for each $X \in \smset$ sends every
+Let $p$ and $q$ be polynomial functors, and let $(f_\1, f^\sharp)$ be a morphism between their associated arenas.
+Then the isomorphism in \eqref{eqn.main_formula} sends $(f_\1, f^\sharp)$ to the natural transformation $f \colon p \to q$ whose $X$-component $f_X \colon p(X) \to q(X)$ for each $X \in \smset$ sends every
 \[
     (i, g) \in \sum_{i \in p(\1)} X^{p[i]} \iso p(X),
 \]
 with $i \in p(\1)$ and $g \colon p[i] \to X$, to
 \[
-    (f_1(i), f^\sharp_i \then g) \in \sum_{j \in q(\1)} X^{q[j]} \iso q(X).
+    (f_\1(i), f^\sharp_i \then g) \in \sum_{j \in q(\1)} X^{q[j]} \iso q(X).
 \]
 \end{proposition}
 \begin{proof}
-As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_1, f^\sharp)$ can equivalently be thought of as multiple pairs $((f_1(i), f^\sharp_i))_{i \in I}$.
-Fixing $i \in I$, the pair $(f_1(i), f^\sharp_i)$ is an element of
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1, f^\sharp)$ can equivalently be thought of as multiple pairs $((f_\1(i), f^\sharp_i))_{i \in I}$.
+Fixing $i \in I$, the pair $(f_\1(i), f^\sharp_i)$ is an element of
 \[
     \sum_{j \in q(\1)} p[i]^{q[j]} = q(p[i])
 \]
-(so $f_1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_1(i)] \to p[i]$).
-By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso \poly(\yon^{p[i]}, q)$, and by the proof of the Yoneda lemma, this isomorphism sends $(f_1(i), f^\sharp_i)$ to the natural transformation $f^i \colon \yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X \colon X^{p[i]} \to q(X)$ given by sending $g \colon p[i] \to X$ to
+(so $f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$).
+By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso \poly(\yon^{p[i]}, q)$, and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1(i), f^\sharp_i)$ to the natural transformation $f^i \colon \yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X \colon X^{p[i]} \to q(X)$ given by sending $g \colon p[i] \to X$ to
 \[
-    q(g)(f_1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_1(i), f^\sharp_i) = \left(f_1(i), g^{q[f_1(i)]}(f^\sharp_i)\right) = (f_1(i), f^\sharp_i \then g).
+    q(g)(f_\1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1(i), f^\sharp_i) = \left(f_\1(i), g^{q[f_\1(i)]}(f^\sharp_i)\right) = (f_\1(i), f^\sharp_i \then g).
 \]
 Taken together, the natural transformations $(f^i)_{i \in I}$ form an element of $\prod_{i \in I} \poly(\yon^{p[i]}, q)$.
 Applying the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}, we find that $(f^i)_{i \in I}$ corresponds to the natural transformation $f \colon p \to q$ we desire.
@@ -2719,7 +2820,7 @@ So what element of $q(X)$ is $f_X(1, g)$?
     \end{scope}
 \end{tikzpicture}	
 \]
-To draw $f_X(1, g)$, we first draw the corolla in the forest of $q$ corresponding to $f_1(1)$: the corolla on the right hand side above.
+To draw $f_X(1, g)$, we first draw the corolla in the forest of $q$ corresponding to $f_\1(1)$: the corolla on the right hand side above.
 Then we label each leaf of that corolla by following the arrow from that leaf (as given by $f^\sharp_i$) to a leaf of $p$ at $1$, and use the label there that is given by $(1, g)$.
 So $f_X(1, g)$ looks like
 \[
@@ -2735,61 +2836,61 @@ So $f_X(1, g)$ looks like
 
 % ** Add an exercise—labeled trees?
 
-\cref{prop.morph_arena_to_func} lets us translate from arena morphisms to natural transformations.
+\cref{prop.morph_arena_to_func} lets us translate from lenses to natural transformations.
 The following corollary tells us how to go in the other direction.
-In particular, it justifies the notation $f_1$ for the on-positions function of $f$.
+In particular, it justifies the notation $f_\1$ for the on-positions function of $f$.
 
 \begin{corollary} \label{prop.morph_func_to_arena}
 Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
-Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the arena morphism $(f_1, f^\sharp)$ for which $f_1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
+Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens $(f_\1, f^\sharp)$ for which $f_\1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
 \[
-    (f_1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
+    (f_\1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
 \]
 \end{corollary}
 \begin{proof}
-By \cref{prop.morph_arena_to_func}, the $\1$-component $f_\1 \colon p(\1) \to q(\1)$ sends every $i \in p(\1)$ to $f_1(i) \in q(\1)$, so the on-positions function $f_1$ is equal to the $\1$-component $f_\1$.
-Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i, \id_{p[i]}) \in p(p[i])$, with $i \in p(\1)$, to $(f_1(i), f^\sharp_i \then \id_{p[i]}) = (f_1(i), f^\sharp_i)$.
+By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\1)\to q(\1)$ sending every $i \in p(\1)$ to $f_\1(i) \in q(\1)$, so the on-positions function $f_\1$ is indeed equal to the $\1$-component of $f$.
+Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i, \id_{p[i]}) \in p(p[i])$, with $i \in p(\1)$, to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
 \end{proof}
 
 % ** More exercises??
 
 %---- Subsection ----%
-\subsection{Identity and composition of arena morphisms} \label{subsec.poly.func_nat.morph.id_comp}
+\subsection{Identity and composition of lenses} \label{subsec.poly.func_nat.morph.id_comp}
 
-Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and arena morphisms.
-But in order to actually discuss the latter category, we need to be able to give identity arena morphisms and describe how these arena morphisms compose.
-To do so, we can leverage our ability to translate back and forth between arena morphisms and natural transformations.
+Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and lenses.
+But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how these lenses compose.
+To do so, we can leverage our ability to translate back and forth between lenses and natural transformations.
 
 For instance, given a polynomial $p$, the identity morphism of its associated arena should correspond to the identity natural transformation of $p$ as a functor.
 
-\begin{exercise}[Identity arena morphisms] \label{exc.arena_morph_id}
+\begin{exercise}[Identity lenses] \label{exc.arena_morph_id}
 Let $p$ be a polynomial and let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X \colon p(X) \to p(X)$ for each $X \in \smset$ is the identity function on $p(X)$; that is, $(\id_p)_X = \id_{p(X)}$.
 
-Use \cref{prop.morph_func_to_arena} to show that the arena morphism $((\id_p)_1, (\id_p)^\sharp)$ associated to $\id_p$ is such that $(\id_p)_1 \colon p(\1) \to p(\1)$ and $(\id_p)^\sharp_i \colon p[(\id_p)_1(i)] \to p[i]$ for $i \in p(\1)$ are all identity functions.
+Use \cref{prop.morph_func_to_arena} to show that the lens $((\id_p)_\1, (\id_p)^\sharp)$ associated to $\id_p$ is such that $(\id_p)_\1 \colon p(\1) \to p(\1)$ and $(\id_p)^\sharp_i \colon p[(\id_p)_\1(i)] \to p[i]$ for $i \in p(\1)$ are all identity functions.
 \begin{solution}
-We wish to show that the arena morphism $((\id_p)_1, (\id_p)^\sharp)$ associated to the identity natural transformation $\id_p$ of a polynomial $p$ is such that $(\id_p)_1$ and every $(\id_p)^\sharp_i$ are all identity functions.
+We wish to show that the lens $((\id_p)_\1, (\id_p)^\sharp)$ associated to the identity natural transformation $\id_p$ of a polynomial $p$ is such that $(\id_p)_\1$ and every $(\id_p)^\sharp_i$ are all identity functions.
 Indeed, by \cref{prop.morph_func_to_arena}, for each $i \in p(\1)$, we have
 \[
-    ((\id_p)_1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i, \id_{p[i]}) = (i, \id_{p[i]}),
+    ((\id_p)_\1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i, \id_{p[i]}) = (i, \id_{p[i]}),
 \]
 as $(\id_p)_{p[i]}$ is the identity function on $p(p[i])$.
 \end{solution}
 \end{exercise}
 
-Similarly, we should be able to deduce how two arena morphisms compose by translating them to natural transformations, composing those, then translating back to arena morphisms.
+Similarly, we should be able to deduce how two lenses compose by translating them to natural transformations, composing those, then translating back to lenses.
 
-\begin{exercise}[Composing arena morphisms] \label{exc.arena_morph_comp}
+\begin{exercise}[Composing lenses] \label{exc.arena_morph_comp}
 Let $p,q,$ and $r$ be polynomials, let $f \colon p \to q$ and $g \colon q \to r$ be natural transformations, and let $h \coloneqq f \then g$ be their composite, whose $X$-component $h_X \colon p(X) \to r(X)$ for each $X \in \smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X = f_X \then g_X$.
 
-Use \cref{prop.morph_func_to_arena} to show that the arena morphism $(h_1, h^\sharp)$ associated to $h$ satisfies $h_1 = f_1 \then g_1$ and $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
+Use \cref{prop.morph_func_to_arena} to show that the lens $(h_\1, h^\sharp)$ associated to $h$ satisfies $h_\1 = f_\1 \then g_\1$ and $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
 \begin{solution}
-Given polynomial morphisms $f \colon p \to q, g \colon q \to r,$ and their composite $h \coloneqq f \then g$, we wish to show that the arena morphism $(h_1, h^\sharp)$ associated to $h$ satisfies $h_1 = f_1 \then g_1$ and $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
+Given polynomial morphisms $f \colon p \to q, g \colon q \to r,$ and their composite $h \coloneqq f \then g$, we wish to show that the lens $(h_\1, h^\sharp)$ associated to $h$ satisfies $h_\1 = f_\1 \then g_\1$ and $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
 Indeed, by \cref{prop.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, for each $i \in p(\1)$, we have
 \begin{align*}
-    (h_1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \\
+    (h_\1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \\
     &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
-    &= g_{p[i]}(f_1(i), f^\sharp_i) \tag{\cref{prop.morph_func_to_arena}} \\
-    &= (g_1(f_1(i)), g^\sharp_{f_1(i)} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
+    &= g_{p[i]}(f_\1(i), f^\sharp_i) \tag{\cref{prop.morph_func_to_arena}} \\
+    &= (g_\1(f_\1(i)), g^\sharp_{f_\1(i)} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -2806,15 +2907,15 @@ Given polynomials $p, q, r$ and natural transformations $f \colon p \to q, g \co
 commutes in $\poly$ if and only if the forwards on-positions diagram
 \[
 \begin{tikzcd}
-    p(\1) \ar[r, "f_1"] \ar[dr, "h_1"'] & q(\1) \ar[d, "g_1"] \\
+    p(\1) \ar[r, "f_\1"] \ar[dr, "h_\1"'] & q(\1) \ar[d, "g_\1"] \\
     & r(\1)
 \end{tikzcd}
 \]
 commutes in $\smset$ and, for each $i \in p(\1)$, the backwards on-directions diagram
 \[
 \begin{tikzcd}
-    p[i] & q[f_1(i)] \ar[l, "f^\sharp_i"'] \\
-    & r[h_1(i)] \ar[u, "g^\sharp_{f_1(i)}"'] \ar[ul, "h^\sharp_i"]
+    p[i] & q[f_\1(i)] \ar[l, "f^\sharp_i"'] \\
+    & r[h_\1(i)] \ar[u, "g^\sharp_{f_\1(i)}"'] \ar[ul, "h^\sharp_i"]
 \end{tikzcd}
 \]
 commutes in $\smset$.
@@ -2835,7 +2936,7 @@ That is, provide morphisms $\iota \colon p \to p + q$ and $\kappa \colon q \to p
 Hint: Use \cref{ex.comm_poly} to determine whether a diagram commutes.
 \begin{solution}
 We provide $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$ as follows.
-On positions, they are the canonical inclusions $\iota_1 \colon p(\1) \to p(\1)+q(\1)$ and $\kappa_1 \colon q(\1) \to p(\1)+q(\1)$; on directions, they are identities.
+On positions, they are the canonical inclusions $\iota_\1 \colon p(\1) \to p(\1)+q(\1)$ and $\kappa_\1 \colon q(\1) \to p(\1)+q(\1)$; on directions, they are identities.
 We wish to show that, for $p, q \in \poly$, the polynomial $p+q$ along with $\iota$ and $\kappa$ satisfy the universal property of the coproduct.
 That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to p+q$ for which the diagram \eqref{eqn.coprod_univ_prop} commutes.
 % \begin{equation} \label{eqn.coprod_univ_prop}
@@ -2849,21 +2950,21 @@ We apply \cref{ex.comm_poly}.
 In order for \eqref{eqn.coprod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
 \begin{equation} \label{eqn.coprod_univ_prop_pos}
 \begin{tikzcd}
-	p(\1) \ar[r, "\iota_1"] \ar[dr, "f_1"'] &
-	p(\1) + q(\1) \ar[d, "h_1", dashed] &
-	q(\1) \ar[l, "\kappa_1"'] \ar[dl, "g_1"] \\
+	p(\1) \ar[r, "\iota_\1"] \ar[dr, "f_\1"'] &
+	p(\1) + q(\1) \ar[d, "h_\1", dashed] &
+	q(\1) \ar[l, "\kappa_\1"'] \ar[dl, "g_\1"] \\
 	& r(\1)
 \end{tikzcd}
 \end{equation}
-But since $p(1)+q(\1)$ along with the inclusions $\iota_1$ and $\kappa_1$ form the coproduct of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_1$ for which \eqref{eqn.coprod_univ_prop_pos} commutes.
+But since $p(1)+q(\1)$ along with the inclusions $\iota_\1$ and $\kappa_\1$ form the coproduct of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.coprod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_1(i)$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_1(j)$.
+In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_\1(i)$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_\1(j)$.
 
 Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $i \in p(\1)$ and $j \in q(\1)$, the following diagrams of sets must commute:
 \begin{equation} \label{eqn.coprod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
 	p[i] & (p+q)[(1,i)] \ar[l, "\iota^\sharp_i"'] & (p+q)[(2,j)] \ar[r, "\kappa^\sharp_j"] & q[j] \\
-	& r[f_1(i)] \ar[ul, "f^\sharp_i"] \ar[u, "h^\sharp_{(1,i)}"', dashed] & r[g_1(j)] \ar[u, "h^\sharp_{(2,j)}", dashed] \ar[ur, "g^\sharp_j"']
+	& r[f_\1(i)] \ar[ul, "f^\sharp_i"] \ar[u, "h^\sharp_{(1,i)}"', dashed] & r[g_\1(j)] \ar[u, "h^\sharp_{(2,j)}", dashed] \ar[ur, "g^\sharp_j"']
 \end{tikzcd}
 \end{equation}
 But $(p+q)[(1,i)] \iso p[i]$ and $\iota^\sharp_i$ is the identity, so we must have $h^\sharp_{(1,i)} = f^\sharp_i$.
@@ -2915,7 +3016,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 	But such a function cannot be continuous, as the preimage under $f$ of a singleton set of $Y$, which is open, would be a singleton set of $X$, which would not be open. 
 	So our functor sends no continuous function $X \to Y$ to $h$, and therefore is not full.
 	
-	The functor is, however, faithful: for any spaces $X$ and $Y$ and continuous function $f \colon X \to Y$, we can uniquely recover $f$ from $p_f$ by taking the on-positions function $(p_f)_1$.
+	The functor is, however, faithful: for any spaces $X$ and $Y$ and continuous function $f \colon X \to Y$, we can uniquely recover $f$ from $p_f$ by taking the on-positions function $(p_f)_\1$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2929,10 +3030,10 @@ Polynomial functors are a setting in which to speak about dynamics, decisions, a
 
 %---- Subsection ----%
 \subsection{The categorical product} \label{subsec.poly.func_nat.prepare_dyn.prod}
-The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, is completely distributive, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
+The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
-The category $\poly$ has arbitrary products. 
+The category $\poly$ has arbitrary products, coinciding with products in $[\smset,\smset]$ given by the operation $\prod_{i \in I}$.
 \end{proposition}
 \begin{proof}
 The proof is very similar to that of \cref{prop.poly_coprods}.
@@ -2941,7 +3042,8 @@ By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrar
 The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
-Indeed, given polynomials $(p_i)_{i \in I}$, by \eqref{eqn.set_completely_distributive}, their product is
+By \cref{prop.set_endofunc_distrib}, $[\smset,\smset]$ is completely distributive.
+Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $[\smset,\smset]$ as
 \begin{equation} \label{eqn.poly_prod}
     \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
 \end{equation}
@@ -2952,6 +3054,15 @@ which, as a coproduct of representables, is in $\poly$.
 % \end{equation}
 % We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
+
+\begin{corollary} \label{prop.poly_completely_distributive}
+The category $\poly$ is completely distributive.
+\end{corollary}
+\begin{proof}
+This is a direct consequence of the fact that $\poly$ has arbitrary (co)products coinciding with (co)products in $[\smset,\smset]$ (\cref{prop.poly_coprods,prop.poly_prods}) and the fact that $[\smset,\smset]$ itself is completely distributive (\cref{prop.set_endofunc_distrib}).
+\end{proof}
+
+The result above will allow us to apply \cref{eqn.cat_completely_distributive}, or sometimes specifically \cref{eqn.push_prod_sum_obj_indep}, to push $\prod$'s past $\sum$'s of polynomials whenever we so desire.
 
 \begin{exercise}%\label{exc.poly_prod}
 % \begin{enumerate}
@@ -2970,7 +3081,7 @@ which, as a coproduct of representables, is in $\poly$.
 	\[
 	    \poly\left(q, \prod_{i \in I} p_i\right) \iso \prod_{i \in I} \poly(q, p_i)
 	\]
-	for all polynomials $(p_i)_{i \in I}$ and $q$, as expected from the universal property of products.
+	for all polynomials $(p_i)_{i \in I}$ and $q$, as one would expect from the universal property of products.
 \qedhere
 % \end{enumerate}
 \begin{solution}
@@ -3157,7 +3268,7 @@ In practice, we can multiply polynomial functors the same way we would multiply 
 \end{solution}
 \end{exercise}
 
-As arena morphisms, the canonical projections $\pi \colon pq \to p$ and $\phi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
+As lenses, the canonical projections $\pi \colon pq \to p$ and $\phi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
 
 \begin{exercise} \label{exc.poly_prod}
 Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
@@ -3174,22 +3285,22 @@ We apply \cref{ex.comm_poly}.
 In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
 \begin{equation} \label{eqn.prod_univ_prop_pos}
 \begin{tikzcd}
-	r(\1) \ar[d, "f_1"'] \ar[r, "g_1"] \ar[dr, "h_1", dashed] & q(\1) \\
-	p(\1) & (pq)(\1). \ar[l, "\pi_1"] \ar[u, "\phi_1"'] 
+	r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
+	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\phi_\1"'] 
 \end{tikzcd}
 \end{equation}
-But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_1$ and $\phi_1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
+But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\phi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $k \in r(\1)$ to the pair $(f_1(k), g_1(k)) \in (pq)(\1)$.
+In particular, it must send each $k \in r(\1)$ to the pair $(f_\1(k), g_\1(k)) \in (pq)(\1)$.
 
 Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
 \begin{equation} \label{eqn.prod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
-	r[k] & q[g_1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_1(k), g_1(k))}"] \\
-	p[f_1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_1(k), g_1(k))}"'] & (pq)[(f_1(k), g_1(k))]. \ar[ul, "h^\sharp_k"', dashed] 
+	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_\1(k), g_\1(k))}"] \\
+	p[f_\1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1(k), g_\1(k))}"'] & (pq)[(f_\1(k), g_\1(k))]. \ar[ul, "h^\sharp_k"', dashed] 
 \end{tikzcd}
 \end{equation}
-As $(pq)[(f_1(k), g_1(k))] \iso p[f_1(k)] + q[g_1(k)]$ along with the inclusions $\pi^\sharp_{(f_1(k), g_1(k))}$ and $\phi^\sharp_{(f_1(k), g_1(k))}$ form the coproduct of $p[f_1(k)]$ and $q[g_1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
+As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\phi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
 Hence $h$ is also uniquely characterized on directions, so it is unique overall.
 Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
 As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
@@ -3566,7 +3677,7 @@ The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $
 \begin{proof}[Sketch of proof]
 Given maps of polynomials $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
-(f\otimes g)_1(i,j)\coloneqq \big(f_1(i),g_1(j)\big)
+(f\otimes g)_\1(i,j)\coloneqq \big(f_\1(i),g_\1(j)\big)
 \]
 On directions at $(i,j)\in p(\1)\times q(\1)$, define
 \[
@@ -3769,7 +3880,7 @@ given by the monoid structure on $m$.
 We can think of this map as an (associative, unital) $n$-ary multiplication operation on $m$.
 Formally we might denote it by $\mu^{n-1}$, so that $\mu^1=\mu\colon m\otimes m\to m$,\footnote{Here $\mu\inv = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
 
-The on-positions function $\mu_1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_1(i)$.
+The on-positions function $\mu_\1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_\1(i)$.
 In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, summarizing all of their decisions as a single decision for their supervisor to make.
 
 Meanwhile, the on-directions function
@@ -3806,7 +3917,7 @@ This construction is again (contravariantly) functorial and fully faithful.
 \end{example}
 
 \begin{example}\label{ex.swarm_reals}
-Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \left(\frac{at}{a+b},\frac{bt}{a+b}\right)$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
+Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_\1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \left(\frac{at}{a+b},\frac{bt}{a+b}\right)$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
 \end{example}
 
 \begin{exercise}
@@ -3937,117 +4048,14 @@ Given a longer list of directions there, it is then chopped up into shorter list
 %Let $\cat{O}$ be an operad (with one object), so that $\cat{O}_n$ denotes the set of $n$-ary operations for any $n\in\nn$. Then the polynomial $\sum_{n\in\nn}\cat{O}_n$ carries a $\otimes$-monoid structure.
 %\end{proposition}
 
-%---- Subsection ----%
-\subsection{Bimorphic lenses}\label{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}
-
-Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
-\[
-\begin{tikzpicture}
-\node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
-	\begin{tikzpicture}[trees, sibling distance=1mm]
-	\foreach \i in {1,...,5}
-	{
-    \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$} 
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-    ;
-	};
-	\end{tikzpicture}
-};
-\end{tikzpicture}
-\]
-
-The formula for morphisms between these is particularly simple:
-\begin{align*}
-  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right) &\iso \prod_{a \in A_1} \sum_{a' \in A_2} B_1^{B_2} \tag*{\eqref{eqn.main_formula}} \\
-  &\iso \smset(A_1, A_2 \times B_1^{B_2}) \\
-  &\iso \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1).
-\end{align*}
-It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
-\[
-  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
-  \cong
-  \left\{
-    (f_1,f^\sharp)
-  \;\middle|\;
-  	\parbox{1.2in}{
-    $
-    \begin{aligned}
-  	  f_1&\colon A_1\to A_2\\
-  	  f^\sharp&\colon A_1\times B_2\to B_1
-    \end{aligned}
-    $
-  }.
-  \right\}
-\]
-Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each input position and output position of $f_1$.
-But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
-
-The monomials in $\poly$ and the morphisms between them forms a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_1, f^\sharp$ corresponding to a morphism $f \colon A_1\yon^{B_1}\to A_2\yon^{B_2}$ are given special names:
-\begin{equation}\label{eqn.bimorphic_lens}
-\begin{aligned}
-	\text{get} \coloneqq f_1 &\colon A_1\to A_2\\
-	\text{set} \coloneqq f^\sharp &\colon A_1\times B_2\to B_1
-\end{aligned}
-\end{equation}
-The idea is that each position $a \in A_1$ of $A_1\yon^{B_1}$ ``gets'' a position $f_1(a) \in A_2$ of $A_2\yon^{B_2}$, and given $a \in A_1$, every direction at $f_1(a)$ in $B_2$ ``sets'' a direction back at $a$ in $B_1$.
-
-We will call a polynomial morphism between two monomials a \emph{lens} when we want to remind the reader that morphisms between monomials are much simpler than those between arbitrary polynomials.
-
-\begin{remark}
-Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
-In the language of decision-making, each $s \in S$ is a decision where the options you have to choose from are always just the decisions in $S$ again.
-Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
-We will formalize this idea in \cref{**}.
-
-A lens (i.e.\ a polynomial map) $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-When you need to make a decision at $s \in S$, you ask your friend at $\text{get}(s) \in T$ for help.
-If your friend selects option $t \in T$, then you know to select option $\text{set}(s, t) \in S$.
-
-But what happens when we string together these decisions into cycles?
-Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
-In this scenario, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves well with respect to the movements of both you and your friend:
-\begin{enumerate}
-    \item If your friend chooses to stay put, then you should stay put, too.
-    This is reflected by the equation
-    \[
-        \text{set}(s,\text{get}(s))=s.
-    \]
-    
-    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
-    This is reflected by the equation
-    \[
-        \text{get}(\text{set}(s,t))=t.
-    \]
-
-    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
-    This is reflected by the equation
-    \[
-        \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
-    \]
-\end{enumerate}
-We will see these three conditions emerge from more general theory in \cref{**}.
-\end{remark}
-
 %-------- Section --------%
 \section{Summary and further reading}
 
 Thanks to Joachim Kock for telling us about the derivative $\dot{p}$ of a polynomial and the relationship between $\dot{p}(\1)$ and the total number of leaves of $p$.
 
-\Closesolutionfile{solutions}
-
 %-------- Section --------%
 \section{Exercise solutions}
+\Closesolutionfile{solutions}
 {\footnotesize
 \input{solution-file2}}
 
@@ -4116,7 +4124,6 @@ There is a dynamical system that takes unchanging input and produces as output t
 % \end{tikzpicture}
 % \]
 \end{example}
-%% ** Introduce polyboxes??
 
 We can generalize both $S\yon^S$ and the interface $B\yon^A$ in \cref{def.moore_machine}, though the latter is much simpler---we'll spend much of the chapter on it. 
 After some examples, we'll briefly preview something we have already hinted at and will spend a lot of time on later, namely what's special about $S\yon^S$.
@@ -4722,11 +4729,11 @@ But however you think of dependent systems, we need to get a feel for how they w
 \begin{example}\label{ex.regular_lang_stop}
 Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in one's language. For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
 \[
-(f_1,f^\sharp)\colon S\yon^S\to \yon^A+\1
+(f_\1,f^\sharp)\colon S\yon^S\to \yon^A+\1
 \]
-To give such a map, one in particular provides a function $f_1\colon S\to\2$; here we are thinking of $\2$ as the position-set of $\yon^A+\1$. A function $f_1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted.'' This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
+To give such a map, one in particular provides a function $f_\1\colon S\to\2$; here we are thinking of $\2$ as the position-set of $\yon^A+\1$. A function $f_\1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted.'' This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
 
-On the other hand, $f^\sharp_s$ is not trivial on those elements $s\in S$ for which $f_1(s)=1$. They must come equipped with a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$. Again, this is in line with the way state machines encode regular languages.
+On the other hand, $f^\sharp_s$ is not trivial on those elements $s\in S$ for which $f_\1(s)=1$. They must come equipped with a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$. Again, this is in line with the way state machines encode regular languages.
 \end{example}
 
 \begin{exercise}\label{exc.det_fsa_misc_398}
@@ -4761,7 +4768,7 @@ Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map
 \]
 We call this the \emph{emanation polynomial of $G$}.
 
-The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
+The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_\1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
 \end{example}
 
 \begin{exercise}
@@ -4781,7 +4788,7 @@ To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by ide
 \begin{exercise}\label{exc.pause}
 What does it mean in \cref{ex.pause} that the map $\epsilon\colon S\yon^S\to\yon$ is given by the identity $\id_S$?
 \begin{solution}
-A map of polynomials $\epsilon\colon S\yon^S\to\1\yon^\1$ consists of a function $\epsilon_1\colon S\to\1$, of which there is only one possible, and a function $\epsilon^\sharp\colon S\times\1\to S$. While $S\times\1$ is not literally equal to $S$, and hence $\epsilon^\sharp$ can't literally be the identity, there is a canonical isomorphism $S\times\1\cong S$ given by the functions $(s,1)\mapsto s$ and $s\mapsto (s,1)$. It is this canonical isomorphism that is meant here.
+A map of polynomials $\epsilon\colon S\yon^S\to\1\yon^\1$ consists of a function $\epsilon_\1\colon S\to\1$, of which there is only one possible, and a function $\epsilon^\sharp\colon S\times\1\to S$. While $S\times\1$ is not literally equal to $S$, and hence $\epsilon^\sharp$ can't literally be the identity, there is a canonical isomorphism $S\times\1\cong S$ given by the functions $(s,1)\mapsto s$ and $s\mapsto (s,1)$. It is this canonical isomorphism that is meant here.
 \end{solution}
 \end{exercise}
 
@@ -4900,7 +4907,7 @@ to be the input.
 
 Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
 \[
-(r_1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
+(r_\1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
 \]
 as follows.
 
@@ -5099,7 +5106,7 @@ ST\yon^{ST}\to\const{System}.
 Consider the following wiring diagram.
 \[
 \begin{tikzpicture}[oriented WD, font=\footnotesize, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.2cm, inner xsep=.2cm, x=.5cm, y=.3cm, text height=1.5ex, text depth=.5ex]
-   	\node[bb={2}{1}, fill=blue!10] (Trf) {$\const{Alice}$};
+  	\node[bb={2}{1}, fill=blue!10] (Trf) {$\const{Alice}$};
   	\node[bb={1}{2}, fill=blue!10, below=1 of Trf] (Trg) {$\const{Bob}$};
 		\node[bb={2}{2}, fill=blue!10] at ($(Trf)!.5!(Trg)+(1.5,0)$) (Trh) {$\const{Carl}$}; 
   	\node[bb={0}{0}, fit={($(Trf.north west)+(-.25,4)$) (Trg) ($(Trh.north east)+(.25,0)$)}] (Tr) {};
@@ -5327,7 +5334,7 @@ Let's have the two systems constantly approaching each other with a force equal 
 
 To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{stop}\}$. The morphism $\rr^\2\yon^{\rr^\2-(0,0)}\otimes\rr^\2\yon^{\rr^\2-(0,0)}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
 \[
-  \big((x_1,y_1),(x_2,y_2)\big)\mapsto
+  \big((x_\1,y_1),(x_2,y_2)\big)\mapsto
 	\begin{cases}
 		\const{stop}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
 		\const{go}&\mbox{ otherwise}.
@@ -5605,7 +5612,7 @@ By \eqref{eqn.dir_hom},
 Show that there is an isomorphism
 \begin{equation} \label{eqn.dir_hom_sum}
 \scalebox{1.3}{$\displaystyle
-\ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_1(j)]}
+\ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_\1(j)]}
 $}
 \end{equation}
 where the sum is indexed by $f\in\poly(q,r)$.
@@ -5614,10 +5621,10 @@ We may compute
 \begin{align*}
     \ihom{q, r} &\iso \prod_{j \in q(\1)} r \circ (q[j]\yon) \tag*{\eqref{eqn.dir_hom}} \\
     &\iso \prod_{j \in q(\1)} \, \sum_{k \in r(\1)} (q[j]\yon)^{r[k]} \tag{Replacing each $\yon$ in $r$ by $q[j]\yon$} \\
-    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_1(j)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
-    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \, \left(\prod_{j \in q(\1)} q[j]^{r[f_1(j)]} \right)\left(\prod_{j \in q(\1)} \yon^{r[f_1(j)]} \right) \\
-    &\iso \sum_{f_1 \colon q(\1) \to r(\1)} \; \sum_{f^\sharp \in \prod_{j \in q(\1)} q[j]^{r[f_1(j)]}} \yon^{\sum_{j \in q(\1)} r[f_1(j)]} \\
-    &\iso \sum_{f \colon q \to r} \yon^{\sum_{j \in q(\1)} r[f_1(j)]}. \tag*{\eqref{eqn.main_formula}}
+    &\iso \sum_{f_\1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_\1(j)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_\1 \colon q(\1) \to r(\1)} \, \left(\prod_{j \in q(\1)} q[j]^{r[f_\1(j)]} \right)\left(\prod_{j \in q(\1)} \yon^{r[f_\1(j)]} \right) \\
+    &\iso \sum_{f_\1 \colon q(\1) \to r(\1)} \; \sum_{f^\sharp \in \prod_{j \in q(\1)} q[j]^{r[f_\1(j)]}} \yon^{\sum_{j \in q(\1)} r[f_\1(j)]} \\
+    &\iso \sum_{f \colon q \to r} \yon^{\sum_{j \in q(\1)} r[f_\1(j)]}. \tag*{\eqref{eqn.main_formula}}
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -5787,24 +5794,24 @@ The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonica
     \begin{align*}
         \poly(\ihom{p,q}, \ihom{p,q})
         &\iso
-        \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
+        \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
         &\iso
-        \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
+        \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
     \end{align*}
     where the second isomorphism follows from the universal properties of products and coproducts.
     In particular, under this isomorphism, the identity morphism on $\ihom{p,q}$ corresponds to a collection of morphisms, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
     \[
-        \prod_{i' \in p(\1)} \yon^{q[f_1(i')]} \to \yon^{q[f_1(i)]} \to \sum_{g \colon q[f_1(i)] \to p[i]} \yon^{q[f_1(i)]} \iso (p[i]\yon)^{q[f_1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
+        \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
     \]
-    of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_1(i)$.
-    On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_1(i)] \to \sum_{i' \in p(\1)} q[f_1(i')]$ with index $i' = i$.
+    of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1(i)$.
+    On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
     
     We can reinterpret each of these maps as a map
     \[
-        \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
+        \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
     \]
-    that, on positions, picks out the position $f_1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_1(i)] \to p[i]$ and the inclusion $q[f_1(i)] \to \sum_{i' \in p(\1)} q[f_1(i')]$.
-    Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
+    that, on positions, picks out the position $f_\1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ and the inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
+    Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
     \item **
     % \item The fact that for any $p,q,r $
     % follows from the natural isomorphism given in \eqref{eqn.poly_closure_brackets}, but we can also construct this map explicitly. (Can we?)
@@ -5869,10 +5876,9 @@ This sounds complicated, but it can be done formally, once we have monoidal clos
 Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\times\ihom{q_2,r}$. Then we apply \cref{exc.sum_times_closure} to see that $\ihom{q_1,r}\times\ihom{q_2,r}\cong\ihom{q_1+q_2,r}$, and finally monoidal-uncurry to obtain $(p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
 \end{example}
 
-\Closesolutionfile{solutions}
-
-%-------- Section --------%
+% %-------- Section --------%
 \section{Exercise solutions}
+\Closesolutionfile{solutions}
 {\footnotesize
 \input{solution-file3}}
 
@@ -6162,21 +6168,21 @@ We have the following chain of natural isomorphisms:
 \section{Epi-mono factorization}
 
 \begin{proposition}\label{prop.monics_in_poly}
-Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)]\to p[i]$ is an epimorphism in $\smset$.
+Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_\1(i)]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}
 To prove the forward direction, suppose that $f$ is a monomorphism.
-Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms, so the on-positions function $f_1$ is also a monomorphism.
+Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms, so the on-positions function $f_\1$ is also a monomorphism.
 
-We now need to show that for any $i\in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_1(i)] \to p[i]$ is an epimorphism.
+We now need to show that for any $i\in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_\1(i)] \to p[i]$ is an epimorphism.
 Suppose we are given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $f^\sharp_i \then g^\sharp = f^\sharp_i \then h^\sharp$.
 Then there exist morphisms $g,h \colon \yon^A \tto p$ whose on-positions functions both pick out $i$ and whose on-directions functions are $g^\sharp$ and $h^\sharp$, so that $g \then f = h \then f$.
 As $f$ is a monomorphism, $g = h$; in particular, their on-directions functions $g^\sharp$ and $h^\sharp$ are equal, as desired.
 
-Conversely, suppose that $f_1$ is a monomorphism and that, for each $i\in p(\1)$, the function $f^\sharp_i$ is an epimorphism.
+Conversely, suppose that $f_\1$ is a monomorphism and that, for each $i\in p(\1)$, the function $f^\sharp_i$ is an epimorphism.
 Let $r$ be a polynomial and $g,h\colon r\tto p$ be two morphisms such that $g \then f = h \then f$.
-Then $g_1 \then f_1 = h_1 \then f_1$, which implies $g_1 = h_1$; we'll consider $g_1$ the default representation.
-We also have that $f^\sharp_{g_1(k)} \then g^\sharp_k = f^\sharp_{g_1(k)} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_1(k)}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
+Then $g_\1 \then f_\1 = h_\1 \then f_\1$, which implies $g_\1 = h_\1$; we'll consider $g_\1$ the default representation.
+We also have that $f^\sharp_{g_\1(k)} \then g^\sharp_k = f^\sharp_{g_\1(k)} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_\1(k)}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
 \end{proof}
 
 \begin{example}\label{ex.clock_in_N}
@@ -6186,7 +6192,7 @@ f \colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
 \]
 such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory \cref{ex.counting_trajectory} $\nn\yon^\nn\to\yon$.
 
-On positions, we have $f_1(i)=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
+On positions, we have $f_\1(i)=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
 \end{example}
 
 \begin{exercise}
@@ -6195,22 +6201,22 @@ In \cref{ex.clock_in_N}, we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This all
 Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen to relate to the behavior of the old system $\nn\yon^\nn\to p$.
 \begin{solution}
 We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cref{ex.clock_in_N}.
-Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with yield function $g_1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_1(n)] \to \nn$ for each state $n \in \nn$.
-Then the new composite dynamical system $h \coloneqq f \then g$ has a yield function $h_1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_1(i) = g_1(f_1(i)) = g_1(i)$, the same output that the original system yielded in the state $i \in \nn$.
-Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_1(i)] \to \1\2$ which, given an input $d \in p[g_1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
+Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with yield function $g_\1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_\1(n)] \to \nn$ for each state $n \in \nn$.
+Then the new composite dynamical system $h \coloneqq f \then g$ has a yield function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1(i) = g_\1(f_\1(i)) = g_\1(i)$, the same output that the original system yielded in the state $i \in \nn$.
+Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1(i)] \to \1\2$ which, given an input $d \in p[g_\1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_\1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
 \end{solution}
 \end{exercise}
 
 \begin{proposition}\label{prop.epis_in_poly}
-Let $f \colon p \to q$ be a morphism in $\poly$. It is an epimorphism if and only if the function $f_1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
+Let $f \colon p \to q$ be a morphism in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
 \[
-    f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_1(i)=j}} p[i]
+    f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_\1(i)=j}} p[i]
 \]
 from \eqref{eqn.useful_misc472} is a monomorphism.
 \end{proposition}
 \begin{proof}
-To prove the forward direction, suppose that $f$ is an epimorphism. Since $p \mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms, so the on-positions function $f_1$ is also a epimorphism.
+To prove the forward direction, suppose that $f$ is an epimorphism. Since $p \mapsto p(\1)$ is a left adjoint (\cref{thm.adjoint_quadruple}), it preserves epimorphisms, so the on-positions function $f_\1$ is also a epimorphism.
 
 We now need to show that for any $j\in q(\1)$, the induced function $f^\flat_j$ is a monomorphism.
 Suppose we are given a set $A$ and a pair of functions $g',h'\colon A\tto q[j]$ with $g' \then f^\flat_j = h' \then f^\flat_j$.
@@ -6221,14 +6227,14 @@ In addition, we let the on-directions functions be $g^\sharp_j \coloneqq g'$ and
 Then $f \then g = f \then h$.
 As $f$ is an epimorphism, $g = h$; in particular, their on-directions functions are equal, so $g' = h'$, as desired.
 
-Conversely, suppose that $f_1$ is an epimorphism and that, for each $j\in q(\1)$, the function $f^\flat_j$ is a monomorphism. 
+Conversely, suppose that $f_\1$ is an epimorphism and that, for each $j\in q(\1)$, the function $f^\flat_j$ is a monomorphism. 
 Let $r$ be a polynomial and $g,h\colon q\tto r$ be two morphisms such that $f \then g = f \then h$.
-Then $f_1 \then g_1 = f_1 \then h_1$, which implies $g_1=h_1$; we'll consider $g_1$ the default representation.
-We also have that $g^\sharp_{f_1(i)} \then f^\sharp_i = h^\sharp_{f_1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
+Then $f_\1 \then g_\1 = f_\1 \then h_\1$, which implies $g_\1=h_\1$; we'll consider $g_\1$ the default representation.
+We also have that $g^\sharp_{f_\1(i)} \then f^\sharp_i = h^\sharp_{f_\1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
 It follows that, for any $j \in q(\1)$, the two composites
 \[
 \begin{tikzcd}
-	r[g_1(j)] \ar[r, shift left, "g^\sharp_j"] \ar[r, shift right, "h^\sharp_j"'] & q[j] \ar[r, "f^\flat_j"] & \displaystyle\prod_{\substack{i\in p(\1), \\ f_1(i)=j}} p[i]
+	r[g_\1(j)] \ar[r, shift left, "g^\sharp_j"] \ar[r, shift right, "h^\sharp_j"'] & q[j] \ar[r, "f^\flat_j"] & \displaystyle\prod_{\substack{i\in p(\1), \\ f_\1(i)=j}} p[i]
 \end{tikzcd}
 \]
 are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
@@ -6240,7 +6246,7 @@ are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
 Show that the only way for a map $p\to\yon$ to \emph{not} be an epimorphism is when $p=0$.
 \begin{solution}
 Given $p \in \poly$ and a map $f \colon p \to \yon$, we will use \cref{prop.epis_in_poly} to show that either $f$ is an epimorphism or $p = \0$.
-First, note that $f_1 \colon p(\1) \to \1$ must be an epimorphism unless $p(\1) \iso \0$, in which case $p = \0$.
+First, note that $f_\1 \colon p(\1) \to \1$ must be an epimorphism unless $p(\1) \iso \0$, in which case $p = \0$.
 Next, note that the induced function
 \[
     f^\flat \colon \1 \to \prod_{i\in p(\1)} p[i]
@@ -6253,7 +6259,7 @@ So it follows from \cref{prop.epis_in_poly} that either $f$ is an epimorphism or
 \begin{exercise}
 Let $A$ and $B$ be sets and $AB$ their product. Find an epimorphism $\yon^A+\yon^B\surj\yon^{AB}$.
 \begin{solution}
-Given sets $A$ and $B$, by \cref{prop.epis_in_poly}, a morphism $f \colon \yon^A + \yon^B \to \yon^{AB}$ is an epimorphism if its on-positions function $f_1 \colon \2 \to \1$ is an epimorphism (which must be true) and if the induced function
+Given sets $A$ and $B$, by \cref{prop.epis_in_poly}, a morphism $f \colon \yon^A + \yon^B \to \yon^{AB}$ is an epimorphism if its on-positions function $f_\1 \colon \2 \to \1$ is an epimorphism (which must be true) and if the induced function
 \[
     f^\flat \colon AB \to \prod_{i \in \2} (\yon^A + \yon^B)[i] \iso AB
 \]
@@ -6274,15 +6280,15 @@ Hint: You may use the following facts.
 \begin{solution}
 Let $f \colon p \to q$ be a morphism in $\poly$ that is both a monomorphism and an epimorphism.
 We claim that $f$ is an isomorphism.
-By \cref{prop.monics_in_poly} and \cref{prop.epis_in_poly}, the on-positions function $f_1 \colon p(\1) \to q(\1)$ is both a monomorphism and an epimorphism, so it is an isomorphism.
+By \cref{prop.monics_in_poly} and \cref{prop.epis_in_poly}, the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is both a monomorphism and an epimorphism, so it is an isomorphism.
 Meanwhile, \cref{prop.epis_in_poly} says that, for each $j \in q(\1)$, the induced function
 \[
-    f^\flat_j \colon q[j] \to \prod_{\substack{i \in p(\1), \\ f_1(i) = j}} p[i]
+    f^\flat_j \colon q[j] \to \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]
 \]
 is a monomorphism.
-As $f_1$ is an isomorphism, it follows that for each $i \in p(\1)$, the function
+As $f_\1$ is an isomorphism, it follows that for each $i \in p(\1)$, the function
 \[
-    f^\flat_{f_1(i)} \colon q[f_1(i)] \to p[i]
+    f^\flat_{f_\1(i)} \colon q[f_\1(i)] \to p[i]
 \]
 is a monomorphism.
 But this is just the on-directions function $f^\sharp_i$ of $f$.
@@ -6462,11 +6468,11 @@ A category has all limits if and only if it has products and equalizers, so by \
 We claim that equalizers in $\poly$ are simply equalizers on positions and coequalizers on directions.
 More precisely, let $f,g \colon p \tto q$ be two maps of polynomials.
 We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a map, but we will use the term to refer to either just the object or just the map when the context is clear.}
-We define its position-set $p'(\1)$ to be the equalizer of $f_1,g_1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
+We define its position-set $p'(\1)$ to be the equalizer of $f_\1,g_\1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
 \[
-    p'(\1) \coloneqq \{i \in p(\1) \ | \ f_1(i) = g_1(i)\}.
+    p'(\1) \coloneqq \{i \in p(\1) \ | \ f_\1(i) = g_\1(i)\}.
 \]
-Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_1(i)] \tto p[i]$.
+Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$.
 In this way, we obtain a polynomial $p'$ that comes equipped with a morphism $e \colon p' \to p$.
 One can check that $p'$ together with $e$ satisfies the universal property of the equalizer of $f$ and $g$; see \cref{exc.poly_limits}.
 \end{proof}
@@ -6482,12 +6488,12 @@ Complete the proof of \cref{thm.poly_limits} as follows:
 \begin{solution}
 \begin{enumerate}
     \item The morphism $e \colon p' \to p$ can be characterized as follows.
-    The on-positions function $e_1 \colon p'(\1) \to p(\1)$ is the equalizer of $f_1, g_1 \colon p(\1) \tto q(\1)$ in $\smset$.
-    In particular, $e_1$ is the canonical inclusion that sends each element of $p'(\1)$ to the same element in $p(\1)$.
-    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_1(i)] \tto p[i]$ in $\smset$.
+    The on-positions function $e_\1 \colon p'(\1) \to p(\1)$ is the equalizer of $f_\1, g_\1 \colon p(\1) \tto q(\1)$ in $\smset$.
+    In particular, $e_\1$ is the canonical inclusion that sends each element of $p'(\1)$ to the same element in $p(\1)$.
+    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$ in $\smset$.
     
     \item To show that $e \then f = e \then g$, it suffices to show that both sides are equal on positions and on directions.
-    On positions, $e_1$ is defined to be the equalizer of $f_1$ and $g_1$, so $e_1 \then f_1 = e_1 \then g_1$.
+    On positions, $e_\1$ is defined to be the equalizer of $f_\1$ and $g_\1$, so $e_\1 \then f_\1 = e_\1 \then g_\1$.
     Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i$ is defined to be the coequalizer of $f^\sharp_i$ and $g^\sharp_i$, so $f^\sharp_i \then e^\sharp_i = g^\sharp_i \then e^\sharp_i$.
     
     \item To show that $e$ is the equalizer of $f$ and $g$, it suffices to show that for any $r \in \poly$ and map $a \colon r \to p$ satisfying $a \then f = a \then g$, there exists a unique map $h \colon r \to p'$ for which $a = h \then e$, so that the following diagram commutes.
@@ -6497,21 +6503,21 @@ Complete the proof of \cref{thm.poly_limits} as follows:
         r \ar[u, "h", dashed] \ar[ur, "a"']
     \end{tikzcd}
     \end{equation*}
-    In order for $a = h \then e$ to hold, we must have $a_1 = h_1 \then e_1$ on positions.
-    But we have that $a_1 \then f_1 = a_1 \then g_1$, so by the universal property of $p'(\1)$ and the map $e_1$ as the equalizer of $f_1$ and $g_1$ in $\smset$, there exists a unique $h_1$ for which $a_1 = h_1 \then e_1$.
+    In order for $a = h \then e$ to hold, we must have $a_\1 = h_\1 \then e_\1$ on positions.
+    But we have that $a_\1 \then f_\1 = a_\1 \then g_\1$, so by the universal property of $p'(\1)$ and the map $e_\1$ as the equalizer of $f_\1$ and $g_\1$ in $\smset$, there exists a unique $h_\1$ for which $a_\1 = h_\1 \then e_\1$.
     Hence $h$ is uniquely characterized on positions.
-    In particular, it must send each $k \in r(\1)$ to $a_1(k) \in p'(\1)$.
+    In particular, it must send each $k \in r(\1)$ to $a_\1(k) \in p'(\1)$.
     
-    Then for $a = h \then e$ to hold on directions, we must have that $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$ for each $k \in r(\1)$.
-    But we have that $f^\sharp_{a_1(k)} \then a^\sharp_{a_1(k)} = g^\sharp_{a_1(k)} \then a^\sharp_{a_1(k)}$, so by the universal property of $p'[a_1(k)]$ and the map $e^\sharp_{a_1(k)}$ as the coequalizer of $f^\sharp_{a_1(k)}$ and $g^\sharp_{a_1(k)}$ in $\smset$, there exists a unique $h^\sharp_k$ for which $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$, so that the diagram below commutes.
+    Then for $a = h \then e$ to hold on directions, we must have that $a^\sharp_k = e^\sharp_{a_\1(k)} \then h^\sharp_k$ for each $k \in r(\1)$.
+    But we have that $f^\sharp_{a_\1(k)} \then a^\sharp_{a_\1(k)} = g^\sharp_{a_\1(k)} \then a^\sharp_{a_\1(k)}$, so by the universal property of $p'[a_\1(k)]$ and the map $e^\sharp_{a_\1(k)}$ as the coequalizer of $f^\sharp_{a_\1(k)}$ and $g^\sharp_{a_\1(k)}$ in $\smset$, there exists a unique $h^\sharp_k$ for which $a^\sharp_k = e^\sharp_{a_\1(k)} \then h^\sharp_k$, so that the diagram below commutes.
     \begin{equation*} %\label{eqn.eq_univ_prop_dir}
     \begin{tikzcd}[sep=large]
-        p'[a_1(k)] \ar[d, "h^\sharp_k"', dashed] & p[a_1(k)] \ar[l, "e^\sharp_{a_1(k)}"'] \ar[dl, "a^\sharp_k"] & q[f_1(a_1(k))] \ar[l, "f^\sharp_{a_1(k)}"', shift right] \ar[l, "g^\sharp_{a_1(k)}", shift left] \\
+        p'[a_\1(k)] \ar[d, "h^\sharp_k"', dashed] & p[a_\1(k)] \ar[l, "e^\sharp_{a_\1(k)}"'] \ar[dl, "a^\sharp_k"] & q[f_\1(a_\1(k))] \ar[l, "f^\sharp_{a_\1(k)}"', shift right] \ar[l, "g^\sharp_{a_\1(k)}", shift left] \\
         r[k]
     \end{tikzcd}
     \end{equation*}
     Hence $h$ is also uniquely characterized on directions, so it is unique overall.
-    Moreover, we have shown that we can define $h$ on positions so that $a_1 = h_1 \then e_1$, and that we can define $h$ on directions such that $a^\sharp_k = e^\sharp_{a_1(k)} \then h^\sharp_k$ for all $k \in r(\1)$.
+    Moreover, we have shown that we can define $h$ on positions so that $a_\1 = h_\1 \then e_\1$, and that we can define $h$ on directions such that $a^\sharp_k = e^\sharp_{a_\1(k)} \then h^\sharp_k$ for all $k \in r(\1)$.
     It follows that there exists $h$ for which $a = h \then e$.
 \end{enumerate}
 \end{solution}
@@ -6531,13 +6537,13 @@ Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback
 \]
  is given as follows.
  The position-set of $p$ is the pullback of the position-sets of $q$ and $q'$ over that of $r$ in $\smset$.
- Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_1(i)=f'_1(i')$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_1(i)]=r[f_1'(i')]$ in $\smset$.
+ Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_\1(i)=f'_\1(i')$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_\1(i)]=r[f_\1'(i')]$ in $\smset$.
  These pullback and pushout squares also given the morphisms $g$ and $g'$ on positions and on directions:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
-	p(\1)\ar[r, "g'_1"]\ar[d, "g_1"']&
-	q'(\1)\ar[d, "f_1'"]\\
-	q(\1)\ar[r, "f_1"']&
+	p(\1)\ar[r, "g'_\1"]\ar[d, "g_\1"']&
+	q'(\1)\ar[d, "f_\1'"]\\
+	q(\1)\ar[r, "f_\1"']&
 	r(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \qqand
@@ -6568,18 +6574,18 @@ Let $p$ be any polynomial.
 \begin{solution}
 Here $p \in \poly$.
 \begin{enumerate}
-    \item The canonical morphism $\eta \colon p \to p(\1)$ is the identity $\eta_1 \colon p(\1) \to p(\1)$ on positions and the empty function on directions.
+    \item The canonical morphism $\eta \colon p \to p(\1)$ is the identity $\eta_\1 \colon p(\1) \to p(\1)$ on positions and the empty function on directions.
     
-    \item On positions, we have that $p_i(\1)$ along with $f_1$ and $g_1$ form the following pullback square in $\smset$:
+    \item On positions, we have that $p_i(\1)$ along with $f_\1$ and $g_\1$ form the following pullback square in $\smset$:
     \[
 	\begin{tikzcd}
-    	p_i(\1) \ar[r, "g_1"] \ar[d, "f_1"'] &
+    	p_i(\1) \ar[r, "g_\1"] \ar[d, "f_\1"'] &
     	p(\1) \ar[d, equals] \\
     	\1 \ar[r, "i"'] &
     	p(\1) \ar[ul, phantom, very near end, "\lrcorner"]
 	\end{tikzcd}
 	\]
-	So $p_i(\1) \coloneqq \{(a, i') \in \1 \times p(\1) \ | \ i = i' \} = \{(1, i)\}$, with $f_1$ uniquely determined and $g_1$ picking out $i \in p(\1)$.
+	So $p_i(\1) \coloneqq \{(a, i') \in \1 \times p(\1) \ | \ i = i' \} = \{(1, i)\}$, with $f_\1$ uniquely determined and $g_1$ picking out $i \in p(\1)$.
 	Then on directions, we have that $p_i[(1,i)]$ along with $f^\sharp_{(1,i)}$ and $g^\sharp_{(1,i)}$ form the following pushout square in $\smset$:
 	\[
 	\begin{tikzcd}
@@ -6605,26 +6611,26 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \begin{solution}
 \begin{enumerate}
     \item There are many possible answers, but one morphism $f \colon q \to r$, on positions, sends $1 \in q(\1)$ (corresponding to $\yon^\2$) to $2 \in r(\1)$ (corresponding to $\1$) and $2 \in q(\1)$ (corresponding to $\yon$) to $1 \in r(\1)$ (corresponding to $\yon$).
-    Then the on-directions functions $f^\sharp_1 \colon \0 \to \2$ and $f^\sharp_2 \colon \1 \to \1$ are uniquely determined.
+    Then the on-directions functions $f^\sharp_\1 \colon \0 \to \2$ and $f^\sharp_2 \colon \1 \to \1$ are uniquely determined.
     Another morphism $f' \colon q' \to r$, on positions, sends $1 \in q'(\1)$ (corresponding to one of the $\yon^\3$ terms) to $2 \in r(\1)$ and both $2 \in q'(\1)$ (corresponding to the other $\yon^\3$ term) and $3 \in q'(\1)$ (corresponding to the $\yon^\2$ term) to $1 \in r(\1)$.
     Then the on-directions function $(f')^\sharp_1 \colon \0 \to \3$ is uniquely determined, while we can let $(f')^\sharp_2 \colon \1 \to \3$ pick out $3$ and $(f')^\sharp_3 \colon \1 \to \2$ pick out $1$.
     
     \item We compute the pullback $p$ along with the morphisms $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
     We can compute $p(\1)$ by taking the pullback in $\smset$:
     \[
-        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \ | \ f_1(i) = f'_1(i)\} = \{(1,1), (2,2), (2,3)\}.
+        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \ | \ f_\1(i) = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
     \]
-    Moreover, the on-positions functions $g_1$ and $g'_1$ send each pair in $p(\1)$ to its left component and its right component, respectively.
+    Moreover, the on-positions functions $g_\1$ and $g'_\1$ send each pair in $p(\1)$ to its left component and its right component, respectively.
     
     To compute the direction-set at each $p$-position, we must compute a pushout.
-    At $(1,1)$, we have $r[f_1(1)] = r[f'_1(1)] = r[2] = \0$, so the pushout $p[(1,1)]$ is just the sum $q[1] + q'[1] = \2 + \3 \iso \5$.
+    At $(1,1)$, we have $r[f_\1(1)] = r[f'_\1(1)] = r[2] = \0$, so the pushout $p[(1,1)]$ is just the sum $q[1] + q'[1] = \2 + \3 \iso \5$.
     Moreover, the on-directions functions $g^\sharp_{(1,1)}$ and $(g')^\sharp_{(1,1)}$ are the canonical inclusions $\2 \to \2 + \3$ and $\3 \to \2 + \3$.
     
-    At $(2,2)$, we have $r[f_1(2)] = r[f'_1(2)] = r[1] = \1$, with $f^\sharp_2$ picking out $1 \in \1 = q[2]$ and $(f')^\sharp_2$ picking out $3 \in \3 = q'[2]$.
+    At $(2,2)$, we have $r[f_\1(2)] = r[f'_\1(2)] = r[1] = \1$, with $f^\sharp_2$ picking out $1 \in \1 = q[2]$ and $(f')^\sharp_2$ picking out $3 \in \3 = q'[2]$.
     So the pushout $p[(2,2)]$ is the set $\1 + \3 = \{(1,1), (2,1), (2,2), (2,3)\}$ but with $(1,1)$ identified with $(2,3)$; we can think of it as the set of equivalence classes $p[(2,2)] \iso \{\{(1,1), (2,3)\}, \{(2,1)\}, \{(2,2)\}\} \iso \3$.
     Moreover, the on-directions function $g^\sharp_{(2,2)}$ maps $1 \mapsto \{(1,1), (2,3)\}$, while the on-directions function $(g')^\sharp_{(2,2)}$ maps $1 \mapsto \{(2,1)\}, 2 \mapsto \{(2,2)\},$ and $3 \mapsto \{(1,1), (2,3)\}$.
     
-    Finally, at $(2,3)$, we have $r[f_1(2)] = r[f'_1(3)] = r[1] = \1$, with $f^\sharp_2$ still picking out $1 \in \1 = q[2]$ and $(f')^\sharp_3$ picking out $1 \in \2 = q'[3]$.
+    Finally, at $(2,3)$, we have $r[f_\1(2)] = r[f'_\1(3)] = r[1] = \1$, with $f^\sharp_2$ still picking out $1 \in \1 = q[2]$ and $(f')^\sharp_3$ picking out $1 \in \2 = q'[3]$.
     So the pushout $p[(2,3)]$ is the set $\1 + \2 = \{(1,1), (2,1), (2,2)\}$ but with $(1,1)$ identified with $(2,1)$; we can think of it as the set of equivalence classes $p[(2,3)] \iso \{\{(1,1), (2,1)\}, \{(2,2)\}\} \iso \2$.
     Moreover, the on-directions function $g^\sharp_{(2,3)}$ maps $1 \mapsto \{(1,1), (2,1)\}$, while the on-directions function $(g')^\sharp_{(2,3)}$ maps $1 \mapsto \{(1,1), (2,1)\}$ and $2 \mapsto \{(2,2)\}$.
 
@@ -6641,16 +6647,16 @@ A category has all colimits if and only if it has coproducts and coequalizers, s
 
 Let $s,t \colon p \tto q$ be two maps of polynomials.
 We construct the coequalizer $q'$ of $s$ and $t$ as follows.
-The pair of functions $s_1, t_1 \colon p(\1) \tto q(\1)$ define a graph $G \colon \fbox{$\bullet\tto\bullet$} \to \smset$ with vertices in $q(\1)$, edges in $p(\1)$, sources indicated by $s_1$, and targets indicated by $t_1$.
-Then the set $C$ of connected components of $G$ is given by the coequalizer $g_1 \colon q(\1) \to C$ of $s_1$ and $t_1$.
+The pair of functions $s_\1, t_\1 \colon p(\1) \tto q(\1)$ define a graph $G \colon \fbox{$\bullet\tto\bullet$} \to \smset$ with vertices in $q(\1)$, edges in $p(\1)$, sources indicated by $s_\1$, and targets indicated by $t_\1$.
+Then the set $C$ of connected components of $G$ is given by the coequalizer $g_\1 \colon q(\1) \to C$ of $s_\1$ and $t_\1$.
 We define the position-set of $q'$ to be $C$.
 Each direction-set of $q'$ will be a limit of a diagram of direction-sets of $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
 
-For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_1\inv(c)$ and edges $E_c \coloneqq s_1\inv(g_1\inv(c)) = t_1\inv(g_1\inv(c))$.
+For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_\1\inv(c)$ and edges $E_c \coloneqq s_\1\inv(g_\1\inv(c)) = t_\1\inv(g_\1\inv(c))$.
 Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated direction-set $p[e]$ (resp.\ $q[v]$).
 
-The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_1(e)$ and $e \to t_1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$. %**This is a cofunctor into graph category, right?
-There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_1(e)] \to p[e]$.
+The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_\1(e)$ and $e \to t_\1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$. %**This is a cofunctor into graph category, right?
+There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_\1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_\1(e)] \to p[e]$.
 So we can define $q'[c]$ to be the limit of $F$ in $\smset$.
 
 We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'[c]}$ is the coequalizer of $s$ and $t$. We leave the complete proof to the interested reader in \cref{exc.poly_colimits}.
@@ -6667,21 +6673,21 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \begin{solution}
 \begin{enumerate}
     \item We define a map $g \colon q \to q'$ as follows.
-    The on-positions function $g_1 \colon q(\1) \to q'(\1)$ is the coequalizer of $s_1, t_1 \colon p(\1) \tto q(\1)$.
-    In particular, $g_1$ sends each vertex in $q(\1)$ to its corresponding connected component in $q'(\1) = C$.
-    Then for each $v \in q(\1)$, if we let its corresponding connected component be $c \coloneqq g_1(v)$, we can define the on-directions function $g^\sharp_v \colon q'[c] \to q[v]$ to be the projection from the limit $q'[c]$ to its component $q[v]$.
+    The on-positions function $g_\1 \colon q(\1) \to q'(\1)$ is the coequalizer of $s_\1, t_\1 \colon p(\1) \tto q(\1)$.
+    In particular, $g_\1$ sends each vertex in $q(\1)$ to its corresponding connected component in $q'(\1) = C$.
+    Then for each $v \in q(\1)$, if we let its corresponding connected component be $c \coloneqq g_\1(v)$, we can define the on-directions function $g^\sharp_v \colon q'[c] \to q[v]$ to be the projection from the limit $q'[c]$ to its component $q[v]$.
     
     \item To show that $s \then g = t \then g$, we must show that both sides are equal on positions and on directions.
-    The on-positions function $g_1$ is defined to be the coequalizer of $s_1$ and $t_1$, so $s_1 \then g_1 = t_1 \then g_1$.
-    So it suffices to show that for all $e \in p(\1)$, if we let its corresponding connected component be $c \coloneqq g_1(s_1(e)) = g_1(t_1(e))$, then the following diagram of on-directions functions commutes:
+    The on-positions function $g_\1$ is defined to be the coequalizer of $s_\1$ and $t_\1$, so $s_\1 \then g_\1 = t_\1 \then g_\1$.
+    So it suffices to show that for all $e \in p(\1)$, if we let its corresponding connected component be $c \coloneqq g_\1(s_\1(e)) = g_\1(t_\1(e))$, then the following diagram of on-directions functions commutes:
     \[
     \begin{tikzcd}[sep=small]
-        & q[s_1(e)] \ar[dl, "s^\sharp_e"'] \\
-        p[e] & & q'[c] \ar[ul, "g^\sharp_{s_1(e)}"'] \ar[dl, "g^\sharp_{t_1(e)}"] \\
-        & q[t_1(e)] \ar[ul, "t^\sharp_e"]
+        & q[s_\1(e)] \ar[dl, "s^\sharp_e"'] \\
+        p[e] & & q'[c] \ar[ul, "g^\sharp_{s_\1(e)}"'] \ar[dl, "g^\sharp_{t_\1(e)}"] \\
+        & q[t_\1(e)] \ar[ul, "t^\sharp_e"]
     \end{tikzcd}
     \]
-    But this is automatically true by the definition of $q'[c]$ as a limit---specifically the limit of a functor with $s^\sharp_e$ and $t^\sharp_e$ in its image---and the definitions of $g^\sharp_{s_1(e)}$ and $g^\sharp_{t_1(e)}$ as projections from this limit.
+    But this is automatically true by the definition of $q'[c]$ as a limit---specifically the limit of a functor with $s^\sharp_e$ and $t^\sharp_e$ in its image---and the definitions of $g^\sharp_{s_\1(e)}$ and $g^\sharp_{t_\1(e)}$ as projections from this limit.
     
     \item To show that $g$ is the coequalizer of $s$ and $t$, it suffices to show that for any $r \in \poly$ and map $f \colon q \to r$ satisfying $s \then f = t \then f$, there exists a unique map $h \colon q' \to r$ for which $f = g \then h$, so that the following diagram commutes.
     \begin{equation*} %\label{eqn.eq_univ_prop}
@@ -6690,25 +6696,25 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
         & & r
     \end{tikzcd}
     \end{equation*}
-    In order for $f = g \then h$ to hold, we must have $f_1 = g_1 \then h_1$ on positions.
-    But we have that $s_1 \then f_1 = t_1 \then f_1$, so by the universal property of $q'(\1)$ and the map $g_1$ as the coequalizer of $s_1$ and $t_1$ in $\smset$, there exists a unique $h_1$ for which $f_1 = g_1 \then h_1$.
+    In order for $f = g \then h$ to hold, we must have $f_\1 = g_\1 \then h_\1$ on positions.
+    But we have that $s_\1 \then f_\1 = t_\1 \then f_\1$, so by the universal property of $q'(\1)$ and the map $g_\1$ as the coequalizer of $s_\1$ and $t_\1$ in $\smset$, there exists a unique $h_\1$ for which $f_\1 = g_\1 \then h_\1$.
     Hence $h$ is uniquely characterized on positions.
-    In particular, it must send each connected component $c \in q'(\1)$ to the element in $r(\1)$ to which $f_1$ sends every vertex $v \in V_c = g_1\inv(c)$ that lies in the connected component $c$.
+    In particular, it must send each connected component $c \in q'(\1)$ to the element in $r(\1)$ to which $f_\1$ sends every vertex $v \in V_c = g_\1\inv(c)$ that lies in the connected component $c$.
     
-    Then for $f = g \then h$ to hold on directions, we must have that $f^\sharp_v = h^\sharp_{g_1(v)} \then g^\sharp_v$ for each $v \in q(\1)$.
+    Then for $f = g \then h$ to hold on directions, we must have that $f^\sharp_v = h^\sharp_{g_\1(v)} \then g^\sharp_v$ for each $v \in q(\1)$.
     Put another way, given $c \in q'(\1)$, we must have that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
-    But $s \then f = t \then f$ implies that for each $e \in E_c = s_1\inv(g_1\inv(c)) = t_1\inv(g_1\inv(c)) \ss p(\1)$, the following diagram of on-directions functions commutes:
+    But $s \then f = t \then f$ implies that for each $e \in E_c = s_\1\inv(g_\1\inv(c)) = t_\1\inv(g_\1\inv(c)) \ss p(\1)$, the following diagram of on-directions functions commutes:
     \[
     \begin{tikzcd}[sep=small]
-        & q[s_1(e)] \ar[dl, "s^\sharp_e"'] \\
-        p[e] & & r[f_1(v)] \ar[ul, "f^\sharp_{s_1(e)}"'] \ar[dl, "f^\sharp_{t_1(e)}"] \\
-        & q[t_1(e)] \ar[ul, "t^\sharp_e"]
+        & q[s_\1(e)] \ar[dl, "s^\sharp_e"'] \\
+        p[e] & & r[f_\1(v)] \ar[ul, "f^\sharp_{s_\1(e)}"'] \ar[dl, "f^\sharp_{t_\1(e)}"] \\
+        & q[t_\1(e)] \ar[ul, "t^\sharp_e"]
     \end{tikzcd}
     \]
-    It follows that $r[f_1(v)]$ together with the maps $(f^\sharp_v)_{v \in V_c}$ form a cone over the functor $F$.
-    So by the universal property of the limit $q'[c]$ of $F$ with projection maps $(g^\sharp_v)_{v \in V_c}$, there exists a unique $h^\sharp_c \colon r[f_1(v)] \to q'[c]$ for which $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
+    It follows that $r[f_\1(v)]$ together with the maps $(f^\sharp_v)_{v \in V_c}$ form a cone over the functor $F$.
+    So by the universal property of the limit $q'[c]$ of $F$ with projection maps $(g^\sharp_v)_{v \in V_c}$, there exists a unique $h^\sharp_c \colon r[f_\1(v)] \to q'[c]$ for which $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for every $v \in V_c$.
     Hence $h$ is also uniquely characterized on directions, so it is unique overall.
-    Moreover, we have shown that we can define $h$ on positions so that $f_1 = g_1 \then h_1$, and that we can define $h$ on directions such that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for all $c \in q'(\1)$ and $v \in V_c$.
+    Moreover, we have shown that we can define $h$ on positions so that $f_\1 = g_\1 \then h_\1$, and that we can define $h$ on directions such that $f^\sharp_v = h^\sharp_c \then g^\sharp_v$ for all $c \in q'(\1)$ and $v \in V_c$.
     It follows that there exists $h$ for which $f = g \then h$.
 \end{enumerate}
 \end{solution}
@@ -6777,8 +6783,8 @@ By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical ma
     \end{equation}
     in which $\iota, \iota'$ are the canonical inclusions and the four triangles commute, $\yon^{\Gamma(p)}$ equipped with the morphism $g$ is the coequalizer of $s$ and $t$.
     To do so, we apply \cref{thm.poly_colimits} to compute the coequalizer $q'$ of $s$ and $t$.
-    The position-set of $q'$ is the coequalizer of $s_1 = (! \then \iota)_1$, which sends every $i \in p(\1)$ to the position of $\yon + p$ corresponding to the summand $\yon$, and $t_1 = (\epsilon \then \iota')_1$, which sends each $i \in p(\1)$ to the corresponding position in the summand $p$ of $\yon + p$.
-    It follows that the coequalizer of $s_1$ and $t_1$ is $\1$, so $q'(\1) \iso \1$.
+    The position-set of $q'$ is the coequalizer of $s_\1 = (! \then \iota)_\1$, which sends every $i \in p(\1)$ to the position of $\yon + p$ corresponding to the summand $\yon$, and $t_\1 = (\epsilon \then \iota')_\1$, which sends each $i \in p(\1)$ to the corresponding position in the summand $p$ of $\yon + p$.
+    It follows that the coequalizer of $s_\1$ and $t_\1$ is $\1$, so $q'(\1) \iso \1$.
     
     Then the direction-set of $q'$ at its sole position is the limit of the functor $F$ whose image consists of morphisms of the form $\1 \to \1$ or $p[i] \to \1$ for every $i \in p(\1)$.
     It follows that the limit of $F$ is just a product, namely $\prod_{i \in p(\1)} p[i] \iso \Gamma(p)$.
@@ -6921,56 +6927,11 @@ Moreover, the left adjoint is fully faithful if and only if $n\leq 1$ or $|p_i(\
 \end{proof}
 
 %-------- Section --------%
-\section{Monoidal $*$-bifibration over $\smset$}
-
-We will see that the functor $p\mapsto p(\1)$ has special properties making it what
-\cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
-
-For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a morphism between constant polynomials.
-Then we get a new polynomial $f^*p$ with positions $A$, as follows.
-%The notation here agrees with that in \cref{thm.poly_lcc}:
-It is given by a pullback
-\begin{equation}\label{eqn.f^*_defined}
-\begin{tikzcd}
-	f^*p\ar[r, "\fun{cart}"]\ar[d]&
-	p\ar[d, "\eta_p"]\\
-	A\ar[r, "f"']&
-	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
-\end{tikzcd}
-\end{equation}
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$.
-By \cref{ex.pullbacks_in_poly}, this pullback yields an on-positions pullback
-\begin{equation}\label{eqn.f^*_defined_pos}
-\begin{tikzcd}
-	(f^*p)(\1) \ar[r, "\fun{cart}_1"] \ar[d] &
-	p(\1) \ar[d, "(\eta_p)_1"] \\
-	A \ar[r, "f"'] &
-	p(\1) \ar[ul, phantom, very near end, "\lrcorner"]
-\end{tikzcd}
-\end{equation}
-in $\smset$.
-Since $\eta_p$ is an isomorphism on positions, the map $f^*p\to A$ is also an isomorphism on positions and $\fun{cart}_1 = f$.
-
-\cref{ex.pullbacks_in_poly} also implies that for each position $a \in A$, the pullback in \eqref{eqn.f^*_defined} yields an on-directions pushout
-\begin{equation}
-\begin{tikzcd}
-	(f^*p)[a] \ar[from=r, "\fun{cart}^\sharp_a"'] \ar[from=d] &
-	p[f(a)] \ar[from=d, "(\eta_p)^\sharp_i"'] \\
-	\0 \ar[from=r, "f^\sharp_a"] &
-	\0 \ar[ul, phantom, very near end, "\lrcorner"]
-\end{tikzcd}
-\end{equation}
-in $\smset$.
-The on-directions function $f^\sharp_a \colon \0 \to \0$ is trivially an isomorphism, so each on-directions function $\fun{cart}^\sharp_a$ is an isomorphism, too.
-Hence
-\[
-    f^*p \iso \sum_{a \in A} \yon^{p[f(a)]}.
-\]
-We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}, but first, we introduce vertical and cartesian morphisms in $\poly$ (thus explaining why we named our morphism ``$\fun{cart}$'').
+\section{Vertical-cartesian factorization}
 
 \begin{definition}[Vertical, cartesian]
 Let $f\colon p\to q$ be a morphism of polynomials.
-It is called \emph{vertical} if $f_1\colon p(\1)\to q(\1)$ is an isomorphism.
+It is called \emph{vertical} if $f_\1\colon p(\1)\to q(\1)$ is an isomorphism.
 It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
@@ -6981,19 +6942,19 @@ Every morphism in $\poly$ can be uniquely factored as a vertical morphism follow
 Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
 \begin{tikzcd}[column sep=small]
-	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[rr, "f_1"]&~&
+	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[rr, "f_\1"]&~&
 	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \hspace{1in}
 \begin{tikzcd}
 	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[r, equal, ""' name=equal]&
-	p(\1)\ar[d, "{q[f_1(-)]}" description]\ar[r, "f_1"]&
+	p(\1)\ar[d, "{q[f_\1(-)]}" description]\ar[r, "f_\1"]&
 	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_1(i)]}$ is clearly unique up to isomorphism.
+The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is clearly unique up to isomorphism.
 \end{proof}
 
 \begin{proposition}
@@ -7002,12 +6963,12 @@ Vertical morphisms satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then
 If $g$ is cartesian, then $h$ is cartesian if and only if $f$ is cartesian.
 \end{proposition}
 \begin{proof}
-Given $h = f \then g$, we have that $h_1 = f_1 \then g_1$.
+Given $h = f \then g$, we have that $h_\1 = f_\1 \then g_\1$.
 Since isomorphisms satisfy 2-out-of-3, it follows that vertical morphisms satisfy 2-out-of-3 as well.
 
 Now assume $g$ is cartesian.
-On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_1(i)} \then f^\sharp_i$.
-Since $g^\sharp_{f_1(i)}$ is an isomorphism, it follows that every $h^\sharp_i$ is an isomorphism if and only if every $f^\sharp_i$ is an isomorphism, so $h$ is cartesian if and only if $f$ is cartesian.
+On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$.
+Since $g^\sharp_{f_\1(i)}$ is an isomorphism, it follows that every $h^\sharp_i$ is an isomorphism if and only if every $f^\sharp_i$ is an isomorphism, so $h$ is cartesian if and only if $f$ is cartesian.
 \end{proof}
 
 \begin{exercise}
@@ -7024,14 +6985,14 @@ Finally, $f \then g$ can only be the unique morphism $\yon \to \yon$, namely the
 
 
 Recall from \cref{exc.deriv_directions} that for any polynomial $p$, there is a corresponding function $\pi_p\colon\dot{p}(\1)\to p(\1)$, i.e.\ the set of all directions mapping to the set of positions.
-A map of polynomials $(f_1,f^\sharp)\colon p\to q$ can then be described as a function $f_1\colon p(\1)\to q(\1)$ along with a function $f^\sharp$ that makes the following diagram in $\smset$ commute:
+A map of polynomials $(f_\1,f^\sharp)\colon p\to q$ can then be described as a function $f_\1\colon p(\1)\to q(\1)$ along with a function $f^\sharp$ that makes the following diagram in $\smset$ commute:
 \begin{equation}\label{eqn.poly_map_usu}
 \begin{tikzcd}
 	\dot{p}(\1)\ar[d, "\pi_p"']&
 	\bullet\ar[l, "f^\sharp"']\ar[r]\ar[d]&
 	\dot{q}(\1)\ar[d, "\pi_q"]\\
 	p(\1)\ar[r, equal]&
-	p(\1)\ar[r, "f_1"']&
+	p(\1)\ar[r, "f_\1"']&
 	q(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
@@ -7045,7 +7006,7 @@ Let $f\colon p\to q$ be a morphism of polynomials. The following are equivalent:
 \begin{tikzcd}
 	\dot{p}(\1)\ar[d, "\pi_p"']\ar[r]&
 	\dot{q}(\1)\ar[d, "\pi_q"]\\
-	p(\1)\ar[r, "f_1"']&
+	p(\1)\ar[r, "f_\1"']&
 	q(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]		
@@ -7096,6 +7057,31 @@ is cartesian.
 This follows from \cref{ex.pullbacks_in_poly}, since the pushout of an isomorphism is an isomorphism.
 \end{proof}
 
+\section{Monoidal $*$-bifibration over $\smset$}
+
+We will see that the functor $p\mapsto p(\1)$ has special properties making it what
+\cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
+
+For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a cartesian morphism between constant polynomials.
+Then we get a new polynomial $f^*p$ with positions $A$, as follows.
+It is given by a pullback
+\begin{equation}\label{eqn.f^*_defined}
+\begin{tikzcd}
+	f^*p\ar[r, "\fun{cart}"]\ar[d]&
+	p\ar[d, "\eta_p"]\\
+	A\ar[r, "f"']&
+	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
+\end{tikzcd}
+\end{equation}
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$; it is a vertical morphism.
+We could evaluate this pullback using \cref{ex.pullbacks_in_poly}.
+Alternatively, we can use \cref{**} to deduce that the top map $f^*p\to p$ (which we presciently labeled $\fun{cart}$) is cartesian like $f$, and we can use \cref{**} to deduce that the left map $f^*p\to A$ is vertical like $\eta_p$ and that $\fun{cart}_1 = f$.
+Hence
+\[
+    f^*p \iso \sum_{a \in A} \yon^{p[f(a)]}.
+\]
+We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}, but first we need the following definition and result about cartesian morphisms.
+
 For any $p\in\poly$, let $\poly/p$ denote the slice category, i.e.\ the category whose objects are maps to $p$ and whose morphisms are commutative triangles.
 
 \begin{definition}
@@ -7124,17 +7110,17 @@ We need to define a functor $f_*\colon\poly/p\to\poly/q$ and prove the analogous
 \begin{equation}\label{eqn.cart_exp}
 f_*p'\coloneqq
 \scalebox{1.3}{$\displaystyle
-\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_1\inv(j)}e_1\inv(i)}\;\yon^{q[j]/\sum_{i\in f_1\inv(j)}p'[i'(i)]}
+\sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_\1\inv(j)}e_\1\inv(i)}\;\yon^{q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]}
 $}
 \end{equation}
-Again, $q[j]/\sum_{i\in f_1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
+Again, $q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_1(j')=f_1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q[f(i)]/\smset)(p'[i'],q'[j'])\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_1(i')=i\}}\;(q[j]/\smset)(p'[i'],q'[j'])\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;\prod_{i\in f_1\inv(j)}\;(q[j]/\smset)(p'[i'(i)],q'[j'])\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_1\inv(j)}e_1\inv(i)}\;(q[j]/\smset)\Big(\sum_{i\in f_1\inv(j)}p'[i'(i)],q'[j']\Big)\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[f(i)]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_\1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[j]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_\1\inv(j)}e_\1\inv(i)}\;\prod_{i\in f_\1\inv(j)}\;(q[j]/\smset)(p'[i'(i)],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_\1\inv(j)}e_\1\inv(i)}\;(q[j]/\smset)\Big(\sum_{i\in f_\1\inv(j)}p'[i'(i)],q'[j']\Big)\\&\cong
 	(\poly/q)(q',f_*p')
 \end{align*}
 \end{proof}
@@ -7144,11 +7130,11 @@ Let $p\coloneqq\2\yon^\2$, $q\coloneqq\yon^\2+\yon^\0$, and $f\colon p\to q$ the
 Then for any $e\colon p'\to p$ over $p$, \eqref{eqn.cart_exp} provides the following description for the pushforward $f_*p'$.
 %We use the isomorphisms $p(\1)\cong\2$ and $q(\1)\cong\2$ to talk about the positions of $p$ and $q$.
 
-Over the $j=2$ position, $f_1\inv(2)=\0$ and $q[2]=\0$, so $\prod_{i \in f_1\inv(2)} e_1\inv(i)$ is an empty product and $q[2]/\sum_{i\in f_1\inv(2)} p'[i'(i)]$ is an empty pushout.
+Over the $j=2$ position, $f_\1\inv(2)=\0$ and $q[2]=\0$, so $\prod_{i \in f_\1\inv(2)} e_\1\inv(i)$ is an empty product and $q[2]/\sum_{i\in f_\1\inv(2)} p'[i'(i)]$ is an empty pushout.
 Hence the corresponding summand of \eqref{eqn.cart_exp} is simply $\yon^\0\cong\1$.
 
-Over the $j=1$ position, $f_1\inv(1)=\2$ and $q[1]=p[1]=p[2]=\2$, so $\prod_{i'\in f_1\inv(1)} e_1\inv(i) \iso e_1\inv(1)\times e_1\inv(2)$.
-For $i' \in e_1\inv(1) \times e_1\inv(2)$, we have that $q[1]/\sum_{i\in f_1\inv(2)} p'[i'(i)] \iso X_{i'}$ in the following pushout square:
+Over the $j=1$ position, $f_\1\inv(1)=\2$ and $q[1]=p[1]=p[2]=\2$, so $\prod_{i'\in f_\1\inv(1)} e_\1\inv(i) \iso e_\1\inv(1)\times e_\1\inv(2)$.
+For $i' \in e_\1\inv(1) \times e_\1\inv(2)$, we have that $q[1]/\sum_{i\in f_\1\inv(2)} p'[i'(i)] \iso X_{i'}$ in the following pushout square:
 \[
 \begin{tikzcd}
 	X_{i'} \ar[from=r] \ar[from=d] &
@@ -7159,7 +7145,7 @@ For $i' \in e_1\inv(1) \times e_1\inv(2)$, we have that $q[1]/\sum_{i\in f_1\inv
 \]
 Then in sum we have
 \[
-    f_*p' \iso \left(\sum_{i' \in e_1\inv(1) \times e_2\inv(2)} \yon^{X_{i'}}\right) + \1.
+    f_*p' \iso \left(\sum_{i' \in e_\1\inv(1) \times e_2\inv(2)} \yon^{X_{i'}}\right) + \1.
 \]
 \end{example}
 
@@ -7229,10 +7215,9 @@ and the op-cartesian morphisms are clearly preserved since projections in the se
 
 See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani (containers), ...
 
-\Closesolutionfile{solutions}
-
 %-------- Section --------%
 \section{Exercise solutions}
+\Closesolutionfile{solutions}
 {\footnotesize
 \input{solution-file4}}
 
