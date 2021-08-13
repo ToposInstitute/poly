@@ -101,7 +101,7 @@ Though a polynomial will turn out to be a \emph{functor}, while an arena is a \e
 For example, we may often directly refer to the positions and directions of a polynomial, when we mean the positions and directions of its associated arena.
 
 On the other hand, while \emph{arenas} and \emph{dependent sets} are exactly the same mathematical object, with the same syntax, we will stick to using the term ``arena'' when referring to them as objects in our categories of interest that coincide with polynomials, while we will use the term ``dependent set'' for more general set-theoretic purposes.
-For example, we will refer to the positions and directions of arenas, but not the positions and directions of dependent sets; on the other hand, we will refer to the sum or product of a single dependent set when we mean the set-theoretic disjoint union or Cartesian product of a collection of sets, but not the sum or product of a single arena in this way.
+For example, we will refer to the positions and directions of arenas, but not the positions and directions of dependent sets; on the other hand, we will refer to the sum or product of a single dependent set when we mean the set-theoretic disjoint union or cartesian product of a collection of sets, but not the sum or product of a single arena in this way.
 \end{remark}
 
 \begin{exercise}%\label{exc.forest}
@@ -406,7 +406,7 @@ Have you ever assembled something? Your internal states dictate the wiring patte
 All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory (\cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}).
 \end{example}
 
-\begin{exercise}%\label{exc.changing_types} % the sort of information or 
+\begin{exercise}%\label{exc.changing_types}
 Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your setting.
 \begin{solution}
 When I am carrying my phone in my house, my phone will connect to my Wi-Fi router. But my phone may send me a reminder that tells me to leave my house. 
@@ -949,7 +949,7 @@ The applications of $\poly$ are quite diverse and interesting, encapsulating dyn
 
 \begin{proposition}
 $\poly$ has all products and coproducts and is completely distributive.
-$\poly$ also has exponential objects, making it a biCartesian closed category.
+$\poly$ also has exponential objects, making it a bicartesian closed category.
 It therefore supports the simply typed lambda calculus.
 \end{proposition}
 \begin{proof}
@@ -957,7 +957,7 @@ We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it h
 \end{proof}
 
 \begin{proposition}
-Beyond the coCartesian and Cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
+Beyond the cocartesian and cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
 \end{proposition}
 \begin{proof}
 We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
@@ -1241,7 +1241,6 @@ as follows.
 \begin{enumerate}
 	\item Show that for any set $S$, we have that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
 	\item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
-\qedhere
 \end{enumerate}
 
 \begin{solution}
@@ -1277,6 +1276,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
 	\item Show that \eqref{eqn.yoneda} is natural in $F$.
 	\item Show that \eqref{eqn.yoneda} is natural in $S$.
 	\item As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to[\smset,\smset]$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
+	For this reason, we call this functor the \emph{Yoneda embedding}.
 \qedhere
 \end{enumerate}
 
@@ -1394,7 +1394,7 @@ If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say 
 \[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
 Its cardinality (i.e.\ the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
 
-Meanwhile, their product is the usual Cartesian product
+Meanwhile, their product is the usual cartesian product
 \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
 Its cardinality will always be the product of the cardinalities of $X_1$ and $X_2$.
 \end{example}
@@ -1680,46 +1680,87 @@ For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{
 Again, just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
 \end{proof}
 
+\begin{exercise}
+Let $\cat{C}$ be a completely distributive category.
+How is the usual distributive law,
+\[
+    X(Y+Z)\iso XY+XZ
+\]
+for $X,Y,Z\in\cat{C}$, a special case of \eqref{eqn.cat_completely_distributive}?
+\begin{solution}
+Given objects $X,Y,Z$ in a completely distributive category $\cat{C}$, we wish to show that $X(Y+Z)\iso XY+XZ$ using \eqref{eqn.cat_completely_distributive}.
+On the left hand side, we are taking a $2$-fold product: a single object times a $2$-fold sum.
+So we should let $I\coloneqq\2$ and let $J(1)\coloneqq\1$, with $X(1,1)\coloneqq X$, and $J(2)\coloneqq\2$, with $X(2,1)\coloneqq Y$ and $X(2,2)\coloneqq Z$.
+Then \eqref{eqn.cat_completely_distributive} says that
+\[
+    X(Y+Z) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}\;\prod_{i\in \2}X(i,\bar{j}(i)) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}X(1,\bar{j}(1))\times X(2,\bar{j}(2)).
+\]
+The set $\prod_{i\in\2}J(i)$ contains two functions: $(1\mapsto1,2\mapsto1)$ and $(1\mapsto1,2\mapsto2)$.
+So we can rewrite the right hand side as
+\[
+    X(1,1)\times X(2,1)+X(1,1)\times X(2,2)\iso XY+XZ,
+\]
+as desired.
+\end{solution}
+\end{exercise}
+
 Throughout this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
 Using \eqref{eqn.cat_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
 
-
-% \begin{exercise} \label{exc.push_prod_sum_set}
-% \begin{enumerate}
-%     \item Rewrite
-%     \[
-%         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-%     \]
-%     so that every $\sum$ appears before every $\prod$.
-%     \item Rewrite
-%     \[
-%         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
-%     \]
-%     so that every $\sum$ appears before every $\prod$.\qedhere
-% \end{enumerate}
-% \begin{solution}
-% Our goal is to rewrite each expression so that every $\sum$ appears before every $\prod$.
-% \begin{enumerate}
-%     \item By applying \eqref{eqn.set_completely_distributive}, we can rewrite
-%     \[
-%         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-%     \]
-%     as
-%     \[
-%         \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
-%     \]
-%     \item By applying \eqref{eqn.set_completely_distributive}, we can rewrite
-%     \[
-%         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
-%     \]
-%     as
-%     \[
-%         \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
-%     \]
-% \end{enumerate}
-% \end{solution}
-% \end{exercise}
+\begin{exercise} \label{exc.push_prod_sum_set}
+Let $I, (J(i))_{i\in I}, (K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
+\begin{enumerate}
+    \item Rewrite
+    \[
+        \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+    \]
+    so that every $\sum$ appears before every $\prod$.
+    \item Rewrite
+    \[
+        \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
+    \]
+    so that every $\sum$ appears before every $\prod$.
+    \item Rewrite
+    \[
+        \prod_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+    \]
+    so that every $\sum$ appears before every $\prod$.\qedhere
+\end{enumerate}
+\begin{solution}
+Our goal is to rewrite each expression so that every $\sum$ appears before every $\prod$.
+\begin{enumerate}
+    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+    \[
+        \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+    \]
+    as
+    \[
+        \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
+    \]
+    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+    \[
+        \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
+    \]
+    as
+    \[
+        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
+    \]
+    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+    \[
+        \prod_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+    \]
+    once as
+    \[
+        \prod_{i\in I}\sum_{\bar{k}\in\prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j))
+    \]
+    and then again as
+    \[
+        \sum_{\bar{\bar{k}}\in\prod_{i\in I}\prod_{j\in J}K(i,j)}\prod_{i\in I}\prod_{j\in J(i)}X(i,j,\bar{\bar{k}}(i,j)).
+    \]
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 Now that we have defined dependent sums and products of sets, we are ready to tackle dependent sums and products of set-valued functors.
 
@@ -1885,6 +1926,13 @@ p(X)\cong
 It has $(2^2+2+2+1)$-many, i.e.\ $9$, elements. The representable summand $\yon^A$ throws in all $A$-tuples from $X$, but it's indexed by the name of the summand. In particular if $A=\0$ then it just records the empty tuple at that summand.
 \end{example}
 
+In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $X$, expanded as
+\[
+    \sum_{i\in I}X^p[i],
+\]
+can be thought of as the set of all pairs comprised of an element of $I$ and a $p[i]$-tuple of elements of $X$.
+Alternatively, we can think of each pair as an element of $I$ and a function $p[i]\to XS$.
+
 \begin{exercise}
 In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows:
 \begin{enumerate}
@@ -1895,7 +1943,6 @@ In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the element
 	\item $p\coloneqq\yon$ and $X\coloneqq\nn$.
 \qedhere
 \end{enumerate}
-
 \begin{solution}
 Our goal is to write out the elements of $p(X)$ for each polynomial $p$ and set $X$ that we are given.
 \begin{enumerate}
@@ -1921,8 +1968,49 @@ Our goal is to write out the elements of $p(X)$ for each polynomial $p$ and set 
 \end{solution}
 \end{exercise}
 
+\begin{proposition}\label{prop.apply1}
+Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
+\begin{equation}\label{eqn.sum_p1}
+p\iso\sum_{i\in p(\1)}\yon^{p[i]}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We need to show that $I\iso p(\1)$; the latter claim follows directly. In \cref{exc.on_sums_prods_sets} it was shown that $I\iso\sum_{i\in I}\1$, so we just need to show that $(\yon^{p[i]})(\1)\iso\1$ for every $i \in I$. But $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for any $p[i]$.
+\end{proof}
+We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a polynomial $p$ from high school algebra, which yields the sum of the coefficients of $p$.
+The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
+
+\begin{exercise}\label{exc.apply0}
+We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, the set $p(\1)$ gives back the set of summands, in this case $\8$. 
+
+What does $p(\0)$ give you?
+\begin{solution}
+We consider $p(\0)$ for arbitrary polynomials $p$.
+A representable functor $\yon^S$ for some $S \in \smset$ sends $\0 \mapsto \0$ if $S \neq \0$ (as there are then no functions $S \to \0$), but sends $\0 \mapsto \1$ if $S = \0$ (as there is a unique function $\0 \to \0$).
+So
+\[
+    p(\0) \iso \sum_{i \in p(\1)} (\yon^{p[i]})(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
+\]
+In other words, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
+For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0) = \4$.
+In the language of high school algebra, we might call $p(\0)$ the ``constant term'' of $p$.
+\end{solution}
+\end{exercise}
+
+As a functor $\smset\to\smset$, a polynomial should be able to act not only on sets but also on functions.
+Below, we explain how.
+
+\begin{proposition} \label{prop.poly_on_functions}
+Let $p$ be an arbitrary polynomial functor (our notation allows us to write it as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$), and let $f\colon X\to Y$ be an arbitrary function.
+Then $p(f)\colon p(X)\to q(X)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
+\end{proposition}
+\begin{proof}
+For each $i\in p(\1)$, by \cref{def.representable}, the functor $\yon^{p[i]}$ sends $f$ to the function $f^{p[i]}\colon X^{p[i]}\to Y^{p[i]}$, the one that sends every $g\colon p[i]\to X$ to $g\then f\colon p[i]\to Y$.
+So the sum of these functors over $i\in p(\1)$ sends each $(i, g)\in p(X)$ to $(i, f^{p[i]}(g)) = (i, g\then f)\in p(Y)$, as desired.
+\end{proof}
+
 \begin{example}
-Suppose $p\coloneqq\yon^\2+\2\yon+1$. As a functor $\smset\to\smset$ it should be able to act not only on sets but on functions. Let $X\coloneqq\{a_1,a_2,b_1\}$, $Y\coloneqq\{a,b,c\}$, and $f\colon X\to Y$ be the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$ is shown below
+Suppose $p\coloneqq\yon^\2+\2\yon+1$. Let $X\coloneqq\{a_1,a_2,b_1\}$ and $Y\coloneqq\{a,b,c\}$, and let $f\colon X\to Y$ be the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$, according to \cref{prop.poly_on_functions}, is shown below:
 \[
 \begin{tikzcd}[row sep=2pt, column sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
 \LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
@@ -1959,34 +2047,6 @@ So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
 \end{solution}
 \end{exercise}
 
-\begin{proposition}\label{prop.apply1}
-Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
-\begin{equation}\label{eqn.sum_p1}
-p\cong\sum_{i\in p(\1)}\yon^{p[i]}.
-\end{equation}
-\end{proposition}
-\begin{proof}
-We need to show that $I\iso p(\1)$; the latter claim follows directly. In \cref{exc.on_sums_prods_sets} it was shown that $I\iso\sum_{i\in I}\1$, so we just need to show that $(\yon^{p[i]})(\1)\iso\1$ for every $i \in I$. But $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for any $p[i]$.
-\end{proof}
-We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a polynomial $p$ from high school algebra, which yields the sum of the coefficients of $p$.
-The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
-
-\begin{exercise}\label{exc.apply0}
-We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, the set $p(\1)$ gives back the set of summands, in this case $\8$. 
-
-What does $p(\0)$ give you?
-\begin{solution}
-We consider $p(\0)$ for arbitrary polynomials $p$.
-A representable functor $\yon^S$ for some $S \in \smset$ sends $\0 \mapsto \0$ if $S \neq \0$ (as there are then no functions $S \to \0$), but sends $\0 \mapsto \1$ if $S = \0$ (as there is a unique function $\0 \to \0$).
-So
-\[
-    p(\0) \iso \sum_{i \in p(\1)} (\yon^{p[i]})(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
-\]
-In other words, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
-For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0) = \4$.
-In the language of high school algebra, we might call $p(\0)$ the ``constant term'' of $p$.
-\end{solution}
-\end{exercise}
 
 %-------- Section --------%
 \section{Morphisms between polynomial functors}
@@ -3034,7 +3094,7 @@ Polynomial functors are a setting in which to speak about dynamics, decisions, a
 
 %---- Subsection ----%
 \subsection{The categorical product} \label{subsec.poly.func_nat.prepare_dyn.prod}
-The category $\poly$ has limits and colimits, is Cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
+The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
 The category $\poly$ has arbitrary products, coinciding with products in $[\smset,\smset]$ given by the operation $\prod_{i \in I}$.
@@ -4241,7 +4301,7 @@ Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Us
 Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose half its health whenever it moves to a location whose $x$-coordinate is negative. Do not output its health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
 We modify the Moore machine from \cref{ex.R2_moore} as follows.
-The original Moore machine had a state set $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the Cartesian product to obtain the new state set $\rr^\2 \times [0,10]$.
+The original Moore machine had a state set $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the cartesian product to obtain the new state set $\rr^\2 \times [0,10]$.
 The inputs and outputs are unchanged, so the Moore machine is a lens
 \[
     \rr^\2 \times [0,10] \yon^{\rr^\2 \times [0,10]} \to \rr^\2 \yon^{[0,1] \times [0,2\pi)}.
@@ -5904,7 +5964,7 @@ There are a few special classes of polynomials that are worth discussing:
 	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
 \end{enumerate}
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. 
-The third puts a copy of $\smset\op$ inside $\poly$.
+The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
 Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}.
 
 \begin{exercise}
@@ -6049,12 +6109,10 @@ In fact, this follows directly from the Yoneda lemma, but we can also invoke the
 
 In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is itself the left adjoint of the left adjoint of $p\mapsto p(\0)$---and hence that we have the \emph{quadruple} of adjunctions in \eqref{eqn.adjoints_galore}---is special to $A=\0,\1$.
 
-% **transition? copower-hom-power two-variable adjunction
+We also have a copower-hom-power two-variable adjunction between $\poly,\smset,$ and $\poly$.
 
 \begin{proposition}\label{prop.two_var_adj}
-There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:%
-% \footnote{The first set $\poly(Ap,q)$ involves the $A$-fold coproduct of $p$ and the middle set $\poly(p,q^A)$ involves the $A$-fold product of $q$, neither of which we have proven exists. For organizational purposes, we put that off until \cref{prop.coprod_prod_poly}.
-% }
+There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:
 \begin{equation}\label{eqn.two_var_adj}
 \poly(Ap,q) \iso \smset(A,\poly(p,q)) \iso \poly(p,q^A).
 \end{equation}
@@ -6301,6 +6359,26 @@ Hence $f$ itself is an isomorphism.
 \end{solution}
 \end{exercise}
 
+We are often interested in whether epimorphisms and monomorphisms form what is called a \emph{factorization system} in a given category, which we define below.
+
+\begin{definition}[Factorization system] \label{def.factor}
+Given a category $\cat{C}$ and two classes of morphisms $E$ and $M$ in $\cat{C}$, we say that $(E, M)$ is a \emph{factorization system} of $\cat{C}$ if:
+\begin{enumerate}
+    \item every morphism $f$ in $\cat{C}$ factors $f = e\then m$ as a morphism $e \in E$ composed with a morphism $m\in M$;
+    \item this factorization is unique up to unique isomorphism;
+    \item $E$ and $M$ each contain every isomorphism; and
+    \item $E$ and $M$ are each closed under composition.
+\end{enumerate}
+If $E$ is the class of epimorphisms and $M$ is the class of monomorphisms, we say that $\cat{C}$ has \emph{epi-mono factorization}.
+\end{definition}
+
+\begin{proposition}
+$\poly$ has epi-mono factorization.
+\end{proposition}
+\begin{proof}
+The class of epimorphisms (resp.\ monomorphisms) automatically contains every isomorphism and is closed under composition, so it remains to check conditions 1 and 2 from \cref{def.factor}.
+\end{proof}
+
 \begin{exercise}[Epi-mono factorization]\label{exc.mono_epi_poly}
 % Suppose $p,q\in\poly$ are polynomials and $f \colon p \to q$ is a morphism.
 \begin{enumerate}
@@ -6313,43 +6391,11 @@ Hence $f$ itself is an isomorphism.
 \end{solution}
 \end{exercise}
 
-%-------- Section --------%
-\section{Limits, colimits, and cartesian closure}
+%---- Section ----%
+\section{Cartesian closure}
 
-We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
-We will now see that $\poly$ has all limits and colimits, and moreover it is cartesian closed.
-
-% \begin{proposition}\label{prop.completely_distributive}
-% The category $\poly$ is completely distributive, i.e.\ for any set $A$, sets $(B_a)_{a\in A}$, and polynomials $(p_{(a,b),})_{a\in A, b\in B_a}$, there is an isomorphism
-% \[
-%   \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
-%   \cong
-% 	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
-% \]
-% \end{proposition}
-% \begin{proof}
-% By the universal property of coproducts and products, to provide a morphism $\sum_{b\colon\prod_{a\in A}B(a)}\prod_{a\in A}p_{(a,b),}
-%   \to	\prod_{a\in A}\sum_{b\in B(a)}p_{(a,b),}$, it suffices to fix an arbitrary $b_0\in\prod_{a\in A}B(a)$ and $a_0\in A$ and provide a morphism $\prod_{a\in A}p_{(a,b_0(a)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. We do so by first projecting onto the $a_0$-factor $\prod_{a\in A}p_{(a,b_0(a)),}\to p_{(a_0, b_0(a_0)),}$ and then including into the $b_0(a_0)$-summand $p_{(a_0,b_0(a_0)),}\to\sum_{b\in B(a_0)}p_{(a_0,b),}$. This establishes the morphism.
-  
-%   To see that it is an isomorphism in $\poly$, i.e.\ a natural isomorphism of functors, it suffices to check it on components. So fix $X\in\smset$. The induced map
-%   \[
-%   \sum_{b\colon\prod_{a\in A}B(a)}\;\prod_{a\in A}\;p_{(a,b(a)),}
-%   \cong
-% 	\prod_{a\in A}\;\sum_{b\in B(a)}\;p_{(a,b),}
-%   \]
-%   is exactly as in \eqref{eqn.set_completely_distributive}, which we proved is an isomorphism. This completes the proof.
-% \end{proof}
-
-% \begin{exercise}
-% How is the usual distributive law,
-% \[
-% p(q+r)\cong pq+pr
-% \]
-% for $p,q,r\in\poly$, a special case of \cref{prop.completely_distributive}?
-% \end{exercise}
-
-%---- Subection ----%
-\subsection{Cartesian closure}
+We have already seen the closure operation $\ihom{-,-}$ for one monoidal structure on $\poly$, namely $(\yon,\otimes)$.
+But this is not the only closed monoidal structure on $\poly$: in fact, we will show that $\poly$ is cartesian closed as well.
 
 For any two polynomials $q,r$, define $r^q\in\poly$ by the formula
 \begin{equation}\label{eqn.exponential}
@@ -6411,7 +6457,7 @@ Here $p \in \poly$ and $A, B \in \smset$.
 % \end{exercise}
 
 \begin{theorem}\label{thm.poly_cart_closed}
-The category $\poly$ is Cartesian closed. That is, we have a natural isomorphism
+The category $\poly$ is cartesian closed. That is, we have a natural isomorphism
 \[
     \poly(p,r^q) \iso \poly(p\times q,r),
 \]
@@ -6459,14 +6505,18 @@ The map $\text{eval}$ is the canonical evaluation map.
 \end{solution}
 \end{exercise}
 
-%---- Subection ----%
-\subsection{Limits and colimits}
+
+%-------- Section --------%
+\section{Limits and colimits}
+
+We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
+We will now see that $\poly$ has all small limits and colimits.
 
 \begin{theorem}\label{thm.poly_limits}
-The category $\poly$ has all limits.
+The category $\poly$ has all small limits.
 \end{theorem}
 \begin{proof}
-A category has all limits if and only if it has products and equalizers, so by \cref{prop.poly_prods}, it suffices to show that $\poly$ has equalizers. 
+A category has all small limits if and only if it has products and equalizers, so by \cref{prop.poly_prods}, it suffices to show that $\poly$ has equalizers. 
 
 We claim that equalizers in $\poly$ are simply equalizers on positions and coequalizers on directions.
 More precisely, let $f,g \colon p \tto q$ be two lenses.
@@ -6643,10 +6693,10 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{exercise}
 
 \begin{theorem}\label{thm.poly_colimits}
-The category $\poly$ has all colimits.
+The category $\poly$ has all small colimits.
 \end{theorem}
 \begin{proof}
-A category has all colimits if and only if it has coproducts and coequalizers, so by \cref{prop.poly_coprods}, it suffices to show that $\poly$ has coequalizers.
+A category has all small colimits if and only if it has coproducts and coequalizers, so by \cref{prop.poly_coprods}, it suffices to show that $\poly$ has coequalizers.
 
 Let $s,t \colon p \tto q$ be two lenses.
 We construct the coequalizer $q'$ of $s$ and $t$ as follows.
@@ -6732,9 +6782,9 @@ As a concrete example, consider the two projections $\yon^\2\to\yon$, which form
     \yon^\2\tto\yon.
 \end{equation}
 According to \cref{thm.poly_colimits}, the colimit of \eqref{eqn.2_projs} in $\poly$ has the coequalizer of $\1 \tto \1$, namely $\1$, as its position-set, and the limit of the diagram $\1 \tto \2$ consisting of the two inclusions as its sole direction-set.
-But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is $\1$.
+But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is the constant functor $\1$.
 
-But as functors, the colimit of \eqref{eqn.2_projs} is the functor
+But as functors, by \cref{prop.presheaf_lim_ptwise}, the colimit of \eqref{eqn.2_projs} can be computed pointwise: it is the (nonconstant!) functor
 \[
   X\mapsto
   \begin{cases}
@@ -6742,7 +6792,6 @@ But as functors, the colimit of \eqref{eqn.2_projs} is the functor
   	\1&\tn{ if }X\neq\0
   \end{cases}
 \]
-% (its universal property can be explicitly verified). **Why?
 \end{example}
 
 \begin{exercise}
@@ -6764,7 +6813,7 @@ By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical ma
     	\yon^{\Gamma(p)}\ar[ul, phantom, very near start, "\ulcorner"]
     \end{tikzcd}
     \end{equation}
-% 	\item Is the pushout of a Cartesian map always Cartesian? % **We haven't intro'd Cartesian maps yet
+% 	\item Is the pushout of a cartesian map always cartesian? % **We haven't intro'd cartesian maps yet
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -7077,7 +7126,7 @@ In this exercise, you will complete the proof of \cref{prop.cart_as_nt}.
 First, we will show that $1\Rightarrow3$.
 In the following, let $f\colon p\to q$ be a cartesian morphism in $\poly$ and $h\colon A\to B$ be a function.
 \begin{enumerate}
-    \item Using \cref{prop.morph_arena_to_func} to translate $f$ from a morphism in $\poly$ to a natural transformation, characterize the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ in $\smset$.
+    \item Using \cref{prop.morph_arena_to_func} to translate $f$ from a morphism in $\poly$ to a natural transformation and \cref{prop.poly_on_functions} to interpret $q(h)$, characterize the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ in $\smset$.
     \item Show that this pullback coincides with the naturality square \eqref{eqn.cart_nt_pullback}, hence proving $1\Rightarrow3$.
 \end{enumerate}
 Next, we show that $3\Rightarrow1$.
@@ -7094,8 +7143,8 @@ Also fix $i\in p(\1)$.
         \end{tikzcd}
     \end{equation}
     commutes.
-    Hint: Use \cref{prop.morph_arena_to_func} and/or \cref{cor.morph_func_to_arena}.
-    \item Apply the universal property of the pullback \eqref{eqn.cart_nt_pullback} to the diagram \eqref{eqn.cart_nt_pullback_cone} above to exhibit an element of $p(q[f_\1(i))$.
+    Hint: Use \cref{prop.poly_on_functions}, \cref{prop.morph_arena_to_func}, and/or \cref{cor.morph_func_to_arena}.
+    \item Apply the universal property of the pullback \eqref{eqn.cart_nt_pullback} to the diagram \eqref{eqn.cart_nt_pullback_cone} above to exhibit an element of $p(q[f_\1(i)])$.
     Conclude from the existence of this element that $f^\sharp_i$ is an isomorphism, hence proving $3\Rightarrow1$.\qedhere
 \end{enumerate}
 \begin{solution}
@@ -7103,7 +7152,7 @@ First, we will show that $1\Rightarrow3$ in \cref{prop.cart_as_nt}.
 Here $f\colon p\to q$ is a cartesian morphism in $\poly$ and $h\colon A\to B$ is a function.
 \begin{enumerate}
     \item An element of $p(B)$ is a pair comprised of a $p$-position $i$ and a function $k\colon p[i]\to B$, and \cref{prop.morph_arena_to_func} tells us that $f_B\colon p(B)\to q(B)$ sends $(i,k)\mapsto(f_\1(i),f^\sharp_i\then k)$.
-    Meanwhile, an element of $q(A)$ is a pair comprised of a $q$-position $j$ and a function $\ell\colon q[j]\to A$, and $q(h)$ sends $(j,\ell)\mapsto(j,\ell\then h)$.
+    Meanwhile, an element of $q(A)$ is a pair comprised of a $q$-position $j$ and a function $\ell\colon q[j]\to A$, and \cref{prop.poly_on_functions} tells us that $q(h)$ sends $(j,\ell)\mapsto(j,\ell\then h)$.
     So $((i,k),(j,\ell))$ is in the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ if and only if $f_\1(i)=j$ and $f^\sharp_i\then k=\ell\then h$.
     
     As $f$ is cartesian, $f^\sharp_i$ is an isomorphism, so we can rewrite the latter equation as $k=g_i\then\ell\then h$, where $g_i$ is the inverse of $f^\sharp_i$.
@@ -7116,24 +7165,31 @@ Here $f\colon p\to q$ is a cartesian morphism in $\poly$ and $h\colon A\to B$ is
 \end{enumerate}
 Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon p\to q$ as a morphism in $\poly$ that is a cartesian natural transformation and $i\in p(\1)$.
 \begin{enumerate}[resume]
-    \item By \cref{cor.morph_func_to_arena}, $f_{p[i]}$ sends $(i,\id_{p[i]})\mapsto(f_\1(i),f^\sharp_i)$, and $q(f^\sharp_i)$ sends $(f_\1(i),\id_{q[f_\1(i)]})\mapsto(f_\1(i),f^\sharp_i)$ as well, so \eqref{eqn.cart_nt_pullback_cone} commutes.
+    \item By \cref{cor.morph_func_to_arena}, $f_{p[i]}$ sends $(i,\id_{p[i]})\mapsto(f_\1(i),f^\sharp_i)$, and by \cref{prop.poly_on_functions}, $q(f^\sharp_i)$ sends $(f_\1(i),\id_{q[f_\1(i)]})\mapsto(f_\1(i),f^\sharp_i)$ as well, so \eqref{eqn.cart_nt_pullback_cone} commutes.
     
     \item Taking $A\coloneqq q[f_\1(i)], B\coloneqq p[i],$ and $h\coloneqq f^\sharp_i$ in \eqref{eqn.cart_nt_pullback} and applying its universal property to \eqref{eqn.cart_nt_pullback_cone} induces an element $(i',g)$ of $p(q[f_\1(i)])$, with $i'\in p(\1)$ and $g\colon p[i']\to q[f_\1(i)]$, such that $p(f^\sharp_i)$ sends $(i',g)\mapsto(i,\id_{p[i]})$ and $f_{q[f_\1(i)]}$ sends $(i',g)\mapsto(f_\1(i),\id_{q[f_\1(i)]})$.
-    It follows from the behavior of $p(f^\sharp_i)$ that $i'=i$ and $g\then f^\sharp_i=\id_{p[i]}$, and it follows from the behavior of $f_{q[f_\1(i)]}$ (by \cref{prop.morph_arena_to_func}) that $f^\sharp_i\then g=\id_{q[f_\1(i)}$.
+    It follows from the behavior of $p(f^\sharp_i)$ (by \cref{prop.poly_on_functions}) that $i'=i$ and $g\then f^\sharp_i=\id_{p[i]}$, and it follows from the behavior of $f_{q[f_\1(i)]}$ (by \cref{prop.morph_arena_to_func}) that $f^\sharp_i\then g=\id_{q[f_\1(i)}$.
     So $g$ is the inverse of $f^\sharp_i$, proving that $f^\sharp_i$ is an isomorphism, as desired.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{proposition}\label{prop.monoidal_pres_carts}
-The monoidal structures $+$, $\times$, and $\otimes$ preserve cartesian morphisms.
+\begin{proposition}\label{prop.monoidal_pres_vert_cart}
+The monoidal structures $+$, $\times$, and $\otimes$ preserve both vertical and cartesian morphisms.
 \end{proposition}
 \begin{proof}
-Suppose that $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian. 
+Suppose that $f\colon p\to p'$ and $g\colon q\to q'$ are vertical, so that the on-positions functions $f_\1$ and $g_\1$ are isomorphisms.
+
+We can obtain the on-positions function of a morphism by passing it through the functor $\poly\To{p(\1)}\smset$ from \cref{thm.adjoint_quadruple}.
+As this functor is both a left adjoint and a right adjoint, it preserves both sums and products, so $(f+g)_\1 = f_\1+g_\1$ and $(f\times g)_1 = f_1\times g_1$.
+Hence $f+g$ and $f\times g$ are both vertical.
+On-positions, the behavior of $\otimes$ is identical to the behavior of $\times$, so $f\otimes g$ must be vertical as well.
+
+Now suppose that $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian. 
 
 A position of $p+q$ is a position $i\in p(\1)$ or a position $j\in q(\1)$, and the map $(f+g)^\sharp$ at that position is either $f^\sharp_i$ or $g^\sharp_j$; either way it is an isomorphism, so $f+g$ is cartesian.
 
-A position of $p\times q$ (resp.\ of $p\otimes q$) is a pair $(i,j)\in p(\1)\times q(\1)$. The morphism $(f\times g)^\sharp_{i,j}$ is $f^\sharp_i+g^\sharp_j$ (resp.\ $f^\sharp_i\times g^\sharp_j$) which is again an isomorphism if $f^\sharp_i$ and $g^\sharp_j$ are. Hence $f\times g$ (resp.\ $f\otimes g$) is cartesian, completing the proof.
+A position of $p\times q$ (resp.\ of $p\otimes q$) is a pair $(i,j)\in p(\1)\times q(\1)$. The morphism $(f\times g)^\sharp_{(i,j)}$ (resp.\ $(f\otimes g)^\sharp_{(i,j)}$) is $f^\sharp_i+g^\sharp_j$ (resp.\ $f^\sharp_i\times g^\sharp_j$) which is again an isomorphism if $f^\sharp_i$ and $g^\sharp_j$ are. Hence $f\times g$ (resp.\ $f\otimes g$) is cartesian, completing the proof.
 \end{proof}
 
 \begin{proposition}\label{prop.pullback_vert_cart}
@@ -7280,7 +7336,7 @@ For any function $f\colon A\to B$, the pullback functor $f^*$ has both a left an
 	\poly[B.]\ar[l, "f^*" description]
 \end{tikzcd}
 \end{equation}
-Moreover $\otimes$ preserves the op-Cartesian arrows, making this a monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed}.
+Moreover $\otimes$ preserves the op-cartesian arrows, making this a monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed}.
 \end{theorem}
 \begin{proof}
 Let $p$ be a polynomial with $p(\1)\cong A$. Then the formula for $f_!p$ and $f_*p$ are given as follows:
@@ -7291,7 +7347,7 @@ f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\sum\limits_{a\map
 \end{equation}
 It may at first be counterintuitive that the left adjoint $f_!$ involves a product and the right adjoint $f_*$ involves a sum. The reason for this comes from \cref{prop.dlens_self_indexing}, namely that $\poly$ is equivalent to the Grothendieck construction applied to the functor $\smset\op\to\smcat$ sending each set $A$ to the category $(\smset/A)\op$. The fact that functions $f\colon A\to B$ induces an adjoint triple between $\smset/A$ and $\smset/B$, and hence between $(\smset/A)\op$ and $(\smset/B)\op$ explains the variance in \eqref{eqn.f_!andf_*} and simultaneously establishes the adjoint triple \eqref{eqn.adjoint_triple_monoidal_fib}.
 
-The functor $p\mapsto p(\1)$ is strong monoidal with respect to $\otimes$ and strict monoidal if we choose the lens construction as our model of $\poly$. By \cref{prop.monoidal_pres_carts}, the monoidal product $\otimes$ preserves cartesian morphisms; thus we will have established the desired monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed} as soon as we know that $\otimes$ preserves op-cartesian morphisms.
+The functor $p\mapsto p(\1)$ is strong monoidal with respect to $\otimes$ and strict monoidal if we choose the lens construction as our model of $\poly$. By \cref{prop.monoidal_pres_vert_cart}, the monoidal product $\otimes$ preserves cartesian morphisms; thus we will have established the desired monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed} as soon as we know that $\otimes$ preserves op-cartesian morphisms.
 
 Given $f$ and $p$ as above, the op-cartesian morphism is the morphism $p\to f_!p$ obtained as the composite $p\to f^*f_!p\to f_!p$ where the first map is the unit of the $(f_!,f^*)$ adjunction and the second is the cartesian morphism for $f_!p$. On positions $p\to f_!p$ acts as $f$, and on directions it is given by projection. 
 
