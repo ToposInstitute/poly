@@ -1423,7 +1423,7 @@ We are given a set $I$ and a dependent set $(X_i)_{i \in I}$ for which $X_i \col
     \item \label{sol.on_sums_prods_sets.prod}
     To show that $\1 \iso \prod_{i \in I} \1$, it suffices to demonstrate that there is a unique dependent function $f \colon (i \in I) \to \1$.
     As $\1 = \{1\}$, such a function $f$ must always send $i \in I$ to $1$.
-    This completely characterizes $f$, so there is only one such dependent function.
+    This uniquely characterizes $f$, so there is only one such dependent function.
     
 \end{enumerate}
 Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty collection of sets.
@@ -5450,7 +5450,7 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 \end{solution}
 \end{exercise}
 
-So what is a map $p_1\otimes\cdots\otimes p_k\to q$ in general? It's a protocol by which he $k$-many participants $p_i$ together decide what decision $q$ must make, as well as how $q$'s choice among its options (the decision once made) is passed back and distributed as an option at each $p_i$.
+So what is a map $p_1\otimes\cdots\otimes p_k\to q$ in general? It's a protocol by which the $k$-many participants $p_i$ together decide what decision $q$ must make, as well as how $q$'s choice among its options (the decision once made) is passed back and distributed as an option at each $p_i$.
 
 \begin{example}[Cellular automata who vote on their interaction pattern]\label{ex.cell_auto_vote_interaction}
 Recall from \cref{exc.cellular_automata} how we constructed cellular automata on a graph $G=(V,E)$. Here $E\ss V\times V$, or equivalently what we might call an \emph{interaction pattern} $I\colon V\to \2^V$, specifies the incoming neighbors $I(v)$ of each $v\in V$.
@@ -5912,18 +5912,18 @@ Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imag
 with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a morphism $f'\colon q\to \ihom{p,\yon}$ such that the original system $f$ factors through the evaluation $\ihom{p,\yon}\otimes p\to \yon$.
 
 In other words $\ihom{p,\yon}$ holds within it all of the possible ways $p$ can interact with other systems in a closed box.%
-\footnote{And if you want the generic way $p$ to interact with other systems in a box $r$, just use $\ihom{p,r}$.}
+\footnote{And if you want the generic way for $p$ to interact with other systems in a box $r$, just use $\ihom{p,r}$.}
 To investigate this just a bit, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$. That is, for each position in $p$ it produces a direction there, which is just what $p$ needs as input.
 
 Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,\yon)$. Then each state $s$ would include a guess $g(s)$ about what the state of the environment is in. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,\yon}$. The robot's states model environmental conditions.
 \end{example}
 
 \begin{example}[Chu $\&$]
-Suppose given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
+Suppose we are given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
 	\qqand
-	\varphi_2\colon p_2\otimes q_2\to r
+	\varphi_2\colon p_2\otimes q_2\to r.
 \]
 One might call these ``$r$-Chu spaces.'' One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$'' of the following type:
 \[
@@ -6364,32 +6364,49 @@ We are often interested in whether epimorphisms and monomorphisms form what is c
 \begin{definition}[Factorization system] \label{def.factor}
 Given a category $\cat{C}$ and two classes of morphisms $E$ and $M$ in $\cat{C}$, we say that $(E, M)$ is a \emph{factorization system} of $\cat{C}$ if:
 \begin{enumerate}
-    \item every morphism $f$ in $\cat{C}$ factors $f = e\then m$ as a morphism $e \in E$ composed with a morphism $m\in M$;
-    \item this factorization is unique up to unique isomorphism;
+    \item every morphism $f$ in $\cat{C}$ factors uniquely (up to unique isomorphism) as a morphism $e \in E$ composed with a morphism $m\in M$, so that $f = e\then m$;
     \item $E$ and $M$ each contain every isomorphism; and
     \item $E$ and $M$ are each closed under composition.
 \end{enumerate}
-If $E$ is the class of epimorphisms and $M$ is the class of monomorphisms, we say that $\cat{C}$ has \emph{epi-mono factorization}.
+If $E$ is the class of epimorphisms and $M$ is the class of monomorphisms (in which case conditions 2 and 3 are automatically satisfied), we say that $\cat{C}$ has \emph{epi-mono factorization}.
 \end{definition}
+
+\begin{example}[Epi-mono factorization in $\smset$] \label{ex.epi_mono_set}
+The category $\smset$ has epi-mono factorization: a function $f\colon X\to Y$ can be uniquely factored into an epimorphism (surjection) $e$ followed by a monomorphism (injection) $i$, as follows.
+The epimorphism $e\colon X\to f(X)$ is given by restricting the codomain of $f$ to its image (also known as \emph{corestricting} $f$), so $e$ sends $x\mapsto f(x)$ for all $x\in X$.
+The monomorphism $i\colon f(X)\to Y$ is then given by including the image into the codomain, so $i$ sends $y\mapsto y$ for all $y\in f(X)\ss Y$.
+\end{example}
 
 \begin{proposition}
 $\poly$ has epi-mono factorization.
 \end{proposition}
 \begin{proof}
-The class of epimorphisms (resp.\ monomorphisms) automatically contains every isomorphism and is closed under composition, so it remains to check conditions 1 and 2 from \cref{def.factor}.
-\end{proof}
+Take an arbitrary lens $\phi\colon p\to q$.
+It suffices to show that there exists a unique polynomial $r$ equipped with an epimorphism $\epsilon\colon p\to r$ and a monomorphism $\mu\colon r\to q$ such that $\phi=\epsilon\then\mu$.
 
-\begin{exercise}[Epi-mono factorization]\label{exc.mono_epi_poly}
-% Suppose $p,q\in\poly$ are polynomials and $f \colon p \to q$ is a morphism.
-\begin{enumerate}
-	\item Can every morphism in $\poly$ be factored as an epic followed by a monic?
-	\item Is your factorization unique up to isomorphism?
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+On positions, we must have $\phi_\1 = \epsilon_\1\then\mu_\1$, with $\mu_\1$ a monomorphism and $\epsilon_\1$ an epimorphism per \cref{prop.monics_in_poly,prop.epis_in_poly}.
+By \cref{ex.epi_mono_set}, since $\smset$ has epi-mono factorization, such $r(\1), \epsilon_\1,$ and $\mu_\1$ uniquely exist.
+In particular, we must have that $r(\1)\iso \phi_\1(p(\1))$, that $\epsilon_\1\colon p(\1)\to\phi_\1(p(\1))$ is the corestriction of $\phi_\1$ sending $i\mapsto\phi_\1(i)$ for each $p$-position $i$, and that $\mu_\1\colon\phi_\1(p(\1))\to q(\1)$ is the inclusion sending $j\mapsto j$ for each $r$-position $j$.
+
+Then on directions, for any $i\in p(\1)$, we must have that
+\[
+\begin{tikzcd}
+    q[\phi_\1(i)] \ar[r, "\mu^\sharp_{\phi_\1(i)}"] \ar[dr, "\phi^\sharp_i"'] & r[\phi_\1(i)] \ar[d, "\epsilon^\sharp_i"] \\
+    & p[i]
+\end{tikzcd}
+\]
+commutes---or, equivalently, for every $j\in r(\1)\iso\phi_\1(p(\1))$,
+\[
+\begin{tikzcd}
+    q[j] \ar[r, "\mu^\sharp_j"] \ar[dr, "\phi^\flat_j"'] & r[j] \ar[d, "\epsilon^\flat_j"] \\
+    & \prod\limits_{\substack{i\in p(\1), \\ \phi_\1(i)=j}} p[i]
+\end{tikzcd}
+\]
+commutes (here $\phi^\flat_j$ and $\epsilon^\flat_j$ are the induced functions from \eqref{eqn.useful_misc472}), with $\mu_j^\sharp$ an epimorphism and $\epsilon^\flat_j$ a monomorphism per
+\cref{prop.monics_in_poly,prop.epis_in_poly}.
+So again since $\smset$ has epi-mono factorization, such $r[j], \mu^\sharp_j,$ and $\epsilon^\flat_j$ uniquely exist.
+Hence such $p \To{\epsilon} r \To{\mu} q$ uniquely exists overall.
+\end{proof}
 
 %---- Section ----%
 \section{Cartesian closure}
@@ -6576,7 +6593,24 @@ Complete the proof of \cref{thm.poly_limits} as follows:
 \end{solution}
 \end{exercise}
 
-% **Talk about how limits are just limits on positions and colimits on directions
+\begin{example}[Computing general limits in $\poly$]
+The proof of \cref{thm.poly_limits} justifies the following mnemonic for limits in $\poly$:
+\slogan{The positions of a limit are the limit of the positions. \\ The directions of a limit are the colimit of the directions.}
+We can make this precise as follows: the limit of a functor $p_-\colon\cat{J}\to\poly$ is the polynomial whose position-set is
+\begin{equation} \label{eqn.lim_pos}
+    \left(\lim_{j\in\cat{J}} p_j\right)(\1) \iso \lim_{j\in\cat{J}} p_j(\1),
+\end{equation}
+equipped with a canonical projection $\pi_j$ to each $p_j(\1)$, and whose direction-set for each position $i$ is
+\begin{equation} \label{eqn.lim_dir}
+    \left(\lim_{j\in\cat{J}} p_j\right)[i] \iso \colim_{j\in\cat{J}\op} p_j[\pi_j(i)].
+\end{equation}
+This notation obscures what is occuring on morphisms, but in particular, each morphism $\phi\colon p_j\to p_{j'}$ in the diagram $p_-$ induces an on-positions function $\phi_\1\colon p_j(\1)\to p_{j'}(\1)$ in the diagram whose limit we take in \eqref{eqn.lim_pos} and, for every position $i$ of the limit, an on-directions function $\phi^\sharp_{\pi_j(i)}\colon p_{j'}[\pi_{j'}(i)]\to p_j[\pi_j(i)]$ in the diagram whose colimit we take in \eqref{eqn.lim_dir}.
+(Note that, by the definition of a limit, $\phi_\1(\pi_j(i)) = \pi_{j'}(i)$.)
+
+We have seen \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for products: the position-set of the product is just the product of the original position-sets, while the direction-set at a tuple of the original positions is just the coproduct of the direction-sets at every position in the tuple.
+We have also just shown \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for equalizers in the proof of \cref{thm.poly_limits}.
+It follows from the construction of any limit as an equalizer of products that it is true for arbitrary limits.
+\end{example}
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
 Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback 
@@ -6690,6 +6724,16 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
     It follows that $p \iso \yon^\5 + \yon^\3 + \yon^\2$, with $g$ and $g'$ as described.
 \end{enumerate}
 \end{solution}
+\end{exercise}
+
+\begin{exercise}
+An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $[\smset,\smset]$ is still a polynomial functor.
+In this exercise, we will use what we already know about to reverse-engineer such a proof.
+\begin{enumerate}
+    \item Given a pair of natural transformations $f,g\colon p\tto q$ between polynomial functors $p$ and $q$, along with a set $X$, compute the equalizer of the $X$-components $f_X,g_X\colon p(X)\tto q(X)$.
+    \item Use the fact that  to conclude that the equalizer 
+\end{enumerate}
+Combining this with the proof of \cref{prop.poly_prods}, we can conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$.
 \end{exercise}
 
 \begin{theorem}\label{thm.poly_colimits}
