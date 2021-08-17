@@ -232,7 +232,7 @@ but we have not yet begun to deliver. So let's introduce some of the application
 \section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
 
 When we say ``dynamical system,'' we are referring to a concept that may be familiar: a machine that stores an internal state.
-The machine may yield output according to its current state, while it may also receive input that updates this state.
+The machine may return output according to its current state, while it may also receive input that updates this state.
 
 For example, the internal state of a digital clock may consist of the time and the display format (``12-hour'' vs. ``24-hour'').
 If the time is six minutes past noon and the display format is ``12-hour,'' the clock will display ``12:06pm'' as its output.
@@ -3806,7 +3806,7 @@ For each of the following classes of polynomials, we determine whether they are 
 	which is not quadratic.
 	The set contains $\yon$, as $\yon \iso \0\yon^\2 + \1\yon + \0$.
 	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials is closed under $\otimes$ by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} and does contain $\yon$, as $\yon \iso \1\yon^\1$.
-	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} yields
+	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} returns
 	\[
 	    S\yon^S \otimes T\yon^T \iso ST\yon^{ST}.
 	\]
@@ -4133,19 +4133,19 @@ Let's start putting all this $\poly$ stuff to use.
 %-------- Section --------%
 \section{Moore machines}
 
-We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can yield output and be updated according to input.
+We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can return output and be updated according to input.
 
 \begin{definition}\label{def.moore_machine}
 If $A$, $B$, and $S$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
 \begin{align*}
-	\text{yield}&\colon S\to B\\
+	\text{return}&\colon S\to B\\
 	\text{update}&\colon S\times A\to S 
 \end{align*}
 \end{definition}
 
 We can visualize a Moore machine as a set $S$ of possible states.
 At any point in time, the machine is in one of those states: say $s \in S$.
-While there, whenever we ask the machine to produce output, it will give us $\text{yield}(s) \in B$.
+While there, whenever we ask the machine to produce output, it will give us $\text{return}(s) \in B$.
 But if we feed the machine input $a \in A$, the machine will switch to a new state, $\text{update}(s, a)$.
 
 \begin{example}\label{ex.Moore_three}
@@ -4161,7 +4161,7 @@ Here's a picture of a Moore machine with $S\coloneqq\3$ states:
   };
 \end{tikzpicture}
 \]
-Each state is labeled by the value it yields, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+Each state is labeled by the value it returns, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
 
 You can imagine barking ``orange! orange! green! orange!'' etc. at this machine to make it run through its states.
 \end{example}
@@ -4172,7 +4172,7 @@ It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens (i
 \[
 S\yon^S\to B\yon^A,
 \]
-with $\text{get} \coloneqq \text{yield}$ and $\text{set} \coloneqq \text{update}$.
+with $\text{get} \coloneqq \text{return}$ and $\text{set} \coloneqq \text{update}$.
 Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
 
 %% ** Exercise to turn the example above into a lens?
@@ -4200,7 +4200,7 @@ Here's a(n infinite) Moore machine with states $\rr^\2$:
 \]
 Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align*}
-  \rr^\2&\To{\text{yield}}\rr^\2&
+  \rr^\2&\To{\text{return}}\rr^\2&
   \rr^\2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^\2
   	%\nonumber\\\label{eqn.r2moore}
   	\\
@@ -4213,7 +4213,7 @@ Its output type is $\rr^\2$, which we might think of as a location in the 2-dime
 Explain in words what the Moore machine in \cref{ex.R2_moore} does.
 \begin{solution}
 At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^\2$, as recorded by its state.
-Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{yield}(x, y) = (x, y)$.
+Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{return}(x, y) = (x, y)$.
 But if we give the machine input of the form $(r, \theta)$ for some distance $r \in [0,1]$ and direction $\theta \in [0, 2\pi)$, the machine will move by that distance, in that direction, going from $(x, y)$ to
 \[
     \text{update}(x,y,r,\theta) = (x,y) + r(\cos\theta, \sin\theta)
@@ -4225,7 +4225,7 @@ But if we give the machine input of the form $(r, \theta)$ for some distance $r 
 \begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
 For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
 
-It is given by the map $(\id_B,\texttt{const} \ f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, yielding the state directly as output, and on directions it is the function $B\times A\To{\pi}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
+It is given by the map $(\id_B,\texttt{const} \ f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
 
 If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
 \end{example}
@@ -4240,8 +4240,8 @@ Suppose we are given a function $f\colon A\times B\to B$.
 \begin{solution}
 \begin{enumerate}
     \item We seek an $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ corresponding to the function $f\colon A\times B\to B$.
-    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a function $\text{yield} \colon B \to B$ and a function $\text{update} \colon B \times A \to B$.
-    So we can simply let the yield function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
+    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a function $\text{return} \colon B \to B$ and a function $\text{update} \colon B \times A \to B$.
+    So we can simply let the return function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
     
     \item Generally, such a machine is not memoryless.
     Unlike in \cref{ex.funs_to_moore}, the update function $B \times A \iso A \times B \To{f} B$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
@@ -4259,37 +4259,37 @@ Find $A,B\in\smset$ such that the following can be identified with a morphism $S
 	\item a set $S$ and a subset $S'\ss S$.\qedhere
 \end{enumerate}
 \begin{solution}
-For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a morphism $S\yon^S \to B\yon^A$, i.e.\ a function $\text{yield} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
+For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a morphism $S\yon^S \to B\yon^A$, i.e.\ a function $\text{return} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
 \begin{enumerate}
-    \item Given a discrete dynamical system, consisting of a set of states $S$ and a transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$; so $\text{yield} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
+    \item Given a discrete dynamical system, consisting of a set of states $S$ and a transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$; so $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
     The corresponding Moore machine has a single choice of input (you could think of it as a button that says ``advance to the next state'') and always produces the same output (which effectively tells us nothing).
     So it is just a set of states, and a deterministic way to move from state to state.
     
-    We could have also set $A \coloneqq \0$ and $B \coloneqq S$, so that $\text{yield} \coloneqq n$ and $\text{update} \colon S \times \0 \to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its output, which happens to refer to some state.
+    We could have also set $A \coloneqq \0$ and $B \coloneqq S$, so that $\text{return} \coloneqq n$ and $\text{update} \colon S \times \0 \to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its output, which happens to refer to some state.
     
     \item Given a magma, consisting of a set $S$ and a function $m \colon S \times S \to S$, we can set $A \coloneqq S$ and $B \coloneqq 1$.
-    Then $\text{yield} \colon S \to \1$ is unique, while $\text{update} \colon S \times S \to S$ is equal to $m$.
+    Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times S \to S$ is equal to $m$.
     The corresponding Moore machine always produces the same output.
     It uses the binary operation $m$ to combine the current state with the input---which also refers to a state---to obtain the new state.
     
     Note that, since $m$ is not guaranteed to be commutative, we could also set the update function to be $m$ with its inputs swapped.
     The difference here is that the new state is given by applying $m$ with the input on the left and the current state on the right, rather than the other way around.
     
-    We could have also set $A \coloneqq \0$ and $B \coloneqq S^S$, so that $\text{update} \colon S \times \0 \to S$ is unique, while currying $m$ gives $\text{yield}$, so that $\text{yield}(s)$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
-    Alternatively, $\text{yield}(s)$ could be the function $s' \mapsto m(s', s)$.
+    We could have also set $A \coloneqq \0$ and $B \coloneqq S^S$, so that $\text{update} \colon S \times \0 \to S$ is unique, while currying $m$ gives $\text{return}$, so that $\text{return}(s)$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
+    Alternatively, $\text{return}(s)$ could be the function $s' \mapsto m(s', s)$.
     Either way, this is a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
     
     \item Given a set $S$ and a subset $S' \ss S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
-    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{yield} \colon S \to 2$ by
+    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{return} \colon S \to 2$ by
     \[
-        \text{yield}(s) =
+        \text{return}(s) =
         \begin{cases}
             1 & \text{if } s \in S' \\
             2 & \text{if } s \notin S',
         \end{cases}
     \]
-    so that $S'$ can be recovered from the yield function as its fiber over $1$.
-    Alternatively, we could define the yield function so that $S'$ is instead its fiber over $2$.
+    so that $S'$ can be recovered from the return function as its fiber over $1$.
+    Alternatively, we could define the return function so that $S'$ is instead its fiber over $2$.
     The corresponing Moore machine never moves between its states, but gives one of two outputs indicating whether or not the current state is in the subset $S'$.
 \end{enumerate}
 \end{solution}
@@ -4306,7 +4306,7 @@ The inputs and outputs are unchanged, so the Moore machine is a lens
 \[
     \rr^\2 \times [0,10] \yon^{\rr^\2 \times [0,10]} \to \rr^\2 \yon^{[0,1] \times [0,2\pi)}.
 \]
-Its yield function $\rr^\2 \times [0,10] \to \rr^\2$ is the canonical projection, as the machine only outputs its location in $\rr^\2$ and not its health; while its update function
+Its return function $\rr^\2 \times [0,10] \to \rr^\2$ is the canonical projection, as the machine only outputs its location in $\rr^\2$ and not its health; while its update function
 \[
     \rr^\2 \times [0,10] \times [0,1] \times [0,2\pi) \to \rr^\2 \times [0,10]
 \]
@@ -4338,7 +4338,7 @@ So the Moore machine is a lens
     (\ord{n}^\2+\{\text{done}\})\yon^{\ord{n}^\2+\{\text{done}\}} \to (\Set{ascii} + \{\text{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}}.
 \]
 If the robot's current state is ``done,'' then the robot should output ``done.'' Otherwise, the robot should output the character at its current position in the file.
-So its yield function $\ord{n}^\2+\{\text{done}\} \to \Set{ascii} + \{\text{done}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
+So its return function $\ord{n}^\2+\{\text{done}\} \to \Set{ascii} + \{\text{done}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
 Meanwhile, the update function
 \[
     (\ord{n}^\2+\{\text{done}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}) \to \ord{n}^\2+\{\text{done}\}
@@ -4368,7 +4368,7 @@ The Turing machine interacts with the tape by asking for the value at the curren
     \[
         t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
     \]
-    \item The yield function of $t$ should output the value at the current position of the tape. So $\text{yield} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
+    \item The return function of $t$ should output the value at the current position of the tape. So $\text{return} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
     Meanwhile, the update function of $t$ should write the input value of $V$ at the current position of the tape, then move according to whether the second input value is $L$ (left) or $R$ (right).
     So
     \[
@@ -4448,10 +4448,10 @@ Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $
 The result follows from \cref{prop.moore_prod} by induction on $n$.
 \end{proof}
 
-By \cref{exc.poly_prod}, if each $(A_i,B_i)$-Moore machine has $\text{yield}_i$ as its yield function and $\text{update}_i$ as its update function, then the induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a yield function that sends $s \in S$ to the $n$-tuple $(\text{yield}_i(s))_{i \in \ord{n}}$ and an update function that sends $(s, a) \in S \times \sum_{i \in \ord{n}} A_i$ to $\text{update}_i(s, a)$ if $a \in A_i$.
+By \cref{exc.poly_prod}, if each $(A_i,B_i)$-Moore machine has $\text{return}_i$ as its return function and $\text{update}_i$ as its update function, then the induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a return function that sends $s \in S$ to the $n$-tuple $(\text{return}_i(s))_{i \in \ord{n}}$ and an update function that sends $(s, a) \in S \times \sum_{i \in \ord{n}} A_i$ to $\text{update}_i(s, a)$ if $a \in A_i$.
 
 In other words, if there are multiple interfaces that can drive the same set of states, we can view them as a single interface that drives the states together.
-This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once. It's as though each of the machines can see where the combined system is at any time, but only one of them can actually operate it at any given time.
+This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then returns output in all of the original machines at once. It's as though each of the machines can see where the combined system is at any time, but only one of them can actually operate it at any given time.
 
 \begin{example} \label{ex.labeled_transition}
 Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
@@ -4503,9 +4503,9 @@ We can think of this as having two different interfaces acting on the same syste
 This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
 So the interface we want to add on is $\yon$.
 
-If $\yon$ were the only interface acting on the system, we would have a Moore machine $g \colon S\yon^S \to \yon$ whose yield function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
+If $\yon$ were the only interface acting on the system, we would have a Moore machine $g \colon S\yon^S \to \yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
 Then $p$ is the product of the two interfaces $B\yon^A$ and $\yon$, while $f' \colon S\yon^S \to p$ is the unique map induced by $f \colon S\yon^S \to B\yon^A$ and $g \colon S\yon^S \to \yon$.
-In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a yield function $S \to B$ that is the same as the yield function of $f$ and an update function $S \times (A + \1) \to S$ that behaves like the update function of $f$ when the input is from $A$ but does not change the state when the input is from $\1$.
+In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a return function $S \to B$ that is the same as the return function of $f$ and an update function $S \times (A + \1) \to S$ that behaves like the update function of $f$ when the input is from $A$ but does not change the state when the input is from $\1$.
 \end{solution}
 \end{exercise}
 
@@ -4538,9 +4538,9 @@ Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $
 The result follows from \cref{prop.moore_parallel_prod} by induction on $n$.
 \end{proof}
 
-By \cref{prop.dirichlet_monoidal}, if each $(A_i,B_i)$-Moore machine has $\text{yield}_i$ as its yield function and $\text{update}_i$ as its update function, then the induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a yield function that sends the $n$-tuple of states $(s_i)_{i \in \ord{n}} \in \prod_{i \in \ord{n}} S$ to the $n$-tuple of outputs $(\text{yield}_i(s))_{i \in \ord{n}}$ and an update function that sends $((s_i)_{i \in \ord{n}}, (a_i)_{i \in \ord{n}}) \in S \times \prod_{i \in \ord{n}} A_i$ to $(\text{update}_i(s_i, a_i))_{i \in \ord{n}}$.
+By \cref{prop.dirichlet_monoidal}, if each $(A_i,B_i)$-Moore machine has $\text{return}_i$ as its return function and $\text{update}_i$ as its update function, then the induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a return function that sends the $n$-tuple of states $(s_i)_{i \in \ord{n}} \in \prod_{i \in \ord{n}} S$ to the $n$-tuple of outputs $(\text{return}_i(s))_{i \in \ord{n}}$ and an update function that sends $((s_i)_{i \in \ord{n}}, (a_i)_{i \in \ord{n}}) \in S \times \prod_{i \in \ord{n}} A_i$ to $(\text{update}_i(s_i, a_i))_{i \in \ord{n}}$.
 In other words, if there are multiple interfaces that drive the same set of states, we can view them as a single interface that drives the states together.
-This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then yields output in all of the original machines at once.
+This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then returns output in all of the original machines at once.
 
 %** Example here!
 % \begin{example} \label{ex.labeled_transition}
@@ -4941,7 +4941,7 @@ In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileRead
 
 Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
 current position $s$ and a terminal position $t$. For our interface, we'll have
-two modes, each of which yields an ascii character:
+two modes, each of which returns an ascii character:
 \[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
 \]
 %%
@@ -4957,16 +4957,16 @@ We'll define this by cases:
 
 Our file reader will be $\fun{Accepting}$ if its current position is the
 terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
-yield the ascii character at the current position.
+return the ascii character at the current position.
 \begin{align*}
-  \yield{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
+  \return{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
 \end{align*}
 
 While the file reader is $\fun{Busy}$, it will step forward through the file.
 When it is $\fun{Accepting}$, it will set its new current and terminal position
 to be the input. 
 \begin{align*}
-  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\yield{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\yield{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
+  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
 \end{align*}
 
 Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
@@ -5079,7 +5079,7 @@ Obviously, this is all quite complicated, intricate, and contrived. Our goal her
     This amounts to a function $HPH \to HHP$.
     We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
     \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
-    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the yield function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
+    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
     Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
 \end{enumerate}
 \end{solution}
@@ -6262,8 +6262,8 @@ In \cref{ex.clock_in_N}, we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This all
 Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen to relate to the behavior of the old system $\nn\yon^\nn\to p$.
 \begin{solution}
 We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cref{ex.clock_in_N}.
-Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with yield function $g_\1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_\1(n)] \to \nn$ for each state $n \in \nn$.
-Then the new composite dynamical system $h \coloneqq f \then g$ has a yield function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1(i) = g_\1(f_\1(i)) = g_\1(i)$, the same output that the original system yielded in the state $i \in \nn$.
+Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with return function $g_\1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_\1(n)] \to \nn$ for each state $n \in \nn$.
+Then the new composite dynamical system $h \coloneqq f \then g$ has a return function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1(i) = g_\1(f_\1(i)) = g_\1(i)$, the same output that the original system returned in the state $i \in \nn$.
 Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1(i)] \to \1\2$ which, given an input $d \in p[g_\1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_\1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
 \end{solution}
@@ -6726,14 +6726,35 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $[\smset,\smset]$ is still a polynomial functor.
-In this exercise, we will use what we already know about to reverse-engineer such a proof.
+\begin{exercise} \label{exc.refl_limits}
+An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $[\smset,\smset]$ is still a polynomial functor---since the full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these equalizers, it would follow that $\poly$ has equalizers.
+But we already know what polynomial the equalizer should be from the proof of \cref{thm.poly_limits}.
+So in this exercise, we will show that the equalizer of polynomials we found in $\poly$ is also the equalizer of those same functors in $[\smset,\smset]$.
+
+Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$ between polynomial functors $p$ and $q$, and let $e\colon p'\to p$ be their equalizer in $\poly$ that we computed in the proof of \cref{thm.poly_limits}.
 \begin{enumerate}
-    \item Given a pair of natural transformations $f,g\colon p\tto q$ between polynomial functors $p$ and $q$, along with a set $X$, compute the equalizer of the $X$-components $f_X,g_X\colon p(X)\tto q(X)$.
-    \item Use the fact that  to conclude that the equalizer 
+    \item Given a set $X$, show that $e_X\colon p'(X)\to p(X)$ is the equalizer of the $X$-components $f_X,g_X\colon p(X)\tto q(X)$ in $\smset$.
+    \item Deduce that equalizers in $\poly$ coincide with equalizers in $[\smset,\smset]$.
+    \item Conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$. \qedhere
 \end{enumerate}
-Combining this with the proof of \cref{prop.poly_prods}, we can conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$.
+\begin{solution}
+\begin{enumerate}
+    \item By \cref{prop.morph_arena_to_func}, $f_X$ (resp.\ $g_X$) sends each $(i,h)\in p(X)$ with $i\in p(\1)$ and $h\colon p[i]\to X$ to $(f_\1(i), f^\sharp_i\then h)$ (resp.\ $(g_\1(i), g^\sharp_i\then h)$) in $q(X)$.
+    So the equalizer of $f_X$ and $g_X$ is the set of all $(i,h)\in p(X)$ for which both $f_\1(i) = g_\1(i)$ and $f^\sharp_i\then h = g^\sharp_i\then h$.
+    
+    Indeed, by our construction of $p'$, the set $p'(X)$ consists of all pairs $(i,h')$ with $i\in p(\1)$ such that $f_\1(i) = g_\1(i)$ and $h'\colon p'[i]\to X$, where $p'[i]$ is the coequalizer of $f^\sharp_i,g^\sharp_i\colon q[f_\1(i)]\tto p[i]$.
+    By the universal property of the coequalizer, functions $h'\colon p'[i]\to X$ precisely correspond to functions $h\colon p[i]\to X$ for which $f^\sharp_i\then h = g^\sharp_i\then h$.
+    So $p'(X)$ is indeed the equalizer of $f_X$ and $g_X$.
+    
+    The equalizer natural transformation $e'\colon p'\to p$ has the inclusion $e'_X\colon p'(X)\to p(X)$ as its $X$-component, so by \cref{cor.morph_func_to_arena}, it is the lens whose on-positions function is the canonical equalizer inclusion $e'_\1\colon p'(\1)\to p(\1)$, while its on-directions function at $i\in p'(\1)$ is the map $p[i]\to p'[i]$ corresponding to the identity on $p'[i]$ given by the universal property of the coequalizer---which is just the canonical coequalizer map $p[i]\to p'[i]$.
+    But this is exactly the map $e\colon p'\to p$ constructed in the proof of \cref{prop.poly_prods}, as desired.
+    \item By \cref{prop.presheaf_lim_ptwise}, limits---including equalizers---in $[\smset,\smset]$ are computed pointwise.
+    So if $e_X\colon p'(X)\to p(X)$ is the equalizer of $f_X,g_X\colon p(X)\tto q(X)$ for every $X\in\smset$, then $e\colon p'\to p$ is the equalizer of $f,g\colon p(X)\tto q(X)$.
+    \item We have just shown that equalizers in $\poly$ coincide with equalizers in $[\smset,\smset]$.
+    We saw in the proof of \cref{prop.poly_prods} that products in $\poly$ also coincide with products in $[\smset,\smset]$.
+    Since every limit can be computed as an equalizer of products, we can conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
 \begin{theorem}\label{thm.poly_colimits}
@@ -6818,15 +6839,18 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{exercise}
 
 \begin{example}
-Given a diagram in $\poly$, one could either take its colimit as a diagram of \emph{polynomial} functors (i.e.\ its colimit in $\poly)$ or its colimit simply as a diagram of functors (i.e.\ its colimit in $[\smset,\smset]$).
-These can yield different results, as evidenced by the fact that, per the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $[\smset,\smset]$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
+Given a diagram in $\poly$, one could either take its (co)limit as a diagram of \emph{polynomial} functors (i.e.\ its (co)limit in $\poly)$ or its (co)limit simply as a diagram of functors (i.e.\ its (co)limit in $[\smset,\smset]$).
+We saw in \cref{exc.refl_limits} that in the case of limits, these yield the same result.
+So, too, in the case of coproducts, per \cref{prop.poly_coprods}.
 
-As a concrete example, consider the two projections $\yon^\2\to\yon$, which form the diagram
+But in the case of general colimits, there are diagrams that yield different results: by the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $[\smset,\smset]$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
+
+For a concrete example, consider the two distinct projections $\yon^\2\to\yon$, which form the diagram
 \begin{equation} \label{eqn.2_projs}
     \yon^\2\tto\yon.
 \end{equation}
 According to \cref{thm.poly_colimits}, the colimit of \eqref{eqn.2_projs} in $\poly$ has the coequalizer of $\1 \tto \1$, namely $\1$, as its position-set, and the limit of the diagram $\1 \tto \2$ consisting of the two inclusions as its sole direction-set.
-But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is the constant functor $\1$.
+But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is the constant functor $\1\yon^\0\iso\1$.
 
 But as functors, by \cref{prop.presheaf_lim_ptwise}, the colimit of \eqref{eqn.2_projs} can be computed pointwise: it is the (nonconstant!) functor
 \[
@@ -7035,9 +7059,12 @@ It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_
 
 %**orthogonal factorization system? some "up to iso" subtleties
 \begin{proposition}\label{prop.vert_cart_factorization}
-Every morphism in $\poly$ can be uniquely factored as a vertical morphism followed by a cartesian morphism.
+Vertical and cartesian morphisms form a factorization system of $\poly$.
 \end{proposition}
 \begin{proof}
+It is easy to check that isomorphisms are both vertical and cartesian, and that vertical and cartesian morphisms are each closed under composition.
+It remains to show that every morphism in $\poly$ can be uniquely (up to unique isomorphism) factored as a vertical morphism composed with a cartesian morphism.
+
 Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
 \begin{tikzcd}[column sep=small]
@@ -7048,12 +7075,12 @@ Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written
 \hspace{1in}
 \begin{tikzcd}
 	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[r, equal, ""' name=equal]&
-	p(\1)\ar[d, "{q[f_\1(-)]}" description]\ar[r, "f_\1"]&
+	p(\1)\ar[d, "{q[f_\1(-)]}"]\ar[r, "f_\1"]&
 	q(\1)\ar[dl, bend left, "{q[-]}"]\\&
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is clearly unique up to isomorphism.
+The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is clearly unique up to unique isomorphism.
 \end{proof}
 
 \begin{proposition}
