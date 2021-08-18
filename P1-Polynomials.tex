@@ -4458,7 +4458,16 @@ Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say t
     s_{k+1}\coloneqq u(s_k,a_{k+1})
 \]
 for all $k\in\nn$ is such that $s_n$ is an accept state: $s_n\in F$.
+
+We call any set of words comprised of elements in $A$ a \emph{language}, and we say that the set of all words that the automaton accepts is the language \emph{recognized} by the automaton.
 \end{definition}
+
+\begin{remark}
+When we study a deterministic state automaton, we are usually interested in which words the automaton accepts and, more generally, what language the automaton recognizes.
+While intuitive, the condition we provided for when an automaton accepts a word is rather cumbersome to work with.
+In \cref{**}, we'll see a simpler way of saying whether an automaton accepts a word, as well as specifying what language the automaton recognizes.
+Better yet, we'll find that this alternative formulation arises naturally from the theory of $\poly$.
+\end{remark}
 
 \begin{proposition}
 A deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of maps
@@ -4495,7 +4504,8 @@ Then the input must come from the direction-set $p[i]$.
 So the set of available inputs varies depending on the current output.
 What kind of system has that kind of a relationship between its inputs and outputs?
 
-Well, we can begin to think of outputs not only as outward expressions, but as positions that one takes within one's arena---terminology we've been using all along.
+Think back to our promises for more generalized dynamical systems from \cref{sec.poly.intro.dyn_sys}.
+We can begin to think of outputs not only as outward expressions, but as positions that one takes within one's arena---terminology we've been using all along.
 If the arena is your body, then your outputs would be the positions that your body could take.
 This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc.
 In fact, every form of output you provide, from talking to gesturing to moving another object, is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
@@ -4505,7 +4515,15 @@ In fact, every form of output you provide, from talking to gesturing to moving a
 If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
 
 \begin{remark}
-[why do the inputs depend on the outputs, not the internal states?]
+It may seem limiting that the set of possible inputs of a dependent system should depend on the current \emph{output}, rather than the current \emph{state}.
+Isn't it possible to have a system with different states that give the same output but take in inputs from different sets?
+
+Philosophically, the answer to this question is ``no'' as long as we think about the interface of a dependent system as capturing everything about how the system interacts with the outside world.
+In particular, the output of a system should capture everything an external observer could possibly perceive about the system, while the input set should capture every way an external force can independently decide to interact with the system.
+
+But if the range of ways in which an external agent can choose to interact with the system \emph{changes}, the external agent should be able to detect this fact!
+If the internal state changes, but the external output remains the same, the agent wouldn't see any difference---they wouldn't know to interact with the system any differently, so their range of possible inputs would have to stay the same, too.
+That's why it makes sense for the set of possible inputs to depend not on the hidden internal state, but on the output currently exposed.
 \end{remark}
 
 But however you think of dependent systems, we need to get a feel for how they work mathematically.
@@ -4535,8 +4553,13 @@ Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say t
 \[
     s_{k+1}=\phi^\sharp_{s_k}(a_{k+1}).
 \]
-%Again, this is rather awkward to say... (We will see in \cref{**} a much nicer way of saying whether a word is accepted...)
+We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
 \end{example}
+
+\begin{remark}
+Again, the conditions for when one of these automata accepts a word are rather awkward to formally state.
+We will see in \cref{**} a nicer way of saying whether a word is accepted or a language is recognized by a halting deterministic state automaton.
+\end{remark}
 
 \begin{exercise}\label{exc.det_fsa_misc_398}
 Consider the halting deterministic state automaton shown below:
