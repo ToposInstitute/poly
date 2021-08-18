@@ -1026,8 +1026,6 @@ called the \emph{cofree comonoid} construction. It is lax monoidal with respect 
 The category $\comon$ has a third symmetric monoidal structure $(\yon,\otimes)$, and the forgetful functor $U\colon(\comon,\yon,\otimes)\to(\poly,\yon,\otimes)$ is strong monoidal.
 \end{proposition}
 
-
-
 \begin{proposition}\label{prop.sysp[i]s_topos}
 For any polynomial $p$, the category
 \[\sys(p)\cong[\cofree{p},\smset]\]
@@ -4143,10 +4141,12 @@ If $A$, $B$, and $S$ are sets, an $(A,B)$-Moore machine with states $S$ consists
 \end{align*}
 \end{definition}
 
-We can visualize a Moore machine as a set $S$ of possible states.
+We can visualize a Moore machine as follows.
+It has a set $S$ of possible states.
 At any point in time, the machine is in one of those states: say $s \in S$.
 While there, whenever we ask the machine to produce output, it will give us $\text{return}(s) \in B$.
 But if we feed the machine input $a \in A$, the machine will switch to a new state, $\text{update}(s, a)$.
+Note that this new state depends not only on the input the machine receives, but also on the state the machine is in when it receives that input.
 
 \begin{example}\label{ex.Moore_three}
 Here's a picture of a Moore machine with $S\coloneqq\3$ states:
@@ -4161,24 +4161,76 @@ Here's a picture of a Moore machine with $S\coloneqq\3$ states:
   };
 \end{tikzpicture}
 \]
-Each state is labeled by the value it returns, an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+Each state is labeled by the output value it returns: an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, representing the two possible inputs, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+The targets of the arrows indicate the updated state.
 
-You can imagine barking ``orange! orange! green! orange!'' etc. at this machine to make it run through its states.
+For example, let's say the machine starts at the bottom state.
+We imagine barking a sequence of inputs---say ``{\color{orange}orange! orange!} {\color{dgreen}green!} {\color{orange}orange!} \ldots''---at this machine to make it run through its states and return the output at each state:
+\begin{enumerate}
+    \item Starting at the bottom state, the machine returns the output $b_2$.
+    \item Receiving the input ``{\color{orange}orange}'' at the bottom state, the machine follows the {\color{orange}orange} arrow from the bottom state to update its state to the left state.
+    \item At the left state, the machine returns the output $b_1$.
+    \item Receiving the input ``{\color{orange}orange}'' at the left state, the machine follows the {\color{orange}orange} arrow from the left state to update its state to---once again---the left state.
+    \item At the left state, the machine returns the output $b_1$.
+    \item Receiving the input ``{\color{dgreen}green}'' at the left state, the machine follows the {\color{dgreen}green} arrow from the left state to update its state to the right state.
+    \item At the right state, the machine returns the output $b_2$.
+    \item Receiving the input ``{\color{orange}orange}'' at the left state, the machine follows the {\color{orange}orange} arrow from the right state to update its state to the left state.
+    \item At the left state, the machine returns the output $b_1$.
+    
+    \ldots
+    
+    So given a fixed initial state, namely the bottom state, this Moore machine sends the sequence $({\color{orange}\text{orange}}, {\color{orange}\text{orange}}, {\color{dgreen}\text{green}}, {\color{orange}\text{orange}},\ldots)$ of elements in $A$ to the sequence $(b_2,b_1,b_1,b_2,b_1,\ldots)$ of elements in $B$.
+\end{enumerate}
 \end{example}
-%% ** Explain more, maybe? Add an exercise?
+
+In general, given an initial state $s_0\in S$, an $(A,B)$-Moore machine with states $S$ sends every sequence $(a_1,a_2,a_3,\ldots)$ of elements in $A$ to a sequence $(b_0,b_1,b_2,b_3,\ldots)$ of elements in $B$, defined as follows via an intermediary sequence $(s_0,s_1,s_2,s_3,\ldots)$:
+\[
+    b_k\coloneqq \text{return}(s_k) \qqand s_{k+1}\coloneqq \text{update}(s_k, a_{k+1})
+\]
+for all $k\in\nn$.
+% definition a little clumsy; we'll see this sequence pop out of the theory in \cref{**}.
+
+\subsection{Moore machines as lenses}
 
 Does \cref{def.moore_machine} look familiar?
-It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens (i.e.\ map of monomials)
+It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens between monomials
 \[
-S\yon^S\to B\yon^A,
+(\text{get}, \text{set})\colon S\yon^S\to B\yon^A,
 \]
-with $\text{get} \coloneqq \text{return}$ and $\text{set} \coloneqq \text{update}$.
-Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
+with $\text{get} \coloneqq \text{return}$ and $\text{set} \coloneqq \text{update}$.\footnote{Recall from \eqref{eqn.bimorphic_lens} that ``get'' and ``set'' are our special names for the on-positions and on-directions functions of a lens between monomials.}
+Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes how an outsider can interact with the machine, namely the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
 
-%% ** Exercise to turn the example above into a lens?
+\begin{exercise}
+Write the Moore machine from \cref{ex.Moore_three} as a lens between monomials.
+\begin{enumerate}
+    \item What is the state system?
+    \item What is the interface?
+\end{enumerate}
+Call the left state $1$, the right state $2$, and the bottom state $3$.
+\begin{enumerate}[resume]
+    \item What is the on-positions function ``get''?
+    \item What is the on-directions function ``set''? \qedhere
+\end{enumerate}
+\begin{solution}
+We can write the Moore machine from \cref{ex.Moore_three} as a lens $S\yon^S\to B\yon^A$ between monomials as follows.
+\begin{enumerate}
+    \item As $S=\3$, the state system is $S\yon^S=\3\yon^\3$.
+    \item As $B=\{b_1,b_2\}$ and $A=\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$, the interface is $B\yon^A=\{b_1,b_2\}\yon^{\{{\color{orange}\text{orange}},\,{\color{dgreen}\text{green}}\}}$.
+    \item The on-positions function ``get'' sends $1\mapsto b_1, 2\mapsto b_2,$ and $3\mapsto b_2$.
+    \item The on-directions function ``set'' sends
+    \begin{align*}
+        (1, {\color{orange}\text{orange}})\mapsto1&,\quad(1, {\color{dgreen}\text{green}})\mapsto2, \\
+        (2, {\color{orange}\text{orange}})\mapsto1&,\quad(2, {\color{dgreen}\text{green}})\mapsto3, \\
+        (3, {\color{orange}\text{orange}})\mapsto1&,\quad(3, {\color{dgreen}\text{green}})\mapsto3.
+    \end{align*}
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\subsection{More Moore machines}
 
 \begin{example}\label{ex.counting_trajectory}
-There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,...$. It is a Moore machine with states $\nn$ and interface $\nn\yon$. The associated lens $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
+There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,\ldots.$ It is a Moore machine with states $\nn$ and interface $\nn\yon$. The associated lens $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
 % \[
 % \begin{tikzpicture}[polybox, mapstos]
 % 	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
@@ -4189,16 +4241,12 @@ There is a dynamical system that takes unchanging input and produces as output t
 % \]
 \end{example}
 
-We can generalize both $S\yon^S$ and the interface $B\yon^A$ in \cref{def.moore_machine}, though the latter is much simpler---we'll spend much of the chapter on it. 
-After some examples, we'll briefly preview something we have already hinted at and will spend a lot of time on later, namely what's special about $S\yon^S$.
-Then we'll discuss how to model regular languages using Moore machines and how products of polynomials allow multiple interfaces to act on the same state system.
-
 \begin{example}\label{ex.R2_moore}
 Here's a(n infinite) Moore machine with states $\rr^\2$:
 \[
 \rr^\2\yon^{\rr^\2}\to\rr^\2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we might think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
+Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we can think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
 \begin{align*}
   \rr^\2&\To{\text{return}}\rr^\2&
   \rr^\2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^\2
@@ -4212,7 +4260,8 @@ Its output type is $\rr^\2$, which we might think of as a location in the 2-dime
 \begin{exercise}
 Explain in words what the Moore machine in \cref{ex.R2_moore} does.
 \begin{solution}
-At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^\2$, as recorded by its state.
+At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^\2$.
+This location is its current state.
 Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{return}(x, y) = (x, y)$.
 But if we give the machine input of the form $(r, \theta)$ for some distance $r \in [0,1]$ and direction $\theta \in [0, 2\pi)$, the machine will move by that distance, in that direction, going from $(x, y)$ to
 \[
@@ -4223,11 +4272,11 @@ But if we give the machine input of the form $(r, \theta)$ for some distance $r 
 \end{exercise}
 
 \begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
-For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in a stream of $A$'s and outputs the stream of $B$'s obtained by applying $f$. 
+For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in an element of $A$ and returns the element of $B$ obtained by applying $f$. 
 
-It is given by the map $(\id_B,\texttt{const} \ f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
+It is given by the map $(\id_B, \pi_A\then f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi_A}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
 
-If the machine begins in state $b_0$ and is given a stream $(a_1,a_2,\ldots)$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
+If the machine begins in state $b_0$ and is given a sequence $(a_1,a_2,\ldots)$ of elements in $A$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
 \end{example}
 
 \begin{exercise}\label{exc.funs_to_moore}
@@ -4240,13 +4289,13 @@ Suppose we are given a function $f\colon A\times B\to B$.
 \begin{solution}
 \begin{enumerate}
     \item We seek an $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ corresponding to the function $f\colon A\times B\to B$.
-    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a function $\text{return} \colon B \to B$ and a function $\text{update} \colon B \times A \to B$.
+    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a return function$B \to B$ and an update function $B \times A \to B$.
     So we can simply let the return function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
     
     \item Generally, such a machine is not memoryless.
     Unlike in \cref{ex.funs_to_moore}, the update function $B \times A \iso A \times B \To{f} B$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
     
-    However, if $f$ factors through the projection $\pi \colon A \times B \to A$, i.e.\ if $f$ can be written as a composite $A \times B \To{\pi} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine corresponding to $f'$, as in \cref{ex.funs_to_moore}.
+    However, if $f$ factors through the projection $\pi_A \colon A \times B \to A$, i.e.\ if $f$ can be written as a composite $A \times B \To{\pi_A} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine from \cref{ex.funs_to_moore} corresponding to $f'$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -4261,26 +4310,28 @@ Find $A,B\in\smset$ such that the following can be identified with a morphism $S
 \begin{solution}
 For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a morphism $S\yon^S \to B\yon^A$, i.e.\ a function $\text{return} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
 \begin{enumerate}
-    \item Given a discrete dynamical system, consisting of a set of states $S$ and a transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$; so $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
-    The corresponding Moore machine has a single choice of input (you could think of it as a button that says ``advance to the next state'') and always produces the same output (which effectively tells us nothing).
+    \item Given a discrete dynamical system with states $S$ and transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$.
+    Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
+    The corresponding Moore machine has unchanging input (you could think of it as a button that says ``advance to the next state'') and unchanging output (which effectively tells us nothing).
     So it is just a set of states, and a deterministic way to move from state to state.
     
     We could have also set $A \coloneqq \0$ and $B \coloneqq S$, so that $\text{return} \coloneqq n$ and $\text{update} \colon S \times \0 \to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its output, which happens to refer to some state.
     
-    \item Given a magma, consisting of a set $S$ and a function $m \colon S \times S \to S$, we can set $A \coloneqq S$ and $B \coloneqq 1$.
+    \item Given a magma consisting of a set $S$ and a function $m \colon S \times S \to S$, we can set $A \coloneqq S$ and $B \coloneqq 1$.
     Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times S \to S$ is equal to $m$.
-    The corresponding Moore machine always produces the same output.
+    The corresponding Moore machine produces unchanging output.
     It uses the binary operation $m$ to combine the current state with the input---which also refers to a state---to obtain the new state.
     
-    Note that, since $m$ is not guaranteed to be commutative, we could also set the update function to be $m$ with its inputs swapped.
+    Alternatively, we could have set the update function to be $m$ with its inputs swapped.
     The difference here is that the new state is given by applying $m$ with the input on the left and the current state on the right, rather than the other way around.
+    If $m$ is noncommutative, this would yield a different Moore machine.
     
     We could have also set $A \coloneqq \0$ and $B \coloneqq S^S$, so that $\text{update} \colon S \times \0 \to S$ is unique, while currying $m$ gives $\text{return}$, so that $\text{return}(s)$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
     Alternatively, $\text{return}(s)$ could be the function $s' \mapsto m(s', s)$.
     Either way, this is a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
     
     \item Given a set $S$ and a subset $S' \ss S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
-    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{return} \colon S \to 2$ by
+    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{return} \colon S \to \2$ by
     \[
         \text{return}(s) =
         \begin{cases}
@@ -4289,7 +4340,6 @@ For each of the following constructs, we find $A, B \in \smset$ such that the co
         \end{cases}
     \]
     so that $S'$ can be recovered from the return function as its fiber over $1$.
-    Alternatively, we could define the return function so that $S'$ is instead its fiber over $2$.
     The corresponing Moore machine never moves between its states, but gives one of two outputs indicating whether or not the current state is in the subset $S'$.
 \end{enumerate}
 \end{solution}
@@ -4301,7 +4351,7 @@ Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Us
 Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose half its health whenever it moves to a location whose $x$-coordinate is negative. Do not output its health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
 We modify the Moore machine from \cref{ex.R2_moore} as follows.
-The original Moore machine had a state set $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the cartesian product to obtain the new state set $\rr^\2 \times [0,10]$.
+The original Moore machine had states $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the cartesian product to obtain the new set of states $\rr^\2 \times [0,10]$.
 The inputs and outputs are unchanged, so the Moore machine is a lens
 \[
     \rr^\2 \times [0,10] \yon^{\rr^\2 \times [0,10]} \to \rr^\2 \yon^{[0,1] \times [0,2\pi)}.
@@ -4318,26 +4368,61 @@ where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and 
 \end{solution}
 \end{exercise}
 
+\begin{exercise}[Tape of a Turing machine]
+A Turing machine has a tape. The tape has a cell for each integer, and each cell holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from cell numbers to values, but also a distinguished choice $c\in\zz$ of the ``current'' cell. Thus the set of states of the tape is $V^\zz\times\zz$.
+
+The Turing machine interacts with the tape by asking for the value at the current cell, an element of $V$, and by telling it to change the value there as well as whether to move left (i.e.\ decrease the current cell number by $1$) or right (i.e.\ increase by $1$). Thus the set of outputs of the tape is $V$ and the set of inputs is $V\times\{L,R\}$.
+
+\begin{enumerate}
+	\item Give the form of the tape as a Moore machine, i.e.\ lens $t\colon S\yon^S\to B\yon^A$ for appropriate sets $S, A, B$.
+	\item Write down the specific $t$ that makes it act like a tape as specified above.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item The tape of a Turing machine has states $V^\zz \times \zz$, outputs $V$, and inputs $V \times \{L, R\}$, so as a Moore machine, it is a lens
+    \[
+        t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
+    \]
+    \item The return function of $t$ should output the value at the current cell of the tape. So $\text{return} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
+    Then the update function of $t$ should write the input value of $V$ in the current cell of the tape, then shift the cell number down or up one according to whether the second input value is $L$ (left) or $R$ (right).
+    So
+    \[
+        \text{update} \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
+    \]
+    sends old tape $f \colon \zz \to V$, old cell number $c \in \zz$, new value $v \in V$, and direction $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ defined by
+    \[
+        f'(n)\coloneqq
+        \begin{cases}
+            v & \text{if } n = c \\
+            f(n) & \text{if } n \neq c
+        \end{cases}
+    \]
+    and the new cell number $c-1$ if $D=L$ and $c+1$ if $D = R$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
 \begin{exercise}\label{exc.file_reader}
 Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
-We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as positions in the file and, for each position $i \in \ord{n}$, the value $f(i)$ as the character at position $i$.
+We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as entries in the file and, for each entry $i \in \ord{n}$, the value $f(i)$ as the character at entry $i$.
 
 Given a file $f$, make a robot (Moore machine) whose output type is $\Set{ascii} + \{\text{done}\}$
 and whose input type is
 \[
 \{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}.
 \]
-For any input, if it is of the form $(s,t)$, then the robot should go to position $s$ in the file and read the character at that position.
-If the input is ``continue,'' the robot should move to the next position (i.e.\ from $s$ to $s+1$) and read that character—unless the new position would be greater than $t$, in which case the robot should continually output ``done'' until it receives another $(s,t)$ pair.
+For any input, if it is of the form $(s,t)$, then the robot should go to entry $s$ in the file and read the character at that entry.
+If the input is ``continue,'' the robot should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character—unless the new entry would be greater than $t$, in which case the robot should continually output ``done'' until it receives another $(s,t)$ pair.
 \begin{solution}
 Given a file $f \colon \ord{n} \to \Set{ascii}$, we construct our file-reading robot as a Moore machine as follows.
-There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ tracks the robot's current position in the file, while $t$ tracks the position where the robot should stop.
-But we will also include a ``done'' state to record when the robot has passed the stop position.
+There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ is the entry where the robot is current located, while $t$ is the entry where the robot should stop.
+But we will also include a ``stopped'' state to record when the robot has already stopped.
 So the Moore machine is a lens
 \[
-    (\ord{n}^\2+\{\text{done}\})\yon^{\ord{n}^\2+\{\text{done}\}} \to (\Set{ascii} + \{\text{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}}.
+    (\ord{n}^\2+\{\text{stopped}\})\yon^{\ord{n}^\2+\{\text{stopped}\}} \to (\Set{ascii} + \{\text{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}}.
 \]
-If the robot's current state is ``done,'' then the robot should output ``done.'' Otherwise, the robot should output the character at its current position in the file.
+If the robot's current state is ``stopped,'' then the robot should output ``done.'' Otherwise, the robot should output the character at the entry where the robot is currently located.
 So its return function $\ord{n}^\2+\{\text{done}\} \to \Set{ascii} + \{\text{done}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
 Meanwhile, the update function
 \[
@@ -4349,74 +4434,420 @@ Finally, if the old state is ``done'' and the input is ``continue,'' the new sta
 \end{solution}
 \end{exercise}
 
-While \cref{exc.file_reader} gives us a functioning file-reading robot, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of positions before the robot has finished reading from the previous range.
-When we introduce generalized Moore machines, we will be able to let the robot ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
+While \cref{exc.file_reader} gives us a functioning file-reading robot, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of entries before the robot has finished reading from the previous range.
+In \cref{sec.poly.dyn_sys.depend_sys}, we'll introduce a generalization of Moore machines to handle cases like these, where the array of inputs the machine can receive changes depending on the output that it just returned.
+In particular, we will be able to let the robot ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
 
-\begin{exercise}[Tape of a Turing machine]
-A Turing machine has a tape. The tape has a position for each integer, and each position holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from positions to values, but also a distinguished choice $c\in\zz$ of the ``current'' position. Thus the set of states of the tape is $V^\zz\times\zz$.
+\paragraph{Deterministic state automata}
 
-The Turing machine interacts with the tape by asking for the value at the current position, an element of $V$, and by telling it to change the value there as well as whether to move left (i.e.\ decrease the current position by $1$) or right (i.e.\ increase by $1$). Thus the set of outputs of the tape is $V$ and the set of inputs is $V\times\{L,R\}$.
+% Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic state automaton. What is that?
 
-\begin{enumerate}
-	\item Give the form of the tape as a Moore machine, i.e.\ lens $t\colon S\yon^S\to p$ for appropriate $S\in S$ and $p\in\poly$.
-	\item Write down the specific $t$ that makes it act like a tape as specified above.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item A Turing machine has states $V^\zz \times \zz$, outputs $V$, and inputs $V \times \{L, R\}$, so as a Moore machine, it is a lens
-    \[
-        t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
-    \]
-    \item The return function of $t$ should output the value at the current position of the tape. So $\text{return} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
-    Meanwhile, the update function of $t$ should write the input value of $V$ at the current position of the tape, then move according to whether the second input value is $L$ (left) or $R$ (right).
-    So
-    \[
-        \text{update} \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
-    \]
-    sends old tape $f \colon \zz \to V$, old position $c \in \zz$, new value $v \in V$, and direction $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ satisfying
-    \[
-        f'(n) =
-        \begin{cases}
-            v & \text{if } n = c \\
-            f(n) & \text{if } n \neq c
-        \end{cases}
-    \]
-    and the new position $c-1$ if $D=L$ and $c+1$ if $D = R$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-%---- Subsection ----%
-\subsection{Regular languages}
-
-Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic finite state automaton. What is that?
+The picture in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine (with a preset initial state).
 
 \begin{definition}\label{def.dfa}
-A \emph{deterministic finite state automaton} consists of
+A \emph{deterministic state automaton} consists of
 \begin{enumerate}
-	\item a finite set $S$, elements of which are called \emph{states}
-	\item a finite set $A$, elements of which are called \emph{input symbols},
-	\item a function $u\colon S\times A\to S$, called the \emph{update function},
-	\item an element $s_0\in S$, called the \emph{initial state},
+	\item a set $S$, elements of which are called \emph{states};
+	\item a set $A$, elements of which are called \emph{input symbols};
+	\item a function $u\colon S\times A\to S$, called the \emph{update function};
+	\item an element $s_0\in S$, called the \emph{initial state}; and
 	\item a subset $F\ss S$, called the \emph{accept states}.
 \end{enumerate}
+Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined
+\[
+    s_{k+1}\coloneqq u(s_k,a_{k+1})
+\]
+for all $k\in\nn$ is such that $s_n$ is an accept state: $s_n\in F$.
 \end{definition}
 
 \begin{proposition}
-A deterministic finite state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of maps
+A deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of maps
 \[
 \yon\to S\yon^S\to \2\yon^A.
 \]
 \end{proposition}
 \begin{proof}
-A map $\yon\to S\yon^S$ can be identified with an element $s_0\in S$.
-A map $S\yon^S\to\2\yon^A$ consists of a function $S\to\2$, which can be identified with a subset $F \ss S$, together with a function $u \colon S\times A\to S$, forming the rest of the required structure.
+A map $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
+A map $S\yon^S\to\2\yon^A$ consists of a function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
 \end{proof}
 
-One could also make a version of this story where, whenever the machine hits an accept-state, it stops; again, to do this requires polynomials (in this case, $\yon^A+1$), which we'll get to in \cref{sec.dependent_systems}.
+But what if we wanted to make a version of this automaton where, whenver the machine hits an accept state, it stops---no longer taking in any inputs? Again, to do this requires a machine whose set of possible inputs is dependent on the output the current state returns.
+In this case, instead of an update function $u\colon S\times A\to S$, we want an update function that takes in an input $a\in A$ if the state $s\in S$ is \emph{not} an accept state (say, if $f(s)=1$) but takes in an input in $\0$ (i.e.\ no input) if the state $s$ \emph{is} an accept state (if $f(s)=2$).
+So there is one update function $u_s\colon A\to S$ if $f(s)=1$, and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
+But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$.
+Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
-% ** More about regular languages, either in this section or the next. Maybe this section should just be called ``deterministic finite state automata.''}
+\section{Dependent systems}\label{sec.poly.dyn_sys.depend_sys}
+%again, to do this requires polynomials (in this case, $\yon^A+1$), which we'll get to in \cref{sec.poly.dyn_sys.depend_sys}.
+
+As lenses, each of our Moore machines above has an interface of the form $B\yon^A$, i.e.\ a monomial.
+Every representable summand of the interface has the same exponent $A$, corresponding to the fact that the set of available inputs into the machine is always $A$.
+But by replacing $B\yon^A$ with an arbitrary polynomial $p$---a sum of monomials, in which different representable summands may have different exponents---we will allow our input set to change.
+
+\begin{definition}[Dependent systems]\label{def.gen_moore}
+A \emph{dependent system} (or a \emph{dependent Moore machine}) is a lens
+\[S\yon^S\to p\]
+for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states}---with $S\yon^S$ called the \emph{state system}---and the polynomial $p$ is called the \emph{interface}.
+\end{definition}
+
+The output of a dependent system with interface $p$ is a $p$-position: an element of the set $p(\1)$.
+Then the input must come from the direction-set $p[i]$.
+So the set of available inputs varies depending on the current output.
+What kind of system has that kind of a relationship between its inputs and outputs?
+
+Well, we can begin to think of outputs not only as outward expressions, but as positions that one takes within one's arena---terminology we've been using all along.
+If the arena is your body, then your outputs would be the positions that your body could take.
+This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc.
+In fact, every form of output you provide, from talking to gesturing to moving another object, is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
+
+\slogan{The position you're in is itself a sensory organ: a hand outstretched, an eye open or closed.}
+
+If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
+
+\begin{remark}
+[why do the inputs depend on the outputs, not the internal states?]
+\end{remark}
+
+But however you think of dependent systems, we need to get a feel for how they work mathematically.
+We'll do this by going through many examples.
+To start, let's finish up the example from the end of the last section.
+
+\begin{example}\label{ex.regular_lang_stop}
+Recall deterministic state automata from \cref{def.dfa}.
+Say we want such an automaton to halt after reaching an accept state and no longer take input.
+For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
+\[
+\phi\colon S\yon^S\to \yon^A+\1.
+\]
+To give such a map, we provide an on-positions function $\phi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
+A function $\phi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
+
+If we reach an accept state, we want the machine to halt.
+So at the position $2$, corresponding to the summand $\1$, there are no directions---and thus no inputs available.
+In other words, the on-directions function $\phi^\sharp_s$ is trivial when $\phi_\1(s)=2$.
+
+On the other hand, $\phi^\sharp_s$ is not trivial on those elements $s\in S$ for which $\phi_\1(s)=1$.
+Instead, these on-directions functions $\phi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
+This is in line with the way the automaton's update function behaves.
+
+When equipped with an initial state $s_0\in S$ specified by a map $\yon\to S\yon^S$, we call these dependent systems \emph{halting deterministic state automata}.
+Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\phi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\phi_\1(s_k)=1$ and
+\[
+    s_{k+1}=\phi^\sharp_{s_k}(a_{k+1}).
+\]
+%Again, this is rather awkward to say... (We will see in \cref{**} a much nicer way of saying whether a word is accepted...)
+\end{example}
+
+\begin{exercise}\label{exc.det_fsa_misc_398}
+Consider the halting deterministic state automaton shown below:
+\begin{equation} \label{eqn.hdsa}
+\begin{tikzcd}[column sep=small]
+	\LMO{}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\LMO{}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\LMO{}
+\end{tikzcd}
+\end{equation}
+Call the left state 1, the right state 2, and the bottom state 3.
+We designate state $1$ as the initial state.
+We can also call the orange arrows ``{\color{orange}orange}'' and the green arrows ``{\color{dgreen}green}.''
+Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
+
+\begin{enumerate}
+	\item What is $S$?
+	\item What is $A$?
+	\item Based on the picture, which states are accept states, and which are not?
+	\item Specify the corresponding lens $S\yon^S\to\yon^A+\1$.
+	\item Name a word that is accepted by this automaton.
+	\item Name a word that is not accepted by this automaton.
+	Why not?
+	Can you find another word that is not accepted by this automaton for a different reason?
+\qedhere
+\end{enumerate}
+\begin{solution}
+Here we examine the halting deterministic state automaton depicted in \eqref{eqn.hdsa}, with left state (and initial state) 1, right state 2, bottom state 3, and arrows {\color{orange}orange} and {\color{dgreen}green}.
+
+\begin{enumerate}
+    \item The set of states is $S\coloneqq\3=\{1,2,3\}$.
+    \item The set of input symbols is $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
+    \item The automaton should halt at the accept states, so the accept states are exactly the states that have no arrows coming out of them---in this case, only state 3.
+    States 1 and 2 are not accept states.
+    \item Let the corresponding lens be $\phi\colon S\yon^S\to\yon^A+\1$, or $\phi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
+    According to the previous part, $\phi$ has an on-positions function $\phi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
+    Then the two nontrivial on-directions functions behave as follows, according to the \eqref{eqn.hdsa}:
+    \begin{align*}
+        \phi^\sharp_1&\colon\quad{\color{orange}\text{orange}}\mapsto2,{\color{dgreen}\text{green}}\mapsto1\\
+        \phi^\sharp_2&\colon\quad{\color{orange}\text{orange}}\mapsto3,{\color{dgreen}\text{green}}\mapsto1,
+    \end{align*}
+    while $\phi^\sharp_3\colon\0\to S$ is trivial.
+    \item Some examples of words accepted by this automaton include the word $({\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ the word $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ and the word $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
+    \item Some words are not accepted by the automaton because they lead you to a non-accept state (1 or 2); others are not accepted by the automaton because they lead you to an accept state (3) too early.
+    Some examples of the former possibility include the words $({\color{dgreen}\text{green}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$, while some examples of the latter possibility include the words $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{example}[Graphs] \label{ex.graph_dyn}
+Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map $t \colon E \to V$, there is an associated polynomial
+\[
+    g := \sum_{v \in V} \yon^{s\inv(v)}.
+\]
+We call this the \emph{emanation polynomial of $G$}.
+
+The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_\1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
+\end{example}
+
+\begin{exercise}
+Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
+Draw the associated labeled transition system as in \cref{ex.labeled_transition}.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{example}[Adding a pause button]\label{ex.pause}
+Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button,'' meaning that for any state (and any position), we add an input that keeps the state where it is.
+
+To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity $\id_S\colon S\to S$ (see \cref{exc.pause}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
+\end{example}
+
+\begin{exercise}\label{exc.pause}
+What does it mean in \cref{ex.pause} that the map $\epsilon\colon S\yon^S\to\yon$ is given by the identity $\id_S$?
+\begin{solution}
+A lens $\epsilon\colon S\yon^S\to\1\yon^\1$ consists of a function $\epsilon_\1\colon S\to\1$, of which there is only one possible, and a function $\epsilon^\sharp\colon S\times\1\to S$. While $S\times\1$ is not literally equal to $S$, and hence $\epsilon^\sharp$ can't literally be the identity, there is a canonical isomorphism $S\times\1\cong S$ given by the functions $(s,1)\mapsto s$ and $s\mapsto (s,1)$. It is this canonical isomorphism that is meant here.
+\end{solution}
+\end{exercise}
+
+\begin{example}[Repeater]
+Suppose given a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
+
+For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
+\[\psi\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
+which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
+\[
+A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
+\]
+In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
+
+For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
+\end{example}
+
+\begin{example}[Inputting a start state]
+Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
+
+Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
+\[
+S'\yon^{S'}\to\yon+\yon^S
+\]
+that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
+
+To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+\end{example}
+
+\begin{exercise}
+Find what you think is an interesting generalization of deterministic finite state automata that you can model using dependent Moore machines.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{example}\label{ex.movement_options}
+Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}=\{1,\ldots,n\}$ let $d(i)$ be the set
+\[
+	d(i)\coloneqq
+	\begin{cases}
+		\{0,1\}&\tn{ if }i=1\\
+		\{-1,0\}&\tn{ if }i=n\\
+		\{-1,0,1\}&\tn{ if } 1<i<n
+	\end{cases}
+\]
+So $d(i)$ is the set of directions someone could move (or not move) if at position $i$.
+\[
+\begin{tikzpicture}[scale=.5]
+  \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
+	\draw[->, red ] (-2.5,3.5) -- (-1.5, 3.5);
+	\draw[->, red ] (-2.5,3.5) -- (-1.5, 2.5);
+	\draw[->, red ] (-2.5,3.5) -- (-2.5, 2.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5, 0.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5, 0.5);
+	\draw[->, blue] (1.5, 0.5) -- (1.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (1.5,-0.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (0.5,-0.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5, 1.5);
+	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
+\end{tikzpicture}
+\]
+Then a dependent Moore machine of the form $S\yon^S\to p$, where
+\[
+p= \sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{d(i)\times d(j)},
+\]
+is one that has more movement options when it is in the center of the grid than when it is on the sides or corners.
+\end{example}
+
+\begin{exercise}
+Add to \cref{ex.movement_options} as follows.
+\begin{enumerate}
+	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a ``reward value'' $r\in\rr$. 
+	\item Define the set $S$ of robot states so that an element $s\in S$ includes both the robot's position and a list of all reward values so far.
+	\item Define a lens $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
+\qedhere
+\end{enumerate}
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{example}\label{ex.generalized_file_reader}
+In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but give the robot a different interface when it is in read-mode: namely, one where it cannot take in signals.
+
+Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
+current position $s$ and a terminal position $t$. For our interface, we'll have
+two modes, each of which returns an ascii character:
+\[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
+\]
+%%
+%% Jaz: In Haskell, this would read
+%%      data \Out{FileReader} = Accepting ascii | Busy ascii
+%%
+For our input, we need a family $\In{FileReader} \colon \Out{FileReader} \to \smset$.
+We'll define this by cases:
+\begin{align*}
+  \In{FileReader}(\fun{Accepting}(c)) &= \State{FileReader}, \\
+  \In{FileReader}(\fun{Busy}(c)) &= \ord{1}.
+\end{align*}
+
+Our file reader will be $\fun{Accepting}$ if its current position is the
+terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
+return the ascii character at the current position.
+\begin{align*}
+  \return{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
+\end{align*}
+
+While the file reader is $\fun{Busy}$, it will step forward through the file.
+When it is $\fun{Accepting}$, it will set its new current and terminal position
+to be the input. 
+\begin{align*}
+  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
+\end{align*}
+
+Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
+\[
+(r_\1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
+\]
+as follows.
+
+\[A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle\]
+
+\[A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
+\in C.
+\fun{inl}(f(c)) = \fun{inr}(g(c)) \rangle\]
+
+
+On positions define
+\[
+	r_1(s,t)\coloneqq
+	\begin{cases}
+		\const{inl}\ f(s)&\tn{ if } s=t\\
+		\const{inr}\ f(s)&\tn{ if } s<t
+	\end{cases}
+\]
+
+\[
+	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
+	\qquad
+	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
+\]
+\end{example}
+
+\begin{exercise}
+Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
+Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
+
+Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
+\[
+	H\coloneqq\{\text{down, up}\}
+	\qqand
+	P\coloneqq\{\text{press, no press}\}.
+\]
+Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
+
+As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
+\[
+	\textit{you}\coloneqq HP\yon^H
+	\qqand
+	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\]
+
+Now we want to give the interaction between you and the chalk.
+As we said before, you see the chalk's height.
+If your hand is not at the height of the chalk, the chalk receives no pressure.
+Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
+Furthermore, if the chalk is in your possession, it also receives your hand's height. 
+
+To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
+\[
+	HP\yon^H\otimes H\yon^P\To{\psi}\yon
+	\qqand
+	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
+\]
+The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
+\[
+  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
+  \begin{cases}
+  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
+  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
+  \end{cases}
+\]
+
+So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession.'' We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
+\begin{equation}\label{eqn.chalk_dynamics}
+	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\end{equation}
+As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
+\begin{align*}
+  (\text{out}, h_\textit{chalk})&\mapsto
+  	\left(\text{out}, h_\textit{chalk},
+		\begin{aligned}
+			\text{no press} &\mapsto (\text{out, down}) \\
+			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
+		\end{aligned}\right)\\
+	(\text{in}, h_\textit{chalk})&\mapsto
+		\left(\text{in},h_\textit{chalk},
+		\begin{aligned}
+			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
+			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
+		\end{aligned}\right)
+\end{align*}
+Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
+\end{example}
+
+\begin{exercise}\label{exc.pickup_chalk}
+\begin{enumerate}
+	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
+	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
+    This amounts to a function $HPH \to HHP$.
+    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
+    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
+    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
+    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+%---- Section ----%
+
 
 %---- Subsection ----%
 \subsection{Products: interfaces operating on the same system}
@@ -4758,332 +5189,6 @@ satisfying certain well-known laws. We won't prove this unless or until we need 
 
 % Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
 % \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
-
-%---- Section ----%
-\section{Dependent systems}\label{sec.dependent_systems}
-
-Everything we've done above was for interfaces of the form $B\yon^A$, i.e.\ for monomials. But the theory works just as well for an arbitrary $p$, a sum of monomials.
-
-\begin{definition}[Dependent systems]\label{def.gen_moore}
-A \emph{dependent system} is a lens
-\[S\yon^S\to p\]
-for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states} and the polynomial $p$ is called the \emph{(poly-) interface}.
-\end{definition}
-
-We could also call these \emph{generalized Moore machines}, since Moore machines were seen to be given by the special case $p\coloneqq B\yon^A$ for sets $A,B$.
-For the standard Moore machines that we have been working with, the set of inputs was always fixed; if the interface were $B\yon^A$, the set of inputs would always be $A$.
-
-On the other hand, an arbitrary polynomial looks like $p\coloneqq\sum_{j \in J} B_j\yon^{A_j}$.
-So the output of a dependent system with interface $p$ is an element of the coproduct $\sum_{j \in J} B_j$.
-Then which $B_j$ the output is in determines the sort of input $A_j$ you get.
-The set of inputs is no longer constant; it varies depending on the current output.
-What kind of system has that kind of a relationship between its inputs and outputs?
-
-Well, we can begin to think of outputs not only as outward expressions, but as positions that one takes within one's arena---terminology we've been using all along.
-If the arena is your body, then your outputs would be the positions that your body could take.
-This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc.
-In fact, every form of output you provide, from talking to gesturing to moving another object, is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
-
-\slogan{The position you're in is itself a sensory organ: a hand outstretched, an eye open or closed.}
-
-If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
-
-But however you think of dependent systems, we need to get a feel for how they work mathematically. Let's start with something familiar.
-
-\begin{example}\label{ex.regular_lang_stop}
-Recall regular languages from \cref{def.dfa}. Often one does not want to ``keep going'' after recognizing a word in one's language. For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
-\[
-(f_\1,f^\sharp)\colon S\yon^S\to \yon^A+\1
-\]
-To give such a map, one in particular provides a function $f_\1\colon S\to\2$; here we are thinking of $\2$ as the position-set of $\yon^A+\1$. A function $f_\1$ sends some elements of $S$ to $1$ and sends others to $2$; those that are sent to $2$ are said to be ``accepted.'' This is captured by the fact that there are no options in the term $\1$, no inputs available there. In other words, the function $f^\sharp$ is trivial there.
-
-On the other hand, $f^\sharp_s$ is not trivial on those elements $s\in S$ for which $f_\1(s)=1$. They must come equipped with a function $f^\sharp_s\colon A\to S$, saying how the machine updates on each element of $A$, starting at state $s$. Again, this is in line with the way state machines encode regular languages.
-\end{example}
-
-\begin{exercise}\label{exc.det_fsa_misc_398}
-Consider the deterministic finite state automaton shown below:
-\[
-\begin{tikzcd}[column sep=small]
-	\LMO{}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
-	\LMO{}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
-	\LMO{}
-\end{tikzcd}
-\]
-The state without any outgoing arrows is the ``accept'' state for a regular language, and the left-most state is the start state. Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
-
-\begin{enumerate}
-	\item What is $S$?
-	\item What is $A$?
-	\item In terms of regular languages, what is the alphabet here?
-	\item Specify the lens $S\yon^S\to\yon^A+1$.
-	\item Name a word that is accepted by this machine.
-	\item Name a word that is not accepted by this machine.
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}[Graphs] \label{ex.graph_dyn}
-Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map $t \colon E \to V$, there is an associated polynomial
-\[
-    g := \sum_{v \in V} \yon^{s\inv(v)}.
-\]
-We call this the \emph{emanation polynomial of $G$}.
-
-The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_\1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
-\end{example}
-
-\begin{exercise}
-Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
-Draw the associated labeled transition system as in \cref{ex.labeled_transition}.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}[Adding a pause button]\label{ex.pause}
-Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button,'' meaning that for any state (and any position), we add an input that keeps the state where it is.
-
-To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity $\id_S\colon S\to S$ (see \cref{exc.pause}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
-\end{example}
-
-\begin{exercise}\label{exc.pause}
-What does it mean in \cref{ex.pause} that the map $\epsilon\colon S\yon^S\to\yon$ is given by the identity $\id_S$?
-\begin{solution}
-A lens $\epsilon\colon S\yon^S\to\1\yon^\1$ consists of a function $\epsilon_\1\colon S\to\1$, of which there is only one possible, and a function $\epsilon^\sharp\colon S\times\1\to S$. While $S\times\1$ is not literally equal to $S$, and hence $\epsilon^\sharp$ can't literally be the identity, there is a canonical isomorphism $S\times\1\cong S$ given by the functions $(s,1)\mapsto s$ and $s\mapsto (s,1)$. It is this canonical isomorphism that is meant here.
-\end{solution}
-\end{exercise}
-
-\begin{example}[Repeater]
-Suppose given a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
-
-For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
-\[\psi\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
-which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
-\[
-A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
-\]
-In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
-
-For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
-\end{example}
-
-\begin{example}[Inputting a start state]
-Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
-
-Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
-\[
-S'\yon^{S'}\to\yon+\yon^S
-\]
-that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
-
-To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
-\end{example}
-
-\begin{exercise}
-Find what you think is an interesting generalization of deterministic finite state automata that you can model using generalized Moore machines.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}\label{ex.movement_options}
-Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}=\{1,\ldots,n\}$ let $d(i)$ be the set
-\[
-	d(i)\coloneqq
-	\begin{cases}
-		\{0,1\}&\tn{ if }i=1\\
-		\{-1,0\}&\tn{ if }i=n\\
-		\{-1,0,1\}&\tn{ if } 1<i<n
-	\end{cases}
-\]
-So $d(i)$ is the set of directions someone could move (or not move) if at position $i$.
-\[
-\begin{tikzpicture}[scale=.5]
-  \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
-	\draw[->, red ] (-2.5,3.5) -- (-1.5, 3.5);
-	\draw[->, red ] (-2.5,3.5) -- (-1.5, 2.5);
-	\draw[->, red ] (-2.5,3.5) -- (-2.5, 2.5);
-	\draw[->, blue] (1.5, 0.5) -- (0.5, 0.5);
-	\draw[->, blue] (1.5, 0.5) -- (2.5, 0.5);
-	\draw[->, blue] (1.5, 0.5) -- (1.5, 1.5);
-	\draw[->, blue] (1.5, 0.5) -- (1.5,-0.5);
-	\draw[->, blue] (1.5, 0.5) -- (0.5, 1.5);
-	\draw[->, blue] (1.5, 0.5) -- (0.5,-0.5);
-	\draw[->, blue] (1.5, 0.5) -- (2.5, 1.5);
-	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
-\end{tikzpicture}
-\]
-Then a generalized Moore machine of the form $S\yon^S\to p$, where
-\[
-p= \sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{d(i)\times d(j)},
-\]
-is one that has more movement options when it is in the center of the grid than when it is on the sides or corners.
-\end{example}
-
-\begin{exercise}
-Add to \cref{ex.movement_options} as follows.
-\begin{enumerate}
-	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a ``reward value'' $r\in\rr$. 
-	\item Define the set $S$ of robot states so that an element $s\in S$ includes both the robot's position and a list of all reward values so far.
-	\item Define a lens $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but give the robot a different interface when it is in read-mode: namely, one where it cannot take in signals.
-
-Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
-current position $s$ and a terminal position $t$. For our interface, we'll have
-two modes, each of which returns an ascii character:
-\[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
-\]
-%%
-%% Jaz: In Haskell, this would read
-%%      data \Out{FileReader} = Accepting ascii | Busy ascii
-%%
-For our input, we need a family $\In{FileReader} \colon \Out{FileReader} \to \smset$.
-We'll define this by cases:
-\begin{align*}
-  \In{FileReader}(\fun{Accepting}(c)) &= \State{FileReader}, \\
-  \In{FileReader}(\fun{Busy}(c)) &= \ord{1}.
-\end{align*}
-
-Our file reader will be $\fun{Accepting}$ if its current position is the
-terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
-return the ascii character at the current position.
-\begin{align*}
-  \return{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
-\end{align*}
-
-While the file reader is $\fun{Busy}$, it will step forward through the file.
-When it is $\fun{Accepting}$, it will set its new current and terminal position
-to be the input. 
-\begin{align*}
-  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
-\end{align*}
-
-Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
-\[
-(r_\1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
-\]
-as follows.
-
-\[A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle\]
-
-\[A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
-\in C.
-\fun{inl}(f(c)) = \fun{inr}(g(c)) \rangle\]
-
-
-On positions define
-\[
-	r_1(s,t)\coloneqq
-	\begin{cases}
-		\const{inl}\ f(s)&\tn{ if } s=t\\
-		\const{inr}\ f(s)&\tn{ if } s<t
-	\end{cases}
-\]
-
-\[
-	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
-	\qquad
-	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
-\]
-\end{example}
-
-\begin{exercise}
-Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
-Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
-
-Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
-\[
-	H\coloneqq\{\text{down, up}\}
-	\qqand
-	P\coloneqq\{\text{press, no press}\}.
-\]
-Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
-
-As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
-\[
-	\textit{you}\coloneqq HP\yon^H
-	\qqand
-	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\]
-
-Now we want to give the interaction between you and the chalk.
-As we said before, you see the chalk's height.
-If your hand is not at the height of the chalk, the chalk receives no pressure.
-Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
-Furthermore, if the chalk is in your possession, it also receives your hand's height. 
-
-To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
-\[
-	HP\yon^H\otimes H\yon^P\To{\psi}\yon
-	\qqand
-	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
-\]
-The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
-\[
-  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
-  \begin{cases}
-  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
-  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
-  \end{cases}
-\]
-
-So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession.'' We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
-\begin{equation}\label{eqn.chalk_dynamics}
-	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\end{equation}
-As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
-\begin{align*}
-  (\text{out}, h_\textit{chalk})&\mapsto
-  	\left(\text{out}, h_\textit{chalk},
-		\begin{aligned}
-			\text{no press} &\mapsto (\text{out, down}) \\
-			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
-		\end{aligned}\right)\\
-	(\text{in}, h_\textit{chalk})&\mapsto
-		\left(\text{in},h_\textit{chalk},
-		\begin{aligned}
-			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
-			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
-		\end{aligned}\right)
-\end{align*}
-Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
-\end{example}
-
-\begin{exercise}\label{exc.pickup_chalk}
-\begin{enumerate}
-	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
-	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
-    This amounts to a function $HPH \to HHP$.
-    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
-    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
-    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
-    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
 
 %---- Section ----%
 \section{Wiring diagrams}
@@ -5891,7 +5996,7 @@ The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonica
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-diretions map is the identity by using eval and \cref{ex.dirichlet_dual}.
+    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-directions map is the identity by using eval and \cref{ex.dirichlet_dual}.
     The example shows that
     \[
         \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
