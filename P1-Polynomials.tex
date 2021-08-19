@@ -202,7 +202,7 @@ Aesthetically speaking, here's the associated polynomial of a beautiful corolla 
 \[
 \yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
 \]
-It's reminiscent (and formally related) to the notion of lists: if $A$ is any set, then $A^\0+A^\1+A^\2+\cdots$ is the set of lists (i.e.\ finite ordered sequences) with entries in $A$. 
+It's reminiscent (and formally related) to the notion of lists: if $A$ is any set, then $A^\0+A^\1+A^\2+\cdots$ is the set $\lst(A)$ of lists (i.e.\ finite ordered sequences) with entries in $A$. 
 
 Here's a picture of this lovely forest:
 \[
@@ -2496,7 +2496,7 @@ By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
     &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
     &\iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_\1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_\1\inv(j) = \{i \in p(1) \ | \ f_\1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_\1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_\1\inv(j) = \{i \in p(1) \mid f_\1(i) = j\}$ for each $j \in q(\1)$.
 
 \item To explain how the set
 \[
@@ -3053,7 +3053,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 	\item Given a topological space $X$, we can define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x \in X$ are the open neighborhoods of $x$.
 	In other words,
 	\[
-	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \ss X \ | \ x \in U, \, U \text{ open} \}}.
+	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \ss X \mid x \in U, \, U \text{ open} \}}.
 	\]
 	\item \label{exc.top_poly_func.morphs} For every continuous map $f \colon X \to Y$, we give a lens $p_f \colon p_X \to p_Y$.
 	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f\inv(U)$ of $x$.
@@ -4001,7 +4001,7 @@ Upon receiving this quantity, each subordinate then gives their stakeholder thei
 \begin{example}\label{ex.list_monoids}
 Here are two examples of $\otimes$-monoid structures carried by 
 \[\ell \coloneqq \sum_{n\in\nn} \yon^{\ord{n}} = \1+\yon+\yon^\2+\cdots,\]
-the ``list'' polynomial, whose position-set is $\nn$ and whose direction-set at $n\in\nn$ is $\ord{n}$.\footnote{We call this the ``list'' polynomial because, when viewed as a functor $\smset\to\smset$, it sends each set $A$ to the set of finite lists (i.e.\ sequences) of elements in $A$, often denoted $\Set{List}(A)$ or $A^*$.
+the ``list'' polynomial, whose position-set is $\nn$ and whose direction-set at $n\in\nn$ is $\ord{n}$.\footnote{We call this the ``list'' polynomial because, when viewed as a functor $\smset\to\smset$, it sends each set $A$ to the set of finite lists (i.e.\ sequences) of elements in $A$, often denoted $\lst(A)$ or $A^*$.
 You may know this polynomial as the list monad, the free monoid (on a set), or the Kleene star.}
 The first $\otimes$-monoid we'll discuss is commutative, while the second $\otimes$-monoid is not.
 We will check that they satisfy the necessary conditions of an $\otimes$-monoid in \cref{exc.list_monoids}.
@@ -4149,8 +4149,8 @@ But if we feed the machine input $a \in A$, the machine will switch to a new sta
 Note that this new state depends not only on the input the machine receives, but also on the state the machine is in when it receives that input.
 
 \begin{example}\label{ex.Moore_three}
-Here's a picture of a Moore machine with $S\coloneqq\3$ states:
-\[
+Here's a labeled transition diagram of a Moore machine with $S\coloneqq\3$ states:
+\begin{equation} \label{eqn.trans_diag}
 \begin{tikzpicture}
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
@@ -4160,7 +4160,7 @@ Here's a picture of a Moore machine with $S\coloneqq\3$ states:
   \end{tikzcd}
   };
 \end{tikzpicture}
-\]
+\end{equation}
 Each state is labeled by the output value it returns: an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, representing the two possible inputs, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
 The targets of the arrows indicate the updated state.
 
@@ -4280,7 +4280,7 @@ If the machine begins in state $b_0$ and is given a sequence $(a_1,a_2,\ldots)$ 
 \end{example}
 
 \begin{exercise}\label{exc.funs_to_moore}
-Suppose we are given a function $f\colon A\times B\to B$.
+Suppose we have a function $f\colon A\times B\to B$.
 \begin{enumerate}
 	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
 	\item Would you say the machine is memoryless?
@@ -4407,26 +4407,26 @@ The Turing machine interacts with the tape by asking for the value at the curren
 Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
 We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as entries in the file and, for each entry $i \in \ord{n}$, the value $f(i)$ as the character at entry $i$.
 
-Given a file $f$, make a robot (Moore machine) whose output type is $\Set{ascii} + \{\text{done}\}$
+Given a file $f$, make a file-reading Moore machine whose output type is $\Set{ascii} + \{\text{``done''}\}$
 and whose input type is
 \[
-\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}.
+\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}.
 \]
-For any input, if it is of the form $(s,t)$, then the robot should go to entry $s$ in the file and read the character at that entry.
-If the input is ``continue,'' the robot should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character—unless the new entry would be greater than $t$, in which case the robot should continually output ``done'' until it receives another $(s,t)$ pair.
+For any input, if it is of the form $(s,t)$, then the file-reader should go to entry $s$ in the file and read the character at that entry.
+If the input is ``continue,'' the file-reader should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character—unless the new entry would be greater than $t$, in which case the file-reader should continually output ``done'' until it receives another $(s,t)$ pair.
 \begin{solution}
-Given a file $f \colon \ord{n} \to \Set{ascii}$, we construct our file-reading robot as a Moore machine as follows.
-There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ is the entry where the robot is current located, while $t$ is the entry where the robot should stop.
-But we will also include a ``stopped'' state to record when the robot has already stopped.
+Given a file $f \colon \ord{n} \to \Set{ascii}$, we construct our file-reader as a Moore machine as follows.
+There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ is the entry where the file-reader is currently located, while $t$ is the entry where the file-reader should stop.
+But we will also include a ``stopped'' state to record when the file-reader has already stopped.
 So the Moore machine is a lens
 \[
-    (\ord{n}^\2+\{\text{stopped}\})\yon^{\ord{n}^\2+\{\text{stopped}\}} \to (\Set{ascii} + \{\text{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}}.
+    (\ord{n}^\2+\{\text{``stopped''}\})\yon^{\ord{n}^\2+\{\text{``stopped''}\}} \to (\Set{ascii} + \{\text{``done''}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}}.
 \]
-If the robot's current state is ``stopped,'' then the robot should output ``done.'' Otherwise, the robot should output the character at the entry where the robot is currently located.
-So its return function $\ord{n}^\2+\{\text{done}\} \to \Set{ascii} + \{\text{done}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
+If the file-reader's current state is ``stopped,'' then the file-reader should output ``done.'' Otherwise, the file-reader should output the character at the entry where the file-reader is currently located.
+So its return function $\ord{n}^\2+\{\text{``done''}\} \to \Set{ascii} + \{\text{``done''}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
 Meanwhile, the update function
 \[
-    (\ord{n}^\2+\{\text{done}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{continue}\}) \to \ord{n}^\2+\{\text{done}\}
+    (\ord{n}^\2+\{\text{``done''}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}) \to \ord{n}^\2+\{\text{``done''}\}
 \]
 sends any state with input $(s,t)$ to the state $(s,t)$.
 On the other hand, if the input is ``continue,'' an old state $(i,t)$ is sent to the new state $(i+1,t)$ if $i + 1 \leq t$ and ``done'' otherwise.
@@ -4434,15 +4434,15 @@ Finally, if the old state is ``done'' and the input is ``continue,'' the new sta
 \end{solution}
 \end{exercise}
 
-While \cref{exc.file_reader} gives us a functioning file-reading robot, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of entries before the robot has finished reading from the previous range.
+While \cref{exc.file_reader} gives us a functioning file-reader, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of entries before the file-reader has finished reading from the previous range.
 In \cref{sec.poly.dyn_sys.depend_sys}, we'll introduce a generalization of Moore machines to handle cases like these, where the array of inputs the machine can receive changes depending on the output that it just returned.
-In particular, we will be able to let the robot ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
+In particular, we will be able to let the file-reader ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
 
-\paragraph{Deterministic state automata}
+\subsubsection{Deterministic state automata}
 
 % Regular languages are very important in computer science. One way to express what they are is to say that they are exactly the languages recognizable by a deterministic state automaton. What is that?
 
-The picture in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine (with a preset initial state).
+The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine (with a preset initial state).
 
 \begin{definition}\label{def.dfa}
 A \emph{deterministic state automaton} consists of
@@ -4453,13 +4453,13 @@ A \emph{deterministic state automaton} consists of
 	\item an element $s_0\in S$, called the \emph{initial state}; and
 	\item a subset $F\ss S$, called the \emph{accept states}.
 \end{enumerate}
-Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined
+Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$ (i.e.\ an element of $\lst(A)$, the free monoid on $A$), we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined
 \[
     s_{k+1}\coloneqq u(s_k,a_{k+1})
 \]
 for all $k\in\nn$ is such that $s_n$ is an accept state: $s_n\in F$.
 
-We call any set of words comprised of elements in $A$ a \emph{language}, and we say that the set of all words that the automaton accepts is the language \emph{recognized} by the automaton.
+We call any set of words in $\lst(A)$ a \emph{language}, and we say that the set of all words that the automaton accepts is the language \emph{recognized} by the automaton.
 \end{definition}
 
 \begin{remark}
@@ -4486,21 +4486,25 @@ So there is one update function $u_s\colon A\to S$ if $f(s)=1$, and a different 
 But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$.
 Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
-\section{Dependent systems}\label{sec.poly.dyn_sys.depend_sys}
-%again, to do this requires polynomials (in this case, $\yon^A+1$), which we'll get to in \cref{sec.poly.dyn_sys.depend_sys}.
+\section{Dependent dynamical systems}\label{sec.poly.dyn_sys.depend_sys}
 
 As lenses, each of our Moore machines above has an interface of the form $B\yon^A$, i.e.\ a monomial.
 Every representable summand of the interface has the same exponent $A$, corresponding to the fact that the set of available inputs into the machine is always $A$.
 But by replacing $B\yon^A$ with an arbitrary polynomial $p$---a sum of monomials, in which different representable summands may have different exponents---we will allow our input set to change.
 
-\begin{definition}[Dependent systems]\label{def.gen_moore}
-A \emph{dependent system} (or a \emph{dependent Moore machine}) is a lens
-\[S\yon^S\to p\]
+\begin{definition}[Dependent dynamical systems]\label{def.gen_moore}
+A \emph{dependent dynamical system} (or a \emph{dependent Moore machine}, or simply a \emph{dynamical system}) is a lens
+\[\phi\colon S\yon^S\to p\]
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states}---with $S\yon^S$ called the \emph{state system}---and the polynomial $p$ is called the \emph{interface}.
+Positions of the interface are called \emph{outputs}, and directions of the interface are called \emph{inputs}.
+
+The lens's on-positions function $\phi_\1\colon S\to p(\1)$ is called the \emph{return function}, and for each $s\in S$, the lens's on-directions function $\phi^\sharp_s\colon p[\phi_\1(s)]\to S$ is called the \emph{update function} at $s$.
 \end{definition}
 
-The output of a dependent system with interface $p$ is a $p$-position: an element of the set $p(\1)$.
-Then the input must come from the direction-set $p[i]$.
+\subsection{Thinking about dependency}
+
+The current output $i$ of a dependent dynamical system with interface $p$ is a $p$-position: an element of the set $p(\1)$.
+Then any input provided to the update function at that time must come from the direction-set $p[i]$.
 So the set of available inputs varies depending on the current output.
 What kind of system has that kind of a relationship between its inputs and outputs?
 
@@ -4515,10 +4519,10 @@ In fact, every form of output you provide, from talking to gesturing to moving a
 If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
 
 \begin{remark}
-It may seem limiting that the set of possible inputs of a dependent system should depend on the current \emph{output}, rather than the current \emph{state}.
+It may seem limiting that the set of possible inputs of a dependent dynamical system should depend on the current \emph{output}, rather than the current \emph{state}.
 Isn't it possible to have a system with different states that give the same output but take in inputs from different sets?
 
-Philosophically, the answer to this question is ``no'' as long as we think about the interface of a dependent system as capturing everything about how the system interacts with the outside world.
+Philosophically, the answer to this question is ``no'' as long as we think about the interface of a dynamical system as capturing everything about how the system interacts with the outside world.
 In particular, the output of a system should capture everything an external observer could possibly perceive about the system, while the input set should capture every way an external force can independently decide to interact with the system.
 
 But if the range of ways in which an external agent can choose to interact with the system \emph{changes}, the external agent should be able to detect this fact!
@@ -4526,9 +4530,13 @@ If the internal state changes, but the external output remains the same, the age
 That's why it makes sense for the set of possible inputs to depend not on the hidden internal state, but on the output currently exposed.
 \end{remark}
 
-But however you think of dependent systems, we need to get a feel for how they work mathematically.
-We'll do this by going through many examples.
+But however you think of dependent dynamical systems, we need to get a feel for how they work mathematically.
+We'll do this by going through several examples.
+
+\subsection{Examples of dependent dynamical systems}
 To start, let's finish up the example from the end of the last section.
+
+\subsubsection{Halting deterministic state automata}
 
 \begin{example}\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
@@ -4537,19 +4545,19 @@ For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
 \[
 \phi\colon S\yon^S\to \yon^A+\1.
 \]
-To give such a map, we provide an on-positions function $\phi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
+To give such a map, we provide a return function $\phi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
 A function $\phi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
 
 If we reach an accept state, we want the machine to halt.
 So at the position $2$, corresponding to the summand $\1$, there are no directions---and thus no inputs available.
-In other words, the on-directions function $\phi^\sharp_s$ is trivial when $\phi_\1(s)=2$.
+In other words, the update function $\phi^\sharp_s$ is trivial when $\phi_\1(s)=2$.
 
 On the other hand, $\phi^\sharp_s$ is not trivial on those elements $s\in S$ for which $\phi_\1(s)=1$.
-Instead, these on-directions functions $\phi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
+Instead, these update functions $\phi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
 This is in line with the way the automaton's update function behaves.
 
-When equipped with an initial state $s_0\in S$ specified by a map $\yon\to S\yon^S$, we call these dependent systems \emph{halting deterministic state automata}.
-Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\phi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\phi_\1(s_k)=1$ and
+When equipped with an initial state $s_0\in S$ specified by a map $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
+Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ in $\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\phi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\phi_\1(s_k)=1$ and
 \[
     s_{k+1}=\phi^\sharp_{s_k}(a_{k+1}).
 \]
@@ -4564,11 +4572,15 @@ We will see in \cref{**} a nicer way of saying whether a word is accepted or a l
 \begin{exercise}\label{exc.det_fsa_misc_398}
 Consider the halting deterministic state automaton shown below:
 \begin{equation} \label{eqn.hdsa}
+\begin{tikzpicture}
+\node[draw] {
 \begin{tikzcd}[column sep=small]
 	\LMO{}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
 	\LMO{}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
 	\LMO{}
 \end{tikzcd}
+};
+\end{tikzpicture}
 \end{equation}
 Call the left state 1, the right state 2, and the bottom state 3.
 We designate state $1$ as the initial state.
@@ -4578,7 +4590,7 @@ Answer the following questions, in keeping with the notation from \cref{ex.regul
 \begin{enumerate}
 	\item What is $S$?
 	\item What is $A$?
-	\item Based on the picture, which states are accept states, and which are not?
+	\item Based on the labeled transition diagram, which states are accept states, and which are not?
 	\item Specify the corresponding lens $S\yon^S\to\yon^A+\1$.
 	\item Name a word that is accepted by this automaton.
 	\item Name a word that is not accepted by this automaton.
@@ -4595,8 +4607,8 @@ Here we examine the halting deterministic state automaton depicted in \eqref{eqn
     \item The automaton should halt at the accept states, so the accept states are exactly the states that have no arrows coming out of them---in this case, only state 3.
     States 1 and 2 are not accept states.
     \item Let the corresponding lens be $\phi\colon S\yon^S\to\yon^A+\1$, or $\phi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
-    According to the previous part, $\phi$ has an on-positions function $\phi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
-    Then the two nontrivial on-directions functions behave as follows, according to the \eqref{eqn.hdsa}:
+    According to the previous part, $\phi$ has a return function $\phi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
+    Then the two nontrivial update functions behave as follows, according to the targets of the arrows in \eqref{eqn.hdsa}:
     \begin{align*}
         \phi^\sharp_1&\colon\quad{\color{orange}\text{orange}}\mapsto2,{\color{dgreen}\text{green}}\mapsto1\\
         \phi^\sharp_2&\colon\quad{\color{orange}\text{orange}}\mapsto3,{\color{dgreen}\text{green}}\mapsto1,
@@ -4609,81 +4621,158 @@ Here we examine the halting deterministic state automaton depicted in \eqref{eqn
 \end{solution}
 \end{exercise}
 
-\begin{example}[Graphs] \label{ex.graph_dyn}
+\begin{exercise}
+Find what you think is another interesting generalization of deterministic state automata that you can model using dependent dynamical systems.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\subsubsection{Graphs}
+
+Every graph gives rise to a dynamical system---but to ensure that we are talking about the same thing, let us fix the definition of a graph.
+
+\begin{definition}
+A \emph{graph} $G = (E \tto V)$ consists of an edge set $E$, a vertex set $V$, a source function $s\colon E\to V$, and a target function $t\colon E\to V$.
+\end{definition}
+
+So when we say ``graph,'' we mean a \emph{directed} graph, and we allow multiple edges between the same pair of vertices as well as self-loops.
+
+\begin{example}[Graphs as dynamical systems] \label{ex.graph_dyn}
 Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map $t \colon E \to V$, there is an associated polynomial
 \[
     g := \sum_{v \in V} \yon^{s\inv(v)}.
 \]
-We call this the \emph{emanation polynomial of $G$}.
+Its positions are the vertices of the graph, and at each position $v\in V$, its directions are the edges coming out of $v$.
+We call this the \emph{emanation polynomial} of $G$.
 
-The graph itself can be seen as a dynamical system $f \colon V\yon^V \to g$, where $f_\1 = \id_V$ and $f^\sharp(v, e) = t(e)$.
+The graph itself can be seen as a dynamical system $\phi\colon V\yon^V \to g$, where $\phi_\1 = \id_V$ and $\phi^\sharp_v(e) = t(e)$.
+So its states are the vertices of the graph, each vertex returns itself as output, and an input at a vertex $v\in V$ is an edge $e\in E$ coming out of that vertex that takes us from the vertex $v=s(e)$ along the edge $e$ to its target vertex $\phi^\sharp_v(e)=t(e)$.
 \end{example}
 
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
-Draw the associated labeled transition system as in \cref{ex.labeled_transition}.
+Draw its labeled transition diagram as in \eqref{eqn.trans_diag} or \eqref{eqn.hdsa}.
 \begin{solution}
-**
+No matter what graph you chose, \cref{ex.graph_dyn} tells us that if you were to draw out the labeled transition diagram of its associated dynamical system, you would just end up with a picture of your graph!
+The vertices of your graph are the states, and the edges of your graph are the possible transitions between them.
 \end{solution}
 \end{exercise}
 
-\begin{example}[Adding a pause button]\label{ex.pause}
-Given any dependent dynamical system $f\colon S\yon^S\to p$, we can ``add a pause button,'' meaning that for any state (and any position), we add an input that keeps the state where it is.
+% \begin{example}[Inputting a start state]
+% Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
 
-To do this, note that we have a map $\epsilon\colon S\yon^S\to\yon$ given by identity $\id_S\colon S\to S$ (see \cref{exc.pause}). By the universal property of products, we can pair $f$ and $\epsilon$ to get a map $(f,\epsilon)\colon S\yon^S\to p\yon\cong p\times \yon$. This process is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
-\end{example}
+% Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
+% \[
+% S'\yon^{S'}\to\yon+\yon^S
+% \]
+% that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
 
-\begin{exercise}\label{exc.pause}
-What does it mean in \cref{ex.pause} that the map $\epsilon\colon S\yon^S\to\yon$ is given by the identity $\id_S$?
-\begin{solution}
-A lens $\epsilon\colon S\yon^S\to\1\yon^\1$ consists of a function $\epsilon_\1\colon S\to\1$, of which there is only one possible, and a function $\epsilon^\sharp\colon S\times\1\to S$. While $S\times\1$ is not literally equal to $S$, and hence $\epsilon^\sharp$ can't literally be the identity, there is a canonical isomorphism $S\times\1\cong S$ given by the functions $(s,1)\mapsto s$ and $s\mapsto (s,1)$. It is this canonical isomorphism that is meant here.
-\end{solution}
-\end{exercise}
+% To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+% \end{example}
 
-\begin{example}[Repeater]
-Suppose given a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
+\subsubsection{A generalized file-reader}
 
-For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
-\[\psi\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
-which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
+\begin{example}\label{ex.generalized_file_reader}
+In \cref{exc.file_reader} one is tasked with building a file-reader as a Moore machine, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. 
+Now we turn that file-reader into a dependent dynamical system $\phi\colon S\yon^S\to p$ that cannot take in input while it is reading.
+
+We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
+Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
 \[
-A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
+    p(\1)\coloneqq\sum_{m\in\{\text{``ready''}, \text{``busy''}\}} \Set{ascii}.
 \]
-In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
-
-For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
-\end{example}
-
-\begin{example}[Inputting a start state]
-Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose a start state $\yon\to S\yon^S$, but what if we want some other system to choose the start state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that start state.
-
-Let $S'\coloneqq S+\1$, so that the start state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
+So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: ``ready'' or ``busy.''
+These form the possible outputs of the file-reader.
+As for the inputs, we define the direction-sets of $p$ as follows, for all $c\in\Set{ascii}$:
 \[
-S'\yon^{S'}\to\yon+\yon^S
+    p[(\text{``ready''}, c)]\coloneqq S \qqand p[(\text{``busy''}, c)]\coloneqq\1.
 \]
-that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
+That way, our file-reader can receive any pair of entries in $S$ as input when it is ``ready,'' but can only be told to advance when it is ``busy.''
 
-To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+We want our file-reader to be ``ready'' if its current entry is the terminal entry; otherwise, it will be ``busy.''
+In either case, it will return the ascii character at the current position.
+So we define the return function $\phi_\1$ such that, for all $(s,t)\in S$,
+\begin{align*}
+  \phi_\1(s, t) =
+  \begin{cases}
+    (\text{``ready''}, f(s)) &\mbox{if $s = t$}\\
+    (\text{``busy''}, f(s)) &\mbox{otherwise}  
+  \end{cases}
+\end{align*}
+
+While the file-reader is ``ready,'' we want it to set its new current and terminal entries to be the input.
+So for each $(s,t)\in S$ for which $s=t$, we define the update function $\phi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
+
+On the other hand, while the file-reader is ``busy,'' we want it to step forward through the file each time it receives an input.
+So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\phi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
-\begin{exercise}
-Find what you think is an interesting generalization of deterministic finite state automata that you can model using dependent Moore machines.
+
+
+%% Move to wrapper interfaces
+\begin{exercise} \label{exc.file_searcher}
+Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only emits output $o\in\Set{ascii}$ when $o$ is a specific character---say, $o=100$.
+Give the lens for this file-searcher by explicitly defining its return (on-positions) and update (on-directions) functions.
+Hint: You should be able to use the same state system.
 \begin{solution}
-**
+We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+In place of any other ascii character, we'll have it output $\_$ instead.
+So its possible outputs should form the set
+\[
+    q(\1)\coloneqq\{\text{``ready''}, \text{``busy''}\}\times\{100,\_\}.
+\]
+The direction-sets of $q$ can be defined in the same way we defined the direction-sets of $p$: for each $c\in\{100,\_\}$, we have
+\[
+    q[(\text{``ready''}, c)]\coloneqq S \qqand q[(\text{``busy''}, c)]\coloneqq\1.
+\]
+Then we define the return function $\psi_\1$ like $\phi_\1$, but first checking to see if the character at the current entry is $100$: so for all $(s,t)\in S$,
+\begin{align*}
+  \psi_\1(s, t) =
+  \begin{cases}
+    (\text{``ready''}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
+    (\text{``ready''}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
+    (\text{``busy''}, 100) &\mbox{if $s\neq t$ and $f(s)=100$}\\
+    (\text{``busy''}, \_) &\mbox{otherwise}\\
+  \end{cases}
+\end{align*}
+Then the update functions of $\psi$ behave just like those of $\phi$.
+For each $(s,t)\in S$ for which $s=t$, we define the update function $\psi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
+On the other hand, for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\psi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
 \end{solution}
 \end{exercise}
 
-\begin{example}\label{ex.movement_options}
-Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}=\{1,\ldots,n\}$ let $d(i)$ be the set
+In the previous exercise, we manually constructed a file-searcher that acted very much like a file-reader.
+In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
+Moreover, this construction highlights precisely how our file-searcher is related to our file-reader.
+This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{sec.poly.dyn_sys.new.wrap}.
+
+\subsubsection{A robot on a grid}
+
+\begin{example}\label{ex.grid_robot}
+Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be the set
 \[
-	d(i)\coloneqq
+	D_i\coloneqq
 	\begin{cases}
-		\{0,1\}&\tn{ if }i=1\\
-		\{-1,0\}&\tn{ if }i=n\\
-		\{-1,0,1\}&\tn{ if } 1<i<n
+		\{0,+1\}&\tn{ if }i=1\\
+		\{-1,0,+1\}&\tn{ if } 1<i<n\\
+		\{-1,0\}&\tn{ if }i=n
 	\end{cases}
 \]
-So $d(i)$ is the set of directions someone could move (or not move) if at position $i$.
+We can think of $D_i$ as the set of all directions a robot could move if at position $i$.
+In particular, a robot already at $i=1$ cannot move in the $-1$ direction; likewise, a robot already at $i=n$ cannot move in the $+1$ direction.
+
+Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\phi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
+\[
+    p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
+\]
+The robot's state is a position in the grid.
+We let $\phi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that each state returns itself as output---in particular, the robot returns a position as output by moving to that position in the grid.
+
+Then for each $(i,j)\in\ord{n}\times\ord{n}$, we let $\phi^\sharp_{(i,j)}$ send each pair of directions $(d,e)\in D_i\times D_j$ to the grid position given by $(i+d,j+e)$.
+Concretely, this says that if a robot at position $(i,j)$ in the grid receives the pair of directions $(d,e)$ as its input, its new position in the grid will be $(i+d,j+e)$.
+Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still in the grid.
+With this setup, the robot has more movement options when it is in the center of the grid than when it is on the sides or corners:
 \[
 \begin{tikzpicture}[scale=.5]
   \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
@@ -4700,90 +4789,273 @@ So $d(i)$ is the set of directions someone could move (or not move) if at positi
 	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
 \end{tikzpicture}
 \]
-Then a dependent Moore machine of the form $S\yon^S\to p$, where
-\[
-p= \sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{d(i)\times d(j)},
-\]
-is one that has more movement options when it is in the center of the grid than when it is on the sides or corners.
+
+Note that, in this example, the positions of $p$ are literally the positions in the grid where the robot could be, and the directions of $p$ at each position are literally the directions in which the robot can move!
 \end{example}
 
-\begin{exercise}
-Add to \cref{ex.movement_options} as follows.
+\begin{exercise} \label{exc.grid_reward}
+Modify the dynamical system from \cref{ex.grid_robot} as follows.
 \begin{enumerate}
-	\item Redefine $p$ so that at each grid value, the robot can receive not only the set of directions it can move in but also a ``reward value'' $r\in\rr$. 
-	\item Define the set $S$ of robot states so that an element $s\in S$ includes both the robot's position and a list of all reward values so far.
-	\item Define a lens $S\yon^S\to p$ in a way that respects positions and properly updates the robots list of rewards, but otherwise does anything you want.
+	\item Replace $p$ with another interface $p'$ so that at each grid value, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$. 
+	\item Replace $S$ with another set of states $S'$ so that an element $s\in S'$ may include both the robot's position and a list of all reward values so far.
+	\item With your new $p'$ and $S'$, define a new lens $\phi'\colon S'\yon^{S'}\to p'$ that preserves the behavior of $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot}, but also properly updates the robots list of rewards.
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+We modify the dynamical system from \cref{ex.grid_robot}.
+\begin{enumerate}
+    \item Previously, the set of inputs at each output $(i,j)\in\ord{n}\times\ord{n}$ of our interface $p$ was $D_i\times D_j$.
+    But now we also want to be able to give the robot a ``reward value'' $r\in\rr$.
+    So our new input set should be $D_i\times D_j\times\rr$, making
+    \[
+        p'\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}} \yon^{D_i\times D_j\times\rr}.
+    \]
+    \item Previously, a state was just a position in $\ord{n}\times\ord{n}$.
+    But now we want to be able to record a list of reward values as well.
+    Since each reward value is a real number, it suffices to define the state set to be $S'\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.
+    \item The former return function $\phi_\1\colon S\to p(\1)$ was the identity on $\ord{n}\times\ord{n}$.
+    The new return function $\phi'_\1$ should still just yield the robot's current grid position, but since it is now a function from $S'=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\phi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
+    
+    For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\phi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
+    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\phi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, updating the list of rewards.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with making a file reader $\Sys{FileReader}$, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. Now we take that same idea but give the robot a different interface when it is in read-mode: namely, one where it cannot take in signals.
+In the previous exercise, we added a reward system to the robot on the grid by manually redefining the associated lens.
+But there is a much simpler way to think about the new system as the juxtaposition of two systems, a robot system and a reward system, in parallel.
+We'll see how to express this in terms of lenses in \cref{**}, once we explain how to juxtapose systems like this in general in \cref{sec.poly.dyn_sys.new.par}.
+In fact, we'll see in \cref{**} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
-Let $\State{FileReader} \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$ consist of a
-current position $s$ and a terminal position $t$. For our interface, we'll have
-two modes, each of which returns an ascii character:
-\[\Out{FileReader} = \present{ \fun{Accepting}(c),\, \fun{Busy}(c) \mid c \in \Set{ascii} }
-\]
-%%
-%% Jaz: In Haskell, this would read
-%%      data \Out{FileReader} = Accepting ascii | Busy ascii
-%%
-For our input, we need a family $\In{FileReader} \colon \Out{FileReader} \to \smset$.
-We'll define this by cases:
-\begin{align*}
-  \In{FileReader}(\fun{Accepting}(c)) &= \State{FileReader}, \\
-  \In{FileReader}(\fun{Busy}(c)) &= \ord{1}.
-\end{align*}
 
-Our file reader will be $\fun{Accepting}$ if its current position is the
-terminal position; otherwise, it will be $\fun{Busy}$. In either case, it will
-return the ascii character at the current position.
-\begin{align*}
-  \return{FileReader}(s, t) = \begin{cases} \fun{Accepting}(f(s)) &\mbox{if $s = t$}\\ \fun{Busy}((f(s)))  \end{cases}
-\end{align*}
+%---- Section ----%
+\section{Constructing new dynamical systems from old}\label{sec.poly.dyn_sys.new}
 
-While the file reader is $\fun{Busy}$, it will step forward through the file.
-When it is $\fun{Accepting}$, it will set its new current and terminal position
-to be the input. 
-\begin{align*}
-  \update{FileReader}(s, t) = \begin{cases} \_ \mapsto (s + 1, t) &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Busy}$} \\ (s', t') \mapsto (s', t') &\mbox{if $\return{FileReader}(s, t)$ is $\fun{Accepting}$}  \end{cases}
-\end{align*}
+We have now seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
+But we have yet to take full advantage of the categorical structure that $\poly$ provides.
+In particular, purely based on what we know of $\poly$ so far from \cref{ch.poly.func_nat}, we have three rather different ways of obtaining new dynamical systems from old ones:
+\begin{enumerate}
+    \item Given dynamical systems $S\yon^S\to p$ and $S\yon^S\to q$, we can use the universal property of the \emph{categorical product} to obtain a dynamical system $S\yon^S\to p\times q$; see \cref{sec.poly.dyn_sys.new.prod}.
+    \item Given dynamical systems $\phi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\phi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{sec.poly.dyn_sys.new.par}.
+    \item Given a dynamical system $\phi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\phi\then f\colon S\yon^S\to q$; see \cref{sec.poly.dyn_sys.new.wrap}.
+\end{enumerate}
+Each of these operations has a concrete interpretation in terms of dynamical systems.
+In this section, we'll review each of them in turn.
 
-Let $A\coloneqq\{(s,t)\mid 1\leq s\leq t\leq n\}$, and let $p\coloneqq \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1$; we construct a morphism in $\poly$
+%---- Subsection ----%
+\subsection{Categorical products: multiple interfaces operating on the same states}\label{sec.poly.dyn_sys.new.prod}
+
+For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
+Then by the universal property of products in $\poly$, there is an induced lens \[\phi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
+
+We can characterize the dynamics of $\phi$ in terms of each original dynamical system $\phi_i$ as follows.
+By \cref{exc.poly_prod}, the return function \[\phi_\1\colon S\to\prod_{i\in\ord{n}}p_i(\1)\] sends each state $s\in S$ to the corresponding $n$-tuple of outputs $((\phi_i)_\1(s))_{i\in\ord{n}}$ returned by each of the original dynamical systems at that state.
+Then at each state $s\in S$, the update function \[\phi^\sharp_s\colon\sum_{i\in\ord{n}}p_i[(\phi_i)_\1(s)]\to S\] sends each pair $(i,d)$ in its domain, with $i\in\ord{n}$ and $d\in p_i[(\phi_i)_\1(s)]$, to where the update function of $\phi_i$ at $s$ sends $d$: namely $(\phi_i)^\sharp_s(d)$.
+
+In other words, if there are multiple interfaces that can drive the same set of states, we may view them as a single product interface that can drives those states.
+This single dynamical system returns output in all of the original systems at once; then it can receive input from any one of the original systems' input sets and update its state accordingly.
+It's as though each of the dynamical systems can see where the combined system is at any time, but only one of them can actually operate it at any given time.
+So products give us a universal way to combine multiple polynomial interfaces into one.
+
+\begin{exercise}
+Given $n\in\nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S$ for each $i \in \ord{n}$.
+Show that there is an induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine, again with state set $S$.
+\begin{solution}
+We are given $n\in\nn$ and an $(A_i,B_i)$-Moore machine with state set $S$, i.e.\ a lens $S\yon^S\to B_i\yon^{A_i}$, for each $i\in\ord{n}$.
+The universal property of products in $\poly$ gives us a lens
 \[
-(r_\1,r^\sharp)\colon A\yon^A\to \Set{ascii}\mdot\yon^A+\Set{ascii}\mdot\yon^\1
+    S\yon^S\to\prod_{i\in\ord{n}}B_i\yon^{A_i}\iso\left(\prod_{i\in\ord{n}}B_i\right)\yon^{\sum_{i\in\ord{n}}A_i},
 \]
-as follows.
+which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
+\end{solution}
+\end{exercise}
 
-\[A + B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B \rangle\]
-
-\[A +_C B = \langle \fun{inl}(a), \fun{inr}(b) \mid a \in A, b \in B, \forall c
-\in C.
-\fun{inl}(f(c)) = \fun{inr}(g(c)) \rangle\]
-
-
-On positions define
+\begin{example} \label{ex.labeled_transition}
+Consider two four-state dependent dynamical systems $\phi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,p$ as red, blue, green, and purple, respectively):
 \[
-	r_1(s,t)\coloneqq
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{-2}\ar[d, green!50!black]&
+  	\LMO{4}\ar[l, green!50!black]\ar[d, blue!50!purple]\\
+  	\LMO[under]{-8}\ar[loop left, green!50!black]&
+  	\LMO[under]{16}\ar[ul, green!50!black]\ar[l, blue!50!purple]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
+\]
+
+The universal property of products provides a unique way to put these systems together to obtain a dynamical system $\4\yon^\4\to\rr\zz_{\geq0}\yon^{\{r,b,g,p\}}+\rr\zz_{<0}\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+  	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[d, bend right=15pt, blue!50!purple]\ar[l, green!50!black]\\
+  	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[l, blue!50!purple]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state now returns two outputs: one according to the return function of $\phi$, and another according to the return function of $\psi$.
+As for the possible inputs, we now have the option of giving either an input from a direction-set of $\phi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\phi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding oneupdate function of $\psi$.
+\end{example}
+
+\begin{exercise}[Toward event-based systems]
+Let $\phi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
+
+So suppose we want to allow our dynamical system not to do anything. That is, rather than needing to press a button corresponding to a direction of $p$ at each time step, we want to be able to \emph{not} press any button, in which case the system just stays where it is. We want a new system $\phi'\colon S\yon^S\to p'$ that has this behavior; what are $p'$ and $\phi'$?
+\begin{solution}
+Given a dynamical system $\phi\colon S\yon^S\to p$, we seek a new dynamical system $\phi'\colon S\yon^S\to p'$ that has the added option to provide no input at a step so that the state does not change.
+We can think of this as having two different interfaces acting on the same system: the original interface $p$ of $\phi$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the state.
+This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
+So the second interface we want acting on $S\yon^S$ is $\yon$.
+
+If $\yon$ were the only interface acting on the system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
+Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\phi'\colon S\yon^S \to p'$ is the unique map induced by $\phi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
+In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\phi'$ consists of a return function $\phi'_\1\colon S \to p(\1)$ that is the same as the return function of $\phi$ and, for each state $s\in S$, an update function $\phi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\phi$ at $s$ when the input is from $p[i]$ (sending $d\in p[i]$ to $\phi^\sharp_s(d)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
+
+This construction is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
+\end{solution}
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Parallel products: juxtaposing dynamical systems}\label{sec.poly.dyn_sys.new.par}
+
+Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.func_nat.prepare_dyn.par}.
+In particular, the parallel product of two state systems is still a state system.
+So parallel products give us another way to create new dynamical systems from old ones.
+In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
+
+For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$.
+Then we can take the parallel product of all of them to get a lens \[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
+
+We can characterize the dynamics of $\phi$ in terms of each constituent dynamical system $\phi_i$ as follows.
+By the proof of \cref{prop.dirichlet_monoidal}, the return function \[\phi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\phi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
+Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function \[\phi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\phi_i)_\1(s_i)]\to\prod_{i\in\ord{n}}S_i\] sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\phi_i)_\1(s_i)]$, to the $n$-tuple $((\phi_i)^\sharp_{s_i}(d_i))_{i\in\ord{n}}$ consisting of states where the update function of each $\phi_i$ at $s_i$ sends $d_i$.
+
+In other words, multiple dynamical systems running in parallel can be thought of as a single dynamical system.
+This system stores the states of all the constituent systems at once and returns output from all of them together; then it can receive input from all of the constituent systems' input sets at once and update each constituent state accordingly.
+So parallel products give us a way to juxtapose multiple dynamical systems in parallel to form a single system.
+
+\begin{exercise}
+Given $n\in\nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S_i$ for every $i \in \ord{n}$.
+Show that there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $\prod_{i \in \ord{n}} S_i$.
+\begin{solution}
+We are given $n\in\nn$ and an $(A_i,B_i)$-Moore machine with state set $S_i$, i.e.\ a lens $S_i\yon^{S_i}\to B_i\yon^{A_i}$, for each $i\in\ord{n}$.
+Taking their parallel product in $\poly$ gives us a lens
+\[
+    \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}B_i\yon^{A_i}\iso\left(\prod_{i\in\ord{n}}B_i\right)\yon^{\prod_{i\in\ord{n}}A_i},
+\]
+which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
+\end{solution}
+\end{exercise}
+
+%** Example here!
+% \begin{example} \label{ex.labeled_transition}
+% Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
+% \[
+% \begin{tikzpicture}
+% 	\node[draw] (1) {
+%   \begin{tikzcd}[row sep=15pt]
+%   	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
+%   	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
+%   	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
+%   	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
+%   \end{tikzcd}
+% 	};
+% 	\node[draw, right=of 1] {
+%   \begin{tikzcd}[row sep=15pt]
+%   	\LMO{-2}\ar[d, green!50!black]&
+%   	\LMO{4}\ar[l, green!50!black]\\
+%   	\LMO[under]{-8}\ar[loop left, green!50!black]&
+%   	\LMO[under]{16}\ar[ul, green!50!black]
+%   \end{tikzcd}
+%   };
+%  \end{tikzpicture}
+% \]
+
+% The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+% \[
+% \begin{tikzpicture}
+% 	\node[draw] (1) {
+%   \begin{tikzcd}
+%   	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
+%   	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
+%   	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
+%   	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
+%   \end{tikzcd}
+%   };
+% \end{tikzpicture}
+% \]
+% Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
+% As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
+% \end{example}
+
+%** Figure out where this goes
+\begin{example}[Repeater]
+Suppose we have a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
+
+For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
+\[\epsilon\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
+which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
+\[
+A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
+\]
+In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
+
+For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
+\end{example}
+
+
+%---- Subsection ----%
+\subsection{Composing lenses: wrapper interfaces}\label{sec.poly.dyn_sys.new.wrap}
+
+\begin{example}[Paddling]\label{ex.paddler}
+Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
+We may interpret each natural number as the machine's current location.
+What if we don't want this machine to jump around wildly?
+Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+
+To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
+\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
+\[
+  \textit{paddler}\coloneqq\2\yon
+  \qqand
+  \textit{tracker}\coloneqq\nn\yon^\2
+\]
+The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
+\[
+\textit{tracker}\otimes\textit{paddler}\to\nn\yon
+\]
+whichi is a map $\2\yon\otimes\nn\yon^\2\cong\2\nn\yon^\2\to\nn\yon$ is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$. This lets us see the tracker's announcement (in $\nn$) and let's tracker see the paddler's direction.
+
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead we'll focus here on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
+\[\varphi\colon S\yon^S\to\nn\yon^\2\]
+are given by the map given on elements $d,d'\in\2$ and $i\in\nn$ by the formula:
+\[
+  (d,i)\mapsto i,d'\mapsto
 	\begin{cases}
-		\const{inl}\ f(s)&\tn{ if } s=t\\
-		\const{inr}\ f(s)&\tn{ if } s<t
+		i&\tn{if }d=d'\\
+		i+1&\tn{if }d\neq d'.
 	\end{cases}
 \]
-
-\[
-	r^\sharp_{(t,t)}(s',t')\coloneqq (s',t')
-	\qquad
-	r^\sharp_{(s,t)}(1)\coloneqq (s+1,t)
-\]
+As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
 \end{example}
 
 \begin{exercise}
-Make a file reader that acts like that in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+
+When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
 \begin{solution}
 **
 \end{solution}
@@ -4869,213 +5141,8 @@ Obviously, this is all quite complicated, intricate, and contrived. Our goal her
 \end{solution}
 \end{exercise}
 
-%---- Section ----%
-
-
-%---- Subsection ----%
-\subsection{Products: interfaces operating on the same system}
-
-One thing we can use right away in our thinking about dynamical systems is products of polynomials.
-Products give us a way to combine multiple polynomials into one, and in particular, the product of monomials is still a monomial.
-So it should not come as a surprise that they allow us to combine multiple Moore machines.
-What is interesting is that the behavior of this new Moore machine has a natural interpretation in terms of the behaviors of the original machines.
-
-For any polynomials $s,p_1,p_2$ and maps $s\to p_1$ and $s\to p_2$, the universal property of products gives us a map $s\to p_1p_2$. In the context of Moore machines, we have the following.
-
-\begin{proposition} \label{prop.moore_prod}
-Suppose we have an $(A_1,B_1)$-Moore machine and an $(A_2,B_2)$-Moore machine, each with state set $S$. Then there is an induced $(A_1+A_2,B_1 B_2)$-Moore machine, again with state set $S$.
-\end{proposition}
-\begin{proof}
-We are given lenses $S\yon^S\to B_1\yon^{A_1}$ and $S\yon^S\to B_2\yon^{A_2}$. Hence, by the universal property of products, we have a map
-\[
-  S\yon^S\to
-  (B_1\yon^{A_1})\times(B_2\yon^{A_2})
-  \cong(B_1B_2)\yon^{A_1+A_2},
-\] 
-as desired.
-\end{proof}
-
-\begin{corollary}
-Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S$ for each $i \in \ord{n}$. Then there is an induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine, again with state set $S$.
-\end{corollary}
-\begin{proof}
-The result follows from \cref{prop.moore_prod} by induction on $n$.
-\end{proof}
-
-By \cref{exc.poly_prod}, if each $(A_i,B_i)$-Moore machine has $\text{return}_i$ as its return function and $\text{update}_i$ as its update function, then the induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a return function that sends $s \in S$ to the $n$-tuple $(\text{return}_i(s))_{i \in \ord{n}}$ and an update function that sends $(s, a) \in S \times \sum_{i \in \ord{n}} A_i$ to $\text{update}_i(s, a)$ if $a \in A_i$.
-
-In other words, if there are multiple interfaces that can drive the same set of states, we can view them as a single interface that drives the states together.
-This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then returns output in all of the original machines at once. It's as though each of the machines can see where the combined system is at any time, but only one of them can actually operate it at any given time.
-
-\begin{example} \label{ex.labeled_transition}
-Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
-\[
-\begin{tikzpicture}
-	\node[draw] (1) {
-  \begin{tikzcd}[row sep=15pt]
-  	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
-  	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
-  	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
-  	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
-  \end{tikzcd}
-	};
-	\node[draw, right=of 1] {
-  \begin{tikzcd}[row sep=15pt]
-  	\LMO{-2}\ar[d, green!50!black]&
-  	\LMO{4}\ar[l, green!50!black]\\
-  	\LMO[under]{-8}\ar[loop left, green!50!black]&
-  	\LMO[under]{16}\ar[ul, green!50!black]
-  \end{tikzcd}
-  };
- \end{tikzpicture}
-\]
-
-The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
-\[
-\begin{tikzpicture}
-	\node[draw] (1) {
-  \begin{tikzcd}
-  	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
-  	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
-  	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
-  	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
-  \end{tikzcd}
-  };
-\end{tikzpicture}
-\]
-Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
-As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
-\end{example}
-
-\begin{exercise}[Toward event-based systems]
-Let $f\colon S\yon^S\to B\yon^A$ be a Moore machine. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
-
-So suppose we want to allow our machine not to do anything. That is, rather than needing to press a button in $A$ at each time step, we want to be able to \emph{not} press any button, in which case the machine just stays where it is. We want a new machine $f'\colon S\yon^S\to p$ that has this behavior; what is $p$ and what is $f'$?
-\begin{solution}
-Given a Moore machine $f\colon S\yon^S\to B\yon^A$, we seek a new machine $f'\colon S\yon^S\to p$ that has the added option to provide no input at a step so that the machine does not change.
-We can think of this as having two different interfaces acting on the same system: the original interface $B\yon^A$ of $f$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the system.
-This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
-So the interface we want to add on is $\yon$.
-
-If $\yon$ were the only interface acting on the system, we would have a Moore machine $g \colon S\yon^S \to \yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
-Then $p$ is the product of the two interfaces $B\yon^A$ and $\yon$, while $f' \colon S\yon^S \to p$ is the unique map induced by $f \colon S\yon^S \to B\yon^A$ and $g \colon S\yon^S \to \yon$.
-In particular, $p \iso B\yon^{A + \1}$, while $f'$ consists of a return function $S \to B$ that is the same as the return function of $f$ and an update function $S \times (A + \1) \to S$ that behaves like the update function of $f$ when the input is from $A$ but does not change the state when the input is from $\1$.
-\end{solution}
-\end{exercise}
-
-%---- Subsection ----%
-\subsection{Parallel products: juxtaposing machines}
-
-Another way to combine two polynomials is by taking their parallel product, as in \cref{subsec.poly.func_nat.prepare_dyn.par}.
-As with the categorical product, the parallel product of monomials is still a monomial.
-So parallel products give us another way to create new Moore machines from old ones by combining them. In fact it's about as easy as one could hope: you just multiply the set of states, multiply the set of inputs, and multiply the set of outputs.
-
-\begin{proposition} \label{prop.moore_parallel_prod}
-Suppose we have an $(A_1,B_1)$-Moore machine with state set $S_1$ and an $(A_2,B_2)$-Moore machine with state set $S_2$. Then there is an induced $(A_1 A_2,B_1 B_2)$-Moore machine with state set $S_1 S_2$.
-\end{proposition}
-\begin{proof}
-We are given lenses $S_1\yon^{S_1}\to B_1\yon^{A_1}$ and $S_2\yon^{S_2}\to B_2\yon^{A_2}$, so we can take their parallel product to get a map
-\[
-  S_1 S_2\yon^{S_1 S_2} \cong (S_1 \yon^{S_1}) \otimes (S_2 \yon^{S_2}) \to
-  (B_1\yon^{A_1})\otimes(B_2\yon^{A_2})
-  \cong(B_1 B_2)\yon^{A_1 A_2},
-\] 
-as desired.
-\end{proof}
-
-Roughly speaking, the new system has inputs $A_1\times A_2$, outputs $B_1\times B_2$, and states $S_1\times S_2$. It just runs each of the two systems in parallel. We'll give the more general $n$-ary case and then explain it in detail.
-
-\begin{corollary}
-Given $n \in \nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S_i$ for each $i \in \ord{n}$. Then there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $\prod_{i \in \ord{n}} S_i$.
-\end{corollary}
-\begin{proof}
-The result follows from \cref{prop.moore_parallel_prod} by induction on $n$.
-\end{proof}
-
-By \cref{prop.dirichlet_monoidal}, if each $(A_i,B_i)$-Moore machine has $\text{return}_i$ as its return function and $\text{update}_i$ as its update function, then the induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine has a return function that sends the $n$-tuple of states $(s_i)_{i \in \ord{n}} \in \prod_{i \in \ord{n}} S$ to the $n$-tuple of outputs $(\text{return}_i(s))_{i \in \ord{n}}$ and an update function that sends $((s_i)_{i \in \ord{n}}, (a_i)_{i \in \ord{n}}) \in S \times \prod_{i \in \ord{n}} A_i$ to $(\text{update}_i(s_i, a_i))_{i \in \ord{n}}$.
-In other words, if there are multiple interfaces that drive the same set of states, we can view them as a single interface that drives the states together.
-This single Moore machine can receive inputs from any one of the original machines' input sets and update its state accordingly; it then returns output in all of the original machines at once.
-
-%** Example here!
-% \begin{example} \label{ex.labeled_transition}
-% Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
-% \[
-% \begin{tikzpicture}
-% 	\node[draw] (1) {
-%   \begin{tikzcd}[row sep=15pt]
-%   	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
-%   	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
-%   	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
-%   	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
-%   \end{tikzcd}
-% 	};
-% 	\node[draw, right=of 1] {
-%   \begin{tikzcd}[row sep=15pt]
-%   	\LMO{-2}\ar[d, green!50!black]&
-%   	\LMO{4}\ar[l, green!50!black]\\
-%   	\LMO[under]{-8}\ar[loop left, green!50!black]&
-%   	\LMO[under]{16}\ar[ul, green!50!black]
-%   \end{tikzcd}
-%   };
-%  \end{tikzpicture}
-% \]
-
-% The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
-% \[
-% \begin{tikzpicture}
-% 	\node[draw] (1) {
-%   \begin{tikzcd}
-%   	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
-%   	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
-%   	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
-%   	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
-%   \end{tikzcd}
-%   };
-% \end{tikzpicture}
-% \]
-% Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
-% As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
-% \end{example}
-
-%---- Subsection ----%
-\subsection{Composing morphisms: wrapper interfaces} % migrating interfaces? overlaying interfaces?
-
-\begin{example}[Paddling]\label{ex.paddler}
-Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
-We may interpret each natural number as the machine's current location.
-What if we don't want this machine to jump around wildly?
-Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
-
-To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
-\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
-\[
-  \textit{paddler}\coloneqq\2\yon
-  \qqand
-  \textit{tracker}\coloneqq\nn\yon^\2
-\]
-The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
-\[
-\textit{tracker}\otimes\textit{paddler}\to\nn\yon
-\]
-whichi is a map $\2\yon\otimes\nn\yon^\2\cong\2\nn\yon^\2\to\nn\yon$ is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$. This lets us see the tracker's announcement (in $\nn$) and let's tracker see the paddler's direction.
-
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead we'll focus here on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
-\[\varphi\colon S\yon^S\to\nn\yon^\2\]
-are given by the map given on elements $d,d'\in\2$ and $i\in\nn$ by the formula:
-\[
-  (d,i)\mapsto i,d'\mapsto
-	\begin{cases}
-		i&\tn{if }d=d'\\
-		i+1&\tn{if }d\neq d'.
-	\end{cases}
-\]
-As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
-\end{example}
-
-\begin{exercise}
-Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
-
-When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
+\begin{exercise} \label{exc.file_searcher_wrap}
+Use a wrapper interface to build a file-reader that acts like the one in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
 \begin{solution}
 **
 \end{solution}
@@ -5279,7 +5346,7 @@ The first says ``inside the system you have boxes outputting values of type $C$ 
 \end{solution}
 \end{exercise}
 
-Now suppose given a dynamical system in each inner box:
+Now suppose we have a dynamical system in each inner box:
 \[
 S\yon^S\To{f}\const{Plant}
 \qqand
@@ -5324,7 +5391,7 @@ Consider the following wiring diagram.
 	\item Write out the polynomial for the outer box, Team.
 	\item The wiring diagram constitutes a morphism $f$ in $\poly$; what is its type $f\colon ?\to ?$
 	\item What morphism is it?
-	\item Suppose we are given dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
+	\item Suppose we have dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -5375,7 +5442,7 @@ Consider the following wiring diagram.
 \end{exercise}
 
 \begin{example}[Graphs as interaction diagrams]\label{ex.graph_interaction}
-Suppose given a graph $G$ and a set $\tau(v)$ for every vertex
+Suppose we have a graph $G$ and a set $\tau(v)$ for every vertex
 \[
 \begin{tikzcd}
 	A\ar[r, shift left=3pt, "\src"]\ar[r, shift right=3pt, "\tgt"']&
@@ -5469,7 +5536,7 @@ For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color
 In general, we want systems that can change their interface---remove a port, add a port, change the type of a port, etc.---based on their internal states. But when such systems interact with others, the interaction pattern must be able to accommodate all of the various combinations of interfaces.
 
 \begin{example}
-Suppose given two interfaces $p$ and $p'$, having mode sets $M$ and $M'$ respectively
+Suppose we have two interfaces $p$ and $p'$, having mode sets $M$ and $M'$ respectively
 \[
 	p\coloneqq \sum_{m\in M} B_m\yon^{A_m}
 	\qqand
@@ -5585,13 +5652,13 @@ Recall from \cref{exc.cellular_automata} how we constructed cellular automata on
 
 Suppose now that we are given a function $i\colon V\to\nn$ that we think of as specifying the number $i(v)$ of neighbors each $v\in V$ accepts. Let $\ord{i}(v)=\{1,2,\ldots, i(v)\}$. We will be interested in the polynomial $p_v\coloneqq\2\yon^{\2^{\ord{i}(v)}}$ for each $v$; it represents an interface that outputs a color $\2\cong\{\const{black},\const{white}\}$ and that inputs a function $\ord{i}(v)\to\2$, meant to give the colors of the neighboring vertices.
 
-Say that an interaction pattern $I\colon V\to\2^V$ \emph{respects} $i$ if we have an isomorphism $I(v)\cong\ord{i}(v)$ for each $v\in V$. Suppose given a function $I\colon \2^V\to (\2^V)^V$ such that for each element $s\in\2^V$, the interaction pattern $I_s\colon V\to \2^V$ respects $i$. In the case of \cref{exc.cellular_automata}, $I$ was a constant function. Now we can think of it like all the vertices are voting, via $I$, on the connection pattern. 
+Say that an interaction pattern $I\colon V\to\2^V$ \emph{respects} $i$ if we have an isomorphism $I(v)\cong\ord{i}(v)$ for each $v\in V$. Suppose we are given a function $I\colon \2^V\to (\2^V)^V$ such that for each element $s\in\2^V$, the interaction pattern $I_s\colon V\to \2^V$ respects $i$. In the case of \cref{exc.cellular_automata}, $I$ was a constant function. Now we can think of it like all the vertices are voting, via $I$, on the connection pattern. 
 
 We can put this all together by giving a morphism in $\poly$ of the form
 \begin{equation}\label{eqn.polymap_misc9237}
 \bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{i}(v)}}\too\yon.
 \end{equation}
-We can such a morphism with a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{i}(v)}$. Suppose given $s\in\2^V$, so that we have an isomorphism $I_s(v)\cong\ord{i}(v)$ for each $v\in V$; we want a function $g(s)\colon\sum_{v\in V}I_s(v)\to\2$. That is, for each $v$ we want a function
+We can such a morphism with a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{i}(v)}$. Suppose we are given $s\in\2^V$, so that we have an isomorphism $I_s(v)\cong\ord{i}(v)$ for each $v\in V$; we want a function $g(s)\colon\sum_{v\in V}I_s(v)\to\2$. That is, for each $v$ we want a function
 \[
 g(s)_v\colon I_s(v)\to\2.
 \]
@@ -6047,7 +6114,7 @@ Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\
 \end{example}
 
 \begin{example}[Chu $\&$]
-Suppose we are given polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
+Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
 	\qqand
@@ -6202,7 +6269,7 @@ We complete the proof of \cref{thm.adjoint_quadruple} by exhibiting three natura
     \]
     As $\0^{p[i]}$ is $\1$ if $p[i] \iso \0$ and $\0$ otherwise, it follows that
     \[
-        \poly(A, p) \iso \prod_{a \in A} \{ i \in p(\1) \ | \ p[i] \iso \0 \} \iso \prod_{a \in A} p(\0) \iso \smset(A, p(0)).
+        \poly(A, p) \iso \prod_{a \in A} \{ i \in p(\1) \mid p[i] \iso \0 \} \iso \prod_{a \in A} p(\0) \iso \smset(A, p(0)).
     \]
     \item By \eqref{eqn.main_formula}, we have the natural isomorphism
     \begin{align*}
@@ -6668,7 +6735,7 @@ More precisely, let $f,g \colon p \tto q$ be two lenses.
 We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a map, but we will use the term to refer to either just the object or just the map when the context is clear.}
 We define its position-set $p'(\1)$ to be the equalizer of $f_\1,g_\1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
 \[
-    p'(\1) \coloneqq \{i \in p(\1) \ | \ f_\1(i) = g_\1(i)\}.
+    p'(\1) \coloneqq \{i \in p(\1) \mid f_\1(i) = g_\1(i)\}.
 \]
 Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$.
 In this way, we obtain a polynomial $p'$ that comes equipped with a morphism $e \colon p' \to p$.
@@ -6800,7 +6867,7 @@ Here $p \in \poly$.
     	p(\1) \ar[ul, phantom, very near end, "\lrcorner"]
 	\end{tikzcd}
 	\]
-	So $p_i(\1) \coloneqq \{(a, i') \in \1 \times p(\1) \ | \ i = i' \} = \{(1, i)\}$, with $f_\1$ uniquely determined and $g_1$ picking out $i \in p(\1)$.
+	So $p_i(\1) \coloneqq \{(a, i') \in \1 \times p(\1) \mid i = i' \} = \{(1, i)\}$, with $f_\1$ uniquely determined and $g_1$ picking out $i \in p(\1)$.
 	Then on directions, we have that $p_i[(1,i)]$ along with $f^\sharp_{(1,i)}$ and $g^\sharp_{(1,i)}$ form the following pushout square in $\smset$:
 	\[
 	\begin{tikzcd}
@@ -6833,7 +6900,7 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
     \item We compute the pullback $p$ along with the morphisms $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
     We can compute $p(\1)$ by taking the pullback in $\smset$:
     \[
-        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \ | \ f_\1(i) = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
+        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \mid f_\1(i) = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
     \]
     Moreover, the on-positions functions $g_\1$ and $g'_\1$ send each pair in $p(\1)$ to its left component and its right component, respectively.
     
@@ -7078,7 +7145,7 @@ where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image unde
 This means that to give a map $\varphi\colon p\otimes q\to r$, it suffices to give two maps $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The map $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the map $\varphi_q$ says how information about $p$'s position is transferred to $q$.
 
 \begin{corollary}\label{cor.tensor_as_pushout}
-Suppose given polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
+Suppose we have polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
 \[
   \colim
   \left(
@@ -7126,7 +7193,7 @@ In general, we will be interested in the interaction pattern between a number of
 \end{example}
 
 \begin{example}
-Carrying on from \cref{ex.random_process}, suppose given polynomials $p_1,\ldots,p_n,r$ and a map
+Carrying on from \cref{ex.random_process}, suppose we have polynomials $p_1,\ldots,p_n,r$ and a map
 \[\varphi\colon p_1\otimes\cdots\otimes p_n\to r.\]
 By \cref{cor.tensor_as_pushout}, $\varphi$ can be identified with a tuple of maps 
 \[\varphi_i\colon p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\too r\]
