@@ -4680,7 +4680,7 @@ Now we turn that file-reader into a dependent dynamical system $\phi\colon S\yon
 We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
 Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
 \[
-    p(\1)\coloneqq\sum_{m\in\{\text{``ready''}, \text{``busy''}\}} \Set{ascii}.
+    p(\1)\coloneqq\{\text{``ready''}, \text{``busy''}\}\times\Set{ascii}.
 \]
 So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: ``ready'' or ``busy.''
 These form the possible outputs of the file-reader.
@@ -4712,11 +4712,11 @@ So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\phi^\
 
 %% Move to wrapper interfaces
 \begin{exercise} \label{exc.file_searcher}
-Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only emits output $o\in\Set{ascii}$ when $o$ is a specific character---say, $o=100$.
+Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only emits output $c\in\Set{ascii}$ when $c$ is a specific character---say, $c=100$.
 Give the lens for this file-searcher by explicitly defining its return (on-positions) and update (on-directions) functions.
 Hint: You should be able to use the same state system.
 \begin{solution}
-We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
+We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $c=100$.
 In place of any other ascii character, we'll have it output $\_$ instead.
 So its possible outputs should form the set
 \[
@@ -4870,8 +4870,8 @@ which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Mo
 \end{solution}
 \end{exercise}
 
-\begin{example} \label{ex.labeled_transition}
-Consider two four-state dependent dynamical systems $\phi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,p$ as red, blue, green, and purple, respectively):
+\begin{example} \label{ex.prod_diagrams}
+Consider two four-state dependent dynamical systems $\phi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,$ and $p$ as red, blue, green, and purple, respectively):
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4893,7 +4893,7 @@ Consider two four-state dependent dynamical systems $\phi\colon\4\yon^\4\to\rr\y
  \end{tikzpicture}
 \]
 
-The universal property of products provides a unique way to put these systems together to obtain a dynamical system $\4\yon^\4\to\rr\zz_{\geq0}\yon^{\{r,b,g,p\}}+\rr\zz_{<0}\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
+The universal property of products provides a unique way to put these systems together to obtain a dynamical system $\4\yon^\4\to\rr\zz_{\geq0}\yon^{\{r,b,g,p\}}+\rr\zz_{<0}\yon^{\{r,b,g\}}$ that looks like this:
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4907,7 +4907,7 @@ The universal property of products provides a unique way to put these systems to
 \end{tikzpicture}
 \]
 Each state now returns two outputs: one according to the return function of $\phi$, and another according to the return function of $\psi$.
-As for the possible inputs, we now have the option of giving either an input from a direction-set of $\phi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\phi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding oneupdate function of $\psi$.
+As for the possible inputs, we now have the option of giving either an input from a direction-set of $\phi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\phi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
 \end{example}
 
 \begin{exercise}[Toward event-based systems]
@@ -4960,50 +4960,126 @@ which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Mo
 \end{solution}
 \end{exercise}
 
-%** Example here!
-% \begin{example} \label{ex.labeled_transition}
-% Consider two four-state dynamical systems $e \colon 4\yon^4\to \rr\yon^{\{r,b\}}$ and $f \colon 4\yon^4\to \rr\yon^{\{g\}}$, each of which gives outputs in $\rr$; we think of $r,b,g$ as red, blue, and green, respectively. We can draw such morphisms as labeled transition systems, e.g.
-% \[
-% \begin{tikzpicture}
-% 	\node[draw] (1) {
-%   \begin{tikzcd}[row sep=15pt]
-%   	\LMO{\pi}\ar[r, bend left=15pt, red]\ar[loop left=15pt, blue]&
-%   	\LMO{0}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\\
-%   	\LMO[under]{-1.41}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]&
-%   	\LMO[under]{2.72}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]
-%   \end{tikzcd}
-% 	};
-% 	\node[draw, right=of 1] {
-%   \begin{tikzcd}[row sep=15pt]
-%   	\LMO{-2}\ar[d, green!50!black]&
-%   	\LMO{4}\ar[l, green!50!black]\\
-%   	\LMO[under]{-8}\ar[loop left, green!50!black]&
-%   	\LMO[under]{16}\ar[ul, green!50!black]
-%   \end{tikzcd}
-%   };
-%  \end{tikzpicture}
-% \]
+\begin{example} \label{ex.par_diagrams}
+Consider two dependent dynamical systems $\phi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{\sqrt{7}}\ar[d, bend left=15pt, blue]\\
+  	\LMO[under]{-e}\ar[u, bend left=15pt, red]\ar[loop right=15pt, blue]
+  \end{tikzcd}
+	};
+	\node[draw, right=of 1] {
+  \begin{tikzcd}[row sep=15pt]
+  	\LMO{-5}\ar[r, bend left=15pt, red]&
+  	\LMO{0}\ar[l, bend left=15pt, yellow!75!black]\ar[r, red]&
+  	\LMO{8}\ar[loop right=15pt, dyellow]
+  \end{tikzcd}
+  };
+ \end{tikzpicture}
+\]
+Taking their parallel product, we obtain a dynamical system with state system $\6\yon^\6$ and interface
+\begin{align*}
+    &\rr_{<0}\zz_{<0}\yon^{\{(b,r),(r,r)\}}+\rr_{<0}\{0\}\yon^{\{(b,r),(b,y),(r,r),(r,y)\}}+\rr_{<0}\zz_{>0}\yon^{\{(b,y),(r,y)\}}\\
+    +\:&\rr_{\geq0}\zz_{<0}\yon^{\{(b,r)\}}+\rr_{\geq0}\{0\}\yon^{\{(b,r),(b,y)\}}+\rr_{\geq0}\zz_{>0}\yon^{\{(b,y)\}}
+\end{align*}
+that looks like this (we use purple to indicate $(b,r)$, red to indicate $(r,r)$, green to indicate $(b,y)$, and orange to indicate $(r,y)$):
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+    \LMO{(\sqrt{7},-5)}\ar[dr, bend left=15pt, blue!50!purple] &
+    \LMO{(\sqrt{7},0)}\ar[dl, green!50!black]\ar[dr, blue!50!purple] &
+    \LMO{(\sqrt{7},8)}\ar[d, bend left=15pt, green!50!black] \\
+    \LMO[under]{(-e,-5)}\ar[ur, bend left=15pt, red]\ar[r, blue!50!purple] &
+    \LMO[under]{(-e,0)}\ar[ul, orange!75!black]\ar[ur, red]\ar[l, bend left=15pt, green!50!black]\ar[r, blue!50!purple] &
+    \LMO[under]{(-e,8)}\ar[u, bend left=15pt, orange!75!black]\ar[loop right=15pt, green!50!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state---really a pair of states from the constituent state sets---returns two outputs, one according to the return function of $\phi$ and another according to the return function of $\psi$.
+Then every input must be a pair of inputs from the constituent state sets, with the update function updating each state in the pair given each input in the pair according to the constituent update functions $\phi$ and $\psi$.
+\end{example}
 
-% The universal property of products provides a unique way to put these systems together to obtain a morphism $4\yon^4\to(\rr\yon^{\{r,b\}}\times \rr\yon^{\{g\}})=(\rr^\2)\yon^{\{r,b,g\}}$. With the examples above, it looks like this:
-% \[
-% \begin{tikzpicture}
-% 	\node[draw] (1) {
-%   \begin{tikzcd}
-%   	\LMO{(\pi,-2)}\ar[r, bend left=15pt, red]\ar[loop left, blue]\ar[d, bend left=15pt, green!50!black]&
-%   	\LMO{(0,4)}\ar[l, bend left=15pt, red]\ar[d, bend left=15pt, blue]\ar[l, green!50!black]\\
-%   	\LMO[under]{(-1.41,-8)}\ar[u,bend left=15pt, red]\ar[r, bend right=15pt, blue]\ar[loop left, green!50!black]&
-%   	\LMO[under]{(2.72,16)}\ar[l, bend right=15pt, red]\ar[loop right=15pt, blue]\ar[ul, green!50!black]
-%   \end{tikzcd}
-%   };
-% \end{tikzpicture}
-% \]
-% Each state now gives two outputs: one according to the output function of $e$, and another according to the output function of $f$.
-% As for the possible inputs, we now have the option of giving either an input from the input set of $e$ (either $r$ or $b$), in which case the machine will update its state according to the update function of $e$, or an input from the input set of $f$ (only $g$), in which case the machine will update its state according to the update function of $f$.
-% \end{example}
+\begin{exercise}
+Explain how the dynamical system $\phi'\colon S'\yon^{S'}\to p'$ you built in \cref{exc.grid_reward} can be expressed as the parallel product of the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} with another dynamical system, $\psi\colon T\yon^T\to q$.
+Be sure to specify $T, q,$ and $\psi$.
+\begin{solution}
+We will show that taking the parallel product of the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} and a reward-tracking dynamical system $\psi\colon T\yon^T\to q$ that we will define yields the dynamical system $\phi'\colon S'\yon^{S'}\to p'$ from \cref{exc.grid_reward}.
+
+The reward-tracking dynamical system should have states in $\lst(\rr)$ to record a list of reward values, unchanging output, and inputs in $\rr$ to give new reward values.
+So it is the lens $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$ that has a uniquely defined return function, while its update function sends each state $(r_1,\ldots,r_k)\in\lst(\rr)$ and each input $r\in\rr$ to the new state $(r_1,\ldots,r_k,r)$.
+
+Then the dynamical system from \cref{exc.grid_reward} is the parallel product of the robot-on-a-grid dynamical system from \cref{ex.grid_robot} with the reward-tracking dynamical system $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$, as can be seen in the solution to \cref{exc.grid_reward}.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+\begin{enumerate}
+    \item Explain how the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} can be written as the parallel product of some dynamical system with itself.
+    \item Use $k$-fold parallel products to generalize \cref{ex.grid_robot} to robots on $k$-dimensional grids.\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item The robot-on-a-grid dynamical system from \cref{ex.grid_robot} can be written as the parallel product of two robot-on-a-line dynamical systems of the form $\lambda\colon\ord{n}\yon^{\ord{n}}\to\sum_{i\in\ord{n}}\yon^{D_i}$, where $\lambda_\1\coloneqq\id_{\ord{n}}$ and $\lambda^\sharp_i$ for each $i\in\ord{n}$ sends each direction $d\in D_i$ to the position on the line given by $i+d$.
+    This yields a robot that can move along a single axis, and the parallel product of this robot with itself yields a robot that can move along two different axes at once, which is precisely our robot-on-a-grid dynamical system.
+    \item To create a dynamical system consisting of a robot moving in a $k$-dimensional grid of size $n$ along every dimension, we just take the $k$-fold parallel product of the dynamical system $\lambda\colon\ord{n}\yon^{\ord{n}}\to\sum_{i\in\ord{n}}\yon^{D_i}$ we just defined to obtain a dynamical system \[\lambda^{\otimes k}\colon\ord{n}^\ord{k}\yon^{\ord{n}^\ord{k}}\to\sum_{(i_1,\ldots,i_k)\in\ord{n}^\ord{k}}\yon^{\prod_{j\in\ord{k}}D_{i_j}}.\]
+    In fact, we could have used a different $n_j$ for each $j\in\ord{k}$ instead of $n$ to obtain a robot moving in an arbitrary $k$-dimensional grid of size $n_1\times\cdots\times n_k$ as a $k$-fold parallel product.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+The parallel product takes two dynamical systems and essentially puts them in the same room together so that they can be run at the same time.
+But it doesn't allow for any interaction \emph{between} the two systems.
+For that, we will need to use what we call a wrapper interface.
+
+%---- Subsection ----%
+\subsection{Composing lenses: wrapper interfaces}\label{sec.poly.dyn_sys.new.wrap}
+
+The idea behind a wrapper interface is simple.
+Given a dynamical system $\phi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
+We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\phi}p\To{f}q$.
+We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $p$ using $f$.
+
+To see how this new composite system $\phi\then f$ relates to the original dynamical system $\phi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.func_nat.morph.concrete}.
+The lens $f$ converts an output $i$ from $p$ to an output $f_\1(i)$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1(i)]$ instead, via its on-directions function at $i$.
+So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
+Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
+
+%** Give an example of this with both outputs and inputs changing
+
+\begin{exercise} \label{exc.file_searcher_wrap}
+In \cref{exc.file_searcher}, you constructed a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
+Express this construction as wrapping $q$ around $p$ by giving a lens $f\colon p\to q$ for which composing $\phi$ with $f$ yields $\psi$.
+\begin{solution}
+We give a lens $f\colon p\to q$ for which composing the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} with $f$ yields the file-searcher $\psi\colon S\yon^S\to q$ from \cref{exc.file_searcher}.
+The file-searcher returns the same output as the file-reader when the second coordinate is $100$, but replaces the second coordinate with a blank $\_$ otherwise.
+So the on-positions function of $f$ should send each $(m,c)\in p(\1)$ to
+\[
+    f_\1(m,c) = 
+        \begin{cases}
+            (m,c) & \text{if } c = 100 \\
+            (m,\_) & \text{otherwise}.
+        \end{cases}
+\]
+Then the file-searcher acts just like the file-reader does on inputs, so the on-directions functions of $f$ should be $\id_S$ at each position whose first coordinate is ``ready'' and $\id_\1$ at each position whose first coordinate is ``busy.''
+\end{solution}
+\end{exercise}
+
+When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
+Explicitly, iven $n\in\nn$ and $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
+\[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
+by taking their parallel product, then compose this system with a wrapper $f$ with wrapper interface $q$ to obtain a new dynamical system
+\[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\phi}\bigotimes_{i\in\ord{n}}p_i\To{f}q\]
+On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interace.
+On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the conssituent interfaces.
+In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
 
 %** Figure out where this goes
 \begin{example}[Repeater]
-Suppose we have a dependent dynamical system $\varphi$ that sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only $A$'s; we will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
+Suppose we have a dependent dynamical system $\varphi$ that takes unchanging input and sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only elements of $A$? We will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
 
 For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
 \[\epsilon\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
@@ -5015,10 +5091,6 @@ In other words, we output the repeater's position as the current $A$, and we upd
 
 For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
 \end{example}
-
-
-%---- Subsection ----%
-\subsection{Composing lenses: wrapper interfaces}\label{sec.poly.dyn_sys.new.wrap}
 
 \begin{example}[Paddling]\label{ex.paddler}
 Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
@@ -5138,13 +5210,6 @@ Obviously, this is all quite complicated, intricate, and contrived. Our goal her
     So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
     Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
 \end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise} \label{exc.file_searcher_wrap}
-Use a wrapper interface to build a file-reader that acts like the one in \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $o=100$.
-\begin{solution}
-**
 \end{solution}
 \end{exercise}
 
