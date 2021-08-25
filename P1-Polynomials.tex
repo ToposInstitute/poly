@@ -246,7 +246,7 @@ We can think of its input buttons and its output display as the way in which the
 
 Here's one way the clock might interact with the outside world: my finger is on the minute button, while your finger is on the format button, and the clock is facing you so that only you can read its display.
 In fact, we could think of ourselves as a couple of (particularly complex) dynamical systems as well, with each of our interfaces connected with the interface of the clock.
-We could model this scenario with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular wiring pattern:
+We could model this scenario with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular interaction pattern:
 \begin{equation*}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
 	\node[bb={3}{3}, green!25!black] (X12) {\tiny me};
@@ -307,7 +307,7 @@ In fact, $\poly$ will let us express this.
 
 
 \begin{example}\label{ex.changing_wiring_bonds_supplier_assemble}
-Here are some familiar circumstances where we see wiring patterns changing over time.
+Here are some familiar circumstances where we see interaction patterns changing over time.
 \begin{enumerate}[itemsep=0pt]
 %	\item Airplanes only communicate when they get near enough;
 %	\item A person can choose when to open (receive input through) their eyes and when to speak (produce output);\goodbreak
@@ -400,14 +400,14 @@ The company can get widgets either from supplier 1 or supplier 2; we could imagi
 \end{tikzpicture}
 \end{equation*}
 \begin{quote}
-Have you ever assembled something? Your internal states dictate the wiring pattern of some other things. We can say this in $\poly$.
+Have you ever assembled something? Your internal states dictate the interaction pattern of some other things. We can say this in $\poly$.
 \end{quote}
 
 All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory (\cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}).
 \end{example}
 
 \begin{exercise}%\label{exc.changing_types}
-Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different wiring patterns in your setting.
+Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different interaction patterns in your setting.
 \begin{solution}
 When I am carrying my phone in my house, my phone will connect to my Wi-Fi router. But my phone may send me a reminder that tells me to leave my house. 
 Once I carry my phone far enough away, it will disconnect from my router and connect to a cellular network instead.
@@ -451,7 +451,7 @@ So the set of inputs I can send to the system (i.e.\ buttons I can click) is dir
 \end{solution}
 \end{exercise}
 
-Hopefully you now have an idea of what we mean by \emph{mode-dependence}: interfaces and wiring patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and wiring patterns in this sense. 
+Hopefully you now have an idea of what we mean by \emph{mode-dependence}: interfaces and interaction patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and interaction patterns in this sense. 
 
 \begin{remark}
 We ended \cref{ex.pond_eyeballs} by joking about ``real-world applications,'' because a pond of eyeballs is about the most bizarre thing one can imagine. But recall Nobel physicist Frank Wilczek's quote from the preface:
@@ -965,7 +965,7 @@ Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{**}.
 
 In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
 Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
-In \cref{**}, we will show that $\circ$ preserves connected limits, and in \cref{**}, we will show that $\circ$ is left coclosed.
+In \cref{**}, we will show that $\circ$ is left coclosed, and in \cref{**}, we will show that $\circ$ preserves connected limits.
 \end{proof}
 
 \begin{proposition}\label{prop.adjoint_quadruple}
@@ -3371,7 +3371,7 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 
 %---- Subsection ----%
 \subsection{The parallel product} \label{subsec.poly.func_nat.prepare_dyn.par}
-There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel and then wiring them together.
+There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
 \begin{definition}\label{def.dirichlet}
 Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
@@ -4188,7 +4188,7 @@ In general, given an initial state $s_0\in S$, an $(A,B)$-Moore machine with sta
     b_k\coloneqq \text{return}(s_k) \qqand s_{k+1}\coloneqq \text{update}(s_k, a_{k+1})
 \]
 for all $k\in\nn$.
-% definition a little clumsy; we'll see this sequence pop out of the theory in \cref{**}.
+We'll see that $\poly$ gives us a more concise way to express this in \cref{**}.
 
 \subsection{Moore machines as lenses}
 
@@ -4821,8 +4821,8 @@ We modify the dynamical system from \cref{ex.grid_robot}.
 
 In the previous exercise, we added a reward system to the robot on the grid by manually redefining the associated lens.
 But there is a much simpler way to think about the new system as the juxtaposition of two systems, a robot system and a reward system, in parallel.
-We'll see how to express this in terms of lenses in \cref{**}, once we explain how to juxtapose systems like this in general in \cref{sec.poly.dyn_sys.new.par}.
-In fact, we'll see in \cref{**} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
+We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{sec.poly.dyn_sys.new.par}.
+In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
 
 %---- Section ----%
@@ -4970,7 +4970,7 @@ Consider two dependent dynamical systems $\phi\colon\2\yon^\2\to \rr_{<0}\yon^{\
 	\node[draw, right=of 1] {
   \begin{tikzcd}[row sep=15pt]
   	\LMO{-5}\ar[r, bend left=15pt, red]&
-  	\LMO{0}\ar[l, bend left=15pt, yellow!75!black]\ar[r, red]&
+  	\LMO{0}\ar[l, bend left=15pt, dyellow]\ar[r, red]&
   	\LMO{8}\ar[loop right=15pt, dyellow]
   \end{tikzcd}
   };
@@ -5000,7 +5000,7 @@ Each state---really a pair of states from the constituent state sets---returns t
 Then every input must be a pair of inputs from the constituent state sets, with the update function updating each state in the pair given each input in the pair according to the constituent update functions $\phi$ and $\psi$.
 \end{example}
 
-\begin{exercise}
+\begin{exercise} \label{exc.grid_reward_par}
 Explain how the dynamical system $\phi'\colon S'\yon^{S'}\to p'$ you built in \cref{exc.grid_reward} can be expressed as the parallel product of the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} with another dynamical system, $\psi\colon T\yon^T\to q$.
 Be sure to specify $T, q,$ and $\psi$.
 \begin{solution}
@@ -5013,7 +5013,7 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise} \label{exc.grid_robot_par}
 \begin{enumerate}
     \item Explain how the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} can be written as the parallel product of some dynamical system with itself.
     \item Use $k$-fold parallel products to generalize \cref{ex.grid_robot} to robots on $k$-dimensional grids.\qedhere
@@ -5031,7 +5031,7 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 The parallel product takes two dynamical systems and essentially puts them in the same room together so that they can be run at the same time.
 But it doesn't allow for any interaction \emph{between} the two systems.
 For that, we will need to use what we call a wrapper interface.
-We'll introduce wrapper interfaces in the next section, before describing how they can be used in conjunction with parallel products to model general interaction in \cref{**}.
+We'll introduce wrapper interfaces in the next section, before describing how they can be used in conjunction with parallel products to model general interaction in \cref{sec.poly.dyn_sys.interact}.
 
 %---- Subsection ----%
 \subsection{Composing lenses: wrapper interfaces}\label{sec.poly.dyn_sys.new.wrap}
@@ -5039,12 +5039,116 @@ We'll introduce wrapper interfaces in the next section, before describing how th
 The idea behind a wrapper interface is simple.
 Given a dynamical system $\phi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
 We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\phi}p\To{f}q$.
-We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\phi$ using $f$.
+We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\phi$ (or sometimes just $p$, if a dynamical system $\phi$ has yet to be specified) using $f$.
 
 To see how this new composite system $\phi\then f$ relates to the original dynamical system $\phi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.func_nat.morph.concrete}.
 The lens $f$ converts an output $i$ from $p$ to an output $f_\1(i)$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1(i)]$ instead, via its on-directions function at $i$.
 So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
 Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
+
+\begin{example} \label{ex.wrap_diagrams}
+Consider a dependent dynamical system $\phi\colon\6\yon^\6\to p$ with 
+\[
+    p\coloneqq\{1\}\yon^{\{b,y,r\}}+\{2\}\yon^{\{b,r\}}+\{3\}\yon^{\{b\}}+\{4\}\yon^{\{r\}},
+\]
+drawn below as a labeled transition diagram (we think of $b,y,$ and $r$ as blue, yellow, and red, respectively):
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+    \LMO{1}\ar[r, blue]\ar[dr, dyellow]\ar[d, red] &
+    \LMO{2}\ar[loop above=5pt, blue]\ar[d, bend right=15pt, red] &
+    \LMO{3}\ar[l, blue] \\
+    \LMO[under]{4}\ar[loop left=15pt, red] &
+    \LMO[under]{1}\ar[l, blue]\ar[u, bend right=15pt, dyellow]\ar[r, red] &
+    \LMO[under]{4}\ar[u, red]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}+\{c\}\] around $\phi$ using the following lens $f\colon p\to q$ (we think of $g,p,$ and $o$ as green, purple, and orange, respectively):
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 1" below] (1) {$\bullet$} 
+      child[blue] {coordinate (11)}
+      child[dyellow] {coordinate (12)}
+      child[red] {coordinate (13)};
+    \node[right=1.5 of 1, "\tiny $b$" below] (2) {$\bullet$} 
+      child[green!50!black] {coordinate (21)}
+      child[blue!50!purple] {coordinate (22)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (13);
+      \draw[postaction={decorate}] (22) to (12);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p2) [below right=-1.05cm and 1 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 2" below] (1) {$\bullet$} 
+      child[blue] {coordinate (11)}
+      child[red] {coordinate (12)};
+    \node[right=of 1, "\tiny $c$" below] (2) {$\bullet$};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+  \end{tikzpicture}	
+	};	
+%
+	\node (p3) [right=3.5 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 3" below] (1) {$\bullet$} 
+      child[blue] {coordinate (11)};
+    \node[right=1.5 of 1, "\tiny $b$" below] (2) {$\bullet$} 
+      child[green!50!black] {coordinate (21)}
+      child[blue!50!purple] {coordinate (22)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+%
+	\node (p4) [right=1 of p3] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node["\tiny 4" below] (1) {$\bullet$} 
+      child[red] {coordinate (11)};
+    \node[right=1.5 of 1, "\tiny $a$" below] (2) {$\bullet$} 
+      child[green!50!black] {coordinate (21)}
+      child[blue!50!purple] {coordinate (22)}
+      child[orange!75!black] {coordinate (23)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right, decoration={markings, mark=at position 0.75 with \arrow{stealth}}]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (11);
+      \draw[postaction={decorate}] (23) to (11);
+    \end{scope}
+  \end{tikzpicture}	
+	};	
+\end{tikzpicture}
+\]
+Composing $\phi$ with $f$, we obtain a dynamical system $\6\yon^\6\To{\phi}p\To{f}q$ that looks like this:
+\[
+\begin{tikzpicture}
+	\node[draw] (1) {
+  \begin{tikzcd}
+    \LMO{b}\ar[d, green!50!black]\ar[dr, blue!50!purple] &
+    \LMO{c} &
+    \LMO{b}\ar[l, bend right=15pt, green!50!black]\ar[l, bend left=15pt, blue!50!purple] \\
+    \LMO[under]{a}\ar[loop left=15pt, green!50!black]\ar[loop below=5pt, blue!50!purple]\ar[loop right=15pt, orange!75!black] &
+    \LMO[under]{b}\ar[r, green!50!black]\ar[u, blue!50!purple] &
+    \LMO[under]{a}\ar[u, bend left=20pt, green!50!black]\ar[u, blue!50!purple]\ar[u, bend right=20pt, orange!75!black]
+  \end{tikzcd}
+  };
+\end{tikzpicture}
+\]
+Each state returns an output in $q$ according to where the on-positions function of $f$ sends the output the state returns in $p$.
+Then each input in $q$ is passed to an input in $p$ via the corresponding on-directions function of $f$, whereupon the update function of $\phi$ computes the new state.
+So $f$ allows us to operate $\phi$ with the wrapper interface $q$ instead of the original interface $p$.
+\end{example}
+
 
 %** Give an example of this with both outputs and inputs changing
 
@@ -5069,11 +5173,11 @@ Then the file-searcher acts just like the file-reader does on inputs, so the on-
 In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
-\subsection{Situations as enclosures}
+\subsection{Situations as enclosures}\label{sec.poly.dyn_sys.new.sit_encl}
 Say we wanted to model a dynamical system $\phi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
 We can think of this as wrapping $\yon$, the interface with one output and one input, around $\phi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
-We call such a wrapper an \emph{enclosure} of an interface $p$, since it is a way of closing off $p$ to the outside world.
+We call such a wrapper an \emph{enclosure} for an interface $p$, since it is a way of closing off $p$ to the outside world.
 
 Let us zoom out from the dynamical systems interpretation of polynomials for the time being to examine the categorical properties of enclosures.
 Given a polynomial $p$, we denote the set of lenses $p\to\yon$ by
@@ -5088,15 +5192,16 @@ By \eqref{eqn.main_formula}, we have that
 so in terms of arenas, a map $\gamma\in\Gamma(p)$ can be thought of as a dependent function that assigns each $p$-position $i$ to a direction $\gamma(i)$ of $p$ at $i$.
 So we call an element of $\Gamma(p)$ a \emph{situation} for $p$.
 The idea is that the situation you're in gives you a direction to go along at any position you may take.
+
 Returning to the language of dynamical systems, a situation for $p$ corresponds to an enclosure for the interface $p$, in that it chooses a fixed input at every output of $p$.
-An enclosure of your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
+An enclosure for your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
 
 \begin{remark}
 Although they both refer to lenses into $\yon$, we will use the term \emph{enclosure} in the context of dynamical systems and wrappers and \emph{situation} more generally.
 \end{remark}
 
 \begin{exercise}
-The notation $\Gamma(p)$ for the set of situations for a polynomial $p$ comes from the common mathematical term ``global section.''
+The notation $\Gamma(p)$ for the set of situations for a polynomial $p$ comes from the common mathematical concept of a ``global section.''
 Show that situations $\gamma\colon p\to\yon$ are precisely \emph{sections} (as defined in \cref{exc.dependent_product_as_sections}) of the canonical function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
 \begin{solution}
 Given a polynomial $p$, we wish to show that situations for $p$ are precisely sections of the function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
@@ -5107,23 +5212,278 @@ Alternatively, we can directly apply \cref{exc.dependent_product_as_sections} to
 \end{exercise}
 
 \begin{exercise}
-Let $S\yon^S\to B\yon^A$ be a $(A,B)$-Moore machine.
+Let $\phi\to S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{enumerate}
-	\item Is it true that a situation $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
-	\item What would a situation $\gamma\colon B\yon^A\to\yon$ represent semantically?
-	\item Given such a $\gamma$, how do you interpret the composite $S\yon^S\to\yon$?
+	\item Is it true that an enclosure $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
+	\item Describe how to interpret an enclosure $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
+	\item Given an enclosure $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\phi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\phi$ using $\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
 	\item No, it represents a function $B\to A$!
-	\item A map $\gamma\colon B\yon^A\to\yon$, i.e.\ a function $B\to A$ represents a situation in which we automatically respond an input $A$ for each output $B$.
-	\item Given such a $\gamma$, as well as our original Moore-machine $S\yon^S\to B\yon^A$, we interpret the composite $S\yon^S\to\yon$, i.e.\ function $S\to S$ as a function that sends each state to the updated state, based on how it outputs via the moore machine and the corresponding input via the situation.
+	An enclosure assigns each output $b\in B$ to an input $a\in A$.
+	\item As a wrapper around an interface $B\yon^A$, an enclosure $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
+	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with an enclosure $\gamma$ yields a Moore machine $S\yon^S\To{\phi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
+	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the enclosure $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
+	\[
+	    S\To{\Delta}S\times S\To{\id_S\times\text{return}}S\times B\To{\id_S\times g}S\times A\To{\text{update}}S,
+	\]
+	where $\Delta$ is the diagonal map $s\mapsto(s,s)$.
+	This composite map $S\to S$ sends every state to the next according to the output the original state returns, the input that the enclosure gives in response to that output, and the update function that sends the original state and the input to the new state.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-A map $p_1\otimes \cdots \otimes p_n\to\yon$ puts these $n$ interfaces in a situation together. The following proposition helps explain why situations are a useful concept.
+\begin{proposition}\label{prop.gamma_pres_coproduct}
+The situations functor $\Gamma\colon\poly\to\smset\op$ sends $(0,+)$ to $(1,\times)$:
+\[
+	\Gamma(\0)\iso\1
+	\qqand
+	\Gamma(p+q)\iso\Gamma(p)\times\Gamma(q).
+\]
+\end{proposition}
+Technically, one could say that $\Gamma$ preserves coproducts, since coproducts in $\smset\op$ are products in $\smset$.
+
+\begin{exercise}
+Prove \cref{prop.gamma_pres_coproduct}.
+\begin{solution}
+\cref{prop.gamma_pres_coproduct} follows directly from \cref{prop.poly_coprods}: we have that $\Gamma(\0) = \poly(\0,\yon) \iso \1$ since $\0$ is initial in $\poly$, and $\Gamma(p + q) = \poly(p+q,\yon) \iso \poly(p+q,\yon) = \Gamma(p) \times \Gamma(q)$ since $+$ gives coproducts in $\poly$. 
+\end{solution}
+\end{exercise}
+
+\begin{remark}
+The situations functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoidal in the sense that there are canonical functions
+\[
+	\1\cong\Gamma(\yon)
+	\qqand
+	\Gamma(p)\times\Gamma(q)\to\Gamma(p\otimes q)
+\]
+satisfying certain well-known laws. But we won't need this, so we omit its proof.
+\end{remark}
+
+% \subsubsection{The polynomial $S\yon^S$ as a comonad on $\smset$}\label{page.poly_comonad}
+
+% A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
+% \[
+% \adj{\smset}{-\times S}{-^S}{\smset}
+% \]
+% the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
+% \footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
+% and the elements of $S$ are called states. \niu{Are they??} It is no coincidence that we also refer to elements of $S$ as states. \niu{How does the interpretation of the store comonad as a data structure indexed by $S$ along with a ``current location'' element in $S$ actually relate to this?}
+
+% Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
+% \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
+
+%---- Section ----%
+\section{General interaction}\label{sec.poly.dyn_sys.interact}
+
+We now have all the pieces we need to fulfill the promises of \cref{sec.poly.intro.dyn_sys} by modeling interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
+
+\subsection{Wrapping juxtaposed dynamical systems together}
+
+When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
+Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
+\[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
+by taking their parallel product.
+Then we can wrap an interface $q$ around $\phi$ using a wrapper $f$, yielding a new dynamical system
+\[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\phi}\bigotimes_{i\in\ord{n}}p_i\To{f}q.\]
+On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interace.
+On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the constituent interfaces.
+In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
+When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
+
+%** Figure out where this goes
+\begin{example}[Repeater]
+Suppose we have a dependent dynamical system $\phi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
+What if we wanted to construct a system $\psi$ that operates just like $\phi$, but \emph{always} returns elements of $A$ as output?
+Where $\phi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\phi$ returns silence before it has returned any elements of $A$ yet.)
+
+Let's think like a programmer.
+What we need is a way to store an element of $A$ and then retrieve it.
+So whenever $\phi$ returns an element of $A$ as output, we store it; then when $\phi$ returns silence, we retrieve the last element of $A$ we stored and return that instead.
+
+What should this storage-retrieval dynamical system look like?
+It needs to take elements of $A$ as input, return elements of $A$ as output, and store elements of $A$ as states.
+In fact, the identity lens $\iota\colon A\yon^A\to A\yon^A$ works perfectly: it returns the element of $A$ currently stored as output and updates its state to the input it receives.
+
+Now we can juxtapose our original system $\phi$ with the storage-retrieval system $\iota$ by taking their parallel product, yielding a dynamical system
+\[
+    \phi\otimes\iota\colon SA\yon^{SA}\to (A\yon+\yon)\otimes A\yon^A
+\]
+that runs both systems simultaneously---and independently.
+But what we want is for $\phi$ and $\iota$ to interact with each other, and for the resulting system to only output elements of $A$.
+To do so, we need to wrap an interface $A\yon$ around $\phi\otimes\iota$ by composing it with some lens
+\[
+    f\colon(A\yon+\yon)\otimes A\yon^A\to A\yon,
+\]
+the interaction pattern between the interfaces $A\yon+\yon$ and $A\yon^A$, which we must define.
+
+Since $\otimes$ distributes over $+$, it suffices to give maps
+\[
+    g\colon A\yon\otimes A\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\to A\yon.
+\]
+The former corresponds to the case where $\phi$ outputs an element of $A$, while the latter corresponds to the case where $\phi$ is silent.
+
+When $\phi$ outputs an element of $A$, we want to return that output, but we also want to give that output as input to $\iota$ so that it can be stored.
+We don't need to do anything with the output of $\iota$; we can simply discard it.
+So $g$ should send $(a,a')\mapsto a$ on positions, returning the output of $\phi$ and discarding the output of $\iota$; and the on-directions function $g^\sharp_{(a,a')}\colon\1\to A$ should specify the direction $a\in A$, feeding the output of $\phi$ as input to $\iota$.
+
+Meanwhile, when $\phi$ outputs silence, we want to return the output of $\iota$ instead.
+We also need to feed the output of $\iota$ back into $\iota$ as input so that it can continue to be stored.
+So $h$ should be the identity on positions as well as the identity on directions.
+\end{example}
+
+\begin{example}[Paddling]\label{ex.paddler}
+Say we wanted to build a Moore machine with interface $\nn\yon$; we may interpret its natural number output as the machine's current location.
+What if we don't want this machine to jump around wildly?
+Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+
+To accomplish this, we introduce two intermediary systems, which we call the \emph{paddler} and the \emph{tracker}:%
+\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
+\[
+  \text{paddler}\colon S\yon^S\to\2\yon
+  \qqand
+  \text{tracker}\colon T\yon^T\to\nn\yon^\2
+\]
+The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle to the left side or the right side: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch what side the paddler is on (as an element of $\2$). 
+We can wrap an interface $\nn\yon$ around them both using an interaction pattern
+\[
+    \2\yon\otimes\nn\yon^\2\to\nn\yon
+\]
+whose on-positions function is the projection $\2\nn\to\nn$, returning the location returned by the tracker, and whose on-directions function is the projection $\2\nn\to\2$, passing the output of the paddler as input to the tracker.
+
+Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker.
+We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $T\coloneqq\2\nn$, storing what side the paddler is on and the current location.
+The on-positions function of the tracker is the projection $\2\nn\to\nn$ that returns the current location; then at each $(d,i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\nn$ sends
+\[
+  d'\mapsto
+	\begin{cases}
+		(d',i)&\tn{if }d=d'\\
+		(d',i+1)&\tn{if }d\neq d',
+	\end{cases}
+\]
+storing the new direction of the paddler as well as moving the machine forward one unit if the paddle switches while keeping the machine still if the paddle stays still.
+\end{example}
+
+\begin{exercise}
+Change the dynamics and state system of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
+
+When the paddle switches once and stops, the tracker increases its location by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its location by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its location by one then two then two.
+\begin{solution}
+We define a new tracker $T'\yon^{T'}\to\nn\yon^\2$ based on the one from \cref{ex.paddler} to watch for when the paddle switches sides once, at which point the tracker should increase its location by one, and watch for when the paddle switches sides twice in a row, at which point the tracker should increase its location by two.
+To do this, we need the tracker to remember not just the current side the paddle is on, but the previous side the paddle was on as well.
+The tracker should still remember the current location.
+Thus the states of the tracker are given by $T\coloneqq\2\times\2\nn$, storing the previous side the paddler was on, the current side the paddler is on, and the current location.
+The on-positions function of the tracker is the projection $\2\times\2\nn\to\nn$ that returns the current location; then at each $(d,d',i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\times\2\nn$ sends
+\[
+  d''\mapsto
+	\begin{cases}
+		(d',d'',i)&\tn{if }d'=d''\\
+		(d',d'',i+1)&\tn{if }d'\neq d''\tn{ and }d=d'\\
+		(d',d'',i+2)&\tn{if }d'\neq d''\tn{ and }d\neq d'
+	\end{cases}
+\]
+storing both the last side the paddle was on and the new side the paddle is on as well as moving the machine forward one unit if the paddle switches after not switching and two units if the paddle switches after just switching.
+\end{solution}
+\end{exercise}
+
+\subsection{Enclosing juxtaposed dynamical systems together}
+
+We saw in \cref{sec.poly.dyn_sys.new.sit_encl} that a situation (i.e.\ lens into $\yon$) for the interface of a dynamical system encloses that dynamical system in a closed system.
+So it should not come as a surprise that a situation for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
+
+\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
+Imagine that you see some chalk and you pinch it between your thumb and forefinger. 
+An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around.
+How might we model this in $\poly$?
+We will construct a closed dynamical system---one with interface $\yon$---consisting of only you and the chalk.
+To do so, we will provide an interface for you, and interface for the chalk, and an enclosure for your juxtaposition.
+
+Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
+\[
+	H\coloneqq\{\text{down, up}\}
+	\qqand
+	P\coloneqq\{\text{press, no press}\}.
+\]
+Your interface is $HP\yon^H$: returning your own height and pressure, and receiving the chalk's height.
+
+As for the chalk, it is either in your possession or not.
+Either way, it also returns its height, which is either down on the table or up in the air.
+The chalk always takes in information about whether pressure is being applied or not.
+When it's ``out'' of your possession, that's the whole story, but when it is ``in'' your possession, it also receives your hand's height.
+All together, here are the two interfaces:
+\[
+	\const{You}\coloneqq HP\yon^H
+	\qqand
+	\const{Chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\]
+
+Now we want to give the interaction pattern between you and the chalk.
+As we said before, you see the chalk's height.
+If your hand is not at the height of the chalk, the chalk receives no pressure.
+Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
+Furthermore, if the chalk is in your possession, it also receives your hand's height. 
+
+To provide a map $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$, we use the fact that $\const{Chalk}$ is a sum and that $\otimes$ distributes over $+$.
+Thus we need to give two maps
+\[
+	\alpha\colon HP\yon^H\otimes H\yon^P\to\yon
+	\qqand
+	\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon
+\]
+The map $\beta$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\alpha$ is more semantically interesting: it is given by the map
+\[
+  (h_\const{You},p_\const{You},h_\const{Chalk})\mapsto
+  \begin{cases}
+  	(h_\const{Chalk},\text{no press}) & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+  	(h_\const{Chalk},p_\const{You}) & \tn{ if } h_\const{You} = h_\const{Chalk}.
+  \end{cases}
+\]
+
+So now we've got you and the chalk in enclosed together by $\gamma$, so we are ready to add some dynamics.
+Your dynamics can be whatever you want, so let's just add some dynamics to the chalk (you'll get to give yourself some dynamics in \cref{exc.pickup_chalk}).
+The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession.'' We will give a dynamical system $C\yon^C\to\const{Chalk}$ with states $C$ and interface $\const{Chalk}$, i.e.\ a lens
+\begin{equation}\label{eqn.chalk_dynamics}
+	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+\end{equation}
+On positions, as you might guess, the chalk returns its height and whether it is in your possession directly.
+On directions, if it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it.
+So we can express the on-directions function of \cref{eqn.chalk_dynamics} at $(\text{out}, h_\const{Chalk})$ as
+\begin{align*}
+	\text{no press} &\mapsto (\text{out, down}) \\
+	\text{press} &\mapsto (\text{in}, h_\const{Chalk})
+\end{align*}
+and the on-directions function of \cref{eqn.chalk_dynamics} at $(\text{in}, h_\const{Chalk})$ as
+\begin{align*}
+	(h_\const{You}, \text{no press}) &\mapsto (\text{out}, h_\const{You}) \\
+	(h_\const{You}, \text{press}) &\mapsto (\text{in}, h_\const{You}).
+\end{align*}
+Obviously, this is all quite complicated, intricate, and contrived.
+Our goal here is to show that you can define interactions in which one system can engage with or disengage from another, where one system controls the behavior of the other when the two are engaged.
+\end{example}
+
+\begin{exercise}\label{exc.pickup_chalk}
+\begin{enumerate}
+	\item In \cref{ex.pickup_chalk}, we said that $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
+	\item Provide dynamics to the $\const{You}$ interface (i.e.\ specify a dynamical system with interface $\const{You}$) so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item A lens $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
+    This amounts to a function $HPH \to HHP$.
+    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
+    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
+    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
+    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+Given $n\in\nn$ and polynomials $p_1,\ldots,p_n$ as interfaces, a situation $p_1\otimes\cdots\otimes p_n\to\yon$ puts these $n$ interfaces in an enclosure together.
+The following proposition provides an alternative perspective on such situations.
 
 \begin{proposition}\label{prop.situations2}
 Given polynomials $p,q\in\poly$, there is a bijection
@@ -5131,7 +5491,7 @@ Given polynomials $p,q\in\poly$, there is a bijection
 \Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
 \end{equation}
 \end{proposition}
-The idea is that for $p$ and $q$ to be enclosed together in a system simply means that each $p$-position gives a situation for $q$, and each $q$-position gives a situation for $p$. 
+The idea is that specifying an enclosure for interfaces $p$ and $q$ together is equivalent to specifying an enclosure for $p$ for every output $q$ might return and specifying an enclosure for $q$ for every output $p$ might return.
 \begin{proof}[Proof of \cref{prop.situations2}]
 This is a direct calculation:
 \begin{align*}
@@ -5144,6 +5504,119 @@ This is a direct calculation:
 	\smset(q(\1),\Gamma(p))\times\smset(p(\1),\Gamma(q)).
 \end{align*}
 \end{proof}
+
+\begin{example}
+An enclosure $f\colon B\yon^A\otimes B'\yon^{A'}\to \yon$, corresponds to a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')\in BB'$, the enclosure $f$ specifies a pair of inputs $(a,a')\in AA'$. 
+
+Let's think of elements of $B$ and $B'$ not as outputs, but as locations that two machines may occupy.
+\[
+\begin{tikzpicture}[oriented WD, bb port length=0]
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$b'$};
+	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
+	\node at (p_in1) {\faEye};
+	\node at (q_in1) {\faEye};
+\end{tikzpicture}
+\hspace{.5in}
+\begin{tikzpicture}[oriented WD, bb port length=0]
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$b'$};
+	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
+	\node at (p_in1) {\faEye};
+	\node at (q_in1) {\faEye};
+\end{tikzpicture}
+\]
+Then given a pair of locations $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e.\ what values of $(a,a')$ they get.
+Equivalently, \cref{eqn.situations2} says that the interaction pattern tells us what values the first eye sees at any location when the second eye's location is fixed at $b'$, as well as what values the second eye sees at any location when the first eye's location is fixed at $b$.
+
+Here we see that \eqref{eqn.situations2} provides two ways to interpret the interaction pattern between two interfaces in a closed system: either as an enclosure around each interface that the other is part of, or as a single enclosure around them both.
+\end{example}
+
+\begin{exercise}
+Let $p\coloneqq q\coloneqq\nn\yon^\nn$.
+We wish to specify an enclosure around their juxtaposition.
+\begin{enumerate}
+    \item Say we wanted to feed the output of $q$ as input to $p$.
+    What function $f\colon q(\1)\to\Gamma(p)$ captures this behavior?
+    \item Say we wanted to feed the sum of the outputs of $p$ and $q$ as input to $q$.
+    What function $g\colon p(\1)\to\Gamma(q)$ captures this behavior?
+    \item What enclosure $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
+	\item Let dynamical systems $\phi\colon\nn\yon^\nn\to p$ and $\psi\colon\nn\yon^\nn\to q$ both be the identity on $\nn\yon^\nn$.
+	Suppose $\phi$ starts in the state $0\in\nn$ and $\psi$ starts in the state $1\in\nn$.
+	Describe the behavior of the system obtained by enclosing $\phi$ and $\psi$ together with $\gamma$, i.e.\ the system $(\phi\otimes\psi)\then\gamma$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
+\begin{enumerate}
+    \item If we want to feed the output of $q$ as input to $p$, the corresponding function $f\colon q(\1)\to\Gamma(p)$ should send any output $b\in q(\1)$ to the enclosure $\nn\to\nn$ of $p$ that sends any natural number output of $p$ to $b$ itself.
+    That is, $f$ is the function $b\mapsto(\_\mapsto b)$.
+    \item If we want to feed the sum of the outputs of $p$ and $q$ as input to $q$, the corresponding function $g\colon p(\1)\to\Gamma(q)$ should send any output $a\in q(\1)$ to the enclosure $\nn\to\nn$ of $q$ that sends every natural number output $b$ of $q$ to the sum $a+b$.
+    That is, $g$ is the function $a\mapsto(b\mapsto a+b)$.
+    \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((f(b))(a),(g(a))(b))=(b,a+b)$, which is the enclosure $\gamma\colon p\otimes q\to\yon$ that $(f,g)$ corresponds to via \eqref{eqn.situations2}.
+    \item As $\phi$ and $\psi$ are both the identity, the system $(\phi\otimes\psi)\then\gamma$ is really just the system $\gamma\colon p\otimes q\to\yon$.
+    When it is at state $(a,b)$, its next state will be $(b,a+b)$.
+    So if its initial state is $(0,1)$, its following states will be $(1,1),(1,2),(2,3),(3,5),(5,8),(8,13),\ldots$, forming the familiar Fibonacci sequence. 
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \const{You} and \const{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$.
+\begin{enumerate}
+	\item How does the chalk's output specify an enclosure for you? That is, write the map $\const{Chalk}(\1)\to\Gamma(\const{You})$.
+	\item How does your output specify an enclosure for the chalk? That is, write the map $\const{You}(\1)\to\Gamma(\const{Chalk})$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$ from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$ via \eqref{eqn.situations2}.
+\begin{enumerate}
+    \item Fix an output $(s_\const{Chalk}, h_\text{chalk})\in\const{Chalk}(\1)=\{\text{out},\text{in}\}H$ of the chalk.
+    If $s_\const{Chalk}=\text{out}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
+    \[
+        (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
+    \]
+    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
+    Meanwhile, if $s_\const{Chalk}=\text{in}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
+    \[
+        (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
+    \]
+    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
+    So overall, the map $\const{Chalk}(\1)\to\Gamma(\const{You})$ sends
+    \[
+        (\_,h_\text{chalk})\mapsto((\_,\_)\mapsto h_\const{Chalk}).
+    \]
+    
+    \item Fix an output $(h_\const{You},p_\const{You})\in\const{You}(\1)=HP$ of the chalk.
+    Then the corresponding enclosure $\const{Chalk}\iso\{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{out}\}H\to P$ sending
+    \[
+        (\text{out},h_\const{Chalk})\mapsto
+            \begin{cases}
+  	            \text{no press} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+  	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}.
+            \end{cases}
+    \]
+    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $P$ on the right; and another $\{\text{in}\}H\to HP$ sending
+    \[
+        (\text{in},h_\const{Chalk})\mapsto(h_\const{You},p_\const{You})
+    \]
+    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $HP$ on the right.
+    So overall, the map $\const{You}(\1)\to\Gamma(\const{Chalk})$ sends
+    \[
+        (h_\const{You},p_\const{You})\mapsto\left(
+            \begin{aligned}
+                (\text{out},h_\const{Chalk})&\mapsto
+                    \begin{cases}
+          	            \text{no press} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+          	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}
+                    \end{cases} \\
+                (\text{in},h_\const{Chalk})&\mapsto(h_\const{You},p_\const{You})
+            \end{aligned}
+        \right).
+    \]
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
@@ -5166,224 +5639,21 @@ This is a direct calculation:
         &\iso \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Universal properties of products and internal homs},
     \end{align*}
     and the result follows.
-    \item **
+    \item The general idea is that specifying an enclosure for interfaces $p_1,\ldots,p_n$ together is equivalent to specifying an enclosure for $p_i$ for every output all the other interfaces might return, for each $i\in\ord{n}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-% todo: change where this goes
-\begin{exercise}
-We will use \eqref{eqn.situations2} to consider the interaction $\varphi$ between \textit{you} and \textit{chalk} from \cref{ex.pickup_chalk} as a pair of functions $\textit{you}(\1)\to\Gamma(\textit{chalk})$ and $\textit{chalk}(\1)\to\Gamma(\textit{you})$.
-\begin{enumerate}
-	\item How is the chalk's position a situation for you? That is, write the map $\textit{chalk}(\1)\to\Gamma(\textit{you})$.
-	\item How is your position a situation for the chalk? That is, write the map $\textit{you}(\1)\to\Gamma(\textit{chalk})$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+\subsection{Simple interaction patterns as wiring diagrams}
 
-\begin{proposition}\label{prop.gamma_pres_coproduct}
-The situations functor $\Gamma\colon\poly\to\smset\op$ sends $(0,+)$ to $(1,\times)$:
-\[
-	\Gamma(\0)\iso\1
-	\qqand
-	\Gamma(p+q)\iso\Gamma(p)\times\Gamma(q).
-\]
-\end{proposition}
-Technically, one could say that $\Gamma$ preserves coproducts, since coproducts in $\smset\op$ are products in $\smset$.
+We first saw interactions between systems drawn as wiring diagrams in \cref{sec.poly.intro.dyn_sys}.
+They depict systems as boxes, showing how they can send inputs and outputs to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
 
-\begin{exercise}
-Prove \cref{prop.gamma_pres_coproduct}.
-\begin{solution}
-\cref{prop.gamma_pres_coproduct} follows directly from \cref{prop.poly_coprods}: we have that $\Gamma(\0) = \poly(\0,\yon) \iso \1$ since $\0$ is initial in $\poly$, and $\Gamma(p + q) = \poly(p+q,\yon) \iso \poly(p+q,\yon) = \Gamma(p) \times \Gamma(q)$ since $+$ gives coproducts in $\poly$. 
-\end{solution}
-\end{exercise}
+Formally, and more precisely, we can think of each box in a wiring diagram as an interface given by some monomial.
+Then the entire wiring diagram---specifying how these boxes nest within a larger box---is just an interaction pattern between the interfaces, with the larger box playing the role of the wrapper interface.
 
-The situations functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoidal in the sense that there are canonical functions
-\[
-	\1\cong\Gamma(\yon)
-	\qqand
-	\Gamma(p)\times\Gamma(q)\to\Gamma(p\otimes q)
-\]
-satisfying certain well-known laws. We won't prove this unless or until we need it.
-
-% todo: explanation/example of what a situation means in terms of dynamical systems
-
-
-
-
-
-
-
-
-
-
-
-
-When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
-Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
-\[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
-by taking their parallel product, then compose this system with a wrapper $f$ with wrapper interface $q$ to obtain a new dynamical system
-\[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\phi}\bigotimes_{i\in\ord{n}}p_i\To{f}q\]
-On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interace.
-On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the constituent interfaces.
-In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
-
-%** Figure out where this goes
-\begin{example}[Repeater]
-Suppose we have a dependent dynamical system $\varphi$ that takes unchanging input and sometimes outputs an element of $A$ and sometimes outputs only silence. That is, its interface is $A\yon+\yon$. But what if some other system inputs only elements of $A$? We will combine $\varphi$ with another system---a repeater---to get an $A$-emitter, i.e.\ a system with interface $A\yon$. How do we construct the repeater, and how do the two systems fit together?
-
-For the repeater, we will dispense with any interesting interface and just use $A\yon^A$: it listens for an $A$ and outputs an $A$. We enclose the two systems in an $A$-emitter using a map
-\[\epsilon\colon (A\yon+\yon)\otimes A\yon^A\to A\yon\]
-which we now describe. Since $\otimes$ distributes over $+$, it suffices to give maps $A\yon\otimes A\yon^A\to A\yon$ and $\yon\otimes A\yon^A\to A\yon$. The former corresponds to the case that the system is currently outputting, and the second corresponds to when the system is silent. For the former we use the map
-\[
-A\yon\otimes A\yon^A\cong (A\yon\otimes\yon^A)\otimes A\yon\To{\epsilon\otimes\id}\yon\otimes A\yon
-\]
-In other words, we output the repeater's position as the current $A$, and we update the repeater's position to the system's current state.
-
-For the latter it suffices---by the universal property of products---to give $A\yon^A\to\yon$ and $A\yon^A\to A$. For the first we use $\epsilon$, which means that during silence, the repeater holds the $A$ constant; for the second we use the product projection, which means that we output the current value of the repeater.
-\end{example}
-
-\begin{example}[Paddling]\label{ex.paddler}
-Consider a Moore machine with interface $\nn\yon$; its output could be any stream of natural numbers.
-We may interpret each natural number as the machine's current location.
-What if we don't want this machine to jump around wildly?
-Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
-
-To accomplish this, we introduce two intermediary interfaces, which we call the \emph{paddler} and the \emph{tracker}:%
-\footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
-\[
-  \textit{paddler}\coloneqq\2\yon
-  \qqand
-  \textit{tracker}\coloneqq\nn\yon^\2
-\]
-The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle left or right: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch the paddler's direction (as an element of $\2$). Their enclosure together
-\[
-\textit{tracker}\otimes\textit{paddler}\to\nn\yon
-\]
-which is a map $\2\yon\otimes\nn\yon^\2\cong\2\nn\yon^\2\to\nn\yon$ is the obvious rearrangement of the identity function $\nn\times\2\to\nn\times\2$. This lets us see the tracker's announcement (in $\nn$) and let's tracker see the paddler's direction.
-
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead we'll focus here on the dynamics of the tracker. We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $S\coloneqq\2\nn$, and its dynamics
-\[\varphi\colon S\yon^S\to\nn\yon^\2\]
-are given by the map given on elements $d,d'\in\2$ and $i\in\nn$ by the formula:
-\[
-  (d,i)\mapsto i,d'\mapsto
-	\begin{cases}
-		i&\tn{if }d=d'\\
-		i+1&\tn{if }d\neq d'.
-	\end{cases}
-\]
-As advertised, when the paddle switches, the tracker announces that the machine has moved forward one unit; when the paddle stays still, the tracker announces that the machine itself also stays still.
-\end{example}
-
-\begin{exercise}
-Change the dynamics and state-set of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
-
-When the paddle switches once and stops, the tracker increases its position by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its position by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its position by one then two then two.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
-Imagine you are at a table; you see some chalk and you pinch it between your thumb and forefinger. An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around. How might we model this in $\poly$?
-
-Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
-\[
-	H\coloneqq\{\text{down, up}\}
-	\qqand
-	P\coloneqq\{\text{press, no press}\}.
-\]
-Your interface is $HP\yon^H$: producing your own height and pressure, and receiving the chalk's height.
-
-As for the chalk, it is in one of two modes: in your possession or not. Either way, it reveals its height, which is either down on the table or up in the air. The chalk always takes in information about whether pressure is being applied or not. When it's out of your possession (mode ``out''), that's the whole story, but when it is in your possession (mode ``in'') it also receives your hand's height. All together, here are the two interfaces:
-\[
-	\textit{you}\coloneqq HP\yon^H
-	\qqand
-	\textit{chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\]
-
-Now we want to give the interaction between you and the chalk.
-As we said before, you see the chalk's height.
-If your hand is not at the height of the chalk, the chalk receives no pressure.
-Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
-Furthermore, if the chalk is in your possession, it also receives your hand's height. 
-
-To provide a map $\textit{you}\otimes\textit{chalk}\To{\varphi}\yon$, we use the fact that $\textit{chalk}$ is a sum and that $\otimes$ distributes over $+$. Thus we need to give two maps
-\[
-	HP\yon^H\otimes H\yon^P\To{\psi}\yon
-	\qqand
-	HP\yon^H\otimes H\yon^{HP}\To{\psi'}\yon
-\]
-The map $\psi'$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\psi$ is more semantically interesting: it is given by the map
-\[
-  ((h_\textit{you},p_\textit{you}),h_\textit{chalk})\mapsto
-  \begin{cases}
-  	(h_\textit{chalk},\text{no press}) & \tn{ if } h_\textit{you} \neq h_\textit{chalk} \\
-  	(h_\textit{chalk},p_\textit{you}) & \tn{ if } h_\textit{you} = h_\textit{chalk}.
-  \end{cases}
-\]
-
-So now we've got you and the chalk in a closed system together, given by $\varphi=\psi+\psi'$, so we are ready to add some dynamics. Your dynamics can be whatever you want, so let's just add some dynamics to the chalk and call it a day. The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession.'' We will give a dynamical system $C\yon^C\to\textit{chalk}$ with states $C$ and chalk-interface, i.e.\ a map
-\begin{equation}\label{eqn.chalk_dynamics}
-	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
-\end{equation}
-As you might guess, the chalk reveals its height and whether it is in your possession directly. If it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it. This is all expressed by the following dynamics, which define \eqref{eqn.chalk_dynamics}:
-\begin{align*}
-  (\text{out}, h_\textit{chalk})&\mapsto
-  	\left(\text{out}, h_\textit{chalk},
-		\begin{aligned}
-			\text{no press} &\mapsto (\text{out, down}) \\
-			\text{press} &\mapsto (\text{in}, h_\textit{chalk})
-		\end{aligned}\right)\\
-	(\text{in}, h_\textit{chalk})&\mapsto
-		\left(\text{in},h_\textit{chalk},
-		\begin{aligned}
-			(h_\textit{you}, \text{no press}) &\mapsto (\text{out}, h_\textit{you}) \\
-			(h_\textit{you}, \text{press}) &\mapsto (\text{in}, h_\textit{you})
-		\end{aligned}\right)
-\end{align*}
-Obviously, this is all quite complicated, intricate, and contrived. Our goal here is only to show that you can define interactions in which one system can engage with or disengage from another, and that when the two systems are engaged, the first controls the behavior of the second.
-\end{example}
-
-\begin{exercise}\label{exc.pickup_chalk}
-\begin{enumerate}
-	\item In \cref{ex.pickup_chalk}, we said that $\psi'\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
-	\item Provide dynamics to the \textit{you} character so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it. 
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item A morphism $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
-    This amounts to a function $HPH \to HHP$.
-    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
-    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
-    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
-    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-% \subsubsection{The polynomial $S\yon^S$ as a comonad on $\smset$}\label{page.poly_comonad}
-
-% A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
-% \[
-% \adj{\smset}{-\times S}{-^S}{\smset}
-% \]
-% the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
-% \footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.} 
-% and the elements of $S$ are called states. \niu{Are they??} It is no coincidence that we also refer to elements of $S$ as states. \niu{How does the interpretation of the store comonad as a data structure indexed by $S$ along with a ``current location'' element in $S$ actually relate to this?}
-
-% Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
-% \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
-
-%---- Section ----%
-\section{Wiring diagrams}
-
-We want our dynamical systems to interact with each other.
+\begin{example}
+Here is a simple wiring diagram.
 \begin{equation}\label{eqn.control_diag}
 \begin{tikzpicture}[oriented WD, baseline=(B)]
 	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
@@ -5411,28 +5681,47 @@ We want our dynamical systems to interact with each other.
 	\node[below=0of outer.north] {\texttt{System}};
 \end{tikzpicture}
 \end{equation}
-In this picture the plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.
+The plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.
 
-There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has inputs and outputs, and so we can consider the interface as a monomial.
+There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has a fixed set of inputs and outputs, and so we can consider the box as a monomial interface.
 \begin{equation}\label{eqn.basic_diagram}
-	\const{Plant}=C\yon^{AB}
+	\const{Plant}\coloneqq C\yon^{AB}
 	\qquad\quad
-	\const{Controller} = B\yon^C
+	\const{Controller}\coloneqq B\yon^C
 	\qquad\quad
-	\const{System} = C\yon^A.
+	\const{System}\coloneqq C\yon^A.
 \end{equation}
+The wiring diagram itself is a wrapper
+\[
+	w\colon\const{Plant}\otimes\const{Controller}\to\const{System},
+\]
+specifying an interaction pattern between $\const{Plant}$ and $\const{Controller}$ with wrapper interface $\const{System}$.
+Concretely, $w$ is a lens $CB\yon^{ABC}\to C\yon^A$ that dictates how wires are feeding from outputs to inputs.
+Like all lenses between monomials, $w$ consists of an on-positions function $CB\to C$ and an on-directions function $CBA\to ABC$.
 
-The wiring diagram itself is a morphism in $\poly$ of the form
+The wiring diagram is a picture that tells us which maps to use.
+The on-positions function says ``inside the system you have boxes outputting values of type $C$ and $B$.
+The system needs to produce an output of type $C$; how shall I obtain it?''
+The answer, according to the wiring diagram, is to send $(c,b)\mapsto c$.
+
+Meanwhile, the on-directions function says ``inside the system you have boxes outputting values of type $C$ and $B$, and the system itself is receiving an input value of type $A$.
+The boxes inside need input values of type $A$, $B$, and $C$; how shall I obtain them?''
+Again, we can read the answer off the wiring diagram: send $(c,b,a)\mapsto (a,b,c)$.
+
+Note that neither the wiring diagram nor any of the boxes within it are dynamical systems on their own.
+Rather, each box is a monomial that could be the interface of a dynamical system.
+When we assign to a box a dynamical system having that box as its interface, we say that \emph{give dynamics} to the box.
+So the entire wiring diagram is a wrapper that tells us how, given the dynamics for each inner box,
 \[
-	w\colon\const{Plant}\otimes\const{Controller}\to\const{System}
+\phi\colon S\yon^S\to\const{Plant}
+\qqand
+\psi\colon T\yon^T\to\const{Controller},
 \]
-Since everything involved is a monomial---the parallel product of monomials is a monomial---the whole wiring diagram $w$ is a lens $CB\yon^{ABC}\to C\yon^A$. This morphism says how wires are feeding from outputs to inputs. Like all lenses, it consists of two functions
+we can obtain the dynamics for the outer box:
 \[
-  \text{get}\colon CB\to C
-  \qqand
-  \text{set}\colon CBA\to ABC
+ST\yon^{ST}\To{\phi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\const{System}.
 \]
-The first says ``inside the system you have boxes outputting values of type $C$ and $B$. The system needs to produce an output of type $C$; how shall I obtain it?'' The second says ``the system is providing an input value of type $A$, and inside the system you have boxes outputting values of type $C$ and $B$. These boxes need input values of type $A$, $B$, and $C$; how shall I obtain them?'' The answer of course is that \emph{get} is given by projection $(c,b)\mapsto c$ and \emph{set} is given by a permutation $(c,b,a)\mapsto (a,b,c)$. The wiring diagram is a picture that tells us which maps to use.
+\end{example}
 
 \begin{exercise}
 \begin{enumerate}
@@ -5445,21 +5734,6 @@ The first says ``inside the system you have boxes outputting values of type $C$ 
 **
 \end{solution}
 \end{exercise}
-
-Now suppose we have a dynamical system in each inner box:
-\[
-S\yon^S\To{f}\const{Plant}
-\qqand
-T\yon^T\To{g}\const{Controller}
-\]
-Then since $\otimes$ is a monoidal product on $\poly$ (see \cref{prop.dirichlet_monoidal}), we get a map
-\[
-S\yon^S\otimes T\yon^T\To{f\otimes g}\const{Plant}\otimes\const{Controller}
-\]
-In other words we have a lens $ST\yon^{ST}\to \const{Plant}\otimes\const{Controller}$; that's a new dynamical system with state space $ST=(S\times T)$; a state in it is just a pair of states, one in $S$ and one in $T$. Furthermore our wiring diagram already gave us a map $\const{Plant}\otimes\const{Controller}\to\const{System}$, so combining, we have a new system
-\[
-ST\yon^{ST}\to\const{System}.
-\]
 
 \begin{exercise}
 Consider the following wiring diagram.
@@ -5631,49 +5905,8 @@ For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color
 \end{exercise}
 
 %---- Section ----%
-\section{General interaction}
 
-In general, we want systems that can change their interface---remove a port, add a port, change the type of a port, etc.---based on their internal states. But when such systems interact with others, the interaction pattern must be able to accommodate all of the various combinations of interfaces.
-
-\begin{example}
-Suppose we have two interfaces $p$ and $p'$, having mode sets $M$ and $M'$ respectively
-\[
-	p\coloneqq \sum_{m\in M} B_m\yon^{A_m}
-	\qqand
-	p'\coloneqq \sum_{m'\in M'} B'_m\yon^{A'_m}
-\]
-The parallel product of these is:
-\[
-p\otimes p'\cong \sum_{(m,m')\in MM'}B_mB'_m\yon^{A_mA'_m}
-\]
-so the interface $B_mB'_{m'}\yon^{A_mA'_{m'}}$ at each of these $(M\times M')$-many modes $(m,m')$ must be accommodated in any morphism $w\colon p\otimes p'\to q$. For example if $M=\2$ and $M'=\3$ then $w$ can be specified by six maps.
-\end{example}
-
-But in fact the possibilities for interaction are much more general than we have led the reader to believe. They may not be broken down into modes at all.
-
-\begin{example}
-Let $p\coloneqq B\yon^A$ and $p'=B'\yon^{A'}$. To give a morphism $f\colon p\otimes p'\to \yon$, one specifies a map $B\times B'\to \1$, which is no data, as well as a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')$ one specifies a pair of inputs $(a,a')$. 
-
-Let's think of elements of $B$ and $B'$ not as outputs, but as positions. 
-\[
-\begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$b'$};
-	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
-	\node at (p_in1) {\faEye};
-	\node at (q_in1) {\faEye};
-\end{tikzpicture}
-\hspace{.5in}
-\begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$b'$};
-	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
-	\node at (p_in1) {\faEye};
-	\node at (q_in1) {\faEye};
-\end{tikzpicture}
-\]
-Then given both positions $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e.\ what values of $(a,a')$ we get.
-\end{example}
+\subsection{More examples of general interaction}
 
 \begin{example}
 Suppose you have two systems $p,q$, both having the same type $p=q\coloneqq\rr^\2\yon^{\rr^\2-(0,0)}$. 
@@ -5715,19 +5948,6 @@ Let's use these vectors to define the internal dynamics of each system. Each sys
 	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{set}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
 \end{align*}
 \end{example}
-
-\begin{exercise}
-Let $p,q\coloneqq\nn\yon^\nn$.
-\begin{enumerate}
-	\item Write a lens $p\otimes q\to\yon$ that corresponds to the function $(a,b)\mapsto (b,a+b)$.
-	\item Write dynamical systems $\nn\yon^\nn\to p$ and $\nn\yon^\nn\to q$, each of which simply outputs the previous input.
-	\item Suppose each system starts in state $1\in\nn$. What is the trajectory of the $p$-system?
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
 
 \begin{exercise}
 Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set and $d\colon X\times X\to\rr$ is a function satisfying the usual laws. Let's have robots interact in this space.
