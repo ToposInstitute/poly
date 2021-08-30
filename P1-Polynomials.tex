@@ -2631,18 +2631,6 @@ Here $p, q \in \poly$.
 \end{solution}
 \end{exercise}
 
-
-%\subsubsection{Back to maps of polynomials}
-%After that interlude, you are hopefully more comfortable with our main formula
-%\cref{eqn.main_formula} describing the set of morphisms between two arbitrary
-%polynomial functors as dependent lenses. Let's practice.
-
-% \begin{example}[Constants are sent to constants]\label{ex.const_to_const}
-% Any natural transformation $p\to q$ must send constants in $p$ to constants in $q$. So if $p$ has constant terms and $q$ doesn't, e.g.\ if $p=\yon^\2+\1$ and $q=\yon^\3$, then there are no maps $p\to q$. 
-
-% **Finish**
-% \end{example}
-
 %---- Subsection ----%
 \subsection{Arena morphisms as lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
 
@@ -2896,8 +2884,6 @@ So $f_X(1, g)$ looks like
 \]
 \end{example}
 
-% ** Add an exercise—labeled trees?
-
 \cref{prop.morph_arena_to_func} lets us translate from lenses to natural transformations.
 The following corollary tells us how to go in the other direction.
 In particular, it justifies the notation $f_\1$ for the on-positions function of $f$.
@@ -2913,8 +2899,6 @@ Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens $(f_\1, f
 By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\1)\to q(\1)$ sending every $i \in p(\1)$ to $f_\1(i) \in q(\1)$, so the on-positions function $f_\1$ is indeed equal to the $\1$-component of $f$.
 Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i, \id_{p[i]}) \in p(p[i])$, with $i \in p(\1)$, to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
 \end{proof}
-
-% ** More exercises??
 
 %---- Subsection ----%
 \subsection{Identity and composition of lenses} \label{subsec.poly.func_nat.morph.id_comp}
@@ -3036,8 +3020,6 @@ Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.c
 As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eqref{eqn.coprod_univ_prop_dir} together imply the commutativity of \eqref{eqn.coprod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.coprod_univ_prop} commutes.
 \end{solution}
 \end{exercise}
-
-%% **Examples/exercises of composing two polynomial morphisms?
 
 \begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
@@ -3907,210 +3889,12 @@ We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{$\otimes$-monoids in $\poly$} \label{subsec.poly.func_nat.prepare_dyn.par_monoid}
+\begin{remark}
+Monoids in $\poly$ with respect to the parallel product $\otimes$ are particularly interesting---they have a kind of collective semantics, letting agents aggregate their contributions and distribute returns on those contributions in a coherent way.
+We leave discussion of them to future work, so as not to distract us from our main story.
+\end{remark}
 
-\begin{definition}
-A \emph{$\otimes$-monoid in} $\poly$ consists of a polynomial $m$, called the \emph{carrier}; a position $\eta\colon\yon\to m$, called the \emph{unit}; and a map $\mu\colon m\otimes m\to m$, called the \emph{multiplication}, that form a monoid in $(\poly,\yon,\otimes)$---that is, they must satisfy certain equations.
-We sometimes say that $m$ \emph{carries a $\otimes$-monoid structure}, and we refer to the unit and multiplication together as a \emph{$\otimes$-monoid structure on} $m$.
-\end{definition}
-% ** Show that a map y -> m is a position of m?
-
-These $\otimes$-monoids have a kind of swarm-like semantics, letting supervisors summarize the positions of a crew of subordinates and distribute instructions to those subordinates in a coherent way.
-
-\begin{equation}\label{eqn.swarm}
-\begin{tikzpicture}[oriented WD]
-	\node[bb={0}{0}] at (1.6,4)     (x1) {$m$};
-	\node[bb={0}{0}] at (1.2,8) (x2) {$m$};
-	\node[bb={0}{0}] at (2,7)     (x3) {$m$};
-	\node[bb={0}{0}] at (2.5,10)     (x4) {$m$};
-	\node[bb={0}{0}] at (3,2)     (x5) {$m$};
-	\node[bb={0}{0}] at (4,4)     (x6) {$m$};
-	\node[bb={0}{0}] at (4,8)     (x7) {$m$};
-	\node[bb={0}{0}] at (5,5)   (x8) {$m$};
-	\node[bb={0}{0}] at (5.8,6)   (x9) {$m$};
-	\node[bb={0}{0}] at (4.6,11)     (x0) {$m$};
-	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(x2) (x3) (x4)] (o1) {};
-	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(x6) (x7) (x8) (x9)] (o2) {};
-	\node[bb={0}{0}, bb name=$m$, bbx=1, bby=1, fit=(o1) (o2) (x1) (x5) (x0)] (o2) {};
-\end{tikzpicture}
-\end{equation}
-% ** Might be too general? Should be a linear row of boxes if noncommutative
-Each box in this picture is labeled $m$. Whenever a box has $n$ subboxes, it represents the canonical map
-\[m^{\otimes n} \to m\]
-given by the monoid structure on $m$.
-We can think of this map as an (associative, unital) $n$-ary multiplication operation on $m$.
-Formally we might denote it by $\mu^{n-1}$, so that $\mu^1=\mu\colon m\otimes m\to m$,\footnote{Here $\mu\inv = \eta$ and $\mu^n = (\mu^{n-1} \otimes \id_m) \then \mu$ for $n \in \nn$, so that $\mu^0 = \id_m$ and $\mu^1 = \mu$.} but for typographical reasons it is nicer to just write $\mu$ for all of them.
-
-The on-positions function $\mu_\1 \colon m(\1)^n \to m(\1)$ sends every $n$-tuple $i\coloneqq (i_1,\ldots,i_n)$ of positions to a single position $i'\coloneqq\mu_\1(i)$.
-In the language of decision-making, we can think of this as a crew of $n$ subordinates, each with a decision to make, summarizing all of their decisions as a single decision for their supervisor to make.
-
-Meanwhile, the on-directions function
-\[
-    \mu^\sharp_{i} \colon m[i'] \to m[i_1]\times\cdots\times m[i_n]
-\] 
-at the $n$-tuple $i$ sends every direction at $i'$ to a direction at each of the $n$ positions in $i$.
-Continuing our decision-making analogy, the supervisor chooses a single option to distribute to all the subordinates that tells them which option to pick for each of their individual decisions.
-This relationship between subordinates and their supervisor gives us our swarm-like semantics for $\otimes$-monoids.
-
-The coherence of the monoid ensures that if we have a nested hierarchy in which intermediary supervisors of smaller crews are themselves subordinates of a higher supervisor, we may reassociate some of the crews or even forget about some of the intermediary supervisors without altering the relationship.
-In other words, we may safely ignore the intermediary subboxes in \eqref{eqn.swarm}.
-
-\begin{example}[Monoids in $\smset$ give linear $\otimes$-monoids]\label{ex.tensor_monoid_linear}
-If $(M,e,*)$ is a monoid in $(\smset,\1,\times)$, then the linear polynomial $M\yon$ carries a corresponding $\otimes$-monoid structure.
-Here the unit $\eta \colon \yon \to M\yon$ specifies the position $e \in M$, and since $M\yon \otimes M\yon \iso (M \times M)\yon$, the multiplication is a map $\mu \colon (M \times M)\yon \to M\yon$.
-This map is equal to $* \colon M \times M \to M$ on positions and the identity on directions.
-
-We may interpret the swarm-like semantics of this $\otimes$-monoid.
-Every decision has but a single option, so no choices need to be made.
-So we can think of the decisions simply as straightforward actions; any crew of subordinates can send their actions to their supervisor as a one-action summary via $*$, and there is no need for the supervisor to send any directions back.
-
-This construction is functorial and fully faithful: a map between monoids in $\smset$ can be identified with a map between $\otimes$-monoids.
-\end{example}
-
-\begin{example}[Sets give representable $\otimes$-monoids]\label{ex.tensor_monoid_rep}
-For any set $S$, the polynomial $\yon^S$ carries a canonical $\otimes$-monoid structure: the unit is the unique map $\eta\colon\yon\to\yon^S$, while the multiplication $\mu\colon\yon^S\otimes\yon^S\to\yon^S$ is the identity on positions and the diagonal $S\to S\times S$ on directions.
-
-We may interpret the swarm-like semantics of this $\otimes$-monoid.
-There is only one kind of decision to be made, always with the same options.
-So there is no need for the subordinates to tell their supervisor what decision they are making; all the supervisor has to do is select an option, and every subordinate will know to select that option, too.
-
-This construction is again (contravariantly) functorial and fully faithful.
-\end{example}
-
-\begin{example}\label{ex.swarm_reals}
-Let $m\coloneqq\rr_{\geq0}\yon^{\rr_{\geq0}}$. If we take $\eta\coloneqq0$ and take $\mu_\1(a,b) \coloneqq a+b$ and $\mu^\sharp_{(a,b)}(t) \coloneqq \left(\frac{at}{a+b},\frac{bt}{a+b}\right)$, then $(m, \eta, \mu)$ is a $\otimes$-monoid.
-\end{example}
-
-\begin{exercise}
-Give an interpretation of the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
-\begin{solution}
-Here is one interpretation of the swarm-like semantics of the $\otimes$-monoid in \cref{ex.swarm_reals}.
-In a crew of $n$ subordinates, each subordinate $i \in \ord{n}$ must determine how much of Product T to give back to the $i^\text{th}$ stakeholder, who has has contributed some quantity $a_i \in \rr_{\geq0}$ of Resource A.
-The subordinates pool together the total amount $\sum_{i \in \ord{n}} a_i$ of Resource A that they have received, which they pass on to their supervisor.
-The supervisor, who sees only this total, uses it to decide (through unspecified means, perhaps via another morphism we compose with) the total quantity $t \in \rr_{\geq0}$ of Product T to be split between the stakeholders.
-Upon receiving this quantity, each subordinate then gives their stakeholder their cut $a_i t / \sum_{i \in \ord{n}} a_i$ of Product T proportional to their contribution of Resource A.
-% Looking at the picture \eqref{eqn.swarm}, suppose a big box $m$ has $n$-many subordinates, which we call little boxes; we're considering a map $\mu\colon m^{\otimes n}\to m$. Suppose each little box has its own dynamics. Then the map $\mu$ gives us dynamics on the whole. What is it?
-
-% Each little box is publishing its position, which is a nonnegative real number. The big box adds up these real numbers, and that is its position. Now position might be the wrong word, given that map, so maybe ``energy usage'' is better. The energy usage of the big box is the sum of the energy usages of its subordinates.
-
-% Now a direction comes in to the big box; it is a nonnegative real number. Perhaps this represents how much energy the big box is being granted at the next time step. This energy is then distributed according to whatever fraction of the whole the current boxes are currently using. This operation is monoidal, meaning that no matter how many subordinates each box has, it will be coherent with forgetting the intermediary boxes that are doing the summarizing.
-\end{solution}
-\end{exercise}
-
-\begin{example}\label{ex.list_monoids}
-Here are two examples of $\otimes$-monoid structures carried by 
-\[\ell \coloneqq \sum_{n\in\nn} \yon^{\ord{n}} = \1+\yon+\yon^\2+\cdots,\]
-the ``list'' polynomial, whose position-set is $\nn$ and whose direction-set at $n\in\nn$ is $\ord{n}$.\footnote{We call this the ``list'' polynomial because, when viewed as a functor $\smset\to\smset$, it sends each set $A$ to the set of finite lists (i.e.\ sequences) of elements in $A$, often denoted $\lst(A)$ or $A^*$.
-You may know this polynomial as the list monad, the free monoid (on a set), or the Kleene star.}
-The first $\otimes$-monoid we'll discuss is commutative, while the second $\otimes$-monoid is not.
-We will check that they satisfy the necessary conditions of an $\otimes$-monoid in \cref{exc.list_monoids}.
-
-We have one $\otimes$-monoid carried by $\ell$ that is commutative, as follows: its unit specifies the position $1\in\nn$, and its multiplication is a map $\ell\otimes\ell \to \ell$ whose on-positions function $\cdot \colon \nn\times\nn \to \nn$ is standard integer multplication (e.g.\ $2\mdot3=6$) and whose on-directions function $\ord{mn} \to \ord{m} \times \ord{n}$ for each $(m,n)\in\nn$ is the canonical isomorphism between the set $\{1,\ldots,mn\}$ and the set $\{1,\ldots,m\}\times\{1,\ldots,n\}$.
-
-We have another $\otimes$-monoid carried by $\ell$ that is not commutative, as follows: its unit specifies the position $\0\in\nn$, and its multiplication is a map $\ell\otimes\ell \to \ell$ whose on-positions function $+ \colon \nn\times\nn \to \nn$ is standard integer addition and whose on-directions function $\ord{m+n} \to \ord{m} \times \ord{n}$ is given by
-\[
-    d \mapsto \big(\min(d,m), \max(0,d-m)\big)
-\]
-for each $(m,n)\in\nn$.
-For example, take the position $(m,n)\coloneqq(3,5)$; it is sent to position $8$. Given a direction $d \in \ord{8}$ there, it is distributed to a pair $(d_1, d_2)$ of directions $d_1 \in \ord{3}$ and $d_2 \in \ord{5}$.
-% One can imagine a measuring cup with height 8 and a line at 3:
-If $1 \leq d \leq 3$, then $d_1=d$ and $d_2=0$; if $3 \leq d \leq 8$, then $d_1=3$ and $d_2=d-5$.
-\end{example}
-
-\begin{exercise}\label{exc.list_monoids}
-\begin{enumerate}
-	\item Check that the first $\otimes$-monoid described in \cref{ex.list_monoids} really satisfies the necessary equations.
-	\item Show that the first $\otimes$-monoid in \cref{ex.list_monoids} really is commutative.
-	\item Give an interpretation of the swarm-like semantics of the first $\otimes$-monoid in \cref{ex.list_monoids}.
-	\item Check that the second $\otimes$-monoid described in \cref{ex.list_monoids} really satisfies the necessary equations.
-	\item Show that the second $\otimes$-monoid in \cref{ex.list_monoids} really is noncommutative.
-	\item Give an interpretation of the swarm-like semantics of the second $\otimes$-monoid in \cref{ex.list_monoids}.
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Find a $\otimes$-monoid carried by the polynomial $\yon+\1$.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{proposition}\label{prop.tensor_tensor_monoids}
-If $m,n$ are the carriers of $\otimes$-monoids, then $m\otimes n$ naturally also carries a $\otimes$-monoid structure.
-\end{proposition}
-
-\begin{exercise}
-Sketch a proof of \cref{prop.tensor_tensor_monoids}.
-\begin{solution}
-Given that $m, n$ carry $\otimes$-monoid structures, we give an $\otimes$-monoidal structure carried by $m\otimes n$.
-In fact, the following works in any symmetric monoidal category.
-The unit $\yon\to m\otimes n$ is given by the tensor of the units,
-\[\yon\cong\yon\otimes\yon\To{\eta_m\otimes\eta_n}m\otimes n,\]
-and the monoidal product is given by swapping (that's where the symmetry is used) and using the monoidal products
-\[
-(m\otimes n)\otimes(m\otimes n)\to (m\otimes m)\otimes(n\otimes n)\To{\mu_m\otimes\mu_n}m\otimes n.
-\]
-The laws are easy to verify.
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Give a $\otimes$-monoid structure on $\nn\yon^\5$.
-\begin{solution}
-We give one of many examples of a $\otimes$-monoid structure on $\nn\yon^\5$.
-We have that $(\nn, 0, +)$ is a monoid in $(\smset, \1, \times)$, so by \cref{ex.tensor_monoid_linear}, there is a $\otimes$-monoid whose carrier is $\nn\yon$, whose unit is the position $0$, and whose multiplication $\mu$ is given by $+$.
-Meanwhile, by \cref{ex.tensor_monoid_rep}, $\yon^\5$ carries a canonical $\otimes$-monoid structure with a uniquely determined unit and a multiplication $\mu'$ that is the identity on positions and the diagonal on directions.
-So we can apply \cref{prop.tensor_tensor_monoids} to obtain an $\otimes$-monoid whose carrier is $\nn\yon^\5$, whose unit is $0$, and whose multiplication is the map
-\[
-\nn\yon^\5 \otimes \nn\yon^\5 \iso (\nn\yon \otimes \yon^\5)\otimes(\nn\yon \otimes \yon^\5) \to (\nn\yon \otimes \nn\yon)\otimes(\yon^\5 \otimes \yon^\5) \To{\mu \otimes \mu'} \nn\yon \otimes \yon^\5 \iso \nn\yon^\5
-\]
-given by $+$ on positions and the diagonal on directions.
-The subordinates report the sum of the natural number labels of their individual decisions to their supervisor, who selects one of $5$ options for all subordinates to select.
-
-There are other solutions; for one thing, $(\nn, 0, +)$ is not the only monoidal structure on $\nn$ in $\smset$.
-\end{solution}
-\end{exercise}
-
-\begin{proposition}[Free $\otimes$-monoid] \label{prop.free_parallel_monoid}
-The forgetful functor from $\otimes$-monoids to $\poly$ has a left adjoint sending $p$ to a $\otimes$-monoid whose carrier is $\sum_{n \in \nn} p^{\otimes n}$.
-\end{proposition}
-\begin{proof}
-By \cref{prop.day}, $\otimes$ distributes over coproducts, so the result follows from \cite[Chapter~VII, Theorem~2]{MacLane:1998a} (or \cite[Proposition~2.2]{Nlab:category_of_monoids}).
-In particular, the unit of the free $\otimes$-monoid is the unique position of the summand $p^{\otimes 0} \iso \yon$ of $\sum_{n \in \nn} p^{\otimes n}$, while the multiplication has as its components the canonical inclusions
-\[
-    p^{\otimes i} \otimes p^{\otimes j} \iso p^{\otimes (i + j)} \to \sum_{n \in \nn} p^{\otimes n}
-\]
-for $i, j \in \nn$.
-\end{proof}
-
-\cref{prop.free_parallel_monoid} tells us that the carrier of the free $\otimes$-monoid on $p$ has as its positions elements of $\ell(p(\1))$, i.e.\ lists of $p$-positions.
-Given a position $\ell=(i_1,\ldots,i_n)$, the direction-set there is given by $\prod_{j\in\ord{n}} p[i_j]$; i.e., the directions of the carrier at a list of $p$-positions are just directions of $p$ at each position in the list.
-
-\begin{exercise}
-Give an interpretation of the swarm-like semantics of the free $\otimes$-monoid on a polynomial $p\in\poly$.
-\begin{solution}
-We give an interpretation of the swarm-like semantics of the free $\otimes$-monoid on a polynomial $p\in\poly$.
-From \cref{prop.free_parallel_monoid}, we know that the carrier of the free $\otimes$-monoid on $p$ has as its positions all lists of $p$-positions.
-So each subordinate faces a list of decisions of $p$, and these lists are all concatenated into a single list of decisions of $p$ that is sent to their supervisor.
-For each decision of $p$ in the list, the supervisor selects an option, which is then sent back to the subordinate who asked about that decision.
-
-% So a $p'$-dynamical system can readout any list $i'\coloneqq[i_1,\ldots,i_n]$ of $p$-positions as its output and given such a list it takes in a list $[d_1,\ldots,d_n]$ of directions at those positions. 
-
-Put another way, if a larger box contains a bunch of smaller boxes as subordinates, the ``shorter'' lists of positions from the smaller boxes are concatenated to form the ``longer'' list of positions for the larger box.
-Given a longer list of directions there, it is then chopped up into shorter lists of the appropriate lengths so that they can be dispersed back to the subordinates.
-\end{solution}
-\end{exercise}
-
-%\begin{proposition}
-%Let $\cat{O}$ be an operad (with one object), so that $\cat{O}_n$ denotes the set of $n$-ary operations for any $n\in\nn$. Then the polynomial $\sum_{n\in\nn}\cat{O}_n$ carries a $\otimes$-monoid structure.
-%\end{proposition}
-
-%-------- Section --------%
+% %-------- Section --------%
 \section{Summary and further reading}
 
 Thanks to Joachim Kock for telling us about the derivative $\dot{p}$ of a polynomial and the relationship between $\dot{p}(\1)$ and the total number of leaves of $p$.
@@ -4284,18 +4068,22 @@ Suppose we have a function $f\colon A\times B\to B$.
 \begin{enumerate}
 	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
 	\item Would you say the machine is memoryless?
+	\item Now for any function $g\colon A\to B$, give a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ by first turning $g\colon A\to B$ into a function $A\times B\to B$ that discards its second input.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item We seek an $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ corresponding to the function $f\colon A\times B\to B$.
-    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a return function$B \to B$ and an update function $B \times A \to B$.
+    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a return function $B \to B$ and an update function $B \times A \to B$.
     So we can simply let the return function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
     
     \item Generally, such a machine is not memoryless.
     Unlike in \cref{ex.funs_to_moore}, the update function $B \times A \iso A \times B \To{f} B$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
     
     However, if $f$ factors through the projection $\pi_A \colon A \times B \to A$, i.e.\ if $f$ can be written as a composite $A \times B \To{\pi_A} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine from \cref{ex.funs_to_moore} corresponding to $f'$.
+    
+    \item Given a function $g\colon A\to B$, we can compose it with the projection $\pi_A\colon A\times B\to A$ to obtain a function $A\times B\To{\pi_A}A\To{g}B$, which sends its first input through $g$ and discards its second input.
+    Then the corresponding $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ has the identity function on $B$ as its return function and the composite $B\times A\To{\pi_A}A\To{g}B$, which discards its first input and sends its second input through $g$, as its update function.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -4536,8 +4324,6 @@ We'll do this by going through several examples.
 \subsection{Examples of dependent dynamical systems}
 To start, let's finish up the example from the end of the last section.
 
-\subsubsection{Halting deterministic state automata}
-
 \begin{example}\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
 Say we want such an automaton to halt after reaching an accept state and no longer take input.
@@ -4621,18 +4407,9 @@ Here we examine the halting deterministic state automaton depicted in \eqref{eqn
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Find what you think is another interesting generalization of deterministic state automata that you can model using dependent dynamical systems.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\subsubsection{Graphs}
-
 Every graph gives rise to a dynamical system---but to ensure that we are talking about the same thing, let us fix the definition of a graph.
 
-\begin{definition}
+\begin{definition}\label{def.graph}
 A \emph{graph} $G = (E \tto V)$ consists of an edge set $E$, a vertex set $V$, a source function $s\colon E\to V$, and a target function $t\colon E\to V$.
 \end{definition}
 
@@ -4671,8 +4448,6 @@ The vertices of your graph are the states, and the edges of your graph are the p
 % To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
 % \end{example}
 
-\subsubsection{A generalized file-reader}
-
 \begin{example}\label{ex.generalized_file_reader}
 In \cref{exc.file_reader} one is tasked with building a file-reader as a Moore machine, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. 
 Now we turn that file-reader into a dependent dynamical system $\phi\colon S\yon^S\to p$ that cannot take in input while it is reading.
@@ -4680,31 +4455,31 @@ Now we turn that file-reader into a dependent dynamical system $\phi\colon S\yon
 We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
 Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
 \[
-    p(\1)\coloneqq\{\text{``ready''}, \text{``busy''}\}\times\Set{ascii}.
+    p(\1)\coloneqq\{\text{`ready'}, \text{`busy'}\}\times\Set{ascii}.
 \]
-So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: ``ready'' or ``busy.''
+So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: `ready' or `busy.'
 These form the possible outputs of the file-reader.
 As for the inputs, we define the direction-sets of $p$ as follows, for all $c\in\Set{ascii}$:
 \[
-    p[(\text{``ready''}, c)]\coloneqq S \qqand p[(\text{``busy''}, c)]\coloneqq\1.
+    p[(\text{`ready'}, c)]\coloneqq S \qqand p[(\text{`busy'}, c)]\coloneqq\1.
 \]
-That way, our file-reader can receive any pair of entries in $S$ as input when it is ``ready,'' but can only be told to advance when it is ``busy.''
+That way, our file-reader can receive any pair of entries in $S$ as input when it is `ready,' but can only be told to advance when it is `busy.'
 
-We want our file-reader to be ``ready'' if its current entry is the terminal entry; otherwise, it will be ``busy.''
+We want our file-reader to be `ready' if its current entry is the terminal entry; otherwise, it will be `busy.'
 In either case, it will return the ascii character at the current position.
 So we define the return function $\phi_\1$ such that, for all $(s,t)\in S$,
 \begin{align*}
   \phi_\1(s, t) =
   \begin{cases}
-    (\text{``ready''}, f(s)) &\mbox{if $s = t$}\\
-    (\text{``busy''}, f(s)) &\mbox{otherwise}  
+    (\text{`ready'}, f(s)) &\mbox{if $s = t$}\\
+    (\text{`busy'}, f(s)) &\mbox{otherwise}  
   \end{cases}
 \end{align*}
 
-While the file-reader is ``ready,'' we want it to set its new current and terminal entries to be the input.
+While the file-reader is `ready,' we want it to set its new current and terminal entries to be the input.
 So for each $(s,t)\in S$ for which $s=t$, we define the update function $\phi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
 
-On the other hand, while the file-reader is ``busy,'' we want it to step forward through the file each time it receives an input.
+On the other hand, while the file-reader is `busy,' we want it to step forward through the file each time it receives an input.
 So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\phi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
@@ -4717,20 +4492,20 @@ We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-r
 In place of any other ascii character, we'll have it output $\_$ instead.
 So its possible outputs should form the set
 \[
-    q(\1)\coloneqq\{\text{``ready''}, \text{``busy''}\}\times\{100,\_\}.
+    q(\1)\coloneqq\{\text{`ready'}, \text{`busy'}\}\times\{100,\_\}.
 \]
 The direction-sets of $q$ can be defined in the same way we defined the direction-sets of $p$: for each $c\in\{100,\_\}$, we have
 \[
-    q[(\text{``ready''}, c)]\coloneqq S \qqand q[(\text{``busy''}, c)]\coloneqq\1.
+    q[(\text{`ready'}, c)]\coloneqq S \qqand q[(\text{`busy'}, c)]\coloneqq\1.
 \]
 Then we define the return function $\psi_\1$ like $\phi_\1$, but first checking to see if the character at the current entry is $100$: so for all $(s,t)\in S$,
 \begin{align*}
   \psi_\1(s, t) =
   \begin{cases}
-    (\text{``ready''}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
-    (\text{``ready''}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
-    (\text{``busy''}, 100) &\mbox{if $s\neq t$ and $f(s)=100$}\\
-    (\text{``busy''}, \_) &\mbox{otherwise}\\
+    (\text{`ready'}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
+    (\text{`ready'}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
+    (\text{`busy'}, 100) &\mbox{if $s\neq t$ and $f(s)=100$}\\
+    (\text{`busy'}, \_) &\mbox{otherwise}\\
   \end{cases}
 \end{align*}
 Then the update functions of $\psi$ behave just like those of $\phi$.
@@ -4742,9 +4517,7 @@ On the other hand, for each $(s,t)\in S$ for which $s\neq t$, we let the update 
 In the previous exercise, we manually constructed a file-searcher that acted very much like a file-reader.
 In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
 Moreover, this construction highlights precisely how our file-searcher is related to our file-reader.
-This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{sec.poly.dyn_sys.new.wrap}.
-
-\subsubsection{A robot on a grid}
+This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
 
 \begin{example}\label{ex.grid_robot}
 Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be the set
@@ -4821,7 +4594,7 @@ We modify the dynamical system from \cref{ex.grid_robot}.
 
 In the previous exercise, we added a reward system to the robot on the grid by manually redefining the associated lens.
 But there is a much simpler way to think about the new system as the juxtaposition of two systems, a robot system and a reward system, in parallel.
-We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{sec.poly.dyn_sys.new.par}.
+We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{subsec.poly.dyn_sys.new.par}.
 In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
 
@@ -4832,15 +4605,15 @@ We have now seen how dependent dynamical systems can be modeled as lenses in $\p
 But we have yet to take full advantage of the categorical structure that $\poly$ provides.
 In particular, purely based on what we know of $\poly$ so far from \cref{ch.poly.func_nat}, we have three rather different ways of obtaining new dynamical systems from old ones:
 \begin{enumerate}
-    \item Given dynamical systems $S\yon^S\to p$ and $S\yon^S\to q$, we can use the universal property of the \emph{categorical product} to obtain a dynamical system $S\yon^S\to p\times q$; see \cref{sec.poly.dyn_sys.new.prod}.
-    \item Given dynamical systems $\phi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\phi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{sec.poly.dyn_sys.new.par}.
-    \item Given a dynamical system $\phi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\phi\then f\colon S\yon^S\to q$; see \cref{sec.poly.dyn_sys.new.wrap}.
+    \item Given dynamical systems $S\yon^S\to p$ and $S\yon^S\to q$, we can use the universal property of the \emph{categorical product} to obtain a dynamical system $S\yon^S\to p\times q$; see \cref{subsec.poly.dyn_sys.new.prod}.
+    \item Given dynamical systems $\phi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\phi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{subsec.poly.dyn_sys.new.par}.
+    \item Given a dynamical system $\phi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\phi\then f\colon S\yon^S\to q$; see \cref{subsec.poly.dyn_sys.new.wrap}.
 \end{enumerate}
 Each of these operations has a concrete interpretation in terms of dynamical systems.
 In this section, we'll review each of them in turn.
 
 %---- Subsection ----%
-\subsection{Categorical products: multiple interfaces operating on the same states}\label{sec.poly.dyn_sys.new.prod}
+\subsection{Categorical products: multiple interfaces operating on the same states}\label{subsec.poly.dyn_sys.new.prod}
 
 For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
 Then by the universal property of products in $\poly$, there is an induced lens \[\phi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
@@ -4926,7 +4699,7 @@ This construction is actually universal in a way we'll find important later. Ind
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Parallel products: juxtaposing dynamical systems}\label{sec.poly.dyn_sys.new.par}
+\subsection{Parallel products: juxtaposing dynamical systems}\label{subsec.poly.dyn_sys.new.par}
 
 Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.func_nat.prepare_dyn.par}.
 In particular, the parallel product of two state systems is still a state system.
@@ -5034,7 +4807,7 @@ For that, we will need to use what we call a wrapper interface.
 We'll introduce wrapper interfaces in the next section, before describing how they can be used in conjunction with parallel products to model general interaction in \cref{sec.poly.dyn_sys.interact}.
 
 %---- Subsection ----%
-\subsection{Composing lenses: wrapper interfaces}\label{sec.poly.dyn_sys.new.wrap}
+\subsection{Composing lenses: wrapper interfaces}\label{subsec.poly.dyn_sys.new.wrap}
 
 The idea behind a wrapper interface is simple.
 Given a dynamical system $\phi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
@@ -5149,9 +4922,6 @@ Then each input in $q$ is passed to an input in $p$ via the corresponding on-dir
 So $f$ allows us to operate $\phi$ with the wrapper interface $q$ instead of the original interface $p$.
 \end{example}
 
-
-%** Give an example of this with both outputs and inputs changing
-
 \begin{exercise} \label{exc.file_searcher_wrap}
 In \cref{exc.file_searcher}, you constructed a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
 Express this construction as wrapping $q$ around $\phi$ by giving a lens $f\colon p\to q$ for which composing $\phi$ with $f$ yields $\psi$.
@@ -5166,14 +4936,14 @@ So the on-positions function of $f$ should send each $(m,c)\in p(\1)$ to
             (m,\_) & \text{otherwise}.
         \end{cases}
 \]
-Then the file-searcher acts just like the file-reader does on inputs, so the on-directions functions of $f$ should be $\id_S$ at each position whose first coordinate is ``ready'' and $\id_\1$ at each position whose first coordinate is ``busy.''
+Then the file-searcher acts just like the file-reader does on inputs, so the on-directions functions of $f$ should be $\id_S$ at each position whose first coordinate is `ready' and $\id_\1$ at each position whose first coordinate is `busy.'
 \end{solution}
 \end{exercise}
 
 In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
-\subsection{Situations as enclosures}\label{sec.poly.dyn_sys.new.sit_encl}
+\subsection{Situations as enclosures}\label{subsec.poly.dyn_sys.new.sit_encl}
 Say we wanted to model a dynamical system $\phi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
 We can think of this as wrapping $\yon$, the interface with one output and one input, around $\phi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
@@ -5293,7 +5063,6 @@ On directions, $f$ takes into account the current outputs of each of the constit
 In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
 When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
 
-%** Figure out where this goes
 \begin{example}[Repeater]
 Suppose we have a dependent dynamical system $\phi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
 What if we wanted to construct a system $\psi$ that operates just like $\phi$, but \emph{always} returns elements of $A$ as output?
@@ -5388,9 +5157,142 @@ storing both the last side the paddle was on and the new side the paddle is on a
 \end{solution}
 \end{exercise}
 
+\begin{example}
+Suppose you have two systems with the same interface $p\coloneqq q\coloneqq\rr^\2\yon^{\rr^\2-\{(0,0)\}}$. 
+\[
+\begin{tikzpicture}
+	\node (m1) {\faMotorcycle};
+	\node[above=-.15 of m1] (e1) {\faEye};
+	\node[draw, thick, blue!10, fit = (m1) (e1)] {};
+	\node[below right=0 and 1 of m1] (m2) {\scalebox{-1}[1]{\faMotorcycle}};
+	\node[above=-.15 of m2] (e2) {\faEye};
+	\node[draw, thick, blue!10, fit = (m2) (e2)] {};
+\end{tikzpicture}
+\]
+The output of each interface indicates the location of the system, while the range of possible inputs indicate the locations that the system could observe, relative to the location of the system itself.
+Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye cannot see that which is at the same position as the eye.
+
+Let's have the two systems constantly approaching each other with a force equal to the reciprocal of the squared distance between them.
+If they finally collide, let's have the whole thing come to a halt.
+To do this, we want the wrapper interface to be $\{\text{`go'}\}\yon+\{\text{`stop'}\}$, so that if the system returns `go' it can still advance to the next state, but if it returns `stop' it halts.
+The wrapper $\rr^\2\yon^{\rr^\2-\{(0,0)\}}\otimes\rr^\2\yon^{\rr^\2-\{(0,0)\}}\to\{\text{`go'}\}\yon+\{\text{`stop'}\}$ is given on positions by
+\[
+  \big((x_\1,y_1),(x_2,y_2)\big)\mapsto
+	\begin{cases}
+		\text{`stop'}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
+		\text{`go'}&\mbox{ otherwise}.
+	\end{cases}
+\]
+On directions, we use the function
+\[
+  \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big),
+\]
+so that each system is able to see the location of the other system relative to its own, i.e.\ the vector pointing from itself to the other system (unless that vector is zero, in which case the whole thing should have already halted). 
+
+We can use these vectors to define the internal dynamics of each system so that they move the way we want them to.
+Each system will hold as its internal state its current location and velocity, i.e.\ $S=\rr^\2\times\rr^\2$.
+To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the current location, update the current location by adding the current velocity, and update the current velocity by adding a vector with appropriate magnitude pointing to the other system:
+\begin{align*}
+	\rr^\2\times\rr^\2&\To{\text{return}}\rr^\2\\
+	\big((x,y),(v_x, v_y)\big)&\Mapsto{\text{return}}(x,y)
+\end{align*}
+\begin{align*}
+	\rr^\2\times\rr^\2\times(\rr^\2-\{(0,0)\})&\To{\text{update}}\rr^\2\times\rr^\2\\
+	\big((x,y),(v_x,v_y),(a,b)\big)&\Mapsto{\text{update}}\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)
+\end{align*}
+\end{example}
+
+\begin{exercise}
+Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set of points and $d\colon X\times X\to\rr_{\geq0}$ is a distance function satisfying the usual laws.
+Let's have robots interact in this space.
+
+Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and $a_0'\in A'$ be elements, each thought of as a default value. Let $p\coloneqq AX\yon^{A'X}$ and $p'\coloneqq A'X\yon^{AX}$, and imagine there are two robots, one with interface $p$, returning a signal as an element of $A$ and its location as a point in $X$, and one with interface $p'$, returning a signal as an element of $A'$ and also its location as a point in $X$.
+\begin{enumerate}
+	\item Write down an interaction pattern $p\otimes p'\to\yon$ such that each robot receives the other's location, but that it only receives the other's signal when their locations $x,x'$ are sufficiently close, namely when $d(x,x')<1$.
+	Otherwise, it receives the default signal.
+	\item Write down an interaction pattern $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
+	\item Suppose that each robot has a set $S,S'$ of possible private states in addition to their locations.
+	What functions are involved in providing a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$, if the location state $x\in X$ is directly returned without modification?
+	\item Change the setup in any way so that each robot only extends a port to hear the other's signal when the distance between them is less than $s$. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
+\qedhere
+\end{enumerate}
+\begin{solution}
+Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals $a_0\in A$ and $a'_0\in A'$, and there are two robots, one with interface $p\coloneqq AX\yon^{A'X}$ returning a signal in $A$ and a location in $X$ and another with interface $p'\coloneqq A'X\yon^{AX}$ returning a signal in $A'$ and a location in $X$.
+\begin{enumerate}
+    \item An interaction pattern $p\otimes p'\to\yon$ consists of a trivial on-positions function $AX\times A'X\to\1$ (indicating that no outputs leave the system) and an on-directions function $AX\times A'X\to A'X\times AX$ indicating what inputs the robots should receive according to the outputs they return.
+    To model the fact that the robots receive each others' locations, but only receive each others' signals rather than the default signals when the distance between their locations is less than $1$ according to the distance function $d$, this on-directions function should send
+    \[
+        ((a,x),(a',x'))\mapsto
+          \begin{cases}
+          	((a',x'),(a,x))&\tn{ if }d(x,x')<1\\
+          	((a'_0,x'),(a_0,x))&\tn{ otherwise}.
+          \end{cases}
+    \]
+    \item An interaction pattern $p\otimes p'\to\yon^{[0,5]}$ that allows the signal to travel $s\in[0,5]$ times further consists of a still trivial on-positions function and an on-directions function $AX\times A'X\times[0,5]\to A'X\times AX$ indicating what inputs the robots should receive according to the external input $s\in[0,5]$ as well as the outputs they return.
+    To model the fact that the robots receive each others' locations, but only receive each others' signals rather than the default signals when the distance between their locations is less than $s$ according to the distance function $d$, this on-directions function should send
+    \[
+        ((a,x),(a',x'),s)\mapsto
+          \begin{cases}
+          	((a',x'),(a,x))&\tn{ if }d(x,x')<s\\
+          	((a'_0,x'),(a_0,x))&\tn{ otherwise}.
+          \end{cases}
+    \]
+    \item To providing a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$ under the condition that the on-positions function preserves the second coordinate $x\in X$, we must provide the first projection $SX\to A$ of an on-positions function that turns the robot's private state and current location into the signal it returns, as well as an on-directions function $SX\times A'X\to SX$ that provides a new private state and location for the robot given its old private state, old location, and the signal and location it receives from the other robot.
+    \item
+    To have the robots listen for each others' signals only when they are sufficiently close, we must move away from monomial interfaces and Moore machines to leverage dependency.
+    Let the robots' new interfaces be
+    \[
+        p\coloneqq \{\text{`close'}\}AX\yon^{A'X}+\{\text{`far'}\}AX\yon^X \qqand p'\coloneqq \{\text{`close'}\}A'X\yon^{AX}+\{\text{`far'}\}A'X\yon^X,
+    \]
+    so that their input sets are just $X$ when they are `far.'
+    
+    
+    Then by the distributivity of $\otimes$ over $+$, their new interaction pattern $p\otimes p'\to\yon^{[0,5]}$ can be specified by four lenses, all trivial on positions: the lens
+    \[
+        \{\text{`close'}\}AX\yon^{A'X}\otimes\{\text{`close'}\}A'X\yon^{AX}\to\yon^{[0,5]},
+    \]
+    given by the on-directions function
+    \[
+        ((`close',a,x),(`close',a',x'),s)\mapsto
+          \begin{cases}
+          	((`close',a',x'),(`close',a,x))&\tn{ if }d(x,x')<s\\
+          	((`far',a'_0,x'),(`far',a_0,x))&\tn{ otherwise};
+          \end{cases}
+    \]
+    the lens
+    \[
+        \{\text{`far'}\}AX\yon^X\otimes\{\text{`far'}\}A'X\yon^X\to\yon^{[0,5]},
+    \]
+    given by the on-directions function
+    \[
+        ((`far',a,x),(`far',a',x'),s)\mapsto
+          \begin{cases}
+          	((`close',x'),(`close',x))&\tn{ if }d(x,x')<s\\
+          	((`far',x'),(`far',x))&\tn{ otherwise};
+          \end{cases}
+    \]
+    and two other lenses that should never come up in practice but that we must specify anyway:
+    \[
+        \{\text{`close'}\}AX\yon^{A'X}\otimes\{\text{`close'}\}A'X\yon^{AX}\to\yon^{[0,5]},
+    \]
+    given by the on-directions function
+    \[
+        ((`close',a,x),(`close',a',x'),s)\mapsto
+          \begin{cases}
+          	((`close',a',x'),(`close',a,x))&\tn{ if }d(x,x')<s\\
+          	((`far',a'_0,x'),(`far',a_0,x))&\tn{ otherwise};
+          \end{cases}
+    \]
+    and
+    **
+    %Finish this
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
 \subsection{Enclosing juxtaposed dynamical systems together}
 
-We saw in \cref{sec.poly.dyn_sys.new.sit_encl} that a situation (i.e.\ lens into $\yon$) for the interface of a dynamical system encloses that dynamical system in a closed system.
+We saw in \cref{subsec.poly.dyn_sys.new.sit_encl} that a situation (i.e.\ lens into $\yon$) for the interface of a dynamical system encloses that dynamical system in a closed system.
 So it should not come as a surprise that a situation for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
@@ -5402,21 +5304,21 @@ To do so, we will provide an interface for you, and interface for the chalk, and
 
 Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
-	H\coloneqq\{\text{down, up}\}
+	H\coloneqq\{\text{`down', `up'}\}
 	\qqand
-	P\coloneqq\{\text{press, no press}\}.
+	P\coloneqq\{\text{`press', `no press'}\}.
 \]
 Your interface is $HP\yon^H$: returning your own height and pressure, and receiving the chalk's height.
 
-As for the chalk, it is either in your possession or not.
-Either way, it also returns its height, which is either down on the table or up in the air.
+As for the chalk, it is either `in' your possession or `out' of it.
+Either way, it also returns its height, which is either `down' or `up' in the air.
 The chalk always takes in information about whether pressure is being applied or not.
-When it's ``out'' of your possession, that's the whole story, but when it is ``in'' your possession, it also receives your hand's height.
+When it's `out' of your possession, that's the whole story, but when it is `in' your possession, it also receives your hand's height.
 All together, here are the two interfaces:
 \[
 	\const{You}\coloneqq HP\yon^H
 	\qqand
-	\const{Chalk}\coloneqq \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+	\const{Chalk}\coloneqq \{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}.
 \]
 
 Now we want to give the interaction pattern between you and the chalk.
@@ -5437,28 +5339,29 @@ $HPH\to HHP$, and we take it to be the obvious map sending your height and press
 \[
   (h_\const{You},p_\const{You},h_\const{Chalk})\mapsto
   \begin{cases}
-  	(h_\const{Chalk},\text{no press}) & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+  	(h_\const{Chalk},\text{`no press'}) & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
   	(h_\const{Chalk},p_\const{You}) & \tn{ if } h_\const{You} = h_\const{Chalk}.
   \end{cases}
 \]
 
 So now we've got you and the chalk in enclosed together by $\gamma$, so we are ready to add some dynamics.
 Your dynamics can be whatever you want, so let's just add some dynamics to the chalk (you'll get to give yourself some dynamics in \cref{exc.pickup_chalk}).
-The chalk has only four states $C\coloneqq \{\text{out}, \text{in}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is ``in your possession.'' We will give a dynamical system $C\yon^C\to\const{Chalk}$ with states $C$ and interface $\const{Chalk}$, i.e.\ a lens
+The chalk has only four states $C\coloneqq \{\text{`out'}, \text{`in'}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is in your possession.
+We will give a dynamical system $C\yon^C\to\const{Chalk}$ with states $C$ and interface $\const{Chalk}$, i.e.\ a lens
 \begin{equation}\label{eqn.chalk_dynamics}
-	\{\text{out}, \text{in}\} \times H\yon^{\{\text{out}, \text{in}\} \times H}\to \{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}.
+	\{\text{`out'}, \text{`in'}\} \times H\yon^{\{\text{`out'}, \text{`in'}\} \times H}\to \{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}.
 \end{equation}
 On positions, as you might guess, the chalk returns its height and whether it is in your possession directly.
 On directions, if it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it.
-So we can express the on-directions function of \cref{eqn.chalk_dynamics} at $(\text{out}, h_\const{Chalk})$ as
+So we can express the on-directions function of \cref{eqn.chalk_dynamics} at $(\text{`out'}, h_\const{Chalk})$ as
 \begin{align*}
-	\text{no press} &\mapsto (\text{out, down}) \\
-	\text{press} &\mapsto (\text{in}, h_\const{Chalk})
+	\text{`no press'} &\mapsto (\text{`out', `down'}) \\
+	\text{`press'} &\mapsto (\text{`in'}, h_\const{Chalk})
 \end{align*}
-and the on-directions function of \cref{eqn.chalk_dynamics} at $(\text{in}, h_\const{Chalk})$ as
+and the on-directions function of \eqref{eqn.chalk_dynamics} at $(\text{`in'}, h_\const{Chalk})$ as
 \begin{align*}
-	(h_\const{You}, \text{no press}) &\mapsto (\text{out}, h_\const{You}) \\
-	(h_\const{You}, \text{press}) &\mapsto (\text{in}, h_\const{You}).
+	(h_\const{You}, \text{`no press'}) &\mapsto (\text{`out'}, h_\const{You}) \\
+	(h_\const{You}, \text{`press'}) &\mapsto (\text{`in'}, h_\const{You}).
 \end{align*}
 Obviously, this is all quite complicated, intricate, and contrived.
 Our goal here is to show that you can define interactions in which one system can engage with or disengage from another, where one system controls the behavior of the other when the two are engaged.
@@ -5571,13 +5474,13 @@ We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$
 \begin{solution}
 We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$ from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$ via \eqref{eqn.situations2}.
 \begin{enumerate}
-    \item Fix an output $(s_\const{Chalk}, h_\text{chalk})\in\const{Chalk}(\1)=\{\text{out},\text{in}\}H$ of the chalk.
-    If $s_\const{Chalk}=\text{out}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
+    \item Fix an output $(s_\const{Chalk}, h_\text{chalk})\in\const{Chalk}(\1)=\{\text{`out'},\text{`in'}\}H$ of the chalk.
+    If $s_\const{Chalk}=\text{`out'}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
     \[
         (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
     \]
     according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
-    Meanwhile, if $s_\const{Chalk}=\text{in}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
+    Meanwhile, if $s_\const{Chalk}=\text{`in'}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
     \[
         (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
     \]
@@ -5588,29 +5491,29 @@ We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\y
     \]
     
     \item Fix an output $(h_\const{You},p_\const{You})\in\const{You}(\1)=HP$ of the chalk.
-    Then the corresponding enclosure $\const{Chalk}\iso\{\text{out}\}H\yon^P + \{\text{in}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{out}\}H\to P$ sending
+    Then the corresponding enclosure $\const{Chalk}\iso\{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{`out'}\}H\to P$ sending
     \[
-        (\text{out},h_\const{Chalk})\mapsto
+        (\text{`out'},h_\const{Chalk})\mapsto
             \begin{cases}
-  	            \text{no press} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+  	            \text{`no press'} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
   	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}.
             \end{cases}
     \]
-    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $P$ on the right; and another $\{\text{in}\}H\to HP$ sending
+    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $P$ on the right; and another $\{\text{`in'}\}H\to HP$ sending
     \[
-        (\text{in},h_\const{Chalk})\mapsto(h_\const{You},p_\const{You})
+        (\text{`in'},h_\const{Chalk})\mapsto(h_\const{You},p_\const{You})
     \]
     according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $HP$ on the right.
     So overall, the map $\const{You}(\1)\to\Gamma(\const{Chalk})$ sends
     \[
         (h_\const{You},p_\const{You})\mapsto\left(
             \begin{aligned}
-                (\text{out},h_\const{Chalk})&\mapsto
+                (\text{`out'},h_\const{Chalk})&\mapsto
                     \begin{cases}
-          	            \text{no press} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
+          	            \text{`no press'} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
           	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}
                     \end{cases} \\
-                (\text{in},h_\const{Chalk})&\mapsto(h_\const{You},p_\const{You})
+                (\text{`in'},h_\const{Chalk})&\mapsto(h_\const{You},p_\const{You})
             \end{aligned}
         \right).
     \]
@@ -5644,7 +5547,7 @@ We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\y
 \end{solution}
 \end{exercise}
 
-\subsection{Simple interaction patterns as wiring diagrams}
+\subsection{Wiring diagrams as interaction patterns}
 
 We first saw interactions between systems drawn as wiring diagrams in \cref{sec.poly.intro.dyn_sys}.
 They depict systems as boxes, showing how they can send inputs and outputs to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
@@ -5726,12 +5629,58 @@ ST\yon^{ST}\To{\phi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\cons
 \begin{exercise}
 \begin{enumerate}
 	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
-	\item What are the monomials in your diagram (replacing \eqref{eqn.basic_diagram})?
-	\item What is the lens corresponding to this diagram?
+	\item What are the monomials represented by the boxes in your diagram (replacing \eqref{eqn.basic_diagram})?
+	\item What is the interaction pattern represented by this wiring diagram?
+	Give the corresponding lens, including its on-positions and on-directions functions.
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+    \item Here is the wiring diagram \eqref{eqn.control_diag} modified so that the controller also receives information of type $A'$ from the outside world.
+\[
+\begin{tikzpicture}[oriented WD, baseline=(B)]
+	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
+	\node[bb={2}{1}, below left=-1 and 1 of plant, fill=blue!10]  (cont) {\texttt{Controller}};
+	\node[circle, inner sep=1.5pt, fill=black, right=.1] at (plant_out1) (pdot) {};
+	\node[bb={0}{0}, inner ysep=25pt, inner xsep=1cm, fit=(plant) (pdot) (cont)] (outer) {};
+	\coordinate (outer_out1) at (outer.east|-plant_out1);
+	\coordinate (outer_in1) at (outer.west|-plant_in1);
+	\coordinate (outer_in2) at (outer.west|-cont_in1);
+	\begin{scope}[above, font=\footnotesize]
+  	\draw (outer_in1) -- node {$A$} (plant_in1);
+  	\draw (outer_in2) -- node {$A'$} (cont_in1);
+  	\draw (cont_out1) to node (B) {$B$} (plant_in2);
+  	\draw (plant_out1) to node {$C$} (outer_out1);
+  	\draw
+  		let 
+  			\p1 = (cont.south west-| pdot),
+  			\p2 = (cont.south west),
+  			\n1 = \bby,
+  			\n2 = \bbportlen
+  		in
+  			(pdot) to[out=0, in=0]
+  			(\x1+\n2, \y1-\n1) --
+  			(\x2-\n2, \y2-\n1) to[out=180, in=180]
+  			(cont_in2);
+		\end{scope}
+	\node[below=0of outer.north] {\texttt{System}};
+\end{tikzpicture}
+\]
+    \item The monomials represented by the boxes in this diagram are the same, except that $\const{Controller}$ and $\const{System}$ each have an extra $A'$ exponent:
+    \[
+	\const{Plant}\coloneqq C\yon^{AB}
+	\qquad\quad
+	\const{Controller}\coloneqq B\yon^{A'C}
+	\qquad\quad
+	\const{System}\coloneqq C\yon^{AA'}.
+    \]
+    
+    \item The interaction pattern represented by this wiring diagram is the lens
+    \[
+    	w'\colon \const{Plant}\otimes\const{Controller}\to\const{System}
+    \]
+    consisting of an on-positions function $CB\to C$ given by $(c,b)\mapsto c$ and an on-directions function $CBAA'\to ABA'C$ given by $(c,b,a,a')\mapsto(a,b,a',c)$.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
@@ -5761,23 +5710,37 @@ Consider the following wiring diagram.
 \end{tikzpicture}
 \]
 \begin{enumerate}
-	\item Write out the polynomials for each of Alice, Bob, and Carl.
-	\item Write out the polynomial for the outer box, Team.
-	\item The wiring diagram constitutes a morphism $f$ in $\poly$; what is its type $f\colon ?\to ?$
-	\item What morphism is it?
-	\item Suppose we have dynamical systems $A\yon^A\to\const{Alice}$, $B\yon^B\to\const{Bob}$, and $C\yon^C\to\const{Carl}$. What is the induced dynamical system on $\const{Team}$?
+	\item Write out the polynomials for each of $\const{Alice}$, $\const{Bob}$, and $\const{Carl}$.
+	\item Write out the polynomial for the outer box, $\const{Team}$.
+	\item The wiring diagram constitutes a lens $f$ in $\poly$; what is its domain and codomain?
+	\item What lens is it?
+	\item Suppose we have dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$. What is the induced dynamical system with interface $\const{Team}$?
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+    \item According to the wiring diagram, we have that $\const{Alice}\coloneqq D\yon^{HA},$ that $\const{Bob}\coloneqq EF\yon^B,$ and that $\const{Carl}\coloneqq HG\yon^{DE}.$
+    \item According to the wiring diagram, we have that $\const{Team}\coloneqq G\yon^{AB}.$
+    \item The wiring diagram constitutes a wrapper
+    \[
+        f\colon\const{Alice}\otimes\const{Bob}\otimes\const{Carl}\to\const{Team}.
+    \]
+    Its domain is $\const{Alice}\otimes\const{Bob}\otimes\const{Carl}\iso DEFHG\yon^{HABDE}$, while its codomain is $\const{Team}=G\yon^{AB}$.
+    \item On positions, the lens $f$ is a function $DEFHG\to G$ that sends $(d,e,f,h,g)\mapsto g$.
+    On directions, $f$ is a function $DEFHGAB\to HABDE$ that sends $(d,e,f,h,g,a,b)\mapsto(h,a,b,d,e)$.
+    \item Given dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$, the dynamical system induced by the wiring diagram is given by the composite lens
+    \[
+        ABC\yon^{ABC}\To{\alpha\otimes\beta\otimes\gamma}\const{Alice}\otimes\const{Bob}\otimes\const{Carl}\To{f}\const{Team}.
+    \]
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}[Long division]
 \begin{enumerate}
-	\item Come up with a function ``divmod'' of type $\nn\times\nn_{\geq1}\to\nn\times\nn$ and which, for example, sends $(10,7)$ to $(1,3)$ and $(30,7)$ to $(4,2)$.
-	\item Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
-	\item Interpret the following wiring diagram:
+	\item Let $\fun{divmod}\colon\nn\times\nn_{\geq1}\to\nn\times\nn$ send $(a,b)\mapsto(a\bdiv b, a\bmod b)$; for example, it sends $(10,7)\mapsto(1,3)$ and $(30,7)\mapsto(4,2)$.
+	Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
+	\item Interpret the following wiring diagram, where we have already given dynamics to each box as indicated by their labels:
 \[
 \begin{tikzpicture}[oriented WD, bb small]
 	\node[bb port sep=3, fill=blue!10, bb={2}{2}] (divmod) {divmod};
@@ -5796,7 +5759,7 @@ Consider the following wiring diagram.
 	\draw (times_out1) -- (outer_out2);
 \end{tikzpicture}
 \]
-	\item Use the above and a diagram of the following form to create a function that spits out the base-10 digits of $1/7$.
+	\item Use the above and a diagram of the following form to create a function that spits out the base-10 digits of $1/7$ (with the decimal point omitted).
 \[
 \begin{tikzpicture}[oriented WD]
 	\node[bb={1}{2}, fill=blue!10] (inner) {};
@@ -5806,212 +5769,205 @@ Consider the following wiring diagram.
 	\draw 
 		let \p1=(inner.south east), \p2=(inner.south west), \n1=\bbportlen, \n2=\bby in
 		(inner_out2) to[in=0] (\x1+\n1,\y1-\n2) -- (\x2-\n1,\y1-\n2) to[out=180] (inner_in1);
-		\node[right, font=\footnotesize] at (outer_out1) {$0.142857142857142857\cdots$};
+		\node[right, font=\footnotesize] at (outer_out1) {$0142857142857142857\cdots$};
 \end{tikzpicture}
 \]
 \end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+    \item Using \cref{exc.funs_to_moore}, we can turn $\fun{divmod}$ into the dynamical system $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ whose return function is the identity on $\nn\times\nn$ and whose update function $\nn\times\nn\times\nn\times\nn_{\geq1}\to\nn\times\nn$ sends $(\_,\_,a,b)\mapsto(a\bdiv b,a\bmod b)$.
+    \item From left to right, the inner boxes represent monomial interfaces $\nn_{\geq1}\yon, \nn\times\nn\yon^{\nn\times\nn_{\geq1}}, \nn\yon,$ and $\nn\yon^{\nn\times\nn}$.
+    The box labeled $7$ is given dynamics $7\colon\yon\to\nn_{\geq1}\yon$ so that it always returns the output $7$; similarly, the box labeled $10$ is given dynamics $10\colon\yon\to\nn\yon$ so that it always returns the output $10$.
+    Meanwhile, the box labeled is given dynamics $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ from the previous part; while we can again apply \cref{exc.funs_to_moore} to the standard multiplication function $*\colon\nn\times\nn\to\nn$ to give the box labeled $*$ dynamics as well, yielding a dynamical system $*\colon\nn\yon^\nn\to\nn\yon^{\nn\times\nn}$ whose return function is the identity on $\nn$ and whose update function $\nn\times\nn\times\nn\to\nn$ sends $(\_,m,n)\mapsto m*n$.
+    
+    Then the outer box is the monomial interface $\nn\times\nn\yon^\nn$, and the wiring diagram is the interaction pattern
+    \[
+        w\colon\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^\nn
+    \]
+    with on-positions function $(s,q,r,t,p)\mapsto(q,p)$ and on-directions function $(s,q,r,t,p,a)\mapsto(a,s,r,t)$.
+    So the dynamical system induced by the wiring diagram is the composite lens $\phi$ given by
+    \[
+        \yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\yon\otimes\nn\yon^\nn\To{7\otimes\fun{divmod}\otimes10\otimes*}\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\To{w}\nn\times\nn\yon^\nn,
+    \]
+    whose return function is given by the composite map $(q,r,p)\mapsto(7,q,r,10,p)\mapsto(q,p)$ and whose update function at state $(q,r,p)$ is given by the composite map $a\mapsto(a,7,r,10)\mapsto(a\bdiv7,a\bmod7,r*10)$.
+    
+    In other words, the dynamical system $\phi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns the quotient and the product.
+    Then it is fed a dividend $a$ and evaluates $a\bdiv7$ to obtain the new quotient and $a\bmod7$ to obtain the new remainder.
+    Meanwhile, the new product is given by the previous remainder multiplied by $10$.
+    
+    \item This second wiring diagram specifies an interaction pattern
+    \[
+        w'\colon\nn\times\nn\yon^\nn\to\nn\yon
+    \]
+    with on-positions function $(q,p)\mapsto q$ and on-directions function $(q,p)\mapsto p$.
+    So the dynamical system induced by nesting the first wiring diagram within the inner box in this second wiring diagram is a composite lens
+    \[
+        \left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\nn\yon^\nn\To{\phi}\nn\times\nn\yon^\nn\To{w'}\nn\yon
+    \]
+    whose return function is given by the composite map $(q,r,p)\mapsto(q,p)\mapsto q$ and whose update function at state $(q,r,p)$ is specifies the new state $(p\bdiv7,p\bmod7,r*10)$.
+    
+    In other words, the dynamical system $\phi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns just the quotient.
+    Then it advances to a new state by evaluating $p\bdiv7$ to obtain the new quotient and $p\bmod7$ to obtain the new remainder.
+    Meanwhile, the new product is given by the previous remainder multiplied by $10$.
+    
+    If the initial state is $(q,r,p)=(0,1,10)$, then the first output will be $0$, the next state will be $(10\bdiv7,10\bmod7,1*10)=(1,3,10)$.
+    
+    **
+    %I think we need to add some sort of delay on this for it to work properly
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}[Graphs as interaction diagrams]\label{ex.graph_interaction}
-Suppose we have a graph $G$ and a set $\tau(v)$ for every vertex
+\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}
+Suppose we have a graph $G=(E\tto V)$ as in \cref{def.graph} and a set $\tau(v)$ associated with each vertex $v\in V$:
 \[
 \begin{tikzcd}
-	A\ar[r, shift left=3pt, "\src"]\ar[r, shift right=3pt, "\tgt"']&
+	E\ar[r, shift left=3pt, "s"]\ar[r, shift right=3pt, "t"']&
 	V\ar[r, "\tau"]&
 	\smset
 \end{tikzcd}
 \]
-For each vertex $v\in V$, let $A_v\coloneqq\src\inv(v)\ss A$ denote the arrows emanating from $v$, and define the monomial
-\[
-	p_v\coloneqq\tau(v)\yon^{\prod_{a\in A_v}\tau(\tgt\ a)}
-\]
-From this data we can give a morphism
-\[
-\bigotimes_{v\in V}p_v\Too{\varphi}\yon.
-\]
-To do so, we just need a function of the form
-\[
-\prod_{v\in V}\tau(v)\too\prod_{v\in V}\prod_{a\in A_v}\tau(\tgt\ a)
-\]
-We use $f\mapsto v\mapsto a\mapsto f(\tgt\ a)$.
+We can think of $G$ as an alternative representation of a specific kind of wiring diagram, one where each inner box has exactly one output wire and the outer box is closed.
+The vertices $v\in V$ are the inner boxes, the set $\tau(v)$ is the set associated with $v$'s output wire, and each edge $e$ is a wire connecting the output wire of its target $t(e)$ to an input wire of its source $t(e)$.
+An edge from a vertex $v_0$ to a vertex $v_1$ indicates that the inputs to $v_0$ depend on the outputs of $v_1$.\footnote{We could have defined the edges in the opposite directions, so that they would point in the direction of data flow rather than in the direction of data dependencies; this was an arbitrary choice.}
 
-The map $\varphi$ wires together the interfaces $p_v$, over all vertices $v\in V$, inside a closed outer box. That way, once we instantiate each $p_v$ with a dynamical system $S\yon^S\to p_v$---one that outputs $\tau(v)$ and inputs $\prod_{a\in A_v}\tau(\tgt\ a)$---they will all interact together as specified by the graph.
+In other words, we can associate each vertex $v\in V$ with the monomial
+\[
+	p_v\coloneqq\tau(v)\yon^{\prod_{e\in E_v}\tau(t(e))}
+\]
+specifying its inputs and outputs, where $E_v\coloneqq s\inv(v)\ss E$ denotes the set of edges emanating from $v$.
+The graph then determines an enclosure
+\[
+\gamma\colon\bigotimes_{v\in V}p_v\to\yon
+\]
+given by a function
+\[
+    \prod_{v\in V}\tau(v)\too\prod_{e\in E}\tau(t(e))
+\]
+that sends each dependent function $o\colon(v\in V)\to\tau(v)$ to the dependent function $(e\in E)\to\tau(t(e))$ sending $e\mapsto o(t(e))$.
+In other words, given the output $o(v)\in\tau(v)$ for every vertex $v\in V$, we know for each edge $e\in E$ that the input $s(e)$ receives is the output of $t(e)$.
 
-For example, a common graph found in cellular automata is a 2-dimensional integer lattice, with vertices $V\coloneqq\zz\times\zz$. The \emph{stencil} indicates which vertices ``hear'' which other vertices. One might use
-\[A\coloneqq\{-1,0,1\}\times\{-1,0,1\}\times V\]
-with $\src(i,j,m,n)=(m,n)$ and $\tgt(i,j,m,n)=(m+i, n+j)$.
+Hence, once we give dynamics to each $p_v$, namely by specifying a dynamical system $S_v\yon^{S_v}\to p_v$ with outputs in $\tau(v)$ and inputs in $\prod_{e\in E_v}\tau(t(e))$, we will obtain a closed dynamical system that transitions from each vertex's state to the next according to the information that they pass each other along their edges.
+
+Effectively, by interpreting a graph as a wiring diagram and giving each vertex dynamics, we have created what is known as a \emph{cellular automaton}---a network of vertices (or \emph{cells}) with states, such that each vertex $v\in V$ ``listens'' to the signals its \emph{neighbors} in $E_v$ send based on their states, then responds accordingly by updating its own state.
+
+For example, a common graph found in cellular automata is a 2-dimensional integer lattice, with vertices $V\coloneqq\zz\times\zz$. The edges indicate which vertices are neighbors and thus ``hear'' which other vertices. One might use
+\[E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V\]
+with $s(i,j,m,n)=(m,n)$ and $t(i,j,m,n)=(m+i, n+j)$, so that the neighbors of each vertex are the eight vertices that surround it.
 \end{example}
 
 \begin{exercise}[Conway's Game of Life]\label{exc.conway}
-This exercise is for those who are familiar with Conway's Game of Life. We will use \cref{ex.graph_interaction}.
+Conway's Game of Life is played on a 2-dimensional integer lattice as follows.
+Each lattice point is either \emph{live} or \emph{dead}, and each point observes its eight \emph{neighbors} to which it is horizontally, vertically, or diagonally adjacent.
+The following occurs at every time step:
+\begin{itemize}
+    \item Any live point with 2 or 3 live neighbors remains live.
+    \item Any dead point with 3 live neighbors becomes live.
+    \item All other points either become or remain dead.
+\end{itemize}
+We can use \cref{ex.graph_interaction} to model Conway's Game of Life as a closed dynamical system.
 \begin{enumerate}
-	\item What is the appropriate graph $A\tto V$?
-	\item What is the appropriate function $\tau\colon V\to\smset$?
+	\item What is the appropriate graph $E\tto V$?
+	\item What is the appropriate assignment of sets $\tau\colon V\to\smset$?
 	\item What are the polynomials $p_v$ from \cref{ex.graph_interaction}?
 	\item What is the appropriate state set $S_v$ for each interface $p_v$?
 	\item What is the appropriate dynamical system map $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+We seek to model Conway's Game of Life as a closed dynamical system using \cref{ex.graph_interaction}.
+\begin{enumerate}
+    \item Following the suggestion from the end of \cref{ex.graph_interaction}, we can use a graph with $V\coloneq\zz\times\zz$ and $E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V$ with $s(i,j,m,n)=(m,n)$ and $t(i,j,m,n)=(m+i,n+j)$ to model cellular automata like Conway's Game of Life on a 2-dimensional integer lattice in which each point listens only to its eight immediate neighbors.
+    \item Each vertex needs only return whether it is live or dead, so we assign $\tau(v)\coloneqq\{\text{live},\text{dead}\}$ for every $v\in V$.
+    \item For each $v\in V$, the monomial represented by $v$ from \cref{ex.graph_interaction} can be written as
+    \[
+        p_v\iso\{\text{live},\text{dead}\}\yon^{\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\text{live},\text{dead}\})}.
+    \]
+    Every vertex returns as output whether it is live or dead and receives as input whether each of its eight neighbors is alive or dead. 
+    \item Each vertex $v\in V$ only needs to record whether it is live or dead, so $S_v\coloneqq\{\text{live},\text{dead}\}$.
+    \item The appropriate dynamical system map $S_v\yon^S_v\to p_v$ for each vertex $v\in V$ should have the identity function on $\{\text{live},\text{dead}\}$ as its return function, while its update function should be a map
+    \[
+        \{\text{live},\text{dead}\}\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\text{live},\text{dead}\})\to\{\text{live},\text{dead}\}
+    \]
+    that executes the rules from Conway's Game of Life, using the data of whether the vertex itself is live or dead as well as whether each of its eight neighbors is live or dead to determine whether it should be live or dead in the next time step.
+\end{enumerate}
 \end{solution}
 \end{exercise}
-
-% ** was commented out for some reason, not sure why
-\begin{exercise}[Cellular automata]\label{exc.cellular_automata}
-Let $G=(V,E)$ be a simple graph, i.e.\ $V,E\in\smset$ and $E\ss V\times V$. You can imagine it as a grid 
-\[
-\begin{tikzcd}[shift left=2pt]
-	\LMO{(1,1)}\ar[r]      \ar[d]&
-	\LMO{(1,2)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,3)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,4)}\ar[r]\ar[l]\ar[d]&
-	\LMO{(1,5)}      \ar[l]\ar[d]\\
-	\LMO{(2,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(2,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(2,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(3,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(3,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(3,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(4,1)}\ar[r]      \ar[d]\ar[u]&
-	\LMO{(4,2)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,3)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,4)}\ar[r]\ar[l]\ar[d]\ar[u]&
-	\LMO{(4,5)}      \ar[l]\ar[d]\ar[u]\\
-	\LMO{(5,1)}\ar[r]            \ar[u]&
-	\LMO{(5,2)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,3)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,4)}\ar[r]\ar[l]      \ar[u]&
-	\LMO{(5,5)}      \ar[l]      \ar[u]
-\end{tikzcd}
-\]
-finite or infinite, or just an arbitrary graph. For every vertex $v$, the set of vertices $v'$ for which $(v',v)\in E$, i.e.\ for which there is an edge $v'\to v$, is denoted
-\[I(v)\coloneq\{v'\mid (v',v)\in E\}.\]
-For each $v\in V$, let $p_v\coloneqq \2\yon^{\2^{I(v)}}$; it ``outputs'' a color $\2\cong\{\const{black},\const{white}\}$ and inputs a function $I(v)\to\2$, specifying what all the neighbors are outputting.
-\begin{enumerate}
-	\item In the drawn grid, what is $I(1,1)$? What is $I(2,2)$?
-	\item Specify a morphism $g\colon \bigotimes_{v\in V}p_v\to\yon$ that passes to each vertex $v$ the colors of its neighbors in $I(v)$.
-	\item Suppose that for each vertex $v\in V$ you are given a function $f_v\colon 2^{I(v)}\to\2$. Use it to construct a dynamical system $f'_v\colon\2\yon^\2\to p_v$ that updates its state in keeping with $f_v$ and outputs its state directly.
-	\item Briefly look up cellular automata in a reference of your choice. Would you say that the dynamical system $\bigotimes_{v\in V}\2\yon^\2\To{\bigotimes f'_v}\bigotimes_{v\in V}p_v\To{g}\yon$ we obtain by wiring together the dynamical systems in the specified way does the same thing as the cellular automata in your reference?
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-%---- Section ----%
 
 \subsection{More examples of general interaction}
 
-\begin{example}
-Suppose you have two systems $p,q$, both having the same type $p=q\coloneqq\rr^\2\yon^{\rr^\2-(0,0)}$. 
+While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a diagram.
+For example, here we generalize our previous cellular automata example.
+
+\begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}
+Recall from \cref{ex.graph_interaction} how we constructed a cellular automaton on a graph $G=(E\tto V)$.
+For each $v\in V$, the graph specifies the set $N(v)\coloneqq t(E_v)$ of vertices at the ends of edges coming out of $v$.
+These vertices are the \emph{neighbors} of $v$, or the vertices that $v$ can ``listen'' to.
+We call the map $N\colon V\to\2^V$ from each vertex to the set of its neighbors the \emph{neighbor function}.
+For simplicitly, we let each vertex store and return one of two states, so $S_v\coloneqq\tau(v)\coloneqq\2$.
+
+Now just take the vertices and forget the edges of our graph.
+Suppose instead that we are given a function $n\colon V\to\nn$ that we think of as specifying the number $n(v)$ of neighbors each $v\in V$ could potentially have.
+Let $\ord{n}(v)\coloneqq\{1,2,\ldots,n(v)\}$.
+Then we can think of the monomial that each vertex represents as
 \[
-\begin{tikzpicture}
-	\node (m1) {\faMotorcycle};
-	\node[above=-.15 of m1] (e1) {\faEye};
-	\node[draw, thick, blue!10, fit = (m1) (e1)] {};
-	\node[below right=0 and 1 of m1] (m2) {\scalebox{-1}[1]{\faMotorcycle}};
-	\node[above=-.15 of m2] (e2) {\faEye};
-	\node[draw, thick, blue!10, fit = (m2) (e2)] {};
-\end{tikzpicture}
+    p_v\iso\2\yon^{\2^{\ord{n}(v)}},
 \]
-Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye cannot see that which is at the same position as the eye.
+returning its own state as output and receiving its potential neighbors' states as input.
 
-Let's have the two systems constantly approaching each other with a force equal to the reciprocal of the squared distance between them. If they finally collide, let's have the whole thing come to a halt.
+Say that a neighbor function $N\colon V\to\2^V$ \emph{respects} $n$ if we have an isomorphism $N(v)\iso\ord{n}(v)$ for each $v\in V$.
+Now suppose we have a function $N'_-\colon \2^V\to (\2^V)^V$ that sends each set of vertices $S\in\2^V$ to a neighbor function $N'_S\colon V\to \2^V$ that respects $n$.
+In other words, each possible state configuration $S$ of all the vertices in $V$ determines a neighbor function $N'_S$.
+In the case of \cref{ex.graph_interaction}, when we had a graph, it told us what the neighbor function should always be.
+Now we can think of it like all the vertices are voting, via $N'$, on what neighbor function to use to determine which vertices are listening to which others.
 
-To do this, we want the outer system to be of type $\{\const{go}\}\yon+\{\const{stop}\}$. The morphism $\rr^\2\yon^{\rr^\2-(0,0)}\otimes\rr^\2\yon^{\rr^\2-(0,0)}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
-\[
-  \big((x_\1,y_1),(x_2,y_2)\big)\mapsto
-	\begin{cases}
-		\const{stop}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
-		\const{go}&\mbox{ otherwise}.
-	\end{cases}
-\]
-On directions, we use the function
-\[
-  \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big),
-\]
-so that each system is able to see the vector pointing from it to the other system (unless that vector is zero, in which case the whole thing has halted). 
-
-Let's use these vectors to define the internal dynamics of each system. Each system will hold as its internal state its current position and velocity, i.e.\ $S=\rr^\2\times\rr^\2$. To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-(0,0)}$ we simply output the current position and update the current velocity by adding a vector pointing to the other system and having appropriate magnitude:
-\begin{align*}
-	\rr^\2\times\rr^\2&\To{\text{get}}\rr^\2\\
-	\big((x,y),(x',y')\big)&\Mapsto{\text{get}}(x,y)
-\end{align*}
-\begin{align*}
-	\rr^\2\times\rr^\2\times(\rr^\2-(0,0))&\To{\text{set}}\rr^\2\times\rr^\2\\
-	\big((x,y),(x',y'),(a,b)\big)&\Mapsto{\text{set}}\left(x+x',y+y',x'+\frac{a}{(a^2+b^2)^{3/2}},y'+\frac{b}{(a^2+b^2)^{3/2}}\right)
-\end{align*}
-\end{example}
-
-\begin{exercise}
-Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set and $d\colon X\times X\to\rr$ is a function satisfying the usual laws. Let's have robots interact in this space.
-
-Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and $a_0'\in A'$ be elements, each thought of as a default value. Let $p\coloneqq AX\yon^{A'X}$ and $p'\coloneqq A'X\yon^{AX}$, and imagine there are two robots, one with interface $p$ and one with interface $p'$.
-\begin{enumerate}
-	\item Write down a morphism $p\otimes p'\to\yon$ such that each robot receives the other's location, but that it only receives the other's signal when the locations $x,x'$ are sufficiently close, $d(x,x')<1$. Otherwise it receives the default signal.
-	\item Write down a morphism $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
-	\item Suppose that each robot has a set $S,S'$ of private states. What functions are involved in providing a dynamical system $f\colon SX\yon^{SX}\to AX\yon^{A'X}$?
-	\item Change the setup in any way so that the robots only extend a port to hear the other's signal when the distance between them is less than 1. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-So what is a map $p_1\otimes\cdots\otimes p_k\to q$ in general? It's a protocol by which the $k$-many participants $p_i$ together decide what decision $q$ must make, as well as how $q$'s choice among its options (the decision once made) is passed back and distributed as an option at each $p_i$.
-
-\begin{example}[Cellular automata who vote on their interaction pattern]\label{ex.cell_auto_vote_interaction}
-Recall from \cref{exc.cellular_automata} how we constructed cellular automata on a graph $G=(V,E)$. Here $E\ss V\times V$, or equivalently what we might call an \emph{interaction pattern} $I\colon V\to \2^V$, specifies the incoming neighbors $I(v)$ of each $v\in V$.
-
-Suppose now that we are given a function $i\colon V\to\nn$ that we think of as specifying the number $i(v)$ of neighbors each $v\in V$ accepts. Let $\ord{i}(v)=\{1,2,\ldots, i(v)\}$. We will be interested in the polynomial $p_v\coloneqq\2\yon^{\2^{\ord{i}(v)}}$ for each $v$; it represents an interface that outputs a color $\2\cong\{\const{black},\const{white}\}$ and that inputs a function $\ord{i}(v)\to\2$, meant to give the colors of the neighboring vertices.
-
-Say that an interaction pattern $I\colon V\to\2^V$ \emph{respects} $i$ if we have an isomorphism $I(v)\cong\ord{i}(v)$ for each $v\in V$. Suppose we are given a function $I\colon \2^V\to (\2^V)^V$ such that for each element $s\in\2^V$, the interaction pattern $I_s\colon V\to \2^V$ respects $i$. In the case of \cref{exc.cellular_automata}, $I$ was a constant function. Now we can think of it like all the vertices are voting, via $I$, on the connection pattern. 
-
-We can put this all together by giving a morphism in $\poly$ of the form
+We can put this all together by providing an enclosure for all the vertices,
 \begin{equation}\label{eqn.polymap_misc9237}
-\bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{i}(v)}}\too\yon.
+    \bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{n}(v)}}\too\yon.
 \end{equation}
-We can such a morphism with a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{i}(v)}$. Suppose we are given $s\in\2^V$, so that we have an isomorphism $I_s(v)\cong\ord{i}(v)$ for each $v\in V$; we want a function $g(s)\colon\sum_{v\in V}I_s(v)\to\2$. That is, for each $v$ we want a function
+Specifying such an enclosure amounts to specifying a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{n}(v)}$ that assigns each possible state configuration $S\in\2^V$ of all the vertices in $V$ to a function $g(S)\colon\sum_{v\in V}\ord{n}(v)\to\2$ specifying the states every vertex hears.
+But we already have a neighbor function assigned to $S$ that respects $\ord{n}$, namely $N'_S$, for which $N'_S(v)\iso\ord{n}(v)$ for all $v\in V$.
+So we can think of $g(S)$ equivalently as a function $g(S)\colon\sum_{v\in V}N'_S(v)\to\2$ that says for each $v\in V$ what signal in $\2$ it should receive from its neighbor $w\in N'_S(v)$.
+But we can just have it receive the current state of its neighbor, as given by $S$:
 \[
-g(s)_v\colon I_s(v)\to\2.
+    g(S)(v,w)\coloneqq S(w).
 \]
-But $I_s(v)\ss V$, so our function $s\colon V\to\2$ induces the desired function $I_s(v)\to\2$.
 
-We have accomplished our goal: the automata vote on their connection pattern. Of course, we don't mean to imply that this vote needs to be democratic or fair in any way: it is an arbitrary function $I\colon \2^V\to(\2^V)^V$. It could be dictated by a given vertex $v_0\in V$ in the sense that its on/off state completely determines the connection pattern $V\times V\to \2$; this would be expressed by saying that $I$ factors as $\2^V\to\2^{v_0}\cong\2\To{I_0}(\2^V)^V$ for some $I_0$.
+We have accomplished our goal: the vertices ``vote'' on how they ought to be connected, in that their states together determine the neighbor function.
+Of course, we don't mean to imply that this vote needs to be democratic or fair in any way: it is an arbitrary function $N'_-\colon \2^V\to(\2^V)^V$.
+It could be dictated by a given vertex $v_0\in V$ in the sense that its state completely determines the neighbor function $V\to\2^V$; this would be expressed by saying that $N'_-$ factors as $\2^V\to\2^{\{v_0\}}\cong\2\To{I_0}(\2^V)^V$ for some $I_0$.
 \end{example}
 
 \begin{exercise}
-Change \cref{ex.cell_auto_vote_interaction} slightly by changing the outer box.
+We can change \cref{ex.cell_auto_vote_interaction} slightly by replacing the wrapper interface $\yon$ with some other interface.
 \begin{enumerate}
-	\item First change it to $A\yon$ for some set $A$ of your choice, and update \eqref{eqn.polymap_misc9237} so that the system outputs some aspect of the current state $\2^V$.
+	\item First change it to $A\yon$ for some set $A$ of your choice, and update \eqref{eqn.polymap_misc9237} so that the system outputs some aspect of the current state configuration of all the vertices $S\in\2^V$.
 	\item What would it mean to change \eqref{eqn.polymap_misc9237} to a map $\bigotimes_{v\in V}p_v\to\yon^A$ for some $A$?
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+    \item 
+    \item 
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
+Finally, we are ready to formalize the examples we previewed in \cref{sec.poly.intro.dyn_sys}.
+
 \begin{example}\label{ex.bonds_break}
-Recall the picture from \cref{ex.changing_wiring_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break. Let's simplify the picture a bit.
+Recall the first picture from \cref{ex.changing_wiring_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break. Let's simplify the picture a bit.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
-	\node[bb={1}{1}, fill=blue!10] (x1) {$\Phi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\Phi_2$};
+	\node[bb={1}{1}, fill=blue!10] (x1) {$\phi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\phi_2$};
 	\node[bb={1}{1}, fit= (x1) (x2)] (outer) {};
 	\draw[->, shorten >= -4mm] (x1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] {Force};
 	\draw (x1_out1) -- (x2_in1);
 	\draw[->, shorten >= -4mm] (x2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] (L) {Force};
 %
-	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\Phi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\Phi_2$};
+	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\phi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\phi_2$};
 	\node[bb={1}{1}, fit= (y1) (y2)] (outer) {};
 	\draw[->, shorten >= -4mm] (y1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] (R){Force};
 	\draw[->, shorten >= -4mm] (y2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] {Force};
@@ -6019,51 +5975,68 @@ Recall the picture from \cref{ex.changing_wiring_bonds_supplier_assemble}. We sa
 {Snap!};
 \end{tikzpicture}
 \]
-We will imagine systems $\Phi_1$ and $\Phi_2$ as initially connected in space, that they experience forces from the outside world, and that---for as long as they are connected---they experience forces from each other. More precisely, each internal arena is defined by
+We will imagine the dependent dynamical systems $\phi_1\colon S\yon^S\to p_1$ and $\phi_2\colon S\yon^S\to p_2$ as initially connected in space.
+They experience forces from the outside world, and---for as long as they are connected---they experience forces from each other.
+More precisely, each interface is defined by
 \[
-	p_1=p_2\coloneqq F\yon^{FF}+\yon^F.
+	p_1\coloneqq p_2\coloneqq F\yon^{FF}+\{\text{`snapped'}\}\yon^F.
 \]
-Elements of $F$ will be called \emph{forces}. We need to be able to add and compare forces, i.e.\ we need $F$ to be an ordered monoid; let's say $F=\nn$ for simplicity. The idea is that the arena has two modes: the monomial $F\yon^{FF}$ consisting of two input forces (one from its left and one from its right) and an output force $f_i$, and the monomial $\yon^F$ consisting of one input force (just from the outside). Similarly, in the first mode the system $\Phi_i$ is outputting a force for the other---whether the other uses it or not---but in the second mode the system produces no force for the other.
+Elements of $F$ will be called \emph{forces}.
+We need to be able to add and compare forces, i.e.\ we need $F$ to be an ordered monoid; let's say $F=\nn$ for simplicity.
+The idea is that the interface has two kinds of output it can return: either a force $f_i\in F$ on the other system, at which point it can receive an input in $FF$ indicating a force acting on the system from its left and another force acting on it from its right; or `snapped,' indicating that the system is no longer connected to the other system, at which point it only receives a single force in $F$ from the outside.
 
-The external arena is defined to be
+The wrapper interface is defined to be
 \[
-p\coloneqq\yon^{FF};
+    p\coloneqq\yon^{FF};
 \]
-it takes as input two forces $(f_L, f_R)$ and produces unchanging output.
+it takes as input two forces $(f_L, f_R)$ and returns unchanging output.
 
-Though the systems $\Phi_1$ and $\Phi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
+Though the systems $\phi_1$ and $\phi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
 
-To do so, we need to create a contract $p_1\otimes p_2\to p$ of the external arena $p$ around (the arenas of) the internal systems. That is, we need to give a lens
+To do so, we need to define an interaction pattern $p_1\otimes p_2\to p$ that wraps $p$ around $\phi_1$ and $\phi_2$.
+That is, we need to give a lens
 \[
-\kappa\colon (F\yon^{FF}+\yon^F)\otimes (F\yon^{FF}+\yon^F)\to\yon^{FF}.
+    \kappa\colon (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\otimes (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\to\yon^{FF}.
 \]
-By distributivity and the universal property of coproducts, it suffices to give four maps:
-\[\arraycolsep=1.4pt
+By the distributivity of $\otimes$ over $+$, it suffices to give four maps:
+\begin{equation}\label{eqn.snapped_maps}
+\arraycolsep=1.4pt
 \begin{array}{lll}
 	\kappa_{11}\colon&~ FF\yon^{(FF)(FF)}&\to\yon^{FF}\\
-	\kappa_{12}\colon&~ F\yon^{(FF)F}&\to\yon^{FF}\\
-	\kappa_{21}\colon&~ F\yon^{F(FF)}&\to\yon^{FF}\\
-	\kappa_{22}\colon&~ \yon^{FF}&\to\yon^{FF}
+	\kappa_{12}\colon&~ F\{\text{`snapped'}\}\yon^{(FF)F}&\to\yon^{FF}\\
+	\kappa_{21}\colon&~ \{\text{`snapped'}\}F\yon^{F(FF)}&\to\yon^{FF}\\
+	\kappa_{22}\colon&~ \{\text{`snapped'}\}\{\text{`snapped'}\}\yon^{FF}&\to\yon^{FF}
 \end{array}
-\]
-The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary. We take the last map $\kappa_{22}$ to be an identity (the forces from outside are passed to the two internal boxes). The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L, f_2),(f_1,f_R))$.
+\end{equation}
+The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary.
+We take the last map $\kappa_{22}$ to be the obvious isomorphism, passing the forces from outside to the two internal interfaces.
+The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
+While the multiple $F$'s may be a little hard to keep track of, what this map says is that if $\phi_1$ returns the force $f_1$ on $\phi_2$ as output and $\phi_2$ returns the force $f_2$ on $\phi_1$ as output, then $\phi_1$ receives the force $f_2$ from the right as input and $\phi_2$ receives the force $f_1$ from the left as input; and in the meantime the left external force $f_L$ is given to $\phi_1$ on the left, while the right external force is given to $\phi_2$ on the right.
 
-Now that we have the arenas wired together, it remains to give the dynamics on the internal boxes. The states in the two cases will be identical, namely $S\coloneqq F+\1$, meaning that at any point the system will either be in the state of holding a force or not. The dynamics will be identical as well, up to a symmetry swapping left and right; let's work with the first. Its interface is $p_1=F\yon^{FF}+\yon^F$ and its dynamics are given by
-\[\Phi_1\colon (F+\1)\yon^{F+\1}\to F\yon^{FF}+\yon^F\]
-which splits up as the coproduct of $F\yon^{F+\1}\to F\yon^{FF}$ and $\yon^{F+\1}\to\yon^F$. The second map corresponds to when the connection is broken; it is given by projection, meaning it just updates the state to be the received force. The first map  $F\yon^{F+\1}\to F\yon^{FF}$ corresponds to the case where the system is holding some force, is receiving two input forces and must update its state and produce one output force. For the passforward $F\to F$, let's use identity meaning it outputs the force it's holding. For the passback $F(FF)\to \{\const{Just}\}F+\{\const{Nothing}\}$, let's use the map $(f,(f_L,f_2))\mapsto t(f_L,f_2)$ defined here:
+Now that we have the interfaces wrapped together, it remains to specify each dynamical system.
+The states in the two cases will be identical, namely $S\coloneqq F+\{`snapped'\}$, meaning that at any point the system will either be in the state of applying a force to the other system or not.
+The dynamical systems themselves will be identical as well, up to a symmetry swapping left and right; let's just define the left system for now.
+It is given by a lens
+\[\phi_1\colon (F+\{\text{`snapped'}\})\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF}+\{\text{`snapped'}\}\yon^F\]
+which we write as the sum of two maps
+\[F\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF} \qqand \{\text{`snapped'}\}\yon^{F+\{\text{`snapped'}\}}\to\{\text{`snapped'}\}\yon^F.\]
+Both maps are the identity on positions, directly returning their current state.
+The second map corresponds to when the connection is broken, after which the connection should remain broken, so its on-directions function is constant, sending any input to `snapped.'
+Meanwhile, the first map corresponds to the case where the systems are still connected; this system receives two input forces and must update its state---the force it applies---accordingly.
+We let the on-directions function $F(FF)\to F+\{\text{`snapped'}\}$ send
 \[
-t(f_L,f_2)\coloneqq
+(f_1,(f_L,f_2))\mapsto
 \begin{cases}
-	\const{Just}~f_L&\tn{ if }f_1+f_2<100\\
-	\const{Nothing}&\tn{ otherwise}
+	f_L&\tn{ if }f_1+f_2<100\\
+	\text{`snapped'}&\tn{ otherwise}
 \end{cases}
 \]
-Thus when the sum of forces is high enough, the internal state is updated to the broken state; otherwise it is sent to the force it receives from outside.
+Thus, when the sum of forces is high enough, the internal state is updated to the `snapped' state; otherwise, it is sent to the force it receives from outside, which it is now ready to transfer to the other system.
 \end{example}
 
-
 \begin{example}\label{ex.supplier_change}
-We want to consider the case of a company $C$ that may change its supplier based on its internal state. The company has no output wires, but has two modes of operation---two positions---corresponding to who it wants to receive widgets $W$ from:
+Recall the second picture from \cref{ex.changing_wiring_bonds_supplier_assemble}.
+We want to consider the case of a company that may change its supplier based on its internal state. The company returns two possible outputs, corresponding to who it wants to receive widgets $W$ from:
 \[
 \begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
 	\node[bb={0}{1}] (s1) {Supplier 1};
@@ -6082,12 +6055,15 @@ We want to consider the case of a company $C$ that may change its supplier based
 {Change\\supplier!};
 \end{tikzpicture}
 \]
-The company has interface $\2\yon^W$, and the each supplier has interface $W\yon$; let's take the total system interface (undrawn) to be the closed system $\yon$. Then this mode-dependent wiring diagram is just a map $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$. Its on-positions function $\2W^\2\to1$ is uniquely determined, and its on-directions function $\2W^\2\to W$ is the evaluation. In other words, the company's position determines which supplier from which it receives widgets.
+So the company has interface $\2\yon^W$, and each supplier has interface $W\yon$.
+Then an enclosure for the company and the suppliers is just a lens $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$, corresponding to a function $\2W^\2\to W$ given by evaluation.
+In other words, the company's output determines its supplier.
 \end{example}
 
 \begin{example}\label{ex.assemble_machine}
-When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
-\begin{equation}\label{eqn.someone2}
+Recall the third picture from \cref{ex.changing_wiring_bonds_supplier_assemble}.
+When someone assembles a machine, their own outputs dictate the interaction pattern of the machine's components.
+\begin{equation*}%\label{eqn.someone2}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
 	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
@@ -6111,17 +6087,21 @@ When someone assembles a machine, their own outputs dictate the connection patte
 	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
 {Attach!};
 \end{tikzpicture}
-\end{equation}
-In order for the above picture to make sense, $A$ has the same output that $B$ has as input, say $X$, and we need a default value $x_0\in X$ for $B$ to input when not connected to $A$.
+\end{equation*}
+In order for the above picture to make sense, the output set of \texttt{unit A} should be the same as the input set of \texttt{unit B}.
+Call this set $X$, so that \texttt{unit A} has interface $X\yon$ and \texttt{unit B} has interface $\yon^X$.
+We fix a default value $x_0\in X$ for the input to \texttt{unit B} when it is not connected to \texttt{unit A}.
+Meanwhile, the person takes no input and dictates whether the units are attached or not, so we give it interface $\2\yon$.
 
-We could say that the person in \eqref{eqn.someone2} has interface $\2\yon$, the units have interfaces $X\yon$ and $\yon^X$ respectively, and the whole system is closed; that is, the diagram represents a morphism $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $\2X\yon^X\to\yon$ is uniquely determined on positions, and on directions it is given by cases $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+Then an enclosure for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
-We can easily generalize \cref{ex.assemble_machine}. Indeed, we will see in the next section that there is a polynomial $\ihom{q_1\otimes\cdots\otimes q_k\,,\,r}$ of all ways  $q_1,\ldots,q_k$ can interact in $r$, and that a map from some $p$ to it is just a bigger interaction pattern:
+We can easily generalize \cref{ex.assemble_machine}.
+Indeed, we will see in the next section that there is an interface $\ihom{q_1\otimes\cdots\otimes q_k\,,\,r}$ that represents all the interaction patterns between $q_1,\ldots,q_k$ with wrapper interface $r$, and that wrapping it around $p$ to it is just a larger interaction pattern:
 \[
 \poly(p,[q_1\otimes\cdots\otimes q_k\,,\,r])\cong\poly(p\otimes q_1\otimes\cdots\otimes q_k\,,\,r).
 \]
-In other words, if $p$ thinks it's deciding how $q_1,\ldots,q_k$ are wired up in $r$, and gets feedback from that wiring pattern itself, then in actuality $p$ is just part of a wiring diagram with $q_1,\ldots,q_k$ inside of $r$.\
+In other words, if $p$ is deciding the interaction pattern between $q_1,\ldots,q_k$ with wrapper interface $r$, and gets feedback from that interaction pattern itself, then this is equivalent to an interaction pattern with wrapper interface $r$ that $p$ is part of alongside $q_1,\ldots,q_k$ inside of $r$.
 
 What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it be constantly choosing interaction patterns. Let's see how it works.
 
@@ -6347,61 +6327,63 @@ The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonica
 \begin{equation}\label{eqn.eval_dirichlet}
   \fun{eval}\colon \ihom{p,q}\otimes p\too q.
 \end{equation}
+As in any closed monoidal category, such an evaluation map has the universal property that for any $r\in\poly$ and map $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
+\[
+    \begin{tikzcd}
+    	p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
+    	{\ihom{q,r}}\otimes q\ar[r, "\fun{eval}"]&
+    	r
+    \end{tikzcd}
+\]
 
 \begin{exercise} \label{exc.eval_dirichlet}
-\begin{enumerate}
-	\item Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_dirichlet}. \label{exc.eval_dirichlet.explicit}
-	\item Show that for any $p,q,r \in \poly$ and map $f\colon p\otimes q\to r$, there is a unique morphism $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
-	\[
-	\begin{tikzcd}
-		p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
-		{\ihom{q,r}}\otimes q\ar[r, "\fun{eval}"]&
-		r
-	\end{tikzcd}
-	\]
-	\qedhere
-\end{enumerate}
+Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_dirichlet}.
 \begin{solution}
-\begin{enumerate}
-    \item To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
-    \[
-        \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
-    \]
-    Then the evaluation map is the map corresponding to the identity morphism on $\ihom{p,q}$ under the above isomorphism.
-    To recover this map, we can start from the identity morphism on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
-    To start, \cref{exc.dir_hom_sum} implies that
-    \begin{align*}
-        \poly(\ihom{p,q}, \ihom{p,q})
-        &\iso
-        \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
-        &\iso
-        \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
-    \end{align*}
-    where the second isomorphism follows from the universal properties of products and coproducts.
-    In particular, under this isomorphism, the identity morphism on $\ihom{p,q}$ corresponds to a collection of morphisms, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
-    \[
-        \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
-    \]
-    of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1(i)$.
-    On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
-    
-    We can reinterpret each of these maps as a map
-    \[
-        \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
-    \]
-    that, on positions, picks out the position $f_\1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ and the inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
-    Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
-    \item **
-    % \item The fact that for any $p,q,r $
-    % follows from the natural isomorphism given in \eqref{eqn.poly_closure_brackets}, but we can also construct this map explicitly. (Can we?)
-\end{enumerate}
+To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
+\[
+    \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
+\]
+Then the evaluation map is the map corresponding to the identity morphism on $\ihom{p,q}$ under the above isomorphism.
+To recover this map, we can start from the identity morphism on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
+To start, \cref{exc.dir_hom_sum} implies that
+\begin{align*}
+    \poly(\ihom{p,q}, \ihom{p,q})
+    &\iso
+    \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
+    &\iso
+    \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
+\end{align*}
+where the second isomorphism follows from the universal properties of products and coproducts.
+In particular, under this isomorphism, the identity morphism on $\ihom{p,q}$ corresponds to a collection of morphisms, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
+\[
+    \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
+\]
+of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1(i)$.
+On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
+
+We can reinterpret each of these maps as a map
+\[
+    \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
+\]
+that, on positions, picks out the position $f_\1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ and the inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
+Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
 	\item For any set $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is the identity on $S$ using eval and \cref{ex.dirichlet_dual}.
-	\item Show that maps of the four types $\kappa_{11}$, $\kappa_{12}$, $\kappa_{21}$, $\kappa_{22}$ shown in \cref{ex.bonds_break} can be obtained by tensoring together identity maps and eval maps.
+	\item Show that four maps in \eqref{eqn.snapped_maps} from \cref{ex.bonds_break}, written equivalently as
+	\begin{equation} \label{eqn.snapped_maps2}
+	\arraycolsep=1.4pt
+    \begin{array}{lll}
+    	\kappa_{11}\colon&~ F\yon^{FF}\otimes F\yon^{FF}&\to\yon^F\otimes\yon^F\\
+    	\kappa_{12}\colon&~ F\yon^{FF}\otimes \yon^F&\to\yon^F\otimes\yon^F\\
+    	\kappa_{21}\colon&~ \yon^F\otimes F\yon^{FF}&\to\yon^F\otimes\yon^F\\
+    	\kappa_{22}\colon&~ \yon^F\otimes\yon^F&\to\yon^F\otimes\yon^F,
+    \end{array}
+	\end{equation}
+	can be obtained by taking the parallel product of identity maps and evaluation maps.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6412,9 +6394,17 @@ The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonica
         \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
     \]
     so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_dirichlet}, we obtain an evaluation map $\fun{eval} \colon S\yon^S \to \yon$.
-    By the solution to \cref{exc.eval_dirichlet} \cref{exc.eval_dirichlet.explicit}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
+    By the solution to \cref{exc.eval_dirichlet}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
     In other words, it is indeed the identity on directions.
-    \item **
+    \item We wish to write the four maps in \eqref{eqn.snapped_maps2} from \cref{ex.bonds_break} as the parallel product of identity maps and eval maps.
+    By the solution to \cref{exc.eval_dirichlet}, the eval map $\ihom{F,\yon^F}\otimes F\to\yon^F$
+    is a map from
+    \[
+        \ihom{F,\yon^F}\otimes F\iso F\left(\sum_{f\colon F\to\yon^F}\prod_{i\in F}\yon^F\right)\iso F\yon^{FF}
+    \]
+    to $\yon^F$ that is unique on positions and has the on-directions function $FF\to FF$ given by the identity.
+    Then we can verify that $\kappa_{11}$ is equivalent to the parallel product of this eval map with itself.
+    We can define $\kappa_{12}$ and $\kappa_{21}$ to be the parallel product of this eval map with the identity on $\yon^F$, while $\kappa_{22}$ is the parallel product of the identity on $\yon^F$ with itself.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -7288,7 +7278,7 @@ Each direction-set of $q'$ will be a limit of a diagram of direction-sets of $p$
 For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_\1\inv(c)$ and edges $E_c \coloneqq s_\1\inv(g_\1\inv(c)) = t_\1\inv(g_\1\inv(c))$.
 Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated direction-set $p[e]$ (resp.\ $q[v]$).
 
-The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_\1(e)$ and $e \to t_\1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$. %**This is a cofunctor into graph category, right?
+The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_\1(e)$ and $e \to t_\1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$.
 There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_\1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_\1(e)] \to p[e]$.
 So we can define $q'[c]$ to be the limit of $F$ in $\smset$.
 
@@ -7396,7 +7386,6 @@ By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical ma
     	\yon^{\Gamma(p)}\ar[ul, phantom, very near start, "\ulcorner"]
     \end{tikzcd}
     \end{equation}
-% 	\item Is the pushout of a cartesian map always cartesian? % **We haven't intro'd cartesian maps yet
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -7481,85 +7470,85 @@ Suppose we have polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\oti
 \end{corollary}
 \begin{proof}
 We proceed by induction on $n\in\nn$.
-When $n=0$, the wide pushout has no legs and the empty tensor product is $\yon$, so the result holds.
+When $n=0$, the wide pushout has no legs and the empty parallel product is $\yon$, so the result holds.
 If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
 \end{proof}
 
-We can use \cref{cor.tensor_as_pushout} to characterize interaction patterns. Given polynomials $p_1,\ldots, p_n,$ and $q$, and a map
-\[\varphi\colon p_1\otimes\cdots\otimes p_n\to q\]
-we may want to know which $p_i$'s can ``hear'' which $p_j$'s. To make this precise, we will associate to $\varphi$ a simple directed graph that describes the information flow. Given a set $V$, define
-\[
-\Cat{SimpleGraph}(V)\coloneqq\{A\ss V\times V\mid \forall(v\in V). (v,v)\not\in A\}.
-\]
-In fact, we will start with a more general result that explains how maps such as $\varphi$ can be \emph{mode-dependent}. But before we do, let's explain the idea in an example.
+% We can use \cref{cor.tensor_as_pushout} to characterize interaction patterns. Given polynomials $p_1,\ldots, p_n,$ and $q$, and a map
+% \[\varphi\colon p_1\otimes\cdots\otimes p_n\to q\]
+% we may want to know which $p_i$'s can ``hear'' which $p_j$'s. To make this precise, we will associate to $\varphi$ a simple directed graph that describes the information flow. Given a set $V$, define
+% \[
+% \Cat{SimpleGraph}(V)\coloneqq\{A\ss V\times V\mid \forall(v\in V). (v,v)\not\in A\}.
+% \]
+% In fact, we will start with a more general result that explains how maps such as $\varphi$ can be \emph{mode-dependent}. But before we do, let's explain the idea in an example.
 
-\begin{example}[Introducing random process]\label{ex.random_process}
-What is it about flipping a coin or rolling a die that is random? This is a different question than whether the coin or die is fair or even consistent. What's important is that we don't have any influence over the result of the outcome.
+% \begin{example}[Introducing random process]\label{ex.random_process}
+% What is it about flipping a coin or rolling a die that is random? This is a different question than whether the coin or die is fair or even consistent. What's important is that we don't have any influence over the result of the outcome.
 
-Suppose that we have a system $\varphi\colon p\otimes c\to r$, where we think of $p$ as a player and $c$ as a coin. By \cref{prop.tensor_as_pushout} we know that $\varphi$ can be identified with a commuting diagram
-\[
-\begin{tikzcd}
-	p(\1)\yon\otimes c(\1)\yon\ar[r]\ar[d]&
-	p(\1)\yon\otimes c\ar[d]\\
-	p\otimes c(\1)\yon\ar[r]&
-	r
-\end{tikzcd}
-\]
-Assuming for simplicity that the player and coin form a closed system, i.e.\ that$r=\yon$, the map $\varphi$ can be identified with two maps: $\varphi_c\colon p(\1)\yon\otimes c\to\yon$ and $\varphi_p\colon p\otimes c(\1)\yon\to\yon$. To say that $p$'s position does not influence $c$ is to say that the former map factors through the projection $\pi\colon p(\1)\yon\otimes c\to c$
-\[
-	p(\1)\yon\otimes c\To{\pi} c\to \yon.
-\]
-In general, we will be interested in the interaction pattern between a number of systems, in terms of who influences who.
-\end{example}
+% Suppose that we have a system $\varphi\colon p\otimes c\to r$, where we think of $p$ as a player and $c$ as a coin. By \cref{prop.tensor_as_pushout} we know that $\varphi$ can be identified with a commuting diagram
+% \[
+% \begin{tikzcd}
+% 	p(\1)\yon\otimes c(\1)\yon\ar[r]\ar[d]&
+% 	p(\1)\yon\otimes c\ar[d]\\
+% 	p\otimes c(\1)\yon\ar[r]&
+% 	r
+% \end{tikzcd}
+% \]
+% Assuming for simplicity that the player and coin form a closed system, i.e.\ that$r=\yon$, the map $\varphi$ can be identified with two maps: $\varphi_c\colon p(\1)\yon\otimes c\to\yon$ and $\varphi_p\colon p\otimes c(\1)\yon\to\yon$. To say that $p$'s position does not influence $c$ is to say that the former map factors through the projection $\pi\colon p(\1)\yon\otimes c\to c$
+% \[
+% 	p(\1)\yon\otimes c\To{\pi} c\to \yon.
+% \]
+% In general, we will be interested in the interaction pattern between a number of systems, in terms of who influences who.
+% \end{example}
 
-\begin{example}
-Carrying on from \cref{ex.random_process}, suppose we have polynomials $p_1,\ldots,p_n,r$ and a map
-\[\varphi\colon p_1\otimes\cdots\otimes p_n\to r.\]
-By \cref{cor.tensor_as_pushout}, $\varphi$ can be identified with a tuple of maps 
-\[\varphi_i\colon p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\too r\]
-that agree on positions $\varphi(\1)\colon p(\1)\otimes\cdots\otimes p_n(\1)\to r(\1)$.
+% \begin{example}
+% Carrying on from \cref{ex.random_process}, suppose we have polynomials $p_1,\ldots,p_n,r$ and a map
+% \[\varphi\colon p_1\otimes\cdots\otimes p_n\to r.\]
+% By \cref{cor.tensor_as_pushout}, $\varphi$ can be identified with a tuple of maps 
+% \[\varphi_i\colon p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\too r\]
+% that agree on positions $\varphi(\1)\colon p(\1)\otimes\cdots\otimes p_n(\1)\to r(\1)$.
 
-Now for each $1\leq i\leq n$, we can ask for the smallest subset $A_i\ss\{j\mid 1\leq j\leq n, j\neq i\}$ such that $\varphi_i$ factors through the projection
-\[
-	p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\To{\pi_A}
-	p_i\otimes\bigotimes_{j\in A_i}p_j(\1)\yon\to
-	r.
-\]
-The result is a simple directed graph: its vertices are the numbers $V\coloneqq\{i\mid 1\leq i\leq n\}$ and for each vertex we have a subset $A_i\ss V\setminus \{i\}$, which we consider as the arrows with target $i$. The set of all arrows in this graph is $A\coloneqq\sum_{i}A_i$.
+% Now for each $1\leq i\leq n$, we can ask for the smallest subset $A_i\ss\{j\mid 1\leq j\leq n, j\neq i\}$ such that $\varphi_i$ factors through the projection
+% \[
+% 	p_i\otimes\bigotimes_{j\neq i}p_j(\1)\yon\To{\pi_A}
+% 	p_i\otimes\bigotimes_{j\in A_i}p_j(\1)\yon\to
+% 	r.
+% \]
+% The result is a simple directed graph: its vertices are the numbers $V\coloneqq\{i\mid 1\leq i\leq n\}$ and for each vertex we have a subset $A_i\ss V\setminus \{i\}$, which we consider as the arrows with target $i$. The set of all arrows in this graph is $A\coloneqq\sum_{i}A_i$.
 
-The simple directed graph associated to the player-and-coin model in \cref{ex.random_process} would be
-\[
-\LMO{c}\to\LMO{p}
-\]
-indicating that the coin's position can be noticed by the player but the player's position cannot be noticed by the coin. In general, we may have something like the following:
-\[
-\begin{tikzcd}
-	&
-	\LMO{p_1}\ar[dl]\ar[dr]\ar[r, shift left]&
-	\LMO{p_2}\ar[l, shift left]\ar[dr]\\
-	\LMO{p_3}&&
-	\LMO{p_4}&
-	\LMO{p_5}\ar[l]
-\end{tikzcd}
-\]
-which says that $p_1$ is heard by $p_2,p_3,p_4$ but not by $p_5$, etc.
-\end{example}
+% The simple directed graph associated to the player-and-coin model in \cref{ex.random_process} would be
+% \[
+% \LMO{c}\to\LMO{p}
+% \]
+% indicating that the coin's position can be noticed by the player but the player's position cannot be noticed by the coin. In general, we may have something like the following:
+% \[
+% \begin{tikzcd}
+% 	&
+% 	\LMO{p_1}\ar[dl]\ar[dr]\ar[r, shift left]&
+% 	\LMO{p_2}\ar[l, shift left]\ar[dr]\\
+% 	\LMO{p_3}&&
+% 	\LMO{p_4}&
+% 	\LMO{p_5}\ar[l]
+% \end{tikzcd}
+% \]
+% which says that $p_1$ is heard by $p_2,p_3,p_4$ but not by $p_5$, etc.
+% \end{example}
 
-For any $p\in\poly$, let $p/\poly$ denote the coslice category, i.e.\ the category whose objects are maps $p\to q$ emanating from $p$, and whose morphisms are commutative triangles.
+% For any $p\in\poly$, let $p/\poly$ denote the coslice category, i.e.\ the category whose objects are maps $p\to q$ emanating from $p$, and whose morphisms are commutative triangles.
 
-\begin{proposition}[Interaction graphs]
-For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
-\[
-	\adj
-		{\Cat{SimpleGraph}(\ord{n})\op}
-		{}{}
-		{p_1\otimes\cdots\otimes p_n/\poly}
-\]
-Moreover, the left adjoint is fully faithful if and only if $n\leq 1$ or $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$, i.e.\ if and only if each polynomial has at least two positions.
-\end{proposition}
-\begin{proof}
-**
-\end{proof}
+% \begin{proposition}[Interaction graphs]
+% For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
+% \[
+% 	\adj
+% 		{\Cat{SimpleGraph}(\ord{n})\op}
+% 		{}{}
+% 		{p_1\otimes\cdots\otimes p_n/\poly}
+% \]
+% Moreover, the left adjoint is fully faithful if and only if $n\leq 1$ or $|p_i(\1)|\geq 2$ for each $1\leq i\leq n$, i.e.\ if and only if each polynomial has at least two positions.
+% \end{proposition}
+% \begin{proof}
+% **
+% \end{proof}
 
 %-------- Section --------%
 \section{Vertical-cartesian factorization}
@@ -7572,7 +7561,6 @@ It is called \emph{vertical} if $f_\1\colon p(\1)\to q(\1)$ is an isomorphism.
 It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
-%**orthogonal factorization system? some "up to iso" subtleties
 \begin{proposition}\label{prop.vert_cart_factorization}
 Vertical and cartesian morphisms form a factorization system of $\poly$.
 \end{proposition}
@@ -7657,6 +7645,13 @@ We already know that that square commutes, so it is a pullback if and only if $f
 The right pullback square tells us that the $\bullet$ is $\sum_{i\in p(\1)}q[f_\1(i)]$.
 So $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ is an isomorphism for every $i\in p(\1)$ if and only if their sum $f^\sharp\colon\sum_{i\in p(\1)}q[f_\1(i)]\to\sum_{i\in p(\1)}p[i]\iso\dot{p}(\1)$ is an isomorphism as well.
 Hence $f$ is cartesian if and only if $f^\sharp$ is an isomorphism, as desired.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Is the pushout of a cartesian map always cartesian?
+\begin{solution}
+**
 \end{solution}
 \end{exercise}
 
