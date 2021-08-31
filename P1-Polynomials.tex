@@ -5214,6 +5214,7 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 	\item Suppose that each robot has a set $S,S'$ of possible private states in addition to their locations.
 	What functions are involved in providing a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$, if the location state $x\in X$ is directly returned without modification?
 	\item Change the setup in any way so that each robot only extends a port to hear the other's signal when the distance between them is less than $s$. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
+	(Don't worry too much about timing---one missed signal when the robots first get close or one extra signal when the robots first get far is okay.)
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -5237,26 +5238,26 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
           	((a'_0,x'),(a_0,x))&\tn{ otherwise}.
           \end{cases}
     \]
-    \item To providing a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$ under the condition that the on-positions function preserves the second coordinate $x\in X$, we must provide the first projection $SX\to A$ of an on-positions function that turns the robot's private state and current location into the signal it returns, as well as an on-directions function $SX\times A'X\to SX$ that provides a new private state and location for the robot given its old private state, old location, and the signal and location it receives from the other robot.
-    \item
-    To have the robots listen for each others' signals only when they are sufficiently close, we must move away from monomial interfaces and Moore machines to leverage dependency.
-    Let the robots' new interfaces be
-    \[
-        p\coloneqq \{\text{`close'}\}AX\yon^{A'X}+\{\text{`far'}\}AX\yon^X \qqand p'\coloneqq \{\text{`close'}\}A'X\yon^{AX}+\{\text{`far'}\}A'X\yon^X,
-    \]
-    so that their input sets are just $X$ when they are `far.'
+    \item To provide a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$ under the condition that the on-positions function preserves the second coordinate $x\in X$, we must provide the first projection $SX\to A$ of an on-positions function that turns the robot's private state and current location into the signal it returns, as well as an on-directions function $SX\times A'X\to SX$ that provides a new private state and location for the robot given its old private state, old location, and the signal and location it receives from the other robot.
     
+    \item To have the robots listen for each others' signals only when they are sufficiently close, we must move away from monomial interfaces and Moore machines to leverage dependency.
+    There are several ways of doing this; we give just one method below.
+    With $D\coloneqq\{\text{`close'},\text{`far'}\}$, let the robots' new interfaces be
+    \[
+        p\coloneqq \{\text{`close'}\}AX\yon^{DA'X}+\{\text{`far'}\}AX\yon^{DX} \qqand p'\coloneqq \{\text{`close'}\}A'X\yon^{DAX}+\{\text{`far'}\}A'X\yon^{DX},
+    \]
+    so that they may receive input telling them whether they are close or far, but cannot receive signals in $A$ or $A'$ when they are `far.'
     
     Then by the distributivity of $\otimes$ over $+$, their new interaction pattern $p\otimes p'\to\yon^{[0,5]}$ can be specified by four lenses, all trivial on positions: the lens
     \[
-        \{\text{`close'}\}AX\yon^{A'X}\otimes\{\text{`close'}\}A'X\yon^{AX}\to\yon^{[0,5]},
+        \{\text{`close'}\}AX\yon^{DA'X}\otimes\{\text{`close'}\}A'X\yon^{DAX}\to\yon^{[0,5]},
     \]
     given by the on-directions function
     \[
-        ((`close',a,x),(`close',a',x'),s)\mapsto
+        ((\text{`close'},a,x),(\text{`close'},a',x'),s)\mapsto
           \begin{cases}
-          	((`close',a',x'),(`close',a,x))&\tn{ if }d(x,x')<s\\
-          	((`far',a'_0,x'),(`far',a_0,x))&\tn{ otherwise};
+          	((\text{`close'},a',x'),(\text{`close'},a,x))&\tn{ if }d(x,x')<s\\
+          	((\text{`far'},a'_0,x'),(\text{`far'},a_0,x))&\tn{ otherwise};
           \end{cases}
     \]
     the lens
@@ -5265,27 +5266,19 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
     \]
     given by the on-directions function
     \[
-        ((`far',a,x),(`far',a',x'),s)\mapsto
+        ((\text{`far'},a,x),(\text{`far'},a',x'),s)\mapsto
           \begin{cases}
-          	((`close',x'),(`close',x))&\tn{ if }d(x,x')<s\\
-          	((`far',x'),(`far',x))&\tn{ otherwise};
+          	((\text{`close'},x'),(\text{`close'},x))&\tn{ if }d(x,x')<s\\
+          	((\text{`far'},x'),(\text{`far'},x))&\tn{ otherwise};
           \end{cases}
     \]
-    and two other lenses that should never come up in practice but that we must specify anyway:
+    and two other lenses that can be defined arbitrarily, as they should never come up in practice.
+    
+    Finally, in order for each robot to properly remember whether the other is close or far, we record an element of $D$ in its state that is returned and updated: one robot is a lens
     \[
-        \{\text{`close'}\}AX\yon^{A'X}\otimes\{\text{`close'}\}A'X\yon^{AX}\to\yon^{[0,5]},
+        \phi\colon DSX\yon^{DSX}\to \{\text{`close'}\}AX\yon^{DA'X}+\{\text{`far'}\}AX\yon^{DX}
     \]
-    given by the on-directions function
-    \[
-        ((`close',a,x),(`close',a',x'),s)\mapsto
-          \begin{cases}
-          	((`close',a',x'),(`close',a,x))&\tn{ if }d(x,x')<s\\
-          	((`far',a'_0,x'),(`far',a_0,x))&\tn{ otherwise};
-          \end{cases}
-    \]
-    and
-    **
-    %Finish this
+    whose on-positions function preserves not just the third coordinate $x\in X$ but also the first coordinate $d\in D$, while the on-directions function also preserves the first coordinate $d\in D$; and the other robot is constructed similarly.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -5759,7 +5752,7 @@ Consider the following wiring diagram.
 	\draw (times_out1) -- (outer_out2);
 \end{tikzpicture}
 \]
-	\item Use the above and a diagram of the following form to create a function that spits out the base-10 digits of $1/7$ (with the decimal point omitted).
+	\item Use the above and a diagram of the following form to create a dynamical system that alternates between spitting out $0$'s and the base-$10$ digits of $1/7$ after the decimal point, like so: 
 \[
 \begin{tikzpicture}[oriented WD]
 	\node[bb={1}{2}, fill=blue!10] (inner) {};
@@ -5769,9 +5762,10 @@ Consider the following wiring diagram.
 	\draw 
 		let \p1=(inner.south east), \p2=(inner.south west), \n1=\bbportlen, \n2=\bby in
 		(inner_out2) to[in=0] (\x1+\n1,\y1-\n2) -- (\x2-\n1,\y1-\n2) to[out=180] (inner_in1);
-		\node[right, font=\footnotesize] at (outer_out1) {$0142857142857142857\cdots$};
+		\node[right, font=\footnotesize] at (outer_out1) {$010402080507010402080507010402080507\cdots$};
 \end{tikzpicture}
 \]
+We will see in \cref{**} how to use a system to build another dynamical system that only returns every other output of the original system, then apply this to the above system in \cref{**}.
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -5810,10 +5804,29 @@ Consider the following wiring diagram.
     Then it advances to a new state by evaluating $p\bdiv7$ to obtain the new quotient and $p\bmod7$ to obtain the new remainder.
     Meanwhile, the new product is given by the previous remainder multiplied by $10$.
     
-    If the initial state is $(q,r,p)=(0,1,10)$, then the first output will be $0$, the next state will be $(10\bdiv7,10\bmod7,1*10)=(1,3,10)$.
-    
-    **
-    %I think we need to add some sort of delay on this for it to work properly
+    If the initial state is $(q,r,p)=(0,0,10)$, then all the states will be as follows, with the values of $q$ in the left column giving us the outputs:
+    \begin{table}[hbt!]
+        \centering
+        \footnotesize
+        \begin{tabular}{c|c|c}
+            $q$ $(p\bdiv7)$ & $r$ $(p\bmod7)$ & $p$ $(10r)$ \\
+            \hline
+            0 & 0 & 10 \\
+            1 & 3 & 0 \\
+            0 & 0 & 30 \\
+            4 & 2 & 0 \\
+            0 & 0 & 20 \\
+            2 & 6 & 0 \\
+            0 & 0 & 60 \\
+            8 & 4 & 0 \\
+            0 & 0 & 40 \\
+            5 & 5 & 0 \\
+            0 & 0 & 50 \\
+            7 & 1 & 0 \\
+            0 & 0 & 10 \\
+            $\cdots$ & $\cdots$ & $\cdots$
+        \end{tabular}
+    \end{table}
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6456,7 +6469,7 @@ Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\ti
 %------------ Chapter ------------%
 \chapter{More categorical properties of polynomials} \label{sec.bonus_poly}
 
-The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.comon} if so inclined. Better yet might be to just gently leaf through \cref{sec.bonus_poly}, to see how well-behaved and versatile the category $\poly$ really is.
+The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{chapter.comon} if so inclined, and we will direct them back here when needed. Better yet might be to just gently leaf through \cref{sec.bonus_poly}, to see how well-behaved and versatile the category $\poly$ really is.
 
 %-------- Section --------%
 \section{Special polynomials and adjunctions}
@@ -7651,10 +7664,12 @@ Hence $f$ is cartesian if and only if $f^\sharp$ is an isomorphism, as desired.
 \begin{exercise}
 Is the pushout of a cartesian map always cartesian?
 \begin{solution}
-**
+The pushout of a cartesian map is \emph{not} necessarily cartesian.
+Take the pushout square \eqref{eqn.pushout_adjoint}.
+The map $!\colon p(\1)\yon\to\yon$ has $\1\to\1$ as every on-directions function, so it is cartesian, but its pushout $\eta\colon p\to\yon^{\Gamma(p)}$ is not going to be cartesian as long as there is some $i\in p(\1)$ for which $\Gamma(p)\not\iso p[i]$.
+For instance, when $p\coloneqq\yon+\1$, we have that $\Gamma(p)\iso\0\not\iso\1\iso p[1]$, so $\eta$ is not cartesian.
 \end{solution}
 \end{exercise}
-
 
 Why do we use the word \emph{cartesian} to describe cartesian morphisms? It turns out that, as natural transformations, cartesian morphisms are precisely what are known as cartesian natural transformations.
 
