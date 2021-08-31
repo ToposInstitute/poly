@@ -1101,10 +1101,10 @@ For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso
   };
 \end{tikzpicture}
 \]
-Now here are pictures of $p\tri\yon$, obtained by gluing the one-leaf corolla of $\yon$ to all the leaves of each of the corollas of $p$ in turn, and $\yon\tri p$, obtained by gluing each of the corollas of $p$ to the single leaf of $\yon$:
+Now here is a picture of $p\tri\yon$, obtained by gluing the one-leaf corolla of $\yon$ to all the leaves of each of the corollas of $p$ in turn:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, blue!50!black, "{\color{blue!50!black}$p$}$\:\tri\yon$" above] {
+	\node (p1) [draw, blue!50!black, "{\color{blue!50!black}$p$}$\:\tri\:\yon$" above] {
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node (1) {$\bullet$} 
       child {node[black] {$\bullet$} child[black]}
@@ -1115,7 +1115,14 @@ Now here are pictures of $p\tri\yon$, obtained by gluing the one-leaf corolla of
     \node[right=.5 of 2] (3) {$\bullet$};
   \end{tikzpicture}
   };
-	\node (p2) [draw, right=2 of p1, "$\yon\:\tri\:${\color{blue!50!black}$p$}" above] {
+\end{tikzpicture}
+\]
+This is just $p$ with every direction extended up one level, so it is still a picture of $p$.
+
+And here is a picture of $\yon\tri p$, obtained by gluing each of the corollas of $p$ to the single leaf of $\yon$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p2) [draw, "$\yon\:\tri\:${\color{blue!50!black}$p$}" above] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node (1) {$\bullet$}
       child {
@@ -1124,12 +1131,12 @@ Now here are pictures of $p\tri\yon$, obtained by gluing the one-leaf corolla of
             child[blue!50!black]
             child[blue!50!black]
       };
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$} 
+    \node[right=.5 of 1] (2) {$\bullet$} 
       child {
         node[blue!50!black] {$\bullet$}
             child[blue!50!black]
       };
-    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+    \node[right=.5 of 2] (3) {$\bullet$}
       child {
         node[blue!50!black] {$\bullet$}
       };
@@ -1139,15 +1146,13 @@ Now here are pictures of $p\tri\yon$, obtained by gluing the one-leaf corolla of
 \]
 \end{enumerate}
 \end{solution}
+This is just $p$ with every position propped up one level, so it is also still a picture of $p$.
 \end{exercise}
 
-%-------- Section --------%
-\section{The monoidal structure $(\poly, \tri, \yon)$}\label{subsec.monoidal_struc_tri}
+%---- Subsection ----%
+\subsection{The composition product of lenses}%\label{subsec.monoidal_struc_tri}
 
-The technical claim is that $\tri$ is a monoidal product, which means that it's well-behaved; in particular, it's functorial, associative, and unital. In fact, all of this comes from general theory: for any category $\cat{C}$, the category whose objects are functors $\cat{C}\to\cat{C}$ and whose morphisms are natural transformations is a monoidal category, with functor composition as the monoidal product. For us, $\cat{C}\coloneqq\smset$; yet we are only using polynomial functors, not all functors, so there is a tiny bit more to check, but it's accomplished by \cref{prop.poly_closed_comp} and the fact that the identity functor $\smset\to\smset$ is a polynomial (it's $\yon$).
-
-However, even though the formal theory of functors and natural transformations knocks the monoidality of $\tri$ out of the park, it is still useful to discuss how it acts on morphisms in terms of positions and directions.
-
+We have seen in many ways how $\tri$ acts on objects in $\poly$, but how does it behave on the morphisms between them?
 For any $f\colon p\to p'$ and $g\colon q\to q'$, we should obtain a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
 
 Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_\1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (i.e.\ position) $i\in p(\1)$ is assigned a decision $f_\1(i)\in p'(\1)$. Then every option $d\in p'[f_\1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
@@ -1954,7 +1959,7 @@ Formally, this just comes down to the fact that coproducts and products of funct
 \end{proof}
 
 \begin{exercise}\label{exc.left_dist}
-Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \cref{eqn.composite_formula}.
+Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \eqref{eqn.composite_formula}.
 \begin{solution}
 Given $p,q,r \in \poly$, recall that the position-set of the sum $p+q$ is $p(\1)+q(\1)$, while the direction-set at each position $i \in p(\1) + q(\1)$ is $p[i]$ if $i \in p(\1)$ and the $q[i]$ if $i \in q(\1)$.
 So by \cref{eqn.composite_formula}, we have that
