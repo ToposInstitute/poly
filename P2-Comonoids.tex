@@ -6,12 +6,12 @@
 
 \setcounter{chapter}{4}%Just finished 4.
 
-\part{A different category of categories}\label{chapter.comon}
+\part{A different category of categories}\label{part.comon}
 
 \Opensolutionfile{solutions}[solution-file5]
 
 %------------ Chapter ------------%
-\chapter{The composition product}\label{sec.composition_prod}
+\chapter{The composition product}\label{ch.comon.comp}
 
 
 % In this chapter we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically, as we will see in later chapters. 
@@ -42,17 +42,11 @@ It turns out that this operation, which we'll see soon is a monoidal product, ha
 
 The composition product has many surprises up its sleeve, as we'll see in the following chapters. We've given you a glimpse of many of them already in \cref{sec.poly.intro.math_theory}. We won't amass them all here; instead, we'll take you through the story step by step. But as a preview, $\circ$ will get us into decision trees, databases, and more dynamics, as well as the interactions between these.
 
-% As in \eqref{eqn.sum_p1}, we'll continue to denote polynomials with the following notation
-% \begin{equation}\label{eqn.sum_p1_again}
-% p\cong\sum_{i\in p(\1)}\yon^{p[i]},
-% \end{equation}
-% and refer to $p(\1)$ as the set of positions (or position-set), and for each $i\in p(\1)$ we'll refer to $p[i]$ as the set of directions (or direction-set) at position $i$.
-
 %-------- Section --------%
-\section{Defining the composition product}
+\section{Defining the composition product}\label{sec.comon.comp.def}
 We begin with the definition of the composition product in terms of polynomials as functors.
 
-\subsection{Composite functors}
+\subsection{Composite functors}\label{subsec.comon.comp.def.functor}
 
 \begin{definition} \label{def.comp}
 Given polynomial functors $p, q$, we let $p \circ q$ denote their composite as functors.
@@ -95,6 +89,8 @@ p\tri q\coloneqq p\circ q.
 The symbol $\tri$ looks a bit like the composition symbol, in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
 But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered.
 Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
+For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composite of $p$, i.e.\ $n$ copies of $p$ all composed with each other.
+In particular, $p\tripow{0}\coloneqq\yon$ and $p\tripow{1}\coloneqq p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
 \begin{equation}\label{eqn.composite_formula}
@@ -179,9 +175,41 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
-The composition of polynomials will be extremely important in the story that follows. However, we only sometimes think of it as functor composition; more often we think of it as a certain operation on arenas or corolla forests.
+We have how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
+For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their composition product $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
 
-\subsection{Composite arenas}
+\begin{definition}[Horizontal composition of natural transformations]\label{def.horiz_comp_nat_trans}
+Let $f\colon p\to p'$ and $g\colon q\to q'$ be two natural transformations between (polynomial) functors $p,p',q,q'\colon\smset\to\smset$.
+Then the \emph{horizontal composite} of $f$ and $g$, denoted $f\tri g$, is the natural transformation $p\tri q\to p'\tri q'$ whose $X$-component for each $X\in\smset$ is the function
+\begin{equation} \label{eqn.horiz_comp_nat_trans_comp}
+    p(q(X)) \To{f_{q(X)}} p'(q(X)) \To{p'(g_X)} p'(q'(X))
+\end{equation}
+obtained by composing the $q(X)$-component of $f$ with $p'$ applied to the $X$-component of $g$.
+\end{definition}
+
+\begin{exercise}
+Show that we could have replaced the composite function \eqref{eqn.horiz_comp_nat_trans_comp} in \cref{def.horiz_comp_nat_trans} with the function
+\begin{equation} \label{eqn.horiz_comp_nat_trans_comp2}
+    p(q(X)) \To{p(g_X)} p(q'(X)) \To{f_{q'(X)}} p'(q'(X))
+\end{equation}
+obtained by composing $p$ applied to the $X$-component of $g$ with the $q'(X)$-component of $f$, without altering the definition.
+\begin{solution}
+We wish to show that \eqref{eqn.horiz_comp_nat_trans_comp2} could replace \eqref{eqn.horiz_comp_nat_trans_comp} in \cref{def.horiz_comp_nat_trans}.
+We claim that \eqref{eqn.horiz_comp_nat_trans_comp} and \eqref{eqn.horiz_comp_nat_trans_comp2} are in fact the same function; that is, that the following square commutes:
+\[
+\begin{tikzcd}
+    p(q(X)) \ar[r, "f_{q(X)}"]\ar[d, "p(g_X)"'] & p'(q(X)) \ar[d, "p'(g_X)"] \\
+    p(q'(X)) \ar[r, "f_{q'(X)}"'] & p'(q'(X))
+\end{tikzcd}
+\]
+Indeed it does, by the naturality of $f$.
+\end{solution}
+\end{exercise}
+
+The composition product of polynomials and lenses will be extremely important in the story that follows.
+However, we only sometimes think of it as the composition of functors and the horizontal composition of natural transformations; more often we think of it as certain operations on arenas or corolla forests.
+
+\subsection{Composite arenas}\label{subsec.comon.comp.def.arena}
 
 Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of what it says about the positions and directions of the corresponding arenas.
 The position-set of $p \tri q$ is
@@ -196,12 +224,177 @@ Given such a position $(i, \bar{j_i})$ of $p \tri q$, the direction-set of $p \t
 \end{equation}
 So a direction of $p \tri q$ at $(i, \bar{j_i})$ consists of a $p[i]$-direction $d$ and a $q[\bar{j_i}(d)]$-direction.
 
-While this description completely characterizes $p \tri q$ as an arena, it is a bit of a mouthful.
-But it turns out to have a very natural interpretation when we translate from arenas to corolla forests.
+While this description completely characterizes $p \tri q$ as an arena, it may be a bit tricky to wrap your head around.
+Here is an alternative perspective that can help us get a better intuition for what's going on with composite arenas.
 
-\subsection{Composite corolla forests}
+Back in \cref{subsec.poly.func_nat.repr_sum.dep_sum_prod_set}, we saw how to write the instructions for choosing an element of a dependent sum or product of sets.
+For instance, given a polynomial $p$ and a set $X$, the instructions for choosing an element of
+\[
+    p\tri X=p(X)\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}X
+\]
+would be written as follows.
+\begin{quote}
+To choose an element of $p(X)$: 
+\begin{enumerate}
+    \item choose an element $i\in p(\1)$;
+    \item for each element $d\in p[i]$:
+    \begin{enumerate}[label*=\arabic*.]
+        \item choose an element of $X$.
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+But say we hadn't picked a set $X$ yet; in fact, say we might replace $X$ with a general polynomial instead.
+We'll replace ``an element of $X$'' with a placeholder---the words ``a future''---that indicates that we don't yet know what will go there.
+Furthermore, to highlight that these instructions are associated with some polynomial $p$, we will use our familiar arena terminology of positions and directions.
+\begin{quote}
+The instructions associated with a polynomial $p$ are:
+\begin{enumerate}
+    \item choose a $p$-position $i$;
+    \item for each $p[i]$-direction $d$:
+    \begin{enumerate}[label*=\arabic*.]
+        \item choose a future.
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
 
-In fact, the forest of $p\tri q$ is given by gluing corollas from the forest of $q$ onto the leaves of corollas from the forest of $p$ in every possible way.
+If we think of polynomials in terms of their instructions, then \eqref{eqn.composite_formula} tells us that the composition product simply nests one set of instructions within another, as follows.
+\begin{quote}
+The instructions associated with a polynomial $p\tri q$ are:
+\begin{enumerate}
+    \item choose a $p$-position $i$;
+    \item for each $p[i]$-direction $d$:
+    \begin{enumerate}[label*=\arabic*.]
+        \item choose a $q$-position $j$;
+        \item for each $q[j]$-direction $e$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose a future.
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+Similarly, we could write down the instructions associated with any $n$-fold composite by nesting even further.
+We might think of such instructions as specifying some sort of length-$n$ \emph{strategy}, in the sense of game theory, for picking positions given any directions---except that the opponent is somehow abstract, having no positions of its own.
+
+When we rewrite \eqref{eqn.composite_formula} \eqref{eqn.composite_formula_sums_first}, we are collapsing the instructions down into the following, highlighting the positions and directions of $p\tri q$.
+\begin{quote}
+The instructions associated with a polynomial $p\tri q$ are:
+\begin{enumerate}
+    \item choose a $p$-position $i$ and, for each $p[i]$-direction $d$, a $q$-position $\bar{j}_i(d)$;
+    \item for each $p[i]$-direction $d$ and each $q[\bar{j}_i(d)]$-direction $e$:
+    \begin{enumerate}[label*=\arabic*.]
+        \item choose a future.
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have a very natural interpretation when we translate from arenas to corolla forests.
+
+\begin{exercise}
+\begin{enumerate}
+	\item Let $p$ be an arbitrary polynomial. Write out the (uncollapsed) instructions associated with $p\tripow{3}=p\tri p\tri p$.
+	\item Write out the (uncollapsed) instructions for choosing an element of $p\tri p\tri\1$, but where you would normally write ``choose an element of $\1$,'' just write ``done.'' \qedhere
+\end{enumerate}
+\begin{solution}
+\begin{longenum}
+    \item The instructions associated with a polynomial $p\tri p\tri p$ are:
+    \begin{enumerate}
+        \item choose a $p$-position $i$;
+        \item for each $p[i]$-direction $d$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose a $p$-position $i'$;
+            \item for each $p[i']$-direction $d'$:
+            \begin{enumerate}[label*=\arabic*.]
+                \item choose a $p$-position $i''$;
+                \item for each $p[i'']$-direction $d''$:
+                \begin{enumerate}[label*=\arabic*.]
+                    \item choose a future.
+                \end{enumerate}
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+    \item To choose an element of $p\tri p\tri\1$:
+    \begin{enumerate}
+        \item choose a $p$-position $i$;
+        \item for each $p[i]$-direction $d$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose a $p$-position $i'$;
+            \item for each $p[i']$-direction $d'$:
+            \begin{enumerate}[label*=\arabic*.]
+                \item done.
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{longenum}
+
+\end{solution}
+\end{exercise}
+
+But how does the composition product act on lenses between arenas?
+Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we can translate them to natural transformations, take their horizontal composite, then translate this back to a lens.
+The following exercise guides us through this process.
+
+\begin{exercise}[The composition product of lenses] \label{exc.comp_prod_lens}
+Fix lenses $f\colon p\to p'$ and $g\colon q\to q'$.
+We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\tri q'$.
+\begin{enumerate}
+    \item\label{exc.comp_prod_lens.1} Use \cref{prop.morph_arena_to_func} to compute the $q(X)$-component of $f$ as a natural transformation.
+    \item\label{exc.comp_prod_lens.2} Use \cref{prop.poly_on_functions,prop.morph_arena_to_func} to compute $p'$ applied to the $X$-component of $g$ as a natural transformation.
+    \item\label{exc.comp_prod_lens.3} Combine \cref{exc.comp_prod_lens.1} and \cref{exc.comp_prod_lens.2} using \cref{def.horiz_comp_nat_trans} to compute the horizontal composite $f\tri g$ of $f$ and $g$ as natural transformations.
+    \item Use \cref{cor.morph_func_to_arena} to translate the natural transformation $f\tri g$ obtained in \cref{exc.comp_prod_lens.3} to a lens between arenas $p\tri q\to p'\tri q'$.
+    Verify that for each $(i,\bar{j}_i)$ in $(p\tri q)(\1)$ (see \eqref{eqn.comp_pos}), its on-positions function sends
+    \begin{equation} \label{eqn.comp_lens_pos}
+        (i,\bar{j}_i)\Mapsto{(f\:\tri\:g)_\1}(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1);
+    \end{equation}
+    while for each $(d',e')$ in $(p'\tri q')[(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1)]$ (see \eqref{eqn.comp_dir}), its on-directions function sends
+    \begin{equation} \label{eqn.comp_lens_dir}
+        (d',e')\Mapsto{(f\:\tri\:g)^\sharp_{(i,\bar{j}_i)}}\left(f^\sharp_i(d'), g^\sharp_{\bar{j}_i(f^\sharp_i(d'))}(e')\right).
+    \end{equation}
+    \qedhere
+\end{enumerate}
+\begin{solution}
+We have lenses $f\colon p\to p'$ and $g\colon q\to q'$.
+\begin{enumerate}
+    \item By \cref{prop.morph_arena_to_func}, the $q(X)$-component of $f$ is a function $f_{q(X)}\colon p(q(X))\to p'(q(X))$ that sends every $(i,h)$ with $i\in p(\1)$ and $h\colon p[i]\to q(X)$ to $(f_\1(i),f^\sharp_i\then h)$.
+    We can think of the function $h\colon p[i]\to q(X)$ equivalently as a function $\bar{j}_i\colon p[i]\to q(\1)$ and, for each $d\in p[i]$, a function $h_d\colon q[\bar{j}_i(d)]\to X$.
+    So $f_{q(X)}\colon (p\tri q)(X)\to (p'\tri q)(X)$ sends \[(i,\bar{j}_i,(h_d)_{d\in p[i]})\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right).\]
+    
+    \item By \cref{prop.morph_arena_to_func}, the $X$-component of $g$ is a function $g_X\colon q(X)\to q'(X)$ that sends every $(j,k)$ with $j\in q(\1)$ and $k\colon q[j]\to X$ to $(g_\1(j),g^\sharp_j\then k)$ in $q'(X)$.
+    Then by \cref{prop.poly_on_functions}, applying $p'$ to this $X$-component yields a function $p'(q(X))\to p'(q'(X))$ that sends every $(i',\bar{j'}_{i'},(h'_{d'})_{d'\in p'[i']})$ with $i'\in p'(\1)$ as well as $\bar{j'}_{i'}\colon p'[i']\to q(\1)$ and $h'_{d'}\colon q[\bar{j'}_{i'}(d')]\to X$ to \[\left(i',\bar{j'}_{i'}\then g_\1,\left(g^\sharp_{\bar{j'}_{i'}(d')}\then h'_{d'}\right)_{d'\in p'[i']}\right).\]
+    
+    \item By \cref{def.horiz_comp_nat_trans}, the horizontal composite of $f$ and $g$ is the natural transformation $f\tri g\colon p\tri p'\to q\tri q'$ whose $X$-component is the composite of the answers to \cref{exc.comp_prod_lens.1} and \cref{exc.comp_prod_lens.2}, sending
+    \begin{align*}
+        (i,\bar{j}_i,(h_d)_{d\in p[i]})&\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right)\\
+        &\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i\then g_\1, \left(g^\sharp_{\bar{j}_{i}(f^\sharp_i(d'))}\then h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right).
+    \end{align*}
+    
+    \item We use \cref{cor.morph_func_to_arena} to translate the answer to \cref{exc.comp_prod_lens.3} into a lens $f\tri g\colon p\tri q\to p'\tri q'$, as follows.
+    Its on-positions function is the $\1$-component $(f\tri g)_\1$, which sends every $(i,\bar{j}_i)$ with $i\in p(\1)$ and $\bar{j}_i\colon p[i]\to q(\1)$ to
+    \[
+        (f_\1(i),f^\sharp_i\then\bar{j}_i\then g_\1).
+    \]
+    Then for each such $(i,\bar{j}_i)$, if we apply the $(p\tri q)[(i,\bar{j}_i)]$-component of $f\tri g$ to the element $(i,\bar{j}_i,(\iota_d)_{d\in p[i]})$, where $\iota_d\colon q[\bar{j}_i(d)]\to(p\tri q)[(i,\bar{j}_i)]\iso\sum_{d\in p[i]}q[\bar{j}_i(d)]$ is the canonical inclusion, then take the last coordinate of the result, we obtain for each $d'\in p'[f_\1(i)]$ the function
+    \[
+        q'[g_\1(\bar{j}_i(f^\sharp_i(d')))] \To{g^\sharp_{\bar{j}_{i}(f^\sharp_i(d'))}} q[\bar{j}_i(f^\sharp_i(d'))] \To{\iota_{f^\sharp_i(d')}} \sum_{d\in p[i]}q[\bar{j}_i(d)] \iso (p\tri q)[(i,\bar{j}_i)].
+    \]
+    These can equivalently be thought of as a single function from
+    \[
+        \sum_{d'\in p'[f_\1(i)]} q'[g_\1(\bar{j}_i(f^\sharp_i(d')))] \iso (p'\tri q')[(f\tri g)_\1(i,\bar{j}_i)]
+    \]
+    which \cref{cor.morph_func_to_arena} tells us is the on-directions function of $f\tri g$ at $(i,\bar{j}_i)$, that sends every $(d',e')$ with $d'\in p'[f_\1(i)]$ and $e'\in q'[g_\1(\bar{j}_i(f^\sharp_i(d')))]$ to
+    \[
+        \left(f^\sharp_i(d'), g^\sharp_{\bar{j}_i(f^\sharp_i(d'))}(e')\right).
+    \]
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+So what does \cref{exc.comp_prod_lens} tell us about the behavior of $f\tri g\to p\tri q\to p'\tri q'$?
+From \eqref{eqn.comp_lens_pos}, we see that on positions, $f\tri g$ takes a $p$-position $i$ and sends it to the $p'$-position $f_\1(i)$; then for each direction $d'$ at this position, the associated $q'$-position is obtained by sending $d'$ back to a $p[i]$-direction via $f^\sharp_i$, checking what $q$-position is associated to that $p[i]$-direction via some $\bar{j}_i$, then sending that $q$-position forward again to a $q'$-position via $g_\1$.
+Then from \eqref{eqn.comp_lens_pos}, we see that on directions, $f\tri g$ sends a direction of $p'$ back to a direction of $p$ via an on-directions function of $f$, then sends a direction of $q'$ back to a direction of $q$ via an on-directions funtion of $g$.
+We'll get a better sense of what's happening when we see this drawn out as corolla forests in \cref{ex.comp_prod_trees}.
+
+\subsection{Composite corolla forests} \label{subsec.comon.comp.def.corolla}
+
+It turns out that the forest of $p\tri q$ is given by gluing corollas from the forest of $q$ onto the leaves of corollas from the forest of $p$ in every possible way.
 We will demonstrate this using an example.
 
 Let's say $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\yon^\3+\1$, whose corolla forests we draw as follows:
@@ -359,6 +552,7 @@ We put the $p\tri q$ in scare quotes above \eqref{eqn.prefered_composite} becaus
 Usually, we will prefer the style of \eqref{eqn.prefered_composite} rather than the more pedantic style of \eqref{eqn.actual_composite}.
 
 We have now seen how to draw a single polynomial as a corolla forest, with level-$1$ leaves as directions; as well as how to draw a two-fold composite of polynomials as a forest of trees, with level-$2$ leaves as directions.
+Note that drawing a corolla of $p$ or a tree of $p\tri q$ is just a graphical way of following the instructions associated with the polynomial $p$ or $p\tri q$ that we saw in \cref{subsec.comon.comp.def.arena}, where the arrows---the top-level leaves---are where the ``futures'' would go.
 Similarly, we could depict any $n$-fold composite as a forest with level-$n$ leaves as directions.
 You'll have an opportunity to try this in the following exercise.
 
@@ -1149,15 +1343,10 @@ And here is a picture of $\yon\tri p$, obtained by gluing each of the corollas o
 This is just $p$ with every position propped up one level, so it is also still a picture of $p$.
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{The composition product of lenses}%\label{subsec.monoidal_struc_tri}
+How shall we think about taking the composition product of lenses in terms of our tree pictures?
+We can interpret the results of \cref{exc.comp_prod_lens} as follows.
 
-We have seen in many ways how $\tri$ acts on objects in $\poly$, but how does it behave on the morphisms between them?
-For any $f\colon p\to p'$ and $g\colon q\to q'$, we should obtain a morphism $(f\tri g)\colon(p\tri q)\to(p'\tri q')$. This is actually quite an impressive operation! It threads back and forth in a fascinating way. 
-
-Recall from \cref{ex.practice_with_poly_morphisms} that we can think of $f=(f_\1,f^\sharp)$ as a way to delegate decisions from $p$ to $p'$. Every decision (i.e.\ position) $i\in p(\1)$ is assigned a decision $f_\1(i)\in p'(\1)$. Then every option $d\in p'[f_\1(i)]$ there is passed back to an option $f^\sharp(d)\in p[i]$. Let's start with an example and then give the general method.
-
-\begin{example}\label{ex.circ_prod_on_morphisms}
+\begin{example}\label{ex.comp_prod_trees}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
 \[
 \begin{tikzpicture}[rounded corners]
@@ -1172,7 +1361,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
   };
 %
 	\node (q) [draw, red!75!black, above=1 of p, "$q=$" left] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node["\tiny 1" below] (1) {$\bullet$} 
       child {}
       child {};
@@ -1200,7 +1389,7 @@ Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon
   };
 \end{tikzpicture}
 \]
-For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give a way to delegate from $(p\tri q)$ to $(p'\tri q')$. Let's draw $p\tri q$ and $p'\tri q'$.
+For any pair of lenses $p\to p'$ and $q\to q'$, we have a lens $p\tri q\to p'\tri q'$. Let's draw $p\tri q$ and $p'\tri q'$.
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$p\tri q$" above] {
@@ -1208,50 +1397,50 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 		level 1/.style={sibling distance=8mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.7 of 1] (2) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.5 of 2] (3) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.5 of 3] (4) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.2 of 4] (5) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-      	child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+      	child[red!75!black]
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
 			};
   \end{tikzpicture}
   };
@@ -1264,106 +1453,106 @@ For any way to delegate from $p$ to $p'$ and $q$ to $q'$, we're supposed to give
 		level 1/.style={sibling distance=4mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue] (1) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
-				child
+      child[blue] {node[red] {$\bullet$} 
+				child[red]
 			};
 %
     \node[blue, right=1.4 of 1] (2) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			};
 %
     \node[blue, right=1.4 of 2] (3) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
-				child
+      child[blue] {node[red] {$\bullet$} 
+				child[red]
 			};
 %
     \node[blue, right=1.4 of 3] (4) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			};
 %
     \node[blue, right=1.4 of 4] (5) {$\bullet$} 
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
-				child
+      child[blue] {node[red] {$\bullet$} 
+				child[red]
 			};
 %
     \node[blue, right=1.4 of 5] (6) {$\bullet$} 
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			};
 %
     \node[blue, right=1.4 of 6] (7) {$\bullet$} 
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			};
 %
     \node[blue, right=1.4 of 7] (8) {$\bullet$} 
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			}
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			};
 %
     \node[blue, right=1 of 8] (9) {$\bullet$} 
-      child {node[red] {$\bullet$} 
-      	child
+      child[blue] {node[red] {$\bullet$} 
+      	child[red]
 			};
 %
     \node[blue, right=.8 of 9] (10) {$\bullet$} 
-      child {node[red] {$\bullet$} 
+      child[blue] {node[red] {$\bullet$} 
 			};
   \end{tikzpicture}
   };
 \end{tikzpicture}
 \]
 
-Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p'$ and $g\colon q\to q'$. Let's just pick something relatively at random:
+Let's also pick a pair of lenses, $f\colon p\to p'$ and $g\colon q\to q'$.
 \[
 \begin{tikzpicture}
 	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$} 
-      child {coordinate (11)}
-      child {coordinate (12)};
-    \node[right=1.5 of 1, blue, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)}
-      child {coordinate (22)}
-      child {coordinate (23)};
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node[blue!50!black, "\color{blue!50!black} \tiny 1" below] (1) {$\bullet$} 
+      child[blue!50!black] {coordinate (11)}
+      child[blue!50!black] {coordinate (12)};
+    \node[right=1.5 of 1, blue, "\color{blue} \tiny 1" below] (2) {$\bullet$} 
+      child[blue] {coordinate (21)}
+      child[blue] {coordinate (22)}
+      child[blue] {coordinate (23)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (12);
@@ -1374,11 +1563,11 @@ Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p
 	};	
 %
 	\node (p2) [below right=-1.3 and 1 of p1] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[blue!50!black, "\tiny 2" below] (1) {$\bullet$} 
-      child {coordinate (11)};
-    \node[right=of 1, blue, "\tiny 2" below] (2) {$\bullet$}
-      child {coordinate (21)};
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node[blue!50!black, "\color{blue!50!black} \tiny 2" below] (1) {$\bullet$} 
+      child[blue!50!black] {coordinate (11)};
+    \node[right=of 1, blue, "\color{blue} \tiny 2" below] (2) {$\bullet$}
+      child[blue] {coordinate (21)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (11);
@@ -1386,12 +1575,12 @@ Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p
   \end{tikzpicture}	
 	};	
 	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!75!black, "\tiny 1" below] (1) {$\bullet$} 
-      child {coordinate (11)}
-      child {coordinate (12)};
-    \node[right=1.5 of 1, red, "\tiny 1" below] (2) {$\bullet$} 
-      child {coordinate (21)};
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node[red!75!black, "\color{red!75!black} \tiny 1" below] (1) {$\bullet$} 
+      child[red!75!black] {coordinate (11)}
+      child[red!75!black] {coordinate (12)};
+    \node[right=1.5 of 1, red, "\color{red} \tiny 1" below] (2) {$\bullet$} 
+      child[red] {coordinate (21)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
     \begin{scope}[densely dotted, bend right]
       \draw[postaction={decorate}] (21) to (12);
@@ -1400,119 +1589,131 @@ Okay, now suppose someone gives us delegations (i.e.\ morphisms) $f\colon p\to p
 	};	
 %
 	\node (p4) [below right=-1.05 and 1 of p3] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node[red!75!black, "\tiny 2" below] (1) {$\bullet$} 
-      child {coordinate (11)};
-    \node[right=of 1, red, "\tiny 2" below] (2) {$\bullet$};
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node[red!75!black, "\color{red!75!black} \tiny 2" below] (1) {$\bullet$} 
+      child[red!75!black] {coordinate (11)};
+    \node[right=of 1, red, "\color{red} \tiny 2" below] (2) {$\bullet$};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
   \end{tikzpicture}	
 	};	
 \end{tikzpicture}
 \]
-Then we can form the induced delegation $f\tri g\colon (p\tri q)\to (p'\tri q')$ as follows. For each two-level tree (position in $p\tri q$), we begin by using $f$ to send the $p$-corolla on the bottom to a $p'$-corolla. The second-level nodes (from $q'$) have not been chosen yet, but each of the $p'$-directions is passed back to a $p$-direction via $f^\sharp$. Now we use $g$ to send the $q$-corolla at the second level to a $q'$ corolla (this part is not shown in the diagram below because it would add clutter). Again each of the $q'$-directions is passed back to a $q$ direction via $g^\sharp$.
+Then by \cref{exc.comp_prod_lens}, we can form the lens $f\tri g\colon p\tri q\to p'\tri q'$ as follows.
+On positions, we follow \eqref{eqn.comp_lens_pos}: for each tree $t$ in the picture of $p\tri q$, we begin by using $f_\1$ to send the corolla $i$ of $p$ that forms the bottom level of $t$ to a corolla $i'$ of $p'$.
+Then for each leaf $d'$ of $i'$, to choose what corolla of $q'$ gets glued to $d'$, we use $f^\sharp_i$ to send $d'$ back to a leaf $d$ of corolla $i$.
+Since $t$ has corolla $i$ as its bottom level, $d$ is just a level-$1$ vertex of the tree $t$.
+So we can take the corolla $j$ of $q$ glued to $d$ in $t$, then use $g_\1$ to send $j$ forward to a corolla $j'$ of $q'$.
+This is the corolla we glue to $d'$.
+All this specifies a tree $t'$ in $p'\tri q'$ that $t$ gets sent to via $(f\tri g)_\1$.
 
-Our six pictures below leave out the fact that the red corollas on the right are selected according to $g$; hopefully the reader can put it together for themselves.
+On directions, we follow \eqref{eqn.comp_lens_dir}: picking a direction of $t'$ consists of picking a level-$1$ vertex $d'$ and a level-$2$ leaf $e'$ emanating from $d'$.
+The on-directions function $f^\sharp_i$ sends $d'$ back to a level-$1$ vertex $d$ of $t$, and as we saw, the on-positions function $g_\1$ sends the corolla $j$ of $q$ glued to $d$ in $t$ forward to the corolla of $q'$ glued to $d'$.
+Then $e'$ is a leaf of that corolla, and $g^\sharp_j$ sends $e'$ back to a leaf $e$ emanating from $d$.
+So the on-directions function $(f\tri g)^\sharp_t$ sends the level-$2$ leaf $e'$ to the level-$2$ leaf $e$.
+
+We draw the lens $f\tri g\to p\tri q\to p'\tri q'$ below.
+To avoid clutter, we leave out the arrows for $g_\1$ that show how the red corollas on the right are selected; we hope the reader can put it together for themselves.
 \[
 	\begin{tikzpicture}[trees]
 	\begin{scope}[
 		level 1/.style={sibling distance=8mm},
-	  level 2/.style={sibling distance=2.5mm}]
+	  level 2/.style={sibling distance=5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!75!black] (11') {$\bullet$} 
-      	child {coordinate (11)}
-				child {coordinate (12)}
+      child[blue!50!black] {node[red!75!black] (11') {$\bullet$} 
+      	child[red!75!black] {coordinate (11)}
+				child[red!75!black] {coordinate (12)}
 			}
-      child {node[red!75!black] (12') {$\bullet$} 
-      	child {coordinate (13)}
-				child {coordinate (14)}
+      child[blue!50!black] {node[red!75!black] (12') {$\bullet$} 
+      	child[red!75!black] {coordinate (13)}
+				child[red!75!black] {coordinate (14)}
 			};
 %
     \node[blue!50!black, right=5 of 1] (2) {$\bullet$} 
-      child {node[red!75!black] (21') {$\bullet$} 
-      	child {coordinate (21)}
-				child {coordinate (22)}
+      child[blue!50!black] {node[red!75!black] (21') {$\bullet$} 
+      	child[red!75!black] {coordinate (21)}
+				child[red!75!black] {coordinate (22)}
 			}
-      child {node[red!75!black] (22') {$\bullet$} 
-      	child {coordinate (23)}
+      child[blue!50!black] {node[red!75!black] (22') {$\bullet$} 
+      	child[red!75!black] {coordinate (23)}
 			};
 %
     \node[blue!50!black, below=1.3 of 1] (3) {$\bullet$} 
-      child {node[red!75!black] (31') {$\bullet$} 
-      	child {coordinate (31)}
+      child[blue!50!black] {node[red!75!black] (31') {$\bullet$} 
+      	child[red!75!black] {coordinate (31)}
 			}
-      child {node[red!75!black] (32') {$\bullet$} 
-      	child {coordinate (32)}
-				child {coordinate (33)}
+      child[blue!50!black] {node[red!75!black] (32') {$\bullet$} 
+      	child[red!75!black] {coordinate (32)}
+				child[red!75!black] {coordinate (33)}
 			};
 %
     \node[blue!50!black] at (2|-3) (4) {$\bullet$} 
-      child {node[red!75!black] (41') {$\bullet$} 
-      	child {coordinate (41)}
+      child[blue!50!black] {node[red!75!black] (41') {$\bullet$} 
+      	child[red!75!black] {coordinate (41)}
 			}
-      child {node[red!75!black] (42') {$\bullet$} 
-      	child {coordinate (42)}
+      child[blue!50!black] {node[red!75!black] (42') {$\bullet$} 
+      	child[red!75!black] {coordinate (42)}
 			};
 %
     \node[blue!50!black, below=1.3 of 3] (5) {$\bullet$} 
-      child {node[red!75!black] (51') {$\bullet$} 
-      	child {coordinate (51)}
-				child {coordinate (52)}
+      child[blue!50!black] {node[red!75!black] (51') {$\bullet$} 
+      	child[red!75!black] {coordinate (51)}
+				child[red!75!black] {coordinate (52)}
 			};
 %
     \node[blue!50!black] at (4|-5) (6) {$\bullet$} 
-      child {node[red!75!black] (61') {$\bullet$} 
-      	child {coordinate (61)}
+      child[blue!50!black] {node[red!75!black] (61') {$\bullet$} 
+      	child[red!75!black] {coordinate (61)}
 			};
 		\end{scope}
 %%
-		\begin{scope}[		
+	\begin{scope}[		
 		level 1/.style={sibling distance=4mm},
-	  level 2/.style={sibling distance=2.5mm}]
+	  level 2/.style={sibling distance=5mm}]
 	    \node[blue, right=2 of 1] (1') {$\bullet$} 
-      child {node[red] (1'1') {$\bullet$} 
-      	child {coordinate (1'1)}
+      child[blue] {node[red] (1'1') {$\bullet$} 
+      	child[red] {coordinate (1'1)}
 			}
-      child {node[red] (1'2') {$\bullet$} 
-      	child {coordinate (1'2)}
+      child[blue] {node[red] (1'2') {$\bullet$} 
+      	child[red] {coordinate (1'2)}
 			}
-      child {node[red] (1'3') {$\bullet$} 
-      	child {coordinate (1'3)}
+      child[blue] {node[red] (1'3') {$\bullet$} 
+      	child[red] {coordinate (1'3)}
 			};
 %
     \node[blue, right=2 of 2] (2') {$\bullet$} 
-      child {node[red] (2'1') {$\bullet$} 
+      child[blue] {node[red] (2'1') {$\bullet$} 
 			}
-      child {node[red] (2'2') {$\bullet$} 
+      child[blue] {node[red] (2'2') {$\bullet$} 
 			}
-      child {node[red] (2'3') {$\bullet$} 
-      	child {coordinate (2'1)}
+      child[blue] {node[red] (2'3') {$\bullet$} 
+      	child[red] {coordinate (2'1)}
 			};
 %
     \node[blue, right=2 of 3] (3') {$\bullet$} 
-      child {node[red] (3'1') {$\bullet$} 
-      	child {coordinate (3'1)}
+      child[blue] {node[red] (3'1') {$\bullet$} 
+      	child[red] {coordinate (3'1)}
 			}
-      child {node[red] (3'2') {$\bullet$} 
-      	child {coordinate (3'2)}
+      child[blue] {node[red] (3'2') {$\bullet$} 
+      	child[red] {coordinate (3'2)}
 			}
-      child {node[red] (3'3') {$\bullet$} 
+      child[blue] {node[red] (3'3') {$\bullet$} 
 			};
 %
     \node[blue, right=2 of 4] (4') {$\bullet$} 
-      child {node[red] (4'1') {$\bullet$} 
+      child[blue] {node[red] (4'1') {$\bullet$} 
 			}
-      child {node[red] (4'2') {$\bullet$} 
+      child[blue] {node[red] (4'2') {$\bullet$} 
 			}
-      child {node[red] (4'3') {$\bullet$} 
+      child[blue] {node[red] (4'3') {$\bullet$} 
 			};
 %
     \node[blue, right=2 of 5] (5') {$\bullet$} 
-      child {node[red] (5'1') {$\bullet$} 
-      	child {coordinate (5'1)}
+      child[blue] {node[red] (5'1') {$\bullet$} 
+      	child[red] {coordinate (5'1)}
 			};
 %
     \node[blue, right=2 of 6] (6') {$\bullet$} 
-      child {node[red] (6'1') {$\bullet$} 
+      child[blue] {node[red] (6'1') {$\bullet$} 
 			};
 %
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
@@ -1520,7 +1721,7 @@ Our six pictures below leave out the fact that the red corollas on the right are
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
 \draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
-%\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
     \begin{scope}[densely dotted, bend right=15pt]
       \draw[postaction={decorate}] (1'1') to (12');
       \draw[postaction={decorate}] (1'2') to (12');
@@ -1553,60 +1754,153 @@ Our six pictures below leave out the fact that the red corollas on the right are
 	\end{scope}
   \end{tikzpicture}
 \]
-Again, we're not making up these rules; it's a tree representation of how natural transformations $f$ and $g$ compose to form $f\tri g$.
 \end{example}
 
 \begin{exercise}
-With $p,q,p',q'$ and $f,g$ as in \cref{ex.circ_prod_on_morphisms}, draw $g\tri f\colon (q\tri p)\to (q'\tri p')$ in terms of trees as in the example.
+With $p,q,p',q'$ and $f,g$ as in \cref{ex.comp_prod_trees}, draw the lens $g\tri f\colon q\tri p\to q'\tri p'$ in terms of trees as in the example.
+\begin{solution}
+Using the definitions, instructions, and style from \cref{ex.comp_prod_trees}, we draw $g\tri f\colon q\tri p\to q'\tri p'$:
+\[
+	\begin{tikzpicture}[trees]
+	\begin{scope}[
+		level 1/.style={sibling distance=8mm},
+	  level 2/.style={sibling distance=5mm}]
+    \node[red!75!black] (1) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (11') {$\bullet$} 
+      	child[blue!50!black] {coordinate (11)}
+				child[blue!50!black] {coordinate (12)}
+			}
+      child[red!75!black] {node[blue!50!black] (12') {$\bullet$} 
+      	child[blue!50!black] {coordinate (13)}
+				child[blue!50!black] {coordinate (14)}
+			};
+%
+    \node[red!75!black, right=5 of 1] (2) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (21') {$\bullet$} 
+      	child[blue!50!black] {coordinate (21)}
+				child[blue!50!black] {coordinate (22)}
+			}
+      child[red!75!black] {node[blue!50!black] (22') {$\bullet$} 
+      	child[blue!50!black] {coordinate (23)}
+			};
+%
+    \node[red!75!black, below=1.3 of 1] (3) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (31') {$\bullet$} 
+      	child[blue!50!black] {coordinate (31)}
+			}
+      child[red!75!black] {node[blue!50!black] (32') {$\bullet$} 
+      	child[blue!50!black] {coordinate (32)}
+				child[blue!50!black] {coordinate (33)}
+			};
+%
+    \node[red!75!black] at (2|-3) (4) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (41') {$\bullet$} 
+      	child[blue!50!black] {coordinate (41)}
+			}
+      child[red!75!black] {node[blue!50!black] (42') {$\bullet$} 
+      	child[blue!50!black] {coordinate (42)}
+			};
+%
+    \node[red!75!black, below=1.3 of 3] (5) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (51') {$\bullet$} 
+      	child[blue!50!black] {coordinate (51)}
+				child[blue!50!black] {coordinate (52)}
+			};
+%
+    \node[red!75!black] at (4|-5) (6) {$\bullet$} 
+      child[red!75!black] {node[blue!50!black] (61') {$\bullet$} 
+      	child[blue!50!black] {coordinate (61)}
+			};
+		\end{scope}
+%%
+	\begin{scope}[		
+		level 1/.style={sibling distance=4mm},
+	  level 2/.style={sibling distance=2.5mm}]
+	    \node[red, right=2 of 1] (1') {$\bullet$} 
+      child[red] {node[blue] (1'1') {$\bullet$} 
+      	child[blue] {coordinate (1'1)}
+      	child[blue] {coordinate (1'2)}
+      	child[blue] {coordinate (1'3)}
+			};
+%
+    \node[red, right=2 of 2] (2') {$\bullet$} 
+      child[red] {node[blue] (2'1') {$\bullet$} 
+        child[blue] {coordinate (2'1)}
+			};
+%
+    \node[red, right=2 of 3] (3') {$\bullet$} 
+      child[red] {node[blue] (3'1') {$\bullet$} 
+      	child[blue] {coordinate (3'1)} 
+      	child[blue] {coordinate (3'2)} 
+      	child[blue] {coordinate (3'3)}
+			};
+%
+    \node[red, right=2 of 4] (4') {$\bullet$} 
+      child[red] {node[blue] (4'1') {$\bullet$}  
+      	child[blue] {coordinate (4'1)}
+			};
+%
+    \node[red, right=2 of 5] (5') {$\bullet$};
+%
+    \node[red, right=2 of 6] (6') {$\bullet$};
+%
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (3) -- (3');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (4) -- (4');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (5) -- (5');
+\draw[|->, shorten <= 3pt, shorten >= 3pt] (6) -- (6');
+    \begin{scope}[densely dotted, bend right=15pt]
+      \draw[postaction={decorate}] (1'1') to (12');
+      \draw[postaction={decorate}] (1'1) to (14);
+      \draw[postaction={decorate}] (1'2) to (14);
+      \draw[postaction={decorate}] (1'3) to (13);
+%
+      \draw[postaction={decorate}] (2'1') to (22');
+      \draw[postaction={decorate}] (2'1) to (23);
+%
+      \draw[postaction={decorate}] (3'1') to (32');
+      \draw[postaction={decorate}] (3'1) to (33);
+      \draw[postaction={decorate}] (3'2) to (33);
+      \draw[postaction={decorate}] (3'3) to (32);
+%
+      \draw[postaction={decorate}] (4'1') to (42');
+      \draw[postaction={decorate}] (4'1) to (42);
+    \end{scope}
+
+	\end{scope}
+  \end{tikzpicture}
+\]
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
-Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary morphisms $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$. Does the following diagram necessarily commute?
+Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$. Does the following diagram necessarily commute?\footnote{When the name of an object is used in place of a morphism, we refer to the identity morphism on that object.
+So for instance, $f\tri r$ is the composition product of $f$ with the identity lens on $r$.}
 \[
 \begin{tikzcd}
 	q\ar[r, "g"]\ar[d, "f"']&
-	q\tri r\ar[d, "f\tri r"]\\
-	p\tri q\ar[r, "p\tri g"']&
+	q\tri r\ar[d, "f\:\tri\:r"]\\
+	p\tri q\ar[r, "p\:\tri\:g"']&
 	p\tri q\tri r\ar[ul, phantom, "?"]
 \end{tikzcd}
 \]
-That is, do we have $(p\tri g)\circ f=^?(f\tri r)\circ g$?
+That is, do we have $f\then (p\tri g)=^?g\then (f\tri r)$?
+\begin{solution}
+Given arbitrary polynomials $p,q,r$ and lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$, it is \emph{not} necessarily the case that $f\then (p\tri g)=^?g\then (f\tri r)$!
+After all, we can let $p\coloneqq\yon$ and $q\coloneqq\2$ so that $f$ is a lens $\2\to\yon\tri\2\iso\2$ (see \cref{ex.compose_yon}) and $g$ is a lens $\2\to\2\tri r\iso\2$ (see \cref{exc.composing_with_constants}).
+Then by following the instructions for interpreting a composition product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri g=\yon\tri g$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $g$, while $f\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $f$.
+If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ and $g\colon\2\to\2$ be the function sending everything to $2\in\2$, then in this case $f\then (p\tri g)=f\then g\neq g\then f=g\then (f\tri r)$.
+\end{solution}
 \end{exercise}
-
-%---- Subsection ----%
-\subsection{Pronouncing polynomial composites}
-
-We want to be able to pronounce polynomials like $p$ and $q$ in some way, which is intuitive and which lends itself to pronouncing composites like $p\tri q$ or $p\tri p\tri q\tri p$. We pronounce the polynomial
-\[p=\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon\]
-as ``a choice of $p$-position $i$ and, for every direction $d\in p[i]$ there, a future.'' Other than the word ``future'' in place of $\yon$, this is just pronouncing dependent sums and products. By saying ``a future'', we indicate that $\yon$ is a functor: for any set $X$ one could put in its place, we'll get an element of that $X$. We know we're getting an element of something, we just don't yet know what.
-
-To pronounce composites of polynomials $p\tri q$, we pronounce almost all of $p$, except we replace ``future'' with $q$. More precisely, to pronounce $p\tri q$, which has the formula
-\[p\tri q\cong\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon,
-\]
-we would say ``a choice of position $i\in p(\1)$ and, for every direction $d\in p[i]$ there, a choice of position $j\in q(\1)$ and, for every direction $e\in q[j]$ there, a future.
-
-\begin{exercise}
-\begin{enumerate}
-	\item Let $p$ be an arbitrary polynomial. Write out the English pronunciation of $p\tri p\tri p$.
-	\item Pronouncing the unique element of $\1$ as ``completion'', write out the pronunciation of $p\tri p\tri \1$.
-	\item Pronouncing $\prod_{d\in\varnothing}\yon$ as ``with no directions to travel, a complete dissociation from any purported future'', write out the pronunciation of $p\tri p\tri\yon^\0$.
-	\item With the ``dissociation'' language, pronounce $p\tri\1\tri p$, and see if it makes sense with the fact that $p\tri\1\tri p\cong p\tri \1$.
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-For any $n\in\nn$, let $p\tripow{n}$ denote the $n$-fold $\tri$ power of $p$, e.g.\ $p\tripow{3}\coloneqq p\tri p\tri p$. In particular, $p\tripow{1}\coloneqq p$ and $p\tripow{0}\coloneqq\yon$. We might think of $p\tripow{n}$ in terms of length-$n$ strategies, in the sense of game theory, except that the opponent is somehow abstract, having no positions of its own. But the easiest way to think of $p\tripow{n}$ is as height-$n$ trees with node labels and branching as dictated by $p$.
-
-\begin{exercise}
-Let $p,q\in\poly$ be polynomials and $n\in\nn$; say $n\geq 1$. Pronounce $(p\tri q)\tripow{(n+2)}$, using the exact phrase ``and so on, $n$ times, ending with.''
-\end{exercise}
-
 
 %-------- Section --------%
-\section{Working with composites}\label{subsec.working_with_composites}
+\section{Lenses to composites}\label{sec.comon.comp.to_comp}
 
-We need a way of talking about maps to composites.%
-\footnote{It would be nice to also have a nice way of talking about maps \emph{out of} composites; however that is more difficult.} 
+Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri q_2\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
+Fortunately, they have some very nice properties that make them convenient to work with.
+% \footnote{It would be nice to also have a nice way of talking about maps \emph{out of} composites; however that is more difficult.} 
+
 The set of morphisms $p\to q_1\tri q_2\tri\cdots\tri q_k$ has the following form:
 \[
   \poly(p,\, q_1\tri q_2\tri\cdots\tri q_k)
@@ -1745,7 +2039,7 @@ Here is a picture of a map $p\to q\tri r$:
 \[
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
-	  level 2/.style={sibling distance=2.5mm}]
+	  level 2/.style={sibling distance=5mm}]
     \node["\tiny $A$" below] (1) {$\bullet$} 
       child {coordinate (11')}
       child {coordinate (12')};
