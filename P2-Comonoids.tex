@@ -387,9 +387,10 @@ We have lenses $f\colon p\to p'$ and $g\colon q\to q'$.
 \end{solution}
 \end{exercise}
 
-So what does \cref{exc.comp_prod_lens} tell us about the behavior of $f\tri g\to p\tri q\to p'\tri q'$?
-From \eqref{eqn.comp_lens_pos}, we see that on positions, $f\tri g$ takes a $p$-position $i$ and sends it to the $p'$-position $f_\1(i)$; then for each direction $d'$ at this position, the associated $q'$-position is obtained by sending $d'$ back to a $p[i]$-direction via $f^\sharp_i$, checking what $q$-position is associated to that $p[i]$-direction via some $\bar{j}_i$, then sending that $q$-position forward again to a $q'$-position via $g_\1$.
-Then from \eqref{eqn.comp_lens_pos}, we see that on directions, $f\tri g$ sends a direction of $p'$ back to a direction of $p$ via an on-directions function of $f$, then sends a direction of $q'$ back to a direction of $q$ via an on-directions funtion of $g$.
+So what does \cref{exc.comp_prod_lens} tell us about the behavior of $f\tri g\colon p\tri q\to p'\tri q'$?
+By \eqref{eqn.comp_lens_pos}, on positions, $f\tri g$ takes a $p$-position $i$ and sends it to the $p'$-position $f_\1(i)$; then for each direction $d'$ at this position, the associated $q'$-position is obtained by sending $d'$ back to a $p[i]$-direction via $f^\sharp_i$, checking what $q$-position is associated to that $p[i]$-direction via some $\bar{j}_i$, then sending that $q$-position forward again to a $q'$-position via $g_\1$.
+
+Then by \eqref{eqn.comp_lens_pos}, on directions, $f\tri g$ sends a direction of $p'$ back to a direction of $p$ via an on-directions function of $f$, then sends a direction of $q'$ back to a direction of $q$ via an on-directions funtion of $g$.
 We'll get a better sense of what's happening when we see this drawn out as corolla forests in \cref{ex.comp_prod_trees}.
 
 \subsection{Composite corolla forests} \label{subsec.comon.comp.def.corolla}
@@ -1899,108 +1900,205 @@ If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ 
 
 Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri q_2\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
 Fortunately, they have some very nice properties that make them convenient to work with.
-% \footnote{It would be nice to also have a nice way of talking about maps \emph{out of} composites; however that is more difficult.} 
+Before we explore these properties, we'll introduce a new way of visualizing lenses that is well-suited to capturing the behavior of lenses to composites.
 
-The set of morphisms $p\to q_1\tri q_2\tri\cdots\tri q_k$ has the following form:
-\[
-  \poly(p,\, q_1\tri q_2\tri\cdots\tri q_k)
-  \cong
-  \prod_{i\in p(\1)}\;
-  	\sum_{j_1\in q_1(\1)}\;
-  \prod_{e_1\in q_1[j_1]}\;
-  	\sum_{j_2\in q_2(\1)}\;\cdots
-  \prod_{e_k\in q_k[j_{k-1}]}\;
-  	\sum_{d\in p[i]}
-	\1
+\subsection{Lenses as polyboxes}
+First, let us consider what goes into specifying a lens $f\colon p\to q$.
+To visualize this, we will introduce a new form of notation, which we will call \emph{polyboxes}, that will generalize well to lenses to composites:
+\begin{equation} \label{eqn.polybox_lens}
+\begin{tikzpicture}
+  \node (f) ["$f\colon p\to q$" above] {
+    \begin{tikzpicture}[polybox, tos]
+  	  \node[poly, dom, "$p$" below] (p) {};
+  	  \node[left=0pt of p_pos] {$p(\1)$};
+  	  \node[left=0pt of p_dir] {$p[-]$};
+
+  	  \node[poly, cod, right=of p, "$q$" below] (q) {};
+  	  \node[right=0pt of q_pos] {$q(\1)$};
+	  \node[right=0pt of q_dir] {$q[-]$};
+	  
+  	  \draw (p_pos) -- node[below] {} (q_pos);
+  	  \draw (q_dir) -- node[above] {} (p_dir);
+    \end{tikzpicture}
+  };
+\end{tikzpicture}
+\end{equation}
+In our polyboxes, each pair of boxes stacked on top of each other represents a single polynomial.
+The bottom box in a pair can be filled with any position of the polynomial, while the top box must be filled with a direction of the polynomial at the position in the bottom box.
+
+We think of \eqref{eqn.polybox_lens} as depicting the lens $f$ as a sort of gadget that acts like an automated spreadsheet: the blue boxes accept user input, while the white boxes are computed based on what is entered into the blue boxes according to the spreadsheet's preprogrammed rules.
+The arrows track the flow of information, starting from the bottom left.
+
+When the user fills the bottom left blue box with a $p$-position $i$, the arrow to the right tells us that the gadget should automatically fill the bottom right white box with some $q$-position $j$, based on the value $i$ that has already been entered.
+This process yields a map $i\mapsto j$ that corresponds to the on-position function $f_\1$ of the lens.
+
+Then when the user fills the top right blue box with a $q[j]$-direction $e$, the arrow to the left tells us that the gadget should automatically fill the top left white box with some $p[i]$-position $d$, based on the values $i$ and $e$ that have already been entered.
+Fixing $i\in p(\1)$, this process yields a map $e\mapsto d$ that corresponds to the on-directions function $f^\sharp_i$ of the lens.
+
+So when both the user and the automation have finished filling all the boxes, we'll end up with something that looks like this:
+\[ \label{eqn.polybox_lens_filled}
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$p$" left] (p) {$d$\nodepart{two}$i$};
+    \node[poly, cod, "$q$" right, right=of p] (q) {$e$\nodepart{two}$j$};
+    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+\end{tikzpicture}
 \]
-We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_\1}$, where $f_\1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_\1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
-\begin{equation}\label{eqn.notation_f1f2fk}
-(f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
-\end{equation}
-where
-\begin{equation}\label{eqn.maps_to_comp}
-\begin{aligned}
-f_1&:p(\1)\to q_1(\1),\\
-f_2&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to q_2(\1),\\
-f_3&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to (e_2\in q_2[f_2(i,e_1)])\to q_3(\1),\\
-f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-1}(i,e_1,\ldots,e_{k-2})])\to q_k(\1),\\
-f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
-\end{aligned}
-\end{equation}
-Here's a picture for the $k=4$ case:
+Here, of course, $j\coloneqq f_\1(i)$ and $d\coloneqq f^\sharp_i(e)$.
+So a lens is any protocol that will fill in the white boxes once the user fills in the blue boxes, following the directions of the arrows drawn.
+
+If we have two composable lenses $f\colon p\to q$ and $g\colon q\to r$, then we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
 \[
 \begin{tikzpicture}[polybox, tos]
-	\node[poly, dom] (p) {};
-	\node[left=0pt of p_dir] {$p[-]$};
-	\node[left=0pt of p_pos] {$p(\1)$};
+    \node[poly, dom, "$p$" below] (p) {};
+
+    \node[poly, right=of p, "$q$" below] (q) {};
+
+    \node[poly, cod, right=of q, "$r$" below] (r) {};
+  
+    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+  
+    \draw (q_pos) -- node[below] {$g_\1$} (r_pos);
+    \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
+\end{tikzpicture}
+\]
+The bottom (position) box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the top (direction box) for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
+This forms a gadget that is equivalent to what the polyboxes would be for $f\then g$.
+
+\subsection{Situations as polyboxes}
+When a polynomial has only $1$ position (i.e.\ it is representable), we shade its bottom (position) polybox gray to indicate that there is no choice to be made there, either by the user or by the automation; similarly, if a polynomial has only $1$ direction at every position (i.e.\ it is linear), we shade its top (direction) polybox gray.
+So both polyboxes for $\yon$ are shaded gray.
+
+In \cref{subsec.poly.dyn_sys.new.sit_encl}, we discussed situations, which are lenses with codomain $\yon$.
+A situation $\gamma\colon p\to\yon$, then, can be depicted as follows, where $!$ is the unique function into $\1$:
+\[
+ \begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom, "$p$" left] (p) {};
+  	\node[poly, identity, right=of p, "$\yon$" right] (yon) {};
+  	\draw (p_pos) -- node[below] {$!$} (yon_pos);
+  	\draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
+	\end{tikzpicture}
+\]
+But this is equivalent to a gadget where, when the user fills in the bottom left blue box with a $p$-position $i$, the top left white box is automatically filled with a $p[i]$-direction $d$.
+So we can redraw the gadget like so:
+\begin{equation}\label{eqn.map_to_0ary_composite}
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$p$" left] (p) {};
+    \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+\end{tikzpicture}
+\end{equation}
+This lines up with what we already know: that a situation $\gamma\colon p\to\yon$ is just a dependent function $\gamma\colon(i\in p(\1))\to p[i]$.
+
+\subsection{Lenses to composites as polyboxes}
+A lens $p\to q_1\tri q_2$ is an element of the set
+\begin{align*}
+    \poly(p, q_1\tri q_2) &\iso \poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{e_2\in q_2[j_2]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
+    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{e_2\in q_2[j_2]}p[i]. \tag*{\eqref{eqn.main_formula}}
+\end{align*}
+So we can write down the instructions for picking a lens $p\to q_1\tri q_2$ as follows.
+\begin{quote}
+To choose a lens $p\to q_1\tri q_2$:
+\begin{enumerate}
+    \item for each $p$-position $i$:
+    \begin{enumerate}[label*=\arabic*.]
+        \item choose a $q_1$-position $j_1$;
+        \item for each $q_1[j_1]$-direction $e_1$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose a $q_2$-position $j_2$;
+            \item for each $q_2[j_2]$-direction $e_2$:
+            \begin{enumerate}[label*=\arabic*.]
+                \item choose a $p[i]$-direction $d$.
+            \end{enumerate}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
+\end{quote}
+We could try to write out the dependent functions that these instructions correspond to.
+Alternatively, we could simply draw this protocol out using polyboxes, with every ``for each'' step corresponding to a user-maintained blue box and every ``choose'' step corresponding to an automated white box:
+\begin{equation}\label{eqn.map_to_2ary_composite}
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$p$" left] (p) {$d$\nodepart{two}$i$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$e_1$\nodepart{two}$j_1$};
+	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$e_2$\nodepart{two}$j_2$};
+  	\draw (p_pos) to[first] (q1_pos);
+  	\draw (q1_dir) to[climb] (q2_pos);
+  	\draw (q2_dir) to[last] (p_dir);
+\end{tikzpicture}
+\end{equation}
+Whenever we draw two pairs of polyboxes on top of each other, as we do with the polyboxes for $q_1$ and $q_2$ above on the right, we are indicating that the entire column of polyboxes depicts the composite of the polynomials depicted by each individual pair.
+So the column of polyboxes on the right represents the composite $q_1\tri q_2$.
+In particular, the position in the bottom box of the top pair is the position associated with the direction in the top box of the bottom pair, for the depicted position of the composite.
+
+So a lens $p\to q_1\tri q_2$ is any protocol that will fill in the white boxes above as the user fills in the blue boxes in the direction of the arrows.
+We'll see this in action in \cref{ex.map_to_comp}.
+
+In fact, \eqref{eqn.map_to_0ary_composite}, \eqref{eqn.map_to_2ary_composite}, and \eqref{eqn.polybox_lens} are the polybox depictions of the $n=0, n=1,$ and $n=2$ examples of lenses $p\to q_1\tri\cdots\tri q_n$ to $n$-fold composites.
+In general, for any $n\in\nn$, we can apply 
+\begin{align} \label{eqn.lens_to_comp}
+    \poly(p, q_1\tri\cdots\tri q_n) &\iso\poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{e_n\in q_n[j_n]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
+    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{e_n\in q_n[j_n]}p[i], \tag*{\eqref{eqn.main_formula}}
+\end{align}
+so the polybox depiction of $p\to q_1\tri\cdots\tri q_n$ generalizes analogously.
+For example, here are the polyboxes corresponding to a lens to a $4$-fold composite:
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$p$" left] (p) {};
 	\foreach \i in {1,...,4}
 	{
-  	\node[poly, cod] (q\i) at (3,1.3*\i-3.25) {};
-  	\node[right=0pt of q\i_dir] {$q_{\i}[-]$};
-  	\node[right=0pt of q\i_pos] {$q_{\i}(\1)$};
+  	\node[poly, cod, "$q_\i$" right] (q\i) at (3,1.3*\i-3.25) {};
 	};
-	\draw (p_pos) to[first] node[below] {$f_1$} (q1_pos.west);
-	\foreach \i/\j in {1/2,2/3, 3/4}
+	\draw (p_pos) to[first] node[below] {} (q1_pos.west);
+	\foreach \i/\j in {1/2,2/3,3/4}
 	{
 		\draw 
 			(q\i_dir.west) 
 			to[climb] 
-			node[left] {$f_\j$}
+			node[left] {}
 			(q\j_pos.west);
 	};
-	\draw (q4_dir) to[last] node[above left] {$f^\sharp$} (p_dir);
+	\draw (q4_dir) to[last] node[above left] {} (p_dir);
 \end{tikzpicture}
 \]
 
+% We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_\1}$, where $f_\1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_\1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
+% \begin{equation}\label{eqn.notation_f1f2fk}
+% (f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
+% \end{equation}
+% where
+% \begin{equation}\label{eqn.maps_to_comp}
+% \begin{aligned}
+% f_1&:p(\1)\to q_1(\1),\\
+% f_2&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to q_2(\1),\\
+% f_3&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to (e_2\in q_2[f_2(i,e_1)])\to q_3(\1),\\
+% f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-1}(i,e_1,\ldots,e_{k-2})])\to q_k(\1),\\
+% f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
+% \end{aligned}
+% \end{equation}
 
-A few considerations might make \eqref{eqn.maps_to_comp} less scary. First of all, we're usually interested in the cases $k=0,1,2$. The case $k=1$ is just our $(f_1,f^\sharp)$ notation
+These lenses to $n$-fold composites lend themselves to a very natural interpretation in terms of our decision making language.
+Each of $p$'s decisions is passed forward to a decision for $q_1$ to make.
+For every option that $q_1$ may choose, there is then also a decision for $q_2$ to make.
+Then for every option that $q_2$ may choose, there is a decision for $q_3$ to make, and so on, all the way until $q_n$ has picked an option.
+Together, all the options that $q_1,\ldots,q_n$ chose then inform the option that $p$ should make for its original decision.
+
+\slogan{A lens $p\to q_1\tri\cdots\tri q_n$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$, then $q_2$, etc., all the way to $q_n$, and interpreting the results.}
+
+\begin{example}[Lenses $p\to q\tri r$]\label{ex.map_to_comp}
+Consider a lens $f\colon p\to q\tri r$.
+Let's label the three arrows in the lens's polybox depiction:
 \[
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$p$" left] (c) {};
-  	\node[poly, cod, right=of c, "$q$" right] (c') {};
-  	\draw (c_pos) -- node[below] {$f_1$} (c'_pos);
-  	\draw (c'_dir) -- node[above] {$f^\sharp$} (c_dir);
-	\end{tikzpicture}
-\]
-The case $k=0$ says that a map $p\to\yon$ is just a function $f^\sharp\in\prod_{i\in p(\1)}p[i]$
-\[
- \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$p$" left] (c) {};
-  	\node[poly, identity, right=of c, "$\yon$" right] (c') {};
-  	\draw (c_pos) -- node[below] {$!$} (c'_pos);
-  	\draw (c'_dir) -- node[above] {$f^\sharp$} (c_dir);
-	\end{tikzpicture}
-\]
-which we can rewrite simply as
-\begin{equation}\label{eqn.map_to_0ary_composite}
- \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$p$" left] (c) {};
-  	\draw (c_pos) to[climb'] node[right] {$f^\sharp$} (c_dir);
-	\end{tikzpicture}
-\end{equation}
-The case $k=2$ looks like this
-\begin{equation}\label{eqn.map_to_2ary_composite}
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (p) {};
-	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {};
-	\node[poly, cod, above=of q] (r) {};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
+	\node[poly, dom, "$p$" left] (p) {};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q$" right] (q) {};
+	\node[poly, cod, above=of q, "$r$" right] (r) {};
+  	\draw (p_pos) to[first] node[below] {$f^q$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {$f^r$} (r_pos);
+  	\draw (r_dir) to[last] node[above] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
-\end{equation}
-and is considered in \cref{ex.map_to_comp}. But before we get there, let's think about \eqref{eqn.maps_to_comp} in terms of delegating decisions by ``due process.'' 
-
-Suppose we're $p$ and someone gives us a decision $i\in p(\1)$ to make: we're supposed to pick an element of $p[i]$. Luckily, by virtue of our morphism $f\colon p\to q_1\tri\cdots\tri q_k$, consisting of steps $f_1,\ldots,f_k$ and an interpretation $f^\sharp$, we have a process to follow by which we can make the decision. Our first step is to ask $q_1$ to make decision $f_1(i)$. It dutifully chooses some option, say $e_1\in q_1[f_1(i)]$. We know exactly what to do: our second step is to ask $q_2$ to make decision $f_2(i,e_1)$. It dutifully chooses some option, say $e_2\in q_2[f_2(i,e_1)]$. We continue with the plan through step $k$, at which point we ask $q_k$ to make decision $f_k(i,e_1,\ldots,e_{k-1})$. It dutifully chooses some option, say $e_k$, which we then interpret via our passback function $f^\sharp$ to obtain the desired decision $f^\sharp(i,e_1,\ldots,e_k)\in p[i]$.
-
-\slogan{A morphism $p\to q_1\tri\cdots\tri q_k$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$ then $q_2$, etc., all the way until $q_k$, and interpreting the results.}
-
-\begin{example}[Maps $p\to q\tri r$]\label{ex.map_to_comp}
-By \eqref{eqn.maps_to_comp}, a morphism $p\to q\tri r$ can be specified by a tuple $(f_1,f_2,f^\sharp)$, where $f_1\colon p(\1)\to q(\1)$ and $f_2,f^\sharp$ are a little more involved because they are dependent functions.
-
-The dependent function $f_2$ takes as input a pair $(i,d)$ where $i\in p(\1)$ and $d\in q[f_1(i)]$, and it outputs an element of $r(\1)$.
-
-The dependent function $f^\sharp$ takes as input a tuple $(i,d,e)$, where $i,d$ are as above and $e\in r[f_2(i,d)]$, and it outputs an element of $p[i]$.
+\]
+So the on-position function of $f$ can be split into two parts: a function $f^q\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^r_i\colon q[f^q(i)]\to r(\1)$.
+Then the on-directions function $f^\sharp_i\colon (q\tri r)[f_\1(i)]\to p[i]$ takes the direction of $q$ and the direction of $r$ in the two blue boxes on the right and sends them to a direction of $p$ at $i$ to fill the white box on the left.
 
 For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C\}\yon^{\{U,V,W\}}+\{D\}\yon^{\{X\}}$, and $r\coloneqq\{E\}\yon^{\{Y,Z\}}+\{F\}$.
 \[
@@ -2015,7 +2113,7 @@ For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C
   \end{tikzpicture}
   };
 %
-	\node (q) [draw, red!75!black, right=2 of p, "$q=$" left] {
+	\node (q) [draw, blue, right=2 of p, "$q=$" left] {
 	\begin{tikzpicture}[trees, sibling distance=4mm]
     \node["\tiny $C$" below] (1) {$\bullet$} 
       child {node[above, font=\tiny] {$U$}}
@@ -2035,7 +2133,7 @@ For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C
   };
 \end{tikzpicture}
 \]
-Here is a picture of a map $p\to q\tri r$:
+Here is a tree picture of a lens $f\colon p\to q\tri r$:
 \[
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
@@ -2043,25 +2141,25 @@ Here is a picture of a map $p\to q\tri r$:
     \node["\tiny $A$" below] (1) {$\bullet$} 
       child {coordinate (11')}
       child {coordinate (12')};
-    \node[right=2 of 1, red!75!black,"\tiny $C$" below] (1') {$\bullet$}
-    	child {node[red] {$\bullet$}
-				child {coordinate (1'1)}
-				child {coordinate (1'2)}
+    \node[right=2 of 1, blue, "\color{blue} \tiny $C$" below] (1') {$\bullet$}
+    	child[blue] {node[red] {$\bullet$}
+				child[red] {coordinate (1'1)}
+				child[red] {coordinate (1'2)}
 			}
-			child{node[red] {$\bullet$}
+		child[blue] {node[red] {$\bullet$}
 			}
-			child{node[red] {$\bullet$}
-				child {coordinate (1'3)}
-				child {coordinate (1'4)}
+		child[blue] {node[red] {$\bullet$}
+				child[red] {coordinate (1'3)}
+				child[red] {coordinate (1'4)}
 			}
 			;
 %
     \node (2) [right=3 of 1',"\tiny $B$" below] {$\bullet$} 
       child {coordinate (21')};
-    \node[right=2 of 2, red!75!black,"\tiny $D$" below] (2') {$\bullet$}
-			child{node[red] {$\bullet$}
-				child {coordinate (2'1)}
-				child {coordinate (2'2)}
+    \node[right=2 of 2, blue,"\color{blue} \tiny $D$" below] (2') {$\bullet$}
+			child[blue] {node[red] {$\bullet$}
+				child[red] {coordinate (2'1)}
+				child[red] {coordinate (2'2)}
 			}
 			;
 %
@@ -2077,15 +2175,15 @@ Here is a picture of a map $p\to q\tri r$:
   \end{scope}
 \end{tikzpicture}
 \]
-If we write it as $(f_1,f_2,f^\sharp)\colon p\to q\tri r$ then we have
+If we write $f$ as the corresponding triple $(f^q, f^r, f^\sharp)$, then we have
 \begin{gather*}
-f_1(A)=C,\quad f_1(B)=D,\\
-f_2(A,U)=E,\quad f_2(A,V)=F,\quad f_2(A,W)=E,\\
-f_2(B,X)=E,\\
-f^\sharp(A,U,Y)=S,\quad f^\sharp(A,U,Z)=R,\quad f^\sharp(A,W,Y)=R,\quad f^\sharp(A,W,Z)=R\\
-f^\sharp(B,X,Y)=T,\quad f^\sharp(B,X,Z)=T
+f^q(A)=C,\quad f^q(B)=D;\\
+f^r_A(U)=E,\quad f^r_A(V)=F,\quad f^r_A(W)=E;\\
+f^r_B(X)=E;\\
+f^\sharp_A(U,Y)=S,\quad f^\sharp_A(U,Z)=R,\quad f^\sharp_A(W,Y)=R,\quad f^\sharp_A(W,Z)=R;\\
+f^\sharp_B(X,Y)=T,\quad f^\sharp_B(X,Z)=T.
 \end{gather*}
-Box-notation uses a slightly different organization to represent the same data:
+Polyboxes display the same data in a different format:
 \[
 \begin{tikzpicture}[polybox, mapstos, node distance=2ex and 1.4cm]
   \node (a) {
@@ -2160,38 +2258,51 @@ Box-notation uses a slightly different organization to represent the same data:
 	};
 \end{tikzpicture}
 \]
+The third set of polyboxes, where the left blue box has been filled with an $A$ and the bottom right blue box has been filled with a $V$, is worth highlighting: as $f^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the top right box.
+To indicate this, we color the top right box red and leave the arrow emerging from it dashsed.
 \end{example}
 
-\begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions and directions in a composite]\label{ex.pos_in_composite}
-Suppose given polynomials $p_1,\ldots,p_k$. Recall from \cref{exc.positions_maps_yon} that a position in their composite as a map
-\[
-i\colon \yon^\1\to p_1\tri\cdots\tri p_k.
-\]
-We can denote $i$ in the notation \eqref{eqn.notation_f1f2fk} as $i=(i_1,\ldots,i_k)$, forgoing the input to $i_1$ because it is always $1\in\1$ and also forgoing $f^\sharp$ because it is always the unique map to $\1$. Then in this notation 
-\begin{gather*}
-i_1\in p_1(\1),\quad
-i_2\colon p_1[i_1]\to p_2(\1),\quad
-i_3\colon (d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to p_3(\1),\\
-i_k\colon(d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to\cdots(d_{k-1}\in p_{k-1}[i_{k-1}(d_1,\ldots,d_{k-2})])\to p_k(\1)
-\end{gather*}
+% \begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions and directions in a composite]\label{ex.pos_in_composite}
+% Given polynomials $p_1,\ldots,p_n$, recall from \cref{exc.positions_maps_yon} that the position-set of their composite is isomorphic to the hom-set
+% \[
+%     \poly(\yon, p_1\tri\cdots\tri p_n),
+% \]
+% which by \eqref{eqn.lens_to_comp} is in turn isomorphic to
+% \[
+%     \sum_{i_1\in p_1(\1)}\;\prod_{d_1\in p_1[i_1]}\cdots\sum_{i_n\in p_n(\1)}\;\prod_{d_n\in p_n[i_n]}\1.
+% \]
 
-So for example to give a position in $p\tri q\tri r$ we need 
-\[
-i\in p(\1),\quad
-j\colon p[i]\to q(\1),\quad
-k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
-\]
+% We can denote $i$ in the notation \eqref{eqn.notation_f1f2fk} as $i=(i_1,\ldots,i_n)$, forgoing the input to $i_1$ because it is always $1\in\1$ and also forgoing $f^\sharp$ because it is always the unique map to $\1$. Then in this notation 
+% \begin{gather*}
+% i_1\in p_1(\1),\quad
+% i_2\colon p_1[i_1]\to p_2(\1),\quad
+% i_3\colon (d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to p_3(\1),\\
+% i_k\colon(d_1\in p_1[i_1])\to(d_2\in p_2[i_2(d_1)])\to\cdots(d_{k-1}\in p_{k-1}[i_{k-1}(d_1,\ldots,d_{k-2})])\to p_k(\1)
+% \end{gather*}
 
-The direction-set of $p_1\tri\cdots\tri p_k$ at position $(i_1,\ldots,i_k)$ is 
-\[
-(p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1})]}\1
-\]
-So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(d,e,f)$ where $d\in p[i]$, $e\in q[j(d)]$ and $f\in r[k(d,e)]$.
-\end{example}
+% So for example to give a position in $p\tri q\tri r$ we need 
+% \[
+% i\in p(\1),\quad
+% j\colon p[i]\to q(\1),\quad
+% k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
+% \]
 
-\begin{exercise}
-Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
-\end{exercise}
+% The direction-set of $p_1\tri\cdots\tri p_k$ at position $(i_1,\ldots,i_k)$ is 
+% \[
+% (p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1})]}\1
+% \]
+% So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(d,e,f)$ where $d\in p[i]$, $e\in q[j(d)]$ and $f\in r[k(d,e)]$.
+% \end{example}
+
+% \begin{exercise}
+% Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
+% \end{exercise}
+
+\subsection{The composition product of lenses as polyboxes}
+
+% A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.  — just stacking the lenses on top of each other. Here is an example of a $2$-fold composition product of lenses, depicted as polyboxes
+
+% How does this relate to our usual polybox depiction of a lens into a composite? We could think of filling the two independently. Or we could think of already deciding what to put in the circle for every chocie of what's in the square, which is just picking a position of the composite domain...bottom 3 arrows give position of  ...
 
 What if I give you a two-step decision to make of shape $p\tri q$: I'll give you a position in $p$, you choose a direction there, and then based on your answer I'll give you a position in $q$, and you choose a direction there too. Now if each of $p$ and $q$ knew how to delegate its decisions to its partner, say $p\to p'$ and $q\to q'$, you should be able to delegate your two-step decision in $p\tri q$ to a two-step decision by the partners $p'\tri q'$. Here's how this looks in box-notation
 
