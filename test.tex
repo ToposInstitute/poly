@@ -511,7 +511,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \definecolor{dyellow}{rgb}{8.0, 0.74, 0}
 
 \newcommand{\pphantom}[2]{$\phantom{#1}$\nodepart{two}$\vphantom{#2}$}
-\newcommand{\at}{\nodepart{two}}
+
 
 \newcommand{\qand}{\quad\text{and}\quad}
 \newcommand{\qqand}{\qquad\text{and}\qquad}
@@ -691,24 +691,23 @@ This page intentionally left blank.
 To Andr\'e Joyal
 \end{dedication}
 
-\clearpage
-\tableofcontents*
-\clearpage
-
-\subfile{P0-Preface}
-
 \mainmatter
-\subfile{P1-Polynomials}
-\subfile{P2-Comonoids}
-\subfile{P3-Bimodules}
 
-\appendix
-\begingroup
-\footnotesize
-
-\backmatter
-
-\printbibliography
-\printindex
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$r$" left] (r) {};
+	\node[poly, right=1.8 of r.south, yshift=-2.5ex, "$p$" below] (p) {};
+	\node[poly, above=.8 of p, "$p'$" above] (p') {};
+	\node[poly, cod, right=of p, "$q$" right] (q) {};
+	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {};
+	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
+	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
+	\draw (r_pos) to[first] node[below] {$g^{p}$} (p_pos);
+	\draw (p_dir) to[climb] node[right] {$g^{p'}$} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {$g^\sharp$} (r_dir);
+\end{tikzpicture}
+\]
 
 \end{document}

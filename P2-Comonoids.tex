@@ -960,57 +960,6 @@ Now $r\coloneqq \2\yon+\1$. Before we draw the composites, here's a picture of $
 \end{solution}
 \end{exercise}
 
-% ** Move next example & exercise til after morphs into composites/polyboxes discussed
-% \begin{example}
-% For any $p$ and $q$ there is an interesting cartesian map $o_{p,q}\colon p\otimes q\to p\tri q$ that orders the operation. It looks like this:
-% \[
-% \begin{tikzpicture}[polybox, mapstos]
-% 	\node[poly, dom] (p) {$(d,e)$\nodepart{two}$(i,j)$};
-% 	\node[poly, cod, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
-% 	\node[poly, cod, above=of q] (r) {$e$\nodepart{two}$j$};
-%   	\draw (p_pos) to[first] (q_pos);
-%   	\draw (q_dir) to[climb] (r_pos);
-%   	\draw (r_dir) to[last] (p_dir);
-% \end{tikzpicture}
-% \]
-% In other words, $p\tri q$ is allowed to have $j$ depend on $d$, whereas $p\otimes q$ is not; the map is in some sense the inclusion of the order-independent part. And of course we can flip the order using the symmetry $q\otimes p\cong p\otimes q$. This is, we just as well have a map $p\otimes q\to q\tri p$.
-
-% Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique map $\yon\to\yon$.
-% In fact the maps $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
-% In particular, $o_{p,q}$ commutes with associators and unitors. 
-
-% This can be used in the following way. Maps $p\to q\tri r$ into composites are fairly easy to diagram and understand, whereas maps $q\tri r\to p$ are not so easy to think about. However, given such a map, one may always compose it with $o_{q,r}$ to obtain a map $q\otimes r\to p$; this is quite a bit simpler to think about, more like a wiring diagram.
-% \end{example}
-
-% \[
-%   (i\in p(\1), j\in q(\1))\mapsto(i, d\in p[i]\mapsto j, (d,e)\in p[i]\times q[j]\mapsto (d,e))
-% \]
-
-% \begin{exercise}
-% Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial. Which of the following isomorphisms exist?
-% \begin{enumerate}
-% 	\item $(A\yon)\otimes(B\yon) \cong (A\yon)\tri (B\yon)$?
-% 	\item $\yon^A\otimes\yon^B\cong\yon^A\tri\yon^B$?
-% 	\item $A\otimes B\cong A\tri B$?
-% 	\item $A\yon\otimes p\cong A\yon\tri p$?
-% 	\item $\yon^A\otimes p\cong \yon^A\tri p$?
-% 	\item $p\otimes A\yon\cong p\tri A\yon$?
-% 	\item $p\otimes \yon^A\cong p\tri\yon^A$?
-% \qedhere
-% \end{enumerate}
-% \begin{solution}
-% Here $A$ and $B$ are sets and $p$ is a polynomial.
-% \begin{enumerate}
-% 	\item The isomorphism exists: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
-% 	\item The isomorphism exists: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
-% 	\item The isomorphism does not necessarily exist: while $A\otimes B \iso AB$, we have that $A\tri B \iso A$.
-% 	\item The isomorphism exists: we have that $A\yon \otimes p \iso \sum_{i \in p(\1)} A\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} A\yon^{p[i]} \iso Ap \iso A\yon\tri p$.
-% 	\item The isomorphism does not necessarily exist: if, say, $p = B$, then $\yon^A \otimes B \iso B$, while $\yon^A \tri B \iso B^A$.
-% 	\item The isomorphism does not necessarily exist: if, say, $p = \yon^B$, then $\yon^B \otimes A\yon \iso A\yon^B$, while $\yon^B \otimes A\yon \iso (A\yon)^B \iso A^B\yon^B$.
-% 	\item The isomorphism exists: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{p[i]} \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
-% \end{enumerate}
-% \end{solution}
-% \end{exercise}
 
 % ** Find a home for this
 % Here is a curious fact relating composition and the closure operation adjoint to $\otimes$. Recall that for any two polynomials $p,q$, there is a polynomial $[p,q]\in\poly$.
@@ -2088,7 +2037,7 @@ Together, all the options that $q_1,\ldots,q_n$ chose then inform the option tha
 Consider a lens $f\colon p\to q\tri r$.
 Let's label the three arrows in the lens's polybox depiction:
 \[
-\begin{tikzpicture}[polybox, mapstos]
+\begin{tikzpicture}[polybox, tos]
 	\node[poly, dom, "$p$" left] (p) {};
 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q$" right] (q) {};
 	\node[poly, cod, above=of q, "$r$" right] (r) {};
@@ -2303,61 +2252,110 @@ To indicate this, we color the top right box red and leave the arrow emerging fr
 A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.
 If we draw such a lens as polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the lenses on top of each other.
 For example, given lenses $f\colon p\to q$ and $f'\colon p'\to q'$, here is $f\tri f'$ drawn as polyboxes:
-\[
-\begin{tikzpicture}[polybox, mapstos]
+\begin{equation} \label{eqn.comp_lens_polybox}
+\begin{tikzpicture}[polybox, tos]
 	\node[poly, dom, "$p$" left] (p) {};
-	\node[poly, dom, above=of p, "$p'$" left] (p') {};
+	\node[poly, dom, above=.8 of p, "$p'$" left] (p') {};
 	\node[poly, cod, right=of p, "$q$" right] (q) {};
-	\node[poly, cod, above=of q, "$q'$" right] (q') {};
+	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {};
 	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
 	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
-	\draw (p'_pos) -- node[below] {$g_\1$} (q'_pos);
-	\draw (q'_dir) -- node[above] {$g^\sharp$} (p'_dir);	
+	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
+	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
 \end{tikzpicture}
-\]
-How does this relate to our usual polybox depiction of a lens to a composite?
-We could think of filling the two independently. Or we could think of already deciding what to put in the circle for every chocie of what's in the square, which is just picking a position of the composite domain...bottom 3 arrows give position of  ...
+\end{equation}
+What differentiates this from simply writing down the polyboxes for $f$ and the polyboxes for $f'$ is that we are explictly associating the position that will fill the bottom box of $p'$ with the direction that will fill the top box of $p$, and likewise the position that will fill the bottom box of $q'$ with the direction that will fill the top box of $q$.
+Moreover, we have the user fill out the bottom set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $f_\1$ and $f^\sharp$ to decide what to put in the bottom square of $p'$.
+So this really does depict a lens $p\tri p'\to q\tri q'$.
 
-What if I give you a two-step decision to make of shape $p\tri q$: I'll give you a position in $p$, you choose a direction there, and then based on your answer I'll give you a position in $q$, and you choose a direction there too. Now if each of $p$ and $q$ knew how to delegate its decisions to its partner, say $p\to p'$ and $q\to q'$, you should be able to delegate your two-step decision in $p\tri q$ to a two-step decision by the partners $p'\tri q'$. Here's how this looks in box-notation
+How does \eqref{eqn.comp_lens_polybox} relate to our usual polybox depiction of a lens to a composite, as in \eqref{eqn.map_to_2ary_composite}, but with the domain also replaced with a composite?
+A user who interacts with \eqref{eqn.comp_lens_polybox} could fill the bottom set of polyboxes for $f$ independently of the top set of polyboxes for $f'$.
+Alternatively, along with what position goes in the bottom square of $p$, they could have already decided beforehand what position to put in the bottom square of $p'$ for every possible direction that could end up in the top square of $p$.
+By \eqref{eqn.comp_pos}, such a choice is equivalent to picking a position of the composite $p\tri p'$.
+Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the top box of $q$ and following $f^\sharp$ then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
+Finally, once the user fills in the top box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
+In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
-\begin{example}[$\tri$ on morphisms]
-Given maps $f\colon p\to q$ and $f'\colon p'\to q'$, the corresponding map $(f\tri f')\colon (p\tri p')\to (q\tri q')$ looks quite simple---even sterile---in box notation:
-
-
-
-But it gets animated when someone chooses a map from an arbitrary representable (or anything else); to do so is to choose a bunch of arrows as to the left:
+We make a big deal out of it, but \eqref{eqn.comp_lens_polybox} really is just the polyboxes of two separate lenses drawn together.
+Where such polyboxes truly get interesting is when we compose them with polyboxes like \eqref{eqn.map_to_2ary_composite}.
+That is, given a lens $g\colon r\to p\tri p'$, consider the polyboxes for $g\then(f\tri f')$:
 \[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, pure dom, "$\yon^X$" left] (yX) {};
-	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-	\node[poly, above=of p] (p') {};
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$r$" left] (r) {};
+	\node[poly, right=1.8 of r.south, yshift=-2.5ex, "$p$" below] (p) {};
+	\node[poly, above=.8 of p, "$p'$" above] (p') {};
 	\node[poly, cod, right=of p, "$q$" right] (q) {};
-	\node[poly, cod, above=of q, "$q'$" right] (q') {};
-	\draw (p_pos) -- (q_pos);
-	\draw (q_dir) -- (p_dir);
-	\draw (p'_pos) -- (q'_pos);
-	\draw (q'_dir) -- (p'_dir);
-	\draw (yX_pos) to[first] node[below] {$i_1$} (p_pos);
-	\draw (p_dir) to[climb] node[right] {$i_2$} (p'_pos);
-	\draw (p'_dir) to[last] node[above] {$i^\sharp$} (yX_dir);
+	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {};
+	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
+	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
+	\draw (r_pos) to[first] node[below] {$g^{p}$} (p_pos);
+	\draw (p_dir) to[climb] node[right] {$g^{p'}$} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {$g^\sharp$} (r_dir);
 \end{tikzpicture}
 \]
-One can now visualize the information flow through this sequence of delegations.
-\end{example}
+There's a lot going on with this lens! To fill out these polyboxes, we start from the bottom box of $r$, go all the way right to the bottom box of $q$, loop back left, up, and right again to the bottom box of $q'$, then travel left all the way back to the top box of $r$.
 
+Say we knew that $g\then(f\tri f')$ were equal to some other lens $h\colon r\to q\tri q'$:
+\[
+\begin{tikzpicture}
+	\node (1) {
+  \begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$r$" left] (r) {\at$k$};
+	\node[poly, right=1.8 of r.south, yshift=-2.5ex, "$p$" below] (p) {};
+	\node[poly, above=.8 of p, "$p'$" above] (p') {};
+	\node[poly, cod, right=of p, "$q$" right] (q) {$e$};
+	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {$e'$};
+	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
+	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
+	\draw (r_pos) to[first] node[below] {$g^{p}$} (p_pos);
+	\draw (p_dir) to[climb] node[right] {$g^{p'}$} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {$g^\sharp$} (r_dir);
+  \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$r$" left] (r) {\at$k$};
+  	\node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$q$" right] (q) {$e$};
+  	\node[poly, cod, above=of q, "$q'$" right] (q') {$e'$};
+  	\draw (r_pos) to[first] node[below] {$h^q$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {$h^{q'}$} (q'_pos);
+  	\draw (q'_dir) to[last] node[above] {$h^\sharp$} (r_dir);
+  \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
 
-
-\begin{exercise}
-Draw a picture analogous to \eqref{eqn.pic_tri_map} for the map $(f\tri g\tri h)\colon (p\tri q\tri r)\to (p'\tri q'\tri r')$, given $f=(f_1,f^\sharp)\colon p\to p'$, $g=(g_1,g^\sharp)\colon q\to q'$, and $h=(h_1,h^\sharp)\colon r\to r'$. Show what happens when one adds a map $\yon^X\to p\tri q\tri r$ from a representable.
-\end{exercise}
+Then we can read off the picture that
+\[
+    g^p\then f_\1 = h^q,
+\]
+that
+\[
+    f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k,
+\]
+and that
+\[
+    (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(e))}\then g^\sharp_k = h^\sharp_k.
+\]
+We will read equations off of polyboxes like this repeatedly in what follows. %** Be more specific if this only really happens in next chapter
 
 %-------- Section --------%
-\section{Mathematical aspects of $\tri$}
+\section{Categorical properties of the composition product}
 
-We now want to get at more subtle aspects of $p\tri q$. We begin with the following.
+We conclude this chapter by discussing several interesting properties of the composition product, many of which will come in handy in the following chapters.
+
+\subsection{Interaction with products and coproducts}
+
+It turns out that the composition product behaves well---albeit asymmetrically---with products and coproducts.
 
 \begin{proposition}[Left distributivity of $\tri$]\label{prop.left_dist}
-For any polynomial $r$, the post-compose-with-$r$ functor $(-\tri r)\colon\poly\to\poly$ commutes---up to natural isomorphism---with addition and multiplication:
+Fix $r\in\poly$.
+The functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism):
 \[
   (p+q)\tri r\cong (p\tri r)+(q\tri r)
   \qqand
@@ -2365,26 +2363,27 @@ For any polynomial $r$, the post-compose-with-$r$ functor $(-\tri r)\colon\poly\
 \]
 \end{proposition} 
 \begin{proof}
-Formally, this just comes down to the fact that coproducts and products of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$. One could instead give a proof in terms of $\sum$'s and $\prod$'s; this is done in \cref{exc.left_dist}.
+Formally, this comes down to the fact that (co)products of functors $\smset\to\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise}) and that (co)products in $\poly$ coincide with (co)products in $[\smset,\smset]$ (\cref{prop.poly_coprods,prop.poly_prods}).
+One could instead give an explicit proof using \eqref{eqn.composite_formula}; this is done in \cref{exc.left_dist}.
 \end{proof}
 
 \begin{exercise}\label{exc.left_dist}
-Prove \cref{prop.left_dist} in terms of the formula for $\tri$ given in \eqref{eqn.composite_formula}.
+Prove \cref{prop.left_dist} using the explicit formula for $\tri$ given in \eqref{eqn.composite_formula} by manipulating sums and products.
 \begin{solution}
 Given $p,q,r \in \poly$, recall that the position-set of the sum $p+q$ is $p(\1)+q(\1)$, while the direction-set at each position $i \in p(\1) + q(\1)$ is $p[i]$ if $i \in p(\1)$ and the $q[i]$ if $i \in q(\1)$.
-So by \cref{eqn.composite_formula}, we have that
+So by \eqref{eqn.composite_formula}, we have that
 \[
 \begin{split}
-    (p + q) \tri r &\iso \sum_{i \in p(\1)+q(\1)} \prod_{d \in (p+q)[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
-    &\iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon + \sum_{i \in q(\1)} \prod_{d \in q[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
+    (p + q) \tri r &\iso \sum_{i \in p(\1)+q(\1)}\;\prod_{d \in (p+q)[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
+    &\iso \sum_{i \in p(\1)}\;\prod_{d \in p[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon + \sum_{i \in q(\1)}\;\prod_{d \in q[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
     &\iso p \tri r + q \tri r.
 \end{split}
 \]
 We can also recall that the position-set of the product $pq$ is $p(\1) \times q(\1)$, while the direction-set at each position $(i, i') \in p(\1) \times q(\1)$ is $p[i] + q[i']$.
-So by \cref{eqn.composite_formula}, we have that
+So by \eqref{eqn.composite_formula}, we have that
 \[
 \begin{split}
-    (pq) \tri r &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \ \prod_{d \in p[i] + q[i']} \ \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon \\
+    (pq) \tri r &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \; \prod_{d \in p[i] + q[i']} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \\
     &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \left(\prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \left(\prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
     &\iso \left(\sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right)\left(\sum_{i' \in q(\1)} \prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
     &\iso (p \tri r)(q \tri r).
@@ -2394,7 +2393,8 @@ So by \cref{eqn.composite_formula}, we have that
 \end{exercise}
 
 \begin{example}[Picturing the left distributivity of $\tri$ over $\times$]\label{ex.picturing_dist}
-We want an intuitive understanding of this left-distributivity. Let $p\coloneqq\yon$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
+We want an intuitive understanding of this left distributivity.
+Let $p\coloneqq\yon$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p) [draw, blue!50!black, "$p$" above] {
@@ -2420,59 +2420,75 @@ We want an intuitive understanding of this left-distributivity. Let $p\coloneqq\
   };
 \end{tikzpicture}
 \]
-Then $pq\cong\yon^\2+\yon$ and we can draw $pq\tri r$ as follows:
+Then $pq\cong\yon^\2+\yon$ can be drawn as follows, with each corolla comprised of a corolla from $p$ and a corolla from $q$ with their roots glued together:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p) [draw, "$(p\times q)\tri r\cong$" left] {
+	\node (p) [draw, blue!50!black, "$pq\cong$" left] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node (q1) {$\bullet$}
+          child {}
+          child {};
+        \node[right=.5 of q1] (q2) {$\bullet$}
+          child {};
+    \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+We can therefore draw $pq\tri r$ by gluing corollas of $r$ to leaves of $pq$ in every way, as follows:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$pq\tri r\cong$" left] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1.3 of 2] (3) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
     \node[blue!50!black, right=1.3 of 3] (4) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			};
 %
     \node[blue!50!black, right=1 of 4] (5) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-      	child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+      	child[red!75!black]
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$}
+      child[blue!50!black] {node[red!75!black] {$\bullet$}
       };
   \end{tikzpicture}
 	};
 \end{tikzpicture}
 \]
-Or we can compute $p\tri r$ and $q\tri r$ seperately:
+So each tree in $pq\tri r$ is obtained by gluing together the roots of a corolla from $p$ and a corolla from $q$, then attaching corollas from $r$ to each leaf.
+
+Alternatively, we can compute $p\tri r$ and $q\tri r$ seperately, gluing corollas of $r$ to leaves of $p$ in every way, then to leaves of $q$ in every way:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p) [draw, "$p\tri r\cong$" left] {
@@ -2480,12 +2496,12 @@ Or we can compute $p\tri r$ and $q\tri r$ seperately:
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (p1) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			};
     \node[blue!50!black, right=.5 of p1] (p2) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			};
   \end{tikzpicture}
   };
@@ -2495,22 +2511,240 @@ Or we can compute $p\tri r$ and $q\tri r$ seperately:
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
     \node[blue!50!black] (q1) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			};
     \node[blue!50!black, right=.5 of q1] (q2) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
 			};
     \node[blue!50!black, right=.5 of q2] (q3) {$\bullet$};		
   \end{tikzpicture}
   };
 \end{tikzpicture}
 \]
-and multiply them together by taking each tree from $p\tri r$ and pairing it with each tree from $q\tri r$:
+Their product is then obtained by taking each tree from $p\tri r$ and pairing it with each tree from $q\tri r$ by gluing their roots together:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p) [draw, "$(p\tri q)\times(p\tri r)\cong$" left] {
+	\node (p) [draw, "$(p\tri q)(p\tri r)\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (1) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			}
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			}
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1 of 2] (3) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+      	child[red!75!black]
+			};
+%
+    \node[blue!50!black, right=1 of 3] (4) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[blue!50!black, right=1.3 of 4] (5) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$}
+      };	  	
+	\end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+So each tree in $(p\tri r)(q\tri r)$ is obtained by attaching corollas from $r$ to each leaf of a corolla from $p$ and a corolla from $q$ before gluing their roots together.
+
+But it doesn't matter whether we glue corollas from $r$ to leaves first, or if we glue the roots of corollas from $p$ and $q$ together first--the processes are equivalent.
+Hence the isomorphism $pq\tri r\iso(p\tri r)(q\tri r)$ holds.
+\end{example}
+
+\begin{exercise}\label{exc.picturing_dist}
+Follow \cref{ex.picturing_dist} with coproducts $(+)$ in place of products $(\times)$: use pictures to give an intuitive understanding of the left distributivity $(p+q)\tri r\cong (p\tri r)+(q\tri r)$.
+\begin{solution}
+We want an intuitive understanding of the left distributivity of $\tri$ over $+$.
+Let $p\coloneqq\yon^\2$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, green!50!black, "$p$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (p1) {$\bullet$} 
+      child {}
+      child {};
+  \end{tikzpicture}
+  };
+	\node (q) [draw, blue!50!black, right=1 of p, "$q$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (q1) {$\bullet$} 
+      child {};
+    \node[right=.5 of q1] (q2) {$\bullet$};
+  \end{tikzpicture}
+  };
+	\node (r) [draw, red!75!black, right=1 of q, "$r$" above] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+    \node (r1) {$\bullet$} 
+      child {}
+      child {};
+    \node[right=.5 of r1] (r2) {$\bullet$};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Then $p+q\cong\yon^\2+\yon+\1$ can be drawn as follows, consisting of all the corollas from $p$ and $q$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$p+q\cong$" left] {
+	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node[green!50!black] (q1) {$\bullet$}
+          child[green!50!black] {}
+          child[green!50!black] {};
+        \node[blue!50!black, right=.5 of q1] (q2) {$\bullet$}
+          child[blue!50!black] {};
+        \node[blue!50!black, right=.5 of q2] (q3) {$\bullet$};
+    \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+We can therefore draw $(p+q)\tri r$ by gluing corollas of $r$ to leaves of $p+q$ in every way, as follows:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$(p+q)\tri r\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[green!50!black] (1) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[green!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			};
+%
+    \node[green!50!black, right=1.3 of 2] (3) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[green!50!black, right=1.3 of 3] (4) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			};
+%
+    \node[blue!50!black, right=1 of 4] (5) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+      	child[red!75!black]
+			};
+%
+    \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$}
+      };
+      
+    \node[blue!50!black, right=.8 of 6] (7) {$\bullet$};
+  \end{tikzpicture}
+	};
+\end{tikzpicture}
+\]
+So each tree in $(p+q)\tri r$ is obtained by taking either a corolla from $p$ or a corolla from $q$, then attaching corollas from $r$ to each leaf.
+
+Alternatively, we can compute $p\tri r$ and $q\tri r$ seperately, gluing corollas of $r$ to leaves of $p$ in every way, then to leaves of $q$ in every way:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$p\tri r\cong$" left] {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[green!50!black] (1) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[green!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			};
+%
+    \node[green!50!black, right=1.3 of 2] (3) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
+			};
+%
+    \node[green!50!black, right=1.3 of 3] (4) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			};
+  \end{tikzpicture}
+  };
+%
+	\node (q) [draw, "$q\tri r\cong$" left] at (4,0) {
+	\begin{tikzpicture}[trees,
+		level 1/.style={sibling distance=5mm},
+	  level 2/.style={sibling distance=2.5mm}]
+    \node[blue!50!black] (q1) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
+			};
+    \node[blue!50!black, right=.5 of q1] (q2) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+			};
+    \node[blue!50!black, right=.5 of q2] (q3) {$\bullet$};		
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+Their coproduct then consists of all the trees from $p\tri r$ and all the trees from $q\tri r$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p) [draw, "$(p\tri r)(q\tri r)\cong$" left] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -2559,10 +2793,11 @@ and multiply them together by taking each tree from $p\tri r$ and pairing it wit
 	};
 \end{tikzpicture}
 \]
-\end{example}
+So each tree in $p\tri r+q\tri r$ is either a corolla from $p$ with corollas from $r$ attached to each leaf, or a corolla from $q$ with corollas from $r$ attached to each leaf.
 
-\begin{exercise}\label{exc.picturing_dist}
-Follow \cref{ex.picturing_dist} with $+$ in place of $\times$: use pictures to give an intuitive understanding of the left-distributivity $(p+q)\tri r\cong (p\tri r)+(q\tri r)$.
+But it doesn't matter whether we glue corollas from $r$ to leaves first, or if we pool together corollas from $p$ and $q$ first--the processes are equivalent.
+Hence the isomorphism $(p+q)\tri r\iso p\tri r+q\tri r$ holds.
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
@@ -2581,6 +2816,8 @@ Show that the distributivities of \cref{prop.left_dist} do not hold on the other
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\subsection{Interaction with limits}
 
 A connected limit is one whose indexing category $J$ is nonempty and connected. That is, $J$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 
@@ -2658,6 +2895,8 @@ Use \cref{thm.connected_limits} in the following.
 \end{solution}
 \end{exercise}
 
+\subsection{Interaction with parallel products}
+
 While we're here, it will be helpful to record the following.
 \begin{proposition}
 For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $J$ is connected and $p\colon J\to\poly$ is a functor, then there is a natural isomorphism:
@@ -2708,6 +2947,7 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 %\end{enumerate}
 %\end{exercise}
 
+\subsection{Interaction with vertical and cartesian lenses}
 
 \begin{proposition}[$\tri$ preserves cartesian maps in both variables]\label{prop.comp_pres_cart}
 If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
