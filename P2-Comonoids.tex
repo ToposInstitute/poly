@@ -105,13 +105,13 @@ p\tri q\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\
 
 % \[
 % \begin{tikzpicture}[polybox, baseline=(helper)]
-% 	\node[poly] (p) {$d:p[i]$\nodepart{two}$i:p(\1)$};
-% 	\node[poly, above=of p] (q) {$e:q[j]$\nodepart{two}$j:q(\1)$};
+% 	\node[poly] (p) {$d:p[i]$\at$i:p(\1)$};
+% 	\node[poly, above=of p] (q) {$e:q[j]$\at$j:q(\1)$};
 % 	\coordinate (helper) at ($(p.north)!.5!(q.south)$);
 % \end{tikzpicture}
 % \quad\cong\quad
 % \begin{tikzpicture}[polybox, baseline=(p.east)]
-% 	\node[poly] (p) {$(d:p[i], e:q[j(d)]$)\nodepart{two}$(i:p(1), j: p[i]\to q(\1))$};
+% 	\node[poly] (p) {$(d:p[i], e:q[j(d)]$)\at$(i:p(1), j: p[i]\to q(\1))$};
 % \end{tikzpicture}
 % \]
 
@@ -1837,7 +1837,7 @@ So for instance, $f\tri r$ is the composition product of $f$ with the identity l
 \]
 That is, do we have $f\then (p\tri g)=^?g\then (f\tri r)$?
 \begin{solution}
-Given arbitrary polynomials $p,q,r$ and lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$, it is \emph{not} necessarily the case that $f\then (p\tri g)=^?g\then (f\tri r)$!
+Given arbitrary polynomials $p,q,r$ and lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$, it is \emph{not} necessarily the case that $f\then (p\tri g)=g\then (f\tri r)$!
 After all, we can let $p\coloneqq\yon$ and $q\coloneqq\2$ so that $f$ is a lens $\2\to\yon\tri\2\iso\2$ (see \cref{ex.compose_yon}) and $g$ is a lens $\2\to\2\tri r\iso\2$ (see \cref{exc.composing_with_constants}).
 Then by following the instructions for interpreting a composition product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri g=\yon\tri g$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $g$, while $f\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $f$.
 If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ and $g\colon\2\to\2$ be the function sending everything to $2\in\2$, then in this case $f\then (p\tri g)=f\then g\neq g\then f=g\then (f\tri r)$.
@@ -1887,8 +1887,8 @@ Fixing $i\in p(\1)$, this process yields a map $e\mapsto d$ that corresponds to 
 So when both the user and the automation have finished filling all the boxes, we'll end up with something that looks like this:
 \[ \label{eqn.polybox_lens_filled}
 \begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$p$" left] (p) {$d$\nodepart{two}$i$};
-    \node[poly, cod, "$q$" right, right=of p] (q) {$e$\nodepart{two}$j$};
+    \node[poly, dom, "$p$" left] (p) {$d$\at$i$};
+    \node[poly, cod, "$q$" right, right=of p] (q) {$e$\at$j$};
     \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
     \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
@@ -1967,9 +1967,9 @@ We could try to write out the dependent functions that these instructions corres
 Alternatively, we could simply draw this protocol out using polyboxes, with every ``for each'' step corresponding to a user-maintained blue box and every ``choose'' step corresponding to an automated white box:
 \begin{equation}\label{eqn.map_to_2ary_composite}
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$p$" left] (p) {$d$\nodepart{two}$i$};
-	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$e_1$\nodepart{two}$j_1$};
-	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$e_2$\nodepart{two}$j_2$};
+	\node[poly, dom, "$p$" left] (p) {$d$\at$i$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$e_1$\at$j_1$};
+	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$e_2$\at$j_2$};
   	\draw (p_pos) to[first] (q1_pos);
   	\draw (q1_dir) to[climb] (q2_pos);
   	\draw (q2_dir) to[last] (p_dir);
@@ -2137,9 +2137,9 @@ Polyboxes display the same data in a different format:
 \begin{tikzpicture}[polybox, mapstos, node distance=2ex and 1.4cm]
   \node (a) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$S$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\nodepart{two}$C$};
-  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$S$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\at$C$};
+  	\node[poly, cod, above=of q] (r) {$Y$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2147,9 +2147,9 @@ Polyboxes display the same data in a different format:
   };
   \node[right=.6 of a] (b) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\nodepart{two}$C$};
-  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$R$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$U$\at$C$};
+  	\node[poly, cod, above=of q] (r) {$Z$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2157,9 +2157,9 @@ Polyboxes display the same data in a different format:
   };
   \node[right=.6of b] (c) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$V$\nodepart{two}$C$};
-  	\node[poly, constant, above=of q] (r) {\nodepart{two}$F$};
+  	\node[poly, dom] (p) {\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$V$\at$C$};
+  	\node[poly, constant, above=of q] (r) {\at$F$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
 		\draw[densely dotted] (r_dir) to[last] (p_dir);
@@ -2167,9 +2167,9 @@ Polyboxes display the same data in a different format:
   };
   \node[right=.6 of c] (d) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\nodepart{two}$C$};
-  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$R$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\at$C$};
+  	\node[poly, cod, above=of q] (r) {$Y$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2177,9 +2177,9 @@ Polyboxes display the same data in a different format:
 	};
   \node[right=.6 of d] (e) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$R$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\nodepart{two}$C$};
-  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$R$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$W$\at$C$};
+  	\node[poly, cod, above=of q] (r) {$Z$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2187,9 +2187,9 @@ Polyboxes display the same data in a different format:
 	};
   \node[below=.6 of a] (f) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\nodepart{two}$D$};
-  	\node[poly, cod, above=of q] (r) {$Y$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$T$\at$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\at$D$};
+  	\node[poly, cod, above=of q] (r) {$Y$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2197,9 +2197,9 @@ Polyboxes display the same data in a different format:
 	};
   \node[below=.6 of b] (g) {
   \begin{tikzpicture}
-  	\node[poly, dom] (p) {$T$\nodepart{two}$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\nodepart{two}$D$};
-  	\node[poly, cod, above=of q] (r) {$Z$\nodepart{two}$E$};
+  	\node[poly, dom] (p) {$T$\at$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$X$\at$D$};
+  	\node[poly, cod, above=of q] (r) {$Z$\at$E$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -2345,55 +2345,63 @@ and that
 We will read equations off of polyboxes like this repeatedly in what follows. %** Be more specific if this only really happens in next chapter
 
 %-------- Section --------%
-\section{Categorical properties of the composition product}
+\section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
 
 We conclude this chapter by discussing several interesting properties of the composition product, many of which will come in handy in the following chapters.
 
-\subsection{Interaction with products and coproducts}
+\subsection{Interaction with products and coproducts} \label{subsec.comon.comp.prop.prod}
 
 It turns out that the composition product behaves well---albeit asymmetrically---with products and coproducts.
 
-\begin{proposition}[Left distributivity of $\tri$]\label{prop.left_dist}
-Fix $r\in\poly$.
-The functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism):
-\[
-  (p+q)\tri r\cong (p\tri r)+(q\tri r)
-  \qqand
-  pq\tri r\cong (p\tri r)(q\tri r).
-\]
+\begin{proposition}[Left distributivity of $\tri$ over $+$ and $\times$]\label{prop.left_dist_prod}
+Given a polynomial $r$, the functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism).
+That is, for any $p,q\in\poly$, we have the following natural isomorphisms:
+\begin{equation}\label{eqn.comp_left_pres_plus}
+    (p+q)\tri r\iso (p\tri r)+(q\tri r)
+\end{equation}
+and
+\begin{equation}\label{eqn.comp_left_pres_times}
+    pq\tri r\iso (p\tri r)(q\tri r).
+\end{equation}
+More generally, given a set $A$ and polynomials $(p_a)_{a\in A}$, we have the following natural isomorphisms:
+\begin{equation}\label{eqn.comp_left_pres_sum}
+    \left(\sum_{a\in A}p_a\right)\tri r\iso \sum_{a\in A} (p_a\tri r)
+\end{equation}
+and
+\begin{equation}\label{eqn.comp_left_pres_prod}
+    \left(\prod_{a\in A}p_a\right)\tri r\iso \prod_{a\in A} (p_a\tri r)
+\end{equation}
 \end{proposition} 
 \begin{proof}
 Formally, this comes down to the fact that (co)products of functors $\smset\to\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise}) and that (co)products in $\poly$ coincide with (co)products in $[\smset,\smset]$ (\cref{prop.poly_coprods,prop.poly_prods}).
 One could instead give an explicit proof using \eqref{eqn.composite_formula}; this is done in \cref{exc.left_dist}.
+In fact, we will see yet another proof of \eqref{eqn.comp_left_pres_prod} (and thus \eqref{eqn.comp_left_pres_times}) in \cref{exc.comp_left_pres_lim} \cref{exc.comp_left_pres_lim.prod}.
 \end{proof}
 
 \begin{exercise}\label{exc.left_dist}
-Prove \cref{prop.left_dist} using the explicit formula for $\tri$ given in \eqref{eqn.composite_formula} by manipulating sums and products.
+Prove \cref{prop.left_dist_prod} using the explicit formula for $\tri$ given in \eqref{eqn.composite_formula} by manipulating sums and products.
 \begin{solution}
-Given $p,q,r \in \poly$, recall that the position-set of the sum $p+q$ is $p(\1)+q(\1)$, while the direction-set at each position $i \in p(\1) + q(\1)$ is $p[i]$ if $i \in p(\1)$ and the $q[i]$ if $i \in q(\1)$.
+To prove \cref{prop.left_dist_prod}, it suffices to verify \eqref{eqn.comp_left_pres_sum} and \eqref{eqn.comp_left_pres_prod}, as \eqref{eqn.comp_left_pres_plus} and \eqref{eqn.comp_left_pres_times} follow directly when $A\coloneqq\2$.
+
+Given polynomials $(p_a)_{a\in A}$, recall that the position-set of the sum $\sum_{a\in A}p_a$ is $\sum_{a\in A}p_a(\1)$, while the direction-set at each position $(a,i)$ with $a\in A$ and $i\in p_a(\1)$ is $p_a[i]$.
 So by \eqref{eqn.composite_formula}, we have that
-\[
-\begin{split}
-    (p + q) \tri r &\iso \sum_{i \in p(\1)+q(\1)}\;\prod_{d \in (p+q)[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
-    &\iso \sum_{i \in p(\1)}\;\prod_{d \in p[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon + \sum_{i \in q(\1)}\;\prod_{d \in q[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
-    &\iso p \tri r + q \tri r.
-\end{split}
-\]
-We can also recall that the position-set of the product $pq$ is $p(\1) \times q(\1)$, while the direction-set at each position $(i, i') \in p(\1) \times q(\1)$ is $p[i] + q[i']$.
+\begin{align*}
+    \left(\sum_{a\in A}p_a\right)\tri r &\iso \sum_{\substack{a\in A, \\ i\in p_a(\1)}}\;\prod_{d \in p_a[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
+    &\iso \sum_{a\in A}\;\sum_{i\in p_a(\1)}\;\prod_{d \in p_a[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
+    &\iso\sum_{a\in A}(p_a\tri r).
+\end{align*}
+We can also recall that the position-set of the product $\prod_{a\in A}p_a$ is $\prod_{a\in A}p_a(\1)$, while the direction-set at each position $\bar{i}\colon(a\in A)\to p_a(\1)$ is $\sum_{a\in A}p_a[\bar{i}(a)]$.
 So by \eqref{eqn.composite_formula}, we have that
-\[
-\begin{split}
-    (pq) \tri r &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \; \prod_{d \in p[i] + q[i']} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \\
-    &\iso \sum_{(i,i') \in p(\1) \times q(\1)} \left(\prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \left(\prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
-    &\iso \left(\sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right)\left(\sum_{i' \in q(\1)} \prod_{d \in q[i']} \sum_{j \in r(\1)} \prod_{e \in r[j]} \yon\right) \\
-    &\iso (p \tri r)(q \tri r).
-\end{split}
-\]
+\begin{align*}
+    \left(\prod_{a\in A}p_a\right)\tri r &\iso \sum_{\bar{i}\in\prod_{a\in A}p_a(\1)} \; \prod_{\substack{a\in A, \\ d\in p_a[\bar{i}(a)]}} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \\
+    &\iso \prod_{a\in A} \; \sum_{i\in p_a(\1)} \; \prod_{d\in p_a[i]} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \tag*{\eqref{eqn.cat_completely_distributive}} \\
+    &\iso\prod_{a\in A}(p_a\tri r).
+\end{align*}
 \end{solution}
 \end{exercise}
 
 \begin{example}[Picturing the left distributivity of $\tri$ over $\times$]\label{ex.picturing_dist}
-We want an intuitive understanding of this left distributivity.
+We want an intuitive understanding of the left distributivity given by \eqref{eqn.comp_left_pres_times}.
 Let $p\coloneqq\yon$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
 \[
 \begin{tikzpicture}[rounded corners]
@@ -2582,7 +2590,7 @@ Hence the isomorphism $pq\tri r\iso(p\tri r)(q\tri r)$ holds.
 \end{example}
 
 \begin{exercise}\label{exc.picturing_dist}
-Follow \cref{ex.picturing_dist} with coproducts $(+)$ in place of products $(\times)$: use pictures to give an intuitive understanding of the left distributivity $(p+q)\tri r\cong (p\tri r)+(q\tri r)$.
+Follow \cref{ex.picturing_dist} with coproducts $(+)$ in place of products $(\times)$: use pictures to give an intuitive understanding of the left distributivity given by \eqref{eqn.comp_left_pres_plus}.
 \begin{solution}
 We want an intuitive understanding of the left distributivity of $\tri$ over $+$.
 Let $p\coloneqq\yon^\2$, $q\coloneqq\yon+\1$, and $r\coloneqq\yon^\2+\1$, as shown here:
@@ -2686,7 +2694,7 @@ So each tree in $(p+q)\tri r$ is obtained by taking either a corolla from $p$ or
 Alternatively, we can compute $p\tri r$ and $q\tri r$ seperately, gluing corollas of $r$ to leaves of $p$ in every way, then to leaves of $q$ in every way:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p) [draw, "$p\tri r\cong$" left] {
+	\node (p) [draw, "$p\tri r\cong$" left] at (-2,0) {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
@@ -2744,52 +2752,54 @@ Alternatively, we can compute $p\tri r$ and $q\tri r$ seperately, gluing corolla
 Their coproduct then consists of all the trees from $p\tri r$ and all the trees from $q\tri r$:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p) [draw, "$(p\tri r)(q\tri r)\cong$" left] {
+	\node (p) [draw, "$p\tri r+q\tri r\cong$" left] {
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
 	  level 2/.style={sibling distance=2.5mm}]
-    \node[blue!50!black] (1) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+    \node[green!50!black] (1) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
-      	child
-				child
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+				child[red!75!black]
 			};
 %
-    \node[blue!50!black, right=1.3 of 1] (2) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+    \node[green!50!black, right=1.3 of 1] (2) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			}
-      child {node[red!75!black] {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
 			};
 %
-    \node[blue!50!black, right=1 of 2] (3) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-      	child
-      	child
+    \node[green!50!black, right=1.3 of 2] (3) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+			}
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
+				child[red!75!black]
+				child[red!75!black]
 			};
 %
-    \node[blue!50!black, right=1 of 3] (4) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
+    \node[green!50!black, right=1.3 of 3] (4) {$\bullet$} 
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
 			}
-      child {node[red!75!black] {$\bullet$} 
-				child
-				child
+      child[green!50!black] {node[red!75!black] {$\bullet$} 
 			};
 %
-    \node[blue!50!black, right=1.3 of 4] (5) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$} 
-			}
-      child {node[red!75!black] {$\bullet$} 
+    \node[blue!50!black, right=1 of 4] (5) {$\bullet$} 
+      child[blue!50!black] {node[red!75!black] {$\bullet$} 
+      	child[red!75!black]
+      	child[red!75!black]
 			};
 %
     \node[blue!50!black, right=.8 of 5] (6) {$\bullet$} 
-      child {node[red!75!black] {$\bullet$}
-      };	  	
-	\end{tikzpicture}
+      child[blue!50!black] {node[red!75!black] {$\bullet$}
+      };
+      
+    \node[blue!50!black, right=.8 of 6] (7) {$\bullet$};
+  \end{tikzpicture}
 	};
 \end{tikzpicture}
 \]
@@ -2801,7 +2811,18 @@ Hence the isomorphism $(p+q)\tri r\iso p\tri r+q\tri r$ holds.
 \end{exercise}
 
 \begin{exercise}
-Show that the distributivities of \cref{prop.left_dist} do not hold on the other side:
+Show that for any set $A$ and polynomials $p,q$, we have an isomorphism $A(p\tri q)\iso (Ap)\tri q$.
+\begin{solution}
+Given a set $A$ and polynomials $p,q$, the left distributivity of $\tri$ over products from \eqref{eqn.comp_left_pres_prod} implies that $(Ap)\tri q\iso(A\tri q)(p\tri q)$, while \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} implies that $A\tri q\iso A$.
+So $(Ap)\tri q\iso A(p\tri q)$.
+\end{solution}
+\end{exercise}
+
+In \cref{subsec.comon.comp.prop.lim}, we will see how to generalize the left distributivity of $\tri$ over products to arbitrary limits.
+But first, we observe that right distributivity does not hold.
+
+\begin{exercise}
+Show that the distributivities of \cref{prop.left_dist_prod} do not hold on the other side:
 \begin{enumerate}
 	\item Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
 	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\cong(p\tri q)+(p\tri r)$.
@@ -2817,7 +2838,77 @@ Show that the distributivities of \cref{prop.left_dist} do not hold on the other
 \end{solution}
 \end{exercise}
 
-\subsection{Interaction with limits}
+Nevertheless, there is something to be said about the relationship between $p\tri q, p\tri r,$ and $p\tri(qr)$.
+We'll see this in action after we discuss how $\tri$ preserves limits on the left.
+
+\subsection{Interaction with limits} \label{subsec.comon.comp.prop.lim}
+
+We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $[\smset,\smset]$.
+Hence the argument in the proof of \cref{prop.left_dist_prod} can be generalized to arbitrary limits.
+It follows that $\tri$ preserves all limits on the left.
+But we will present a proof of this fact from an alternative perspective: by appealing to the left coclosure of $\tri$.
+
+\begin{proposition}[Meyers] \label{prop.comp_left_coclosed}
+The composition product is left coclosed.
+That is, there exists a left coclosure operation, which we denote $\chom{-}{-}\colon\poly\op\times\poly\to\poly$,
+such that there is a natural isomorphism
+\[
+    \poly(p, q\tri r)\iso\poly\left(\chom{r}{p}, q\right).
+\]
+In particular, the left coclosure operation sends $r,p\in\poly$ to
+\begin{equation} \label{eqn.chom_def}
+    \chom{r}{p}\coloneqq\sum_{i\in p(\1)}\yon^{r(p[i])}.
+\end{equation}
+\end{proposition}
+\begin{proof}
+We have that
+\begin{align*}
+    \poly(p, q\tri r)&\iso\prod_{i\in p(\1)}q(r(p[i])) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\sum_{i\in p(\1)}\yon^{r(p[i])}, q\right) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\chom{q}{p}, r\right) \tag*{\eqref{eqn.chom_def}}.
+\end{align*}
+\end{proof}
+
+\begin{corollary}[Left preservation of limits]
+Fix $r\in\poly$.
+The functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ preserves all limits (up to natural isomorphism).
+That is, for any category $\cat{J}$ and functor $p_-\colon\cat{J}\to\poly$, there is a natural isomorphism
+\begin{equation} \label{eqn.comp_left_pres_lim}
+    \left(\lim_{j\in\cat{J}}p_j\right)\tri q\iso\lim_{j\in\cat{J}}(p_j\tri q).
+\end{equation}
+\end{corollary}
+\begin{proof}
+By \cref{prop.comp_left_coclosed}, the functor $(-\tri r)\colon\poly\to\poly$ is the right adjoint of the functor $\chom{r}{-}\colon\poly\to\poly$, and right adjoints preserve limits.
+\end{proof}
+
+\begin{exercise} \label{exc.comp_left_pres_lim}
+\begin{enumerate}
+    \item Complete \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} using \eqref{eqn.comp_left_pres_lim} and \eqref{eqn.comp_left_pres_sum}.
+    \item \label{exc.comp_left_pres_lim.prod} Deduce \eqref{eqn.comp_left_pres_prod} using \eqref{eqn.comp_left_pres_lim}.
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We wish to solve \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} using \eqref{eqn.comp_left_pres_lim} and \eqref{eqn.comp_left_pres_sum}.
+    If we set $\cat{J}$ in \eqref{eqn.comp_left_pres_lim} to be the empty category, then the limit of the functor from $\cat{J}$ is just the terminal object.
+    It follows that $\1\tri p\iso\1$.
+    In other words, since $\tri$ preserves limits on the left, and since terminal objects are limits, $\tri$ preserves terminal objects on the left.
+    
+    Then a set $X$ can be written as a sum $\sum_{x\in X}\1$, so by \eqref{eqn.comp_left_pres_sum},
+    \[
+        X\tri p\iso\left(\sum_{x\in X}\1\right)\tri p\iso\sum_{x\in X}(\1\tri p)\iso\sum_{x\in X}\1\iso X.
+    \]
+    
+    \item If we set $\cat{J}$ in \eqref{eqn.comp_left_pres_lim} to be the discrete category on the set $A$, then the limit of a functor from $\cat{J}$ is just an $A$-fold product, so \eqref{eqn.comp_left_pres_prod} follows.
+    In other words, since $\tri$ preserves limits on the left, and since products are limits, $\tri$ preserves products on the left.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+%**Right coclosure...kind of. At least an adjunction
+%**Define connected limits
+%**Right preservation of connected limits
+
+
 
 A connected limit is one whose indexing category $J$ is nonempty and connected. That is, $J$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 
@@ -2859,7 +2950,7 @@ The operation $\tri$ commutes with connected limits in both variables. That is, 
 \]
 \end{theorem}
 \begin{proof}[Sketch of proof]
-The claim for the left variable follows as in the proof of \cref{prop.left_dist}: limits of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$ closed under limits. The claim for the right-hand variable comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.6]{kock2012polynomial} for details.
+The claim for the left variable follows as in the proof of \cref{prop.left_dist_prod}: limits of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$ closed under limits. The claim for the right-hand variable comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.6]{kock2012polynomial} for details.
 \end{proof}
 
 \begin{exercise}\label{ex.connected_limits_and_tri}
@@ -2870,8 +2961,6 @@ Use \cref{thm.connected_limits} in the following.
 	\[
 	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r)
 	\]
-	\item Show that the distributivity $(pq)\tri r\cong (p\tri r)(q\tri r)$ is a special case of \cref{thm.connected_limits}.
-	\item Show that for any set $A$ and polynomials $p,q$, we have an isomorphism $A(p\tri q)\cong (Ap)\tri q$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2887,15 +2976,11 @@ Use \cref{thm.connected_limits} in the following.
     As $\1$ is terminal in $\poly$, the product $qr$ can also be written as the pullback $q \times_\1 r$.
     While products are not connected limits, pullbacks are, so by \cref{thm.connected_limits}, they are preserved by precomposition with $p$.
     Hence the desired isomorphism follows.
-    \item As in the previous part, we can write $pq$ as the pullback $p \times_\1 q$.
-    By \cref{thm.connected_limits}, this connected limit is preserved by composition with $r$, so $(pq) \tri r \iso (p \tri r) \times_{\1 \tri r} (q \tri r) \iso (p \tri r) \times_\1 (q \tri r) \iso (p \tri r)(q \tri r)$. (Here we use the fact that $\1 \tri r \iso \1$ by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}.)
-    \item Given a set $A$ and polynomials $p,q$, the left-distributivity of $\tri$ over products implies that $(Ap)\tri q \iso (A\tri q)(p \tri q)$, while \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} implies that $A \tri q \iso A$.
-    So $(Ap)\tri q \iso A(p \tri q)$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\subsection{Interaction with parallel products}
+\subsection{Interaction with parallel products} \label{subsec.comon.comp.prop.par}
 
 While we're here, it will be helpful to record the following.
 \begin{proposition}
@@ -2947,7 +3032,7 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 %\end{enumerate}
 %\end{exercise}
 
-\subsection{Interaction with vertical and cartesian lenses}
+\subsection{Interaction with cartesian lenses} \label{subsec.comon.comp.prop.cart}
 
 \begin{proposition}[$\tri$ preserves cartesian maps in both variables]\label{prop.comp_pres_cart}
 If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
@@ -3091,7 +3176,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
 \begin{tikzpicture}
 	\node (id) {
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\nodepart{two}$s$};
+  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
   	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
   	\draw (S_pos) to[first] (y_pos);
   	\draw (y_dir) to[last] (S_dir);
@@ -3100,9 +3185,9 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
   };
   \node[right=of id] (co) {
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$s_2$\nodepart{two}$s$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
-  	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
+  	\node[poly, dom] (p) {$s_2$\at$s$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\at$s$};
+  	\node[poly, cod, above=of q] (r) {$s_2$\at$s_1$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] node[left] {$\delta$} (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -3394,13 +3479,13 @@ meaning that it has the same set of states as before, but it outputs $k$-many re
 So for example with $k=3$ here is one moment of output:
 \[
 \begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, "$S\yon^S$" left] (S) {$n+3$\vphantom{!}\nodepart{two}$n$\vphantom{!}};
-		\node[poly, right=of S] (S2) {$n+2$\vphantom{!}\nodepart{two}$n+1\vphantom{!}$};
-		\node[poly, below=of S2] (S1) {$n+1$\vphantom{!}\nodepart{two}$n\vphantom{!}$};
-		\node[poly, above=of S2] (S3) {$n+3$\vphantom{!}\nodepart{two}$n+2\vphantom{!}$};
-		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\nodepart{two}$\hphantom{+}n\hphantom{+}$\vphantom{!}};
-		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\nodepart{two}$n+1$\vphantom{!}};
-		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\nodepart{two}$n+2$\vphantom{!}};
+		\node[poly, dom, "$S\yon^S$" left] (S) {$n+3$\vphantom{!}\at$n$\vphantom{!}};
+		\node[poly, right=of S] (S2) {$n+2$\vphantom{!}\at$n+1\vphantom{!}$};
+		\node[poly, below=of S2] (S1) {$n+1$\vphantom{!}\at$n\vphantom{!}$};
+		\node[poly, above=of S2] (S3) {$n+3$\vphantom{!}\at$n+2\vphantom{!}$};
+		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}n\hphantom{+}$\vphantom{!}};
+		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$n+1$\vphantom{!}};
+		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$n+2$\vphantom{!}};
 %
 		\draw (S1_pos) to[first] (p1_pos);
 		\draw (p1_dir) to[last] (S1_dir);		
@@ -3569,9 +3654,9 @@ The on-positions map selects, for each position (either $A$ or $B$) the two-leve
 \begin{tikzpicture}
 	\node (p1) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_A$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\nodepart{two}$A$};
-  	\node[poly, cod, above=of q] (r) {$i_A$\nodepart{two}$A$};
+  	\node[poly, dom] (p) {$i_A$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$i_A$\at$A$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -3579,9 +3664,9 @@ The on-positions map selects, for each position (either $A$ or $B$) the two-leve
 	};
 	\node[right=1 of p1] (p2) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\nodepart{two}$A$};
-  	\node[poly, cod, above=of q] (r) {$f$\nodepart{two}$A$};
+  	\node[poly, dom] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$f$\at$A$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -3589,9 +3674,9 @@ The on-positions map selects, for each position (either $A$ or $B$) the two-leve
 	};
 	\node[right=1 of p2] (p3) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\nodepart{two}$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\nodepart{two}$A$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\nodepart{two}$B$};
+  	\node[poly, dom] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -3599,9 +3684,9 @@ The on-positions map selects, for each position (either $A$ or $B$) the two-leve
 	};
 	\node[right=1 of p3] (p4) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_B$\nodepart{two}$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\nodepart{two}$B$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\nodepart{two}$B$};
+  	\node[poly, dom] (p) {$i_B$\at$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\at$B$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -4115,7 +4200,7 @@ A category $\cat{C}$ is more than its emanation polynomial $\ema{c}$, and a como
 We want to understand how the counit $\epsilon$ and comultiplication $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
 \[
  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\ema{c}$" left] (c) {$\epsilon^\sharp(i)$\nodepart{two}$i$};
+  	\node[poly, dom, "$\ema{c}$" left] (c) {$\epsilon^\sharp(i)$\at$i$};
   	\draw (c_pos) to[climb'] node[right] {$\epsilon^\sharp$} (c_dir);
 	\end{tikzpicture}
 \]
@@ -4191,9 +4276,9 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
 \begin{tikzpicture}
 	\node (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {$d\then\idy(\cod(d))$\nodepart{two}$i$};
-  	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\nodepart{two}$\delta_1(i)$};
-  	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\nodepart{two}$\cod(d)$};
+  	\node[poly, dom] (yX) {$d\then\idy(\cod(d))$\at$i$};
+  	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\at$\delta_1(i)$};
+  	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\at$\cod(d)$};
   	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
   	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
@@ -4202,8 +4287,8 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
 	};
 	\node[right=2 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
-  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+  	\node[poly, dom] (c) {$d$\at$i$};
+  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
   	\draw[double] (c_pos) -- (c'_pos);
   	\draw[double] (c'_dir) -- (c_dir);
 	\end{tikzpicture}
@@ -4272,9 +4357,9 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 \begin{tikzpicture}
 	\node (2) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {$\idy(i)\then d$\nodepart{two}$i$};
-  	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\nodepart{two}$i$};
-  	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\nodepart{two}$\cod(\idy(i))$};
+  	\node[poly, dom] (yX) {$\idy(i)\then d$\at$i$};
+  	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\at$i$};
+  	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\at$\cod(\idy(i))$};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
@@ -4283,8 +4368,8 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 	};
 	\node[right=2 of 2] (3) {
   \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
-  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+  	\node[poly, dom] (c) {$d$\at$i$};
+  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
   	\draw[double] (c_pos) -- (c'_pos);
   	\draw[double] (c'_dir) -- (c_dir);
 	\end{tikzpicture}
@@ -4294,9 +4379,9 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 %\begin{tikzpicture}
 %\node (2) {
 %  \begin{tikzpicture}[polybox, tos]
-%  	\node[poly, dom] (c) {$\idy(i)\then d$\nodepart{two}$i$};
-%  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\nodepart{two}$i$};
-%  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\nodepart{two}$\cod(\idy(i))$};
+%  	\node[poly, dom] (c) {$\idy(i)\then d$\at$i$};
+%  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\at$i$};
+%  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\at$\cod(\idy(i))$};
 %  	\draw[double] (c_pos) -- (c1_pos);
 %  	\draw (c1_dir) to[climb] node[right] {cod} (c2_pos);
 %  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
@@ -4305,8 +4390,8 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 %	};
 %	\node[right=2 of 2] (3) {
 %  \begin{tikzpicture}[polybox, tos]
-%  	\node[poly, dom] (c) {$d$\nodepart{two}$i$};
-%  	\node[poly, cod, right=of c] (c') {$d$\nodepart{two}$i$};
+%  	\node[poly, dom] (c) {$d$\at$i$};
+%  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
 %  	\draw[double] (c_pos) -- (c'_pos);
 %  	\draw[double] (c'_dir) -- (c_dir);
 %	\end{tikzpicture}
@@ -4366,12 +4451,12 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 \begin{tikzpicture}
 	\node (p1) {
   \begin{tikzpicture}[polybox, mapstos, font=\tiny]
-  	\node[poly, dom] (m) {$m\then(m'\then m'')$\nodepart{two}$i$};
-  	\node[poly, right=3 of m.south, yshift=-1ex] (D) {$m$\nodepart{two}$i$};
-  	\node[poly, above=of D] (mm) {$m'\then m''$\nodepart{two}$\cod(m)$};
-  	\node[poly, cod, right=2.5 of D.south, yshift=-1ex] (DD) {$m$\nodepart{two}$i$};
-  	\node[poly, cod, above=of DD] (mmm) {$m'$\nodepart{two}$\cod(m)$};
-  	\node[poly, cod, above=of mmm] (C) {$m''$\nodepart{two}$\cod(m')$};
+  	\node[poly, dom] (m) {$m\then(m'\then m'')$\at$i$};
+  	\node[poly, right=3 of m.south, yshift=-1ex] (D) {$m$\at$i$};
+  	\node[poly, above=of D] (mm) {$m'\then m''$\at$\cod(m)$};
+  	\node[poly, cod, right=2.5 of D.south, yshift=-1ex] (DD) {$m$\at$i$};
+  	\node[poly, cod, above=of DD] (mmm) {$m'$\at$\cod(m)$};
+  	\node[poly, cod, above=of mmm] (C) {$m''$\at$\cod(m')$};
 %
 		\draw[double] (m_pos) to[first] (D_pos);
 		\draw (D_dir) to[climb] (mm_pos);
@@ -4386,12 +4471,12 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 %
 	\node (p2) [below=of p1] {
   \begin{tikzpicture}[polybox, mapstos, font=\tiny]
-  	\node[poly, dom] (m') {$(m\then m')\then m''$\nodepart{two}$i$};
-  	\node[poly, right= 3 of m'.south, yshift=-1ex] (mm') {$m\then m'$\nodepart{two}$i$};
-  	\node[poly, above=of mm'] (C') {$m''$\nodepart{two}$\cod(m\then m')$};
-  	\node[poly, cod, right= 2.5 of mm'.south, yshift=-1ex] (D') {$m$\nodepart{two}$i$};
-  	\node[poly, cod, above=of D'] (mmm') {$m'$\nodepart{two}$\cod(m)$};
-  	\node[poly, cod, above=of mmm'] (CC') {$m''$\nodepart{two}$\cod(m\then m')$};
+  	\node[poly, dom] (m') {$(m\then m')\then m''$\at$i$};
+  	\node[poly, right= 3 of m'.south, yshift=-1ex] (mm') {$m\then m'$\at$i$};
+  	\node[poly, above=of mm'] (C') {$m''$\at$\cod(m\then m')$};
+  	\node[poly, cod, right= 2.5 of mm'.south, yshift=-1ex] (D') {$m$\at$i$};
+  	\node[poly, cod, above=of D'] (mmm') {$m'$\at$\cod(m)$};
+  	\node[poly, cod, above=of mmm'] (CC') {$m''$\at$\cod(m\then m')$};
 %
 		\draw[double] (m'_pos) to[first] (mm'_pos);
 		\draw (mm'_dir) to[climb] (C'_pos);
@@ -4470,7 +4555,7 @@ To calculate the codomains and compositions we examine the map $\delta\colon p\t
 \begin{tikzpicture}
 	\node (id) {
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\nodepart{two}$s$};
+  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
   	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
   	\draw (S_pos) to[first] (y_pos);
   	\draw (y_dir) to[last] (S_dir);
@@ -4479,9 +4564,9 @@ To calculate the codomains and compositions we examine the map $\delta\colon p\t
   };
   \node[right=of id] (co) {
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$s_2$\nodepart{two}$s$};
-  	\node[poly, cod, right=2 of p.south, yshift=-1ex] (q) {$s_1$\nodepart{two}$s$};
-  	\node[poly, cod, above=of q] (r) {$s_2$\nodepart{two}$s_1$};
+  	\node[poly, dom] (p) {$s_2$\at$s$};
+  	\node[poly, cod, right=2 of p.south, yshift=-1ex] (q) {$s_1$\at$s$};
+  	\node[poly, cod, above=of q] (r) {$s_2$\at$s_1$};
   	\draw[double] (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
   	\draw (r_dir) to[last] node[above, sloped] {$\comp$} (p_dir);
@@ -4716,8 +4801,8 @@ Let's look at some examples to see how cofunctors look like crystallizations, or
 Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\to\yon^G$ given by
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (p) {$g_1*g_2$\nodepart{two}$g_1$};
-	\node[poly, pure cod, right=of p] (q) {$g_2$\nodepart{two}\vphantom{$g_1$}};
+	\node[poly, dom] (p) {$g_1*g_2$\at$g_1$};
+	\node[poly, pure cod, right=of p] (q) {$g_2$\at\vphantom{$g_1$}};
 	\draw (p_pos) to[first] (q_pos);
 	\draw (q_dir) to[last] (p_dir);
 \end{tikzpicture}
@@ -4774,8 +4859,8 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\com{C}$. There is a map of polynomials $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ given by
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (s) {$\cod(m)$\nodepart{two}$i$};
-	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\nodepart{two}$i$};
+	\node[poly, dom] (s) {$\cod(m)$\at$i$};
+	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\at$i$};
 	\draw[double] (s_pos) -- (c_pos);
 	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
 \end{tikzpicture}
@@ -4968,8 +5053,8 @@ Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
 \begin{tikzpicture}
 	\node (id1) {
 	\begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (s) {put$($get$(s))$\nodepart{two}$s\vphantom{(}$};
-  	\node[poly, right=of s] (t) {get$(s$)\nodepart{two}get$(s$)};
+  	\node[poly, dom] (s) {put$($get$(s))$\at$s\vphantom{(}$};
+  	\node[poly, right=of s] (t) {get$(s$)\at get$(s$)};
   	%
   	\draw (s_pos) to[first] node[below] {get} (t_pos);
   	\draw (t_dir) to[last] node[above] {put} (s_dir);
@@ -4978,7 +5063,7 @@ Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
 	};
 	\node[right=of id1] (id2) {
 	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom] (s) {$s$\nodepart{two}$s$};
+		\node[poly, dom] (s) {$s$\at$s$};
 		\draw (s_pos) to[climb'] (s_dir);
 	\end{tikzpicture}	
 	};
