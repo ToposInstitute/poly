@@ -2821,10 +2821,10 @@ So $(Ap)\tri q\iso A(p\tri q)$.
 In \cref{subsec.comon.comp.prop.lim}, we will see how to generalize the left distributivity of $\tri$ over products to arbitrary limits.
 But first, we observe that right distributivity does not hold.
 
-\begin{exercise}
+\begin{exercise} \label{exc.right_not_dist_prod}
 Show that the distributivities of \cref{prop.left_dist_prod} do not hold on the other side:
 \begin{enumerate}
-	\item Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
+	\item \label{exc.right_not_dist_prod.prod} Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
 	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\cong(p\tri q)+(p\tri r)$.
 \qedhere
 \end{enumerate}
@@ -2869,7 +2869,7 @@ We have that
 \end{align*}
 \end{proof}
 
-\begin{corollary}[Left preservation of limits]
+\begin{corollary}[Left preservation of limits] \label{cor.left_pres_lim}
 Fix $r\in\poly$.
 The functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ preserves all limits (up to natural isomorphism).
 That is, for any category $\cat{J}$ and functor $p_-\colon\cat{J}\to\poly$, there is a natural isomorphism
@@ -2884,7 +2884,7 @@ By \cref{prop.comp_left_coclosed}, the functor $(-\tri r)\colon\poly\to\poly$ is
 \begin{exercise} \label{exc.comp_left_pres_lim}
 \begin{enumerate}
     \item Complete \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl} using \eqref{eqn.comp_left_pres_lim} and \eqref{eqn.comp_left_pres_sum}.
-    \item \label{exc.comp_left_pres_lim.prod} Deduce \eqref{eqn.comp_left_pres_prod} using \eqref{eqn.comp_left_pres_lim}.
+    \item \label{exc.comp_left_pres_lim.prod} Deduce \eqref{eqn.comp_left_pres_prod} using \eqref{eqn.comp_left_pres_lim}.\qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -2904,13 +2904,14 @@ By \cref{prop.comp_left_coclosed}, the functor $(-\tri r)\colon\poly\to\poly$ is
 \end{solution}
 \end{exercise}
 
-%**Right coclosure...kind of. At least an adjunction
-%**Define connected limits
-%**Right preservation of connected limits
+So $\tri$ preserves limits on the left.
+How about limits on the right?
+We saw in \cref{exc.right_not_dist_prod} that $\tri$ does not even preserve products on the right, so it certainly does not preserve all limits.
+But it turns out that there is a special class of limits that $\tri$ does preserve on the right.
 
-
-
-A connected limit is one whose indexing category $J$ is nonempty and connected. That is, $J$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
+\begin{definition}
+A \emph{connected limit} is one whose indexing category $\cat{J}$ is nonempty and connected. That is, $\cat{J}$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
+\end{definition}
 
 \begin{example}
 The following categories are connected:
@@ -2925,7 +2926,7 @@ The following categories are connected:
 \]
 In particular, equalizers, pullbacks, and directed limits are examples of connected limits. 
 
-The following categories are \emph{not connected}:
+The following categories are \emph{not} connected:
 \[
 \fbox{$\phantom{\bullet}$}
 \qquad
@@ -2937,45 +2938,53 @@ In particular, terminal objects and products are \emph{not} examples of connecte
 \end{example}
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
-The operation $\tri$ commutes with connected limits in both variables. That is, if $J$ is a connected category, $p\colon J\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
+The operation $\tri$ commutes with connected limits on both sides. That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
 %\[
-%	(\lim_{j\in J} p_{j,})\tri q\cong \lim_{j\in J}(p_{j,}\tri q)
+%	(\lim_{j\in \cat{J}} p_{j,})\tri q\cong \lim_{j\in \cat{J}}(p_{j,}\tri q)
 %	\qqand
-%	q\tri(\lim_{j\in J} p_{j,})\cong \lim_{j\in J}(q\tri p_{j,})
+%	q\tri(\lim_{j\in \cat{J}} p_{j,})\cong \lim_{j\in \cat{J}}(q\tri p_{j,})
 %\]
 \[
-	\left(\lim_{j\in J} p_j\right)\tri q\cong \lim_{j\in J}(p_j\tri q)
+	\left(\lim_{j\in \cat{J}} p_j\right)\tri q\cong \lim_{j\in \cat{J}}(p_j\tri q)
 	\qqand
-	q\tri\left(\lim_{j\in J} p_j\right)\cong \lim_{j\in J}(q\tri p_j)
+	q\tri\left(\lim_{j\in \cat{J}} p_j\right)\cong \lim_{j\in \cat{J}}(q\tri p_j)
 \]
 \end{theorem}
 \begin{proof}[Sketch of proof]
-The claim for the left variable follows as in the proof of \cref{prop.left_dist_prod}: limits of functors $\smset\to\smset$ are computed pointwise and $\poly$ is a full subcategory of $\smset^\smset$ closed under limits. The claim for the right-hand variable comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.6]{kock2012polynomial} for details.
+The claim for the left side is just a special case of \cref{cor.left_pres_lim}.
+The claim for the right side comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.16]{kock2012polynomial} for details.
 \end{proof}
+
+%**Right coclosure...kind of. At least an adjunction
+%**Right preservation of connected limits
+
+% Give alt proof as exercise??
 
 \begin{exercise}\label{ex.connected_limits_and_tri}
 Use \cref{thm.connected_limits} in the following.
 \begin{enumerate}
 	\item Let $p$ be a polynomial, thought of as a functor $p\colon\smset\to\smset$. Show that $p$ preserves connected limits (of sets).
 	\item Show that for any polynomials $p,q,r$ we have an isomorphism:
-	\[
-	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r)
-	\]
+	\begin{equation} \label{eqn.right_prod_pullback}
+	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r).
+	\end{equation}
+	\item Take $p,q,r$ from the counterexample you found in \cref{exc.right_not_dist_prod} \cref{exc.right_not_dist_prod.prod} and check that \cref{eqn.right_prod_pullback} holds.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a polynomial functor $p \colon \smset \to \smset$, we wish to show that $p$ preserves connected limits of sets; that is, for a connected category $J$ and a functor $X \colon J \to \smset$, we have
+    \item Given a polynomial functor $p \colon \smset \to \smset$, we wish to show that $p$ preserves connected limits of sets; that is, for a connected category $\cat{J}$ and a functor $X \colon \cat{J} \to \smset$, we have
     \[
-        p\left(\lim_{j \in J} X_j\right) \iso \lim_{j \in J} p(X_j).
+        p\left(\lim_{j \in \cat{J}} X_j\right) \iso \lim_{j \in \cat{J}} p(X_j).
     \]
     But we can identify $\smset$ with the full subcategory of constant functors in $\poly$ and instead view $X$ as a functor into $\poly$.
-    Then by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}, the left hand side of the isomorphism we seek is isomorphic to $p\tri\left(\lim_{j \in J} X_j\right)$, while the right hand side is isomorphic to $\lim_{j \in J} \left(p \tri X_j\right)$.
+    Then by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}, the left hand side of the isomorphism we seek is isomorphic to $p\tri\left(\lim_{j \in \cat{J}} X_j\right)$, while the right hand side is isomorphic to $\lim_{j \in \cat{J}} \left(p \tri X_j\right)$.
     These are isomorphic by \cref{thm.connected_limits}.
-    \item Given $p,q,r \in \poly$, we wish to show that $p \tri (qr) \iso (p \tri q) \times_{(p \tri \1)} (p \tri r)$.
+    \item Given $p,q,r \in \poly$, we wish to show that \cref{eqn.right_prod_pullback} holds.
     As $\1$ is terminal in $\poly$, the product $qr$ can also be written as the pullback $q \times_\1 r$.
     While products are not connected limits, pullbacks are, so by \cref{thm.connected_limits}, they are preserved by precomposition with $p$.
     Hence the desired isomorphism follows.
+    \item **
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2984,10 +2993,10 @@ Use \cref{thm.connected_limits} in the following.
 
 While we're here, it will be helpful to record the following.
 \begin{proposition}
-For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $J$ is connected and $p\colon J\to\poly$ is a functor, then there is a natural isomorphism:
+For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $\cat{J}$ is connected and $p\colon \cat{J}\to\poly$ is a functor, then there is a natural isomorphism:
 \[
-	\left(\lim_{j\in J} p_j\right)\otimes q\cong
-	\lim_{j\in J} (p_j\otimes q).
+	\left(\lim_{j\in \cat{J}} p_j\right)\otimes q\cong
+	\lim_{j\in \cat{J}} (p_j\otimes q).
 \]
 \end{proposition}
 
