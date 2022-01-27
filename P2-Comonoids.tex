@@ -1188,11 +1188,11 @@ Below, $X$ is a set and $p$ is a polynomial.
 % \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
 % \end{equation}
 
-% For \cref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+% For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
 % Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
 % So this follows from the corresponding universal properties.
 
-% For \cref{eqn.flipping2}, we first write out the two sets by hand.
+% For \eqref{eqn.flipping2}, we first write out the two sets by hand.
 % To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
 % Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
 % These are clearly isomorphic.
@@ -2824,8 +2824,8 @@ But first, we observe that right distributivity does not hold.
 \begin{exercise} \label{exc.right_not_dist_prod}
 Show that the distributivities of \cref{prop.left_dist_prod} do not hold on the other side:
 \begin{enumerate}
-	\item \label{exc.right_not_dist_prod.prod} Find polynomials $p,q,r$ such that $p\tri (qr)\not\cong(p\tri q)(p\tri r)$.
-	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\cong(p\tri q)+(p\tri r)$.
+	\item \label{exc.right_not_dist_prod.prod} Find polynomials $p,q,r$ such that $p\tri (qr)\not\iso(p\tri q)(p\tri r)$.
+	\item Find polynomials $p,q,r$ such that $p\tri (q+r)\not\iso(p\tri q)+(p\tri r)$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2939,15 +2939,10 @@ In particular, terminal objects and products are \emph{not} examples of connecte
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ commutes with connected limits on both sides. That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
-%\[
-%	(\lim_{j\in \cat{J}} p_{j,})\tri q\cong \lim_{j\in \cat{J}}(p_{j,}\tri q)
-%	\qqand
-%	q\tri(\lim_{j\in \cat{J}} p_{j,})\cong \lim_{j\in \cat{J}}(q\tri p_{j,})
-%\]
 \[
-	\left(\lim_{j\in \cat{J}} p_j\right)\tri q\cong \lim_{j\in \cat{J}}(p_j\tri q)
+	\left(\lim_{j\in \cat{J}} p_j\right)\tri q\iso \lim_{j\in \cat{J}}(p_j\tri q)
 	\qqand
-	q\tri\left(\lim_{j\in \cat{J}} p_j\right)\cong \lim_{j\in \cat{J}}(q\tri p_j)
+	q\tri\left(\lim_{j\in \cat{J}} p_j\right)\iso \lim_{j\in \cat{J}}(q\tri p_j)
 \]
 \end{theorem}
 \begin{proof}[Sketch of proof]
@@ -2966,9 +2961,9 @@ Use \cref{thm.connected_limits} in the following.
 	\item Let $p$ be a polynomial, thought of as a functor $p\colon\smset\to\smset$. Show that $p$ preserves connected limits (of sets).
 	\item Show that for any polynomials $p,q,r$ we have an isomorphism:
 	\begin{equation} \label{eqn.right_prod_pullback}
-	p\tri(qr)\cong (p\tri q)\times_{(p\tri\1)}(p\tri r).
+	p\tri(qr)\iso (p\tri q)\times_{(p\tri\1)}(p\tri r).
 	\end{equation}
-	\item Take $p,q,r$ from the counterexample you found in \cref{exc.right_not_dist_prod} \cref{exc.right_not_dist_prod.prod} and check that \cref{eqn.right_prod_pullback} holds.
+	\item Take $p,q,r$ from the counterexample you found in \cref{exc.right_not_dist_prod} \cref{exc.right_not_dist_prod.prod} and check that \eqref{eqn.right_prod_pullback} holds.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2980,11 +2975,15 @@ Use \cref{thm.connected_limits} in the following.
     But we can identify $\smset$ with the full subcategory of constant functors in $\poly$ and instead view $X$ as a functor into $\poly$.
     Then by \cref{exc.composing_with_constants} \cref{exc.composing_with_constants.appl}, the left hand side of the isomorphism we seek is isomorphic to $p\tri\left(\lim_{j \in \cat{J}} X_j\right)$, while the right hand side is isomorphic to $\lim_{j \in \cat{J}} \left(p \tri X_j\right)$.
     These are isomorphic by \cref{thm.connected_limits}.
-    \item Given $p,q,r \in \poly$, we wish to show that \cref{eqn.right_prod_pullback} holds.
+    \item Given $p,q,r \in \poly$, we wish to show that \eqref{eqn.right_prod_pullback} holds.
     As $\1$ is terminal in $\poly$, the product $qr$ can also be written as the pullback $q \times_\1 r$.
     While products are not connected limits, pullbacks are, so by \cref{thm.connected_limits}, they are preserved by precomposition with $p$.
     Hence the desired isomorphism follows.
-    \item **
+    \item We'll show that \eqref{eqn.right_prod_pullback} holds for $p\coloneqq\yon+\1, q\coloneqq\1,$ and $r\coloneqq\0$.
+    We have $p\tri q = p\tri\1 \iso (\yon+\1)\tri\1 \iso \2$ and $p\tri r \iso (\yon+\1)\tri\0 \iso \1$, so $(p\tri q)\times_{(p\tri\1)}(p\tri r) \iso \2 \times_\2 \1$.
+    We saw in \cref{ex.pullbacks_in_poly} that the position-set of a pullback in $\poly$ is just the pullback of the position-sets in $\set$, while the direction-sets are given by a pushout of direction-sets in $\set$.
+    As our polynomials have empty direction-sets, their pullback must have an empty direction-set as well, so this pullback is just a pullback of sets: $(p\tri q)\times_{(p\tri\1)}(p\tri r) \iso \2 \times_\2 \1\iso\1$.
+    And indeed we have $p\tri(qr) \iso (\yon+\1)\tri\0 \iso \1$ as well.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -3172,7 +3171,7 @@ In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_
 Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas.
 
 \begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
-Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \cref{eqn.composite_formula,eqn.monomials_and_comp}, this is equivalent to giving functions
+Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \eqref{eqn.composite_formula} and \eqref{eqn.monomials_and_comp}, this is equivalent to giving functions
 \begin{align}\nonumber
 	S&\To{\epsilon'} S&
 	S&\To{\delta'}\sum_{s'\in S}\prod_{s_1\in S}\sum_{s_1'\in S}\prod_{s_2\in S}S\\
@@ -4007,7 +4006,7 @@ Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polyno
 %\begin{exercise}\label{ex.fleece_assoc}
 %Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
 %\begin{enumerate}
-%	\item Redraw \cref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
+%	\item Redraw \eqref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
 %	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
 %\qedhere
 %\end{enumerate}
@@ -4766,9 +4765,9 @@ Then the comultiplication law:
 	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
 \end{tikzpicture}
 \end{equation}
-If we fill in \cref{eqn.unit_law_draw} with an object $i\in\ema{c}(\1)$, we obtain the equation
+If we fill in \eqref{eqn.unit_law_draw} with an object $i\in\ema{c}(\1)$, we obtain the equation
 \[f^\sharp(i,\idy(f_1(i)))=\idy(i),\]
-which is the first law of \cref{def.cofunctor}. If we fill in \cref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c}'[f(i)]$ and $m'\in\ema{c}'[\cod(m)]$, we obtain the equations
+which is the first law of \cref{def.cofunctor}. If we fill in \eqref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c}'[f(i)]$ and $m'\in\ema{c}'[\cod(m)]$, we obtain the equations
 \begin{gather*}
   \cod(m)=f_1\big(\cod\big(f^\sharp(i,m)\big)\big)\\
   f^\sharp(i,\comp(m,m'))=\comp(f^\sharp(i,m),f^\sharp(\cod(f^\sharp(i,m)),m'))
