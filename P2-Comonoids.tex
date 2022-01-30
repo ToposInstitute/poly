@@ -48,8 +48,8 @@ We begin with the definition of the composition product in terms of polynomials 
 
 \subsection{Composite functors}\label{subsec.comon.comp.def.functor}
 
-\begin{definition} \label{def.comp}
-Given polynomial functors $p, q$, we let $p \circ q$ denote their composite as functors.
+\begin{definition}[Composition product] \label{def.comp}
+Given polynomial functors $p, q$, we let $p \circ q$ denote their \emph{composition product}, or their composite as functors.
 That is, $p \circ q \colon \smset \to \smset$ sends each set $X$ to the set $p(q(X))$.
 \end{definition}
 
@@ -175,7 +175,7 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
-We have how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
+We know how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
 For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their composition product $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
 
 \begin{definition}[Horizontal composition of natural transformations]\label{def.horiz_comp_nat_trans}
@@ -1142,72 +1142,8 @@ Below, $X$ is a set and $p$ is a polynomial.
 \end{solution}
 \end{exercise}
 
-% **Move the proposition & exercise below to part about coclosure
-% \begin{proposition}\label{prop.flipping_reps_lins}
-% For all sets $A,B$, we have the following adjunction:
-% \[
-% \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
-% \]
-% Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
-% \end{proposition}
-
-% \[
-% \begin{tikzpicture}
-% 	\node (p1) {
-%   \begin{tikzpicture}[polybox,tos]
-%   	\node[poly, "$p$" left] (p) {};
-%   	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
-%   	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
-%   	\node[poly, right=2 of p, "$q$" right] (q) {};
-%   	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
-%   \end{tikzpicture}
-%   };
-%  \node[right=4 of p1] (p2) {
-%  \begin{tikzpicture}[polybox,tos]
-%   	\node[poly, "$p$" left] (p) {};
-%   	\node[poly, right=2 of p, "$q$" right] (q) {};
-%   	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
-%   	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
-% 		\draw (p_pos) to[first] (yA_pos);
-% 		\draw (yA_dir) to[climb] (q_pos);
-% 		\draw (q_dir) to[climb] (By_pos);
-% 		\draw (By_dir) to[last] (p_dir);
-%  \end{tikzpicture}
-%  };
-%  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
-% \end{tikzpicture} 
-% \]
-% Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
-% \begin{proof}
-% We prove this in two pieces: that
-% \begin{equation} \label{eqn.flipping1}
-% \poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
-% \end{equation}
-% and that
-% \begin{equation} \label{eqn.flipping2}
-% \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
-% \end{equation}
-
-% For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
-% Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
-% So this follows from the corresponding universal properties.
-
-% For \eqref{eqn.flipping2}, we first write out the two sets by hand.
-% To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
-% Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
-% These are clearly isomorphic.
-% \end{proof}
-
-% \begin{exercise}
-% Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the morphisms $A\yon^B\to p$ can be identified with the morphisms $A\to p\tri B$, i.e.\ that there is a bijection:
-% \begin{equation}\label{eqn.monomials_and_comp}
-% 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
-% \end{equation}
-% If so, why? If not, give a counterexample.
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
+In particular, this means we could write the position-set of a polynomial $p$ interchangeably as $p(\1)$ or as $p\tri\1$.
+We'll generally write $p(\1)$ when we want to emphasize the position-set as a set, and $p\tri\1$ when we want to emphasize the position-set as a polynomial (albeit a constant one, with no directions).
 
 \begin{exercise}\label{ex.compose_yon}
 For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso\yon\tri p$.
@@ -2010,7 +1946,7 @@ For example, here are the polyboxes corresponding to a lens to a $4$-fold compos
 \end{tikzpicture}
 \]
 
-% We can use this to generalize our notation in the case $k=1$, i.e.\ for morphisms $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_\1}$, where $f_\1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_\1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
+% We can use this to generalize our notation in the case $k=1$, i.e.\ for lenses $p\to q$. That is we denoted such a morphism by $\lens{f^\sharp}{f_\1}$, where $f_\1\colon p(\1)\to q(\1)$ and $f^\sharp_i\colon q[f_\1(i)]\to p[i]$. We generalize this to the $k$-ary composite case as
 % \begin{equation}\label{eqn.notation_f1f2fk}
 % (f_1,f_2,\ldots,f_k,f^\sharp)\colon p\too q_1\tri q_2\tri\cdots\tri q_k,
 % \end{equation}
@@ -2342,6 +2278,7 @@ and that
 \[
     (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(e))}\then g^\sharp_k = h^\sharp_k.
 \]
+The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
 We will read equations off of polyboxes like this repeatedly in what follows. %** Be more specific if this only really happens in next chapter
 
 %-------- Section --------%
@@ -2844,41 +2781,41 @@ We'll see this in action after we discuss how $\tri$ preserves limits on the lef
 \subsection{Interaction with limits} \label{subsec.comon.comp.prop.lim}
 
 We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $[\smset,\smset]$.
-Hence the argument in the proof of \cref{prop.left_dist_prod} can be generalized to arbitrary limits.
+Hence the argument in the proof of \cref{prop.left_dist_prod} by appealing to \cref{prop.presheaf_lim_ptwise} can be generalized to arbitrary limits.
 It follows that $\tri$ preserves all limits on the left.
 But we will present a proof of this fact from an alternative perspective: by appealing to the left coclosure of $\tri$.
 
 \begin{proposition}[Meyers] \label{prop.comp_left_coclosed}
 The composition product is left coclosed.
-That is, there exists a left coclosure operation, which we denote $\chom{-}{-}\colon\poly\op\times\poly\to\poly$,
+That is, there exists a left coclosure operation, which we denote $\lchom{-}{-}\colon\poly\op\times\poly\to\poly$,
 such that there is a natural isomorphism
 \[
-    \poly(p, q\tri r)\iso\poly\left(\chom{r}{p}, q\right).
+    \poly(p, r\tri q)\iso\poly\left(\lchom{q}{p}, r\right).
 \]
-In particular, the left coclosure operation sends $r,p\in\poly$ to
-\begin{equation} \label{eqn.chom_def}
-    \chom{r}{p}\coloneqq\sum_{i\in p(\1)}\yon^{r(p[i])}.
+In particular, the left coclosure operation sends $q,p\in\poly$ to
+\begin{equation} \label{eqn.lchom_def}
+    \lchom{q}{p}\coloneqq\sum_{i\in p(\1)}\yon^{q(p[i])}.
 \end{equation}
 \end{proposition}
-\begin{proof}
+\begin{proof} % ** exercise to show that coclosure operation is actually functorial?
+%** Show with polyboxes??
 We have that
 \begin{align*}
-    \poly(p, q\tri r)&\iso\prod_{i\in p(\1)}q(r(p[i])) \tag*{\eqref{eqn.main_formula}} \\
-    &\iso\poly\left(\sum_{i\in p(\1)}\yon^{r(p[i])}, q\right) \tag*{\eqref{eqn.main_formula}} \\
-    &\iso\poly\left(\chom{r}{p}, q\right) \tag*{\eqref{eqn.chom_def}}.
+    \poly(p, r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
 \end{align*}
 \end{proof}
 
 \begin{corollary}[Left preservation of limits] \label{cor.left_pres_lim}
-Fix $r\in\poly$.
-The functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ preserves all limits (up to natural isomorphism).
-That is, for any category $\cat{J}$ and functor $p_-\colon\cat{J}\to\poly$, there is a natural isomorphism
+The operation $\tri$ preserves limits on the left (up to natural isomorphism).
+That is, if $\cat{J}$ is a category, $p_-\colon\cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there is a natural isomorphism
 \begin{equation} \label{eqn.comp_left_pres_lim}
     \left(\lim_{j\in\cat{J}}p_j\right)\tri q\iso\lim_{j\in\cat{J}}(p_j\tri q).
 \end{equation}
 \end{corollary}
 \begin{proof}
-By \cref{prop.comp_left_coclosed}, the functor $(-\tri r)\colon\poly\to\poly$ is the right adjoint of the functor $\chom{r}{-}\colon\poly\to\poly$, and right adjoints preserve limits.
+By \cref{prop.comp_left_coclosed}, the functor $(-\tri q)\colon\poly\to\poly$ is the right adjoint of the functor $\lchom{q}{-}\colon\poly\to\poly$, and right adjoints preserve limits.
 \end{proof}
 
 \begin{exercise} \label{exc.comp_left_pres_lim}
@@ -2904,12 +2841,79 @@ By \cref{prop.comp_left_coclosed}, the functor $(-\tri r)\colon\poly\to\poly$ is
 \end{solution}
 \end{exercise}
 
+% **Move the proposition & exercise below to part about coclosure
+% \begin{proposition}\label{prop.flipping_reps_lins}
+% For all sets $A,B$, we have the following adjunction:
+% \[
+% \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
+% \]
+% Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
+% \end{proposition}
+
+% \[
+% \begin{tikzpicture}
+% 	\node (p1) {
+%   \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
+%   	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
+%   \end{tikzpicture}
+%   };
+%  \node[right=4 of p1] (p2) {
+%  \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
+%   	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
+% 		\draw (p_pos) to[first] (yA_pos);
+% 		\draw (yA_dir) to[climb] (q_pos);
+% 		\draw (q_dir) to[climb] (By_pos);
+% 		\draw (By_dir) to[last] (p_dir);
+%  \end{tikzpicture}
+%  };
+%  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
+% \end{tikzpicture} 
+% \]
+% Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
+% \begin{proof}
+% We prove this in two pieces: that
+% \begin{equation} \label{eqn.flipping1}
+% \poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
+% \end{equation}
+% and that
+% \begin{equation} \label{eqn.flipping2}
+% \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
+% \end{equation}
+
+% For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+% Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
+% So this follows from the corresponding universal properties.
+
+% For \eqref{eqn.flipping2}, we first write out the two sets by hand.
+% To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
+% Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
+% These are clearly isomorphic.
+% \end{proof}
+
+% \begin{exercise}
+% Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the lenses $A\yon^B\to p$ can be identified with the lenses $A\to p\tri B$, i.e.\ that there is a bijection:
+% \begin{equation}\label{eqn.monomials_and_comp}
+% 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
+% \end{equation}
+% If so, why? If not, give a counterexample.
+% \begin{solution}
+% **
+% \end{solution}
+% \end{exercise}
+
 So $\tri$ preserves limits on the left.
 How about limits on the right?
 We saw in \cref{exc.right_not_dist_prod} that $\tri$ does not even preserve products on the right, so it certainly does not preserve all limits.
 But it turns out that there is a special class of limits that $\tri$ does preserve on the right.
 
-\begin{definition}
+\begin{definition}[Connected limit]
 A \emph{connected limit} is one whose indexing category $\cat{J}$ is nonempty and connected. That is, $\cat{J}$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 \end{definition}
 
@@ -2937,8 +2941,85 @@ The following categories are \emph{not} connected:
 In particular, terminal objects and products are \emph{not} examples of connected limits.
 \end{example}
 
+Connected limits are intimately related to slice categories, which we defined back in \cref{def.slice}.
+For example, products in a slice category $\cat{C}/c$ are just pullbacks in $\cat{C}$, allowing us to view a non-connected limit as a connected one.
+By relating $\poly$ to its slice categories via an adjunction, we'll be able to show that $\tri$ preserves connected limits.
+(An alternative proof of this fact can be found in \cite[Proposition 1.16]{kock2012polynomial}.)
+
+\begin{proposition}
+Given polynomials $p,q,r\in\poly$ and a lens $f\colon p\to q\tri\1$, there is a natural isomorphism
+\[
+    \poly/q\tri\1\left(p\To{f}q\tri\1, q\tri r\To{q\:\tri\:!}q\tri\1\right)\iso\poly\left(\rchom{q,p\To{f}q\tri\1}, r\right),
+\]
+where
+\begin{equation} \label{eqn.rchom_def}
+    \rchom{q,p\To{f}q\tri\1}\coloneqq\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
+\end{equation}
+\end{proposition}
+\begin{proof} %**Another exercise about functoriality?
+By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ are lenses $g\colon p\to q\tri r$ for which $g\then(q\:\tri\:!)=f$.
+We can write this equation using polyboxes:
+\[
+\begin{tikzpicture}
+	\node (a) {
+  \begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$p$" left] (p) {\at$i$};
+	\node[poly, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$e$};
+	\node[poly, above=.8 of q, "$r$" above] (r) {};
+	\node[poly, cod, right=of q, "$q$" right] (q') {$e$};
+	\node[poly, terminal, above=.8 of q', "$\1$" right] (1) {};
+	\draw[double] (q_pos) -- node[below] {} (q'_pos);
+	\draw[double] (q'_dir) -- node[above] {} (q_dir);
+	\draw (r_pos) -- node[below] {} (1_pos);
+	\draw[densely dotted] (1_dir) -- node[above] {} (r_dir);	
+	\draw (p_pos) to[first] node[below] {$g^q$} (q_pos);
+	\draw (q_dir) to[climb] node[right] {$g^r$} (r_pos);
+	\draw (r_dir) to[last] node[above] {$g^\sharp$} (p_dir);
+  \end{tikzpicture}
+	};
+	\node[right=1.8 of a] (b) {
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$p$" left] (p) {\at$i$};
+  	\node[poly, cod, right=1.8 of p.south, yshift=-1ex, "$q$" right] (q) {$e$};
+  	\node[poly, terminal, above=of q, "$\1$" right] (1) {};
+  	\draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {} (1_pos);
+  	\draw[densely dotted] (1_dir) to[last] node[above] {$f^\sharp$} (p_dir);
+  \end{tikzpicture}
+	};
+	\node at ($(a.east)!.5!(b.west)$) {=};
+\end{tikzpicture}
+\]
+We can read off the picture that a lens $g\colon p\to q\tri r$ is a morphism from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ if and only if $g^q=f_\1$.
+% , so specifying such a morphism amounts to specifying a position $k$ of $r$ and an on-directions function $r[k]\to p[i]$ for each $i\in p(\1)$ and $e\in q[f_\1(i)]$.
+So morphisms from $f$ to $q\:\tri\:!$ are equivalent to gadgets
+\[
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$p$" left] (p) {\at$i$};
+    \node[poly, cod, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$e$};
+    \node[poly, cod, above=.8 of q, "$r$" above] (r) {$d$};
+    \draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
+    \draw (q_dir) to[climb] node[right] {$g^r$} (r_pos);
+    \draw (r_dir) to[last] node[above] {$g^\sharp$} (p_dir);
+\end{tikzpicture}
+\]
+with $f_\1$ fixed.
+But this, in turn, is equivalent to a gadget
+\[
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom] (h) {\at$(i,e)$};
+    \node[poly, cod, "$q$" right, right=of h] (r) {$d$};
+    \draw (h_pos) -- node[below] {$g^r$} (r_pos);
+    \draw (r_dir) -- node[above] {$g^\sharp$} (h_dir);
+\end{tikzpicture}
+\] % ** center??
+where the polyboxes on the left represent a polynomial whose positions are pairs $(i,e)$ with $i\in p(\1)$ and $e\in q[f_\1(i)]$, and whose directions at $(i,e)$ are the directions of the original polynomial $p$ at $i$.
+This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds.
+\end{proof}
+
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
-The operation $\tri$ commutes with connected limits on both sides. That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
+The operation $\tri$ preserves connected limits on both sides.
+That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
 \[
 	\left(\lim_{j\in \cat{J}} p_j\right)\tri q\iso \lim_{j\in \cat{J}}(p_j\tri q)
 	\qqand
@@ -3040,10 +3121,12 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 %\end{enumerate}
 %\end{exercise}
 
-\subsection{Interaction with cartesian lenses} \label{subsec.comon.comp.prop.cart}
+\subsection{Interaction with vertical and cartesian lenses} \label{subsec.comon.comp.prop.cart}
 
-\begin{proposition}[$\tri$ preserves cartesian maps in both variables]\label{prop.comp_pres_cart}
-If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
+We conclude this section by examining how $\tri$ interacts with vertical and cartesian lenses, as defined in \cref{def.vert_cart}.
+
+\begin{proposition}[Preservation of cartesian lenses]\label{prop.comp_pres_cart}
+If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian lenses, then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
 \end{proposition}
 \begin{proof}
 For any $h\colon A\to B$ of sets, all faces of the cube
@@ -3064,8 +3147,8 @@ are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal
 
 \begin{exercise}
 \begin{enumerate}
-	\item Show that if $f$ is an isomorphism and $g$ is vertical then $f\tri g$ is vertical.
-	\item Find a polynomial $q$ and a vertical morphism $f\colon p\to p'$ such that $(f\tri\id_q)\colon (p\tri q)\to (p'\tri q)$ is not vertical.
+	\item Show that if $f$ is an isomorphism and $g$ is vertical, then $f\tri g$ is vertical.
+	\item Find a polynomial $q$ and a vertical lens $f\colon p\to p'$ such that $(f\tri\id_q)\colon (p\tri q)\to (p'\tri q)$ is not vertical.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -3206,7 +3289,7 @@ If you know how to read such things, you'll see that each element $s\in S$ is ju
 \end{example}
 
 \begin{exercise}
-Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the morphism of polynomials $\delta^n\colon p\to p\tripow{(n+1)}$ either set-theoretically or in terms of poly-boxes as in \cref{ex.state_comonad_1}
+Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the lens $\delta^n\colon p\to p\tripow{(n+1)}$ either set-theoretically or in terms of poly-boxes as in \cref{ex.state_comonad_1}
 \end{exercise}
 
 \begin{example}[Picturing the comonoid $S\yon^S$]\label{ex.picturing_SyS}
@@ -4168,7 +4251,7 @@ Our first goal is to understand how one translates between categories $\cat{C}$ 
 \]
 and for each such object $i$, the morphisms $\{f\colon i\to j\mid j\in\Ob(\cat{C})\}$ emanating from $i$ in $\cat{C}$ are the directions $\ema{c}[i]$ there.
 
-\begin{definition}
+\begin{definition}[Emanation polynomial]
 Let $\cat{C}$ be a category. The \emph{emanation polynomial for $\cat{C}$} is the polynomial
 \[
 \ema{c}\coloneqq\sum_{i\in\Ob(\cat{C})}\yon^{\sum_{j\in\Ob(\cat{C})}\cat{C}(i,j)}
@@ -4628,7 +4711,7 @@ The linear polynomial $A\yon$ corresponds to a category whose objects form the s
 \end{solution}
 \end{exercise}
 
-\begin{definition}
+\begin{definition}[Degree, linear]
 Let $\cat{C}$ be a category and $c\in\Ob(\cat{C})$ an object. The \emph{degree of $c$}, denoted $\deg(c)$, is the set of arrows in $\cat{C}$ that emanate from $c$.
 
 If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
@@ -4684,7 +4767,7 @@ Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids a
  
 Let's begin with a definition.
 
-\begin{definition}[Morphisms of comonoids]\label{def.morphism_comonoids}
+\begin{definition}[Morphism of comonoids]\label{def.morphism_comonoids}
 Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
 \begin{equation}\label{eqn.morphism_comonoids}
 \begin{tikzcd}
@@ -5147,7 +5230,7 @@ The edges leading out of node $(i, j)$ are then all the morphisms emanating from
 The tree must respect identities, codomains, and composites in $\cat{C}$ and $\cat{D}$, as we'll explain.
 But before we do, we define the following category, which will be crucial to our understanding of products in $\smcat^\sharp$.
 
-\begin{definition}[Free monoidal categories on monoids and comonoids] \label{def.free_monoid_cat}
+\begin{definition}[Free monoidal category on monoids and comonoids] \label{def.free_monoid_cat}
 Given a (small) set $I$, define $\Delta_I$ to be the free monoidal category generated by $|I|$ distinct monoids.
 Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
 \end{definition}

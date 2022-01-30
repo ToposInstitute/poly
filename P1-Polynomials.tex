@@ -1092,9 +1092,9 @@ We'll highlight how these functors are closely related to what is arguably the f
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
 
 Representable functors form the basis of the category $\poly$.
-Much of the following theory is applicable for general functors into $\smset$; but for now, we are only interested in functors $\smset\to\smset$.
+Much of the following theory is applicable for general functors to $\smset$; but for now, we are only interested in functors $\smset\to\smset$.
 
-\begin{definition} \label{def.representable}
+\begin{definition}[Representable functor] \label{def.representable}
 Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, depending on which is more natural to think about.}
 
 We refer to functors of this form as \emph{representable functors}, or simply as \emph{representables}.
@@ -1378,8 +1378,8 @@ function as
 \[f \colon (i \in I) \to X_i.\]
 We call this a \emph{dependent function}, since its codomain depends on the element of its domain that we are applying it to.
 
-\begin{definition}[Dependent sums and products of sets] \label{def.dep_sums_prods_sets}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{sum} $\sum_{i\in I}X_i$ and \emph{product} $\prod_{i\in I}X_i$ of this collection are the sets
+\begin{definition}[Dependent sum and product of sets] \label{def.dep_sums_prods_sets}
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{(dependent) sum} $\sum_{i\in I}X_i$ and \emph{(dependent) product} $\prod_{i\in I}X_i$ of this collection are the sets
 \[
 \sum_{i\in I}X_i:=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
 \qqand
@@ -1654,7 +1654,7 @@ Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become st
 It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
 In general, we refer to a category having this property as follows.
 
-\begin{definition}
+\begin{definition}[Completely distributive category]
 A category $\cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\cat{C}$, we have a natural isomorphism
 \begin{equation}\label{eqn.cat_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
@@ -1778,7 +1778,7 @@ That is, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to[\sms
 natural in $X$.
 \end{proposition}
 \begin{proof}
-This is a special case of a more general fact, where $[\smset,\smset]$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[page 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+This is a special case of a more general fact, where $[\smset,\smset]$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[pages 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
 \begin{example}[Dependent sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
@@ -1889,7 +1889,7 @@ We've finally arrived: we can define polynomial functors!
 %---- Subsection ----%
 \subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
 
-\begin{definition}[Polynomial functors]
+\begin{definition}[Polynomial functor]
 A \emph{polynomial functor} (or simply a \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
 \[p\cong\sum_{i\in I}\yon^{p[i]}\]
 to a sum of representables.
@@ -2053,7 +2053,7 @@ So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
 Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $[\smset,\smset]$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
 
-\begin{definition}[Polynomial morphisms, $\poly$] \label{def.poly_cat}
+\begin{definition}[Polynomial morphism, $\poly$] \label{def.poly_cat}
 Given polynomial functors $p$ and $q$, a \emph{morphism of polynomial functors} (or a \emph{polynomial morphism}) is a natural transformation $p\to q$.
 Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are polynomial morphisms.
 \end{definition}
@@ -2156,12 +2156,6 @@ record Lens (p : Arena) (q : Arena) : Set where
 This forwards on-positions/backwards on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
 Recall from \cref{sec.poly.intro.dec} that we may view each position of an arena as a decision and the directions at that position as the options available for that decision.
 The morphisms $f\colon p\to q$ are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
-
-%In fact, this formula will be so important to us that we will often blur the
-%difference between a dependent lens $\lens{f^\sharp}{f} \colon \lens{p[i]}{i \in
-%  p(\1)} \fromto \lens{q[j]}{j \in q(\1)}$ with the natural transformation $p \to
-%q$ it corresponds to.
-%\end{remark}
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
@@ -3355,10 +3349,10 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 \subsection{The parallel product} \label{subsec.poly.func_nat.prepare_dyn.par}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
-\begin{definition}\label{def.dirichlet}
-Let $p$ and $q$ be polynomials. When they are expressed in standard notation, their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
+\begin{definition}[Parallel product of polynomials] \label{def.dirichlet}
+Let $p$ and $q$ be polynomials. Their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
 \begin{equation}\label{eqn.parallel_def}
-p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
+p\otimes q\iso\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
 % On arenas, this is defined by
 % \begin{equation}\label{eqn.parallel_product_dependent}
@@ -3367,10 +3361,6 @@ p\otimes q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{definition}
 
 One should compare this with the formula for the product of polynomials shown in \eqref{eqn.poly_times}. The difference is that the parallel product multiplies exponents where the categorical product adds them.
-
-% \begin{remark}
-%   The reason we call this the parallel product is because it generalizes the parallel product for lenses in \cref{sec.lens_discrete}.
-% \end{remark}
 
 \begin{example}
 We can draw the parallel product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
@@ -3917,8 +3907,8 @@ Let's start putting all this $\poly$ stuff to use.
 
 We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can return output and be updated according to input.
 
-\begin{definition}\label{def.moore_machine}
-If $A$, $B$, and $S$ are sets, an $(A,B)$-Moore machine with states $S$ consists of two functions
+\begin{definition}[Moore machine]\label{def.moore_machine}
+If $A$, $B$, and $S$ are sets, an $(A,B)$-\emph{Moore machine} with \emph{states} $S$ consists of two functions
 \begin{align*}
 	\text{return}&\colon S\to B\\
 	\text{update}&\colon S\times A\to S 
@@ -4089,14 +4079,14 @@ Suppose we have a function $f\colon A\times B\to B$.
 \end{exercise}
 
 \begin{exercise}
-Find $A,B\in\smset$ such that the following can be identified with a morphism $S\yon^S\to B\yon^A$, and explain in words what the corresponding Moore machine does (there may be multiple possible solutions):
+Find $A,B\in\smset$ such that the following can be identified with a lens $S\yon^S\to B\yon^A$, and explain in words what the corresponding Moore machine does (there may be multiple possible solutions):
 \begin{enumerate}
 	\item a \emph{discrete dynamical system}, i.e.\ a set of states $S$ and a transition function $S\to S$ that tells us how to move from state to state.
 	\item a \emph{magma}, i.e.\ a set $S$ and a function $S\times S\to S$.
 	\item a set $S$ and a subset $S'\ss S$.\qedhere
 \end{enumerate}
 \begin{solution}
-For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a morphism $S\yon^S \to B\yon^A$, i.e.\ a function $\text{return} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
+For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a lens $S\yon^S \to B\yon^A$, i.e.\ a function $\text{return} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
 \begin{enumerate}
     \item Given a discrete dynamical system with states $S$ and transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$.
     Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
@@ -4232,7 +4222,7 @@ In particular, we will be able to let the file-reader ``close its port,'' so tha
 
 The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine (with a preset initial state).
 
-\begin{definition}\label{def.dfa}
+\begin{definition}[Deterministic state automaton, language]\label{def.dfa}
 A \emph{deterministic state automaton} consists of
 \begin{enumerate}
 	\item a set $S$, elements of which are called \emph{states};
@@ -4280,7 +4270,7 @@ As lenses, each of our Moore machines above has an interface of the form $B\yon^
 Every representable summand of the interface has the same exponent $A$, corresponding to the fact that the set of available inputs into the machine is always $A$.
 But by replacing $B\yon^A$ with an arbitrary polynomial $p$---a sum of monomials, in which different representable summands may have different exponents---we will allow our input set to change.
 
-\begin{definition}[Dependent dynamical systems]\label{def.gen_moore}
+\begin{definition}[Dependent dynamical system]\label{def.gen_moore}
 A \emph{dependent dynamical system} (or a \emph{dependent Moore machine}, or simply a \emph{dynamical system}) is a lens
 \[\phi\colon S\yon^S\to p\]
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states}---with $S\yon^S$ called the \emph{state system}---and the polynomial $p$ is called the \emph{interface}.
@@ -4409,7 +4399,7 @@ Here we examine the halting deterministic state automaton depicted in \eqref{eqn
 
 Every graph gives rise to a dynamical system---but to ensure that we are talking about the same thing, let us fix the definition of a graph.
 
-\begin{definition}\label{def.graph}
+\begin{definition}[Graph] \label{def.graph}
 A \emph{graph} $G = (E \tto V)$ consists of an edge set $E$, a vertex set $V$, a source function $s\colon E\to V$, and a target function $t\colon E\to V$.
 \end{definition}
 
@@ -4439,13 +4429,13 @@ The vertices of your graph are the states, and the edges of your graph are the p
 % \begin{example}[Inputting an initial state]
 % Suppose you have a closed system $f^\sharp\colon S\yon^S\to\yon$. The modeler can choose an initial state $\yon\to S\yon^S$, but what if we want some other system to choose the initial state? We haven't gotten to wiring diagrams yet, but the idea is to create a system that starts as not-closed---accepting as input a state $s\in S$---and then dives into its closed loop with that initial state.
 
-% Let $S'\coloneqq S+\1$, so that the initial state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a morphism
+% Let $S'\coloneqq S+\1$, so that the initial state $\yon\to S'\yon^{S'}$ now is canonical: it's the new $\1$. We also have a canonical inclusion $S\To{i}S'$. We will give a lens
 % \[
 % S'\yon^{S'}\to\yon+\yon^S
 % \]
 % that starts out with its outer box in the mode $\yon^S$ of accepting an $S$-input, and then moves to the mode $\yon$ so that it is a closed system forever after.
 
-% To give a morphism $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
+% To give a lens $S'\yon^{S'}\to\yon+\yon^S$, it is sufficient to give two morphisms: $S\yon^{S'}\to\yon$ and $\yon^{S'}\to\yon^S$. The first is equivalent to a function $S\to S'$ and we take the map $S\To{f^\sharp}S\To{i}S'$; this means that whenever we want to update the state from a state in $S$ we'll just do whatever our original closed system did. The second is also equivalent to a function $S\to S'$ and we use $i$; this means that whatever state is input at the beginning will be what we take as our first noncanonical state.
 % \end{example}
 
 \begin{example}\label{ex.generalized_file_reader}
@@ -6106,7 +6096,7 @@ Call this set $X$, so that \texttt{unit A} has interface $X\yon$ and \texttt{uni
 We fix a default value $x_0\in X$ for the input to \texttt{unit B} when it is not connected to \texttt{unit A}.
 Meanwhile, the person takes no input and dictates whether the units are attached or not, so we give it interface $\2\yon$.
 
-Then an enclosure for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The morphism $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+Then an enclosure for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
 We can easily generalize \cref{ex.assemble_machine}.
@@ -6356,8 +6346,8 @@ To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we co
 \[
     \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
 \]
-Then the evaluation map is the map corresponding to the identity morphism on $\ihom{p,q}$ under the above isomorphism.
-To recover this map, we can start from the identity morphism on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
+Then the evaluation map is the map corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
+To recover this map, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
 To start, \cref{exc.dir_hom_sum} implies that
 \begin{align*}
     \poly(\ihom{p,q}, \ihom{p,q})
@@ -6367,7 +6357,7 @@ To start, \cref{exc.dir_hom_sum} implies that
     \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
 \end{align*}
 where the second isomorphism follows from the universal properties of products and coproducts.
-In particular, under this isomorphism, the identity morphism on $\ihom{p,q}$ corresponds to a collection of morphisms, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
+In particular, under this isomorphism, the identity lens on $\ihom{p,q}$ corresponds to a collection of lenses, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
 \[
     \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
 \]
@@ -6427,7 +6417,7 @@ Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imag
 \[
 	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to r
 \]
-with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a morphism $f'\colon q\to \ihom{p,r}$ such that the original system $f$ factors through the evaluation $\ihom{p,r}\otimes p\to r$.
+with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a lens $f'\colon q\to \ihom{p,r}$ such that the original system $f$ factors through the evaluation $\ihom{p,r}\otimes p\to r$.
 
 In other words, $\ihom{p,r}$ holds within it all of the possible ways $p$ can interact with other systems when they are all wrapped in $r$.
 For example, in the case of $r\coloneqq\yon$, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$.
@@ -6437,7 +6427,7 @@ Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\
 \end{example}
 
 \begin{example}[Chu $\&$]
-Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and morphisms
+Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
 	\qqand
@@ -6747,7 +6737,7 @@ We have the following chain of natural isomorphisms:
 \section{Epi-mono factorization}
 
 \begin{proposition}\label{prop.monics_in_poly}
-Let $f \colon p \to q$ be a morphism in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_\1(i)]\to p[i]$ is an epimorphism in $\smset$.
+Let $f \colon p \to q$ be a lens in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_\1(i)]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}
 To prove the forward direction, suppose that $f$ is a monomorphism.
@@ -6755,11 +6745,11 @@ Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it pre
 
 We now need to show that for any $i\in p(\1)$, the on-directions function $f_i^\sharp \colon q[f_\1(i)] \to p[i]$ is an epimorphism.
 Suppose we are given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $f^\sharp_i \then g^\sharp = f^\sharp_i \then h^\sharp$.
-Then there exist morphisms $g,h \colon \yon^A \tto p$ whose on-positions functions both pick out $i$ and whose on-directions functions are $g^\sharp$ and $h^\sharp$, so that $g \then f = h \then f$.
+Then there exist lenses $g,h \colon \yon^A \tto p$ whose on-positions functions both pick out $i$ and whose on-directions functions are $g^\sharp$ and $h^\sharp$, so that $g \then f = h \then f$.
 As $f$ is a monomorphism, $g = h$; in particular, their on-directions functions $g^\sharp$ and $h^\sharp$ are equal, as desired.
 
 Conversely, suppose that $f_\1$ is a monomorphism and that, for each $i\in p(\1)$, the function $f^\sharp_i$ is an epimorphism.
-Let $r$ be a polynomial and $g,h\colon r\tto p$ be two morphisms such that $g \then f = h \then f$.
+Let $r$ be a polynomial and $g,h\colon r\tto p$ be two lenses such that $g \then f = h \then f$.
 Then $g_\1 \then f_\1 = h_\1 \then f_\1$, which implies $g_\1 = h_\1$; we'll consider $g_\1$ the default representation.
 We also have that $f^\sharp_{g_\1(k)} \then g^\sharp_k = f^\sharp_{g_\1(k)} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_\1(k)}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
 \end{proof}
@@ -6788,7 +6778,7 @@ In other words, the new system behaves like the old system but with only the sta
 \end{exercise}
 
 \begin{proposition}\label{prop.epis_in_poly}
-Let $f \colon p \to q$ be a morphism in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
+Let $f \colon p \to q$ be a lens in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
 \[
     f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_\1(i)=j}} p[i]
 \]
@@ -6799,15 +6789,15 @@ To prove the forward direction, suppose that $f$ is an epimorphism. Since $p \ma
 
 We now need to show that for any $j\in q(\1)$, the induced function $f^\flat_j$ is a monomorphism.
 Suppose we are given a set $A$ and a pair of functions $g',h'\colon A\tto q[j]$ with $g' \then f^\flat_j = h' \then f^\flat_j$.
-They can be identified with morphisms $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
+They can be identified with lenses $g,h\colon q\tto \yon^A+\1$, which send the $j$-component to the first component, $\yon^A$, and send all other component to the second component, $\1$. It is easy to check that $fg=fh$, hence $g=h$, and hence $g^\sharp=h^\sharp$ as desired.
 
-Then we can construct morphisms $g,h \colon q \tto \yon^A+\1$ whose on-positions functions both send $j$ to the first position, corresponding to $\yon^A$, and all other positions to the second position, corresponding to $\1$.
+Then we can construct lenses $g,h \colon q \tto \yon^A+\1$ whose on-positions functions both send $j$ to the first position, corresponding to $\yon^A$, and all other positions to the second position, corresponding to $\1$.
 In addition, we let the on-directions functions be $g^\sharp_j \coloneqq g'$ and $h^\sharp_j \coloneqq h'$.
 Then $f \then g = f \then h$.
 As $f$ is an epimorphism, $g = h$; in particular, their on-directions functions are equal, so $g' = h'$, as desired.
 
 Conversely, suppose that $f_\1$ is an epimorphism and that, for each $j\in q(\1)$, the function $f^\flat_j$ is a monomorphism. 
-Let $r$ be a polynomial and $g,h\colon q\tto r$ be two morphisms such that $f \then g = f \then h$.
+Let $r$ be a polynomial and $g,h\colon q\tto r$ be two lenses such that $f \then g = f \then h$.
 Then $f_\1 \then g_\1 = f_\1 \then h_\1$, which implies $g_\1=h_\1$; we'll consider $g_\1$ the default representation.
 We also have that $g^\sharp_{f_\1(i)} \then f^\sharp_i = h^\sharp_{f_\1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
 It follows that, for any $j \in q(\1)$, the two composites
@@ -6838,7 +6828,7 @@ So it follows from \cref{prop.epis_in_poly} that either $f$ is an epimorphism or
 \begin{exercise}
 Let $A$ and $B$ be sets and $AB$ their product. Find an epimorphism $\yon^A+\yon^B\surj\yon^{AB}$.
 \begin{solution}
-Given sets $A$ and $B$, by \cref{prop.epis_in_poly}, a morphism $f \colon \yon^A + \yon^B \to \yon^{AB}$ is an epimorphism if its on-positions function $f_\1 \colon \2 \to \1$ is an epimorphism (which must be true) and if the induced function
+Given sets $A$ and $B$, by \cref{prop.epis_in_poly}, a lens $f \colon \yon^A + \yon^B \to \yon^{AB}$ is an epimorphism if its on-positions function $f_\1 \colon \2 \to \1$ is an epimorphism (which must be true) and if the induced function
 \[
     f^\flat \colon AB \to \prod_{i \in \2} (\yon^A + \yon^B)[i] \iso AB
 \]
@@ -6857,7 +6847,7 @@ Hint: You may use the following facts.
     \item A lens is an isomorphism if and only if the on-positions function is an isomorphism and every on-directions function is an isomorphism.
 \end{enumerate}
 \begin{solution}
-Let $f \colon p \to q$ be a morphism in $\poly$ that is both a monomorphism and an epimorphism.
+Let $f \colon p \to q$ be a lens in $\poly$ that is both a monomorphism and an epimorphism.
 We claim that $f$ is an isomorphism.
 By \cref{prop.monics_in_poly} and \cref{prop.epis_in_poly}, the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is both a monomorphism and an epimorphism, so it is an isomorphism.
 Meanwhile, \cref{prop.epis_in_poly} says that, for each $j \in q(\1)$, the induced function
@@ -7061,21 +7051,21 @@ We define its position-set $p'(\1)$ to be the equalizer of $f_\1,g_\1 \colon p(\
     p'(\1) \coloneqq \{i \in p(\1) \mid f_\1(i) = g_\1(i)\}.
 \]
 Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$.
-In this way, we obtain a polynomial $p'$ that comes equipped with a morphism $e \colon p' \to p$.
+In this way, we obtain a polynomial $p'$ that comes equipped with a lens $e \colon p' \to p$.
 One can check that $p'$ together with $e$ satisfies the universal property of the equalizer of $f$ and $g$; see \cref{exc.poly_limits}.
 \end{proof}
 
 \begin{exercise}\label{exc.poly_limits}
 Complete the proof of \cref{thm.poly_limits} as follows:
 \begin{enumerate}
-	\item We said that $p'$ comes equipped with a morphism $e \colon p' \to p$; what is it?
+	\item We said that $p'$ comes equipped with a lens $e \colon p' \to p$; what is it?
 	\item Show that $e \then f = e \then g$.
 	\item Show that $e$ is the equalizer of the pair $f,g$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item The morphism $e \colon p' \to p$ can be characterized as follows.
+    \item The lens $e \colon p' \to p$ can be characterized as follows.
     The on-positions function $e_\1 \colon p'(\1) \to p(\1)$ is the equalizer of $f_\1, g_\1 \colon p(\1) \tto q(\1)$ in $\smset$.
     In particular, $e_\1$ is the canonical inclusion that sends each element of $p'(\1)$ to the same element in $p(\1)$.
     Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$ in $\smset$.
@@ -7122,7 +7112,7 @@ equipped with a canonical projection $\pi_j$ to each $p_j(\1)$, and whose direct
 \begin{equation} \label{eqn.lim_dir}
     \left(\lim_{j\in\cat{J}} p_j\right)[i] \iso \colim_{j\in\cat{J}\op} p_j[\pi_j(i)].
 \end{equation}
-This notation obscures what is occuring on morphisms, but in particular, each morphism $\phi\colon p_j\to p_{j'}$ in the diagram $p_-$ induces an on-positions function $\phi_\1\colon p_j(\1)\to p_{j'}(\1)$ in the diagram whose limit we take in \eqref{eqn.lim_pos} and, for every position $i$ of the limit, an on-directions function $\phi^\sharp_{\pi_j(i)}\colon p_{j'}[\pi_{j'}(i)]\to p_j[\pi_j(i)]$ in the diagram whose colimit we take in \eqref{eqn.lim_dir}.
+This notation obscures what is occuring on lenses, but in particular, each lens $\phi\colon p_j\to p_{j'}$ in the diagram $p_-$ induces an on-positions function $\phi_\1\colon p_j(\1)\to p_{j'}(\1)$ in the diagram whose limit we take in \eqref{eqn.lim_pos} and, for every position $i$ of the limit, an on-directions function $\phi^\sharp_{\pi_j(i)}\colon p_{j'}[\pi_{j'}(i)]\to p_j[\pi_j(i)]$ in the diagram whose colimit we take in \eqref{eqn.lim_dir}.
 (Note that, by the definition of a limit, $\phi_\1(\pi_j(i)) = \pi_{j'}(i)$.)
 
 We have seen \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for products: the position-set of the product is just the product of the original position-sets, while the direction-set at a tuple of the original positions is just the coproduct of the direction-sets at every position in the tuple.
@@ -7131,7 +7121,7 @@ It follows from the construction of any limit as an equalizer of products that i
 \end{example}
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
-Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback 
+Given $q,q',r \in \poly$ and lenses $q\To{f} r\From{f'} q'$, the pullback 
 \[
 \begin{tikzcd}
 	p\ar[r, "g'"]\ar[d, "g"']&
@@ -7140,10 +7130,10 @@ Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback
 	r\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
- is given as follows.
- The position-set of $p$ is the pullback of the position-sets of $q$ and $q'$ over that of $r$ in $\smset$.
- Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_\1(i)=f'_\1(i')$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_\1(i)]=r[f_\1'(i')]$ in $\smset$.
- These pullback and pushout squares also given the morphisms $g$ and $g'$ on positions and on directions:
+is given as follows.
+The position-set of $p$ is the pullback of the position-sets of $q$ and $q'$ over that of $r$ in $\smset$.
+Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_\1(i)=f'_\1(i')$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_\1(i)]=r[f_\1'(i')]$ in $\smset$.
+These pullback and pushout squares also give the lenses $g$ and $g'$ on positions and on directions:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
 	p(\1)\ar[r, "g'_\1"]\ar[d, "g_\1"']&
@@ -7164,8 +7154,8 @@ Given $q,q',r \in \poly$ and morphisms $q\To{f} r\From{f'} q'$, the pullback
 \begin{exercise}
 Let $p$ be any polynomial.
 \begin{enumerate}
-	\item There is a canonical choice of morphism $\eta\colon p\to p(\1)$; what is it?
-	\item Given an element $i\in p(\1)$, i.e.\ a function (or morphism between constant polynomials) $i\colon\1\to p(\1)$, let $p_i$ be the pullback
+	\item There is a canonical choice of lens $\eta\colon p\to p(\1)$; what is it?
+	\item Given an element $i\in p(\1)$, i.e.\ a function (or lens between constant polynomials) $i\colon\1\to p(\1)$, let $p_i$ be the pullback
 	\[
 	\begin{tikzcd}
 	p_i\ar[r, "g"]\ar[d, "f"']&
@@ -7179,7 +7169,7 @@ Let $p$ be any polynomial.
 \begin{solution}
 Here $p \in \poly$.
 \begin{enumerate}
-    \item The canonical morphism $\eta \colon p \to p(\1)$ is the identity $\eta_\1 \colon p(\1) \to p(\1)$ on positions and the empty function on directions.
+    \item The canonical lens $\eta \colon p \to p(\1)$ is the identity $\eta_\1 \colon p(\1) \to p(\1)$ on positions and the empty function on directions.
     
     \item On positions, we have that $p_i(\1)$ along with $f_\1$ and $g_\1$ form the following pullback square in $\smset$:
     \[
@@ -7209,18 +7199,18 @@ Here $p \in \poly$.
 \begin{exercise}
 Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yon+\1$.
 \begin{enumerate}
-	\item Choose morphisms $f\colon q\to r$ and $f'\colon q'\to r$ and write them down.
+	\item Choose lenses $f\colon q\to r$ and $f'\colon q'\to r$ and write them down.
 	\item Find the pullback of $q\To{f} r\From{f'} q'$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item There are many possible answers, but one morphism $f \colon q \to r$, on positions, sends $1 \in q(\1)$ (corresponding to $\yon^\2$) to $2 \in r(\1)$ (corresponding to $\1$) and $2 \in q(\1)$ (corresponding to $\yon$) to $1 \in r(\1)$ (corresponding to $\yon$).
+    \item There are many possible answers, but one lens $f \colon q \to r$, on positions, sends $1 \in q(\1)$ (corresponding to $\yon^\2$) to $2 \in r(\1)$ (corresponding to $\1$) and $2 \in q(\1)$ (corresponding to $\yon$) to $1 \in r(\1)$ (corresponding to $\yon$).
     Then the on-directions functions $f^\sharp_\1 \colon \0 \to \2$ and $f^\sharp_2 \colon \1 \to \1$ are uniquely determined.
     Another morphism $f' \colon q' \to r$, on positions, sends $1 \in q'(\1)$ (corresponding to one of the $\yon^\3$ terms) to $2 \in r(\1)$ and both $2 \in q'(\1)$ (corresponding to the other $\yon^\3$ term) and $3 \in q'(\1)$ (corresponding to the $\yon^\2$ term) to $1 \in r(\1)$.
     Then the on-directions function $(f')^\sharp_1 \colon \0 \to \3$ is uniquely determined, while we can let $(f')^\sharp_2 \colon \1 \to \3$ pick out $3$ and $(f')^\sharp_3 \colon \1 \to \2$ pick out $1$.
     
-    \item We compute the pullback $p$ along with the morphisms $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
+    \item We compute the pullback $p$ along with the lenses $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
     We can compute $p(\1)$ by taking the pullback in $\smset$:
     \[
         p(\1) \coloneqq \{(i, i') \in \2 \times \3 \mid f_\1(i) = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
@@ -7418,12 +7408,12 @@ By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical ma
         & p \ar[u, "\iota'"'] \ar[ur, "\eta"']
     \end{tikzcd}
     \end{equation}
-    in which $\iota, \iota'$ are the canonical inclusions and the four triangles commute, $\yon^{\Gamma(p)}$ equipped with the morphism $g$ is the coequalizer of $s$ and $t$.
+    in which $\iota, \iota'$ are the canonical inclusions and the four triangles commute, $\yon^{\Gamma(p)}$ equipped with the lens $g$ is the coequalizer of $s$ and $t$.
     To do so, we apply \cref{thm.poly_colimits} to compute the coequalizer $q'$ of $s$ and $t$.
     The position-set of $q'$ is the coequalizer of $s_\1 = (! \then \iota)_\1$, which sends every $i \in p(\1)$ to the position of $\yon + p$ corresponding to the summand $\yon$, and $t_\1 = (\epsilon \then \iota')_\1$, which sends each $i \in p(\1)$ to the corresponding position in the summand $p$ of $\yon + p$.
     It follows that the coequalizer of $s_\1$ and $t_\1$ is $\1$, so $q'(\1) \iso \1$.
     
-    Then the direction-set of $q'$ at its sole position is the limit of the functor $F$ whose image consists of morphisms of the form $\1 \to \1$ or $p[i] \to \1$ for every $i \in p(\1)$.
+    Then the direction-set of $q'$ at its sole position is the limit of the functor $F$ whose image consists of lenses of the form $\1 \to \1$ or $p[i] \to \1$ for every $i \in p(\1)$.
     It follows that the limit of $F$ is just a product, namely $\prod_{i \in p(\1)} p[i] \iso \Gamma(p)$.
     Hence $q' \iso \yon^{\Gamma(p)}$, as desired.
     
@@ -7547,7 +7537,7 @@ If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pus
 % which says that $p_1$ is heard by $p_2,p_3,p_4$ but not by $p_5$, etc.
 % \end{example}
 
-% For any $p\in\poly$, let $p/\poly$ denote the coslice category, i.e.\ the category whose objects are maps $p\to q$ emanating from $p$, and whose morphisms are commutative triangles.
+% For any $p\in\poly$, let $p/\poly$ denote the coslice category, i.e.\ the category whose objects are maps $p\to q$ emanating from $p$, and whose lenses are commutative triangles.
 
 % \begin{proposition}[Interaction graphs]
 % For any polynomials $p_1,\ldots,p_n\in\poly$ there is an adjunction
@@ -7568,20 +7558,20 @@ If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pus
 
 Aside from epi-mono factorization, there is another factorization system on $\poly$ that will show up frequently.
 
-\begin{definition}[Vertical, cartesian] \label{def.vert_cart}
+\begin{definition}[Vertical and cartesian lenses] \label{def.vert_cart}
 Let $f\colon p\to q$ be a lens.
 It is called \emph{vertical} if $f_\1\colon p(\1)\to q(\1)$ is an isomorphism.
 It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
 \begin{proposition}\label{prop.vert_cart_factorization}
-Vertical and cartesian morphisms form a factorization system of $\poly$.
+Vertical and cartesian lenses form a factorization system of $\poly$.
 \end{proposition}
 \begin{proof}
-It is easy to check that isomorphisms are both vertical and cartesian, and that vertical and cartesian morphisms are each closed under composition.
-It remains to show that every morphism in $\poly$ can be uniquely (up to unique isomorphism) factored as a vertical morphism composed with a cartesian morphism.
+It is easy to check that isomorphisms are both vertical and cartesian, and that vertical and cartesian lenses are each closed under composition.
+It remains to show that every lens in $\poly$ can be uniquely (up to unique isomorphism) factored as a vertical lens composed with a cartesian lens.
 
-Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
+Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
 \begin{tikzcd}[column sep=small]
 	p(\1)\ar[dr, bend right, "{p[-]}"']\ar[rr, "f_\1"]&~&
@@ -7596,17 +7586,17 @@ Recall from \eqref{eqn.colax_poly_map} that a morphism in $\poly$ can be written
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-The intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is clearly unique up to unique isomorphism.
+We can see that the intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is unique up to unique isomorphism.
 \end{proof}
 
 \begin{proposition}
-Vertical morphisms satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then g$, if any two of $f,g,h$ are vertical, then so is the third.
+Vertical lenses satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then g$, if any two of $f,g,h$ are vertical, then so is the third.
 
 If $g$ is cartesian, then $h$ is cartesian if and only if $f$ is cartesian.
 \end{proposition}
 \begin{proof}
 Given $h = f \then g$, we have that $h_\1 = f_\1 \then g_\1$.
-Since isomorphisms satisfy 2-out-of-3, it follows that vertical morphisms satisfy 2-out-of-3 as well.
+Since isomorphisms satisfy 2-out-of-3, it follows that vertical lenses satisfy 2-out-of-3 as well.
 
 Now assume $g$ is cartesian.
 On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$.
@@ -7619,11 +7609,11 @@ Give an example of polynomials $p,q,r$ and maps $p\To{f}q\To{g}r$ such that $f$ 
 Consider the maps $\yon \To{f} \yon^\2 + \yon \To{g} \yon$ where $f$ is the canonical inclusion and $g$ is uniquely determined on positions and picks out $1 \in \2$ and $1 \in \1$ on directions.
 Then the only on-directions function of $f$ is a function $\1 \to \1$, an isomorphism, so $f$ is cartesian.
 Meanwhile, one of the on-directions functions of $g$ is a function $\1 \to \2$, which is not an isomorphism, so $g$ is not cartesian.
-Finally, $f \then g$ can only be the unique morphism $\yon \to \yon$, namely the identity, which is cartesian.
+Finally, $f \then g$ can only be the unique lens $\yon \to \yon$, namely the identity, which is cartesian.
 \end{solution}
 \end{exercise}
 
-Here is an alternative characterization of a cartesian morphism in $\poly$.
+Here is an alternative characterization of a cartesian lens in $\poly$.
 Recall from \cref{exc.deriv_directions} that for any polynomial $p$, there is a corresponding function $\pi_p\colon\dot{p}(\1)\to p(\1)$, i.e.\ the set of all directions mapping to the set of positions.
 A lens $(f_\1,f^\sharp)\colon p\to q$ can then be described as a function $f_\1\colon p(\1)\to q(\1)$ along with a function $f^\sharp$ that makes the following diagram in $\smset$ commute:
 \begin{equation}\label{eqn.poly_map_usu}
@@ -7641,7 +7631,7 @@ The function $f^\sharp$ sends each such pair to a direction $f^\sharp_i(e)$ of $
 So $f^\sharp_i$ is indeed our familiar on-directions function $q[f_\1(i)]\to p[i]$, and $f^\sharp$ is just the sum of all these on-directions functions over $i\in p(\1)$.
 
 \begin{exercise} \label{exc.cart_pullbacks}
-Show that a morphism $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is also a pullback:
+Show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is also a pullback:
 \[
 \begin{tikzcd}
 	\dot{p}(\1)\ar[d, "\pi_p"']&
@@ -7653,7 +7643,7 @@ Show that a morphism $f\colon p\to q$ in $\poly$ is cartesian if and only if the
 \end{tikzcd}
 \]
 \begin{solution}
-We wish to show that a morphism $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is a pullback.
+We wish to show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is a pullback.
 We already know that that square commutes, so it is a pullback if and only if $f^\sharp$ is an isomorphism.
 The right pullback square tells us that the $\bullet$ is $\sum_{i\in p(\1)}q[f_\1(i)]$.
 So $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ is an isomorphism for every $i\in p(\1)$ if and only if their sum $f^\sharp\colon\sum_{i\in p(\1)}q[f_\1(i)]\to\sum_{i\in p(\1)}p[i]\iso\dot{p}(\1)$ is an isomorphism as well.
@@ -7686,9 +7676,9 @@ is a pullback.
 \end{definition}
 
 \begin{proposition}\label{prop.cart_as_nt}
-Let $f\colon p\to q$ be a morphism in $\poly$. The following are equivalent:
+Let $f\colon p\to q$ be a lens in $\poly$. The following are equivalent:
 	\begin{enumerate}
-		\item viewed as a lens, $f$ is a cartesian morphism in the sense of \cref{def.vert_cart}: for each $i\in p(\1)$, the on-directions function $f^\sharp_i$ is a bijection;
+		\item viewed as a lens, $f$ is cartesian in the sense of \cref{def.vert_cart}: for each $i\in p(\1)$, the on-directions function $f^\sharp_i$ is a bijection;
 		\item the square on the left hand side of \eqref{eqn.poly_map_usu} is also a pullback:
 \[
 \begin{tikzcd}
@@ -7720,13 +7710,13 @@ We already showed that the first two are equivalent in \cref{exc.cart_pullbacks}
 In this exercise, you will complete the proof of \cref{prop.cart_as_nt}.
 
 First, we will show that $1\Rightarrow3$.
-In the following, let $f\colon p\to q$ be a cartesian morphism in $\poly$ and $h\colon A\to B$ be a function.
+In the following, let $f\colon p\to q$ be a cartesian lens in $\poly$ and $h\colon A\to B$ be a function.
 \begin{enumerate}
-    \item Using \cref{prop.morph_arena_to_func} to translate $f$ from a morphism in $\poly$ to a natural transformation and \cref{prop.poly_on_functions} to interpret $q(h)$, characterize the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ in $\smset$.
+    \item Using \cref{prop.morph_arena_to_func} to translate $f$ from a lens in $\poly$ to a natural transformation and \cref{prop.poly_on_functions} to interpret $q(h)$, characterize the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ in $\smset$.
     \item Show that this pullback coincides with the naturality square \eqref{eqn.cart_nt_pullback}, hence proving $1\Rightarrow3$.
 \end{enumerate}
 Next, we show that $3\Rightarrow1$.
-In the following, let $f\colon p\to q$ be a morphism in $\poly$ that is cartesian when viewed as a natural transformation, so that \eqref{eqn.cart_nt_pullback} is a pullback for any function $h\colon A\to B$.
+In the following, let $f\colon p\to q$ be a lens in $\poly$ that is cartesian when viewed as a natural transformation, so that \eqref{eqn.cart_nt_pullback} is a pullback for any function $h\colon A\to B$.
 Also fix $i\in p(\1)$.
 \begin{enumerate}[resume]
     \item Show that the diagram 
@@ -7745,7 +7735,7 @@ Also fix $i\in p(\1)$.
 \end{enumerate}
 \begin{solution}
 First, we will show that $1\Rightarrow3$ in \cref{prop.cart_as_nt}.
-Here $f\colon p\to q$ is a cartesian morphism in $\poly$ and $h\colon A\to B$ is a function.
+Here $f\colon p\to q$ is a cartesian lens in $\poly$ and $h\colon A\to B$ is a function.
 \begin{enumerate}
     \item An element of $p(B)$ is a pair comprised of a $p$-position $i$ and a function $k\colon p[i]\to B$, and \cref{prop.morph_arena_to_func} tells us that $f_B\colon p(B)\to q(B)$ sends $(i,k)\mapsto(f_\1(i),f^\sharp_i\then k)$.
     Meanwhile, an element of $q(A)$ is a pair comprised of a $q$-position $j$ and a function $\ell\colon q[j]\to A$, and \cref{prop.poly_on_functions} tells us that $q(h)$ sends $(j,\ell)\mapsto(j,\ell\then h)$.
@@ -7759,7 +7749,7 @@ Here $f\colon p\to q$ is a cartesian morphism in $\poly$ and $h\colon A\to B$ is
     Moreover, the projection to $p(B)$ sending $(i,\ell')\mapsto(i,\ell'\then h)$ is $p(h)$, and the projection to $q(A)$ sending $(i,\ell')\mapsto(f_\1(i),f^\sharp_i\then\ell')$ is $f_A$ by \cref{prop.morph_arena_to_func}.
     So \eqref{eqn.cart_nt_pullback} is a pullback, as desired.
 \end{enumerate}
-Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon p\to q$ as a morphism in $\poly$ that is a cartesian natural transformation and $i\in p(\1)$.
+Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon p\to q$ as a lens in $\poly$ that is a cartesian natural transformation and $i\in p(\1)$.
 \begin{enumerate}[resume]
     \item By \cref{cor.morph_func_to_arena}, $f_{p[i]}$ sends $(i,\id_{p[i]})\mapsto(f_\1(i),f^\sharp_i)$, and by \cref{prop.poly_on_functions}, $q(f^\sharp_i)$ sends $(f_\1(i),\id_{q[f_\1(i)]})\mapsto(f_\1(i),f^\sharp_i)$ as well, so \eqref{eqn.cart_nt_pullback_cone} commutes.
     
@@ -7776,7 +7766,7 @@ The monoidal structures $+$, $\times$, and $\otimes$ preserve both vertical and 
 \begin{proof}
 Suppose that $f\colon p\to p'$ and $g\colon q\to q'$ are vertical, so that the on-positions functions $f_\1$ and $g_\1$ are isomorphisms.
 
-We can obtain the on-positions function of a morphism by passing it through the functor $\poly\To{p(\1)}\smset$ from \cref{thm.adjoint_quadruple}.
+We can obtain the on-positions function of a lens by passing it through the functor $\poly\To{p(\1)}\smset$ from \cref{thm.adjoint_quadruple}.
 As this functor is both a left adjoint and a right adjoint, it preserves both sums and products, so $(f+g)_\1 = f_\1+g_\1$ and $(f\times g)_1 = f_1\times g_1$.
 Hence $f+g$ and $f\times g$ are both vertical.
 On-positions, the behavior of $\otimes$ is identical to the behavior of $\times$, so $f\otimes g$ must be vertical as well.
@@ -7785,12 +7775,12 @@ Now suppose that $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian.
 
 A position of $p+q$ is a position $i\in p(\1)$ or a position $j\in q(\1)$, and the map $(f+g)^\sharp$ at that position is either $f^\sharp_i$ or $g^\sharp_j$; either way it is an isomorphism, so $f+g$ is cartesian.
 
-A position of $p\times q$ (resp.\ of $p\otimes q$) is a pair $(i,j)\in p(\1)\times q(\1)$. The morphism $(f\times g)^\sharp_{(i,j)}$ (resp.\ $(f\otimes g)^\sharp_{(i,j)}$) is $f^\sharp_i+g^\sharp_j$ (resp.\ $f^\sharp_i\times g^\sharp_j$) which is again an isomorphism if $f^\sharp_i$ and $g^\sharp_j$ are. Hence $f\times g$ (resp.\ $f\otimes g$) is cartesian, completing the proof.
+A position of $p\times q$ (resp.\ of $p\otimes q$) is a pair $(i,j)\in p(\1)\times q(\1)$. The lens $(f\times g)^\sharp_{(i,j)}$ (resp.\ $(f\otimes g)^\sharp_{(i,j)}$) is $f^\sharp_i+g^\sharp_j$ (resp.\ $f^\sharp_i\times g^\sharp_j$) which is again an isomorphism if $f^\sharp_i$ and $g^\sharp_j$ are. Hence $f\times g$ (resp.\ $f\otimes g$) is cartesian, completing the proof.
 \end{proof}
 
 \begin{proposition}\label{prop.pullback_vert_cart}
-Pullbacks preserve vertical (resp.\ cartesian) morphisms.
-In other words, if $f\colon p\to q$ is a morphism and $g\colon q'\to q$ a vertical (resp.\ cartesian) morphism, then the pullback $g'$ of $g$ along $p$
+Pullbacks preserve vertical (resp.\ cartesian) lenses.
+In other words, if $f\colon p\to q$ is a lens and $g\colon q'\to q$ a vertical (resp.\ cartesian) lens, then the pullback $g'$ of $g$ along $p$
 \[
 \begin{tikzcd}
 	p\times_qq'\ar[r]\ar[d, "g'"']&
@@ -7811,7 +7801,7 @@ This follows from \cref{ex.pullbacks_in_poly}, since the pullback (resp.\ pushou
 We will see that the functor $p\mapsto p(\1)$ has special properties making it what
 \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
 
-For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a cartesian morphism between constant polynomials.
+For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a cartesian lens between constant polynomials.
 Then we get a new polynomial $f^*p$ with positions $A$, as follows.
 It is given by a pullback
 \begin{equation}\label{eqn.f^*_defined}
@@ -7822,23 +7812,25 @@ It is given by a pullback
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
-Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$; it is a vertical morphism.
+Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$; it is a vertical lens.
 We could evaluate this pullback using \cref{ex.pullbacks_in_poly}.
 Alternatively, we can use \cref{prop.pullback_vert_cart} to deduce that the top map $f^*p\to p$ (which we presciently labeled $\fun{cart}$) is cartesian like $f$ and that the left map $f^*p\to A$ is vertical like $\eta_p$. Furthermore, $\fun{cart}_1 = f$.
 Hence
 \[
     f^*p \iso \sum_{a \in A} \yon^{p[f(a)]}.
 \]
-We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}, but first we need the following definition and result about cartesian morphisms.
+We'll see this as part of a bigger picture in \cref{prop.basechange,thm.triple_adjoint_basechange}, but first we need the following definitions and a result about cartesian lenses.
 
-For any $p\in\poly$, let $\poly/p$ denote the slice category, i.e.\ the category whose objects are maps to $p$ and whose morphisms are commutative triangles.
+\begin{definition}[Slice category] \label{def.slice}
+Given an object $c$ in a category $\cat{C}$, the \emph{slice category} of $\cat{C}$ over $c$, denoted $\cat{C}/c$, is the category whose objects are morphisms in $\cat{C}$ with codomain $c$ and whose morphisms are commutative triangles in $\cat{C}$.
+\end{definition}
 
-\begin{definition}
+\begin{definition}[Exponentiable morphism]
 Given a category $\cat{C}$ with objects $c, d$ and morphism $f \colon c \to d$ such that all pullbacks along $f$ exist in $\cat{C}$, we say that $f$ is \emph{exponentiable} if the functor $f^* \colon \cat{C}/d \to \cat{C}/c$ given by pulling back along $f$ is a left adjoint.
 \end{definition}
 
 \begin{theorem}\label{thm.cart_exponentiable}
-Cartesian morphisms in $\poly$ are exponentiable.
+Cartesian lenses in $\poly$ are exponentiable.
 That is, if $f\colon p\to q$ is cartesian, then the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back along $f$ is a left adjoint:
 \[
 \begin{tikzcd}[column sep=50pt, background color=theoremcolor]
@@ -7875,7 +7867,7 @@ Again, $q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)
 \end{proof}
 
 \begin{example}
-Let $p\coloneqq\2\yon^\2$, $q\coloneqq\yon^\2+\yon^\0$, and $f\colon p\to q$ the unique cartesian morphism between them.
+Let $p\coloneqq\2\yon^\2$, $q\coloneqq\yon^\2+\yon^\0$, and $f\colon p\to q$ the unique cartesian lens between them.
 Then for any $e\colon p'\to p$ over $p$, \eqref{eqn.cart_exp} provides the following description for the pushforward $f_*p'$.
 %We use the isomorphisms $p(\1)\cong\2$ and $q(\1)\cong\2$ to talk about the positions of $p$ and $q$.
 
@@ -7943,9 +7935,9 @@ f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\sum\limits_{a\map
 \end{equation}
 It may at first be counterintuitive that the left adjoint $f_!$ involves a product and the right adjoint $f_*$ involves a sum. The reason for this comes from \cref{prop.dlens_self_indexing}, namely that $\poly$ is equivalent to the Grothendieck construction applied to the functor $\smset\op\to\smcat$ sending each set $A$ to the category $(\smset/A)\op$. The fact that functions $f\colon A\to B$ induces an adjoint triple between $\smset/A$ and $\smset/B$, and hence between $(\smset/A)\op$ and $(\smset/B)\op$ explains the variance in \eqref{eqn.f_!andf_*} and simultaneously establishes the adjoint triple \eqref{eqn.adjoint_triple_monoidal_fib}.
 
-The functor $p\mapsto p(\1)$ is strong monoidal with respect to $\otimes$ and strict monoidal if we choose the lens construction as our model of $\poly$. By \cref{prop.monoidal_pres_vert_cart}, the monoidal product $\otimes$ preserves cartesian morphisms; thus we will have established the desired monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed} as soon as we know that $\otimes$ preserves op-cartesian morphisms.
+The functor $p\mapsto p(\1)$ is strong monoidal with respect to $\otimes$ and strict monoidal if we choose the lens construction as our model of $\poly$. By \cref{prop.monoidal_pres_vert_cart}, the monoidal product $\otimes$ preserves cartesian lenses; thus we will have established the desired monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed} as soon as we know that $\otimes$ preserves op-cartesian lenses.
 
-Given $f$ and $p$ as above, the op-cartesian morphism is the morphism $p\to f_!p$ obtained as the composite $p\to f^*f_!p\to f_!p$ where the first map is the unit of the $(f_!,f^*)$ adjunction and the second is the cartesian morphism for $f_!p$. On positions $p\to f_!p$ acts as $f$, and on directions it is given by projection. 
+Given $f$ and $p$ as above, the op-cartesian lens is the lens $p\to f_!p$ obtained as the composite $p\to f^*f_!p\to f_!p$ where the first map is the unit of the $(f_!,f^*)$ adjunction and the second is the cartesian lens for $f_!p$. On positions $p\to f_!p$ acts as $f$, and on directions it is given by projection. 
 
 If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 \begin{align*}
@@ -7954,7 +7946,7 @@ If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 	\sum_{(b,b')\in B\times B'}\yon^{\big(\prod_{(a,a')\mapsto(b,b')}p[a]\times p[b]\big)}\\&
 	\cong (f_!\otimes f'_!)(p\otimes p')
 \end{align*}
-and the op-cartesian morphisms are clearly preserved since projections in the second line match with projections in the first.
+and the op-cartesian lenses are clearly preserved since projections in the second line match with projections in the first.
 \end{proof}
 
 %-------- Section --------%
