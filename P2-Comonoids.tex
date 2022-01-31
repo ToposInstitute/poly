@@ -3085,7 +3085,7 @@ For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves co
 For any polynomials $p,p',q,q'$ there are natural maps
 \begin{align}\label{eqn.plus_duoidal}
 	(p\tri p')+(q\tri q')&\to (p+q)\tri(p'+q')\\\label{eqn.otimes_duoidal}
-	(p\tri p')\otimes(q\tri q')&\to(p\otimes pq)\tri(p'\otimes q')\\\label{eqn.times_duoidal}
+	(p\tri p')\otimes(q\tri q')&\to(p\otimes q)\tri(p'\otimes q')\\\label{eqn.times_duoidal}
 	(p\tri p')\times (q\tri q')&\from(p\times q)\tri(p'\times q')
 \end{align}
 making $(+,\tri)$ and $(\otimes,\tri)$ duoidal structures and $(\times,\tri)$ op-duoidal.
@@ -3126,35 +3126,35 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 We conclude this section by examining how $\tri$ interacts with vertical and cartesian lenses, as defined in \cref{def.vert_cart}.
 
 \begin{proposition}[Preservation of cartesian lenses]\label{prop.comp_pres_cart}
-If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian lenses, then so is $(f\tri g)\colon(p\tri q)\to (p'\tri q')$.
+If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian lenses, then so is $f\tri g\colon p\tri q \to p'\tri q'$.
 \end{proposition}
 \begin{proof}
-For any $h\colon A\to B$ of sets, all faces of the cube
+We use the third characterization of cartesian lenses given in \cref{prop.cart_as_nt}, as lenses whose naturality squares are pullbacks.
+For any sets $A,B$ and function $h\colon A\to B$, consider the diagram
 \[
-\begin{tikzcd}[sep=small]
-  pqA\ar[rr]\ar[dd]\ar[dr]&&
-  pqB\ar[dd]\ar[dr]\\&
-  pq'A\ar[rr, crossing over]&&
-  pq'B\ar[dd]\\
-  pq'A\ar[rr]\ar[dr]&&
-  pq'B\ar[dr]\\&
-  p'q'A\ar[from=uu, crossing over]\ar[rr]&&
-  p'q'B
+\begin{tikzcd}[column sep=small]
+    p\tri q\tri A\ar[r]\ar[d] & p'\tri q\tri A\ar[r]\ar[d] & p'\tri q'\tri A\ar[d] \\
+    p\tri q\tri B\ar[r] & p'\tri q\tri B\ar[r] & p'\tri q'\tri B.
 \end{tikzcd}
 \]
-are pullbacks by \cref{prop.cart_as_nt,thm.connected_limits}. Hence the diagonal is too by standard properties of pullbacks.
+The square on the left is a pullback because $f\colon p\to p'$ is cartesian.
+Meanwhile, the square on the right is a pullback because $g\colon q\to q'$ is cartesian and $\tri$ preserves pullbacks by \cref{thm.connected_limits}.
+Hence the outer rectangle is a pullback as well, implying that $f\tri g\colon p\tri q \to p'\tri q'$ is cartesian.
 \end{proof}
 
 \begin{exercise}
+Let $f\colon p\to p'$ and $g\colon q\to q'$ be lenses.
 \begin{enumerate}
 	\item Show that if $f$ is an isomorphism and $g$ is vertical, then $f\tri g$ is vertical.
-	\item Find a polynomial $q$ and a vertical lens $f\colon p\to p'$ such that $(f\tri\id_q)\colon (p\tri q)\to (p'\tri q)$ is not vertical.
+	\item Find a vertical lens $f$ and a polynomial $q$ for which $f\tri q\colon p\tri q\to p'\tri q$ is not vertical.
 \qedhere
 \end{enumerate}
 \begin{solution}
+Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
 \begin{enumerate}
-    \item **
-    \item **
+    \item If $f$ is an isomorphism and $g$ is vertical, then $g\tri\1\colon q\tri\1\to q'\tri\1$ is an isomorphism, so $f\tri g\tri\1\colon p\tri q\tri\1\to p'\tri q'\tri\1$ is an isomorphism as well.
+    Thus $f\tri g$ is vertical.
+    \item If $f$ is the unique lens $\yon\to\1$ and $q=\0$, then $f$ is vertical, but since $\yon\tri\0\iso\0$ and $\1\tri\0\iso\1$, the lens $f\tri\0\colon\0\to\1$ is not.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -5642,7 +5642,7 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 %---- Subsection ----%
 \subsection{Dirichlet monoidal product on $\smcat^\sharp$}
 
-The usual product of categories gives a monoidal operation on comonoids too, even though it is not a product in $\smcat^\sharp$. The carrier polynomial of the product is the $\otimes$-product of the carrier polynomials.
+The usual product of categories gives a monoidal operation on comonoids too, even though it is not a product in $\smcat^\sharp$. The carrier polynomial of the product is the parallel product $\otimes$ of the carrier polynomials.
 
 
 \begin{proposition}\label{prop.dirichlet_on_catsharp}
