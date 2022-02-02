@@ -1,4 +1,5 @@
 {-# OPTIONS --type-in-type #-}
+{-# OPTIONS --guardedness #-}
 module prelude.io where
 open import prelude
 open import functors

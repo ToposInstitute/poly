@@ -1,4 +1,5 @@
 {-# OPTIONS --type-in-type #-}
+{-# OPTIONS --guardedness #-}
 module dyn.fib where
 open import prelude
 open import functors
