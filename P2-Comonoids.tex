@@ -2296,7 +2296,7 @@ and that
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
 We will read equations off of polyboxes like this repeatedly in the rest of the book.
 
-\subsection{Polyboxes in action}
+\subsection{Polyboxes in action} %** Maybe actually leave this out, and move the \otimes\to\tri stuff later, to "interaction with parallel products"
 
 We end this section with a few simple demonstrations of how to define lenses and perform computations using polyboxes.
 
@@ -2326,6 +2326,8 @@ In particular, $o_{p,q}$ commutes with associators and unitors.
 This can be used in the following way. Lenses $p\to q\tri r$ into composites are fairly easy to understand (through polyboxes, for example), whereas lenses $q\tri r\to p$ are not so easy to think about. However, given such a lens, one may always compose it with $o_{q,r}$ to obtain a lens $q\otimes r\to p$.
 This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
 \end{example}
+
+%** Draw it out exercise?
 
 %** This is a little out of place right now
 \begin{exercise}
@@ -2831,7 +2833,7 @@ So $(Ap)\tri q\iso A(p\tri q)$.
 \end{solution}
 \end{exercise}
 
-In \cref{subsec.comon.comp.prop.lim}, we will see how to generalize the left distributivity of $\tri$ over products to arbitrary limits.
+In \cref{subsec.comon.comp.prop.lim_left}, we will see how to generalize the left distributivity of $\tri$ over products to arbitrary limits.
 But first, we observe that right distributivity does not hold.
 
 \begin{exercise} \label{exc.right_not_dist_prod}
@@ -2854,7 +2856,7 @@ Show that the distributivities of \cref{prop.left_dist_prod} do not hold on the 
 Nevertheless, there is something to be said about the relationship between $p\tri q, p\tri r,$ and $p\tri(qr)$.
 We'll see this in action after we discuss how $\tri$ preserves limits on the left.
 
-\subsection{Interaction with limits} \label{subsec.comon.comp.prop.lim}
+\subsection{Interaction with limits on the left} \label{subsec.comon.comp.prop.lim_left}
 
 We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $[\smset,\smset]$.
 Hence the argument in the proof of \cref{prop.left_dist_prod} by appealing to \cref{prop.presheaf_lim_ptwise} can be generalized to arbitrary limits.
@@ -2865,23 +2867,174 @@ But we will present a proof of this fact from an alternative perspective: by app
 The composition product is left coclosed.
 That is, there exists a left coclosure operation, which we denote $\lchom{-}{-}\colon\poly\op\times\poly\to\poly$,
 such that there is a natural isomorphism
-\[
+\begin{equation} \label{eqn.lchom_adj_iso}
     \poly(p, r\tri q)\iso\poly\left(\lchom{q}{p}, r\right).
-\]
+\end{equation}
 In particular, the left coclosure operation sends $q,p\in\poly$ to
 \begin{equation} \label{eqn.lchom_def}
     \lchom{q}{p}\coloneqq\sum_{i\in p(\1)}\yon^{q(p[i])}.
 \end{equation}
 \end{proposition}
 \begin{proof} % ** exercise to show that coclosure operation is actually functorial?
-%** Show with polyboxes??
-We have that
+We present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_left_coclosed_calc}.
+
+As in \cref{ex.map_to_comp}, a lens $f\colon p\to r\tri q$ can be written as follows:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$p$" left] (p) {$a$\at$i$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$r$" right] (r) {$c$\at$k$};
+	\node[poly, cod, above=of r, "$q$" right] (q) {$b$\at$j$};
+  	\draw (p_pos) to[first] node[below] {$f^r$} (r_pos);
+  	\draw (r_dir) to[climb] node[right] {$f^q$} (q_pos);
+  	\draw (q_dir) to[last] node[above] {$f^\sharp$} (p_dir);
+\end{tikzpicture}
+\]
+But this is equivalent to the following gadget (to visualize this equivalence, imagine leaving the positions box for $p$, the arrow $f^r$, and the polyboxes for $r$ untouched, while dragging the polyboxes for $q$ leftward to the directions box for $p$, merging all the data from $q$ and the arrows $f^q$ and $f^\sharp$ into a single on-directions arrow and directions box):
+\[
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$\lchom{q}{p}$" left] (l) {$(j,f^\sharp)$\at$i$};
+    \node[poly, cod, "$r$" right, right=of l, yshift=-0.5ex] (r) {$c$\at$k$};
+    \draw (l_pos) -- node[below] {$f^r$} (r_pos);
+    \draw (r_dir) -- node[above] {} (l_dir);
+\end{tikzpicture}
+\]
+Here the on-directions function encodes the behaviors of both $f^q$ and $f^\sharp$ by sending each $r[k]$-direction $c$ to both a $q$-position $j$, as $f^q$ does, and a function sending $q[j]$-directions to $p[i]$-directions, as $f^\sharp$ does.
+So the polyboxes on the left represent a polynomial whose positions are the same as those of $p$, but whose directions at $i\in p(\1)$ are pairs $(j,f^\sharp)$ consisting of a $q$-position $j$ and a function $f^\sharp\colon q[j]\to p[i]$.
+Such pairs are precisely the elements of $q(p[i])$, so the polynomial represented by the polyboxes on the left is indeed the one defined as $\lchom{q}{p}$ in \eqref{eqn.lchom_def}.
+It follows that there is a natural isomorphism between lenses $p\to r\tri q$ and lenses $\lchom{q}{p}\to r$.
+\end{proof}
+
+\begin{exercise}
+Let $A$ and $B$ be sets, and let $p$ be a polynomial.
+Show that
+\begin{equation}\label{eqn.monomials_and_comp}
+	\poly(A\yon^B,p)\iso\smset(A,p(B)).
+\end{equation}
+\begin{solution}
+Given $A,B\in\smset$ and $p\in\poly$, we have by \eqref{eqn.lchom_def} that
+\[
+    \lchom{B}{A}=\sum_{i\in A}\yon^{B}\iso A\yon^B,
+\]
+so by \eqref{eqn.lchom_adj_iso}, we have that
+\[
+    \poly(A\yon^B,p)\iso\poly(A,p\tri B).
+\]
+But $A$ and $p\tri B\iso p(B)$ are both constants, so a lens $A\to p\tri B$ is just a function $A\to p(B)$ on positions.
+Hence \eqref{eqn.monomials_and_comp} follows.
+\end{solution}
+\end{exercise}
+
+\begin{exercise} \label{exc.lchom_func}
+In stating \cref{prop.comp_left_coclosed}, we implicitly assumed that $\lchom{-}{-}$ is a functor $\poly\op\times\poly\to\poly$.
+Here we show that this is indeed the case.
+\begin{enumerate}
+    \item Given a polynomial $q$ and a lens $g\colon p\to p'$, to what lens $\lchom{q}{p}\to\lchom{q}{p'}$ should the covariant functor $\lchom{q}{-}$ send $g$?
+    Prove that your construction is functorial.
+    
+    \item Given a polynomial $p$ and a lens $h\colon q'\to q$, to what lens $\lchom{q}{p}\to\lchom{q'}{p}$ should the contravariant functor $\lchom{-}{p}$ send $h$?
+    Prove that your construction is functorial.
+    \qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Given a polynomial $q$ and a lens $g\colon p\to p'$, the functor $\lchom{q}{-}$ should send $g$ to a lens $\lchom{q}{p}\to\lchom{q}{p'}$; by \eqref{eqn.lchom_def}, this is a lens
+    \[
+        \lchom{q}{g}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i'\in p'(\1)}\yon^{q(p'[i'])}.
+    \]
+    We give $\lchom{q}{g}$ the same on-positions function $p(\1)\to p'(\1)$ that $g$ has.
+    Then viewing $q$ as a functor, we define the on-directions function $\lchom{q}{g}^\sharp_i\colon q(p'[g_\1(i)])\to q(p[i])$ for each $i\in p(\1)$ to be the function obtained by applying $q$ to the corresponding on-directions function $g^\sharp_i\colon p'[g_\1(i)]\to p[i]$.
+    **% check functoriality
+    
+    \item Given a polynomial $p$ and a lens $h\colon q'\to q$, the functor $\lchom{-}{p}$ should send $h$ to a lens $\lchom{q}{p}\to\lchom{q'}{p}$; by \eqref{eqn.lchom_def}, this is a lens
+    \[
+        \lchom{h}{p}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i\in p(\1)}\yon^{q'(p[i])}.
+    \]
+    We let the on-positions function of $\lchom{h}{p}$ be the identity on $p(\1)$.
+    Then viewing $h$ as a natural transformation, we define the on-directions function $\lchom{h}{p}^\sharp_i\colon q'(p[i])\to q(p[i])$ for each $i\in p(\1)$ to be the $p[i]$-component of $h$.
+    
+    function obtained by applying the functor $q$ to the corresponding on-directions function $g^\sharp_i\colon p'[g_\1(i)]\to p[i]$.
+    **% check functoriality
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise} \label{exc.comp_left_coclosed_calc}
+Translate the polyboxes proof of \cref{prop.comp_left_coclosed} into standard mathematical notation, i.e.\ the $\sum$ and $\prod$ notation we have been using up till now.
+\begin{solution}
+We prove \cref{prop.comp_left_coclosed} by observing that
 \begin{align*}
-    \poly(p, r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
+    \poly(p,r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
     &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
     &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
 \end{align*}
+\end{solution}
+\end{exercise}
+
+\begin{remark}
+The proof you came up with in \cref{exc.comp_left_coclosed_calc} may be more obviously rigorous and concise than the one we presented in the main text.
+But polyboxes help us see right on paper exactly what is going on in this adjunction: how data on the codomain-side of a lens $p\to r\tri q$ can be simply repackaged and transferred to the domain-side of a new lens $\lchom{q}{p}\to r$.
+\end{remark}
+
+
+
+% **Turn this into an exercise. Then revisit after indexed right coclosure later.
+\begin{proposition}\label{prop.flipping_reps_lins}
+For all sets $A,B$, we have the following adjunction:
+\[
+\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
+\]
+Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
+\end{proposition}
+
+\[
+\begin{tikzpicture}
+	\node (p1) {
+  \begin{tikzpicture}[polybox,tos]
+  	\node[poly, "$p$" left] (p) {};
+  	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
+  	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
+  	\node[poly, right=2 of p, "$q$" right] (q) {};
+  	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
+  \end{tikzpicture}
+  };
+ \node[right=4 of p1] (p2) {
+ \begin{tikzpicture}[polybox,tos]
+  	\node[poly, "$p$" left] (p) {};
+  	\node[poly, right=2 of p, "$q$" right] (q) {};
+  	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
+  	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
+		\draw (p_pos) to[first] (yA_pos);
+		\draw (yA_dir) to[climb] (q_pos);
+		\draw (q_dir) to[climb] (By_pos);
+		\draw (By_dir) to[last] (p_dir);
+ \end{tikzpicture}
+ };
+ \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
+\end{tikzpicture} 
+\]
+Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
+\begin{proof}
+We prove this in two pieces: that
+\begin{equation} \label{eqn.flipping1}
+\poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
+\end{equation}
+and that
+\begin{equation} \label{eqn.flipping2}
+\poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
+\end{equation}
+
+For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
+Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
+So this follows from the corresponding universal properties.
+
+For \eqref{eqn.flipping2}, we first write out the two sets by hand.
+To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
+Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
+These are clearly isomorphic.
 \end{proof}
+
+
+
 
 \begin{corollary}[Left preservation of limits] \label{cor.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
@@ -2917,72 +3070,8 @@ By \cref{prop.comp_left_coclosed}, the functor $(-\tri q)\colon\poly\to\poly$ is
 \end{solution}
 \end{exercise}
 
-% **Move the proposition & exercise below to part about coclosure
-% \begin{proposition}\label{prop.flipping_reps_lins}
-% For all sets $A,B$, we have the following adjunction:
-% \[
-% \poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
-% \]
-% Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
-% \end{proposition}
 
-% \[
-% \begin{tikzpicture}
-% 	\node (p1) {
-%   \begin{tikzpicture}[polybox,tos]
-%   	\node[poly, "$p$" left] (p) {};
-%   	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
-%   	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
-%   	\node[poly, right=2 of p, "$q$" right] (q) {};
-%   	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
-%   \end{tikzpicture}
-%   };
-%  \node[right=4 of p1] (p2) {
-%  \begin{tikzpicture}[polybox,tos]
-%   	\node[poly, "$p$" left] (p) {};
-%   	\node[poly, right=2 of p, "$q$" right] (q) {};
-%   	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
-%   	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
-% 		\draw (p_pos) to[first] (yA_pos);
-% 		\draw (yA_dir) to[climb] (q_pos);
-% 		\draw (q_dir) to[climb] (By_pos);
-% 		\draw (By_dir) to[last] (p_dir);
-%  \end{tikzpicture}
-%  };
-%  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
-% \end{tikzpicture} 
-% \]
-% Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
-% \begin{proof}
-% We prove this in two pieces: that
-% \begin{equation} \label{eqn.flipping1}
-% \poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
-% \end{equation}
-% and that
-% \begin{equation} \label{eqn.flipping2}
-% \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
-% \end{equation}
-
-% For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
-% Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
-% So this follows from the corresponding universal properties.
-
-% For \eqref{eqn.flipping2}, we first write out the two sets by hand.
-% To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
-% Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
-% These are clearly isomorphic.
-% \end{proof}
-
-% \begin{exercise}
-% Let $A,B\in\smset$ be sets, and let $p\in\poly$ be a polynomial. Is it true that the lenses $A\yon^B\to p$ can be identified with the lenses $A\to p\tri B$, i.e.\ that there is a bijection:
-% \begin{equation}\label{eqn.monomials_and_comp}
-% 	\poly(A\yon^B,p)\cong^?\poly(A,p\tri B)
-% \end{equation}
-% If so, why? If not, give a counterexample.
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
+\subsection{Interaction with limits on the right} \label{subsec.comon.comp.prop.lim_right}
 
 So $\tri$ preserves limits on the left.
 How about limits on the right?
@@ -3022,6 +3111,7 @@ For example, products in a slice category $\cat{C}/c$ are just pullbacks in $\ca
 By relating $\poly$ to its slice categories via an adjunction, we'll be able to show that $\tri$ preserves connected limits.
 (An alternative proof of this fact can be found in \cite[Proposition 1.16]{kock2012polynomial}.)
 
+%** For ease of notation, we suppress...when clear from context...so for example, in ** below...
 \begin{proposition}
 Given polynomials $p,q,r\in\poly$ and a lens $f\colon p\to q\tri\1$, there is a natural isomorphism
 \[
@@ -3030,7 +3120,7 @@ Given polynomials $p,q,r\in\poly$ and a lens $f\colon p\to q\tri\1$, there is a 
 where
 \begin{equation} \label{eqn.rchom_def}
     \rchom{q,p\To{f}q\tri\1}\coloneqq\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
-\end{equation}
+\end{equation} %**Replace with frown notation
 \end{proposition}
 \begin{proof} %**Another exercise about functoriality?
 By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ are lenses $g\colon p\to q\tri r$ for which $g\then(q\:\tri\:!)=f$.
@@ -3084,13 +3174,13 @@ But this, in turn, is equivalent to a gadget
 \[
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom] (h) {\at$(i,e)$};
-    \node[poly, cod, "$q$" right, right=of h] (r) {$d$};
+    \node[poly, cod, "$r$" right, right=of h] (r) {$d$};
     \draw (h_pos) -- node[below] {$g^r$} (r_pos);
     \draw (r_dir) -- node[above] {$g^\sharp$} (h_dir);
 \end{tikzpicture}
 \] % ** center??
 where the polyboxes on the left represent a polynomial whose positions are pairs $(i,e)$ with $i\in p(\1)$ and $e\in q[f_\1(i)]$, and whose directions at $(i,e)$ are the directions of the original polynomial $p$ at $i$.
-This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds.
+This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds. % **Refactor a little/finish
 \end{proof}
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
@@ -3144,7 +3234,7 @@ Use \cref{thm.connected_limits} in the following.
 \subsection{Interaction with parallel products} \label{subsec.comon.comp.prop.par}
 
 While we're here, it will be helpful to record the following.
-\begin{proposition}
+\begin{proposition} %** Check this; if can be deduced similarly to the above, make it an exercise and put it at the end of the previous section instead of this one
 For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $\cat{J}$ is connected and $p\colon \cat{J}\to\poly$ is a functor, then there is a natural isomorphism:
 \[
 	\left(\lim_{j\in \cat{J}} p_j\right)\otimes q\cong
@@ -3152,6 +3242,7 @@ For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves co
 \]
 \end{proposition}
 
+%** Exposition on duoidality
 
 \begin{proposition}
 For any polynomials $p,p',q,q'$ there are natural maps
@@ -5356,7 +5447,7 @@ Well, for every list $\ell \in \Ob(\Delta_\2\op) = \List(\2)$, the polynomial $\
 For example, when $\ell \coloneqq [1,2,2,1,1,1]$, we have $C\ell = \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$, giving us a projection $\lim C \to \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$.
 These projections must commute with the morphisms in the image of $C$, which are precisely the morphisms generated by the $\epsilon_i$'s and the $\delta_i$'s via composition and taking the monoidal product.
 For instance, the diagram
-\begin{equation} \label{eq.lim_example}
+\begin{equation} \label{eqn.lim_example}
 \begin{tikzcd}
     \lim C \ar[r, "\pi_{[1,2,1]}"] \ar[dr, "\pi_{[1,2,2,1,1,1]}"'] & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \ar[d, "\ema{c}_1 \tri \delta_2 \tri (\delta_1 \then (\ema{c}_1 \tri \delta_1))"] \\
     & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1
@@ -5364,7 +5455,7 @@ For instance, the diagram
 \end{equation}
 commutes.
 In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by comultiplications $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
-So we can generalize \eqref{eq.lim_example} to say that
+So we can generalize \eqref{eqn.lim_example} to say that
 \begin{equation}
 \begin{tikzcd}
     \lim C \ar[r, "\pi_{\ell'}"] \ar[dr, "\pi_\ell"'] & C\ell' \ar[d, "Cd_{\ell,\ell'}"] \\
@@ -5376,15 +5467,15 @@ commutes.
 Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
 Let us focus, then, on only those projections.
 Together, they form the commutative diagram
-\begin{equation} \label{eq.lim_projs}
+\begin{equation} \label{eqn.lim_projs}
 \begin{tikzcd}
     \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
     \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
     \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
 \end{tikzcd}
 \end{equation}
-It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eq.lim_projs} and the limit of the bottom row of \eqref{eq.lim_projs}.
-In particular, the limit of the top row of \eqref{eq.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
+It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eqn.lim_projs} and the limit of the bottom row of \eqref{eqn.lim_projs}.
+In particular, the limit of the top row of \eqref{eqn.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
 \begin{quote}
 \begin{enumerate}[label=1.\arabic*.]
     \item choose an object $c_1 \in \cat{C}_1$;
@@ -5402,12 +5493,12 @@ In particular, the limit of the top row of \eqref{eq.lim_projs} can be thought o
 \end{enumerate}
 \end{quote}
 Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
-The limit of the bottom row of \eqref{eq.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
+The limit of the bottom row of \eqref{eqn.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
 From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
 
 So every position of $\lim C$ yields a pair of these structures.
 We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
-But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eq.lim_projs}.
+But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eqn.lim_projs}.
 For instance, the fact that the diagram
 \begin{equation}
 \begin{tikzcd}
@@ -6337,7 +6428,7 @@ The map $\epsilon\tri q$ uses the defaults on the bottom layer instead. Every po
 \end{example}
 
 Indeed, for every $n$, there are $(n+1)$-many morphisms $q\tripow{n+1}\to q\tripow{n}$, so we have a diagram
-\begin{equation}\label{eq.simplicial_diag}
+\begin{equation}\label{eqn.simplicial_diag}
 \begin{tikzcd}
 	\yon&
 	q\ar[l, "\epsilon"']&
@@ -6357,7 +6448,7 @@ For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limi
 \]
 \end{theorem}
 \begin{proof}[Proof sketch]
-We first give $\bar{q}$ the structure of a comonoid. Since $\bar{q}$ is the limit of \eqref{eq.simplicial_diag}, the inclusion the inclusion $\{0\}\to\Delta_+$ induces a projection map $\bar{q}\to\yon$, which we again call $\epsilon$. Since $\tri$ commutes with connected limits in both variables and $\Delta_+$ is connected, we have that $\bar{q}\tri\bar{q}$ is the limit of the following $\Delta_+\times\Delta_+$-shaped diagram:
+We first give $\bar{q}$ the structure of a comonoid. Since $\bar{q}$ is the limit of \eqref{eqn.simplicial_diag}, the inclusion the inclusion $\{0\}\to\Delta_+$ induces a projection map $\bar{q}\to\yon$, which we again call $\epsilon$. Since $\tri$ commutes with connected limits in both variables and $\Delta_+$ is connected, we have that $\bar{q}\tri\bar{q}$ is the limit of the following $\Delta_+\times\Delta_+$-shaped diagram:
 \[
 \bar{q}\tri\bar{q}\cong\lim\left(
 \begin{tikzcd}
@@ -6399,7 +6490,7 @@ There is a commutative diagram in $\smcat$
 \end{equation}
 which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the comultiplication. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
 
-We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eq.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{ex.delta_n_notation}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
+We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{ex.delta_n_notation}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
 \[
 \begin{tikzcd}[column sep=50pt]
 	\ema{c}\ar[r, "\delta^{m+n-1}"]\ar[d, "\delta"']&
