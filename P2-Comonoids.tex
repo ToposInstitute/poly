@@ -2904,25 +2904,22 @@ Such pairs are precisely the elements of $q(p[i])$, so the polynomial represente
 It follows that there is a natural isomorphism between lenses $p\to r\tri q$ and lenses $\lchom{q}{p}\to r$.
 \end{proof}
 
-\begin{exercise}
-Let $A$ and $B$ be sets, and let $p$ be a polynomial.
-Show that
-\begin{equation}\label{eqn.monomials_and_comp}
-	\poly(A\yon^B,p)\iso\smset(A,p(B)).
-\end{equation}
+\begin{exercise} \label{exc.comp_left_coclosed_calc}
+Translate the polyboxes proof of \cref{prop.comp_left_coclosed} into standard mathematical notation, i.e.\ the $\sum$ and $\prod$ notation we have been using up till now.
 \begin{solution}
-Given $A,B\in\smset$ and $p\in\poly$, we have by \eqref{eqn.lchom_def} that
-\[
-    \lchom{B}{A}=\sum_{i\in A}\yon^{B}\iso A\yon^B,
-\]
-so by \eqref{eqn.lchom_adj_iso}, we have that
-\[
-    \poly(A\yon^B,p)\iso\poly(A,p\tri B).
-\]
-But $A$ and $p\tri B\iso p(B)$ are both constants, so a lens $A\to p\tri B$ is just a function $A\to p(B)$ on positions.
-Hence \eqref{eqn.monomials_and_comp} follows.
+We prove \cref{prop.comp_left_coclosed} by observing that
+\begin{align*}
+    \poly(p,r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
+    &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
+\end{align*}
 \end{solution}
 \end{exercise}
+
+\begin{remark}
+The proof you came up with in \cref{exc.comp_left_coclosed_calc} may be more obviously rigorous and concise than the one we presented in the main text.
+But polyboxes help us see right on paper exactly what is going on in this adjunction: how data on the codomain-side of a lens $p\to r\tri q$ can be simply repackaged and transferred to the domain-side of a new lens $\lchom{q}{p}\to r$.
+\end{remark}
 
 \begin{exercise} \label{exc.lchom_func}
 In stating \cref{prop.comp_left_coclosed}, we implicitly assumed that $\lchom{-}{-}$ is a functor $\poly\op\times\poly\to\poly$.
@@ -2943,106 +2940,102 @@ Here we show that this is indeed the case.
     \]
     We give $\lchom{q}{g}$ the same on-positions function $p(\1)\to p'(\1)$ that $g$ has.
     Then viewing $q$ as a functor, we define the on-directions function $\lchom{q}{g}^\sharp_i\colon q(p'[g_\1(i)])\to q(p[i])$ for each $i\in p(\1)$ to be the function obtained by applying $q$ to the corresponding on-directions function $g^\sharp_i\colon p'[g_\1(i)]\to p[i]$.
-    **% check functoriality
-    
+    Functoriality follows trivially on positions and by the functoriality of $q$ itself on directions.
+
     \item Given a polynomial $p$ and a lens $h\colon q'\to q$, the functor $\lchom{-}{p}$ should send $h$ to a lens $\lchom{q}{p}\to\lchom{q'}{p}$; by \eqref{eqn.lchom_def}, this is a lens
     \[
         \lchom{h}{p}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i\in p(\1)}\yon^{q'(p[i])}.
     \]
     We let the on-positions function of $\lchom{h}{p}$ be the identity on $p(\1)$.
     Then viewing $h$ as a natural transformation, we define the on-directions function $\lchom{h}{p}^\sharp_i\colon q'(p[i])\to q(p[i])$ for each $i\in p(\1)$ to be the $p[i]$-component of $h$.
-    
-    function obtained by applying the functor $q$ to the corresponding on-directions function $g^\sharp_i\colon p'[g_\1(i)]\to p[i]$.
-    **% check functoriality
+    Functoriality follows trivially on positions and because natural transformations compose componentwise on directions.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{exercise} \label{exc.comp_left_coclosed_calc}
-Translate the polyboxes proof of \cref{prop.comp_left_coclosed} into standard mathematical notation, i.e.\ the $\sum$ and $\prod$ notation we have been using up till now.
+\begin{exercise}
+Let $A$ and $B$ be sets, and let $p$ and $q$ be polynomials.
+\begin{enumerate}
+    \item Prove that the following natural isomorphism holds:
+    \begin{equation}\label{eqn.monomials_and_comp}
+    	\poly(A\yon^B,p)\iso\smset(A,p(B)).
+    \end{equation}
+    
+    \item Prove that the following natural isomorphism holds:
+    \begin{equation}\label{eqn.flip_reps_lins}
+        \poly\left(A\yon\tri p\tri \yon^B, q\right)\iso\poly\left(p,\yon^A\tri q\tri By\right). %**Natural in $A\in\smset\op$ and $B\in\smset$
+    \end{equation} %**Something about polyboxes??
+    \qedhere
+\end{enumerate}
 \begin{solution}
-We prove \cref{prop.comp_left_coclosed} by observing that
-\begin{align*}
-    \poly(p,r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
-    &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
-    &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
-\end{align*}
+We are given $A,B\in\smset$ and $p,q\in\poly$
+\begin{enumerate}
+    \item By \eqref{eqn.lchom_def},
+    \[
+        \lchom{B}{A}=\sum_{i\in A}\yon^{B}\iso A\yon^B,
+    \]
+    so by \eqref{eqn.lchom_adj_iso},
+    \[
+        \poly(A\yon^B,p)\iso\poly(A,p\tri B).
+    \]
+    But $A$ and $p\tri B\iso p(B)$ are both constants, so a lens $A\to p\tri B$ is just a function $A\to p(B)$ on positions.
+    Hence \eqref{eqn.monomials_and_comp} follows.
+
+    \item We prove \eqref{eqn.flip_reps_lins} in two pieces: that
+    \begin{equation} \label{eqn.flipping1}
+        \poly\left(A\yon\tri p, q\right)\iso\poly\left(p,\yon^A\tri q\right)
+    \end{equation}
+    and that
+    \begin{equation} \label{eqn.flipping2}
+        \poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right).
+    \end{equation}
+    For \eqref{eqn.flipping1}, we have that $A\yon \tri p \iso Ap$, an $A$-fold coproduct of $p$.
+    Similarly, $\yon^A \tri q \iso q^A$, an $A$-fold product of $q$.
+    So the isomorphism follows from their respective universal properties.
+    Meanwhile, for \eqref{eqn.flipping2}, we have by \eqref{eqn.lchom_def} that
+    \[
+        \lchom{B\yon}{p}=\sum_{i\in p(\1)}\yon^{Bp[i]}\iso p\tri\yon^B,
+    \]
+    so \eqref{eqn.flip_reps_lins} follows from \eqref{eqn.lchom_adj_iso}.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{remark}
-The proof you came up with in \cref{exc.comp_left_coclosed_calc} may be more obviously rigorous and concise than the one we presented in the main text.
-But polyboxes help us see right on paper exactly what is going on in this adjunction: how data on the codomain-side of a lens $p\to r\tri q$ can be simply repackaged and transferred to the domain-side of a new lens $\lchom{q}{p}\to r$.
-\end{remark}
+% \[
+% \begin{tikzpicture}
+% 	\node (p1) {
+%   \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
+%   	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
+%   \end{tikzpicture}
+%   };
+%  \node[right=4 of p1] (p2) {
+%  \begin{tikzpicture}[polybox,tos]
+%   	\node[poly, "$p$" left] (p) {};
+%   	\node[poly, right=2 of p, "$q$" right] (q) {};
+%   	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
+%   	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
+% 		\draw (p_pos) to[first] (yA_pos);
+% 		\draw (yA_dir) to[climb] (q_pos);
+% 		\draw (q_dir) to[climb] (By_pos);
+% 		\draw (By_dir) to[last] (p_dir);
+%  \end{tikzpicture}
+%  };
+%  \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
+% \end{tikzpicture} 
+% \]
+% Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 
-
-
-% **Turn this into an exercise. Then revisit after indexed right coclosure later.
-\begin{proposition}\label{prop.flipping_reps_lins}
-For all sets $A,B$, we have the following adjunction:
-\[
-\poly\left(A\yon\tri p\tri \yon^B, q\right)\cong\poly\left(p,\yon^A\tri q\tri By\right)
-\]
-Moreover, this isomorphism is natural in $A\in\smset\op$ and $B\in\smset$.
-\end{proposition}
-
-\[
-\begin{tikzpicture}
-	\node (p1) {
-  \begin{tikzpicture}[polybox,tos]
-  	\node[poly, "$p$" left] (p) {};
-  	\node[poly, linear, below=of p, "$A\yon$" left] (Ay) {};
-  	\node[poly, pure, above=of p, "$\yon^B$" left] (yB) {};
-  	\node[poly, right=2 of p, "$q$" right] (q) {};
-  	\node at ($(p.east)!.5!(q.west)$) {$\leftrightarrows$};
-  \end{tikzpicture}
-  };
- \node[right=4 of p1] (p2) {
- \begin{tikzpicture}[polybox,tos]
-  	\node[poly, "$p$" left] (p) {};
-  	\node[poly, right=2 of p, "$q$" right] (q) {};
-  	\node[poly, linear, above=of q, "$B\yon$" right] (By) {};
-  	\node[poly, pure, below=of q, "$\yon^A$" right] (yA) {};
-		\draw (p_pos) to[first] (yA_pos);
-		\draw (yA_dir) to[climb] (q_pos);
-		\draw (q_dir) to[climb] (By_pos);
-		\draw (By_dir) to[last] (p_dir);
- \end{tikzpicture}
- };
- \node[align=center] at ($(p1)!.5!(p2)$) {is the\\same as};
-\end{tikzpicture} 
-\]
-Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
-\begin{proof}
-We prove this in two pieces: that
-\begin{equation} \label{eqn.flipping1}
-\poly\left(A\yon\tri p, q\right)\cong\poly\left(p,\yon^A\tri q\right)
-\end{equation}
-and that
-\begin{equation} \label{eqn.flipping2}
-\poly\left(p \tri \yon^B, q\right)\cong\poly\left(p, q\tri B\yon\right)
-\end{equation}
-
-For \eqref{eqn.flipping1}, we have that $A\yon \tri p \cong Ap$, an $A$-fold coproduct of $p$.
-Similarly, $\yon^A \tri q \cong q^A$, an $A$-fold product of $q$.
-So this follows from the corresponding universal properties.
-
-For \eqref{eqn.flipping2}, we first write out the two sets by hand.
-To give a map from $p \tri \yon^B$ to $q$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and a function $q[j] \to B \times p[i]$.
-Then to give a map from $p$ to $q \tri B\yon$, we must provide for every $i \in p(\1)$ an element $j \in q(\1)$ and for every $n \in q[j]$, an element of $B$ and an element of $p[i]$.
-These are clearly isomorphic.
-\end{proof}
-
-
-
-
-\begin{corollary}[Left preservation of limits] \label{cor.left_pres_lim}
+\begin{proposition}[Left preservation of limits] \label{prop.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
 That is, if $\cat{J}$ is a category, $p_-\colon\cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there is a natural isomorphism
 \begin{equation} \label{eqn.comp_left_pres_lim}
     \left(\lim_{j\in\cat{J}}p_j\right)\tri q\iso\lim_{j\in\cat{J}}(p_j\tri q).
 \end{equation}
-\end{corollary}
+\end{proposition}
 \begin{proof}
 By \cref{prop.comp_left_coclosed}, the functor $(-\tri q)\colon\poly\to\poly$ is the right adjoint of the functor $\lchom{q}{-}\colon\poly\to\poly$, and right adjoints preserve limits.
 \end{proof}
@@ -3110,19 +3103,25 @@ Connected limits are intimately related to slice categories, which we defined ba
 For example, products in a slice category $\cat{C}/c$ are just pullbacks in $\cat{C}$, allowing us to view a non-connected limit as a connected one.
 By relating $\poly$ to its slice categories via an adjunction, we'll be able to show that $\tri$ preserves connected limits.
 (An alternative proof of this fact can be found in \cite[Proposition 1.16]{kock2012polynomial}.)
+%The claim for the right side comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$.
 
-%** For ease of notation, we suppress...when clear from context...so for example, in ** below...
-\begin{proposition}
+Recall that objects in a slice category $\cat{C}/c$ are just morphisms with codomain $c$.
+For ease of notation, we'll often suppress the actual morphism and just write down the name of its domain when there is a canonical choice for the morphism, or when it is clear from context.
+So for example, on the left hand side of \eqref{eqn.rchom_adj_iso} below, $p$ represents the lens $f\colon p\to q\tri 1$ and $q\tri r$ represents the lens $q\:\tri\:!\colon q\tri r\to q\tri\1$, both objects in the slice category $\poly/q\tri\1$.
+
+\begin{proposition} \label{prop.comp_right_slice_coclosed}
 Given polynomials $p,q,r\in\poly$ and a lens $f\colon p\to q\tri\1$, there is a natural isomorphism
-\[
-    \poly/q\tri\1\left(p\To{f}q\tri\1, q\tri r\To{q\:\tri\:!}q\tri\1\right)\iso\poly\left(\rchom{q,p\To{f}q\tri\1}, r\right),
-\]
+\begin{equation} \label{eqn.rchom_adj_iso}
+    \poly/q\tri\1\left(p, q\tri r\right)\iso\poly\left(p\rchom{f}q, r\right),
+\end{equation}
 where
 \begin{equation} \label{eqn.rchom_def}
-    \rchom{q,p\To{f}q\tri\1}\coloneqq\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
-\end{equation} %**Replace with frown notation
+    p\rchom{f}q\coloneqq\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
+\end{equation}
 \end{proposition}
 \begin{proof} %**Another exercise about functoriality?
+Again, we present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_right_slice_coclosed_calc}.
+
 By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ are lenses $g\colon p\to q\tri r$ for which $g\then(q\:\tri\:!)=f$.
 We can write this equation using polyboxes:
 \[
@@ -3130,9 +3129,9 @@ We can write this equation using polyboxes:
 	\node (a) {
   \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$p$" left] (p) {\at$i$};
-	\node[poly, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$e$};
-	\node[poly, above=.8 of q, "$r$" above] (r) {};
-	\node[poly, cod, right=of q, "$q$" right] (q') {$e$};
+	\node[poly, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$b$\at$j$};
+	\node[poly, above=.8 of q, "$r$" above] (r) {\at$k$};
+	\node[poly, cod, right=of q, "$q$" right] (q') {$b$\at$j$};
 	\node[poly, terminal, above=.8 of q', "$\1$" right] (1) {};
 	\draw[double] (q_pos) -- node[below] {} (q'_pos);
 	\draw[double] (q'_dir) -- node[above] {} (q_dir);
@@ -3146,7 +3145,7 @@ We can write this equation using polyboxes:
 	\node[right=1.8 of a] (b) {
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$p$" left] (p) {\at$i$};
-  	\node[poly, cod, right=1.8 of p.south, yshift=-1ex, "$q$" right] (q) {$e$};
+  	\node[poly, cod, right=1.8 of p.south, yshift=-1ex, "$q$" right] (q) {$b$\at$f_\1(i)$};
   	\node[poly, terminal, above=of q, "$\1$" right] (1) {};
   	\draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
   	\draw (q_dir) to[climb] node[right] {} (1_pos);
@@ -3161,27 +3160,35 @@ We can read off the picture that a lens $g\colon p\to q\tri r$ is a morphism fro
 So morphisms from $f$ to $q\:\tri\:!$ are equivalent to gadgets
 \[
 \begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$p$" left] (p) {\at$i$};
-    \node[poly, cod, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$e$};
-    \node[poly, cod, above=.8 of q, "$r$" above] (r) {$d$};
+    \node[poly, dom, "$p$" left] (p) {$a$\at$i$};
+    \node[poly, cod, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$b$\at$f_\1(i)$};
+    \node[poly, cod, above=.8 of q, "$r$" above] (r) {$c$\at$k$};
     \draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
     \draw (q_dir) to[climb] node[right] {$g^r$} (r_pos);
     \draw (r_dir) to[last] node[above] {$g^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
 with $f_\1$ fixed.
-But this, in turn, is equivalent to a gadget
+But this, in turn, is equivalent to the following gadget (to visualize this equivalence, imagine leaving the polyboxes for $r$, the arrow $g^\sharp$, and the directions box for $p$ untouched, while dragging the polyboxes for $q$ leftward to the positions box for $p$, merging the data from $q$ and the predetermined arrow $f^\1$ into a single positions box and adapting the arrow $g^r$ into an on-positions arrow):
 \[
 \begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom] (h) {\at$(i,e)$};
-    \node[poly, cod, "$r$" right, right=of h] (r) {$d$};
+    \node[poly, dom, "$p\rchom{f}q$" left] (h) {$a$\at$(i,b)$};
+    \node[poly, cod, "$r$" right, right=of h] (r) {$c$\at$k$};
     \draw (h_pos) -- node[below] {$g^r$} (r_pos);
     \draw (r_dir) -- node[above] {$g^\sharp$} (h_dir);
 \end{tikzpicture}
 \] % ** center??
-where the polyboxes on the left represent a polynomial whose positions are pairs $(i,e)$ with $i\in p(\1)$ and $e\in q[f_\1(i)]$, and whose directions at $(i,e)$ are the directions of the original polynomial $p$ at $i$.
-This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds. % **Refactor a little/finish
+Here the user can provide both the $p$-position $i$ and the $q[f_\1(i)]$-direction $b$ right from the start, as they know what to expect from $f_\1$ ahead of time.
+Then the on-positions function encodes the behavior of $g^r$.
+So the polyboxes on the left represent a polynomial whose positions are pairs $(i,b)$ with $i\in p(\1)$ and $b\in q[f_\1(i)]$, and whose directions at $(i,b)$ are the directions of the original polynomial $p$ at $i$.
+This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds.
 \end{proof}
+
+\begin{remark}
+As a lens $p\to q\tri\1$ can be identified with its on-positions function $p(\1)\to q(\1)$, we'll use the notation $p\rchom{f}q$ interchangeably for lenses $f\colon p\to q\tri\1$ and functions $f\colon p(\1)\to q(\1)$.
+\end{remark}
+
+
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ preserves connected limits on both sides.
@@ -3192,11 +3199,16 @@ That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a fu
 	q\tri\left(\lim_{j\in \cat{J}} p_j\right)\iso \lim_{j\in \cat{J}}(q\tri p_j)
 \]
 \end{theorem}
-\begin{proof}[Sketch of proof]
-The claim for the left side is just a special case of \cref{cor.left_pres_lim}.
-The claim for the right side comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$. See \cite[Proposition 1.16]{kock2012polynomial} for details.
-%** Replace this with right coclosure/slice argument
+\begin{proof}
+The claim for the left side is just a special case of \cref{prop.left_pres_lim}; it remains to prove the claim on the right.
+
+By \cref{thm.poly_limits}, $\poly$ is complete, so by \cite[Theorem~4.3]{nlab:connected-limit}, it suffices to show that $(q\tri-)\colon\poly\to\poly$ preserves wide pullbacks on the right.
+By \cref{prop.comp_right_slice_coclosed}, the functor $(q\tri-)\colon\poly\to\poly/q\tri\1$ is a right adjoint, so it preserves limits, including wide pullbacks.
+Thus $(q\tri-)$ sends a wide pullback over $r\in\poly$ to a wide pullback over the canonical lens $q\tri r\to q\tri\1$ in $\poly/q\tri\1$, corresponding to a limit in $\poly$ of a diagram where every arrow to $q\tri\1$ factors through $q\tri r$.
+So up to isomorphism, this limit is just a wide pullback in $\poly$ over $q\tri r$, namely $(q\tri-)\colon\poly\to\poly$ applied to the original wide pullback.
+So $\tri$ preserves wide pullbacks on the right.
 \end{proof}
+
 
 \begin{exercise}\label{ex.connected_limits_and_tri}
 Use \cref{thm.connected_limits} in the following.
@@ -3206,7 +3218,7 @@ Use \cref{thm.connected_limits} in the following.
 	\begin{equation} \label{eqn.right_prod_pullback}
 	p\tri(qr)\iso (p\tri q)\times_{(p\tri\1)}(p\tri r).
 	\end{equation}
-	\item Take $p,q,r$ from the counterexample you found in \cref{exc.right_not_dist_prod} \cref{exc.right_not_dist_prod.prod} and check that \eqref{eqn.right_prod_pullback} holds.
+	\item Take the polynomials $p,q,r$ from the counterexample you found in \cref{exc.right_not_dist_prod} \cref{exc.right_not_dist_prod.prod} and check that \eqref{eqn.right_prod_pullback} holds.
 \qedhere
 \end{enumerate}
 \begin{solution}
