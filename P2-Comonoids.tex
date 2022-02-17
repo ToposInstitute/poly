@@ -3189,6 +3189,62 @@ As a lens $p\to q\tri\1$ can be identified with its on-positions function $p(\1)
 \end{remark}
 
 
+\begin{exercise} \label{exc.comp_right_slice_coclosed_calc}
+\begin{enumerate}
+    \item Translate the polyboxes proof of \cref{prop.comp_right_slice_coclosed} into standard mathematical notation.
+    
+    \item Prove that the following natural isomorphism holds:
+    \begin{equation}
+        \poly(p,q\tri r)\iso\sum_{f\colon p(\1)\to q(\1)}\poly\left(p\rchom{f}q,r\right).
+    \end{equation}
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We prove \cref{prop.comp_right_slice_coclosed} by observing that **
+    \begin{align*}
+        \poly(p,r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
+        &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
+        &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
+    \end{align*}
+    
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise} \label{exc.rchom_func}
+In stating \cref{prop.comp_right_slice_coclosed}, we implicitly assumed that $p\rchom{f}q\in\poly$ is functorial in each variable: covariantly on the left and contravariantly on the right.
+Here we show that this is indeed the case.
+\begin{enumerate}
+    \item Given lenses $f\colon p\to q\tri\1$ and $g\colon p'\to p$, to what lens $p'\rchom{g\then f}q\to p\rchom{f}q$ should the covariant functor $-\rchom{f}q$ send $g$?
+    Prove that your construction is functorial.
+    
+    \item Given lenses $f\colon p\to q\tri\1$ and $h\colon q\to q'$, to what lens $p\rchom{f\then(h\tri\1)}q'\to p\rchom{f}q$ should the contravariant functor $p\rchom{f}-$ send $h$?
+    Prove that your construction is functorial.
+    \qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Given lenses $f\colon p\to q\tri\1$ and $g\colon p'\to p$, the functor $-\rchom{f}q$ should send $g$ to a lens $p'\rchom{g\then f}q\to p\rchom{f}q$; by \eqref{eqn.rchom_def}, this is a lens
+    \[
+        g\rchom{f}q\colon\sum_{i'\in p'(\1)}q[f_\1(g_\1(i'))]\yon^{p'[i']}\to\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
+    \]
+    We give $g\rchom{f}q$ an on-positions function that is the on-positions function $p'(\1)\to p(\1)$ of $g$ on the first coordinate $i'\in p'(\1)$ and the identity on $q[f_\1(g_\1(i'))]$ on the second.
+    Then we let the on-directions function at every position with first coordinate $i'\in p'(\1)$ be the on-directions function $g^\sharp_{i'}\colon p[g_\1(i')]\to p'[i']$.
+    Functoriality follows trivially on both positions and directions.
+
+    \item Given a polynomial $p$ and lenses $f\colon p\to q\tri\1$ and $h\colon q\to q'$, the functor $p\rchom{f}-$ should send $h$ to a lens $p\rchom{f\then(h\tri\1)}q'\to p\rchom{f}q$; by \eqref{eqn.rchom_def}, this is a lens
+    \[
+        p\rchom{f}h\colon\sum_{i\in p(\1)}q'[h_\1(f_\1(i))]\yon^{p[i]}\to\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
+    \]
+    We let the on-positions function of $p\rchom{f}h$ be the identity on the first coordinate $i\in p(\1)$ and the on-directions function $h^\sharp_{f_\1(i)}\colon q'[h_\1(f_\1(i))]\to q[f_\1(i)]$ on the second.
+    Then we let the on-directions function at every position with first coordinate $i\in p(\1)$ be the identity on $p[i]$.
+    Functoriality follows trivially on both positions and directions.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ preserves connected limits on both sides.
@@ -3243,16 +3299,17 @@ Use \cref{thm.connected_limits} in the following.
 \end{solution}
 \end{exercise}
 
-\subsection{Interaction with parallel products} \label{subsec.comon.comp.prop.par}
-
 While we're here, it will be helpful to record the following.
-\begin{proposition} %** Check this; if can be deduced similarly to the above, make it an exercise and put it at the end of the previous section instead of this one
+\begin{proposition} %Make this an exercise, mimicking earlier stuff
 For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $\cat{J}$ is connected and $p\colon \cat{J}\to\poly$ is a functor, then there is a natural isomorphism:
 \[
 	\left(\lim_{j\in \cat{J}} p_j\right)\otimes q\cong
 	\lim_{j\in \cat{J}} (p_j\otimes q).
 \]
 \end{proposition}
+
+
+\subsection{Interaction with parallel products} \label{subsec.comon.comp.prop.par}
 
 %** Exposition on duoidality
 
