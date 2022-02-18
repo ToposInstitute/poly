@@ -348,7 +348,7 @@ We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\t
     \item Use \cref{cor.morph_func_to_arena} to translate the natural transformation $f\tri g$ obtained in \cref{exc.comp_prod_lens.3} to a lens between arenas $p\tri q\to p'\tri q'$.
     Verify that for each $(i,\bar{j}_i)$ in $(p\tri q)(\1)$ (see \eqref{eqn.comp_pos}), its on-positions function sends
     \begin{equation} \label{eqn.comp_lens_pos}
-        (i,\bar{j}_i)\Mapsto{(f\:\tri\:g)_\1}(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1);
+        (i,\bar{j}_i)\Mapsto{(f\:\tri\:g)_\1}\left(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1\right);
     \end{equation}
     while for each $(d',e')$ in $(p'\tri q')[(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1)]$ (see \eqref{eqn.comp_dir}), its on-directions function sends
     \begin{equation} \label{eqn.comp_lens_dir}
@@ -1786,10 +1786,40 @@ If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ 
 \end{solution}
 \end{exercise}
 
-\subsection{Composite dynamical systems} \label{subsec.comon.comp.def.dyn_sys}
+\subsection{Dynamical systems and composites} \label{subsec.comon.comp.def.dyn_sys}
 
+Back in \cref{ex.do_nothing}, we posed the question of how to model running multiple steps of dynamical system in $\poly$.
+The answer lies with the composition product.
 
+Recall that a dependent dynamical system is a lens $\phi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
+We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\phi$ the return and update functions, respectively.
+More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a situation $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
 
+The lens models a dynamical system as follows.
+Every state $s\in q(\1)=S$ returns an output $o\coloneqq\phi_\1(s)\in p(\1)$, and every input $i\in p[o]$ yields an updated direction $s'\coloneqq\phi^\sharp_s(a)\in q[s]=S'$.
+Then to model a second step through the system, we identify the $q[s]$-direction $s'$ with a $q$-position $e^{-1}(s')$, plug this position back into $\phi_\1$, and repeat the process all over again.
+
+% Equivalently, we could think of running through two steps of the system as picking an initial state $s\in q(\1)$ and using a bijection $\ol{t}\colon q[s]\to q(\1)$ to assign each direction at $s$ to a state in $q(\1)$.
+% Then we apply $\phi$ in two rounds.
+% First, we use the return function to compute an output $i\coloneqq\phi_\1(s)$ and the update function $\phi^\sharp_s\colon p[i]\to q[s]$ to compute a direction at $s$ for each input.
+% Before the next round, we use $\ol{t}$ to compute the state assigned to that direction.
+% Second, we use the return function to compute an output for that state 
+
+But this is exactly what the composite lens $\phi\tri\phi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
+\begin{equation} \label{eqn.interface_position_pair}
+    \left(\phi_\1(s_0),\phi^\sharp_{s_0}\then e^{-1}\then\phi_\1\right)\in(p\tri p)(\1),
+\end{equation}
+comprised of the initial output $o_0\coloneqq\phi_\1(s)\in p(\1)$ and a composite function
+\begin{equation} \label{eqn.interface_position_fn1}
+    p[o_0]\To{\phi^\sharp_{s_0}}q[s_0]=S'\To{e^{-1}}S=q(\1)\To{\phi_\1}p(\1),
+\end{equation}
+which uses the update function at $s_0$ and the return function to tell us what the next output $o_1$ will be for every possible input $i_1$ we could select.
+Then by \eqref{eqn.comp_lens_dir}, the on-directions function of $\phi\tri\phi$ sends each direction $(i_1,i_2)$ at the position \eqref{eqn.interface_position_pair}, comprised of a first input $i_1\in p[o_0]$ and (setting $o_1$ to be the function \eqref{eqn.interface_position_fn1} applied to $i_1$) a second input $i_2\in p[o_1]$, to the pair
+\[
+    \left(\phi^\sharp_{s_0}(i_1), \phi^\sharp_{e^{-1}(\phi^\sharp_{s_0}(i_1))}(i_2)\right),
+\]
+comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next state $s_1$ upon selecting input $i_1$ at state $s_0$ and the successive state $s_2$ upon selecting input $i_2$ at $s_1$.
+**
 
 %-------- Section --------%
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
