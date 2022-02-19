@@ -2079,7 +2079,8 @@ Explicitly, given polynomials $(p_i)_{i \in I}$, their coproduct is
     \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]},
 \end{equation}
 which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{ex.sum_prod_set_endofuncs}.
-Binary coproducts are thus given by binary sums of functors, denoted by $+$, while the initial object of $\poly$ is the constant polynomial $\0$.
+Of course, it also coincides with our notion of polynomial addition from high school algebra---just add all the terms together!
+Binary coproducts are given by binary sums of functors, appropriately denoted by $+$, while the initial object of $\poly$ is the constant polynomial $\0$.
 
 In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and $q$, their coproduct $p+q$ is given as follows.
 The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
@@ -3060,21 +3061,30 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{exercise}
 
 %-------- Section --------%
-\section{Prepare for dynamics} \label{sec.poly.func_nat.prepare_dyn}
+\section{Symmetric monoidal products of polynomial functors} \label{sec.poly.func_nat.monoidal}
 
-As beautiful as the category $\poly$ is---and to be clear we have not really begun to say what is so special about it---discussing its virtues is not our goal. We want to use it!
+One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
+Monoidal structures are the key ingredient to many applications of categories to real-world scenarios, and $\poly$ is no different in that regard.
+But there is an added bonus about the monoidal products on $\poly$ that we'll introduce that isn't shared by some fancy monoidal products on other categories like ``the tensor product of modules over a commutative ring'': if you know how to add, multiply, and exponentiate expressions from high school algebra, then you already know how to compute these monoidal products!
 
-Polynomial functors are a setting in which to speak about dynamics, decisions, and data. We want the reader to understand this deeply as they go through the mathematics. So in order to make the story a bit more seamless, we discuss a few relevant aspects of $\poly$ that we can use immediately.
+We have already seen one monoidal structure on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
+In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts---and they are given by an operation that looks just like addition.
+We'll quickly see in \cref{subsec.poly.func_nat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure.
+Can you guess what that operation looks like?
+
+Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we'll save its surprises for when we can better savor them.
+But here in \cref{subsec.poly.func_nat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
+This monoidal structure will really come in handy when we apply $\poly$ to dynamics in the next chapter.
 
 %---- Subsection ----%
-\subsection{The categorical product} \label{subsec.poly.func_nat.prepare_dyn.prod}
+\subsection{The categorical product} \label{subsec.poly.func_nat.monoidal.prod}
 The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
 The category $\poly$ has arbitrary products, coinciding with products in $[\smset,\smset]$ given by the operation $\prod_{i \in I}$.
 \end{proposition}
 \begin{proof}
-The proof is very similar to that of \cref{prop.poly_coprods}.
+Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
 
 By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary products given by $\prod_{i \in I}$.
 The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these products.
@@ -3346,7 +3356,7 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{The parallel product} \label{subsec.poly.func_nat.prepare_dyn.par}
+\subsection{The parallel product} \label{subsec.poly.func_nat.monoidal.par}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
 \begin{definition}[Parallel product of polynomials] \label{def.dirichlet}
@@ -4691,7 +4701,7 @@ This construction is actually universal in a way we'll find important later. Ind
 %---- Subsection ----%
 \subsection{Parallel products: juxtaposing dynamical systems}\label{subsec.poly.dyn_sys.new.par}
 
-Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.func_nat.prepare_dyn.par}.
+Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.func_nat.monoidal.par}.
 In particular, the parallel product of two state systems is still a state system.
 So parallel products give us another way to create new dynamical systems from old ones.
 In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
@@ -5012,7 +5022,7 @@ From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\
 It's all set to take another step, but how does $\poly$ know which state to visit next?
 Is there a lens that does ``two things,'' ``$n$ things,'' or ``arbitrarily many things''?
 Can we actually $\emph{run}$ a dynamical system in $\poly$?
-We'll develop the machinery to answer these questions over the course of the three chapters in Part II, starting in \cref{subsec.comon.comp.def.dyn_sys}.
+We'll develop the machinery to answer these questions over the course of the three chapters in \cref{part.comon}, starting in \cref{subsec.comon.comp.def.dyn_sys}.
 \end{example}
 
 \begin{exercise}
@@ -6504,7 +6514,7 @@ There are a few special classes of polynomials that are worth discussing:
 \end{enumerate}
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. 
 The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
-Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.func_nat.prepare_dyn.bimorphic_lens}.
+Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.func_nat.morph.bimorphic_lens}.
 
 \begin{exercise}
 Which of the four classes above are closed under
