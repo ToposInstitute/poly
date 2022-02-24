@@ -91,8 +91,8 @@ and the fifth row shows decision-making terminology, which we will introduce in 
 \textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $d \in p[i]$ \\
 \textbf{dependent sets} & arena & position & direction \\
 \textbf{tree pictures} & corolla forest & root $\bullet$ & leaf $\uparrow$ \\
-\textbf{dynamics} & (mode-dependent) interface & output & input \\
-\textbf{decisions} & menu & decision & option \\
+\textbf{dynamics} & interface & output & input \\
+\textbf{decisions} & scenario & menu & option \\
 \end{tabular}
 \end{equation}
 
@@ -246,7 +246,7 @@ We can think of its input buttons and its output display as the way in which the
 
 Here's one way the clock might interact with the outside world: my finger is on the minute button, while your finger is on the format button, and the clock is facing you so that only you can read its display.
 In fact, we could think of ourselves as a couple of (particularly complex) dynamical systems as well, with each of our interfaces connected with the interface of the clock.
-We could model this scenario with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular interaction pattern:
+We could model this situation with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular interaction pattern:
 \begin{equation*}
 \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
 	\node[bb={3}{3}, green!25!black] (X12) {\tiny me};
@@ -451,7 +451,7 @@ So the set of inputs I can send to the system (i.e.\ buttons I can click) is dir
 \end{solution}
 \end{exercise}
 
-Hopefully you now have an idea of what we mean by \emph{mode-dependence}: interfaces and interaction patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and interaction patterns in this sense. 
+Hopefully you now have an idea of what we call \emph{mode-dependence}: interfaces and interaction patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and interaction patterns in this sense. 
 
 \begin{remark}
 We ended \cref{ex.pond_eyeballs} by joking about ``real-world applications,'' because a pond of eyeballs is about the most bizarre thing one can imagine. But recall Nobel physicist Frank Wilczek's quote from the preface:
@@ -478,10 +478,16 @@ We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly
   \node[right=.5 of 3] (4) {$\bullet$};
 \end{tikzpicture}
 \end{equation}
-Concretely, we might think of each position as representing a \emph{decision}. Associated to every decision is a set of \emph{options} (directions). The four decisions we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options. Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory. Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.'' Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.'' %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
+Concretely, we might think of each position as representing a \emph{menu}.
+Associated to every menu is a set of \emph{options} (directions).
+The four menus we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options.
+Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory.
+Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.''
+Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.''
+We refer to the menus and options represented by the arena as a whole as the \emph{scenario}. %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
 
-This perspective will prove insightful in \cref{sec.poly.func_nat.morph}, when we start to discuss the \emph{morphisms} between two polynomials.
-As a sneak peek, it turns out that a morphism is just a way of \emph{delegating} decisions from one menu to another.
+This decision-making perspective will prove insightful in \cref{sec.poly.func_nat.morph}, when we start to discuss the \emph{morphisms} between two polynomials.
+As a sneak peek, it turns out that a morphism is just a way of \emph{delegating} decisions from one scenario to another.
 We'll cover this in more detail in \cref{sec.poly.func_nat.morph}.
 
 Now consider the following three trees.
@@ -2155,8 +2161,14 @@ record Lens (p : Arena) (q : Arena) : Set where
 \end{agda}
 
 This forwards on-positions/backwards on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
-Recall from \cref{sec.poly.intro.dec} that we may view each position of an arena as a decision and the directions at that position as the options available for that decision.
-The morphisms $f\colon p\to q$ are then the ways to \emph{delegate} $p$'s decisions to $q$. Every one of $p$'s decisions, say $i\in p(\1)$, is passed forward to a decision $j\in q(\1)$ for $q$ to make, and every choice $d\in q[j]$ that $q$ could make among its options is passed back as some choice $c\in p[i]$ among $p$'s options.
+Recall from \cref{sec.poly.intro.dec} that we may view an arena as a scenario, each position of an arena as a menu, and the directions at that position as the options available on that menu.
+Every time we select an option off a menu, we are making a decision.
+Then the morphisms $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisions to $q$.
+
+You should think of this as an agent Pat in scenario $p$ needing to make a decision, so they ask a second agent Quinn in scenario $q$ to make another decision that will then inform the decision that Pat will make.
+Each one of Pat's menus in scenario $p$, say $i\in p(\1)$, is passed forward (``delegated'') to a menu in scenario $q$, say $j\in q(\1)$, for Quinn to choose an option from.
+Then each option $d\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $c\in p[i]$ on $p$'s original menu $i$.
+The morphism tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
@@ -2353,10 +2365,10 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
     	};	
     \end{tikzpicture}
     \]
-    \item As depicted, our morphism delegates the first decision of $p$ to the second decision of $q$, whose first and second options are passed back to the third and first options, respectively, of the first decision of $p$.
-    Then the second decision of $p$ is delegated to the fourth decision of $q$, which has no options; effectively, the second decision of $p$ has been canceled.
-    Finally, the third decision of $p$ is delegated to the third decision of $q$, neither of which has any options.
-    \item There cannot be a morphism $p \to r$ for the following reason: if we delegate the third decision of $p$, which has no options, to the sole decision of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options associated with the third decision of $p$, as there are no such options.
+    \item As depicted, our morphism delegates the first menu of $p$ to the second menu of $q$, whose first and second options are passed back to the third and first options, respectively, of the first menu of $p$.
+    Then the second menu of $p$ is delegated to the fourth menu of $q$, which has no options; effectively, the decision associated with the second menu of $p$ has been canceled.
+    Finally, the third menu of $p$ is delegated to the third menu of $q$, neither of which has any options.
+    \item There cannot be a morphism $p \to r$ for the following reason: if we delegate the third menu of $p$, which has no options, to the sole menu of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options on the third menu of $p$, as there are no such options.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2514,8 +2526,8 @@ To choose an element of $D_{p,q}$:
     \end{longenum}
 \end{longenum}
 \end{quote}
-So $f_\1$ delegates each of $p$'s decisions to one of $q$'s decisions.
-Then for every option of every decision $j$ of $q$, we choose an option of each of $p$'s decisions that has been delegated to $j$ by $f_\1$.
+So $f_\1$ delegates each of $p$'s menus to one of $q$'s menus.
+Then for every option on every menu $j$ of $q$, we choose an option on each of $p$'s menus that has been delegated to $j$ by $f_\1$.
 \end{longenum}
 \end{solution}
 \end{exercise}
@@ -2697,17 +2709,18 @@ In fact, henceforth we will refer to arena morphisms simply as \emph{lenses}.
 
 \begin{example}
 Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
-In the language of decision-making, each $s \in S$ is a decision where the options you have to choose from are always just the decisions in $S$ again.
+In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
 Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
-We will formalize this idea in \cref{**}.
+We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
 
 A lens $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-When you need to make a decision at $s \in S$, you ask your friend at $\text{get}(s) \in T$ for help.
+When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\text{get}(s) \in T$ for help.
 If your friend selects option $t \in T$, then you know to select option $\text{set}(s, t) \in S$.
+Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\text{set}(s, t)$, and you may each check the corresponding menus at your new positions.
 
 But what happens when we string together these decisions into cycles?
 Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
-In this scenario, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves well with respect to the movements of both you and your friend:
+In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
 \begin{enumerate}
     \item If your friend chooses to stay put, then you should stay put, too.
     This is reflected by the equation
@@ -3064,7 +3077,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.func_nat.monoidal}
 
 One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
-Monoidal structures are the key ingredient to many applications of categories to real-world scenarios, and $\poly$ is no different in that regard.
+Monoidal structures are the key ingredient to many applications of categories to real-world settings, and $\poly$ is no different in that regard.
 But there is an added bonus about the monoidal products on $\poly$ that we'll introduce that isn't shared by some fancy monoidal products on other categories like ``the tensor product of modules over a commutative ring'': if you know how to add, multiply, and exponentiate expressions from high school algebra, then you already know how to compute these monoidal products!
 
 We have already seen one monoidal structure on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
