@@ -1841,18 +1841,22 @@ Adding another layer, $\phi\tri\phi\tri\phi\colon q\tri q\tri q\to p\tri p\tri p
 
 This is what we meant in the introduction when we said that the composition product has to do with time.
 It takes a specification $\phi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\phi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
+Alternatively, we can think of $\phi\tripow{n}$ as ``speeding up'' the original dynamical system $\phi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
 The lens $\phi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
 
+\subsubsection{Why this is not enough}
 There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
 The first is a communication issue: as you probably sensed, our set-theoretic notation for $\phi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
 We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{exc.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
 A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
 
-The second issue is more technical: **
+The second issue is more technical: to ensure that $\phi\tri\phi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
+But there are many other positions $(s_0,f)$ of $q\tri q$ that we could have specified, and each $f\colon S'\to S$ associates $q[s_0]$-directions to $q$-positions in a different way.
+So $\phi\tri\phi$ is carrying around a lot of extraneous---even misleading!---data about how our dynamical system behaves when the state system moves in the right direction but to the wrong state.
+Our isomorphism $e^{-1}$ is a temporary fix, but as we pointed out in \cref{ex.do_nothing}, it relies on the set-theoretic equality of the direction-sets of $q$---there's nothing inherent to the categorical structure of $q$ in $\poly$ that encodes how directions map to states, at least not yet.
+What are we missing?
 
-% has a lot of extraneous, even misleading!
-
-% at the level of sets...but in poly??
+The key to resolving both these issues lies in the next section, where we will introduce a graphical notation to help us study lenses whose codomains are composite polynomials.
 
 \begin{exercise} \label{exc.comp_dyn_sys_tree}
 ** % draw a sample dynamical system using corollas
@@ -1872,7 +1876,7 @@ The second issue is more technical: **
 %-------- Section --------%
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
 
-Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri q_2\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
+Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
 Fortunately, they have some very nice properties that make them convenient to work with.
 Before we explore these properties, we'll introduce a new way of visualizing lenses that is well-suited to capturing the behavior of lenses to composites.
 
