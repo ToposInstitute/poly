@@ -2407,44 +2407,6 @@ and that
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
 We will read equations off of polyboxes like this repeatedly in the rest of the book.
 
-\subsection{Polyboxes in action} %** Maybe actually leave this out, and move the \otimes\to\tri stuff later, to "interaction with parallel products"
-
-We end this section with a few simple demonstrations of how to define lenses and perform computations using polyboxes.
-
-\begin{example}[Lenses from $\otimes$ to $\tri$]
-For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
-Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair):
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$p\otimes q$" left] (p) {$(d,e)$\nodepart{two}$(i,j)$};
-	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
-	\node[poly, cod, "$q$" right, above=of q] (r) {$e$\nodepart{two}$j$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-\end{tikzpicture}
-\]
-Usually, the positions box of $q$ is allowed to depend on the directions box of $p$ in the polyboxes for $p\tri q$ on its own.
-But in the polyboxes above, $j$ is not allowed to depend on $d$ in $p\otimes q$ on the left, so the arrow from the positions box of $q$ to the directions box of $p$ on the right doesn't actually take $d$ into account at all.
-So the lens $o_{p,q}$ is in some sense the inclusion of the order-independent positions of $p\tri q$; when drawn as trees, the positions in its image are the ones whose upper-level corollas are all the same.
-And of course we can flip the order using the symmetry $q\otimes p\iso p\otimes q$.
-This is, we just as well have a lens $p\otimes q\to q\tri p$.
-
-Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique lens $\yon\to\yon$.
-In fact the lenses $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
-In particular, $o_{p,q}$ commutes with associators and unitors. 
-
-This can be used in the following way. Lenses $p\to q\tri r$ into composites are fairly easy to understand (through polyboxes, for example), whereas lenses $q\tri r\to p$ are not so easy to think about. However, given such a lens, one may always compose it with $o_{q,r}$ to obtain a lens $q\otimes r\to p$.
-This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
-\end{example}
-
-%** Draw it out exercise?
-
-%** This is a little out of place right now
-
-%** Any other good polybox examples??
-We'll see several more examples of polybox computations throughout the rest of the book.
-
 %-------- Section --------%
 \section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
 
@@ -3402,34 +3364,74 @@ For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves co
 
 \subsection{Interaction with parallel products} \label{subsec.comon.comp.prop.par}
 
-Before we get into how $\otimes$ interacts with $\tri$, here are some warm-up exercises.
+Before we get into how $\otimes$ interacts with $\tri$, here is a warm-up exercise.
 
 \begin{exercise}
 Let $A$ and $B$ be arbitrary sets, and let $p$ be an arbitrary polynomial.
 Which of the following isomorphisms always hold?
-In the cases where the isomorphism does not always hold, is there still a canonical map in one direction or the other?
+
+If the isomorphism does not always hold, is there still a canonical lens in one direction or the other?
 \begin{enumerate}
-	\item $(A\yon)\otimes(B\yon) \iso (A\yon)\tri (B\yon)$?
-	\item $\yon^A\otimes\yon^B\iso\yon^A\tri\yon^B$?
-	\item $A\otimes B\iso A\tri B$?
-	\item $A\yon\otimes p\iso A\yon\tri p$?
-	\item $\yon^A\otimes p\iso \yon^A\tri p$?
-	\item $p\otimes A\yon\iso p\tri A\yon$?
-	\item $p\otimes \yon^A\iso p\tri\yon^A$?
+	\item $(A\yon)\otimes(B\yon) \iso^? (A\yon)\tri (B\yon)$.
+	\item $\yon^A\otimes\yon^B\iso^?\yon^A\tri\yon^B$.
+	\item $A\otimes B\iso^? A\tri B$.
+	\item $B\yon\otimes p\iso^? B\yon\tri p$.
+	\item $\yon^A\otimes p\iso^? \yon^A\tri p$.
+	\item $p\otimes B\yon\iso^? p\tri B\yon$.
+	\item $p\otimes \yon^A\iso^? p\tri\yon^A$.
+	\qedhere
 \end{enumerate}
+What do all of the lenses you found in this exercise have in common (whether or not they were isomorphisms)?
 \begin{solution}
 Here $A$ and $B$ are sets and $p$ is a polynomial.
 \begin{enumerate}
-	\item The isomorphism holds: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
-	\item The isomorphism holds: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
+	\item The isomorphism always holds: we have that $(A\yon)\otimes(B\yon) \iso AB\yon \iso (A\yon)\tri (B\yon)$.
+	\item The isomorphism always holds: we have that $\yon^A\otimes\yon^B \iso \yon^{AB} \iso \yon^A\tri\yon^B$.
 	\item The isomorphism does not always hold: while $A\otimes B \iso AB$, we have that $A\tri B \iso A$.
-	\item The isomorphism holds: we have that $A\yon \otimes p \iso \sum_{i \in p(\1)} A\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} A\yon^{p[i]} \iso Ap \iso A\yon\tri p$.
+	There is, however, always a canonical projection $AB\to B$; but there is not always a canonical lens $B\to AB$ (for example, take $A=\0\neq B$).
+	\item The isomorphism always holds: we have that $B\yon \otimes p \iso \sum_{i \in p(\1)} B\yon \otimes \yon^{p[i]} \iso \sum_{i \in p(\1)} B\yon^{p[i]} \iso Bp \iso B\yon\tri p$.
 	\item The isomorphism does not always hold: if, say, $p = B$, then $\yon^A \otimes B \iso B$, while $\yon^A \tri B \iso B^A$.
-	\item The isomorphism does not always hold: if, say, $p = \yon^B$, then $\yon^B \otimes A\yon \iso A\yon^B$, while $\yon^B \otimes A\yon \iso (A\yon)^B \iso A^B\yon^B$.
-	\item The isomorphism holds: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{p[i]} \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
+	If $A=B=\0$, then $B^A\iso\1$, so there is not always a canonical lens from right to left, either.
+	There is, however, always a canonical lens from left to right: $\yon^A\otimes p\iso\sum_{i \in p(\1)}\yon^{Ap[i]}$ while $\yon^A\tri p\iso\sum_{\ol{i}\colon A\to p(\1)}\yon^{\sum_{a\in A}p[\ol{i}(a)]}$.
+	So there is a lens from left to right whose on-positions function sends $i\in p(\1)$ to the constant function $A\to p(\1)$ that always evaluates to $i$; and whose on-directions function at $i$ is the identity on $Ap[i]$.
+	\item The isomorphism does not always hold: if, say, $p = \yon^A$, then $\yon^A \otimes B\yon \iso B\yon^A$, while $\yon^A \otimes B\yon \iso (B\yon)^A \iso B^A\yon^A$.
+	If $A=B=\0$, then $B\yon^A\iso\0$ while $B^A\yon^A\iso\0^\0\yon^\0\iso\1$, so there is not always a canonical lens from right to left, either.
+	There is, however, always a canonical lens from left to right: $p\otimes B\yon\iso Bp$ while $p\tri B\yon\iso\sum_{i\in p(\1)}\sum_{\ol{b}\colon p[i]\to B}\yon^{\sum_{a\in p[i]}\1}\iso\sum_{i\in p(\1)}B^{p[i]}\yon^{p[i]}$.
+	So there is a lens from left to right whose on-positions function sends $(b,i)\in Bp(\1)$ to $(i,c_b)\in\sum_{i\in p(\1)}B^{p[i]}$, where $c_b\colon p[i]\to B$ is the constant function that always evaluates to $b$; and whose on-directions function at $(b,i)$ is the identity on $p[i]$.
+	\item The isomorphism always holds: we have that $p \otimes \yon^A \iso \sum_{i \in p(\1)} \yon^{Ap[i]} \iso p \tri \yon^A$.
 \end{enumerate}
+Every on-directions function of every lens we found in this exercise are isomorphisms, so every lens we found in this exercise is cartesian.
 \end{solution}
 \end{exercise}
+
+\begin{example}[Lenses from $\otimes$ to $\tri$]
+For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
+Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair):
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$p\otimes q$" left] (p) {$(d,e)$\nodepart{two}$(i,j)$};
+	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
+	\node[poly, cod, "$q$" right, above=of q] (r) {$e$\nodepart{two}$j$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+\end{tikzpicture}
+\]
+Usually, the positions box of $q$ is allowed to depend on the directions box of $p$ in the polyboxes for $p\tri q$ on its own.
+But in the polyboxes above, $j$ is not allowed to depend on $d$ in $p\otimes q$ on the left, so the arrow from the positions box of $q$ to the directions box of $p$ on the right doesn't actually take $d$ into account at all.
+So the lens $o_{p,q}$ is in some sense the inclusion of the order-independent positions of $p\tri q$; when drawn as trees, the positions in its image are the ones whose upper-level corollas are all the same.
+And of course we can flip the order using the symmetry $q\otimes p\iso p\otimes q$.
+This is, we just as well have a lens $p\otimes q\to q\tri p$.
+
+Both $\otimes$ and $\tri$ have the same monoidal unit, the identity functor $\yon$, whose identity is the unique lens $\yon\to\yon$.
+In fact the lenses $o_{p,q}$ constitute a lax monoidal functor $(\poly,\yon,\otimes)\to(\poly,\yon,\tri)$.
+In particular, $o_{p,q}$ commutes with associators and unitors. 
+
+This can be used in the following way. Lenses $p\to q\tri r$ into composites are fairly easy to understand (through polyboxes, for example), whereas lenses $q\tri r\to p$ are not so easy to think about. However, given such a lens, one may always compose it with $o_{q,r}$ to obtain a lens $q\otimes r\to p$.
+This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
+\end{example}
+
+%** Different notation for \otimes in polyboxes??
 
 %** Exposition on duoidality
 
