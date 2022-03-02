@@ -71,10 +71,10 @@ p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[
 \end{align}
 so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
 We call the entire dependent set $(p[i])_{i \in I}$ an \emph{arena}.
-Each element $i \in I$ is a \emph{position} in the arena, and each element $d \in p[i]$ is a \emph{direction} at position $i$.
+Each element $i \in I$ is a \emph{position} in the arena, and each element $a \in p[i]$ is a \emph{direction} at position $i$.
 So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
 
-We will sometimes refer to the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $d \in p[i]$ as a \emph{$p[i]$-direction}.
+We will sometimes refer to the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $a \in p[i]$ as a \emph{$p[i]$-direction}.
 
 Throughout this book, we will see several other perspectives from which we can view polynomials.
 Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
@@ -88,7 +88,7 @@ and the fifth row shows decision-making terminology, which we will introduce in 
 \footnotesize
 \begin{tabular}{l|l|l|l}
 \multicolumn{4}{c}{\normalsize Polynomial Terminology}\\[3pt]
-\textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $d \in p[i]$ \\
+\textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $a \in p[i]$ \\
 \textbf{dependent sets} & arena & position & direction \\
 \textbf{tree pictures} & corolla forest & root $\bullet$ & leaf $\uparrow$ \\
 \textbf{dynamics} & interface & output & input \\
@@ -1932,10 +1932,10 @@ It has $(2^2+2+2+1)$-many, i.e.\ $9$, elements. The representable summand $\yon^
 
 In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $X$, expanded as
 \[
-    \sum_{i\in I}X^p[i],
+    \sum_{i\in I}X^{p[i]},
 \]
 can be thought of as the set of all pairs comprised of an element of $I$ and a $p[i]$-tuple of elements of $X$.
-Alternatively, we can think of each pair as an element of $I$ and a function $p[i]\to XS$.
+Alternatively, we can think of each pair as an element of $I$ and a function $p[i]\to X$.
 
 \begin{exercise}
 In the pedantic style of \cref{ex.pedantic_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows:
@@ -2005,7 +2005,7 @@ As a functor $\smset\to\smset$, a polynomial should be able to act not only on s
 Below, we explain how.
 
 \begin{proposition} \label{prop.poly_on_functions}
-Let $p$ be an arbitrary polynomial functor (our notation allows us to write it as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$\,), and let $f\colon X\to Y$ be an arbitrary function.
+Let $p$ be an arbitrary polynomial functor, which our notation allows us to write it as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
 Then $p(f)\colon p(X)\to p(Y)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
 \end{proposition}
 \begin{proof}
@@ -2167,7 +2167,7 @@ Then the morphisms $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisi
 
 You should think of this as an agent Pat in scenario $p$ needing to make a decision, so they ask a second agent Quinn in scenario $q$ to make another decision that will then inform the decision that Pat will make.
 Each one of Pat's menus in scenario $p$, say $i\in p(\1)$, is passed forward (``delegated'') to a menu in scenario $q$, say $j\in q(\1)$, for Quinn to choose an option from.
-Then each option $d\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $c\in p[i]$ on $p$'s original menu $i$.
+Then each option $b\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $a\in p[i]$ on $p$'s original menu $i$.
 The morphism tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
@@ -2407,7 +2407,7 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
     \]
     \item We count all the maps from $\yon^\2$ to $p$.
     The unique position of $\yon^\2$ can be sent to either $p$-position.
-    If it is sent to the first $p$-position, then there are $2$ directions of $\yon^\2$ for each of the $3$ $p[1]$-directions to be sent to, for a total of $2^3 = 8$ maps.
+    If it is sent to the first $p$-position, then there are $2$ directions of $\yon^\2$ for each of the $3$ directions in $p[1]$ to be sent to, for a total of $2^3 = 8$ maps.
     Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position---at which there are no directions, so there is exactly $1$ way to do this.
     So we have $8 + 1 = 9$ maps from $\yon^\2$ to $p$.
     \item Yes, the previous answer is equal to $p(\2) = 2^3 + 1 = 9$.
@@ -2463,7 +2463,7 @@ By \eqref{eqn.main_formula}, we always have
 \begin{equation}\label{eqn.poly_p_q}
   \poly(p,q)
   \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{a\in p[i]}\1
 \end{equation}
 \item \label{exc.practice_sum_prod.useful} Show that the following are isomorphic:
 	\begin{equation}\label{eqn.useful_misc472}
@@ -2478,16 +2478,16 @@ By \eqref{eqn.main_formula}, we always have
 \[
   \poly(p,q)
   \cong
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{d\in q[j]}\sum_{c\in p[i]}\1.
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{a\in p[i]}\1.
 \]
 By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and $j \in q(\1)$, we have
 \[
-    p[i]^{q[j]} \iso \prod_{d \in q[j]} \sum_{c \in p[i]} \1.
+    p[i]^{q[j]} \iso \prod_{b \in q[j]} \sum_{a \in p[i]} \1.
 \]
 Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
 \begin{align*}
-    \prod_{d \in q[j]} \sum_{c \in p[i]} \1 &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \, \prod_{d \in q[j]} \1 \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
-    &\iso \sum_{\bar{c} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.prod}} \\
+    \prod_{b \in q[j]} \sum_{a \in p[i]} \1 &\iso \sum_{\bar{a} \colon q[j] \to p[i]} \, \prod_{b \in q[j]} \1 \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
+    &\iso \sum_{\bar{a} \colon q[j] \to p[i]} \1 \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.prod}} \\
     &\iso \smset(q[j], p[i]) \tag{\cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}} \\
     &\iso p[i]^{q[j]}.
 \end{align*}
@@ -2556,7 +2556,7 @@ Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we 
 \begin{example}[Derivatives]\label{ex.derivatives}
 The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
 \[
-\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]-\{d\}}.
+\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]-\{a\}}.
 \]
 For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then 
 \[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
@@ -2565,23 +2565,23 @@ Unsurprisingly, this coincides with the familiar notion of derivatives of polyno
 
 Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
 \[
-\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{d\in p[i]}\yon^{p[i]}.
+\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]}.
 \]
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride} and \cite{abbot2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,d)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $d\in q[j]$. Then every $q[j]$-direction \emph{other than $d$} is sent back to a $p[i]$-direction.
+A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
 \end{example}
 
 \begin{exercise} \label{exc.deriv_directions}
-Show that $\dot{p}(\1)$ is isomorphic to the set of all directions of $p$ (i.e.\ the union of all direction-sets of $p$), so there is a canonical function $\pi_p \colon \dot{p}(\1) \to p(\1)$ that sends each direction $d$ of $p$ to the position $i$ of $p$ for which $d \in p[i]$.
+Show that $\dot{p}(\1)$ is isomorphic to the set of all directions of $p$ (i.e.\ the union of all direction-sets of $p$), so there is a canonical function $\pi_p \colon \dot{p}(\1) \to p(\1)$ that sends each direction $a$ of $p$ to the position $i$ of $p$ for which $a \in p[i]$.
 \begin{solution}
 We can evaluate $\dot{p}(\1)$ directly from the definition of $\dot{p}$ to obtain
 \[
-    \dot{p}(\1) = \sum_{i \in p(\1)} \sum_{d \in p[i]} \1^{p[i]-\{d\}} \iso \sum_{i \in p(\1)} p[i],
+    \dot{p}(\1) = \sum_{i \in p(\1)} \sum_{a \in p[i]} \1^{p[i]-\{a\}} \iso \sum_{i \in p(\1)} p[i],
 \]
 which is isomorphic to the set of all directions of $p$.
-Then $\pi_p \colon \dot{p}(\1) \to p(\1)$ is the canonical projection, sending each direction $d$ of $p$ to the position $i$ of $p$ for which $d \in p[i]$.
+Then $\pi_p \colon \dot{p}(\1) \to p(\1)$ is the canonical projection, sending each direction $a$ of $p$ to the position $i$ of $p$ for which $a \in p[i]$.
 \end{solution}
 \end{exercise}
 
@@ -2609,9 +2609,9 @@ Here $p, q \in \poly$.
 	\item Our goal is to characterize the canonical map $\dot{p}\yon\to p$.
 	If we unravel the definitions, this is a map
 	\[
-	    \sum_{i \in p(\1)} \sum_{d \in p[i]} \yon^{p[i]} \to \sum_{i \in p(\1)} \yon^{p[i]}.
+	    \sum_{i \in p(\1)} \sum_{a \in p[i]} \yon^{p[i]} \to \sum_{i \in p(\1)} \yon^{p[i]}.
 	\]
-	We observe that there is always such a map sending every position $(i, d) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
+	We observe that there is always such a map sending every position $(i, a) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
 	This is the canonical map.
 
 	\item There cannot always be a canonical map $p\to \dot{p}$, for if $p \coloneqq \1$, then $\dot{p} \coloneqq \0$, and there is no map $\1 \to \0$.
@@ -2627,7 +2627,7 @@ Here $p, q \in \poly$.
 	
 	\item We show that there is a canonical map $g \colon \ihom{p,\yon} \otimes p \to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}.
 	The on-positions function $g_\1$ takes $f \in \prod_{i \in p(\1)} p[i]$ and $i \in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i \in p(\1)$ and $f(i) \in p[i]$.
-	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $d \in p[i]$ to $(i, d) \in p(\1) \times p[i]$.
+	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $a \in p[i]$ to $(i, a) \in p(\1) \times p[i]$.
 
 	\item We wish to describe a map $p\yon \to q$ in terms of ``unassigned to directions.''
 	Observe that as an arena, $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
@@ -2641,7 +2641,7 @@ Here $p, q \in \poly$.
 %---- Subsection ----%
 \subsection{Arena morphisms as lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
 
-Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
+Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
 \[
 \begin{tikzpicture}
 \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
@@ -2670,13 +2670,13 @@ Monomials are special polynomials: those of the form $A\yon^B$ for sets $A,B$. H
 
 The formula for morphisms between these is particularly simple:
 \begin{align*}
-  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right) &\iso \prod_{a \in A_1} \sum_{a' \in A_2} B_1^{B_2} \tag*{\eqref{eqn.main_formula}} \\
-  &\iso \smset(A_1, A_2 \times B_1^{B_2}) \\
-  &\iso \smset(A_1,A_2)\times\smset(A_1\times B_2,B_1).
+  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
+  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
+  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
 \end{align*}
 It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
 \[
-  \poly\left(A_1\yon^{B_1},\,A_2\yon^{B_2}\right)
+  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
   \iso
   \left\{
     (f_\1,f^\sharp)
@@ -2684,8 +2684,8 @@ It says that to give a morphism from one monomial to another, you just need to g
   	\parbox{1.2in}{
     $
     \begin{aligned}
-  	  f_\1&\colon A_1\to A_2\\
-  	  f^\sharp&\colon A_1\times B_2\to B_1
+  	  f_\1&\colon B_1\to B_2\\
+  	  f^\sharp&\colon B_1\times A_2\to A_1
     \end{aligned}
     $
   }.
@@ -2694,14 +2694,14 @@ It says that to give a morphism from one monomial to another, you just need to g
 Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
 But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
 
-The monomials in $\poly$ and the morphisms between them form a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon A_1\yon^{B_1}\to A_2\yon^{B_2}$ are given special names:
+The monomials in $\poly$ and the morphisms between them form a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
 \begin{equation}\label{eqn.bimorphic_lens}
 \begin{aligned}
-	\text{get} \coloneqq f_\1 &\colon A_1\to A_2\\
-	\text{set} \coloneqq f^\sharp &\colon A_1\times B_2\to B_1
+	\text{get} \coloneqq f_\1 &\colon B_1\to B_2\\
+	\text{set} \coloneqq f^\sharp &\colon B_1\times A_2\to A_1
 \end{aligned}
 \end{equation}
-The idea is that each position $a \in A_1$ of $A_1\yon^{B_1}$ ``gets'' a position $f_\1(a) \in A_2$ of $A_2\yon^{B_2}$, and given $a \in A_1$, every direction at $f_\1(a)$ in $B_2$ ``sets'' a direction back at $a$ in $B_1$.
+The idea is that each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``sets'' a direction back at $b$ in $A_1$.
 
 So an arena morphism between two monomials is just a bimorphic lens, or a lens for short.
 Then an arena morphism between any two arenas is a kind of generalized lens.
@@ -3301,28 +3301,28 @@ In practice, we can multiply polynomial functors the same way we would multiply 
 \begin{enumerate}
     \item \label{exc.general_poly_times.monomial} Show that for sets $A_1, B_1, A_2, B_2$, we have
     \[
-        A_1\yon^{B_1} \times A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 + B_2}.
+        B_1\yon^{A_1} \times B_2\yon^{A_2} \iso B_1 B_2\yon^{A_1 + A_2}.
     \]
-    \item \label{exc.general_poly_times.polynomial} Show that for sets $(A_i)_{i \in I}$ and $(B_j)_{j \in J}$, we have
+    \item \label{exc.general_poly_times.polynomial} Show that for sets $(A_i)_{i \in I},(A_j)_{j \in J},(B_i)_{i \in I},$ and $(B_j)_{j \in J}$, we have
     \[
-        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i + B_j}.
+        \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) \iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i + A_j}.
     \]
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We compute the product $A_1\yon^{B_1} \times A_2\yon^{B_2}$ using \eqref{eqn.poly_times}:
+    \item We compute the product $B_1\yon^{A_1} \times B_2\yon^{A_2}$ using \eqref{eqn.poly_times}:
     \begin{align*}
-        A_1\yon^{B_1} \times A_2\yon^{B_2} &\iso \left(\sum_{i \in A_1} \yon^{B_1}\right) \times \left(\sum_{j \in A_2} \yon^{B_2}\right) \\
-        &\iso \sum_{i \in A_1} \sum_{j \in A_2} \yon^{B_1 + B_2} \\
-        &\iso A_1 A_2\yon^{B_1 + B_2}.
+        B_1\yon^{A_1} \times B_2\yon^{A_2} &\iso \left(\sum_{i \in B_1} \yon^{A_1}\right) \times \left(\sum_{j \in B_2} \yon^{A_2}\right) \\
+        &\iso \sum_{i \in B_1} \sum_{j \in B_2} \yon^{A_1 + A_2} \\
+        &\iso B_1 B_2\yon^{A_1 + A_2}.
     \end{align*}
 
-    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
+    \item We expand the product $\left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
     \begin{align*}
-        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \times \left(\sum_{j \in J} A_j\yon^{B_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} A_i\yon^{B_i} \\
-        &\iso \sum_{\bar{i} \in \prod_{k \in \2} I_k} \prod_{k \in \2} A_{\bar{i}(k)}\yon^{B_{\bar{i}(k)}} \\
-        &\iso \sum_{i \in I} \sum_{j \in J} A_i\yon^{B_i} \times A_j\yon^{B_j} \\
-        &\iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i + B_j}
+        \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} B_i\yon^{A_i} \\
+        &\iso \sum_{\bar{i} \in \prod_{k \in \2} I_k} \prod_{k \in \2} B_{\bar{i}(k)}\yon^{A_{\bar{i}(k)}} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} B_i\yon^{A_i} \times B_j\yon^{A_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i + A_j}
     \end{align*}
     where the last isomorphism follows from \cref{exc.general_poly_times.monomial}.
 \end{enumerate}
@@ -3466,11 +3466,11 @@ As arenas, we take all pairs of positions, and for each pair we take the product
 
 % \begin{exercise}
 % \begin{enumerate}
-%     \item Compute the parallel product of monomials $A_1\yon^{B_1}\otimes A_2\yon^{B_2}$.
+%     \item Compute the parallel product of monomials $B_1\yon^{A_1}\otimes B_2\yon^{A_2}$.
 %     \item 
 % \end{enumerate}
 % \begin{solution}
-% The parallel product of monomials $A_1\yon^{B_1}\otimes A_2\yon^{B_2}$ is $A_1 A_2\yon^{B_1 B_2}$. 
+% The parallel product of monomials $B_1\yon^{A_1}\otimes B_2\yon^{A_2}$ is $B_1 B_2\yon^{A_1 A_2}$. 
 % \end{solution}
 % \end{exercise}
 
@@ -3479,28 +3479,28 @@ As arenas, we take all pairs of positions, and for each pair we take the product
 \begin{enumerate}
     \item \label{exc.general_poly_parallel_times.monomial} Show that for sets $A_1, B_1, A_2, B_2$, we have
     \[
-        A_1\yon^{B_1} \otimes A_2\yon^{B_2} \iso A_1 A_2\yon^{B_1 B_2}.
+        B_1\yon^{A_1} \otimes B_2\yon^{A_2} \iso B_1 B_2\yon^{A_1 A_2}.
     \]
-    \item \label{exc.general_poly_parallel_times.polynomial} Show that for sets $(A_i)_{i \in I}$ and $(B_j)_{j \in J}$, we have
+    \item \label{exc.general_poly_parallel_times.polynomial} Show that for sets $(A_i)_{i \in I},(A_j)_{j \in J},(B_i)_{i \in I},$ and $(B_j)_{j \in J}$, we have
     \[
-        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right) \iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i B_j}.
+        \left(\sum_{i \in I} B_i\yon^{A_i}\right) \otimes \left(\sum_{j \in J} B_j\yon^{A_j}\right) \iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i A_j}.
     \]
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We compute the product $A_1\yon^{B_1} \otimes A_2\yon^{B_2}$ using \eqref{eqn.parallel_def}:
+    \item We compute the parallel product $B_1\yon^{A_1} \otimes B_2\yon^{A_2}$ using \eqref{eqn.parallel_def}:
     \begin{align*}
-        A_1\yon^{B_1} \otimes A_2\yon^{B_2} &\iso \left(\sum_{i \in A_1} \yon^{B_1}\right) \otimes \left(\sum_{j \in A_2} \yon^{B_2}\right) \\
-        &\iso \sum_{i \in A_1} \sum_{j \in A_2} \yon^{B_1 \times B_2} \\
-        &\iso A_1 A_2\yon^{B_1 B_2}.
+        B_1\yon^{A_1} \otimes B_2\yon^{A_2} &\iso \left(\sum_{i \in B_1} \yon^{A_1}\right) \otimes \left(\sum_{j \in B_2} \yon^{A_2}\right) \\
+        &\iso \sum_{i \in B_1} \sum_{j \in B_2} \yon^{A_1 \times A_2} \\
+        &\iso B_1 B_2\yon^{A_1 A_2}.
     \end{align*}
 
-    \item We expand the product $\left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right)$ as follows:
+    \item We expand the parallel product $\left(\sum_{i \in I} B_i\yon^{A_i}\right) \otimes \left(\sum_{j \in J} B_j\yon^{A_j}\right)$ as follows:
     \begin{align*}
-        \left(\sum_{i \in I} A_i\yon^{B_i}\right) \otimes \left(\sum_{j \in J} A_j\yon^{B_j}\right) &\iso \left(\sum_{i \in I} \sum_{i' \in A_i} \yon^{B_i}\right) \otimes \left(\sum_{j \in J} \sum_{j' \in A_j} \yon^{B_j}\right) \\
-        &\iso \sum_{i \in I} \sum_{i' \in A_i} \sum_{j \in J} \sum_{j' \in A_j} \yon^{B_i \times B_j} \\
-        &\iso \sum_{i \in I} \sum_{j \in J} \sum_{i' \in A_i} \sum_{j' \in A_j} \yon^{B_i B_j} \\
-        &\iso \sum_{i \in I} \sum_{j \in J} A_i A_j \yon^{B_i B_j}.
+        \left(\sum_{i \in I} B_i\yon^{A_i}\right) \otimes \left(\sum_{j \in J} B_j\yon^{A_j}\right) &\iso \left(\sum_{i \in I} \sum_{i' \in B_i} \yon^{A_i}\right) \otimes \left(\sum_{j \in J} \sum_{j' \in B_j} \yon^{A_j}\right) \\
+        &\iso \sum_{i \in I} \sum_{i' \in B_i} \sum_{j \in J} \sum_{j' \in B_j} \yon^{A_i \times A_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} \sum_{i' \in B_i} \sum_{j' \in B_j} \yon^{A_i A_j} \\
+        &\iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i A_j}.
     \end{align*}
 \end{enumerate}
 \end{solution}
@@ -3738,8 +3738,8 @@ Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a map $(f\
 \]
 On directions at $(i,j)\in p(\1)\times q(\1)$, define
 \[
-  (f\otimes g)^\sharp_{(i,j)}(d,e)\coloneqq
-  \big(f^\sharp_i(d),g^\sharp_j(e)\big).
+  (f\otimes g)^\sharp_{(i,j)}(a,b)\coloneqq
+  \big(f^\sharp_i(a),g^\sharp_j(b)\big).
 \]
 Then \cref{exc.prepare_poly_smc} gives us the unitors, associator, and braiding.
 We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves.
@@ -3776,9 +3776,9 @@ Which of the following classes of polynomials are closed under $\otimes$? Note a
 	\item The set $\{A\yon^\0\mid A\in\smset\}$ of constant polynomials.
 	\item The set $\{A\yon\mid A\in\smset\}$ of linear polynomials.
 	\item The set $\{A\yon+B\mid A,B\in\smset\}$ of affine polynomials.
-	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials.
+	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadratic polynomials.
 	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials.
-	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials.
+	\item The set $\{S\yon^S\mid S\in\smset\}$.
 	\item The set $\{p\in\poly\mid p(\1)\text{ is finite}\}$. \qedhere
 \end{enumerate}
 \begin{solution}
@@ -3792,14 +3792,14 @@ For each of the following classes of polynomials, we determine whether they are 
 	    (A\yon + B) \otimes (A'\yon + B') \iso AA'\yon + AB' + BA' + BB'.
 	\]
 	The set contains $\yon$, as $\yon \iso \1\yon + \0 $.
-	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadradic polynomials is not closed under $\otimes$, for even though $\yon^\2 \iso \1\yon^\2 + \0\yon + \0$ is a quadratic polynomial, \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} implies that
+	\item The set $\{A\yon^\2+B\yon+C\mid A,B,C\in\smset\}$ of quadratic polynomials is not closed under $\otimes$, for even though $\yon^\2 \iso \1\yon^\2 + \0\yon + \0$ is a quadratic polynomial, \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} implies that
 	\[
 	    \yon^\2 \otimes \yon^\2 \iso \yon^\4,
 	\]
 	which is not quadratic.
 	The set contains $\yon$, as $\yon \iso \0\yon^\2 + \1\yon + \0$.
 	\item The set $\{A\yon^B\mid A,B\in\smset\}$ of monomials is closed under $\otimes$ by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} and does contain $\yon$, as $\yon \iso \1\yon^\1$.
-	\item The set $\{S\yon^S\mid S\in\smset\}$ of systematic polynomials is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} returns
+	\item The set $\{S\yon^S\mid S\in\smset\}$ is closed under $\otimes$, for \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial} returns
 	\[
 	    S\yon^S \otimes T\yon^T \iso ST\yon^{ST}.
 	\]
@@ -4705,7 +4705,7 @@ So the second interface we want acting on $S\yon^S$ is $\yon$.
 
 If $\yon$ were the only interface acting on the system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
 Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\phi'\colon S\yon^S \to p'$ is the unique map induced by $\phi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
-In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\phi'$ consists of a return function $\phi'_\1\colon S \to p(\1)$ that is the same as the return function of $\phi$ and, for each state $s\in S$, an update function $\phi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\phi$ at $s$ when the input is from $p[i]$ (sending $d\in p[i]$ to $\phi^\sharp_s(d)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
+In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\phi'$ consists of a return function $\phi'_\1\colon S \to p(\1)$ that is the same as the return function of $\phi$ and, for each state $s\in S$, an update function $\phi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\phi$ at $s$ when the input is from $p[i]$ (sending $a\in p[i]$ to $\phi^\sharp_s(a)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
 
 This construction is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
 \end{solution}
@@ -6525,7 +6525,7 @@ There are a few special classes of polynomials that are worth discussing:
 	\item constant polynomials $\0,\1,\2,A$; 
 	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
 	\item pure-power (or representable) polynomials $\1, \yon, \yon^\2, \yon^A$; and 
-	\item monomials $\0, A, \yon, \2\yon^\3, A\yon^B$.
+	\item monomials $\0, A, \yon, \2\yon^\3, B\yon^A$.
 \end{enumerate}
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}. 
 The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
@@ -6828,7 +6828,7 @@ Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen 
 We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cref{ex.clock_in_N}.
 Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with return function $g_\1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_\1(n)] \to \nn$ for each state $n \in \nn$.
 Then the new composite dynamical system $h \coloneqq f \then g$ has a return function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1(i) = g_\1(f_\1(i)) = g_\1(i)$, the same output that the original system returned in the state $i \in \nn$.
-Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1(i)] \to \1\2$ which, given an input $d \in p[g_\1(i)]$, updates the state from $i$ to $h^\sharp_i(d) = f^\sharp_{g_\1(i)}(g^\sharp_i(d)) = g^\sharp_i(d) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
+Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1(i)] \to \1\2$ which, given an input $a \in p[g_\1(i)]$, updates the state from $i$ to $h^\sharp_i(a) = f^\sharp_{g_\1(i)}(g^\sharp_i(a)) = g^\sharp_i(a) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead. 
 \end{solution}
 \end{exercise}
@@ -6987,7 +6987,7 @@ where $\circ$ denotes composition.
 Before proving that this really is an exponential in $\poly$, which we do in \cref{thm.poly_cart_closed}, we first get some practice with it.
 
 \begin{example}
-Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$, so it better be true that the there is an isomorphism 
+Let $A$ be a set. We've been writing the polynomial $A\yon^\0$ simply as $A$, so it better be true that there is an isomorphism 
 \[
     \yon^A \iso \yon^{A\yon^\0}
 \]
