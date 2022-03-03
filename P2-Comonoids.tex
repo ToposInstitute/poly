@@ -1960,19 +1960,52 @@ Throughout the rest of this book, we'll see how this polybox notation provides i
 \end{remark}
 
 \begin{example}[Dynamical systems as polyboxes]
-We can express a dynamical system $\phi\colon S\yon^S\to p$ in polyboxes as
-\begin{equation*} \label{eqn.polybox_lens}
-\begin{tikzpicture}
-  \node (f) {
-    \begin{tikzpicture}[polybox, mapstos]
-  	  \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+Polyboxes provide a natural way to model our dependent dynamical systems.
+We can express such a system $\phi\colon S\yon^S\to p$ in polyboxes as
+\begin{equation*}
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
 
-  	  \node[poly, cod, right=of S, "$p$" right] (p) {$a$\at$i$};
-	  
-  	  \draw (S_pos) -- node[below] {$\phi_\1$} (p_pos);
-  	  \draw (p_dir) -- node[above] {$\phi^\sharp$} (S_dir);
-    \end{tikzpicture}
-  };
+    \node[poly, cod, right=of S, "$p$" right] (p) {$i$\at$o$};
+  
+    \draw (S_pos) -- node[below] {return} (p_pos);
+    \draw (p_dir) -- node[above] {update} (S_dir);
+\end{tikzpicture}
+\end{equation*}
+Then the polybox acts as a channel between the internal state system on the left and the external interface on the right.
+The state system enters its current state $s\in S$ into the bottom left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the bottom right white box.
+Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
+Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
+
+We then compose $\phi$ with a wrapper $f\colon p\to q$ like so:
+\begin{equation*}
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+    \node[poly, right=of S, "$p$" below] (p) {$i$\at$o$};
+
+    \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
+  
+    \draw (S_pos) -- node[below] {return} (p_pos);
+    \draw (p_dir) -- node[above] {update} (S_dir);
+    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+\end{tikzpicture}
+\end{equation*}
+The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the bottom box on the far right.
+Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
+The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
+
+Picture the agent standing to the right of all the polyboxes and looking leftward, receiving output from the white box below and feeding input into the blue box above.
+To an agent who is unaware of its inner workings, the composite dynamical system $\phi\then f$ might as well look like this:
+\begin{equation*}
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+    \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
+  
+    \draw (S_pos) -- node[below] {return$'$} (q_pos);
+    \draw (q_dir) -- node[above] {update$'$} (S_dir);
 \end{tikzpicture}
 \end{equation*}
 \end{example}
@@ -2044,7 +2077,7 @@ In particular, the position in the bottom box of the top pair is the position as
 So a lens $p\to q_1\tri q_2$ is any protocol that will fill in the white boxes above as the user fills in the blue boxes in the direction of the arrows.
 We'll see this in action in \cref{ex.map_to_comp}.
 
-In fact, \eqref{eqn.map_to_0ary_composite}, \eqref{eqn.polybox_lens}, and \eqref{eqn.map_to_2ary_composite} are the polybox depictions of the $n=0, n=1,$ and $n=2$ examples of lenses $p\to q_1\tri\cdots\tri q_n$ to $n$-fold composites.
+In fact, \eqref{eqn.map_to_0ary_composite}, \eqref{eqn.polybox_lens}, and \eqref{eqn.map_to_2ary_composite} are the respective polybox depictions of the $n=0, n=1,$ and $n=2$ cases of lenses $p\to q_1\tri\cdots\tri q_n$ to $n$-fold composites (we consider the monoidal unit $\yon$ of $\tri$ to be the $0$-fold composite, and a $1$-fold composite is just a polynomial on its own).
 In general, for any $n\in\nn$, we can apply 
 \begin{align} \label{eqn.lens_to_comp}
     \poly(p, q_1\tri\cdots\tri q_n) &\iso\poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{e_n\in q_n[j_n]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
@@ -2087,11 +2120,11 @@ For example, here are the polyboxes corresponding to a lens to a $4$-fold compos
 % \end{aligned}
 % \end{equation}
 
-These lenses to $n$-fold composites lend themselves to a very natural interpretation in terms of our decision making language.
-Each of $p$'s decisions is passed forward to a decision for $q_1$ to make.
-For every option that $q_1$ may choose, there is then also a decision for $q_2$ to make.
-Then for every option that $q_2$ may choose, there is a decision for $q_3$ to make, and so on, all the way until $q_n$ has picked an option.
-Together, all the options that $q_1,\ldots,q_n$ chose then inform the option that $p$ should make for its original decision.
+These lenses to $n$-fold composites lend themselves to a very natural interpretation in terms of our decision-making language.
+Each of $p$'s menus is passed forward to a menu for $q_1$ to choose from.
+For every option that $q_1$ may choose, there is then also a menu for $q_2$ to choose from.
+Then for every option that $q_2$ may choose, there is a menu for $q_3$ to choose from, and so on, all the way until $q_n$ has chosen an option.
+Together, all the options that $q_1,\ldots,q_n$ chose then inform the option that $p$ should select from its original menu.
 
 \slogan{A lens $p\to q_1\tri\cdots\tri q_n$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$, then $q_2$, etc., all the way to $q_n$, then interpreting the results.}
 
