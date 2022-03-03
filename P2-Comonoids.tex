@@ -64,22 +64,22 @@ Functor composition gives a monoidal structure on the category $\smset^\smset$ o
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor, and we have the following isomorphism:
 \begin{equation} \label{eqn.composite_formula_circ}
-p\circ q\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+p\circ q\iso\sum_{i\in p(\1)}\prod_{a\in p[i]}\sum_{j\in q(\1)}\prod_{b\in q[j]}\yon.
 \end{equation}
 \end{proposition}
 \begin{proof}
 We can rewrite $p$ and $q$ as
 \[
-p\iso\sum_{i\in p(\1)}\yon^{p[i]}\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\yon
+p\iso\sum_{i\in p(\1)}\yon^{p[i]}\iso\sum_{i\in p(\1)}\prod_{a\in p[i]}\yon
 \qqand
-q\iso\sum_{j\in q(\1)}\yon^{q[j]}\iso\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+q\iso\sum_{j\in q(\1)}\yon^{q[j]}\iso\sum_{j\in q(\1)}\prod_{b\in q[j]}\yon.
 \]
-For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_e X)=\sum_i\prod_d\sum_j\prod_eX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for the composite $p \circ q$.
+For any set $X$ we have $(p\circ q)(X)=p(q(X))=p(\sum_j\prod_b X)=\sum_i\prod_a\sum_j\prod_bX$, so \eqref{eqn.composite_formula_circ} is indeed the formula for the composite $p \circ q$.
 To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which says we can rewrite the $\prod\sum$ in \eqref{eqn.composite_formula_circ} as a $\sum\prod$ to obtain
 \begin{align}\label{eqn.composite_formula_sums_first_circ}
   p\circ q\iso
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
+  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}$}
 \end{align}
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
@@ -100,24 +100,24 @@ In particular, $p\tripow{0}=\yon$ and $p\tripow{1}=p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
 \begin{equation}\label{eqn.composite_formula}
-p\tri q\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}\sum_{j\in q(\1)}\prod_{e\in q[j]}\yon.
+p\tri q\iso\sum_{i\in p(\1)}\prod_{a\in p[i]}\sum_{j\in q(\1)}\prod_{b\in q[j]}\yon.
 \end{equation}
 
 \begin{align}\label{eqn.composite_formula_sums_first}
   p\tri q\iso
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}$}
+  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}$}
 \end{align}
 
 % \[
 % \begin{tikzpicture}[polybox, baseline=(helper)]
-% 	\node[poly] (p) {$d:p[i]$\at$i:p(\1)$};
-% 	\node[poly, above=of p] (q) {$e:q[j]$\at$j:q(\1)$};
+% 	\node[poly] (p) {$a:p[i]$\at$i:p(\1)$};
+% 	\node[poly, above=of p] (q) {$b:q[j]$\at$j:q(\1)$};
 % 	\coordinate (helper) at ($(p.north)!.5!(q.south)$);
 % \end{tikzpicture}
 % \quad\cong\quad
 % \begin{tikzpicture}[polybox, baseline=(p.east)]
-% 	\node[poly] (p) {$(d:p[i], e:q[j(d)]$)\at$(i:p(1), j: p[i]\to q(\1))$};
+% 	\node[poly] (p) {$(a:p[i], b:q[j(a)]$)\at$(i:p(1), j: p[i]\to q(\1))$};
 % \end{tikzpicture}
 % \]
 
@@ -128,10 +128,10 @@ Let's consider \eqref{eqn.composite_formula_sums_first} piece by piece, with con
 	\item What is $\yon^\1\tri q$?
 	\item What is $(\yon^\2+\yon^\1)\tri q$? This is what $p\tri q$ ``should be.''
 	\item How many functions $\bar{j_1}\colon p[1]\to q(\1)$ are there?
-	\item For each function $\bar{j_1}$ as above, what is $\sum_{d\in p[1]} q[\bar{j_1}(d)]$?
+	\item For each function $\bar{j_1}$ as above, what is $\sum_{a\in p[1]} q[\bar{j_1}(a)]$?
 	\item How many functions $\bar{j_2}\colon p[2]\to q(\1)$ are there?
-	\item For each function $\bar{j_2}$ as above, what is $\sum_{d\in p[2]} q[\bar{j_2}(d)]$?
-	\item Write out \[\sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[\bar{j_i}(d)]}.\]
+	\item For each function $\bar{j_2}$ as above, what is $\sum_{a\in p[2]} q[\bar{j_2}(a)]$?
+	\item Write out \[\sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}.\]
 	Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
@@ -144,21 +144,21 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
     \item Since $p[1] \iso \2$ and $q(\1) \iso \2$, there are $2^2 = 4$ functions $p[1] \to q(\1)$.
     \item When $\bar{j_1} \colon p[1] \to q(\1)$ is one of the two possible bijections, we have that
     \[
-        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[1] + q[2] \iso \3 + \0 \iso \3.
+        \sum_{a \in p[1]} q[\bar{j_1}(a)] \iso q[1] + q[2] \iso \3 + \0 \iso \3.
     \]
     When $\bar{j_1} \colon p[1] \to q(\1)$ sends everything to $1 \in q(\1)$, we have that
     \[
-        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[1] + q[1] \iso \3 + \3 \iso \6.
+        \sum_{a \in p[1]} q[\bar{j_1}(a)] \iso q[1] + q[1] \iso \3 + \3 \iso \6.
     \]
     Finally, when $\bar{j_1} \colon p[1] \to q(\1)$ sends everything to $2 \in q(\1)$, we have that
     \[
-        \sum_{d \in p[1]} q[\bar{j_1}(d)] \iso q[2] + q[2] \iso \0 + \0 \iso \0.
+        \sum_{a \in p[1]} q[\bar{j_1}(a)] \iso q[2] + q[2] \iso \0 + \0 \iso \0.
     \]
     \item Since $p[2] \iso \1$ and $q(\1) \iso \2$, there are $2^1 = 2$ functions $p[2] \to q(\1)$.
-    \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{d \in p[2]} q[\bar{j_2}(d)] \iso q[1] \iso \3$, and when $\bar{j_2} \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{d \in p[2]} q[\bar{j_2}(d)] \iso q[2] \iso \0$.
+    \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{a \in p[2]} q[\bar{j_2}(a)] \iso q[1] \iso \3$, and when $\bar{j_2} \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{a \in p[2]} q[\bar{j_2}(a)] \iso q[2] \iso \0$.
     \item From the previous parts, we have that
     \[
-        \sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{d\in p[i]}q[j_i(d)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
+        \sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[j_i(a)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
     \]
     which agrees with what $p \tri q$ should be.
 \end{enumerate}
@@ -239,13 +239,13 @@ The position-set of $p \tri q$ is
 \begin{equation} \label{eqn.comp_pos}
     (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\bar{j_i} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
 \end{equation}
-In other words, specifying a position of $p \tri q$ amounts to first specifying a $p$-position $i$, then specifying a function $\bar{j_i} \colon p[i] \to q(\1)$, i.e.\ a $q$-position $\bar{j_i}(d)$ for each $p[i]$-direction $d$.
+In other words, specifying a position of $p \tri q$ amounts to first specifying a $p$-position $i$, then specifying a function $\bar{j_i} \colon p[i] \to q(\1)$, i.e.\ a $q$-position $\bar{j_i}(a)$ for each $p[i]$-direction $a$.
 
 Given such a position $(i, \bar{j_i})$ of $p \tri q$, the direction-set of $p \tri q$ at $(i, \bar{j_i})$ is
 \begin{equation} \label{eqn.comp_dir}
-    (p \tri q)[(i, \bar{j_i})] \iso \sum_{d \in p[i]} q[\bar{j_i}(d)].
+    (p \tri q)[(i, \bar{j_i})] \iso \sum_{a \in p[i]} q[\bar{j_i}(a)].
 \end{equation}
-So a direction of $p \tri q$ at $(i, \bar{j_i})$ consists of a $p[i]$-direction $d$ and a $q[\bar{j_i}(d)]$-direction.
+So a direction of $p \tri q$ at $(i, \bar{j_i})$ consists of a $p[i]$-direction $a$ and a $q[\bar{j_i}(a)]$-direction.
 
 While this description completely characterizes $p \tri q$ as an arena, it may be a bit tricky to wrap your head around.
 Here is an alternative perspective that can help us get a better intuition for what's going on with composite arenas.
@@ -253,14 +253,14 @@ Here is an alternative perspective that can help us get a better intuition for w
 Back in \cref{subsec.poly.func_nat.repr_sum.dep_sum_prod_set}, we saw how to write the instructions for choosing an element of a dependent sum or product of sets.
 For instance, given a polynomial $p$ and a set $X$, the instructions for choosing an element of
 \[
-    p\tri X=p(X)\iso\sum_{i\in p(\1)}\prod_{d\in p[i]}X
+    p\tri X=p(X)\iso\sum_{i\in p(\1)}\prod_{a\in p[i]}X
 \]
 would be written as follows.
 \begin{quote}
 To choose an element of $p(X)$: 
 \begin{enumerate}
     \item choose an element $i\in p(\1)$;
-    \item for each element $d\in p[i]$:
+    \item for each element $a\in p[i]$:
     \begin{enumerate}[label*=\arabic*.]
         \item choose an element of $X$.
     \end{enumerate}
@@ -273,7 +273,7 @@ Furthermore, to highlight that these instructions are associated with some polyn
 The instructions associated with a polynomial $p$ are:
 \begin{enumerate}
     \item choose a $p$-position $i$;
-    \item for each $p[i]$-direction $d$:
+    \item for each $p[i]$-direction $a$:
     \begin{enumerate}[label*=\arabic*.]
         \item choose a future.
     \end{enumerate}
@@ -285,10 +285,10 @@ If we think of polynomials in terms of their instructions, then \eqref{eqn.compo
 The instructions associated with a polynomial $p\tri q$ are:
 \begin{enumerate}
     \item choose a $p$-position $i$;
-    \item for each $p[i]$-direction $d$:
+    \item for each $p[i]$-direction $a$:
     \begin{enumerate}[label*=\arabic*.]
         \item choose a $q$-position $j$;
-        \item for each $q[j]$-direction $e$:
+        \item for each $q[j]$-direction $b$:
         \begin{enumerate}[label*=\arabic*.]
             \item choose a future.
         \end{enumerate}
@@ -302,8 +302,8 @@ When we rewrite \eqref{eqn.composite_formula} \eqref{eqn.composite_formula_sums_
 \begin{quote}
 The instructions associated with a polynomial $p\tri q$ are:
 \begin{enumerate}
-    \item choose a $p$-position $i$ and, for each $p[i]$-direction $d$, a $q$-position $\bar{j}_i(d)$;
-    \item for each $p[i]$-direction $d$ and each $q[\bar{j}_i(d)]$-direction $e$:
+    \item choose a $p$-position $i$ and, for each $p[i]$-direction $a$, a $q$-position $\bar{j}_i(a)$;
+    \item for each $p[i]$-direction $a$ and each $q[\bar{j}_i(a)]$-direction $b$:
     \begin{enumerate}[label*=\arabic*.]
         \item choose a future.
     \end{enumerate}
@@ -321,13 +321,13 @@ We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have
     \item The instructions associated with a polynomial $p\tri p\tri p$ are:
     \begin{enumerate}
         \item choose a $p$-position $i$;
-        \item for each $p[i]$-direction $d$:
+        \item for each $p[i]$-direction $a$:
         \begin{enumerate}[label*=\arabic*.]
             \item choose a $p$-position $i'$;
-            \item for each $p[i']$-direction $d'$:
+            \item for each $p[i']$-direction $a'$:
             \begin{enumerate}[label*=\arabic*.]
                 \item choose a $p$-position $i''$;
-                \item for each $p[i'']$-direction $d''$:
+                \item for each $p[i'']$-direction $a''$:
                 \begin{enumerate}[label*=\arabic*.]
                     \item choose a future.
                 \end{enumerate}
@@ -337,10 +337,10 @@ We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have
     \item To choose an element of $p\tri p\tri\1$:
     \begin{enumerate}
         \item choose a $p$-position $i$;
-        \item for each $p[i]$-direction $d$:
+        \item for each $p[i]$-direction $a$:
         \begin{enumerate}[label*=\arabic*.]
             \item choose a $p$-position $i'$;
-            \item for each $p[i']$-direction $d'$:
+            \item for each $p[i']$-direction $a'$:
             \begin{enumerate}[label*=\arabic*.]
                 \item done.
             \end{enumerate}
@@ -367,9 +367,9 @@ We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\t
     \begin{equation} \label{eqn.comp_lens_pos}
         (i,\bar{j}_i)\Mapsto{(f\:\tri\:g)_\1}\left(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1\right);
     \end{equation}
-    while for each $(d',e')$ in $(p'\tri q')[(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1)]$ (see \eqref{eqn.comp_dir}), its on-directions function sends
+    while for each $(a',b')$ in $(p'\tri q')[(f_\1(i), f^\sharp_i\then\bar{j}_i\then g_\1)]$ (see \eqref{eqn.comp_dir}), its on-directions function sends
     \begin{equation} \label{eqn.comp_lens_dir}
-        (d',e')\Mapsto{(f\:\tri\:g)^\sharp_{(i,\bar{j}_i)}}\left(f^\sharp_i(d'), g^\sharp_{\bar{j}_i(f^\sharp_i(d'))}(e')\right).
+        (a',b')\Mapsto{(f\:\tri\:g)^\sharp_{(i,\bar{j}_i)}}\left(f^\sharp_i(a'), g^\sharp_{\bar{j}_i(f^\sharp_i(a'))}(b')\right).
     \end{equation}
     \qedhere
 \end{enumerate}
@@ -377,16 +377,16 @@ We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\t
 We have lenses $f\colon p\to p'$ and $g\colon q\to q'$.
 \begin{enumerate}
     \item By \cref{prop.morph_arena_to_func}, the $q(X)$-component of $f$ is a function $f_{q(X)}\colon p(q(X))\to p'(q(X))$ that sends every $(i,h)$ with $i\in p(\1)$ and $h\colon p[i]\to q(X)$ to $(f_\1(i),f^\sharp_i\then h)$.
-    We can think of the function $h\colon p[i]\to q(X)$ equivalently as a function $\bar{j}_i\colon p[i]\to q(\1)$ and, for each $d\in p[i]$, a function $h_d\colon q[\bar{j}_i(d)]\to X$.
-    So $f_{q(X)}\colon (p\tri q)(X)\to (p'\tri q)(X)$ sends \[(i,\bar{j}_i,(h_d)_{d\in p[i]})\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right).\]
+    We can think of the function $h\colon p[i]\to q(X)$ equivalently as a function $\bar{j}_i\colon p[i]\to q(\1)$ and, for each $a\in p[i]$, a function $h_a\colon q[\bar{j}_i(a)]\to X$.
+    So $f_{q(X)}\colon (p\tri q)(X)\to (p'\tri q)(X)$ sends \[(i,\bar{j}_i,(h_a)_{a\in p[i]})\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(a')}\right)_{a'\in p'[f_\1(i)]}\right).\]
     
     \item By \cref{prop.morph_arena_to_func}, the $X$-component of $g$ is a function $g_X\colon q(X)\to q'(X)$ that sends every $(j,k)$ with $j\in q(\1)$ and $k\colon q[j]\to X$ to $(g_\1(j),g^\sharp_j\then k)$ in $q'(X)$.
-    Then by \cref{prop.poly_on_functions}, applying $p'$ to this $X$-component yields a function $p'(q(X))\to p'(q'(X))$ that sends every $(i',\bar{j'}_{i'},(h'_{d'})_{d'\in p'[i']})$ with $i'\in p'(\1)$ as well as $\bar{j'}_{i'}\colon p'[i']\to q(\1)$ and $h'_{d'}\colon q[\bar{j'}_{i'}(d')]\to X$ to \[\left(i',\bar{j'}_{i'}\then g_\1,\left(g^\sharp_{\bar{j'}_{i'}(d')}\then h'_{d'}\right)_{d'\in p'[i']}\right).\]
+    Then by \cref{prop.poly_on_functions}, applying $p'$ to this $X$-component yields a function $p'(q(X))\to p'(q'(X))$ that sends every $(i',\bar{j'}_{i'},(h'_{a'})_{a'\in p'[i']})$ with $i'\in p'(\1)$ as well as $\bar{j'}_{i'}\colon p'[i']\to q(\1)$ and $h'_{a'}\colon q[\bar{j'}_{i'}(a')]\to X$ to \[\left(i',\bar{j'}_{i'}\then g_\1,\left(g^\sharp_{\bar{j'}_{i'}(a')}\then h'_{a'}\right)_{a'\in p'[i']}\right).\]
     
     \item By \cref{def.horiz_comp_nat_trans}, the horizontal composite of $f$ and $g$ is the natural transformation $f\tri g\colon p\tri p'\to q\tri q'$ whose $X$-component is the composite of the answers to \cref{exc.comp_prod_lens.1} and \cref{exc.comp_prod_lens.2}, sending
     \begin{align*}
-        (i,\bar{j}_i,(h_d)_{d\in p[i]})&\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right)\\
-        &\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i\then g_\1, \left(g^\sharp_{\bar{j}_{i}(f^\sharp_i(d'))}\then h_{f^\sharp_i(d')}\right)_{d'\in p'[f_\1(i)]}\right).
+        (i,\bar{j}_i,(h_a)_{a\in p[i]})&\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i,\left(h_{f^\sharp_i(a')}\right)_{a'\in p'[f_\1(i)]}\right)\\
+        &\mapsto\left(f_\1(i),f^\sharp_i\then\bar{j}_i\then g_\1, \left(g^\sharp_{\bar{j}_{i}(f^\sharp_i(a'))}\then h_{f^\sharp_i(a')}\right)_{a'\in p'[f_\1(i)]}\right).
     \end{align*}
     
     \item We use \cref{cor.morph_func_to_arena} to translate the answer to \cref{exc.comp_prod_lens.3} into a lens $f\tri g\colon p\tri q\to p'\tri q'$, as follows.
@@ -394,24 +394,24 @@ We have lenses $f\colon p\to p'$ and $g\colon q\to q'$.
     \[
         (f_\1(i),f^\sharp_i\then\bar{j}_i\then g_\1).
     \]
-    Then for each such $(i,\bar{j}_i)$, if we apply the $(p\tri q)[(i,\bar{j}_i)]$-component of $f\tri g$ to the element $(i,\bar{j}_i,(\iota_d)_{d\in p[i]})$, where $\iota_d\colon q[\bar{j}_i(d)]\to(p\tri q)[(i,\bar{j}_i)]\iso\sum_{d\in p[i]}q[\bar{j}_i(d)]$ is the canonical inclusion, then take the last coordinate of the result, we obtain for each $d'\in p'[f_\1(i)]$ the function
+    Then for each such $(i,\bar{j}_i)$, if we apply the $(p\tri q)[(i,\bar{j}_i)]$-component of $f\tri g$ to the element $(i,\bar{j}_i,(\iota_d)_{a\in p[i]})$, where $\iota_d\colon q[\bar{j}_i(a)]\to(p\tri q)[(i,\bar{j}_i)]\iso\sum_{a\in p[i]}q[\bar{j}_i(a)]$ is the canonical inclusion, then take the last coordinate of the result, we obtain for each $a'\in p'[f_\1(i)]$ the function
     \[
-        q'[g_\1(\bar{j}_i(f^\sharp_i(d')))] \To{g^\sharp_{\bar{j}_{i}(f^\sharp_i(d'))}} q[\bar{j}_i(f^\sharp_i(d'))] \To{\iota_{f^\sharp_i(d')}} \sum_{d\in p[i]}q[\bar{j}_i(d)] \iso (p\tri q)[(i,\bar{j}_i)].
+        q'[g_\1(\bar{j}_i(f^\sharp_i(a')))] \To{g^\sharp_{\bar{j}_{i}(f^\sharp_i(a'))}} q[\bar{j}_i(f^\sharp_i(a'))] \To{\iota_{f^\sharp_i(a')}} \sum_{a\in p[i]}q[\bar{j}_i(a)] \iso (p\tri q)[(i,\bar{j}_i)].
     \]
     These can equivalently be thought of as a single function from
     \[
-        \sum_{d'\in p'[f_\1(i)]} q'[g_\1(\bar{j}_i(f^\sharp_i(d')))] \iso (p'\tri q')[(f\tri g)_\1(i,\bar{j}_i)]
+        \sum_{a'\in p'[f_\1(i)]} q'[g_\1(\bar{j}_i(f^\sharp_i(a')))] \iso (p'\tri q')[(f\tri g)_\1(i,\bar{j}_i)]
     \]
-    which \cref{cor.morph_func_to_arena} tells us is the on-directions function of $f\tri g$ at $(i,\bar{j}_i)$, that sends every $(d',e')$ with $d'\in p'[f_\1(i)]$ and $e'\in q'[g_\1(\bar{j}_i(f^\sharp_i(d')))]$ to
+    which \cref{cor.morph_func_to_arena} tells us is the on-directions function of $f\tri g$ at $(i,\bar{j}_i)$, that sends every $(a',b')$ with $a'\in p'[f_\1(i)]$ and $b'\in q'[g_\1(\bar{j}_i(f^\sharp_i(a')))]$ to
     \[
-        \left(f^\sharp_i(d'), g^\sharp_{\bar{j}_i(f^\sharp_i(d'))}(e')\right).
+        \left(f^\sharp_i(a'), g^\sharp_{\bar{j}_i(f^\sharp_i(a'))}(b')\right).
     \]
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 So what does \cref{exc.comp_prod_lens} tell us about the behavior of $f\tri g\colon p\tri q\to p'\tri q'$?
-By \eqref{eqn.comp_lens_pos}, on positions, $f\tri g$ takes a $p$-position $i$ and sends it to the $p'$-position $f_\1(i)$; then for each direction $d'$ at this position, the associated $q'$-position is obtained by sending $d'$ back to a $p[i]$-direction via $f^\sharp_i$, checking what $q$-position is associated to that $p[i]$-direction via some $\bar{j}_i$, then sending that $q$-position forward again to a $q'$-position via $g_\1$.
+By \eqref{eqn.comp_lens_pos}, on positions, $f\tri g$ takes a $p$-position $i$ and sends it to the $p'$-position $f_\1(i)$; then for each direction $a'$ at this position, the associated $q'$-position is obtained by sending $a'$ back to a $p[i]$-direction via $f^\sharp_i$, checking what $q$-position is associated to that $p[i]$-direction via some $\bar{j}_i$, then sending that $q$-position forward again to a $q'$-position via $g_\1$.
 
 Then by \eqref{eqn.comp_lens_pos}, on directions, $f\tri g$ sends a direction of $p'$ back to a direction of $p$ via an on-directions function of $f$, then sends a direction of $q'$ back to a direction of $q$ via an on-directions funtion of $g$.
 We'll get a better sense of what's happening when we see this drawn out as corolla forests in \cref{ex.comp_prod_trees}.
@@ -480,7 +480,7 @@ So we may depict $(p \tri q)(\1)$ by gluing roots from $q$ to leaves in $p$ in e
 \end{tikzpicture}
 \end{equation}
 Now fix one of the positions of $p \tri q$ drawn above: a root $i$ from $p$ and a root from $q$ glued to every leaf emanating from $i$.
-By \eqref{eqn.comp_dir}, a direction of $p \tri q$ at that position consists of a leaf $d$ emanating from the root $i$ from $p$ and a second leaf emanating from the root from $q$ that has been glued to $d$.
+By \eqref{eqn.comp_dir}, a direction of $p \tri q$ at that position consists of a leaf $a$ emanating from the root $i$ from $p$ and a second leaf emanating from the root from $q$ that has been glued to $a$.
 In other words, in the following picture, where we have glued not just roots but entire corollas from $q$ to leaves in $p$, the directions of $p \tri q$ at the position corresponding to each tree are the rooted paths\footnote{A \emph{rooted path} of a rooted tree is a path up the tree that starts from the root.} of that tree of length $2$ (we omit the labels):
 \begin{equation}\label{eqn.prefered_composite}
 \begin{tikzpicture}[rounded corners]
@@ -1154,12 +1154,12 @@ Below, $X$ is a set and $p$ is a polynomial.
     \item A constant functor composed with any functor is still the same constant functor, so $X \tri p \iso X$.
     We can also verify this using \eqref{eqn.composite_formula}:
     \[
-        X \tri p \iso \sum_{i \in X} \prod_{d \in \varnothing} \sum_{j \in p(\1)} \prod_{e \in p[j]} \yon \iso \sum_{i \in X} \1 \iso X.
+        X \tri p \iso \sum_{i \in X} \prod_{a \in \varnothing} \sum_{j \in p(\1)} \prod_{b \in p[j]} \yon \iso \sum_{i \in X} \1 \iso X.
     \]
     \item When viewed as functors, it is easy to see that $p \tri X \iso p(X)$.
     We can also verify this using \eqref{eqn.composite_formula}:
     \[
-        p \tri X \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \prod_{e \in \varnothing} \yon \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} \sum_{j \in X} \1 \iso \sum_{i \in p(\1)} \prod_{d \in p[i]} X \iso \sum_{i \in p(\1)} X^{p[i]} \iso p(X).
+        p \tri X \iso \sum_{i \in p(\1)} \prod_{a \in p[i]} \sum_{j \in X} \prod_{b \in \varnothing} \yon \iso \sum_{i \in p(\1)} \prod_{a \in p[i]} \sum_{j \in X} \1 \iso \sum_{i \in p(\1)} \prod_{a \in p[i]} X \iso \sum_{i \in p(\1)} X^{p[i]} \iso p(X).
     \]
 \end{enumerate}
 \end{solution}
@@ -1509,16 +1509,16 @@ Let's also pick a pair of lenses, $f\colon p\to p'$ and $g\colon q\to q'$.
 \]
 Then by \cref{exc.comp_prod_lens}, we can form the lens $f\tri g\colon p\tri q\to p'\tri q'$ as follows.
 On positions, we follow \eqref{eqn.comp_lens_pos}: for each tree $t$ in the picture of $p\tri q$, we begin by using $f_\1$ to send the corolla $i$ of $p$ that forms the bottom level of $t$ to a corolla $i'$ of $p'$.
-Then for each leaf $d'$ of $i'$, to choose what corolla of $q'$ gets glued to $d'$, we use $f^\sharp_i$ to send $d'$ back to a leaf $d$ of corolla $i$.
-Since $t$ has corolla $i$ as its bottom level, $d$ is just a level-$1$ vertex of the tree $t$.
-So we can take the corolla $j$ of $q$ glued to $d$ in $t$, then use $g_\1$ to send $j$ forward to a corolla $j'$ of $q'$.
-This is the corolla we glue to $d'$.
+Then for each leaf $a'$ of $i'$, to choose what corolla of $q'$ gets glued to $a'$, we use $f^\sharp_i$ to send $a'$ back to a leaf $a$ of corolla $i$.
+Since $t$ has corolla $i$ as its bottom level, $a$ is just a level-$1$ vertex of the tree $t$.
+So we can take the corolla $j$ of $q$ glued to $a$ in $t$, then use $g_\1$ to send $j$ forward to a corolla $j'$ of $q'$.
+This is the corolla we glue to $a'$.
 All this specifies a tree $t'$ in $p'\tri q'$ that $t$ gets sent to via $(f\tri g)_\1$.
 
-On directions, we follow \eqref{eqn.comp_lens_dir}: picking a direction of $t'$ consists of picking a level-$1$ vertex $d'$ and a level-$2$ leaf $e'$ emanating from $d'$.
-The on-directions function $f^\sharp_i$ sends $d'$ back to a level-$1$ vertex $d$ of $t$, and as we saw, the on-positions function $g_\1$ sends the corolla $j$ of $q$ glued to $d$ in $t$ forward to the corolla of $q'$ glued to $d'$.
-Then $e'$ is a leaf of that corolla, and $g^\sharp_j$ sends $e'$ back to a leaf $e$ emanating from $d$.
-So the on-directions function $(f\tri g)^\sharp_t$ sends the level-$2$ leaf $e'$ to the level-$2$ leaf $e$.
+On directions, we follow \eqref{eqn.comp_lens_dir}: picking a direction of $t'$ consists of picking a level-$1$ vertex $a'$ and a level-$2$ leaf $b'$ emanating from $a'$.
+The on-directions function $f^\sharp_i$ sends $a'$ back to a level-$1$ vertex $a$ of $t$, and as we saw, the on-positions function $g_\1$ sends the corolla $j$ of $q$ glued to $a$ in $t$ forward to the corolla of $q'$ glued to $a'$.
+Then $b'$ is a leaf of that corolla, and $g^\sharp_j$ sends $b'$ back to a leaf $b$ emanating from $a$.
+So the on-directions function $(f\tri g)^\sharp_t$ sends the level-$2$ leaf $b'$ to the level-$2$ leaf $b$.
 
 We draw the lens $f\tri g\to p\tri q\to p'\tri q'$ below.
 To avoid clutter, we leave out the arrows for $g_\1$ that show how the red corollas on the right are selected; we hope the reader can put it together for themselves.
@@ -1910,19 +1910,19 @@ The arrows track the flow of information, starting from the bottom left.
 When the user fills the bottom left blue box with a $p$-position $i$, the arrow to the right tells us that the gadget should automatically fill the bottom right white box with some $q$-position $j$, based on the value $i$ that has already been entered.
 This process yields a map $i\mapsto j$ that corresponds to the on-position function $f_\1$ of the lens.
 
-Then when the user fills the top right blue box with a $q[j]$-direction $e$, the arrow to the left tells us that the gadget should automatically fill the top left white box with some $p[i]$-position $d$, based on the values $i$ and $e$ that have already been entered.
-Fixing $i\in p(\1)$, this process yields a map $e\mapsto d$ that corresponds to the on-directions function $f^\sharp_i$ of the lens.
+Then when the user fills the top right blue box with a $q[j]$-direction $b$, the arrow to the left tells us that the gadget should automatically fill the top left white box with some $p[i]$-position $a$, based on the values $i$ and $b$ that have already been entered.
+Fixing $i\in p(\1)$, this process yields a map $b\mapsto a$ that corresponds to the on-directions function $f^\sharp_i$ of the lens.
 
 So when both the user and the automation have finished filling all the boxes, we'll end up with something that looks like this:
 \[ \label{eqn.polybox_lens_filled}
 \begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$p$" left] (p) {$d$\at$i$};
-    \node[poly, cod, "$q$" right, right=of p] (q) {$e$\at$j$};
+    \node[poly, dom, "$p$" left] (p) {$a$\at$i$};
+    \node[poly, cod, "$q$" right, right=of p] (q) {$b$\at$j$};
     \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
     \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
-Here, of course, $j\coloneqq f_\1(i)$ and $d\coloneqq f^\sharp_i(e)$.
+Here, of course, $j\coloneqq f_\1(i)$ and $a\coloneqq f^\sharp_i(b)$.
 So a lens is any protocol that will fill in the white boxes once the user fills in the blue boxes, following the directions of the arrows drawn.
 
 If we have two composable lenses $f\colon p\to q$ and $g\colon q\to r$, then we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
@@ -1991,7 +1991,7 @@ A situation $\gamma\colon p\to\yon$, then, can be depicted as follows, where $!$
   	\draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
 	\end{tikzpicture}
 \]
-But this is equivalent to a gadget where, when the user fills in the bottom left blue box with a $p$-position $i$, the top left white box is automatically filled with a $p[i]$-direction $d$.
+But this is equivalent to a gadget where, when the user fills in the bottom left blue box with a $p$-position $i$, the top left white box is automatically filled with a $p[i]$-direction $a$.
 So we can redraw the gadget like so:
 \begin{equation}\label{eqn.map_to_0ary_composite}
 \begin{tikzpicture}[polybox, tos]
@@ -2019,7 +2019,7 @@ To choose a lens $p\to q_1\tri q_2$:
             \item choose a $q_2$-position $j_2$;
             \item for each $q_2[j_2]$-direction $e_2$:
             \begin{enumerate}[label*=\arabic*.]
-                \item choose a $p[i]$-direction $d$.
+                \item choose a $p[i]$-direction $a$.
             \end{enumerate}
         \end{enumerate}
     \end{enumerate}
@@ -2029,7 +2029,7 @@ We could try to write out the dependent functions that these instructions corres
 Alternatively, we could simply draw this protocol out using polyboxes, with every ``for each'' step corresponding to a user-maintained blue box and every ``choose'' step corresponding to an automated white box:
 \begin{equation}\label{eqn.map_to_2ary_composite}
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$p$" left] (p) {$d$\at$i$};
+	\node[poly, dom, "$p$" left] (p) {$a$\at$i$};
 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$e_1$\at$j_1$};
 	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$e_2$\at$j_2$};
   	\draw (p_pos) to[first] (q1_pos);
@@ -2295,14 +2295,14 @@ To indicate this, we color the top right box red and leave the arrow emerging fr
 % \[
 % i\in p(\1),\quad
 % j\colon p[i]\to q(\1),\quad
-% k:(d\in p[i])\to(e\in q[j(d)])\to r(\1).
+% k:(a\in p[i])\to(b\in q[j(a)])\to r(\1).
 % \]
 
 % The direction-set of $p_1\tri\cdots\tri p_k$ at position $(i_1,\ldots,i_k)$ is 
 % \[
 % (p_1\tri\cdots\tri p_k)[(i_1,\ldots,i_k)]\cong\sum_{d_1\in p_1[i_1]}\sum_{d_2\in p_2[i_2(d_1)]}\cdots\sum_{d_k\in p_k[i_k(d_1,\ldots,d_{k-1})]}\1
 % \]
-% So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(d,e,f)$ where $d\in p[i]$, $e\in q[j(d)]$ and $f\in r[k(d,e)]$.
+% So for example given a position $(i,j,k)\in p\tri q\tri r$, a direction there consists of a tuple $(a,b,c)$ where $a\in p[i]$, $b\in q[j(a)]$ and $f\in r[k(a,b)]$.
 % \end{example}
 
 % \begin{exercise}
@@ -2367,8 +2367,8 @@ Say we knew that $g\then(f\tri f')$ were equal to some other lens $h\colon r\to 
 	\node[poly, dom, "$r$" left] (r) {\at$k$};
 	\node[poly, right=1.8 of r.south, yshift=-2.5ex, "$p$" below] (p) {};
 	\node[poly, above=.8 of p, "$p'$" above] (p') {};
-	\node[poly, cod, right=of p, "$q$" right] (q) {$e$};
-	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {$e'$};
+	\node[poly, cod, right=of p, "$q$" right] (q) {$b$};
+	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {$b'$};
 	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
 	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
 	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
@@ -2381,8 +2381,8 @@ Say we knew that $g\then(f\tri f')$ were equal to some other lens $h\colon r\to 
 	\node[right=1.8 of 1] (2) {
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$r$" left] (r) {\at$k$};
-  	\node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$q$" right] (q) {$e$};
-  	\node[poly, cod, above=of q, "$q'$" right] (q') {$e'$};
+  	\node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$q$" right] (q) {$b$};
+  	\node[poly, cod, above=of q, "$q'$" right] (q') {$b'$};
   	\draw (r_pos) to[first] node[below] {$h^q$} (q_pos);
   	\draw (q_dir) to[climb] node[right] {$h^{q'}$} (q'_pos);
   	\draw (q'_dir) to[last] node[above] {$h^\sharp$} (r_dir);
@@ -2402,7 +2402,7 @@ that
 \]
 and that
 \[
-    (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(e))}\then g^\sharp_k = h^\sharp_k.
+    (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(b))}\then g^\sharp_k = h^\sharp_k.
 \]
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
 We will read equations off of polyboxes like this repeatedly in the rest of the book.
@@ -2411,6 +2411,7 @@ We will read equations off of polyboxes like this repeatedly in the rest of the 
 \section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
 
 We conclude this chapter by discussing several interesting properties of the composition product, many of which will come in handy in the following chapters.
+We'll focus on how $\tri$ interacts with other constructions on $\poly$ that we introduced in previous chapters.
 
 \subsection{Interaction with products and coproducts} \label{subsec.comon.comp.prop.prod}
 
@@ -2426,13 +2427,13 @@ and
 \begin{equation}\label{eqn.comp_left_pres_times}
     pq\tri r\iso (p\tri r)(q\tri r).
 \end{equation}
-More generally, given a set $A$ and polynomials $(p_a)_{a\in A}$, we have the following natural isomorphisms:
+More generally, given a set $A$ and polynomials $(q_a)_{a\in A}$, we have the following natural isomorphisms:
 \begin{equation}\label{eqn.comp_left_pres_sum}
-    \left(\sum_{a\in A}p_a\right)\tri r\iso \sum_{a\in A} (p_a\tri r)
+    \left(\sum_{a\in A}q_a\right)\tri r\iso \sum_{a\in A} (q_a\tri r)
 \end{equation}
 and
 \begin{equation}\label{eqn.comp_left_pres_prod}
-    \left(\prod_{a\in A}p_a\right)\tri r\iso \prod_{a\in A} (p_a\tri r)
+    \left(\prod_{a\in A}q_a\right)\tri r\iso \prod_{a\in A} (q_a\tri r)
 \end{equation}
 \end{proposition} 
 \begin{proof}
@@ -2446,19 +2447,19 @@ Prove \cref{prop.left_dist_prod} using the explicit formula for $\tri$ given in 
 \begin{solution}
 To prove \cref{prop.left_dist_prod}, it suffices to verify \eqref{eqn.comp_left_pres_sum} and \eqref{eqn.comp_left_pres_prod}, as \eqref{eqn.comp_left_pres_plus} and \eqref{eqn.comp_left_pres_times} follow directly when $A\coloneqq\2$.
 
-Given polynomials $(p_a)_{a\in A}$, recall that the position-set of the sum $\sum_{a\in A}p_a$ is $\sum_{a\in A}p_a(\1)$, while the direction-set at each position $(a,i)$ with $a\in A$ and $i\in p_a(\1)$ is $p_a[i]$.
+Given polynomials $(q_a)_{a\in A}$, recall that the position-set of the sum $\sum_{a\in A}q_a$ is $\sum_{a\in A}q_a(\1)$, while the direction-set at each position $(a,j)$ with $a\in A$ and $j\in q_a(\1)$ is $q_a[j]$.
 So by \eqref{eqn.composite_formula}, we have that
 \begin{align*}
-    \left(\sum_{a\in A}p_a\right)\tri r &\iso \sum_{\substack{a\in A, \\ i\in p_a(\1)}}\;\prod_{d \in p_a[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
-    &\iso \sum_{a\in A}\;\sum_{i\in p_a(\1)}\;\prod_{d \in p_a[i]}\;\sum_{j \in r(\1)}\;\prod_{e \in r[j]}\yon \\
-    &\iso\sum_{a\in A}(p_a\tri r).
+    \left(\sum_{a\in A}q_a\right)\tri r &\iso \sum_{\substack{a\in A, \\ j\in q_a(\1)}}\;\prod_{b \in q_a[j]}\;\sum_{k \in r(\1)}\;\prod_{c \in r[k]}\yon \\
+    &\iso \sum_{a\in A}\;\sum_{j\in q_a(\1)}\;\prod_{b \in q_a[j]}\;\sum_{k \in r(\1)}\;\prod_{c \in r[k]}\yon \\
+    &\iso\sum_{a\in A}(q_a\tri r).
 \end{align*}
-We can also recall that the position-set of the product $\prod_{a\in A}p_a$ is $\prod_{a\in A}p_a(\1)$, while the direction-set at each position $\bar{i}\colon(a\in A)\to p_a(\1)$ is $\sum_{a\in A}p_a[\bar{i}(a)]$.
+We can also recall that the position-set of the product $\prod_{a\in A}q_a$ is $\prod_{a\in A}q_a(\1)$, while the direction-set at each position $\bar{j}\colon(a\in A)\to q_a(\1)$ is $\sum_{a\in A}q_a[\bar{j}(a)]$.
 So by \eqref{eqn.composite_formula}, we have that
 \begin{align*}
-    \left(\prod_{a\in A}p_a\right)\tri r &\iso \sum_{\bar{i}\in\prod_{a\in A}p_a(\1)} \; \prod_{\substack{a\in A, \\ d\in p_a[\bar{i}(a)]}} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \\
-    &\iso \prod_{a\in A} \; \sum_{i\in p_a(\1)} \; \prod_{d\in p_a[i]} \; \sum_{j \in r(\1)} \; \prod_{e \in r[j]} \yon \tag*{\eqref{eqn.cat_completely_distributive}} \\
-    &\iso\prod_{a\in A}(p_a\tri r).
+    \left(\prod_{a\in A}q_a\right)\tri r &\iso \sum_{\bar{j}\in\prod_{a\in A}q_a(\1)} \; \prod_{\substack{a\in A, \\ b\in q_a[\bar{j}(a)]}} \; \sum_{k \in r(\1)} \; \prod_{c \in r[j]} \yon \\
+    &\iso \prod_{a\in A} \; \sum_{j\in q_a(\1)} \; \prod_{b\in q_a[j]} \; \sum_{k \in r(\1)} \; \prod_{c \in r[k]} \yon \tag*{\eqref{eqn.cat_completely_distributive}} \\
+    &\iso\prod_{a\in A}(q_a\tri r).
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -3209,7 +3210,7 @@ We can write this equation using polyboxes:
 \end{tikzpicture}
 \]
 We can read off the picture that a lens $g\colon p\to q\tri r$ is a morphism from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ if and only if $g^q=f_\1$.
-% , so specifying such a morphism amounts to specifying a position $k$ of $r$ and an on-directions function $r[k]\to p[i]$ for each $i\in p(\1)$ and $e\in q[f_\1(i)]$.
+% , so specifying such a morphism amounts to specifying a position $k$ of $r$ and an on-directions function $r[k]\to p[i]$ for each $i\in p(\1)$ and $b\in q[f_\1(i)]$.
 So morphisms from $f$ to $q\:\tri\:!$ are equivalent to gadgets
 \[
 \begin{tikzpicture}[polybox, mapstos]
@@ -3409,16 +3410,16 @@ For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\oti
 Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair):
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$p\otimes q$" left] (p) {$(d,e)$\nodepart{two}$(i,j)$};
-	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$d$\nodepart{two}$i$};
-	\node[poly, cod, "$q$" right, above=of q] (r) {$e$\nodepart{two}$j$};
+	\node[poly, dom, "$p\otimes q$" left] (p) {$(a,b)$\nodepart{two}$(i,j)$};
+	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$a$\nodepart{two}$i$};
+	\node[poly, cod, "$q$" right, above=of q] (r) {$b$\nodepart{two}$j$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
 \end{tikzpicture}
 \]
 Usually, the positions box of $q$ is allowed to depend on the directions box of $p$ in the polyboxes for $p\tri q$ on its own.
-But in the polyboxes above, $j$ is not allowed to depend on $d$ in $p\otimes q$ on the left, so the arrow from the positions box of $q$ to the directions box of $p$ on the right doesn't actually take $d$ into account at all.
+But in the polyboxes above, $j$ is not allowed to depend on $a$ in $p\otimes q$ on the left, so the arrow from the positions box of $q$ to the directions box of $p$ on the right doesn't actually take $a$ into account at all.
 So the lens $o_{p,q}$ is in some sense the inclusion of the order-independent positions of $p\tri q$; when drawn as trees, the positions in its image are the ones whose upper-level corollas are all the same.
 And of course we can flip the order using the symmetry $q\otimes p\iso p\otimes q$.
 This is, we just as well have a lens $p\otimes q\to q\tri p$.
@@ -6767,7 +6768,7 @@ A consequence of this is that $\sys(p)$ forms a topos, and hence has a ready-mad
 \section{Morphisms between cofree comonoids}
 Given a morphism of polynomials $\varphi \colon p \to q$, the cofree functor gives us a map of comonoids $\cofree{\varphi} \colon \cofree {p} \to \cofree{q}$, which works as follows.
 
-An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $e \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (e)$.
+An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $b \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (b)$.
 
 \begin{exercise}
 Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
