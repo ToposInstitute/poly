@@ -1844,7 +1844,7 @@ It takes a specification $\phi$ for how a state system and an interface can inte
 Alternatively, we can think of $\phi\tripow{n}$ as ``speeding up'' the original dynamical system $\phi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
 The lens $\phi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
 
-\subsubsection{Why this is not enough}
+\subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
 There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
 The first is a communication issue: as you probably sensed, our set-theoretic notation for $\phi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
 We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{exc.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
@@ -1955,7 +1955,7 @@ The key is to let each arrow depend on exactly the boxes that come before it in 
 Or just remember that these arrows are all on-positions and on-directions functions of lenses!
 
 \begin{remark}
-At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc. without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
+At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc.\ without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
 We choose to elide this issue to highlight the pictorial intuition of our work, rather than grinding through the nitty-gritty details.
 This is not to say our work with polyboxes will lack rigor moving forward---if you're particularly worried, you should think of polyboxes simply as an alternate way to present information about dependent sets, functions, sums, and products that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
 
@@ -2123,6 +2123,20 @@ Matching up the upper boxes of the domain in both pictures, we have that $t=t'$,
 \]
 Later on, we will read more intricate equations off of polyboxes in this manner, although we won't spell it out in so much detail.
 We encourage you to trace through the arrows on your own.
+\end{example}
+
+\begin{example}[The do-nothing enclosure in polyboxes]
+In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with an enclosure $\epsilon\colon S\yon^S\to\yon$ called the do-nothing enclosure, which assigns each state-position to its corresponding state-direction, thus leaving the state unchanged.
+That is, it is the enclosure whose polyboxes can be drawn as follows:
+\begin{equation*}
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
+
+    \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
+\end{tikzpicture}
+\end{equation*}
+
+This simple example illustrates how we can use polyboxes to specify a particular lens---or, equivalently, how we can use polyboxes to \emph{define} a lens, the same way we might define a function by writing it as a formula in a dummy variable.
 \end{example}
 
 
@@ -2436,10 +2450,41 @@ To indicate this, we color the upper right box red and leave the arrow emerging 
 % Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
 % \end{exercise}
 
+\begin{example}[Dynamical systems with composite interfaces]
+We explored dynamical systems with product interfaces in \cref{subsec.poly.dyn_sys.new.prod} and parallel product interfaces in \cref{subsec.poly.dyn_sys.new.par}.
+How about dynamical systems with composite interfaces?
+We now have all the tools we need to characterize them.
+
+By the previous example, a dynamical system $\phi\colon S\yon^S\to q\tri r$ can be drawn as
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (p) {$t$\at$s$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q$" right] (q) {$b$\at$j$};
+	\node[poly, cod, above=of q, "$r$" right] (r) {$c$\at$k$};
+  	\draw (p_pos) to[first] node[below] {$\phi^q$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {$\phi^r$} (r_pos);
+  	\draw (r_dir) to[last] node[above] {$\phi^\sharp$} (p_dir);
+\end{tikzpicture}
+\]
+We can interpret the behavior of this system as follows.
+Rather than a single interface $q\tri r$, we view $\phi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.
+
+Given the current state $s\in S$, the system feeds it into $\phi^q$ to return an output $j$ of the first interface $q$.
+Upon receiving an input $b\in q[j]$, it then uses $\phi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
+Once a second input $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of inputs $(b,c)$ it received into $\phi^\sharp$, yielding a new state $t\in S$.
+
+That's a lot of words, which is why the polybox picture is so helpful: by following the arrows, we can see that a dynamical system with a composite interface actually captures a very natural type of interaction!
+Mixing our metaphors a little, $\phi$ could model a system that displays cascading menus, where selecting an option $b$ on the first menu $j$ opens up a second menu $k$.
+It is only when the interacting agent selects an option $c$ from this second menu that both choices are sent back to the state system, which updates its state accordingly.
+
+All this generalizes to $n$-fold composite interfaces exactly how you'd expect: a dynamical system with interface $q_1\tri\cdots\tri q_n$ produces output and receives input through interface $q_1$, then accordingly produces output and receives input through interface $q_2$, and so on, until it produces output (according to the current state and all previous inputs) and receives input through $q_n$, whereupon it updates its state according to the $n$ inputs it received along with the current state.
+\end{example}
+
+
 \subsection{The composition product of lenses as polyboxes}
 
 A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.
-If we draw such a lens as polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the lenses on top of each other.
+If we draw such a lens using polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the polyboxes for the constituent lenses on top of each other.
 For example, given lenses $f\colon p\to q$ and $f'\colon p'\to q'$, here is $f\tri f'$ drawn as polyboxes:
 \begin{equation} \label{eqn.comp_lens_polybox}
 \begin{tikzpicture}[polybox, tos]
@@ -2458,15 +2503,45 @@ Moreover, we have the user fill out the lower set of boxes first and work their 
 So this really does depict a lens $p\tri p'\to q\tri q'$.
 
 How does \eqref{eqn.comp_lens_polybox} relate to our usual polybox depiction of a lens to a composite, as in \eqref{eqn.map_to_2ary_composite}, but with the domain also replaced with a composite?
-A user who interacts with \eqref{eqn.comp_lens_polybox} could fill the lower set of polyboxes for $f$ independently of the upper set of polyboxes for $f'$.
-Alternatively, along with what position goes in the lower box of $p$, they could have already decided beforehand what position to put in the lower box of $p'$ for every possible direction that could end up in the upper box of $p$.
+A user who interacts with \eqref{eqn.comp_lens_polybox} can fill the lower set of polyboxes (the ones for $f$) first, ignoring the upper set of polyboxes (the ones for $f'$) until the entire lower half is filled.
+Alternatively, after they fill in the lower box of $p$, but before they fill in anything else, they can already decide what position to put in the lower box of $p'$ for every possible direction that could end up in the upper box of $p$.
 By \eqref{eqn.comp_pos}, such a choice is equivalent to picking a position of the composite $p\tri p'$.
-Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the upper box of $q$ and following $f^\sharp$ then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
+Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the upper box of $q$ and following $f^\sharp$, then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
 Finally, once the user fills in the upper box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
+\begin{example}[Dynamical systems and the composition product, revisited]
+In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold composition product $\phi\tripow{n}$ of a dynamical system $\phi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
+We can visualize this behavior using polyboxes---for example, here's what the $n=3$ case looks like:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (s) {$s_1$\at$s_0$};
+	\node[poly, dom, above=.8 of s, "$S\yon^S$" left] (s') {$s_2$\at$s_1$};
+	\node[poly, dom, above=.8 of s', "$S\yon^S$" left] (s'') {$s_3$\at$s_2$};
+	
+	\node[poly, cod, right=of s, "$p$" right] (p) {$i_1$\at$o_0$};
+	\node[poly, cod, above=.75 of p, "$p$" right] (p') {$i_2$\at$o_1$};
+	\node[poly, cod, above=.7 of p', "$p$" right] (p'') {$i_3$\at$o_2$};
+	
+	\draw (s_pos) -- node[below] {return} (p_pos);
+	\draw (p_dir) -- node[above] {update} (s_dir);
+	
+	\draw (s'_pos) -- node[below] {return} (p'_pos);
+	\draw (p'_dir) -- node[above] {update} (s'_dir);
+	
+	\draw (s''_pos) -- node[below] {return} (p''_pos);
+	\draw (p''_dir) -- node[above] {update} (s''_dir);
+\end{tikzpicture}
+\]
+It is now patently obvious what $\phi\tripow3$ does from this picture, as long as we know how to read polyboxes (and we could probably make a pretty good guess even if we didn't!).
+This resolves the first issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues}: we now have a concise way of depicting the $n$-fold composite of a dynamical system.
+The second issue becomes clear when we look at which boxes are blue along the left: we would really like the position $s_1$ to be entered above the direction $s_1$ automatically, the $s_2$ entered above $s_2$ automatically, etc.\ rather than having to specify the contents of those blue boxes manually.
+We shouldn't even having the option to fill those blue boxes in with anything else.
+We'll see how to address this issue shortly in \cref{sec.comon.comp.to_comp.trans}.
+\end{example}
+
 We make a big deal out of it, but \eqref{eqn.comp_lens_polybox} really is just the polyboxes of two separate lenses drawn together.
-Where such polyboxes truly get interesting is when we compose them with polyboxes like \eqref{eqn.map_to_2ary_composite}.
+Where such polyboxes truly get interesting is when we compose them with polyboxes that look like \eqref{eqn.map_to_2ary_composite}.
 That is, given a lens $g\colon r\to p\tri p'$, consider the polyboxes for $g\then(f\tri f')$:
 \[
 \begin{tikzpicture}[polybox, tos]
@@ -2523,12 +2598,13 @@ We've filled in the corresponding blue boxes on either side of the equation with
 So if these two sets of polyboxes really do depict the same lens, each of the three white boxes in the domain and codomain on the left should end up with the same entry as the corresponding white box on the right (although the intermediary mechanics may differ).
 Then if we follow the arrows in order on either side, matching up the white boxes in the domain and codomain along the way, we can read off three equations:
 \[
-    g^p\then f_\1 = h^q, \qquad f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k, \qqand (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(b))}\then g^\sharp_k = h^\sharp_k.
+    g^p\then f_\1 = h^q, \qquad f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k, \qqand (f')^\sharp_{g^{p'}\left(f^\sharp_{g^p(k)}(b)\right)}\then g^\sharp_k = h^\sharp_k.
 \]
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
-We will read equations off of polyboxes like this repeatedly in the rest of the book.
+We will read equations off of polyboxes like this repeatedly in the rest of the book, including in the next section.
 
-\subsection{Transition lenses for state systems}
+\subsection{Transition lenses for state systems} \label{sec.comon.comp.to_comp.trans}
+
 
 %-------- Section --------%
 \section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
