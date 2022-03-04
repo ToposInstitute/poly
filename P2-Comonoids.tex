@@ -1902,15 +1902,15 @@ To visualize this, we will introduce a new form of notation, which we will call 
 \end{tikzpicture}
 \end{equation}
 In our polyboxes, each pair of boxes stacked on top of each other represents a single polynomial.
-The bottom box in a pair can be filled with any position of the polynomial, while the top box must be filled with a direction of the polynomial at the position in the bottom box.
+The lower box in a pair can be filled with any position of the polynomial, while the upper box must be filled with a direction of the polynomial at the position in the lower box.
 
 We think of \eqref{eqn.polybox_lens} as depicting the lens $f$ as a sort of gadget that acts like an automated spreadsheet: the blue boxes accept user input, while the white boxes are computed based on what is entered into the blue boxes according to the spreadsheet's preprogrammed rules.
-The arrows track the flow of information, starting from the bottom left.
+The arrows track the flow of information, starting from the lower left.
 
-When the user fills the bottom left blue box with a $p$-position $i$, the arrow to the right tells us that the gadget should automatically fill the bottom right white box with some $q$-position $j$, based on the value $i$ that has already been entered.
+When the user fills the lower left blue box with a $p$-position $i$, the arrow to the right tells us that the gadget should automatically fill the lower right white box with some $q$-position $j$, based on the value $i$ that has already been entered.
 This process yields a map $i\mapsto j$ that corresponds to the on-position function $f_\1$ of the lens.
 
-Then when the user fills the top right blue box with a $q[j]$-direction $b$, the arrow to the left tells us that the gadget should automatically fill the top left white box with some $p[i]$-position $a$, based on the values $i$ and $b$ that have already been entered.
+Then when the user fills the upper right blue box with a $q[j]$-direction $b$, the arrow to the left tells us that the gadget should automatically fill the upper left white box with some $p[i]$-position $a$, based on the values $i$ and $b$ that have already been entered.
 Fixing $i\in p(\1)$, this process yields a map $b\mapsto a$ that corresponds to the on-directions function $f^\sharp_i$ of the lens.
 
 So when both the user and the automation have finished filling all the boxes, we'll end up with something that looks like this:
@@ -1924,6 +1924,8 @@ So when both the user and the automation have finished filling all the boxes, we
 \]
 Here, of course, $j\coloneqq f_\1(i)$ and $a\coloneqq f^\sharp_i(b)$.
 So a lens is any protocol that will fill in the white boxes once the user fills in the blue boxes, following the directions of the arrows drawn.
+Be careful: although the arrow $f^\sharp$ is drawn from the upper right box, it also takes into account what is entered into the lower left box previously.
+After all, the on-directions function of a lens is dependent on both a position of the domain and a direction of the codomain.
 
 If we have two composable lenses $f\colon p\to q$ and $g\colon q\to r$, then we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
 \[
@@ -1941,8 +1943,16 @@ If we have two composable lenses $f\colon p\to q$ and $g\colon q\to r$, then we 
     \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
 \end{tikzpicture}
 \]
-The bottom (position) box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the top (direction box) for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
+The lower (position) box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the upper (direction box) for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
 This forms a gadget that is equivalent to what the polyboxes would be for $f\then g$.
+
+Again, as we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the upper box for $r$, but also the lower box for $q$ that came before it.
+Similarly, the arrow $f^\sharp$ depends on both the lower box for $p$ and the upper box for $q$.
+
+On the other hand, the arrow $g_\1$ depends only on the lower box for $q$, and not the lower box for $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the contents of the lower box for $p$ may change the lower box for $q$, thus indirectly affecting what $g_\1$ enters in the lower box for $r$; what we mean is that if the lower box for $p$ changes but the lower box for $q$ does not, $g_\1$ will not change the lower box for $r$.)
+For the same reason, the arrow $g^\sharp$ does not depend on the lower box for $p$, and the arrow $f^\sharp$ does not depend on either box for $r$.
+The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of.
+Or just remember that these arrows are all on-positions and on-directions functions of lenses!
 
 \begin{remark}
 At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc. without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
@@ -1973,7 +1983,7 @@ We can express such a system $\phi\colon S\yon^S\to p$ in polyboxes as
 \end{tikzpicture}
 \end{equation*}
 Then the polybox acts as a channel between the internal state system on the left and the external interface on the right.
-The state system enters its current state $s\in S$ into the bottom left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the bottom right white box.
+The state system enters its current state $s\in S$ into the lower left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the lower right white box.
 Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
 Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
 
@@ -1992,11 +2002,11 @@ We then compose $\phi$ with a wrapper $f\colon p\to q$ like so:
     \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
 \end{equation*}
-The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the bottom box on the far right.
+The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the lower box on the far right.
 Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
 The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
 
-Picture the agent standing to the right of all the polyboxes and looking leftward, receiving output from the white box below and feeding input into the blue box above.
+Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving output from the white box below and feeding input into the blue box above.
 To an agent who is unaware of its inner workings, the composite dynamical system $\phi\then f$ might as well look like this:
 \begin{equation*}
 \begin{tikzpicture}[polybox, mapstos]
@@ -2011,7 +2021,7 @@ To an agent who is unaware of its inner workings, the composite dynamical system
 \end{example}
 
 \subsection{Situations as polyboxes}
-When a polynomial has only $1$ position (i.e.\ it is representable), we shade its bottom (position) polybox gray to indicate that there is no choice to be made there, either by the user or by the automation; similarly, if a polynomial has only $1$ direction at every position (i.e.\ it is linear), we shade its top (direction) polybox gray.
+When a polynomial has only $1$ position (i.e.\ it is representable), we shade its lower (position) polybox gray to indicate that there is no choice to be made there, either by the user or by the automation; similarly, if a polynomial has only $1$ direction at every position (i.e.\ it is linear), we shade its upper (direction) polybox gray.
 So both polyboxes for $\yon$ are shaded gray.
 
 In \cref{subsec.poly.dyn_sys.new.sit_encl}, we discussed situations, which are lenses with codomain $\yon$.
@@ -2024,8 +2034,9 @@ A situation $\gamma\colon p\to\yon$, then, can be depicted as follows, where $!$
   	\draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
 	\end{tikzpicture}
 \]
-But this is equivalent to a gadget where, when the user fills in the bottom left blue box with a $p$-position $i$, the top left white box is automatically filled with a $p[i]$-direction $a$.
-So we can redraw the gadget like so:
+But this is equivalent to a gadget where, when the user fills in the lower left blue box with a $p$-position $i$, the upper left white box is automatically filled with a $p[i]$-direction $a$.
+(Remember that the arrow $\gamma^\sharp$ depends not only on the box to its right, but also on the lower left box of $p$.)
+So we can redraw the gadget like so, combining the arrows $!$ and $\gamma^\sharp$ into one arrow $\gamma$:
 \begin{equation}\label{eqn.map_to_0ary_composite}
 \begin{tikzpicture}[polybox, tos]
     \node[poly, dom, "$p$" left] (p) {};
@@ -2034,11 +2045,92 @@ So we can redraw the gadget like so:
 \end{equation}
 This lines up with what we already know: that a situation $\gamma\colon p\to\yon$ is just a dependent function $\gamma\colon(i\in p(\1))\to p[i]$.
 
+\begin{example}[Enclosures as polyboxes]
+Recall that in the language of dynamical systems, situations for interfaces are thought of as enclosures: a fixed selection of input at every output that closes off the interface from external observation or interference.
+In polyboxes, composing a system $S\yon^S\to p$ with an enclosure $\gamma$ for $p$ can be depicted as
+\begin{equation*}
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {};
+
+    \node[poly, right=of S, "$p$" below] (p) {};
+    
+  	\node[poly, identity, right=of p, "$\yon$" right] (yon) {};
+  
+    \draw (S_pos) -- node[below] {return} (p_pos);
+    \draw (p_dir) -- node[above] {update} (S_dir);
+    \draw (p_pos) -- node[below] {$!$} (yon_pos);
+    \draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
+\end{tikzpicture}
+\end{equation*}
+or, equivalently, as
+\begin{equation*}
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {};
+
+    \node[poly, right=of S, "$p$" below] (p) {};
+  
+    \draw (S_pos) -- node[below] {return} (p_pos);
+    \draw (p_dir) -- node[above] {update} (S_dir);
+    \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+\end{tikzpicture}
+\end{equation*}
+Remember: in a polybox depiction of a dynamical system, the world outside the system exists to the right of all the boxes.
+So the first picture represents $\yon$ as a gray wall, cutting off any interaction between the system to its left and the world to its right.
+Meanwhile, the second picture illustrates how an enclosed system independently selects inputs to the intermediary interface $p$ via $\gamma$, according to the outputs of $p$ that the inner (leftward) system $S\yon^S\to p$ returns.
+While the second picture shows us why the closed system neither seeks nor requires external input, the first picture helps remind us that the output of $p$ never reaches the outside world either.
+The composite system is therefore equivalent to the enclosure drawn as follows:
+\begin{equation*}
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$S\yon^S$" left] (S) {};
+
+    \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
+\end{tikzpicture}
+\end{equation*}
+In polynomial morphism parlance, $\gamma'\colon S\yon^S\to\yon$ is the original system $S\yon^S\to p$ composed with $\gamma\colon p\to\yon$; in the language of dependent functions, $\gamma'\colon S\to S$ is given by
+\[
+    \gamma'(s)=\text{update}(s,\gamma(\text{return}(s))) \qquad \text{for all }s\in S,
+\]
+where we interpret $\gamma$ as a dependent function $(i\in p(\1))\to p[i]$.
+We can deduce this equation by matching up the previous two different polybox pictures, knowing that they represent the same lens.
+Placing the boxes side by side and filling them in with dummy variables makes the equation easier to read off the picture:
+\[
+\begin{tikzpicture}
+	\node (1) {
+    \begin{tikzpicture}[polybox, tos]
+        \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+    
+        \node[poly, right=of S, "$p$" below] (p) {$o$\at$i$};
+      
+        \draw (S_pos) -- node[below] {return} (p_pos);
+        \draw (p_dir) -- node[above] {update} (S_dir);
+        \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+    \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+    \begin{tikzpicture}[polybox, tos]
+        \node[poly, dom, "$S\yon^S$" left] (S) {$t'$\at$s$};
+
+        \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
+    \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+Notice that we filled the blue boxes on either side with the same entry.
+Matching up the upper boxes of the domain in both pictures, we have that $t=t'$, so
+\[
+    \gamma'(s)=t'=t=\text{update}(s,o)=\text{update}(s,\gamma(i))=\text{update}(s,\gamma(\text{return}(s))).
+\]
+Later on, we will read more intricate equations off of polyboxes in this manner, although we won't spell it out in so much detail.
+We encourage you to trace through the arrows on your own.
+\end{example}
+
+
 \subsection{Lenses to composites as polyboxes}
 A lens $p\to q_1\tri q_2$ is an element of the set
 \begin{align*}
-    \poly(p, q_1\tri q_2) &\iso \poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{e_2\in q_2[j_2]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
-    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{e_2\in q_2[j_2]}p[i]. \tag*{\eqref{eqn.main_formula}}
+    \poly(p, q_1\tri q_2) &\iso \poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{b_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{b_2\in q_2[j_2]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
+    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{b_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{b_2\in q_2[j_2]}p[i]. \tag*{\eqref{eqn.main_formula}}
 \end{align*}
 So we can write down the instructions for picking a lens $p\to q_1\tri q_2$ as follows.
 \begin{quote}
@@ -2047,10 +2139,10 @@ To choose a lens $p\to q_1\tri q_2$:
     \item for each $p$-position $i$:
     \begin{enumerate}[label*=\arabic*.]
         \item choose a $q_1$-position $j_1$;
-        \item for each $q_1[j_1]$-direction $e_1$:
+        \item for each $q_1[j_1]$-direction $b_1$:
         \begin{enumerate}[label*=\arabic*.]
             \item choose a $q_2$-position $j_2$;
-            \item for each $q_2[j_2]$-direction $e_2$:
+            \item for each $q_2[j_2]$-direction $b_2$:
             \begin{enumerate}[label*=\arabic*.]
                 \item choose a $p[i]$-direction $a$.
             \end{enumerate}
@@ -2063,8 +2155,8 @@ Alternatively, we could simply draw this protocol out using polyboxes, with ever
 \begin{equation}\label{eqn.map_to_2ary_composite}
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$p$" left] (p) {$a$\at$i$};
-	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$e_1$\at$j_1$};
-	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$e_2$\at$j_2$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q_1$" right] (q1) {$b_1$\at$j_1$};
+	\node[poly, cod, above=of q1, "$q_2$" right] (q2) {$b_2$\at$j_2$};
   	\draw (p_pos) to[first] (q1_pos);
   	\draw (q1_dir) to[climb] (q2_pos);
   	\draw (q2_dir) to[last] (p_dir);
@@ -2072,7 +2164,7 @@ Alternatively, we could simply draw this protocol out using polyboxes, with ever
 \end{equation}
 Whenever we draw two pairs of polyboxes on top of each other, as we do with the polyboxes for $q_1$ and $q_2$ above on the right, we are indicating that the entire column of polyboxes depicts the composite of the polynomials depicted by each individual pair.
 So the column of polyboxes on the right represents the composite $q_1\tri q_2$.
-In particular, the position in the bottom box of the top pair is the position associated with the direction in the top box of the bottom pair, for the depicted position of the composite.
+In particular, the position in the lower box of the top pair is the position associated with the direction in the upper box of the bottom pair, for the depicted position of the composite.
 
 So a lens $p\to q_1\tri q_2$ is any protocol that will fill in the white boxes above as the user fills in the blue boxes in the direction of the arrows.
 We'll see this in action in \cref{ex.map_to_comp}.
@@ -2080,8 +2172,8 @@ We'll see this in action in \cref{ex.map_to_comp}.
 In fact, \eqref{eqn.map_to_0ary_composite}, \eqref{eqn.polybox_lens}, and \eqref{eqn.map_to_2ary_composite} are the respective polybox depictions of the $n=0, n=1,$ and $n=2$ cases of lenses $p\to q_1\tri\cdots\tri q_n$ to $n$-fold composites (we consider the monoidal unit $\yon$ of $\tri$ to be the $0$-fold composite, and a $1$-fold composite is just a polynomial on its own).
 In general, for any $n\in\nn$, we can apply 
 \begin{align} \label{eqn.lens_to_comp}
-    \poly(p, q_1\tri\cdots\tri q_n) &\iso\poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{e_n\in q_n[j_n]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
-    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{e_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{e_n\in q_n[j_n]}p[i], \tag*{\eqref{eqn.main_formula}}
+    \poly(p, q_1\tri\cdots\tri q_n) &\iso\poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{b_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{b_n\in q_n[j_n]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
+    &\iso \prod_{i\in p(\1)}\;\sum_{j_1\in q_1(\1)}\;\prod_{b_1\in q_1[j_1]}\cdots\sum_{j_n\in q_n(\1)}\;\prod_{b_n\in q_n[j_n]}p[i], \tag*{\eqref{eqn.main_formula}}
 \end{align}
 so the polybox depiction of $p\to q_1\tri\cdots\tri q_n$ generalizes analogously.
 For example, here are the polyboxes corresponding to a lens to a $4$-fold composite:
@@ -2113,10 +2205,10 @@ For example, here are the polyboxes corresponding to a lens to a $4$-fold compos
 % \begin{equation}\label{eqn.maps_to_comp}
 % \begin{aligned}
 % f_1&:p(\1)\to q_1(\1),\\
-% f_2&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to q_2(\1),\\
-% f_3&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to (e_2\in q_2[f_2(i,e_1)])\to q_3(\1),\\
-% f_k&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to  \cdots\to(e_{k-1}\in q_{k-1}[f_{k-1}(i,e_1,\ldots,e_{k-2})])\to q_k(\1),\\
-% f^\sharp&:(i\in p(\1))\to (e_1\in q_1[f_1(i)])\to \cdots\to(e_{k}\in q_k[f_{k}(i,e_1,\ldots,e_{k-1})])\to p[i]
+% f_2&:(i\in p(\1))\to (b_1\in q_1[f_1(i)])\to q_2(\1),\\
+% f_3&:(i\in p(\1))\to (b_1\in q_1[f_1(i)])\to (b_2\in q_2[f_2(i,b_1)])\to q_3(\1),\\
+% f_k&:(i\in p(\1))\to (b_1\in q_1[f_1(i)])\to  \cdots\to(b_{k-1}\in q_{k-1}[f_{k-1}(i,b_1,\ldots,b_{k-2})])\to q_k(\1),\\
+% f^\sharp&:(i\in p(\1))\to (b_1\in q_1[f_1(i)])\to \cdots\to(b_{k}\in q_k[f_{k}(i,b_1,\ldots,b_{k-1})])\to p[i]
 % \end{aligned}
 % \end{equation}
 
@@ -2302,8 +2394,10 @@ Polyboxes display the same data in a different format:
 	};
 \end{tikzpicture}
 \]
-The third set of polyboxes, where the left blue box has been filled with an $A$ and the bottom right blue box has been filled with a $V$, is worth highlighting: as $f^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the top right box.
-To indicate this, we color the top right box red and leave the arrow emerging from it dashsed.
+As before, keep in mind that each arrow of a lens depends not only on the box it emerges from, but also on every box that came before it in our usual reading order (lower left to lower right to upper right to upper left).
+
+The third set of polyboxes, where the left blue box has been filled with an $A$ and the lower right blue box has been filled with a $V$, is worth highlighting: as $f^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the upper right box.
+To indicate this, we color the upper right box red and leave the arrow emerging from it dashsed.
 \end{example}
 
 % \begin{example}[Using \eqref{eqn.notation_f1f2fk} to denote positions and directions in a composite]\label{ex.pos_in_composite}
@@ -2359,16 +2453,16 @@ For example, given lenses $f\colon p\to q$ and $f'\colon p'\to q'$, here is $f\t
 	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
 \end{tikzpicture}
 \end{equation}
-What differentiates this from simply writing down the polyboxes for $f$ and the polyboxes for $f'$ is that we are explictly associating the position that will fill the bottom box of $p'$ with the direction that will fill the top box of $p$, and likewise the position that will fill the bottom box of $q'$ with the direction that will fill the top box of $q$.
-Moreover, we have the user fill out the bottom set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $f_\1$ and $f^\sharp$ to decide what to put in the bottom square of $p'$.
+What differentiates this from simply writing down the polyboxes for $f$ and the polyboxes for $f'$ is that we are explictly associating the position that will fill the lower box of $p'$ with the direction that will fill the upper box of $p$, and likewise the position that will fill the lower box of $q'$ with the direction that will fill the upper box of $q$.
+Moreover, we have the user fill out the lower set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $f_\1$ and $f^\sharp$ to decide what to put in the lower box of $p'$.
 So this really does depict a lens $p\tri p'\to q\tri q'$.
 
 How does \eqref{eqn.comp_lens_polybox} relate to our usual polybox depiction of a lens to a composite, as in \eqref{eqn.map_to_2ary_composite}, but with the domain also replaced with a composite?
-A user who interacts with \eqref{eqn.comp_lens_polybox} could fill the bottom set of polyboxes for $f$ independently of the top set of polyboxes for $f'$.
-Alternatively, along with what position goes in the bottom square of $p$, they could have already decided beforehand what position to put in the bottom square of $p'$ for every possible direction that could end up in the top square of $p$.
+A user who interacts with \eqref{eqn.comp_lens_polybox} could fill the lower set of polyboxes for $f$ independently of the upper set of polyboxes for $f'$.
+Alternatively, along with what position goes in the lower box of $p$, they could have already decided beforehand what position to put in the lower box of $p'$ for every possible direction that could end up in the upper box of $p$.
 By \eqref{eqn.comp_pos}, such a choice is equivalent to picking a position of the composite $p\tri p'$.
-Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the top box of $q$ and following $f^\sharp$ then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
-Finally, once the user fills in the top box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
+Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the upper box of $q$ and following $f^\sharp$ then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
+Finally, once the user fills in the upper box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
 We make a big deal out of it, but \eqref{eqn.comp_lens_polybox} really is just the polyboxes of two separate lenses drawn together.
@@ -2390,7 +2484,7 @@ That is, given a lens $g\colon r\to p\tri p'$, consider the polyboxes for $g\the
 	\draw (p'_dir) to[last] node[above] {$g^\sharp$} (r_dir);
 \end{tikzpicture}
 \]
-There's a lot going on with this lens! To fill out these polyboxes, we start from the bottom box of $r$, go all the way right to the bottom box of $q$, loop back left, up, and right again to the bottom box of $q'$, then travel left all the way back to the top box of $r$.
+There's a lot going on with this lens! To fill out these polyboxes, we start from the lower box of $r$, go all the way right to the lower box of $q$, loop back left, up, and right again to the lower box of $q'$, then travel left all the way back to the upper box of $r$.
 
 Say we knew that $g\then(f\tri f')$ were equal to some other lens $h\colon r\to q\tri q'$:
 \[
@@ -2425,17 +2519,11 @@ Say we knew that $g\then(f\tri f')$ were equal to some other lens $h\colon r\to 
 \end{tikzpicture}
 \]
 
-Then we can read off the picture that
+We've filled in the corresponding blue boxes on either side of the equation with the same entries.
+So if these two sets of polyboxes really do depict the same lens, each of the three white boxes in the domain and codomain on the left should end up with the same entry as the corresponding white box on the right (although the intermediary mechanics may differ).
+Then if we follow the arrows in order on either side, matching up the white boxes in the domain and codomain along the way, we can read off three equations:
 \[
-    g^p\then f_\1 = h^q,
-\]
-that
-\[
-    f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k,
-\]
-and that
-\[
-    (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(b))}\then g^\sharp_k = h^\sharp_k.
+    g^p\then f_\1 = h^q, \qquad f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k, \qqand (f')^\sharp_{g^{p'}(f^\sharp_{g^p(k)}(b))}\then g^\sharp_k = h^\sharp_k.
 \]
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
 We will read equations off of polyboxes like this repeatedly in the rest of the book.
