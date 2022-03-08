@@ -95,7 +95,7 @@ p\tri q\coloneqq p\circ q.
 The symbol $\tri$ looks a bit like the composition symbol in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
 But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered.
 Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
-For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composite of $p$, i.e.\ $n$ copies of $p$ all composed with each other.
+For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composite of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold composition product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold composition product'' in general, we refer to an arbitrary composition product of $n$ polynomials that may or may not all be equal to each other. This will apply to composition products of lenses as well, once we define those.}
 In particular, $p\tripow{0}=\yon$ and $p\tripow{1}=p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
@@ -2537,7 +2537,7 @@ It is now patently obvious what $\phi\tripow3$ does from this picture, as long a
 This resolves the first issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues}: we now have a concise way of depicting the $n$-fold composite of a dynamical system.
 The second issue becomes clear when we look at which boxes are blue along the left: we would really like the position $s_1$ to be entered above the direction $s_1$ automatically, the $s_2$ entered above $s_2$ automatically, etc.\ rather than having to specify the contents of those blue boxes manually.
 We shouldn't even having the option to fill those blue boxes in with anything else.
-We'll see how to address this issue shortly in \cref{sec.comon.comp.to_comp.trans}.
+We'll see how to address this issue shortly in \cref{ex.dyn_sys_trans_polyboxes}.
 \end{example}
 
 We make a big deal out of it, but \eqref{eqn.comp_lens_polybox} really is just the polyboxes of two separate lenses drawn together.
@@ -2601,9 +2601,9 @@ Then if we follow the arrows in order on either side, matching up the white boxe
     g^p\then f_\1 = h^q, \qquad f^\sharp_{g^p(k)}\then g^{p'}_k\then f'_\1 = h^{q'}_k, \qqand (f')^\sharp_{g^{p'}\left(f^\sharp_{g^p(k)}(b)\right)}\then g^\sharp_k = h^\sharp_k.
 \]
 The converse holds as well: if the three equations above all hold, then $g\then(f\tri f')=h$.
-We will read equations off of polyboxes like this repeatedly in the rest of the book, including in the next section.
+We will read equations off of polyboxes like this repeatedly in the rest of the book.%, including in the following example.
 
-\subsection{Transition lenses for state systems} \label{sec.comon.comp.to_comp.trans}
+\begin{example}[Transition lenses for state systems] \label{ex.dyn_sys_trans_polyboxes}
 
 In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\phi\tripow{2}$ of a dynamical system $\phi\colon S\yon^S\to p$ can be drawn as follows:
 \[
@@ -2621,10 +2621,12 @@ In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition produc
 	\draw (p'_dir) -- node[above] {update} (s'_dir);
 \end{tikzpicture}
 \]
-This \emph{almost} models the behavior of running through the system twice, except that we should really only have one blue box on the domain side, the one we fill with the initial state $s_0$; the second blue box on the domain side, the one we fill with $s_1$, should instead be filled automatically with the same state as the direction in the white box below it.
+This \emph{almost} models the behavior of running through the system twice, except that we should really only have one blue box on the domain side---the one we fill with the initial state $s_0$.
+The second blue box on the domain side, the one we fill with $s_1$, should instead be filled automatically with the same state as the direction $s_1$ in the white box below it.
 
-In fact, it would be nice if our domain were still just $S\yon^S$, to obtain a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\phi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
-But we just learned how to take composition product of lenses $\phi\tripow{2}\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
+In fact, it would be nice if the domain were still just $S\yon^S$.
+Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\phi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
+But we just learned how to take a composition product of lenses such as $\phi\tripow{2}\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -2669,11 +2671,41 @@ Let's take a closer look at how $\delta$ behaves on its own, labeling its arrows
 	\draw (p'_dir) to[last] node[above] {$\delta_2$} (r_dir);
   \end{tikzpicture}
 \]
+We can see from this picture that $\delta$ arises very naturally from the structure of $S\yon^S$; indeed, every state system can be equipped with such a lens, just as every state system can be equipped with a do-nothing enclosure from \cref{ex.do_nothing}.
+The bottom arrow $\delta_0\colon S\to S$ sending $s_0\mapsto s_0$ is the identity on the position-set $S$: it sends each state to itself.
+We use a double arrow to denote this equality.
+While the middle arrow $\delta_1$ also looks like an identity arrow, remember that we should think of it as depending on the left blue box as well; so it is really a function $\delta_1\colon S\times S\to S$ sending $(s_0,s_1)$, a position-state $s_0$ and a direction at $s_0$ corresponding to state $s_1$, to the new position-state $s_1$.
+Similarly, $\delta_2\colon S\times S\times S\to S$ sends $(s_0,s_1,s_2)$, where the last coordinate is the direction at position-state $s_1$ corresponding to state $s_2$, to the direction at position-state $s_0$ that also corresponds to state $s_2$.
 
+Notice the crucial role that $\delta_1$ plays here: it matches up every direction at a given state to the new state that the direction in question should point to, encoding how the state system transitions from one state to the next.
+We have been labeling each direction by the state that it points to, but we should really think of all the directions of $S\yon^S$ as pairs of position-states $(s,t)\in S\times S$, where $(s,t)$ is a direction at $s$ that represents the transition from state $s$ to state $t$.
+The structure of the polynomial $S\yon^S$ tells us the state that each direction transitions from, but it is $\delta_1$ that tells us the new state $\delta_1(s,t)=t$ that $(s,t)$ transitions to.
+For that reason, we call $\delta$ the \emph{transition lens} of the state system $S\yon^S$, and we call $\delta_1\colon S\times S\to S$ the \emph{target function}, relabeling it tgt for short, indicating where each direction leads.
 
-**
-We call $\delta$ the \emph{transition lens} of the state system $S\yon^S$.
+This is exactly what we wanted back in \cref{ex.do_nothing}: a way to encode which directions of a state system point to which positions in the language of $\poly$. Expressions in that language are lenses such as $\delta$, and polyboxes like the ones above are the way we write them down.
 
+We highlighted $\delta_1$ above, but the arrows $\delta_0$ and $\delta_2$ are no less important.
+As an identity function, $\delta_0=\id_S$ remembers the initial state $s_0$ as we shift from its original setting $S\yon^S$, where we can only move one state away from $s_0$, to a new setting $S\yon^S\tri S\yon^S$, where we can think about all the ways to move two states away from $s_0$.
+Meanwhile, $\delta_2$ shifts us from the two-state setting back to the one-state setting while ensuring a sort of transitive coherence condition: the state where we end up after moving from $s_0$ through $s_1$ to $s_2$ is the same state we would end up at if we had moved from $s_0$ directly to $s_2$.
+We will call it the \emph{run function}, because it runs a sequence of two transitions together, and because it is what keeps the system running as it tells the original state system to actually move along one of its directions.
+
+Here is another picture of the transition lens $\delta$ of $S\yon^S$ with our new arrow names:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (r) {$s_2$\at$s_0$};
+	\node[poly, cod, right=1.8 of r.south, yshift=-2.5ex, "$S\yon^S$" below] (p) {$s_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$S\yon^S$" above] (p') {$s_2$\at$s_1$};
+
+	\draw[double] (r_pos) to[first] node[below] {$\id_S$} (p_pos);
+	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+	\draw (p'_dir) to[last] node[above=.5] {run} (r_dir);
+  \end{tikzpicture}
+\]
+% ** Interpret as a dynamical system (maybe an exercise?)
+% ** what do we still need to do?
+% ** do the reading off equations thing
+% ** stringing two dynamical systems together (maybe also an exercise?)
+\end{example}
 
 %-------- Section --------%
 \section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
