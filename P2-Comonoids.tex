@@ -2510,7 +2510,7 @@ Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads 
 Finally, once the user fills in the upper box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
-\begin{example}[Dynamical systems and the composition product, revisited]
+\begin{example}[Dynamical systems and the composition product, revisited] \label{ex.dyn_sys_comp_polyboxes}
 In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold composition product $\phi\tripow{n}$ of a dynamical system $\phi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
 We can visualize this behavior using polyboxes---for example, here's what the $n=3$ case looks like:
 \[
@@ -2604,6 +2604,75 @@ The converse holds as well: if the three equations above all hold, then $g\then(
 We will read equations off of polyboxes like this repeatedly in the rest of the book, including in the next section.
 
 \subsection{Transition lenses for state systems} \label{sec.comon.comp.to_comp.trans}
+
+In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\phi\tripow{2}$ of a dynamical system $\phi\colon S\yon^S\to p$ can be drawn as follows:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (s) {$s_1$\at$s_0$};
+	\node[poly, dom, above=.8 of s, "$S\yon^S$" left] (s') {$s_2$\at$s_1$};
+
+	\node[poly, cod, right=of s, "$p$" right] (p) {$i_1$\at$o_0$};
+	\node[poly, cod, above=.75 of p, "$p$" right] (p') {$i_2$\at$o_1$};
+
+	\draw (s_pos) -- node[below] {return} (p_pos);
+	\draw (p_dir) -- node[above] {update} (s_dir);
+	
+	\draw (s'_pos) -- node[below] {return} (p'_pos);
+	\draw (p'_dir) -- node[above] {update} (s'_dir);
+\end{tikzpicture}
+\]
+This \emph{almost} models the behavior of running through the system twice, except that we should really only have one blue box on the domain side, the one we fill with the initial state $s_0$; the second blue box on the domain side, the one we fill with $s_1$, should instead be filled automatically with the same state as the direction in the white box below it.
+
+In fact, it would be nice if our domain were still just $S\yon^S$, to obtain a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\phi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
+But we just learned how to take composition product of lenses $\phi\tripow{2}\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
+\[
+\begin{tikzpicture}
+	\node (1) {
+  \begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (r) {$s_2$\at$s_0$};
+	\node[poly, right=1.8 of r.south, yshift=-2.5ex, "$S\yon^S$" below] (p) {$s_1$\at$s_0$};
+	\node[poly, above=.8 of p, "$S\yon^S$" above] (p') {$s_2$\at$s_1$};
+	\node[poly, cod, right=of p, "$p$" right] (q) {$i_1$\at$o_0$};
+	\node[poly, cod, above=.75 of q, "$p$" right] (q') {$i_2$\at$o_1$};
+	\draw (p_pos) -- node[below] {return} (q_pos);
+	\draw (q_dir) -- node[above] {update} (p_dir);
+	\draw (p'_pos) -- node[below] {return} (q'_pos);
+	\draw (q'_dir) -- node[above] {update} (p'_dir);	
+	\draw (r_pos) to[first] node[below] {} (p_pos);
+	\draw (p_dir) to[climb] node[right] {} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {} (r_dir);
+  \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom, "$S\yon^S$" left] (r) {$s_2$\at$s_0$};
+  	\node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$p$" right] (q) {$i_1$\at$o_0$};
+  	\node[poly, cod, above=of q, "$p$" right] (q') {$i_2$\at$o_1$};
+  	\draw (r_pos) to[first] node[below] {} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {} (q'_pos);
+  	\draw (q'_dir) to[last] node[above] {} (r_dir);
+  \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+We'll denote our new lens $S\yon^S\to S\yon^S\tri S\yon^S$ on the left by $\delta$.
+Let's take a closer look at how $\delta$ behaves on its own, labeling its arrows for ease of reference:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$S\yon^S$" left] (r) {$s_2$\at$s_0$};
+	\node[poly, cod, right=1.8 of r.south, yshift=-2.5ex, "$S\yon^S$" below] (p) {$s_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$S\yon^S$" above] (p') {$s_2$\at$s_1$};
+
+	\draw[double] (r_pos) to[first] node[below] {$\delta_0$} (p_pos);
+	\draw (p_dir) to[climb] node[right] {$\delta_1$} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {$\delta_2$} (r_dir);
+  \end{tikzpicture}
+\]
+
+
+**
+We call $\delta$ the \emph{transition lens} of the state system $S\yon^S$.
 
 
 %-------- Section --------%
