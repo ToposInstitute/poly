@@ -2096,7 +2096,7 @@ Placing the boxes side by side and filling them in with dummy variables makes th
 \[
 \begin{tikzpicture}
 	\node (1) {
-    \begin{tikzpicture}[polybox, tos]
+    \begin{tikzpicture}[polybox, mapstos]
         \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
     
         \node[poly, right=of S, "$p$" below] (p) {$o$\at$i$};
@@ -2107,7 +2107,7 @@ Placing the boxes side by side and filling them in with dummy variables makes th
     \end{tikzpicture}
 	};
 	\node[right=1.8 of 1] (2) {
-    \begin{tikzpicture}[polybox, tos]
+    \begin{tikzpicture}[polybox, mapstos]
         \node[poly, dom, "$S\yon^S$" left] (S) {$t'$\at$s$};
 
         \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
@@ -2125,11 +2125,11 @@ Later on, we will read more intricate equations off of polyboxes in this manner,
 We encourage you to trace through the arrows on your own.
 \end{example}
 
-\begin{example}[The do-nothing enclosure in polyboxes]
+\begin{example}[The do-nothing enclosure in polyboxes]  \label{ex.do_nothing_polybox}
 In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with an enclosure $\epsilon\colon S\yon^S\to\yon$ called the do-nothing enclosure, which assigns each state-position to its corresponding state-direction, thus leaving the state unchanged.
 That is, it is the enclosure whose polyboxes can be drawn as follows:
 \begin{equation*}
-\begin{tikzpicture}[polybox, tos]
+\begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
 
     \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
@@ -2696,9 +2696,9 @@ Here is another picture of the transition lens $\delta$ of $S\yon^S$ with our ne
 	\node[poly, cod, right=1.8 of r.south, yshift=-2.5ex, "$S\yon^S$" below] (p) {$s_1$\at$s_0$};
 	\node[poly, cod, above=.8 of p, "$S\yon^S$" above] (p') {$s_2$\at$s_1$};
 
-	\draw[double] (r_pos) to[first] node[below] {$\id_S$} (p_pos);
+	\draw[double] (r_pos) to[first] node[below=.3] {$\id_S$} (p_pos);
 	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
-	\draw (p'_dir) to[last] node[above=.5] {run} (r_dir);
+	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
   \end{tikzpicture}
 \]
 This resolves the second issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues} for the case of $n=2$, giving us a dynamical system $\delta\then(\phi\tri\phi)\colon S\yon^S\to p\tri p$ that simulates stepping through the system $\phi$ twice.
@@ -3408,6 +3408,13 @@ We are given $A,B\in\smset$ and $p,q\in\poly$
 % \]
 % Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 
+\begin{example}[Dynamical systems as coalgebras]-
+Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\footnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonoad}, which is a coalgebra for a functor with extra conditions that we will introduce later.
+The version we are using will usually be clear from context---here, for example, we do not expect $p$ to be a comonad---but we will try to be explicit with our terminology whenever the interpretation may be ambiguous.}
+
+** %coalgebras studied extensively...much of the theory of dynamical systems we developed comes from coalgebras. coalgebra perspective has the benefit of staying in the familiar category of sets (and can be generalized to functors Set -> Set that are not polynomial, although many/most interesting examples are), although our perspective marks a clear delineation between states in the domain and interfaces in the codomain
+\end{example}
+
 \begin{proposition}[Left preservation of limits] \label{prop.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
 That is, if $\cat{J}$ is a category, $p_-\colon\cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there is a natural isomorphism
@@ -3851,7 +3858,109 @@ Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
 
 \slogan{Imagine a realm where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from the original position counts as a single move. What sort of realm is this?}
 
-The most surprising aspects of $\poly$ really begin with its comonoids. In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories. Every category in the usual sense is a comonoid in $\poly$ and every comonoid in $\poly$ is a category. We find this revelation to be truly shocking, and it suggests some very different ways to think about categories. Let's go through it.
+The most surprising aspects of $\poly$ really begin with its comonoids.
+In 2018, researchers Daniel Ahman and Tarmo Uustalu showed that comonoids in $(\poly,\yon,\tri)$ can be identified with categories.
+Every category in the usual sense is a comonoid in $\poly$, and every comonoid in $\poly$ is a category. 
+We find this revelation to be truly shocking, and it suggests some very different ways to think about categories.
+Let's go through it.
+% The story begins with state systems of dependent dynamical systems
+
+\section{State systems categorically}
+
+Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters. %** compile all the refs?? or make this section stand on its own more?
+Let's take this moment to review what we know about these state systems so far. %** maybe more like...? comonoids will arise from state system story naturally as we review it?
+
+Our original definition of a state system was as a monomial $S\yon^S$ for some set $S$.
+But in \cref{ex.do_nothing}, we noted that this formulation requires us to discuss the positions and directions of a state system at the level of sets rather than in the language of $\poly$.
+Instead, let's take an arbitrary polynomial $\ema{s}\in\poly$ and attempt to characterize what it means for $\ema{s}$ to be a state system using only the categorical machinery of $\poly$.
+We will continue to refer to the positions of $\ema{s}$ as \emph{states}, but we will shift from thinking of the directions of $\ema{s}$ as states to thinking of them as transitions from one state to another.
+
+\subsection{The do-nothing enclosure}
+
+In \cref{ex.do_nothing}, we saw that every state system $\ema{s}$ is equipped with a \emph{do-nothing enclosure}: a lens $\epsilon\colon\ema{s}\to\yon$ that picks out a direction at each state that we would like to interpret as ``doing nothing'' and remaining at that state.
+
+We drew $\epsilon$ in polyboxes in \cref{ex.do_nothing_polybox}, but that was when we let ourselves assume that the position-set of a state system was equal to each of its direction-sets.
+Now all we know is that for each state $s\in\ema{s}(\1)$, the do-nothing enclosure chooses an $\ema{s}[s]$-direction to signify staying at the same state; it doesn't make sense to say that this direction is literally equal to $s$.
+So we need a different name for the $\ema{s}[s]$-direction that $\epsilon$ identifies: call it $\id_s$, because it behaves like a sort of identity operation on the state $s$.
+
+So the revised polyboxes for the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ are as follows:
+\begin{equation*}
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$\ema{s}$" left] (S) {$\id_s$\at$s$};
+
+    \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
+\end{tikzpicture}
+\end{equation*}
+
+\begin{exercise}
+Say I have a polynomial $\ema{s}\in\poly$, and I tell you that there is a lens $\epsilon\colon\ema{s}\to\yon$.
+What can you say about the polynomial $\ema{s}$?
+\begin{solution}
+Given a polynomial $\ema{s}\in\poly$ equipped with a lens $\epsilon\colon\ema{s}\to\yon$, we know that $\epsilon$ picks out a direction at every position of $\ema{s}$.
+So all we can say about $\ema{s}$ is that there is at least one direction at each of its positions.
+Equivalently, we could say that $\ema{s}$ can be written as the product of $\yon$ and some other polynomial.
+\end{solution}
+\end{exercise}
+
+There is not much else we can say about the do-nothing enclosure on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
+
+\subsection{The transition lens}
+
+We saw in \cref{ex.dyn_sys_trans_polyboxes} that $\ema{s}$ also comes equipped with a \emph{transition lens}: a lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$, which we can draw as
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$\ema{s}$" left] (r) {$a_2'$\at$s_0$};
+	\node[poly, cod, right=1.8 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$a_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$\ema{s}$" above] (p') {$a_2$\at$s_1$};
+
+	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+	\draw (p'_dir) to[last] node[above=.3] {run} (r_dir);
+  \end{tikzpicture}
+\]
+The arrow labeled tgt is the \emph{target function}: given a state $s_0$ and a direction $a_1$ at that state, $\text{tgt}(s_0,a_1)$ tells us the new state $s_1$ that following $a_1$ from $s_0$ will lead to.
+We know that when $s_0$ is fixed, the target function on the second component $a_1$ should be an isomorphism $\ema{s}[s_0]\to\ema{s}(\1)$; that is, there is exactly one direction at $s_0$ that leads to each state of $\ema{s}$.
+But this property is a little tricky to state in the language of $\poly$; in fact, we won't attempt to do so just yet.
+Instead, we'll use it to make a notational choice: given $s,t\in\ema{s}$, we will let $s\to t$ denote the unique direction at $s$ that leads to $t$, so that $\text{tgt}(s,s\to t)=t$.
+So we can redraw our transition lens as
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$\ema{s}$" left] (r) {$s_0\to s_2$\at$s_0$};
+	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$s_0\to s_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$\ema{s}$" above] (p') {$s_1\to s_2$\at$s_1$};
+
+	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+  \end{tikzpicture}
+\]
+In addition to the fact that $\text{tgt}(s_0,s_0\to s_1)=s_1$ as intended, this picture tells us two more properties of $\delta$.
+
+The first is that the bottom arrow is the identity on $\ema{s}(\1)$.
+This is something we would like to be able to express categorically in the language of $\poly$.
+
+
+
+% The second is that the run arrow, which runs together .
+% Equationally, we have that
+% \[
+%     \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(s_1,s_1\to s_2).
+% \]
+
+
+
+% , and that the run arr
+
+
+
+% Similarly, when $s_0$ and $a_1$ are both fixed, the run function on the third component $a_2$ should be an isomorphism $\ema{s}[s_1]\to\ema{s}[s_0]$: following the .
+
+\subsection{The do-nothing enclosure coheres with the transition lens}
+
+\subsection{The coassociativity of the transition lens}
+
+
+
 
 \begin{definition}[Comonoid]\label{def.comonoid}
 A \emph{comonoid} in a monoidal category $(\cat{C},\yon,\lhd)$
