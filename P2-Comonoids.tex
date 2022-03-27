@@ -3846,6 +3846,7 @@ Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
 \end{solution}
 \end{exercise}
 
+%-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
@@ -3865,7 +3866,8 @@ We find this revelation to be truly shocking, and it suggests some very differen
 Let's go through it.
 % The story begins with state systems of dependent dynamical systems
 
-\section{State systems categorically}
+%-------- Section --------%
+\section{State systems, categorically}
 
 Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters. %** compile all the refs?? or make this section stand on its own more?
 Let's take this moment to review what we know about these state systems so far. %** maybe more like...? comonoids will arise from state system story naturally as we review it?
@@ -3938,18 +3940,17 @@ In addition to the fact that $\text{tgt}(s_0,s_0\to s_1)=s_1$ as intended, this 
 
 The first is that the bottom arrow is the identity on $\ema{s}(\1)$.
 This is something we would like to be able to express categorically in the language of $\poly$.
+% We can do this, falls out of next (sub)section...
 
 
+The second is that the run arrow, which runs the transition $s_0\to s_1$ and the transition $s_1\to s_2$ together into a transition starting at $s_0$, should have the same target as tfhe second transition it follows: in this case, $s_2$.
+Equationally, we have that
+\[
+    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(s_1,s_1\to s_2).
+\]
+We can do this, falls out of next next (sub)section
 
-% The second is that the run arrow, which runs together .
-% Equationally, we have that
-% \[
-%     \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(s_1,s_1\to s_2).
-% \]
 
-
-
-% , and that the run arr
 
 
 
@@ -3957,9 +3958,98 @@ This is something we would like to be able to express categorically in the langu
 
 \subsection{The do-nothing enclosure coheres with the transition lens}
 
-\subsection{The coassociativity of the transition lens}
+\subsection{The transition lens is coassociative}
 
 
+
+% include ``speeding up dynamical systems'' material here
+
+Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
+
+Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn$ we have a map $\delta^{k-1}\colon S\yon^S\to (S\yon^S)\tripow{k}$ by \cref{ex.delta_n_notation}. But we also have maps $f\tripow{k}\colon (S\yon^S)\tripow{k}\to p\tripow{k}$ because $\tri$ is a monoidal product. Thus we can form the composite
+\begin{equation}\label{eqn.speedup}
+\begin{tikzcd}
+	S\yon^S\ar[r, "\delta^{k-1}"]\ar[rr, bend right, "{\text{Spdup}_k(f)}"']&
+	(S\yon^S)\tripow{k}\ar[r, "f\tripow{k}"]&
+	p\tripow k
+\end{tikzcd}
+\end{equation}
+For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times. Here is a poly-box drawing for the $k=3$ case:
+\[
+\begin{tikzpicture}
+	\node (given) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, cod, dgreen, right=of S, "$p$" right] (p) {};
+		\draw (S_pos) to[first] (p_pos);
+		\draw (p_dir) to[last]  (S_dir);
+		\node at ($(S.east)!.5!(p.west)$) {$f$};
+	\end{tikzpicture}
+	};
+	\node[right=of given] (obtain) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, blue, right=of S] (S2) {};
+		\node[poly, blue, below=of S2] (S1) {};
+		\node[poly, blue, above=of S2] (S3) {};
+		\node[poly, dgreen, cod, right=of S1] (p1) {};
+		\node[poly, dgreen, cod, right=of S2] (p2) {};
+		\node[poly, dgreen, cod, right=of S3] (p3) {};
+%
+		\draw (S1_pos) to[first] (p1_pos);
+		\draw (p1_dir) to[last] (S1_dir);		
+		\draw (S2_pos) to[first] (p2_pos);
+		\draw (p2_dir) to[last]  (S2_dir);		
+		\draw (S3_pos) to[first] (p3_pos);
+		\draw (p3_dir) to[last]  (S3_dir);
+		\draw[blue] (S_pos) to[first] (S1_pos);
+		\draw[blue] (S1_dir) to[climb] (S2_pos);
+		\draw[blue] (S2_dir) to[climb] (S3_pos);
+		\draw[blue] (S3_dir) to[last] (S_dir);
+		\node[blue] at ($(S.east)!.4!(S2.west)$) {$\delta^2$};
+		\node at ($(S1.east)!.4!(p1.west)$) {$f$};
+		\node at ($(S2.east)!.4!(p2.west)$) {$f$};
+		\node at ($(S3.east)!.4!(p3.west)$) {$f$};		
+  \end{tikzpicture}	
+	};
+	\node[above] at (obtain.north) (obtain_lab) {Obtain for $k=3$};
+	\node at (given|-obtain_lab) {Given $f\colon S\yon^S\to p$};
+\end{tikzpicture}
+\]
+
+\begin{example}
+Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
+\[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
+meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
+
+So for example with $k=3$ here is one moment of output:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, "$S\yon^S$" left] (S) {$n+3$\vphantom{!}\at$n$\vphantom{!}};
+		\node[poly, right=of S] (S2) {$n+2$\vphantom{!}\at$n+1\vphantom{!}$};
+		\node[poly, below=of S2] (S1) {$n+1$\vphantom{!}\at$n\vphantom{!}$};
+		\node[poly, above=of S2] (S3) {$n+3$\vphantom{!}\at$n+2\vphantom{!}$};
+		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}n\hphantom{+}$\vphantom{!}};
+		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$n+1$\vphantom{!}};
+		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$n+2$\vphantom{!}};
+%
+		\draw (S1_pos) to[first] (p1_pos);
+		\draw (p1_dir) to[last] (S1_dir);		
+		\draw (S2_pos) to[first] (p2_pos);
+		\draw (p2_dir) to[last]  (S2_dir);		
+		\draw (S3_pos) to[first] (p3_pos);
+		\draw (p3_dir) to[last]  (S3_dir);
+		\draw (S_pos) to[first] (S1_pos);
+		\draw (S1_dir) to[climb] (S2_pos);
+		\draw (S2_dir) to[climb] (S3_pos);
+		\draw (S3_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
+So for example starting at initial state $n=0$, we get the following output stream, e.g.\ for 4 seconds:
+\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
+\end{example}
+
+\subsection{State systems as comonoids}
 
 
 \begin{definition}[Comonoid]\label{def.comonoid}
@@ -4295,95 +4385,7 @@ Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to
 \end{enumerate}
 \end{exercise}
 
-%---- Section ----%
-\section{Speeding up dynamical systems}
-
-Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
-
-Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn$ we have a map $\delta^{k-1}\colon S\yon^S\to (S\yon^S)\tripow{k}$ by \cref{ex.delta_n_notation}. But we also have maps $f\tripow{k}\colon (S\yon^S)\tripow{k}\to p\tripow{k}$ because $\tri$ is a monoidal product. Thus we can form the composite
-\begin{equation}\label{eqn.speedup}
-\begin{tikzcd}
-	S\yon^S\ar[r, "\delta^{k-1}"]\ar[rr, bend right, "{\text{Spdup}_k(f)}"']&
-	(S\yon^S)\tripow{k}\ar[r, "f\tripow{k}"]&
-	p\tripow k
-\end{tikzcd}
-\end{equation}
-For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times. Here is a poly-box drawing for the $k=3$ case:
-\[
-\begin{tikzpicture}
-	\node (given) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
-		\node[poly, cod, dgreen, right=of S, "$p$" right] (p) {};
-		\draw (S_pos) to[first] (p_pos);
-		\draw (p_dir) to[last]  (S_dir);
-		\node at ($(S.east)!.5!(p.west)$) {$f$};
-	\end{tikzpicture}
-	};
-	\node[right=of given] (obtain) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
-		\node[poly, blue, right=of S] (S2) {};
-		\node[poly, blue, below=of S2] (S1) {};
-		\node[poly, blue, above=of S2] (S3) {};
-		\node[poly, dgreen, cod, right=of S1] (p1) {};
-		\node[poly, dgreen, cod, right=of S2] (p2) {};
-		\node[poly, dgreen, cod, right=of S3] (p3) {};
-%
-		\draw (S1_pos) to[first] (p1_pos);
-		\draw (p1_dir) to[last] (S1_dir);		
-		\draw (S2_pos) to[first] (p2_pos);
-		\draw (p2_dir) to[last]  (S2_dir);		
-		\draw (S3_pos) to[first] (p3_pos);
-		\draw (p3_dir) to[last]  (S3_dir);
-		\draw[blue] (S_pos) to[first] (S1_pos);
-		\draw[blue] (S1_dir) to[climb] (S2_pos);
-		\draw[blue] (S2_dir) to[climb] (S3_pos);
-		\draw[blue] (S3_dir) to[last] (S_dir);
-		\node[blue] at ($(S.east)!.4!(S2.west)$) {$\delta^2$};
-		\node at ($(S1.east)!.4!(p1.west)$) {$f$};
-		\node at ($(S2.east)!.4!(p2.west)$) {$f$};
-		\node at ($(S3.east)!.4!(p3.west)$) {$f$};		
-  \end{tikzpicture}	
-	};
-	\node[above] at (obtain.north) (obtain_lab) {Obtain for $k=3$};
-	\node at (given|-obtain_lab) {Given $f\colon S\yon^S\to p$};
-\end{tikzpicture}
-\]
-
-\begin{example}
-Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
-\[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
-meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
-
-So for example with $k=3$ here is one moment of output:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, "$S\yon^S$" left] (S) {$n+3$\vphantom{!}\at$n$\vphantom{!}};
-		\node[poly, right=of S] (S2) {$n+2$\vphantom{!}\at$n+1\vphantom{!}$};
-		\node[poly, below=of S2] (S1) {$n+1$\vphantom{!}\at$n\vphantom{!}$};
-		\node[poly, above=of S2] (S3) {$n+3$\vphantom{!}\at$n+2\vphantom{!}$};
-		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}n\hphantom{+}$\vphantom{!}};
-		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$n+1$\vphantom{!}};
-		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$n+2$\vphantom{!}};
-%
-		\draw (S1_pos) to[first] (p1_pos);
-		\draw (p1_dir) to[last] (S1_dir);		
-		\draw (S2_pos) to[first] (p2_pos);
-		\draw (p2_dir) to[last]  (S2_dir);		
-		\draw (S3_pos) to[first] (p3_pos);
-		\draw (p3_dir) to[last]  (S3_dir);
-		\draw (S_pos) to[first] (S1_pos);
-		\draw (S1_dir) to[climb] (S2_pos);
-		\draw (S2_dir) to[climb] (S3_pos);
-		\draw (S3_dir) to[last] (S_dir);
-\end{tikzpicture}
-\]
-So for example starting at initial state $n=0$, we get the following output stream, e.g.\ for 4 seconds:
-\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
-\end{example}
-
-%-------- Subsection --------%
+%-------- Section --------%
 \section{Other comonoids}
 
 Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
@@ -6557,6 +6559,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %\end{exercise}
 %
 
+%-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
@@ -7417,6 +7420,7 @@ Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\smcat^\sharp$ 
 The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
 \end{proof}
 
+%-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
