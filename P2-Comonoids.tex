@@ -3976,35 +3976,35 @@ We can draw in polyboxes what happens when we set $\id_s$, as specified by $\eps
 \end{tikzpicture}
 \]
 Reading this picture from left to right, we see that it depicts the polyboxes of the composite lens $\delta\then(\epsilon\tri\ema{s})\colon\ema{s}\to\yon\tri\ema{s}\iso\ema{s}$ (recall that we sometimes denote the identity lens on $\ema{s}$ also by $\ema{s}$).
-To make this interpretation more clear, we could be a little more verbose with our polybox picture if we wanted to:
+To make this interpretation more transparent, we could be a little more verbose with our polybox picture if we wanted to (omitting the contents of the boxes clarity):
 \[
 \begin{tikzpicture}
     \node (1) {
-        \begin{tikzpicture}[polybox, mapstos]
-        	\node[poly, dom, "$\ema{s}$" left] (r) {\at$s$};
-        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
-        	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+        \begin{tikzpicture}[polybox, tos]
+        	\node[poly, dom, "$\ema{s}$" left] (r) {};
+        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {};
+        	\node[poly, cod, above=.8 of p, "$\ema{s}$" above] (p') {};
         
         	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
         	\draw (p_pos) to[climb'] node[right] {$\epsilon$} (p_dir);
         	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
-        	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+        	\draw (p'_dir) to[last] node[above=.3] {run} (r_dir);
         \end{tikzpicture}
 	};
-	\node[right=1.4 of 1] (2) {
-	    \begin{tikzpicture}[polybox, mapstos]
-            \node[poly, dom, "$\ema{s}$" left] (yX) {\at$s$};
-            \node[poly, right=1.8 of yX.south, yshift=-1ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
-            \node[poly, above=of p, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+	\node[right=1 of 1] (2) {
+	    \begin{tikzpicture}[polybox, tos]
+            \node[poly, dom, "$\ema{s}$" left] (yX) {};
+        	\node[poly, right=2 of yX.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {};
+            \node[poly, above=.8 of p, "$\ema{s}$" above] (p') {};
             \node[poly, cod, identity, right=of p, "$\ema{s}$" below] (q) {};
-            \node[poly, cod, above=of q, xshift=1ex, "$\ema{s}$" above] (q') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+            \node[poly, cod, above=.8 of q, "$\ema{s}$" above] (q') {};
             \draw (p_pos) -- node[below] {$\epsilon_\1$} (q_pos);
             \draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
-            \draw (p'_pos) -- (q'_pos);
-            \draw (q'_dir) -- (p'_dir);
+            \draw[double] (p'_pos) -- (q'_pos);
+            \draw[double] (q'_dir) -- (p'_dir);
             \draw[double] (yX_pos) to[first] node[below] {} (p_pos);
             \draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
-            \draw (p'_dir) to[last] node[above=.4] {run} (yX_dir);
+            \draw (p'_dir) to[last] node[above=.3] {run} (yX_dir);
         \end{tikzpicture}
 	};
 	\node at ($(1.east)!.5!(2.west)$) {=};
@@ -4012,7 +4012,7 @@ To make this interpretation more clear, we could be a little more verbose with o
 \]
 Now what should $\text{tgt}(\id_s)$ be, and what should go in the direction box on the left?
 
-If following the direction $\id_s$ from the state $s$ is really akin to doing nothing, then its target state should be the same state $s$ that it emerged from.
+If following the direction $\id_s$ from the state $s$ is really the same as doing nothing, then its target state should be the same state $s$ that it emerged from.
 Moreover, running together $\id_s$ with any other direction $s\to t$ from $s$ should be no different from the direction $s\to t$ on its own.
 So
 \[
@@ -4051,6 +4051,8 @@ Or, if you prefer, we might say that $\delta\then(\epsilon\tri\ema{s})=\id_{\ema
     & \ema{s}\tri\ema{s}\ar[ul, "\epsilon\:\tri\: c"]
 \end{tikzcd}
 \]
+
+% ** now do the same for the other side...get a bonus statement!
 
 \subsection{The transition lens is coassociative}\label{subsec.comon.sharp.state.coassoc}
 
@@ -4224,7 +4226,9 @@ Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the
 In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_c$ and $\delta^{-1}\coloneqq\epsilon$.
 \end{example}
 
-Polynomial comonoids are usually called \emph{polynomial comonads}. Though polynomials $p$ can be interpreted as polynomial \emph{functors} $p\colon\smset\to\smset$, we do not generally emphasize this part of the story; we use it when it comes in handy, but generally we think of polynomials more as dependent arenas, or sets of corollas.
+Comonoids in a functor category with respect to the composition product are generally known as \emph{comonads}.
+So it would be a little more precise and familiar to refer to our polynomial comonoids as \emph{polynomial comonads}.
+But since we think of our polynomials more often as arenas than as functors, we’ll favor the term comonoid over comonad.
 
 \begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
 Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \eqref{eqn.composite_formula} and \eqref{eqn.monomials_and_comp}, this is equivalent to giving functions
