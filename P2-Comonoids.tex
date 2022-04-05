@@ -3408,12 +3408,19 @@ We are given $A,B\in\smset$ and $p,q\in\poly$
 % \]
 % Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 
-\begin{example}[Dynamical systems as coalgebras]-
+\begin{example}[Dynamical systems as coalgebras]
 Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\footnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonoad}, which is a coalgebra for a functor with extra conditions that we will introduce later.
 The version we are using will usually be clear from context---here, for example, we do not expect $p$ to be a comonad---but we will try to be explicit with our terminology whenever the interpretation may be ambiguous.}
 
-** %coalgebras studied extensively...much of the theory of dynamical systems we developed comes from coalgebras. coalgebra perspective has the benefit of staying in the familiar category of sets (and can be generalized to functors Set -> Set that are not polynomial, although many/most interesting examples are), although our perspective marks a clear delineation between states in the domain and interfaces in the codomain
+Coalgebras as models of dynamical systems have been studied extensively in the context of computer science, most notably by Jacobs in \cite{jacobs2017introduction}.
+Indeed, much of what we developed in \label{sec.poly.dyn_sys.moore,sec.poly.dyn_sys.depend_sys} stems from the theory of coalgebras.
+The coalgebraic perspective has the benefit of staying in the familiar category of sets; moreover, it can be generalized to functors $\smset\to\smset$ that are not polynomial, although many of the interesting examples are.
+
+On the other hand, we have already seen that viewing dynamical systems as lenses $S\yon^S\to p$ rather than as functions $S\to p(S)$ has the benefit of isolating the internal state system to the domain and the external interface to the codomain, aiding both intuition and functionality.
+Plus, our adjunction lets us switch to the coalgebraic perspective whenever we see fit: $\poly$ lets us talk about both.
 \end{example}
+
+%** Should we discuss morphisms of coalgebras vs. morphisms of dynamical systems?
 
 \begin{proposition}[Left preservation of limits] \label{prop.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
@@ -3855,7 +3862,7 @@ Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
 \Opensolutionfile{solutions}[solution-file6]
 
 %------------ Chapter ------------%
-\chapter{Polynomial comonoids}\label{sec.comonoids_in_poly}
+\chapter{Polynomial comonoids}\label{ch.comon.sharp}
 
 \slogan{Imagine a realm where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from the original position counts as a single move. What sort of realm is this?}
 
@@ -3867,7 +3874,7 @@ Let's go through it.
 % The story begins with state systems of dependent dynamical systems
 
 %-------- Section --------%
-\section{State systems, categorically}
+\section{State systems, categorically}\label{sec.comon.sharp.state}
 
 Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters. %** compile all the refs?? or make this section stand on its own more?
 Let's take this moment to review what we know about these state systems so far. %** maybe more like...? comonoids will arise from state system story naturally as we review it?
@@ -3877,7 +3884,7 @@ But in \cref{ex.do_nothing}, we noted that this formulation requires us to discu
 Instead, let's take an arbitrary polynomial $\ema{s}\in\poly$ and attempt to characterize what it means for $\ema{s}$ to be a state system using only the categorical machinery of $\poly$.
 We will continue to refer to the positions of $\ema{s}$ as \emph{states}, but we will shift from thinking of the directions of $\ema{s}$ as states to thinking of them as transitions from one state to another.
 
-\subsection{The do-nothing enclosure}
+\subsection{The do-nothing enclosure}\label{subsec.comon.sharp.state.nothing}
 
 In \cref{ex.do_nothing}, we saw that every state system $\ema{s}$ is equipped with a \emph{do-nothing enclosure}: a lens $\epsilon\colon\ema{s}\to\yon$ that picks out a direction at each state that we would like to interpret as ``doing nothing'' and remaining at that state.
 
@@ -3906,11 +3913,11 @@ Equivalently, we could say that $\ema{s}$ can be written as the product of $\yon
 
 There is not much else we can say about the do-nothing enclosure on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
 
-\subsection{The transition lens}
+\subsection{The transition lens}\label{subsec.comon.sharp.state.trans}
 
 We saw in \cref{ex.dyn_sys_trans_polyboxes} that $\ema{s}$ also comes equipped with a \emph{transition lens}: a lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$, which we can draw as
 \[
-\begin{tikzpicture}[polybox, tos]
+\begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{s}$" left] (r) {$a_2'$\at$s_0$};
 	\node[poly, cod, right=1.8 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$a_1$\at$s_0$};
 	\node[poly, cod, above=.8 of p, "$\ema{s}$" above] (p') {$a_2$\at$s_1$};
@@ -3926,10 +3933,10 @@ But this property is a little tricky to state in the language of $\poly$; in fac
 Instead, we'll use it to make a notational choice: given $s,t\in\ema{s}$, we will let $s\to t$ denote the unique direction at $s$ that leads to $t$, so that $\text{tgt}(s,s\to t)=t$.
 So we can redraw our transition lens as
 \[
-\begin{tikzpicture}[polybox, tos]
+\begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{s}$" left] (r) {$s_0\to s_2$\at$s_0$};
-	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$s_0\to s_1$\at$s_0$};
-	\node[poly, cod, above=.8 of p, "$\ema{s}$" above] (p') {$s_1\to s_2$\at$s_1$};
+	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" right] (p) {$s_0\to s_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$\ema{s}$" right] (p') {$s_1\to s_2$\at$s_1$};
 
 	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
 	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
@@ -3940,25 +3947,112 @@ In addition to the fact that $\text{tgt}(s_0,s_0\to s_1)=s_1$ as intended, this 
 
 The first is that the bottom arrow is the identity on $\ema{s}(\1)$.
 This is something we would like to be able to express categorically in the language of $\poly$.
-% We can do this, falls out of next (sub)section...
-
+We'll see that this property falls out naturally when we express how the transition lens plays nicely with the do-nothing enclosure in \cref{subsec.comon.sharp.state.cohere}.
 
 The second is that the run arrow, which runs the transition $s_0\to s_1$ and the transition $s_1\to s_2$ together into a transition starting at $s_0$, should have the same target as tfhe second transition it follows: in this case, $s_2$.
 Equationally, we have that
 \[
     \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(s_1,s_1\to s_2).
 \]
-We can do this, falls out of next next (sub)section
+We'll see that this property falls out naturally when we we generalize the transition lens to more than two steps in \cref{subsec.comon.sharp.state.coassoc}.
 
+\subsection{The do-nothing enclosure coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
 
+For each state $s\in\ema{s}(\1)$, the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ picks out the $\ema{s}[s]$-direction $\id_s$ that ``does nothing'' and keeps the system in the same state $s$.
+But it is the transition lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ that actually sets our state system in motion, specifying the target of each direction and how two directions run together.
+Either of these directions could be our do-nothing direction $\id_s$, so let's try to figure out what should happen when we set each one in turn to $\id_s$.
 
+We can draw in polyboxes what happens when we set $\id_s$, as specified by $\epsilon$, to be the first direction that $\delta$ runs together like this:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$\ema{s}$" left] (r) {\at$s$};
+	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
+	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
 
+	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+	\draw (p_pos) to[climb'] node[right] {$\epsilon$} (p_dir);
+	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+\end{tikzpicture}
+\]
+Reading this picture from left to right, we see that it depicts the polyboxes of the composite lens $\delta\then(\epsilon\tri\ema{s})\colon\ema{s}\to\yon\tri\ema{s}\iso\ema{s}$ (recall that we sometimes denote the identity lens on $\ema{s}$ also by $\ema{s}$).
+To make this interpretation more clear, we could be a little more verbose with our polybox picture if we wanted to:
+\[
+\begin{tikzpicture}
+    \node (1) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{s}$" left] (r) {\at$s$};
+        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
+        	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+        
+        	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_pos) to[climb'] node[right] {$\epsilon$} (p_dir);
+        	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+        	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=1.4 of 1] (2) {
+	    \begin{tikzpicture}[polybox, mapstos]
+            \node[poly, dom, "$\ema{s}$" left] (yX) {\at$s$};
+            \node[poly, right=1.8 of yX.south, yshift=-1ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
+            \node[poly, above=of p, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+            \node[poly, cod, identity, right=of p, "$\ema{s}$" below] (q) {};
+            \node[poly, cod, above=of q, xshift=1ex, "$\ema{s}$" above] (q') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+            \draw (p_pos) -- node[below] {$\epsilon_\1$} (q_pos);
+            \draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
+            \draw (p'_pos) -- (q'_pos);
+            \draw (q'_dir) -- (p'_dir);
+            \draw[double] (yX_pos) to[first] node[below] {} (p_pos);
+            \draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+            \draw (p'_dir) to[last] node[above=.4] {run} (yX_dir);
+        \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+Now what should $\text{tgt}(\id_s)$ be, and what should go in the direction box on the left?
 
-% Similarly, when $s_0$ and $a_1$ are both fixed, the run function on the third component $a_2$ should be an isomorphism $\ema{s}[s_1]\to\ema{s}[s_0]$: following the .
+If following the direction $\id_s$ from the state $s$ is really akin to doing nothing, then its target state should be the same state $s$ that it emerged from.
+Moreover, running together $\id_s$ with any other direction $s\to t$ from $s$ should be no different from the direction $s\to t$ on its own.
+So
+\[
+    \text{tgt}(s,\id_s)=s \qqand \text{run}(s,\id_s,s\to t)=s\to t.
+\]
+Pictorially, we have the equation
+\[
+\begin{tikzpicture}
+	\node (1) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{s}$" left] (r) {\at$s$};
+        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
+        	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" right] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+        
+        	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_pos) to[climb'] node[right] {$\epsilon$} (p_dir);
+        	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
+        	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+        \begin{tikzpicture}[polybox, mapstos]
+          	\node[poly, dom] (c) {$s\to t$\at$s$};
+          	\node[poly, cod, right=of c] (c') {$s\to t$\at$s$};
+          	\draw[double] (c_pos) -- (c'_pos);
+          	\draw[double] (c'_dir) -- (c_dir);
+	    \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+Or, if you prefer, we might say that $\delta\then(\epsilon\tri\ema{s})=\id_{\ema{s}}$, or that the following diagram commutes:
+\[
+\begin{tikzcd}
+    \yon\tri\ema{s} & \ema{s}\ar[d, "\delta"]\ar[l, equal] \\
+    & \ema{s}\tri\ema{s}\ar[ul, "\epsilon\:\tri\: c"]
+\end{tikzcd}
+\]
 
-\subsection{The do-nothing enclosure coheres with the transition lens}
-
-\subsection{The transition lens is coassociative}
+\subsection{The transition lens is coassociative}\label{subsec.comon.sharp.state.coassoc}
 
 
 
@@ -4053,19 +4147,19 @@ So for example starting at initial state $n=0$, we get the following output stre
 
 
 \begin{definition}[Comonoid]\label{def.comonoid}
-A \emph{comonoid} in a monoidal category $(\cat{C},\yon,\lhd)$
-is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\lhd c$ are maps, such that the following diagrams commute:
+A \emph{comonoid} in a monoidal category $(\cat{C},\yon,\tri)$
+is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\tri c$ are maps, such that the following diagrams commute:
 \begin{equation}\label{eqn.comonoid_diagrams}
 \begin{tikzcd}[background color=definitioncolor, row sep=large]
-	\yon\lhd c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\lhd\yon\\&
-	c\lhd c\ar[ul, "\epsilon\lhd c"]\ar[ur, "c\lhd\epsilon"']
+	\yon\tri c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\tri\yon\\&
+	c\tri c\ar[ul, "\epsilon\tri c"]\ar[ur, "c\tri\epsilon"']
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}[row sep=large]
 	c\vphantom{\yon}\ar[r, "\delta"]\ar[d, "\delta"']&
-	c\lhd c\ar[d, "c\lhd\delta"]\\
-	c\lhd c\ar[r, "\delta\lhd c"']&
-	c\lhd c\lhd c
+	c\tri c\ar[d, "c\tri\delta"]\\
+	c\tri c\ar[r, "\delta\tri c"']&
+	c\tri c\tri c
 \end{tikzcd}
 \end{equation}
 We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
