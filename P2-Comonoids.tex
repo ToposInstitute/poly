@@ -96,7 +96,7 @@ The symbol $\tri$ looks a bit like the composition symbol in that it is an open 
 But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered.
 Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
 For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composite of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold composition product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold composition product'' in general, we refer to an arbitrary composition product of $n$ polynomials that may or may not all be equal to each other. This will apply to composition products of lenses as well, once we define those.}
-In particular, $p\tripow{0}=\yon$ and $p\tripow{1}=p$.
+In particular, $p\tripow0=\yon$ and $p\tripow1=p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
 \begin{equation}\label{eqn.composite_formula}
@@ -313,7 +313,7 @@ We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have
 
 \begin{exercise}
 \begin{enumerate}
-	\item Let $p$ be an arbitrary polynomial. Write out the (uncollapsed) instructions associated with $p\tripow{3}=p\tri p\tri p$.
+	\item Let $p$ be an arbitrary polynomial. Write out the (uncollapsed) instructions associated with $p\tripow3=p\tri p\tri p$.
 	\item Write out the (uncollapsed) instructions for choosing an element of $p\tri p\tri\1$, but where you would normally write ``choose an element of $\1$,'' just write ``done.'' \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2605,7 +2605,7 @@ We will read equations off of polyboxes like this repeatedly in the rest of the 
 
 \begin{example}[Transition lenses for state systems] \label{ex.dyn_sys_trans_polyboxes}
 
-In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\phi\tripow{2}$ of a dynamical system $\phi\colon S\yon^S\to p$ can be drawn as follows:
+In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\phi\tripow2$ of a dynamical system $\phi\colon S\yon^S\to p$ can be drawn as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$S\yon^S$" left] (s) {$s_1$\at$s_0$};
@@ -2626,7 +2626,7 @@ The second blue box on the domain side, the one we fill with $s_1$, should inste
 
 In fact, it would be nice if the domain were still just $S\yon^S$.
 Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\phi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
-But we just learned how to take a composition product of lenses such as $\phi\tripow{2}\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
+But we just learned how to take a composition product of lenses such as $\phi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -2710,8 +2710,8 @@ Put another way, if $\epsilon$ tells us how to do nothing, and $\delta$ tells us
 Can we ensure that $\epsilon$ and $\delta$ agree on what they are saying about our state system?
 
 Then for $n=3$, we would like a dynamical system $S\yon^S\to p\tri p\tri p$ that simulates stepping through $\phi$ three times.
-One way to do this would be to compose $\phi\tripow{3}$ with a lens of the form $S\yon^S\to\left(S\yon^S\right)\tripow{3}$ that we obtain by extending $\delta$ from modeling two-step transitions to three-step transitions.
-But there are two ways to derive a lens with codomain $\left(S\yon^S\right)\tripow{3}$ from $\delta$: we could either take $\delta\then\left(\delta\tri\id_{S\yon^S}\right)$, or we could take $\delta\then\left(\id_{S\yon^S}\tri\delta\right)$
+One way to do this would be to compose $\phi\tripow3$ with a lens of the form $S\yon^S\to\left(S\yon^S\right)\tripow3$ that we obtain by extending $\delta$ from modeling two-step transitions to three-step transitions.
+But there are two ways to derive a lens with codomain $\left(S\yon^S\right)\tripow3$ from $\delta$: we could either take $\delta\then\left(\delta\tri\id_{S\yon^S}\right)$, or we could take $\delta\then\left(\id_{S\yon^S}\tri\delta\right)$
 For larger values of $n$, there are even more possibilities for what we could do.
 But there should really only be one dynamical system that models stepping through $\phi$ a fixed number of times.
 How do we guarantee that all these different ways of extending $\delta$ to $n$-step transitions end up telling us the same thing?
@@ -3950,11 +3950,11 @@ This is something we would like to be able to express categorically in the langu
 We'll see that this property falls out naturally when we express how the transition lens plays nicely with the do-nothing enclosure in \cref{subsec.comon.sharp.state.cohere}.
 
 The second is that the run arrow, which runs the transition $s_0\to s_1$ and the transition $s_1\to s_2$ together into a transition starting at $s_0$, should have the same target as tfhe second transition it follows: in this case, $s_2$.
-Equationally, we have that
-\[
-    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(s_1,s_1\to s_2).
-\]
-We'll see that this property falls out naturally when we we generalize the transition lens to more than two steps in \cref{subsec.comon.sharp.state.coassoc}.
+Equationally, writing the left and right hand sides only in terms of the contents of the blue boxes, we have that
+\begin{equation} \label{eqn.state_run_tgt}
+    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2).
+\end{equation}
+We'll see that this property arises naturally when we we generalize the transition lens to more than two steps in \cref{subsec.comon.sharp.state.coassoc}.
 
 \subsection{The do-nothing enclosure coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
 
@@ -4018,6 +4018,7 @@ So
 \[
     \text{tgt}(s,\id_s)=s \qqand \text{run}(s,\id_s,s\to t)=s\to t.
 \]
+In fact, $\id_s$ should really just be the direction $s\to s$.
 Pictorially, we have the equation
 \[
 \begin{tikzpicture}
@@ -4025,7 +4026,7 @@ Pictorially, we have the equation
         \begin{tikzpicture}[polybox, mapstos]
         	\node[poly, dom, "$\ema{s}$" left] (r) {\at$s$};
         	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$\id_s$\at$s$};
-        	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" right] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
+        	\node[poly, cod, above=.8 of p, xshift=2.5ex, "$\ema{s}$" above] (p') {tgt$(s,\id_s)\to t$\at tgt$(s,\id_s)$};
         
         	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
         	\draw (p_pos) to[climb'] node[right] {$\epsilon$} (p_dir);
@@ -4035,8 +4036,8 @@ Pictorially, we have the equation
 	};
 	\node[right=1.8 of 1] (2) {
         \begin{tikzpicture}[polybox, mapstos]
-          	\node[poly, dom] (c) {$s\to t$\at$s$};
-          	\node[poly, cod, right=of c] (c') {$s\to t$\at$s$};
+          	\node[poly, dom, "$\ema{s}$" left] (c) {$s\to t$\at$s$};
+          	\node[poly, cod, right=of c, "$\ema{s}$" right] (c') {$s\to t$\at$s$};
           	\draw[double] (c_pos) -- (c'_pos);
           	\draw[double] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
@@ -4046,45 +4047,275 @@ Pictorially, we have the equation
 \]
 Or, if you prefer, we might say that $\delta\then(\epsilon\tri\ema{s})=\id_{\ema{s}}$, or that the following diagram commutes:
 \[
-\begin{tikzcd}
+\begin{tikzcd}[row sep=large]
     \yon\tri\ema{s} & \ema{s}\ar[d, "\delta"]\ar[l, equal] \\
-    & \ema{s}\tri\ema{s}\ar[ul, "\epsilon\:\tri\: c"]
+    & \ema{s}\tri\ema{s}\ar[ul, "\epsilon\:\tri\:\ema{s}"]
 \end{tikzcd}
 \]
+This commutative diagram captures one way in which $\epsilon$ and $\delta$ always relate---and it's written entirely in the language of $\poly$, without having to talk about individual sets!
 
-% ** now do the same for the other side...get a bonus statement!
+What about setting the second direction that $\delta$ runs together to what is specified by $\epsilon$, rather than the first?
+To answer this, we should look at the composite lens $\delta\then(\ema{s}\tri\epsilon)\colon\ema{s}\to\ema{s}\tri\yon\iso\ema{s}$ instead.
+But the do-nothing direction should still do nothing, so here's what the polybox picture should look like:
+\[
+\begin{tikzpicture}
+	\node (1) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{s}$" left] (r) {$s\to t$\at$s$};
+        	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" below] (p) {$s\to t$\at$s$};
+        	\node[poly, above=.8 of p, "$\ema{s}$" above] (p') {$\id_t$\at $t$};
+        
+        	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);	\draw (p'_pos) to[climb'] node[right] {$\epsilon$} (p'_dir);
+        	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+        \begin{tikzpicture}[polybox, mapstos]
+          	\node[poly, dom, "$\ema{s}$" left] (c) {$s\to t$\at$s$};
+          	\node[poly, cod, right=of c, "$\ema{s}$" right] (c') {$s\to t$\at$s$};
+          	\draw[double] (c_pos) -- (c'_pos);
+          	\draw[double] (c'_dir) -- (c_dir);
+	    \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+The lens depicted on the right hand side of the equation is again the identity lens on $\ema{s}$.
+
+If we match up the two white boxes on the right hand side of the equation with the corresponding white boxes on the left, we can actually read two equations off of this polybox picture.
+Matching positions in the codomain tells us that the bottom arrow of $\delta$ on the left must send $s$ to itself: it is the identity function on $\ema{s}(\1)$.
+Indeed, this is exactly what we wanted to say about that arrow in \cref{subsec.comon.sharp.state.trans}.
+
+Meanwhile, matching directions in the domain tells us that
+\[
+    \text{run}(s,s\to t,\id_t)=s\to t,
+\]
+as we would expect: $\id_t$ is just be the direction $t\to t$.
+
+More concisely, we can express both these facts in $\poly$ via the equation $\delta\then(\ema{s}\tri\epsilon)=\id_{\ema{s}}$.
+The corresponding commutative diagram is as follows:
+\[
+\begin{tikzcd}[row sep=large]
+    \ema{s}\ar[d, "\delta"']\ar[r, equal] & \ema{s}\tri\yon \\
+    \ema{s}\tri\ema{s}.\ar[ur, "\ema{s}\:\tri\:\epsilon"']
+\end{tikzcd}
+\]
+We can combine this with our previous commutative diagram to say that the relationship between the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ and the transition lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ of a state system $\ema{s}$ is captured in $\poly$ by the following commutative diagram:
+\begin{equation}\label{eqn.erasure_law_state}
+\begin{tikzcd}[row sep=large]
+	\yon\tri\ema{s}&\ema{s}\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&\ema{s}\tri\yon\\&
+	\ema{s}\tri\ema{s}.\ar[ul, "\epsilon\:\tri\:\ema{s}"]\ar[ur, "\ema{s}\:\tri\:\epsilon"']
+\end{tikzcd}
+\end{equation}
 
 \subsection{The transition lens is coassociative}\label{subsec.comon.sharp.state.coassoc}
 
+Toward the end of \cref{ex.dyn_sys_trans_polyboxes}, we noted that while the transition lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ gives us a canonical way to model two steps of a dynamical system with state system $\ema{s}$, we have a choice of how to model three steps through the same system: we could obtain a lens $\ema{s}\to\ema{s}\tripow3$ that runs three directions together by taking either one of the composite lenses $\delta\then(\delta\tri\ema{s})$ or $\delta\then(\ema{s}\tri\delta)$.
+That presents a problem for us: which one should we choose?
 
+Happily, it turns out this choice is a false one.
+If we write out the two composite lenses in polyboxes, with $\delta\then(\delta\tri\ema{s})$ on the left and $\delta\then(\ema{s}\tri\delta)$ on the right, we find that they are equal:
+\begin{equation}\label{eqn.trans_lens_coassoc_polybox}
+\begin{tikzpicture}
+    \node (p1) {
+        \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, dom, "$\ema{s}$" left] (m') {$s_0\to s_3$\at$s_0$};
+            \node[poly, right= of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$s_0\to s_2$\at$s_0$};
+            \node[poly, above=of mm', "$\ema{s}$" above] (C') {$s_2\to s_3$\at$s_2$};
+            \node[poly, cod, right= of mm'.south, yshift=-1ex, "$\ema{s}$" right] (D') {$s_0\to s_1$\at$s_0$};
+            \node[poly, cod, above=of D', "$\ema{s}$" right] (mmm') {$s_1\to s_2$\at$s_1$};
+            \node[poly, cod, above=of mmm', "$\ema{s}$" right] (CC') {$s_2\to s_3$\at$s_2$};
+            %
+            \draw[double] (m'_pos) to[first] (mm'_pos);
+            \draw (mm'_dir) to[climb] node[right] {tgt} (C'_pos);
+            \draw (C'_dir) to[last] node[above, sloped] {run} (m'_dir);
+            \draw[double] (mm'_pos) to[first] (D'_pos);
+            \draw (D'_dir) to[climb] node[right] {tgt} (mmm'_pos);
+            \draw (mmm'_dir) to[last] node[above, sloped] {run} (mm'_dir);
+            \draw[double] (C'_pos) to[first] (CC'_pos);
+            \draw[double] (CC'_dir) to[last] (C'_dir);
+        \end{tikzpicture}
+	};
+%
+	\node (p2) [right=of p1] {
+	    \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, dom, "$\ema{s}$" left] (m) {$s_0\to s_3$\at$s_0$};
+            \node[poly, right= of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$s_0\to s_1$\at$s_0$};
+            \node[poly, above=of D, "$\ema{s}$" above] (mm) {$s_1\to s_3$\at$s_1$};
+            \node[poly, cod, right= of D.south, yshift=-1ex, "$\ema{s}$" right] (DD) {$s_0\to s_1$\at$s_0$};
+            \node[poly, cod, above=of DD, "$\ema{s}$" right] (mmm) {$s_1\to s_2$\at$s_1$};
+            \node[poly, cod, above=of mmm, "$\ema{s}$" right] (C) {$s_2\to s_3$\at$s_2$};
+            %
+            \draw[double] (m_pos) to[first] (D_pos);
+            \draw (D_dir) to[climb] node[right] {tgt} (mm_pos);
+            \draw (mm_dir) to[last] node[above, sloped] {run} (m_dir);
+            \draw[double] (D_pos) to[first] (DD_pos);
+            \draw[double] (DD_dir) to[last] (D_dir);
+            \draw[double] (mm_pos) to[first] (mmm_pos);
+            \draw (mmm_dir) to[climb] node[right] {tgt} (C_pos);
+            \draw (C_dir) to[last] node[above, sloped] {run} (mm_dir);
+        \end{tikzpicture}
+    };	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+Remember: the way to read these polyboxes is to start at the lower blue square on the left and follow the arrows; and if you reach a box with no arrows leading out of it, go up to the blue box above it and continue to follow the arrows from there.
 
-% include ``speeding up dynamical systems'' material here
+There's a lot going on here, so let's break it down---we'll focus on the run functions first.
+On the left hand side, we run together $s_0\to s_1$ and $s_1\to s_2$ to obtain $s_0\to s_2$, before running that together with $s_2\to s_3$ to obtain $s_0\to s_3$, as we see in the upper left box.
+Meanwhile, on the right, we run together $s_1\to s_2$ and $s_2\to s_3$ to obtain $s_1\to s_3$, before running $s_0\to s_1$ together with our newly obtained $s_1\to s_3$ to again obtain $s_0\to s_3$ in the upper left box.
+We could write this all out equationally, but all this is saying is that ``running together'' the directions of a state system is an associative operation.
+When running together three directions, it doesn't matter whether we run the first two together or the last two together to start.
+Not only is this guaranteed by the way in which we constructed $\delta$, it also makes intuitive sense.
 
-Suppose we have a dynamical system $f\colon S\yon^S\to p$, and we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
+This associative property is what we get by matching up the white direction boxes on each domain side, but there are three more white position boxes on each codomain side that we can match up as well.
+The fact that the lower two of these pairs coincide is a consequence of the fact that the bottom arrow of $\delta$ is the identity, which we already knew from \cref{subsec.comon.sharp.state.cohere}; so we don't learn anything new there.
+On the other hand, the fact that both the upper position boxes in the codomain contain $s_2$ implies that
+\begin{align*}
+    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))&=\text{tgt}(s_0,s_0\to s_2)\\
+    &=s_2\\
+    &=\text{tgt}(s_1,s_1\to s_2)\\
+    &=\text{tgt}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2),
+\end{align*}
+which is exactly what we wanted in \eqref{eqn.state_run_tgt}.
+In English, this says that when we run together $s_0\to s_1$ and $s_1\to s_2$, the new direction's target is the same as the direction of $s_1\to s_2$, the latter of the two directions that we ran together.
+Again, this coincides with our intuition: if we follow two directions in order, we should end up at wherever the latter direction leads us.
 
-Since $S\yon^S$ has the structure of a comonoid, we know that for every $k\in\nn$ we have a map $\delta^{k-1}\colon S\yon^S\to (S\yon^S)\tripow{k}$ by \cref{ex.delta_n_notation}. But we also have maps $f\tripow{k}\colon (S\yon^S)\tripow{k}\to p\tripow{k}$ because $\tri$ is a monoidal product. Thus we can form the composite
-\begin{equation}\label{eqn.speedup}
-\begin{tikzcd}
-	S\yon^S\ar[r, "\delta^{k-1}"]\ar[rr, bend right, "{\text{Spdup}_k(f)}"']&
-	(S\yon^S)\tripow{k}\ar[r, "f\tripow{k}"]&
-	p\tripow k
+Now we can .
+In fact, 
+
+\begin{exercise}
+Using only the contents of the blue boxes and the target and run functions, write down the equation that we can read off of \eqref{eqn.trans_lens_coassoc_polybox} expressing the associativity of the ``running together'' operation.
+\begin{solution}
+Following the arrows on either side of \eqref{eqn.trans_lens_coassoc_polybox} all the way to the domain's direction box, we obtain an expression for each box's contents that we can then set equal to each other.
+The easiest way to actually write down these expressions is probably to start at the end with $s_0\to s_3$ and follow the arrows backwards, unpacking each term until only the contents of the blue boxes remain (namely $s_0, s_0\to s_1, s_1\to s_2,$ and $s_2\to s_3$).
+Here's what we get when we follow this process for the left hand side of \eqref{eqn.trans_lens_coassoc_polybox} (remember where to look for the three inputs to the run function):
+\begin{align*}
+    s_0\to s_3&=\text{run}(s_0,s_0\to s_2,s_2\to s_3)\\
+    &=\text{run}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2),s_2\to s_3)\\
+    &=\text{run}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2),s_2\to s_3);
+\end{align*}
+and here's what we get for the right (also remember where to look for the two inputs to the target function):
+\begin{align*}
+    s_0\to s_3&=\text{run}(s_0,s_0\to s_1,s_1\to s_3)\\
+    &=\text{run}(s_0,s_0\to s_1,\text{run}(s_1,s_1\to s_2,s_2\to s_3))\\
+    &=\text{run}(s_0,s_0\to s_1,\text{run}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2,s_2\to s_3)).
+\end{align*}
+Setting these equal yields our desired associativity equation:
+\[
+    \boxed{\text{run}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2),s_2\to s_3)=\text{run}(s_0,s_0\to s_1,\text{run}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2,s_2\to s_3))}.
+\]
+\end{solution}
+\end{exercise}
+
+Hence both the associativity of running directions together and the relationship between the target and run functions from \eqref{eqn.state_run_tgt} are captured by the equality of lenses $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$.
+Equivalently, the following diagram in $\poly$ commutes:
+\begin{equation}\label{eqn.coassoc_law_states}
+\begin{tikzcd}[row sep=large]
+	\ema{s}\ar[r, "\delta"]\ar[d, "\delta"']&
+	\ema{s}\tri\ema{s}\ar[d, "\ema{s}\:\tri\:\delta"]\\
+	\ema{s}\tri\ema{s}\ar[r, "\delta\:\tri\:\ema{s}"']&
+	\ema{s}\tri\ema{s}\tri\ema{s}.
 \end{tikzcd}
 \end{equation}
-For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times. Here is a poly-box drawing for the $k=3$ case:
+Another way to say this is that $\delta$ is \emph{coassociative}: while $\delta$ is only a lens $\ema{s}\to\ema{s}\tripow2$ as defined, the commutativity of \eqref{eqn.coassoc_law_states} tells us that the two ways of getting a lens $\ema{s}\to\ema{s}\tripow3$ out of $\delta$ are actually the same.
+(This is dual to an \emph{associative} operation, which is a binary operation that gives rise to two identical ternary operations.)
+
+So $\delta$ induces a canonical lens $\ema{s}\to\ema{s}\tripow3$, which we will call $\delta^2$; for while $\delta$ has $1$ more $\ema{s}$ in its codomain than in its domain, $\delta^2$ has $2$.
+Armed with this new lens, we can model three steps through a system $\phi\colon\ema{s}\to p$ with interface $p\in\poly$ as the composite lens
+\[
+    \ema{s}\To{\delta^2}\ema{s}\tripow3\To{\phi\tripow3}p\tripow3.
+\]
+
+In fact, coassociativity guarantees that $\delta$ induces a canonical lens $\delta^n\colon\ema{s}\to\ema{s}\tripow{(n+1)}$ for every positive integer $n$, starting with $\delta^1=\delta$.
+For concreteness, we could then define $\delta^n$ for $n>1$ inductively by $\delta^n\coloneqq\delta\then(\delta^{n-1}\tri\ema{s})$, or just as well by $\delta^n\coloneqq\delta\then(\ema{s}\tri\delta^{n-1})$ or even $\delta^n\coloneqq\delta\then(\delta^\ell\tri\delta^m)$ for some pair of positive integers $\ell,m$ satisfying $\ell+m+1=n$.
+Regardless, the coassociativity of $\delta$ means that it doesn't matter how we build a lens $\ema{s}\to\ema{s}\tripow{(n+1)}$ out of $\delta,\then,\tri,$ and identity lenses: we'll always end up with the same lens.
+We will prove this in more generality in \cref{prop.n_duplication}, but here's some practice with the $n=4$ case for a taste of what's to come.
+
+\begin{exercise}
+\begin{enumerate}
+    \item Say we know nothing about $\ema{s}$ or $\delta$ apart from the fact that $\ema{s}\in\poly$ and that $\delta$ is a lens $\ema{s}\to\ema{s}\tri\ema{s}$.
+    List all the ways to obtain a lens $\ema{s}\to\ema{s}\tripow4$ using only copies of $\delta,\id_\ema{s}$, $\tri$, and $\then$.
+    (You may write $\ema{s}$ for $\id_\ema{s}$.)
+
+    \item Now assume that \eqref{eqn.coassoc_law_states} commutes.
+    Show that all the lenses on your list are equal.
+    (Hint: Use the fact that $(f\then g)\tri(h\then k)=(f\tri h)\then(g\tri k)$ for lenses $f,g,h,k$).
+    \qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Given $\ema{s}\in\poly$ and a lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$, we want all the ways to obtain a lens $\ema{s}\to\ema{s}\tripow4$ using $\delta,\id_\ema{s}$ (i.e.\ $\ema{s}$), $\tri,$ and $\then$.
+    Starting with $\ema{s}$, the only way to get to $\ema{s}\tripow2$ is with a single $\delta\colon\ema{s}\to\ema{s}\tripow2$.
+    From there, we can get to $\ema{s}\tripow4$ directly by composing with $\delta\tri\delta$ to obtain $\boxed{\delta\then(\delta\tri\delta)}$.
+    Alternatively, we can preserve either the first or the second $\ema{s}$ using the identity, then get to $\ema{s}\tripow3$ from the other $\ema{s}$ in one of two ways: either $\delta\then(\delta\tri\ema{s})$ or $\delta\then(\ema{s}\tri\delta)$.
+    This gives us $4$ more ways to write a lens $\ema{s}\to\ema{s}\tripow4$: either $\boxed{\delta\then(\ema{s}\tri(\delta\then(\delta\tri\ema{s})))}$ or $\boxed{\delta\then(\ema{s}\tri(\delta\then(\ema{s}\tri\delta)))}$ if we chose to preserve the first $\ema{s}$, and either $\boxed{\delta\then((\delta\then(\delta\tri\ema{s}))\tri\ema{s})}$ or $\boxed{\delta\then((\delta\then(\ema{s}\tri\delta))\tri\ema{s})}$ if we chose to preserve the second.
+    Here's the full list, sorted roughly by how far to the left we try to apply each $\delta$:
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\delta\then((\delta\then(\delta\tri\ema{s}))\tri\ema{s})$
+        \item $\delta\then((\delta\then(\ema{s}\tri\delta))\tri\ema{s})$
+        \item $\delta\then(\delta\tri\delta)$
+        \item $\delta\then(\ema{s}\tri(\delta\then(\delta\tri\ema{s})))$
+        \item $\delta\then(\ema{s}\tri(\delta\then(\ema{s}\tri\delta)))$
+    \end{enumerate}
+    This coincides with the $5$ different ways to parenthesize a $4$-term expression.
+    
+    \item We wish to show that if \eqref{eqn.coassoc_law_states} commutes, then all the lenses on our list are equal.
+    The commutativity of \eqref{eqn.coassoc_law_states} implies that $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$; so (1) and (2) from our list are equal, as are (4) and (5).
+    Meanwhile, since $\ema{s}=\ema{s}\then\ema{s}$, we can rewrite (1) as
+    \[
+        \delta\then((\delta\then(\delta\tri\ema{s}))\tri(\ema{s}\then\ema{s}))=\delta\then(\delta\tri\ema{s})\then(\delta\tri\ema{s}\tri\ema{s}),
+    \]
+    where the associativity of $\tri$ and $\then$ allows us to drop some parentheses.
+    Then the commutativity of \eqref{eqn.coassoc_law_states} allows us to further rewrite this as
+    \begin{align*}
+        \delta\then(\ema{s}\tri\delta)\then(\delta\tri\ema{s}\tri\ema{s})&=\delta\then((\ema{s}\then\delta)\tri(\delta\then(\ema{s}\tri\ema{s})))\\
+        &=\delta\then(\delta\tri\delta),
+    \end{align*}
+    so (1) and (3) are equal.
+    Similarly, we can rewrite (5) as
+    \begin{align*}
+        \delta\then((\ema{s}\then\ema{s})\tri(\delta\then(\ema{s}\tri\delta)))&=\delta\then(\ema{s}\tri\delta)\then(\ema{s}\tri\ema{s}\tri\delta)\\
+        &=\delta\then(\delta\tri\ema{s})\then(\ema{s}\tri\ema{s}\tri\delta)\\
+        &=\delta\then((\delta\then(\ema{s}\tri\ema{s}))\tri(\ema{s}\then\delta))\\
+        &=\delta\then(\delta\tri\delta)
+    \end{align*}
+    so (3) and (5) are equal.
+    Hence all the lenses on our list are equal.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
+% Define n=-1 and n=0 cases...
+Given a dynamical system $\phi\colon\ema{s}\to p$ with interface $p\in\poly$, %** run through the system n times...
+\begin{equation}\label{eqn.speedup}
+\begin{tikzcd}
+	\ema{s}\ar[r, "\delta^{n-1}"]\ar[rr, bend right, "{\text{Run}_n(\phi)}"']&
+	\ema{s}\tripow{n}\ar[r, "\phi\tripow{n}"]&
+	p\tripow n
+\end{tikzcd}
+\end{equation}
+%** alt interp: faster, speed up...
+we want to make it go $k$-times faster. That is, in every moment, we want it to process $k$-many inputs, rather than one. 
+
+% For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree of height $k$ in $p$, or explicitly a choice of $p$-position and, for every direction there, another $p$-position and so on $k$ times.
+Here is a polybox drawing for the $n=3$ case:
 \[
 \begin{tikzpicture}
 	\node (given) {
 	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, dom, blue, "$\ema{s}$" left] (S) {};
 		\node[poly, cod, dgreen, right=of S, "$p$" right] (p) {};
 		\draw (S_pos) to[first] (p_pos);
 		\draw (p_dir) to[last]  (S_dir);
-		\node at ($(S.east)!.5!(p.west)$) {$f$};
+		\node at ($(S.east)!.5!(p.west)$) {$\phi$};
 	\end{tikzpicture}
 	};
 	\node[right=of given] (obtain) {
 	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$S\yon^S$" left] (S) {};
+		\node[poly, dom, blue, "$\ema{s}$" left] (S) {};
 		\node[poly, blue, right=of S] (S2) {};
 		\node[poly, blue, below=of S2] (S1) {};
 		\node[poly, blue, above=of S2] (S3) {};
@@ -4103,19 +4334,19 @@ For every state $s\in S$, we now have a length-$k$ strategy in $p$, i.e.\ a tree
 		\draw[blue] (S2_dir) to[climb] (S3_pos);
 		\draw[blue] (S3_dir) to[last] (S_dir);
 		\node[blue] at ($(S.east)!.4!(S2.west)$) {$\delta^2$};
-		\node at ($(S1.east)!.4!(p1.west)$) {$f$};
-		\node at ($(S2.east)!.4!(p2.west)$) {$f$};
-		\node at ($(S3.east)!.4!(p3.west)$) {$f$};		
+		\node at ($(S1.east)!.4!(p1.west)$) {$\phi$};
+		\node at ($(S2.east)!.4!(p2.west)$) {$\phi$};
+		\node at ($(S3.east)!.4!(p3.west)$) {$\phi$};		
   \end{tikzpicture}	
 	};
 	\node[above] at (obtain.north) (obtain_lab) {Obtain for $k=3$};
-	\node at (given|-obtain_lab) {Given $f\colon S\yon^S\to p$};
+	\node at (given|-obtain_lab) {Given $\phi\colon \ema{s}\to p$};
 \end{tikzpicture}
 \]
 
 \begin{example}
-Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\lens{f^\sharp}{f_1}\colon S\yon^S\to p$ be given by $f_1(n)\coloneqq n$ and $f^\sharp(n,1)\coloneqq n+1$. What is this speedup map $\text{Spdup}_k(f)$? First of all, its type is 
-\[\text{Spdup}_k(f)\colon S\yon^S\to\rr^k\yon,\]
+Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\phi\colon S\yon^S\to p$ be given by $\phi_\1(n)\coloneqq n$ and $\phi^\sharp_n(1)\coloneqq n+1$. What is this speedup map $\text{Run}_k(\phi)$? First of all, its type is 
+\[\text{Run}_k(\phi)\colon S\yon^S\to\rr^k\yon,\]
 meaning that it has the same set of states as before, but it outputs $k$-many reals in every moment. 
 
 So for example with $k=3$ here is one moment of output:
@@ -4147,130 +4378,177 @@ So for example starting at initial state $n=0$, we get the following output stre
 
 \subsection{State systems as comonoids}
 
+It turns out that objects equipped with arrows like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
 
 \begin{definition}[Comonoid]\label{def.comonoid}
-A \emph{comonoid} in a monoidal category $(\cat{C},\yon,\tri)$
-is a tuple $(c,\epsilon,\delta)$ where $c\in\cat{C}$ is an object, and $\epsilon\colon c\to I$ and $\delta\colon c\to c\tri c$ are maps, such that the following diagrams commute:
-\begin{equation}\label{eqn.comonoid_diagrams}
+In a given monoidal category $(\cat{C},\yon,\tri)$, a \emph{comonoid} $(\ema{c},\epsilon,\delta)$ consists of:
+\begin{itemize}
+    \item an object $\ema{c}\in\cat{C}$, called the \emph{carrier};
+    \item a morphism $\epsilon\colon\ema{c}\to\yon$ in $\cat{C}$, called the \emph{erasure} (or the \emph{counit}); and
+    \item a morphism $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ in $\cat{C}$, called the \emph{duplication} (or the \emph{comultiplication});
+\end{itemize}
+such that the following diagrams, collectively known as the \emph{comonoid laws}, commute: 
+\begin{equation}\label{eqn.erasure_law}
 \begin{tikzcd}[background color=definitioncolor, row sep=large]
-	\yon\tri c&c\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&c\tri\yon\\&
-	c\tri c\ar[ul, "\epsilon\tri c"]\ar[ur, "c\tri\epsilon"']
-\end{tikzcd}
-\hspace{.6in}
-\begin{tikzcd}[row sep=large]
-	c\vphantom{\yon}\ar[r, "\delta"]\ar[d, "\delta"']&
-	c\tri c\ar[d, "c\tri\delta"]\\
-	c\tri c\ar[r, "\delta\tri c"']&
-	c\tri c\tri c
+	\yon\tri \ema{c}&\ema{c}\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&\ema{c}\tri\yon\\&
+	\ema{c}\tri\ema{c},\ar[ul, "\epsilon\:\tri\:\ema{c}"]\ar[ur, "\ema{c}\:\tri\:\epsilon"']
 \end{tikzcd}
 \end{equation}
-We refer to a comonoid $P\coloneqq(p,\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
+where the left triangle is known as the \emph{left erasure} (or \emph{counit}) \emph{law} and the right triangle is known as the \emph{right erasure} (or \emph{counit} (\emph{law}); and
+\begin{equation}\label{eqn.coassoc_law}
+\begin{tikzcd}[row sep=large]
+	\ema{c}\ar[r, "\delta"]\ar[d, "\delta"']&
+	\ema{c}\tri\ema{c}\ar[d, "\ema{c}\:\tri\:\delta"]\\
+	\ema{c}\tri \ema{c}\ar[r, "\delta\:\tri\:\ema{c}"']&
+	\ema{c}\tri\ema{c}\tri\ema{c},
+\end{tikzcd}
+\end{equation}
+known as the \emph{coassociativity law}.
+
+We refer to a comonoid $(\ema{c},\epsilon,\delta)$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
 
-Here's a picture of one of the unit laws:
-\[
-\begin{tikzpicture}
-	\node (1) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, above=of p] (p') {};
-  	\node[poly, cod, identity, right=of p] (q) {};
-  	\node[poly, cod, above=of q] (q') {};
-  	\draw (p_pos) -- (q_pos);
-  	\draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
-  	\draw (p'_pos) -- (q'_pos);
-  	\draw (q'_dir) -- (p'_dir);
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1.8 of 1] (2) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, cod, above=of p] (p') {};
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
-		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1.8 of 2] (3) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, cod, right=of c] (c') {};
-  	\draw[double] (c_pos) -- (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
-	\end{tikzpicture}
-	};
-	\node at ($(1.east)!.5!(2.west)$) {=};
-	\node at ($(2.east)!.5!(3.west)$) {=};
-\end{tikzpicture}
-\]
-We'll put the associativity and the other unitality picture in the following exercise. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{subsec.understanding_comonoids}.
-\begin{exercise}
-\begin{enumerate}
-	\item Draw the other unitality equation.
-	\item Draw the associativity equation.
-\qedhere
-\end{enumerate}
-\end{exercise}
+\begin{remark}
+The concept of a \emph{comonoid} in a monoidal category is dual to that of a \emph{monoid}, which may be more familiar.
+Monoids come with \emph{unit} and \emph{multiplication} morphisms that point the other way, so named because they generalize the unit and multiplication operations of a monoid in $\smset$.
+(We'll talk more about monoids in $\smset$ in \cref{**}.)
+Prepending `co-' to each term yields the corresponding terms for comonoids.
 
-\begin{example}[$\delta^{n}$ notation]\label{ex.delta_n_notation}
-Let $(c,\epsilon,\delta)$ be a comonoid. From the associativity of $\delta$, the two ways to get a map $c\to c\tri c\tri c$ have the same result. This is true for any $n\in\nn$: we get an induced map $c\to c\tripow{n+1}$, which by mild abuse of notation we denote $\delta^n$:
-\[
-	c\To{\delta}c\tri c\To{c\tri\delta}c\tri c\tri c\To{c\tripow{2}\tri\delta}\cdots\To{c\tripow{n}\tri\delta}c\tripow{(n+1)}.
-\]
-In particular, we have $\delta^1=\delta$ and we may write $\delta^0\coloneqq\id_c$ and $\delta^{-1}\coloneqq\epsilon$.
-\end{example}
+The alternative names \emph{erasure} for the \emph{counit} and \emph{duplication} for the \emph{comultiplication} are less standard, but we will favor them to avoid confusion between the counit of a \emph{comonoid} and the counit of an \emph{adjunction}---and so that their names match up with the Greek letters $\epsilon$ and $\delta$ that we will so often use to label them.
+The word ``duplication'' comes from the fact that $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ effectively turns one $\ema{c}$ into two, while the ``erasure'' $\epsilon\colon\ema{c}\to\yon$ erases the $\ema{c}$ altogether, leaving only the monoidal unit $\yon$.
+Still, it can be helpful to think of comonoids as having a \emph{coassociative} comultiplication along with a counit satisfying \emph{left and right counit laws}.
+\end{remark}
 
+\begin{remark}
 Comonoids in a functor category with respect to the composition product are generally known as \emph{comonads}.
 So it would be a little more precise and familiar to refer to our polynomial comonoids as \emph{polynomial comonads}.
 But since we think of our polynomials more often as arenas than as functors, we’ll favor the term comonoid over comonad.
+\end{remark}
 
-\begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
-Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. To say it in the current language, we first need to give maps $\epsilon\colon p\to \yon$ and $\delta\colon p\to p\tri p$. By \eqref{eqn.composite_formula} and \eqref{eqn.monomials_and_comp}, this is equivalent to giving functions
-\begin{align}\nonumber
-	S&\To{\epsilon'} S&
-	S&\To{\delta'}\sum_{s'\in S}\prod_{s_1\in S}\sum_{s_1'\in S}\prod_{s_2\in S}S\\
-\intertext{We take $\epsilon'$ to be the identity and we take $\delta'$ to be}
-	s&\Mapsto{\epsilon'} s&
-  s&\Mapsto{\delta'} (s'\coloneqq s, s_1\mapsto (s_1'\coloneqq s_1, s_2\mapsto s_2)).\label{eqn.state_comonoid_eps_del}
-\end{align}
-If you know how to read such things, you'll see that each element $s\in S$ is just being passed in a straightforward way. But we find this notation cumbersome and prefer the poly-box notation.
-\begin{equation}\label{eqn.state_comonoid_eps_del2}
-\begin{tikzpicture}
-	\node (id) {
-  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
-  	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
-  	\draw (S_pos) to[first] (y_pos);
-  	\draw (y_dir) to[last] (S_dir);
-		\node at ($(S)!.5!(y)$) {$\epsilon$};
-  \end{tikzpicture}
-  };
-  \node[right=of id] (co) {
-  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$s_2$\at$s$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$s_1$\at$s$};
-  	\node[poly, cod, above=of q] (r) {$s_2$\at$s_1$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[left] {$\delta$} (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-  };
-\end{tikzpicture}
-\end{equation}
-\end{example}
+%**duplication—more generally? laws let us do this!
 
-\begin{exercise}
-Let $p\coloneqq S\yon^S$. For any $n\in\nn$, write out the lens $\delta^n\colon p\to p\tripow{(n+1)}$ either set-theoretically or in terms of poly-boxes as in \cref{ex.state_comonad_1}
+Here's a well-known fact about comonoids that we have already made use of in the case of state systems, along with a corresponding piece of notation.
+\begin{proposition}[Defining $\delta^{n}$] \label{prop.n_duplication}
+Given a comonoid $(\ema{c},\epsilon,\delta)$, by mild abuse of notation let $\delta^{-1}\coloneqq\epsilon$ and inductively define $\delta^n\coloneqq\delta\then\left(\delta^{n-1}\tri\ema{c}\right)$ for all $n\in\nn$.
+Then we have the following:
+\begin{enumerate}[label=(\alph*)]
+    \item $\delta^n$ is a morphism $\ema{c}\to\ema{c}\tripow{(n+1)}$ for each integer $n\geq-1$;
+    \item $\delta^0=\id_\ema{c}$;
+    \item $\delta^1=\delta$; and
+    \item $\delta^n=\delta\then\left(\delta^{k-1}\tri\delta^{n-k}\right)$ for all $k,n\in\nn$ with $k\leq n+1$, so our choice of morphism $\ema{c}\to\ema{c}\tripow{(n+1)}$ is canonical.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+We leave parts (a), (b), and (c) for \cref{exc.n_duplication} and prove part (d).
+
+When $n=k$, (d) follows from (b) and the construction of $\delta^n$.
+We prove the rest of (d) by induction on $n\in\nn$.
+For $n=0$, it remains to consider the $k=1$ case, which follows from (b) and the right erasure law from \eqref{eqn.erasure_law}:
+\begin{align*}
+    \delta\then\left(\delta^0\tri\delta^{-1}\right)&=\delta\then\left(\ema{c}\tri\epsilon\right) \tag{b}\\
+    &=\id_\ema{c} \tag*{\eqref{eqn.erasure_law}}\\
+    &=\delta^0 \tag{b}.
+\end{align*}
+
+Then for $n>0$, **.
+\end{proof}
+
+\begin{exercise} \label{exc.n_duplication}
+Finish the proof of \cref{prop.n_duplication} as follows.
+\begin{enumerate}
+    \item Prove part (a).
+    \item Prove part (b).
+    \item Prove part (c).\qedhere
+\end{enumerate}
+\begin{solution}
+We complete the proof of \cref{prop.n_duplication}, where we are given a comonoid $(\ema{c},\epsilon,\delta)$ along with $\delta^{-1}\coloneqq\epsilon$ and $\delta^n\coloneqq\delta\then\left(\delta^{n-1}\tri\ema{c}\right)$ for all $n\in\nn$.
+\begin{enumerate}
+    \item We will show that $\delta^n$ is a map $\ema{c}\to\ema{c}\tripow{(n+1)}$ for every integer $n\geq-1$ by induction on $n$.
+    We know $\delta^{-1}=\epsilon$ is a map $\ema{c}\to\yon=\ema{c}\tripow0$, and for each $n\in\nn$, if $\delta^{n-1}$ is a map $\ema{c}\to\ema{c}\tripow{n}$, then the composite $\delta^n=\delta\then\left(\delta^{n-1}\tri\ema{c}\right)$ is a map
+    \[
+        \ema{c}\To\delta\ema{c}\tri\ema{c}\To{\delta^{n-1}\:\tri\:\ema{c}}\ema{c}\tripow{n}\tri\ema{c}\iso\ema{c}\tripow{(n+1)}
+    \]
+    Hence the result follows by induction.
+    
+    \item We have $\delta^0=\delta\then(\delta^{-1}\tri\ema{c})=\delta\then(\epsilon\tri\ema{c})=\id_\ema{c}$ by the left erasure law from \eqref{eqn.erasure_law}.
+    
+    \item By the previous part, we have $\delta^1=\delta\then(\delta^0\tri\ema{c})=\delta\then(\ema{c}\tri\ema{c})=\delta$.
+\end{enumerate}
+\end{solution}
 \end{exercise}
 
-\begin{example}[Picturing the comonoid $S\yon^S$]\label{ex.picturing_SyS}
-Let's see this whole thing in pictures. First of all, let's take $S\coloneqq\3\cong\{\bul[red],\bul[dgreen],\bul[blue]\}$ and draw $\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$:
+%**Integrate the below into previous prop.
+%**Discuss how we used this notation before for state systems
+
+Nearly all our work on state systems up until now can be summarized thusly:
+\slogan{
+    every state system is a polynomial comonoid, whose erasure is the do-nothing enclosure and whose duplication is the transition lens.
+}
+%** speed ups here??
+
+
+% the only part that doesn't fit into this story is ... feature not bug ... generalize state systems to arbitrary polynomial comonoids
+
+
+% Here's a picture of one of the unit laws:
+% \[
+% \begin{tikzpicture}
+% 	\node (1) {
+%   \begin{tikzpicture}[polybox, tos]
+%   	\node[poly, dom] (yX) {};
+%   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+%   	\node[poly, above=of p] (p') {};
+%   	\node[poly, cod, identity, right=of p] (q) {};
+%   	\node[poly, cod, above=of q] (q') {};
+%   	\draw (p_pos) -- (q_pos);
+%   	\draw (q_dir) -- node[above] {$\epsilon^\sharp$} (p_dir);
+%   	\draw (p'_pos) -- (q'_pos);
+%   	\draw (q'_dir) -- (p'_dir);
+%   	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
+%   	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
+%   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
+%   \end{tikzpicture}
+% 	};
+% 	\node[right=1.8 of 1] (2) {
+%   \begin{tikzpicture}[polybox, tos]
+%   	\node[poly, dom] (yX) {};
+%   	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
+%   	\node[poly, cod, above=of p] (p') {};
+%   	\draw (yX_pos) to[first] node[below] {$\delta_1$} (p_pos);
+%   	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
+%   	\draw (p'_dir) to[last] node[above] {$\delta^\sharp$} (yX_dir);
+% 		\draw (p_pos) to[climb'] node[right] {$\epsilon^\sharp$} (p_dir);
+%   \end{tikzpicture}
+% 	};
+% 	\node[right=1.8 of 2] (3) {
+%   \begin{tikzpicture}[polybox, tos]
+%   	\node[poly, dom] (c) {};
+%   	\node[poly, cod, right=of c] (c') {};
+%   	\draw[double] (c_pos) -- (c'_pos);
+%   	\draw[double] (c'_dir) -- (c_dir);
+% 	\end{tikzpicture}
+% 	};
+% 	\node at ($(1.east)!.5!(2.west)$) {=};
+% 	\node at ($(2.east)!.5!(3.west)$) {=};
+% \end{tikzpicture}
+% \]
+% We'll put the associativity and the other unitality picture in the following exercise. The meaning of $\epsilon$ and $\delta$ will become clear; for those who want a hint, see \cref{subsec.understanding_comonoids}.
+% \begin{exercise}
+% \begin{enumerate}
+% 	\item Draw the other unitality equation.
+% 	\item Draw the associativity equation.
+% \qedhere
+% \end{enumerate}
+% \end{exercise}
+
+% ** modify below...out of date...just say this is smth known in CS? Is it??
+% \begin{example}[The state comonad $S\yon^S$]\label{ex.state_comonad_1}
+% Let $S$ be a set, and consider the polynomial $p\coloneqq S\yon^S$. It has a canonical comonoid structure---often called the \emph{state} comonad---as we discussed in \cref{sec.dynam_in_poly}, page~\pageref{page.poly_comonad}. 
+% \end{example}
+
+% ** This is good, but update all language to current
+\begin{example}[Picturing the comonoid $S\yon^S$ as trees] \label{ex.picturing_SyS}
+Let's see this whole thing in tree pictures. First of all, let's take $S\coloneqq\3\cong\{\bul[red],\bul[dgreen],\bul[blue]\}$ and draw $\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, "$\3\yon^\3=$" left] {
@@ -4307,7 +4585,7 @@ The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
 \]
 It picks out one direction at each position, namely the one of the same color.
 
-The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
+The map $\delta\colon S\yon^S\to (S\yon^S)\tripow2$ can be drawn as follows:
 \begin{equation}\label{eqn.state_comonoid_trees}
 \begin{tikzpicture}[trees, 
   level 1/.style={sibling distance=5mm},
@@ -4348,16 +4626,17 @@ The map $\delta\colon S\yon^S\to (S\yon^S)\tripow{2}$ can be drawn as follows:
 	};
 \end{tikzpicture}
 \end{equation}
-Note that $(S\yon^S)\tripow{2}$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule on trees in that says the color of an arrow should agree in any sense with the color of the node it points to: \eqref{eqn.state_comonoid_trees} shows that the comonoid structure is pointing out the special trees where that does occur.
+Note that $(S\yon^S)\tripow2$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule on trees in that says the color of an arrow should agree in any sense with the color of the node it points to: \eqref{eqn.state_comonoid_trees} shows that the comonoid structure is pointing out the special trees where that does occur.
 
-It remains to check the comonoid laws, the three commutative diagrams in \eqref{eqn.comonoid_diagrams}. The first two say that the composites
+It remains to check the comonoid laws.
+The two erasure laws in \cref{eqn.erasure_law} say that the composites
 \[
-S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\id\tri\epsilon}S\yon^S
+S\yon^S\To{\delta}(S\yon^S)\tripow2\To{\id\tri\epsilon}S\yon^S
 \qqand
-S\yon^S\To{\delta}(S\yon^S)\tripow{2}\To{\epsilon\tri \id}S\yon^S
+S\yon^S\To{\delta}(S\yon^S)\tripow2\To{\epsilon\tri \id}S\yon^S
 \]
 are the identity. Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter.%
-\footnote{To say technically that we can disregard all but three positions in $(S\yon^S)\tripow{2}\cong SS^S\yon^{SS}$, one can use \cref{prop.vert_cart_factorization}.} 
+\footnote{To say technically that we can disregard all but three positions in $(S\yon^S)\tripow2\cong SS^S\yon^{SS}$, one can use \cref{prop.vert_cart_factorization}.} 
 Since all three are strongly similar, we will draw only the red case. We also only draw the relevant passback maps.
 \[
 \begin{tikzpicture}[trees, 
@@ -4459,20 +4738,21 @@ Since all three are strongly similar, we will draw only the red case. We also on
 	};
 \end{tikzpicture}
 \]
-We do not show associativity here, but instead leave it to the reader in \cref{exc.state_comonoid_assoc}.
+We do not prove the coassociativity law here, but instead leave it to the reader in \cref{exc.state_comonoid_assoc}.
 \end{example}
 
 \begin{exercise}\label{exc.state_comonoid_assoc}
 Let $S\coloneqq\2$ and $c\coloneqq \2\yon^\2$.
 \begin{enumerate}
 	\item Draw $c$ using color if possible.
-	\item We know $c$ is supposed to be the carrier of a comonoid $(c,\epsilon,\delta)$. Which two maps $ c\to c\tripow{3}$ are supposed to be equal by associativity?
+	\item We know $c$ is supposed to be the carrier of a comonoid $(c,\epsilon,\delta)$. Which two maps $ c\to c\tripow3$ are supposed to be equal by associativity?
 	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
 	\item Are they equal?
 \qedhere
 \end{enumerate}
 \end{exercise}
 
+% **move elsewhere...?
 \begin{exercise}[Monoid actions]
 Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action. 
 \begin{enumerate}
@@ -4483,646 +4763,19 @@ Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to
 \end{enumerate}
 \end{exercise}
 
-%-------- Section --------%
-\section{Other comonoids}
+Once you know that state systems are comonoids in $\poly$, it's interesting to ask ``what are all the other comonoids in $\poly$?''
+% **
 
-Once you know that these all important $S\yon^S$-things are comonoids in $\poly$, it's interesting to ask ``what are all the comonoids in $\poly$?'' Let's discuss another one before answering the question in generality.
-
-\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
-The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
-
-Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
-\[
-\cat{W}\coloneqq\boxCD{examplecolor}{
-$A\Too{f}B$
-}
-\]
-We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w\cong\yon^\2+\yon$:
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\coloneqq$" left] {
-	\begin{tikzpicture}[trees, sibling distance=5mm]
-    \node["\tiny $A$" below, red] (1) {$\bullet$} 
-      child  {coordinate (iA) \idchild}
-      child {coordinate (f)};
-    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
-      child  {coordinate (iB) \idchild};
-    \node[below left=0 of iA, font=\tiny] {$i_A$};
-    \node[below left=0 of iB, font=\tiny] {$i_B$};
-    \node[below right=0 of f, font=\tiny] {$f$};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-
-We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w[o]$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
-\[
-\begin{tikzpicture}[trees, bend right=60]
-  \node[red] (1) {$\bullet$} 
-  	child  {coordinate (11) \idchild}
-    child {coordinate (12)};
-  \node[right=1.5 of 1] (1y) {$\bullet$}
-  	child {coordinate (1y1)};
-%
-  \node[right=2 of 1y, blue] (2) {$\bullet$} 
-  	child  {coordinate (21) \idchild};
-  \node[right=1.5 of 2] (2y) {$\bullet$}
-  	child {coordinate (2y1)};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1y);
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2y);
-	\draw[densely dotted, postaction={decorate}] (1y1) to (11);
-	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
-\end{tikzpicture}
-\]
-Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\tri w=$" left] {
-	\begin{tikzpicture}[trees,
-	  level 1/.style={sibling distance=5mm},
-  	level 2/.style={sibling distance=2.5mm}]
-    \node[red] (1) {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			}
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			};
-    \node[right=1 of 1, red] (2) {$\bullet$} 
-      child  {
-        node [red]{$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			};
-    \node[right=1 of 2, red] (3) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-				\idchild
-			}
-      child  {
-        node [red] {$\bullet$} 
- 		    child {\idchild}
-      	child {}
-			};
-    \node[right=1 of 3, red] (4) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			};
-    \node[right=.8 of 4, blue] (5) {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			};
-    \node[right=.6 of 5, blue] (6) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			\idchild
-			};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-The map $\delta$ is going to tell us both about codomains and composition. Here it is:
-\[
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-%
-  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
-  	child  {coordinate (1B1) \idchild};
-  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
-  	child {node [blue] {$\bullet$} 
-    child  {coordinate (2B1) \idchild}
-		\idchild
-	};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
-	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
-\end{tikzpicture}
-\]
-The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites. Here is $\delta\colon w\to w\tri w$ again, in terms of poly-boxes.
-\[
-\begin{tikzpicture}
-	\node (p1) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_A$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_A$\at$A$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p1] (p2) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$f$\at$A$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p2] (p3) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p3] (p4) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_B$\at$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\at$B$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-\end{tikzpicture}
-\]
-
-It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.comonoid_diagrams} commute. We will check unitality only for $A$; it is easier for $B$.
-\[
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A1)}
-		\idchild
-		}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
-\end{tikzpicture}
-\hspace{1in}
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A] {$\bullet$}
-		child {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (3A1) \idchild}
-      	child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
-\end{tikzpicture}
-\]
-In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
-\end{example}
-
-
-\begin{exercise}
-Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
-\[
-\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}
-\]
-For this exercise, you are not being asked to check the unitality or associativity conditions.
-\end{exercise}
-
-\begin{exercise}\label{exc.linear_poly_comon}
-Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polynomial, then there exists a unique comonoid structure on $p$.
-\end{exercise}
-
-%
-%\begin{exercise}\label{ex.fleece}
-%\begin{enumerate}
-%	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
-%	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{definition}\label{def.fleece}
-%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
-%
-%If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
-%\[
-%\begin{tikzcd}
-%	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
-%	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
-%	\fl{c}\ar[r, "\fl{\delta}"']&
-%	\fl{c}\tri \fl{c}
-%\end{tikzcd}
-%\]
-%commute,%
-%\footnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
-%we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
-%\end{definition}
-%
-%By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
-%
-%\begin{example}[Associativity]\label{ex.associativity_pics}
-%Consider the non-category drawn here:
-%\[
-%\boxCD{examplecolor}{
-%\begin{tikzcd}[ampersand replacement=\&]
-%	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
-%	B\ar[r, "g"]\&
-%	C\ar[r, "h"]\&
-%	D
-%\end{tikzcd}
-%\leavevmode\\\bigskip
-%$(f\then g)\then h=i\qqand f\then(g\then h)=j$
-%}
-%\]
-%We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
-%\[
-%\fl{p}\coloneqq\{A\}\yon^{\{f,f\then g, i, j\}}+\{B\}\yon^{\{g,g\then h\}}+C\yon^{\{h\}}+\{D\}.
-%\]
-%Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$f\then g$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $f\then g$ and $g\then h$ are longer, and $i$ and $j$ are longest:
-%\[
-%\begin{tikzpicture}[rounded corners]
-%\node[draw, "$\fl{p}$" above] {
-%\begin{tikzpicture}[trees, sibling distance=1cm]
-%	\node["\tiny $A$" below, red] (A) {$\bullet$}
-%  	child[level distance=4mm] {coordinate (1)}
-%		child[level distance=8mm] {coordinate (2)}
-%		child[level distance=12mm] {coordinate (3)}
-%		child[level distance=12mm] {coordinate (4)};
-%%
-%	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
-%		child[level distance=4mm] {coordinate (B1)}
-%		child[level distance=8mm] {coordinate (B2)};
-%%
-%	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
-%		child[level distance=4mm] {coordinate (C1)};
-%%
-%	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
-%	\begin{scope}[font=\scriptsize]
-%  	\node[below left=1mm of 1] {$f$};
-%  	\node[below left=1mm of 2] {$f\then g$};
-%  	\node[below right=1mm of 3] {$i$};
-%  	\node[below right=1mm of 4] {$j$};
-%  	\node[below left=1mm of B1] {$g$};
-%  	\node[below right=1mm of B2] {$g\then h$};
-%  	\node[below left=1mm of C1] {$h$};
-%	\end{scope}
-%\end{tikzpicture}
-%};
-%\end{tikzpicture}
-%\]
-%Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
-%\begin{equation}\label{eqn.delta_misc33}
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%%
-%	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
-%		child[level distance=4mm] {coordinate (B11)}
-%		child[level distance=8mm] {coordinate (B12)};
-%	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
-%		child[level distance=4mm] {node[dgreen] {$\bullet$}
-%			child {coordinate (B21)}
-%		}
-%		child[level distance=8mm] {node {$\bullet$}};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
-%	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
-%%
-%	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
-%		child[level distance=4mm] {coordinate (C11)};
-%	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
-%		child[level distance=4mm] {node {$\bullet$}
-%	};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
-%%
-%	\node [right=1 of C2] (D1) {$\bullet$};
-%	\node [right=1 of D1] (D2) {$\bullet$};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
-%\end{tikzpicture}
-%\end{equation}
-%One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
-%\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
-%
-%Now we draw $\delta\then(\delta\tri \fl{p})$ and X$\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
-%\[
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%%
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node (A24') {$\bullet$}}
-%		child[level distance =12mm] {node (A25') {$\bullet$}};			
-%%
-%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
-%				child [level distance=4mm] {coordinate (A31)}}
-%			child[level distance=8mm] {node (A32') {$\bullet$}}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {node (A33') {$\bullet$}}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
-%	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
-%	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
-%	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
-%\end{tikzpicture}
-%\]
-%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $\delta\then(\fl{p}\tri\delta)$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
-%\[
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%%
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen]  {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {node [dgreen] {$\bullet$}
-%				child [level distance=4mm] {coordinate (A31)}}
-%			child[level distance=8mm] {node {$\bullet$}}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {node {$\bullet$}}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
-%\end{tikzpicture}
-%\]
-%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
-%\end{example}
-%
-%\begin{exercise}\label{ex.fleece_assoc}
-%Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
-%\begin{enumerate}
-%	\item Redraw \eqref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
-%	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
-%\end{exercise}
-%
-
-\begin{example}[The category of $A$-streams]\label{ex.streams_category}
-For any set $A$, the set $A^\nn$ of $A$-streams
-\[
-s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
-\]
-are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
-
-We will see this category again in \cref{ex.streams_cofree}.
-\end{example}
 
 %-------- Section --------%
 \section{Comonoids in $\poly$ are categories}
 
-It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
 
-\begin{definition}[Cofunctor]\label{def.cofunctor}
-Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\cod\colon C_1\to C_0$ the domain and codomain,%
-\footnote{We privilege the domain function $\dom\colon C_1\to C_0$ in the sense that an unnamed map $C_1\to C_0$ will be assumed to be $\dom$. For example, in the map $F^\sharp$, the pullback $C_0\times_{D_0}D_1$ is of the diagram $C_0\To{F}D_0\From{\dom}D_1$.}
- and similarly for $\cat{D}$. A \emph{cofunctor} $F\colon \cat{C}\coto \cat{D}$ consists of
-\begin{enumerate}[itemsep=0pt]
-  \item a function  $F\colon C_0\to D_0$ \emph{on objects} and
-  \item a function $F^\sharp\colon C_0\times_{D_0}D_1\to C_1$ \emph{backwards on morphisms},
-\end{enumerate}
-satisfying the following conditions:
-\begin{enumerate}[itemsep=0pt, label=\roman*.]
-	\item $F^\sharp(c,\id_{F_0c})=\id_c$ for any $c\in C_0$;
-	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\in D_{F_0(c)}$;
-	\item $F^\sharp(\cod F^\sharp(c,g_1),g_2)\circ F^\sharp(c,g_1)=F^\sharp(c,g_1\then g_2)$ for composable arrows $g_1,g_2$ out of $F_0 c$.
-\end{enumerate}
-In other words, $F^\sharp$ preserves identities, codomains, and compositions.
+\begin{theorem}[Ahman-Uustalu]
+There is a one-to-one isomorphism-preserving correspondence between small categories and polynomial comonoids.
+\end{theorem}
 
-We denote by $\smcat^\sharp$ the category of categories and cofunctors.
-\end{definition}
-
-The cofunctor laws can be written in commutative diagram form as follows:
-\begin{gather*}
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-  C_0\times_{D_0}D_0\ar[r, "\cong"]\ar[d, "\id_D"']\&
-  C_0\ar[d, "\id_C"]\\
-  C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\&
-  C_1\ar[ul, phantom, shift right=2pt, "\text{(i)}"]
-\end{tikzcd}
-\quad
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\ar[d, "\pi_2"']\&
-	C_1\ar[r, "\cod"]\&
-	C_0\ar[d, "F_0"]\\
-	D_1\ar[rr, "\cod"']\ar[urr, phantom, "\text{(ii)}"]\&\&
-	D_0
-\end{tikzcd}
-\\
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-	C_0\times_{D_0}D_1\times_{D_0}D_1\ar[r, "\then_D"]\ar[d, "F^\sharp"']\&[-15pt]
-	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\&
-	C_1\\
-	C_1\times_{D_0}D_1\ar[r, "\cong"']\&
-	C_1\times_{C_0}C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\ar[u, phantom, "\text{(iii)}"]\&
-	C_1\times_{C_0}C_1\ar[u, "\then_C"']
-\end{tikzcd}
-\end{gather*}
-
-\begin{example}[Admissible sections]\label{ex.admissible_section}
-Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, considered as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{Aguiar-thesis}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
-
-To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it. So the content of $\varphi$ is all found in $\varphi^\sharp$, which assigns to each object $i\in\cat{C}$ and natural number $n\in\nn$ a morphism $\varphi^\sharp(i,n)$ emanating from $i$. That seems like a lot of data, but we still have two laws to pare it down:
-\[
-  \varphi^\sharp(i,0)=i
-  \qqand
-  \varphi^\sharp(i,n+n')=\varphi^\sharp(\varphi^\sharp(i,n),n').
-\]
-Every natural number $n$ is a sum of 1's, so if we denote $\varphi^\sharp(i,1)$ by $\phi(i)$, we in fact have
-\[
-\varphi^\sharp(i,n)=\phi^{\circ n}i.
-\]
-That is, $\varphi^\sharp(i,n)$ is just the $n$-fold application of the one-step case, $\phi$.
-
-Thus an admissible section of $\cat{C}$ is given by choosing, for each object $i\in\cat{C}$, a morphism $\phi(i)\colon i\to i'$ emanating from $i$.
-\end{example}
-
-\begin{exercise}
-How many admissible sections does the category \fbox{$\bullet\to\bullet$} have?
-\begin{solution}
-We seek the number of admissible sections of the category \fbox{$\bullet\to\bullet$}.
-There are $2$ choices of morphisms emanating from the object on the left, and $1$ choice of morphism emanating from the object on the right, for a total of $2 \cdot 1 = 2$ admissible sections.
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers and let $\cat{N}$ be that of natural numbers as above.
-\begin{enumerate}
-	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
-	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
-	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backwards''?
-\qedhere
-\end{enumerate}
-\end{exercise}
-
-\begin{example}[Systems of ODEs]
-A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
-\begin{align*}
-    \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
-    \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
-    & \; \; \; \vdots \\
-    \dot{x}_n &= f_n(x_1, \ldots, x_n)
-\end{align*}
-can be understood as a vector field on $\rr^n$. Usually, we are interested in integrating this vector field to get flow lines, or integral curves. In other words, for each point $x = (x_1, \ldots, x_n)$ and each amount of time $t \in \rr$, we can go forward from $x$ for time $t$ and arrive at a new point $x^{+t}$. These satisfy the equations
-\begin{equation} \label{eqn.cofunctor_ode}
-    x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
-\end{equation}
-Let's call such things \emph{dynamical systems} with time domain $(T, 0, +)$; above, we used $T = \rr$, but any monoid will do.
-
-Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
-In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
-The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
-The identity is $v = 0$, and composition is given by addition.
-The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
-
-The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
-Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
-
-The codomain law ii is vacuously true, since $\yon^T$ only has one object.
-Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
-\[
-    F^\sharp(x^{+t_1}, t_2) + F^\sharp(x, t_1) = (x^{+t_1})^{+t_2} - x^{+t_1} + x^{+t_1} - x = x^{+t_1 + t_2} - x = F^\sharp(x, t_1+t_2).
-\]
-\end{example}
-
-\begin{exercise}
-\begin{enumerate}
-	\item Suppose that $M,N$ are monoids (each is a category with one object). Are cofunctors between them related to monoid homomorphisms? If so, how?
-	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a cofunctor. Does there necessarily exist a cofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
-\qedhere
-\end{enumerate}
-\end{exercise}
+% ** Prove this!
 
 \begin{theorem}[Ahman-Uustalu]\label{thm.ahman_uustalu}
 There is an equivalence of categories
@@ -5131,7 +4784,7 @@ There is an equivalence of categories
 \]
 \end{theorem}
 \begin{proof}
-This will be proved as \cref{prop.copointing,thm.cofree}.
+**
 \end{proof}
 
 Our first goal is to understand how one translates between categories $\cat{C}$ and comonoids $\com{C}=(\ema{c},\epsilon,\delta)$ in $\poly$. The idea is pretty simple: the objects of $\cat{C}$ are the positions of $\ema{c}$
@@ -5208,7 +4861,7 @@ We've said that this secretly holds information about the codomains and composit
  \]
 and our goal now is to see that the $\cod$ map really has something to do with codomains and that the $\comp$ map really has something to do with composites, as advertised. What makes these true are the unitality and associativity equations required for $(\ema{c},\epsilon,\delta)$ to be a comonoid; see \cref{def.comonoid}.
 
-To get started, we consider the first unitality equation from \eqref{eqn.comonoid_diagrams}:
+To get started, we consider the left erasure law from \eqref{eqn.erasure_law}:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -5481,8 +5134,520 @@ Let $\cat{C}$ be a category, $\ema{c}$ its emanation polynomial, and $i\in\Ob(\c
 If so, describe it; if not, give a counterexample.
 \end{exercise}
 
-%-------- Section --------%
-\section{Examples showing the correspondence between comonoids and categories}
+%---- Subsection ----%
+\subsection{Examples showing the correspondence between comonoids and categories}
+
+\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
+The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
+
+Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
+\[
+\cat{W}\coloneqq\boxCD{examplecolor}{
+$A\Too{f}B$
+}
+\]
+We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w\cong\yon^\2+\yon$:
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$w\coloneqq$" left] {
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node["\tiny $A$" below, red] (1) {$\bullet$} 
+      child  {coordinate (iA) \idchild}
+      child {coordinate (f)};
+    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
+      child  {coordinate (iB) \idchild};
+    \node[below left=0 of iA, font=\tiny] {$i_A$};
+    \node[below left=0 of iB, font=\tiny] {$i_B$};
+    \node[below right=0 of f, font=\tiny] {$f$};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w[o]$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
+\[
+\begin{tikzpicture}[trees, bend right=60]
+  \node[red] (1) {$\bullet$} 
+  	child  {coordinate (11) \idchild}
+    child {coordinate (12)};
+  \node[right=1.5 of 1] (1y) {$\bullet$}
+  	child {coordinate (1y1)};
+%
+  \node[right=2 of 1y, blue] (2) {$\bullet$} 
+  	child  {coordinate (21) \idchild};
+  \node[right=1.5 of 2] (2y) {$\bullet$}
+  	child {coordinate (2y1)};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1y);
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2y);
+	\draw[densely dotted, postaction={decorate}] (1y1) to (11);
+	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
+\end{tikzpicture}
+\]
+Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$w\tri w=$" left] {
+	\begin{tikzpicture}[trees,
+	  level 1/.style={sibling distance=5mm},
+  	level 2/.style={sibling distance=2.5mm}]
+    \node[red] (1) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			};
+    \node[right=1 of 1, red] (2) {$\bullet$} 
+      child  {
+        node [red]{$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=1 of 2, red] (3) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+				\idchild
+			}
+      child  {
+        node [red] {$\bullet$} 
+ 		    child {\idchild}
+      	child {}
+			};
+    \node[right=1 of 3, red] (4) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			};
+    \node[right=.8 of 4, blue] (5) {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {\idchild}
+      	child {}
+			\idchild
+			};
+    \node[right=.6 of 5, blue] (6) {$\bullet$} 
+      child {node [blue] {$\bullet$} 
+      	child  {\idchild}
+			\idchild
+			};
+  \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+The map $\delta$ is going to tell us both about codomains and composition. Here it is:
+\[
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+%
+  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
+  	child  {coordinate (1B1) \idchild};
+  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
+  	child {node [blue] {$\bullet$} 
+    child  {coordinate (2B1) \idchild}
+		\idchild
+	};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
+	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
+\end{tikzpicture}
+\]
+The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites. Here is $\delta\colon w\to w\tri w$ again, in terms of polyboxes.
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$i_A$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$i_A$\at$A$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p1] (p2) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$f$\at$A$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p2] (p3) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\at$A$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+	\node[right=1 of p3] (p4) {
+	  \begin{tikzpicture}[polybox, mapstos]
+  	\node[poly, dom] (p) {$i_B$\at$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\at$B$};
+  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+  \end{tikzpicture}  
+	};
+\end{tikzpicture}
+\]
+
+It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.erasure_law} and \eqref{eqn.coassoc_law} commute. We will check unitality only for $A$; it is easier for $B$.
+\[
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
+		child {
+			node {$\bullet$}
+			child {coordinate (3A1)}
+		\idchild
+		}
+		child {
+			node {$\bullet$}
+			child {coordinate (3A2)}
+		};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
+\end{tikzpicture}
+\hspace{1in}
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+	\node (3A) [right=1.5 of 2A] {$\bullet$}
+		child {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (3A1) \idchild}
+      	child {coordinate (3A2)}
+		};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
+\end{tikzpicture}
+\]
+In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+\end{example}
+
+
+\begin{exercise}
+Write out the data $(c,\epsilon,\delta)$ for the comonoid corresponding to the category 
+\[
+\boxCD{exercisecolor}{$B\From{f}A\To{g}C$}
+\]
+For this exercise, you are not being asked to check the unitality or associativity conditions.
+\end{exercise}
+
+\begin{exercise}\label{exc.linear_poly_comon}
+Show that if $A$ is a set and $p\coloneqq A\yon$ is the associated linear polynomial, then there exists a unique comonoid structure on $p$.
+\end{exercise}
+
+% ** Figure out what's up with all this stuff...
+%
+%\begin{exercise}\label{ex.fleece}
+%\begin{enumerate}
+%	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
+%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
+%	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{definition}\label{def.fleece}
+%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
+%
+%If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
+%\[
+%\begin{tikzcd}
+%	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
+%	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
+%	\fl{c}\ar[r, "\fl{\delta}"']&
+%	\fl{c}\tri \fl{c}
+%\end{tikzcd}
+%\]
+%commute,%
+%\footnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
+%we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
+%\end{definition}
+%
+%By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
+%
+%\begin{example}[Associativity]\label{ex.associativity_pics}
+%Consider the non-category drawn here:
+%\[
+%\boxCD{examplecolor}{
+%\begin{tikzcd}[ampersand replacement=\&]
+%	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
+%	B\ar[r, "g"]\&
+%	C\ar[r, "h"]\&
+%	D
+%\end{tikzcd}
+%\leavevmode\\\bigskip
+%$(f\then g)\then h=i\qqand f\then(g\then h)=j$
+%}
+%\]
+%We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
+%\[
+%\fl{p}\coloneqq\{A\}\yon^{\{f,f\then g, i, j\}}+\{B\}\yon^{\{g,g\then h\}}+C\yon^{\{h\}}+\{D\}.
+%\]
+%Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$f\then g$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $f\then g$ and $g\then h$ are longer, and $i$ and $j$ are longest:
+%\[
+%\begin{tikzpicture}[rounded corners]
+%\node[draw, "$\fl{p}$" above] {
+%\begin{tikzpicture}[trees, sibling distance=1cm]
+%	\node["\tiny $A$" below, red] (A) {$\bullet$}
+%  	child[level distance=4mm] {coordinate (1)}
+%		child[level distance=8mm] {coordinate (2)}
+%		child[level distance=12mm] {coordinate (3)}
+%		child[level distance=12mm] {coordinate (4)};
+%%
+%	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
+%		child[level distance=4mm] {coordinate (B1)}
+%		child[level distance=8mm] {coordinate (B2)};
+%%
+%	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
+%		child[level distance=4mm] {coordinate (C1)};
+%%
+%	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
+%	\begin{scope}[font=\scriptsize]
+%  	\node[below left=1mm of 1] {$f$};
+%  	\node[below left=1mm of 2] {$f\then g$};
+%  	\node[below right=1mm of 3] {$i$};
+%  	\node[below right=1mm of 4] {$j$};
+%  	\node[below left=1mm of B1] {$g$};
+%  	\node[below right=1mm of B2] {$g\then h$};
+%  	\node[below left=1mm of C1] {$h$};
+%	\end{scope}
+%\end{tikzpicture}
+%};
+%\end{tikzpicture}
+%\]
+%Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
+%\begin{equation}\label{eqn.delta_misc33}
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%%
+%	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
+%		child[level distance=4mm] {coordinate (B11)}
+%		child[level distance=8mm] {coordinate (B12)};
+%	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
+%		child[level distance=4mm] {node[dgreen] {$\bullet$}
+%			child {coordinate (B21)}
+%		}
+%		child[level distance=8mm] {node {$\bullet$}};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
+%	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
+%%
+%	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
+%		child[level distance=4mm] {coordinate (C11)};
+%	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
+%		child[level distance=4mm] {node {$\bullet$}
+%	};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
+%%
+%	\node [right=1 of C2] (D1) {$\bullet$};
+%	\node [right=1 of D1] (D2) {$\bullet$};
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
+%\end{tikzpicture}
+%\end{equation}
+%One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
+%\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
+%
+%Now we draw $\delta\then(\delta\tri \fl{p})$ and X$\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
+%\[
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%%
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node (A24') {$\bullet$}}
+%		child[level distance =12mm] {node (A25') {$\bullet$}};			
+%%
+%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
+%				child [level distance=4mm] {coordinate (A31)}}
+%			child[level distance=8mm] {node (A32') {$\bullet$}}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {node (A33') {$\bullet$}}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
+%	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
+%	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
+%	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
+%\end{tikzpicture}
+%\]
+%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $\delta\then(\fl{p}\tri\delta)$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
+%\[
+%\begin{tikzpicture}[trees, bend right=60,
+%level 1/.style={sibling distance=5mm},
+%level 2/.style={sibling distance=2.5mm}]
+%	\node [red] (A1) {$\bullet$}
+%		child[level distance =4mm] {coordinate (A11)}
+%		child[level distance =8mm] {coordinate (A12)}
+%		child[level distance =12mm] {coordinate (A13)}
+%		child[level distance =12mm] {coordinate (A14)};
+%%
+%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {coordinate (A21)}
+%			child[level distance=8mm] {coordinate (A22)}
+%		}
+%		child[level distance =8mm] {node [dgreen]  {$\bullet$}
+%			child[level distance=4mm] {coordinate (A23)}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
+%		child[level distance =4mm] {node [blue]{$\bullet$}
+%			child[level distance=4mm] {node [dgreen] {$\bullet$}
+%				child [level distance=4mm] {coordinate (A31)}}
+%			child[level distance=8mm] {node {$\bullet$}}
+%		}
+%		child[level distance =8mm] {node [dgreen] {$\bullet$}
+%			child[level distance=4mm] {node {$\bullet$}}
+%		}
+%		child[level distance =12mm] {node {$\bullet$}}
+%		child[level distance =12mm] {node {$\bullet$}};			
+%%
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
+%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
+%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
+%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
+%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
+%	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
+%\end{tikzpicture}
+%\]
+%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
+%\end{example}
+%
+%\begin{exercise}\label{ex.fleece_assoc}
+%Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
+%\begin{enumerate}
+%	\item Redraw \eqref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
+%	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
+%\end{exercise}
+%
+
+\begin{example}[The category of $A$-streams]\label{ex.streams_category}
+For any set $A$, the set $A^\nn$ of $A$-streams
+\[
+s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
+\]
+are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
+
+We will see this category again in \cref{ex.streams_cofree}.
+\end{example}
 
 \begin{example}[Monoids]\label{ex.monoids}
 Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
@@ -5530,7 +5695,7 @@ The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}
 
 By the work above, we know that $\cat{S}$ has object set $S=p(\1)$, and that for every object $s\in S$ there are $S$-many emanating morphisms, though we don't yet know their codomains nor the composition formula. 
 
-To calculate the codomains and compositions we examine the map $\delta\colon p\to p\tri p$, which was given set-theoretically in \eqref{eqn.state_comonoid_eps_del} and in terms of poly-boxes in \eqref{eqn.state_comonoid_eps_del2}. We repeat it here for your convenience:
+To calculate the codomains and compositions we examine the map $\delta\colon p\to p\tri p$, which was given set-theoretically in \eqref{eqn.state_comonoid_eps_del} and in terms of polyboxes in \eqref{eqn.state_comonoid_eps_del2}. We repeat it here for your convenience:
 \[
 \begin{tikzpicture}
 	\node (id) {
@@ -5588,7 +5753,7 @@ What this all means is that $\cat{S}$ is the category with $S$-many objects and 
 % Source: Asterix: https://tex.stackexchange.com/questions/390647/understanding-complete-graph-example-in-tikz
 \end{tikzpicture}
 \]
-Some people would call this the contractible groupoid, or the terminal category with $S$-elements, or the unique category whose underlying graph is complete on $S$ vertices. The one that's \emph{least} good for us will be ``terminal'' category, because as we'll see, we're going to be interested in different sorts of morphisms between categories than the usual ones, namely cofunctors rather than functors, and $\cat{S}$ is not terminal for cofunctors.  
+Some people would call this the contractible groupoid, or the terminal category with $S$-elements, or the unique category whose underlying graph is complete on $S$ vertices. The one that's \emph{least} good for us will be ``terminal'' category, because as we'll see, we're going to be interested in different sorts of morphisms between categories than the usual ones, namely cofunctors rather than functors, and $\cat{S}$ is not terminal for cofunctors.   %** check this: haven't defined cofunctors yet
 
 Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}, because we will use these to think about states of dynamical systems, and also because the state comonad in functional programming is $S\yon^S$.
 \end{example}
@@ -5649,6 +5814,133 @@ Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that o
 %-------- Section --------%
 \section{Morphisms of comonoids are cofunctors}
 
+% ** displaced stuff begins
+
+
+It turns out that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
+
+\begin{definition}[Cofunctor]\label{def.cofunctor}
+Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\cod\colon C_1\to C_0$ the domain and codomain,%
+\footnote{We privilege the domain function $\dom\colon C_1\to C_0$ in the sense that an unnamed map $C_1\to C_0$ will be assumed to be $\dom$. For example, in the map $F^\sharp$, the pullback $C_0\times_{D_0}D_1$ is of the diagram $C_0\To{F}D_0\From{\dom}D_1$.}
+ and similarly for $\cat{D}$. A \emph{cofunctor} $F\colon \cat{C}\coto \cat{D}$ consists of
+\begin{enumerate}[itemsep=0pt]
+  \item a function  $F\colon C_0\to D_0$ \emph{on objects} and
+  \item a function $F^\sharp\colon C_0\times_{D_0}D_1\to C_1$ \emph{backwards on morphisms},
+\end{enumerate}
+satisfying the following conditions:
+\begin{enumerate}[itemsep=0pt, label=\roman*.]
+	\item $F^\sharp(c,\id_{F_0c})=\id_c$ for any $c\in C_0$;
+	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\in D_{F_0(c)}$;
+	\item $F^\sharp(\cod F^\sharp(c,g_1),g_2)\circ F^\sharp(c,g_1)=F^\sharp(c,g_1\then g_2)$ for composable arrows $g_1,g_2$ out of $F_0 c$.
+\end{enumerate}
+In other words, $F^\sharp$ preserves identities, codomains, and compositions.
+
+We denote by $\smcat^\sharp$ the category of categories and cofunctors.
+\end{definition}
+
+The cofunctor laws can be written in commutative diagram form as follows:
+\begin{gather*}
+\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
+  C_0\times_{D_0}D_0\ar[r, "\cong"]\ar[d, "\id_D"']\&
+  C_0\ar[d, "\id_C"]\\
+  C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\&
+  C_1\ar[ul, phantom, shift right=2pt, "\text{(i)}"]
+\end{tikzcd}
+\quad
+\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
+	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\ar[d, "\pi_2"']\&
+	C_1\ar[r, "\cod"]\&
+	C_0\ar[d, "F_0"]\\
+	D_1\ar[rr, "\cod"']\ar[urr, phantom, "\text{(ii)}"]\&\&
+	D_0
+\end{tikzcd}
+\\
+\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
+	C_0\times_{D_0}D_1\times_{D_0}D_1\ar[r, "\then_D"]\ar[d, "F^\sharp"']\&[-15pt]
+	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\&
+	C_1\\
+	C_1\times_{D_0}D_1\ar[r, "\cong"']\&
+	C_1\times_{C_0}C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\ar[u, phantom, "\text{(iii)}"]\&
+	C_1\times_{C_0}C_1\ar[u, "\then_C"']
+\end{tikzcd}
+\end{gather*}
+
+\begin{example}[Admissible sections]\label{ex.admissible_section}
+Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, considered as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
+
+To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it. So the content of $\varphi$ is all found in $\varphi^\sharp$, which assigns to each object $i\in\cat{C}$ and natural number $n\in\nn$ a morphism $\varphi^\sharp(i,n)$ emanating from $i$. That seems like a lot of data, but we still have two laws to pare it down:
+\[
+  \varphi^\sharp(i,0)=i
+  \qqand
+  \varphi^\sharp(i,n+n')=\varphi^\sharp(\varphi^\sharp(i,n),n').
+\]
+Every natural number $n$ is a sum of 1's, so if we denote $\varphi^\sharp(i,1)$ by $\phi(i)$, we in fact have
+\[
+\varphi^\sharp(i,n)=\phi^{\circ n}i.
+\]
+That is, $\varphi^\sharp(i,n)$ is just the $n$-fold application of the one-step case, $\phi$.
+
+Thus an admissible section of $\cat{C}$ is given by choosing, for each object $i\in\cat{C}$, a morphism $\phi(i)\colon i\to i'$ emanating from $i$.
+\end{example}
+
+\begin{exercise}
+How many admissible sections does the category \fbox{$\bullet\to\bullet$} have?
+\begin{solution}
+We seek the number of admissible sections of the category \fbox{$\bullet\to\bullet$}.
+There are $2$ choices of morphisms emanating from the object on the left, and $1$ choice of morphism emanating from the object on the right, for a total of $2 \cdot 1 = 2$ admissible sections.
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers and let $\cat{N}$ be that of natural numbers as above.
+\begin{enumerate}
+	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
+	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
+	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backwards''?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+\begin{example}[Systems of ODEs]
+A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
+\begin{align*}
+    \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
+    \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
+    & \; \; \; \vdots \\
+    \dot{x}_n &= f_n(x_1, \ldots, x_n)
+\end{align*}
+can be understood as a vector field on $\rr^n$. Usually, we are interested in integrating this vector field to get flow lines, or integral curves. In other words, for each point $x = (x_1, \ldots, x_n)$ and each amount of time $t \in \rr$, we can go forward from $x$ for time $t$ and arrive at a new point $x^{+t}$. These satisfy the equations
+\begin{equation} \label{eqn.cofunctor_ode}
+    x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
+\end{equation}
+Let's call such things \emph{dynamical systems} with time domain $(T, 0, +)$; above, we used $T = \rr$, but any monoid will do.
+
+Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
+In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
+The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
+The identity is $v = 0$, and composition is given by addition.
+The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
+
+The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
+Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
+
+The codomain law ii is vacuously true, since $\yon^T$ only has one object.
+Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
+\[
+    F^\sharp(x^{+t_1}, t_2) + F^\sharp(x, t_1) = (x^{+t_1})^{+t_2} - x^{+t_1} + x^{+t_1} - x = x^{+t_1 + t_2} - x = F^\sharp(x, t_1+t_2).
+\]
+\end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Suppose that $M,N$ are monoids (each is a category with one object). Are cofunctors between them related to monoid homomorphisms? If so, how?
+	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a cofunctor. Does there necessarily exist a cofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
+\qedhere
+\end{enumerate}
+\end{exercise}
+
+% ** displaced stuff ends
+
 Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$.
 
 
@@ -5675,7 +5967,7 @@ Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\d
 \end{equation}
 \end{definition}
 
-Let's see the two laws of comonoid morphisms using poly-boxes. First the counit law:
+Let's see the two laws of comonoid morphisms using polyboxes. First the counit law:
 \begin{equation}\label{eqn.unit_law_draw}
 \begin{tikzpicture}
 	\node (id1) {
@@ -5905,7 +6197,8 @@ Are cofunctors between posets interesting?
 \end{exercise}
 
 \begin{exercise}
-Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set. Hint: use \cref{prop.cofunctors_isos}.
+Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set.
+(Hint: Use \cref{prop.cofunctors_isos}.)
 \end{exercise}
 
 \begin{exercise}
@@ -6058,7 +6351,7 @@ We leave the comultiplication-homomorphism law to \cref{exc.well_behaved}, where
 \begin{exercise}\label{exc.well_behaved}
 Complete \cref{ex.well_behaved}.
 \begin{enumerate}
-	\item Write out the comultiplication law from \eqref{eqn.unit_law_draw} in terms of poly-boxes.
+	\item Write out the comultiplication law from \eqref{eqn.unit_law_draw} in terms of polyboxes.
 	\item What set-theoretic equations are forced by the comultiplication law?
 	\item Can you see why they might be called put-put and put-get?
 \qedhere
@@ -6109,273 +6402,10 @@ Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S
 
 When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
 
-%-------- Section --------%
-\section{Products in $\smcat^\sharp$}
+% %-------- Section --------%
 
-Products in $\smcat^\sharp$ are fascinating. Given categories $\cat{C}$ and $\cat{D}$, the set of objects in their $\smcat$-product is given by the product of their sets of objects, but this is not the case in $\smcat^\sharp$. So what is an object in $\cat{C}\times^\sharp\cat{D}$ (the usual categorical product, but taken in $\smcat^\sharp)$? 
-
-An object in $\cat{C}\times^\sharp\cat{D}$ is, roughly speaking, a tree for which each node is a pair of objects: some $i\in\cat{C}$ and some $j\in\cat{D}$.
-The edges leading out of node $(i, j)$ are then all the morphisms emanating from $i$ and all the morphisms emanating from $j$.
-The tree must respect identities, codomains, and composites in $\cat{C}$ and $\cat{D}$, as we'll explain.
-But before we do, we define the following category, which will be crucial to our understanding of products in $\smcat^\sharp$.
-
-\begin{definition}[Free monoidal category on monoids and comonoids] \label{def.free_monoid_cat}
-Given a (small) set $I$, define $\Delta_I$ to be the free monoidal category generated by $|I|$ distinct monoids.
-Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
-\end{definition}
-
-Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own counit and comultiplication, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
-These objects and morphisms are then subject to no relations beyond those implied by the standard comonoid axioms.
-
-In particular, we can identify the objects of $\Delta_I\op$ with the elements of the free monoid $\List(I)$, where the $|I|$ comonoids are the singleton lists $[i]$ for each $i \in I$.
-The monoidal product of $\Delta_I\op$ can then be interpreted as list concatenation, which---in a suggestive overloading of notation---we will denote by $\tri$.
-The monoidal unit must then be the empty list $[]$.
-We could give analogous notation for $\Delta_I$.
-
-The counits $[i] \to []$ and comultiplications $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
-For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
-\[
-    ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
-\]
-and the other is given by
-\[
-    ([2] \to [2,2]) \tri ([3] \to []) \tri ([1] \to []) \tri \id_{[3]}.
-\]
-
-Another way to state \cref{def.free_monoid_cat} would be to say that $\Delta_I\op$ is initial among monoidal categories equipped with $|I|$ comonoids.
-That is, given any monoidal category $(\cat{C}, \yon, \tri)$ with a comonoid $(c_i, \epsilon_i, \delta_i)$ for each $i \in I$, there is a unique monoidal functor $\Delta_I\op \to \cat{C}$ that sends each $[i]$ to $c_i$, each $[i] \to []$ to $\epsilon_i$, and each $[i] \to [i,i]$ to $\delta_i$.
-Dually, $\Delta_I$ is initial among monoidal categories equipped with $|I|$ monoids.
-
-\begin{example}[The augmented simplex category]
-If we take $I \coloneqq \1$, then $\Delta \coloneqq \Delta_I$ is what is commonly known as the \emph{augmented simplex category} or the \emph{algebraist's simplex category}.
-It is the free monoidal category generated by the monoid $[1]$ with unit $[] \to [1]$ and multiplication $[1,1] \to [1])$.
-
-If we identify each $n$-element list $[1,\ldots,1]$ with the finite set $\ord{n}$, interpreted as an ordinal, we can see that $\Delta$ is in fact the category of all finite ordinals (i.e.\ $\0, \1, \2, \ldots$) and the order-preserving maps between them.
-In \cite[Chapter~VII, Section~8]{maclane}, Mac Lane verifies that $\Delta$ is initial among monoidal categories equipped with a monoid.
-\end{example}
-
-Armed with the free monoidal category $\Delta_I\op$, we are now ready to state how products can be constructed in $\smcat^\sharp$.
-
-\begin{proposition}\label{prop.sharp_products}
-The category $\smcat^\sharp$ has all small products.
-
-In particular, for a small set $I$ and a category $\cat{C}_i \in \smcat^\sharp$ corresponding to a comonoid $\ema{c}_i \in \poly$ for each $i \in I$, the product of the $\cat{C}_i$'s is given by the limit of the canonical monoidal functor $C \colon \Delta_I\op \to \poly$ sending each $[i]$ to $\ema{c}_i$.
-\end{proposition}
-
-Before we give the proof of the proposition above, let us examine what it says concretely in the case of binary products.
-
-\begin{example}[Binary products in $\smcat^\sharp$] \label{ex.bin_prod}
-For each $i \in \2$, let $\cat{C}_i$ be the category corresponding to the comonoid $(\ema{c}_i, \epsilon_i, \delta_i)$ in $\poly$.
-Then we can define $C \colon \Delta_\2\op \to \poly$ to be the canonical monoidal functor sending each $[i]$ to $\ema{c}_i$.
-\cref{prop.sharp_products} asserts that $\lim C$ is the product of $\cat{C}_1$ and $\cat{C}_2$ in $\smcat^\sharp$. But what kind of a polynomial is $\lim C$, and what is its comonoid structure?
-
-Well, for every list $\ell \in \Ob(\Delta_\2\op) = \List(\2)$, the polynomial $\lim C$ should have a $C\ell$-component, i.e.\ a projection $\pi_\ell \colon \lim C \to C\ell$.
-For example, when $\ell \coloneqq [1,2,2,1,1,1]$, we have $C\ell = \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$, giving us a projection $\lim C \to \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$.
-These projections must commute with the morphisms in the image of $C$, which are precisely the morphisms generated by the $\epsilon_i$'s and the $\delta_i$'s via composition and taking the monoidal product.
-For instance, the diagram
-\begin{equation} \label{eqn.lim_example}
-\begin{tikzcd}
-    \lim C \ar[r, "\pi_{[1,2,1]}"] \ar[dr, "\pi_{[1,2,2,1,1,1]}"'] & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \ar[d, "\ema{c}_1 \tri \delta_2 \tri (\delta_1 \then (\ema{c}_1 \tri \delta_1))"] \\
-    & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1
-\end{tikzcd}
-\end{equation}
-commutes.
-In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by comultiplications $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
-So we can generalize \eqref{eqn.lim_example} to say that
-\begin{equation}
-\begin{tikzcd}
-    \lim C \ar[r, "\pi_{\ell'}"] \ar[dr, "\pi_\ell"'] & C\ell' \ar[d, "Cd_{\ell,\ell'}"] \\
-    & C\ell
-\end{tikzcd}
-\end{equation}
-commutes.
-
-Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
-Let us focus, then, on only those projections.
-Together, they form the commutative diagram
-\begin{equation} \label{eqn.lim_projs}
-\begin{tikzcd}
-    \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
-    \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
-    \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
-\end{tikzcd}
-\end{equation}
-It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eqn.lim_projs} and the limit of the bottom row of \eqref{eqn.lim_projs}.
-In particular, the limit of the top row of \eqref{eqn.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
-\begin{quote}
-\begin{enumerate}[label=1.\arabic*.]
-    \item choose an object $c_1 \in \cat{C}_1$;
-    \item for each morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
-    \begin{enumerate}[label=2.\arabic*.]
-        \item choose an object $d_2 \in \cat{C}_2$;
-        \item for each morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
-        \begin{enumerate}[label=3.\arabic*.]
-            \item choose an object $c_3 \in \cat{C}_1$;
-            \item for each morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
-            
-            $\quad \cdots$,
-        \end{enumerate}
-    \end{enumerate}
-\end{enumerate}
-\end{quote}
-Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
-The limit of the bottom row of \eqref{eqn.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
-From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
-
-So every position of $\lim C$ yields a pair of these structures.
-We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
-But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eqn.lim_projs}.
-For instance, the fact that the diagram
-\begin{equation}
-\begin{tikzcd}
-    \lim C \ar[r, "\pi_{[1,2]}"] \ar[dr, "\pi_{[2]}"'] & \ema{c}_1 \tri \ema{c}_2 \ar[d, "\epsilon_1 \tri \ema{c}_2"] \\
-    & \ema{c}_2
-\end{tikzcd}
-\end{equation}
-commutes implies that, when following the above instructions, the object $d_2$ chosen for the identity morphism on $c_1$ in the left structure must also be the first object chosen when constructing the right structure.
-Similar diagrams render all such objects chosen for identity morphisms when constructing these structures redundant.
-So, in the end, we have a one-to-one correspondence between positions of $\lim C$ and pairs of structures that can be constructed by following these instructions:
-\begin{quote}
-\begin{enumerate}[label=1.\arabic*.]
-    \item choose an object $c_1 \in \cat{C}_1$;
-    \item for each nonidentity morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
-    \begin{enumerate}[label=2.\arabic*.]
-        \item choose an object $d_2 \in \cat{C}_2$;
-        \item for each nonidentity morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
-        \begin{enumerate}[label=3.\arabic*.]
-            \item choose an object $c_3 \in \cat{C}_1$;
-            \item for each nonidentity morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
-            
-            $\quad \cdots$
-        \end{enumerate}
-    \end{enumerate}
-\end{enumerate}
-\end{quote}
-for the left structure, and
-\begin{quote}
-\begin{enumerate}[label=1.\arabic*.]
-    \item choose an object $d_1 \in \cat{C}_2$;
-    \item for each nonidentity morphism $g_1$ in $\cat{C}_2$ with domain $d_1$:
-    \begin{enumerate}[label=2.\arabic*.]
-        \item choose an object $c_2 \in \cat{C}_1$;
-        \item for each nonidentity morphism $f_2$ in $\cat{C}_1$ with domain $c_2$:
-        \begin{enumerate}[label=3.\arabic*.]
-            \item choose an object $d_3 \in \cat{C}_2$;
-            \item for each nonidentity morphism $g_3$ in $\cat{C}_2$ with domain $d_3$:
-            
-            $\quad \cdots$
-        \end{enumerate}
-    \end{enumerate}
-\end{enumerate}
-\end{quote}
-for the right structure.
-These pairs are then the objects of $\cat{C}_1 \times^\sharp \cat{C}_2$.
-The morphisms from each object are the sequences of morphisms formed by starting from the top of either set of instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (g_1), (f_1, g_2), (g_1, f_2),$ $(f_1, g_2, f_3)$ and $(g_1, f_2, g_3)$.
-In particular, the identity morphism is $()$.
-
-We illustrate how to determine the codomain of each nonidentity morphism using an example.
-To find the codomain of the morphism $(g_1, f_2)$, obtained from steps 1.2 and 2.2 in the right structure, we need to determine the left and right structures of the codomain.
-Its right structure is easy to describe: it is simply the structure obtained by following the remaining instructions, starting from step 3.1, nested under step 2.2 for $f_2$; the recursive nature of these instructions ensures that this is, in fact, a valid right structure.
-As for the left structure of the codomain, we can construct it as follows:
-\begin{quote}
-\begin{enumerate}[label=1.\arabic*.]
-    \item choose the object $\cod(f_2) \in \cat{C}_1$;
-    \item for each nonidentity morphism $f'_2$ in $\cat{C}_1$ with domain $\cod(f_2)$:
-    \begin{enumerate}[label=2.\arabic*.]
-        \item if $f_2 \then f'_2$ is not the identity, then follow the steps nested under step 2.2 for $f_2 \then f'_2$ in the instructions above for constructing the original right structure;
-        \item otherwise, 
-    \end{enumerate}
-\end{enumerate}
-\end{quote}
-
-$\cod(f_2)$ in $\cat{C}_1$, then, for each nonidentity morphism $f'_2$ in $\cat{C}_1$ 
-
-
-%codomains...
-
-% example for (f_1, g_2)
-
-
-\end{example}
-
-\begin{example}[Products of discrete categories are products of sets]
-Given sets $S$ and $T$, consider the corresponding discrete categories $S\yon$ and $T\yon$.
-Then by \cref{ex.bin_prod}, the product $S\yon \times^\sharp T\yon$ is the discrete category $(S \times T)\yon$.
-\end{example}
-
-\begin{example}[Products of one-object categories are coproducts of monoids]
-Given monoids $M$ and $N$, consider the corresponding one-object categories $\yon^M$ and $\yon^N$.
-Then by \cref{ex.bin_prod}, the product $\yon^M \times^\sharp \yon^N$ is the one-object category $\yon^{M \ast N}$, where $M \ast N$ is the free product (i.e.\ the coproduct) of the monoids $M$ and $N$.
-\end{example}
-
-
-\begin{example}[Unexpectedly-many objects]\label{ex.unexpectedly_many_objects}
-Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. By \cref{ex.bin_prod}, the product $\cat{C}\times^\sharp\cat{C}$ has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
-\begin{itemize}
-    \item the sequence $s_1$ starts with either $A_1$ or $B_1$;
-    \item the sequence $s_2$ starts with either $A_2$ or $B_2$; and
-	\item in either sequence:
-	\begin{itemize}
-	    \item after $A_1$ comes either $A_2$ or $B_2$;
-	    \item after $A_2$ comes either $B_1$ or $A_1$; and
-	    \item after $B_1$ or $B_2$, the sequence stops.
-	\end{itemize}
-\end{itemize}
-For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LMO{A}\To{f}\LMO{B}$}$:
-\[
-((A_1,A_2,A_1,A_2,\ldots), (A_2,A_1,A_2,A_1,B_2))
-\]
-\end{example}
-
-% \begin{exercise}
-% Again let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$.
-% \begin{enumerate}
-% 	\item Use the official description of products, given in \cref{prop.sharp_products}, to justify the informal description of the objects in $\cat{C}\times^\sharp\cat{C}$, as given in \cref{ex.unexpectedly_many_objects}.
-% 	\item Describe the morphisms in $\cat{C}\times^\sharp\cat{C}$.
-% \qedhere
-% \end{enumerate}
-% \end{exercise}
-
-\begin{example}
-Let $I$ be a set and $I\yon$ the associated discrete category, and let $(M,e,*)$ be a monoid and $\yon^M$ the associated one-object category.
-Then by \cref{ex.bin_prod}, the product $I\yon \times^\sharp \yon^M$ is the category $I^M\yon^M$.
-Its objects are functions $i \colon M \to I$, while its morphisms have the form $i \To{m} (m' \mapsto i(m * m'))$ for each $i \colon M \to I$ and $m \in M$.
-
-Given $i \colon M \to I$, its identity morphism is the morphism $i \To{e} i$ corresponding to $e \in M$; given $m, n \in M$, the composite of the morphisms $i \To{m} (m' \mapsto i(m * m')) \To{n} (m' \mapsto i(m * n * m'))$ is the morphism $i \To{m * n} (m' \mapsto i(m * n * m'))$.
-
-% The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
-\end{example}
-
-% \begin{example}[Event-based systems]
-% Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
-
-% % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
-% \end{example}
-
-\begin{proof}[Proof of \cref{prop.sharp_products}]
-We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its counit and comultiplication.
-The counit $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
-
-To construct the comultiplication, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of counits), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
-As $C$ is monoidal, it follows that
-\[
-    (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
-\]
-So specifying a map to $(\lim C) \tri (\lim C)$ amounts to specifying a map to $C(\ell \tri \ell')$ for every $\ell, \ell' \in \Delta_I\op$ such that the appropriate diagrams commute.
-In particular, we can construct the comultiplication $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
-It is routine to verify that the appropriate diagrams commute.
-
-(Verify comonoid laws)
-
-(Give projections; check that these are comonoid morphisms)
-
-(Verify universal property of product)
-\end{proof}
-
-%-------- Section --------%
-\section{Some math about $\smcat^\sharp$}
+\section{Some categorical properties of $\smcat^\sharp$} %** more precise title??
 We refer to morphisms between polynomial comonoids as cofunctors, again eliding the difference between comonoids in $\poly$ and categories.
-
 
 \begin{proposition}
 The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
@@ -6658,6 +6688,278 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %
 
 %-------- Section --------%
+
+
+
+% ** displaced product stuff starts
+%-------- Section --------%
+% \section{Products in $\smcat^\sharp$}
+
+% Products in $\smcat^\sharp$ are fascinating. Given categories $\cat{C}$ and $\cat{D}$, the set of objects in their $\smcat$-product is given by the product of their sets of objects, but this is not the case in $\smcat^\sharp$. So what is an object in $\cat{C}\times^\sharp\cat{D}$ (the usual categorical product, but taken in $\smcat^\sharp)$? 
+
+% An object in $\cat{C}\times^\sharp\cat{D}$ is, roughly speaking, a tree for which each node is a pair of objects: some $i\in\cat{C}$ and some $j\in\cat{D}$.
+% The edges leading out of node $(i, j)$ are then all the morphisms emanating from $i$ and all the morphisms emanating from $j$.
+% The tree must respect identities, codomains, and composites in $\cat{C}$ and $\cat{D}$, as we'll explain.
+% But before we do, we define the following category, which will be crucial to our understanding of products in $\smcat^\sharp$.
+
+% \begin{definition}[Free monoidal category on monoids and comonoids] \label{def.free_monoid_cat}
+% Given a (small) set $I$, define $\Delta_I$ to be the free monoidal category generated by $|I|$ distinct monoids.
+% Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
+% \end{definition}
+
+% Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own counit and comultiplication, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
+% These objects and morphisms are then subject to no relations beyond those implied by the standard comonoid axioms.
+
+% In particular, we can identify the objects of $\Delta_I\op$ with the elements of the free monoid $\List(I)$, where the $|I|$ comonoids are the singleton lists $[i]$ for each $i \in I$.
+% The monoidal product of $\Delta_I\op$ can then be interpreted as list concatenation, which---in a suggestive overloading of notation---we will denote by $\tri$.
+% The monoidal unit must then be the empty list $[]$.
+% We could give analogous notation for $\Delta_I$.
+
+% The counits $[i] \to []$ and comultiplications $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
+% For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
+% \[
+%     ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
+% \]
+% and the other is given by
+% \[
+%     ([2] \to [2,2]) \tri ([3] \to []) \tri ([1] \to []) \tri \id_{[3]}.
+% \]
+
+% Another way to state \cref{def.free_monoid_cat} would be to say that $\Delta_I\op$ is initial among monoidal categories equipped with $|I|$ comonoids.
+% That is, given any monoidal category $(\cat{C}, \yon, \tri)$ with a comonoid $(c_i, \epsilon_i, \delta_i)$ for each $i \in I$, there is a unique monoidal functor $\Delta_I\op \to \cat{C}$ that sends each $[i]$ to $c_i$, each $[i] \to []$ to $\epsilon_i$, and each $[i] \to [i,i]$ to $\delta_i$.
+% Dually, $\Delta_I$ is initial among monoidal categories equipped with $|I|$ monoids.
+
+% \begin{example}[The augmented simplex category]
+% If we take $I \coloneqq \1$, then $\Delta \coloneqq \Delta_I$ is what is commonly known as the \emph{augmented simplex category} or the \emph{algebraist's simplex category}.
+% It is the free monoidal category generated by the monoid $[1]$ with unit $[] \to [1]$ and multiplication $[1,1] \to [1])$.
+
+% If we identify each $n$-element list $[1,\ldots,1]$ with the finite set $\ord{n}$, interpreted as an ordinal, we can see that $\Delta$ is in fact the category of all finite ordinals (i.e.\ $\0, \1, \2, \ldots$) and the order-preserving maps between them.
+% In \cite[Chapter~VII, Section~8]{MacLane:1998a}, Mac Lane verifies that $\Delta$ is initial among monoidal categories equipped with a monoid.
+% \end{example}
+
+% Armed with the free monoidal category $\Delta_I\op$, we are now ready to state how products can be constructed in $\smcat^\sharp$.
+
+% \begin{proposition}\label{prop.sharp_products}
+% The category $\smcat^\sharp$ has all small products.
+
+% In particular, for a small set $I$ and a category $\cat{C}_i \in \smcat^\sharp$ corresponding to a comonoid $\ema{c}_i \in \poly$ for each $i \in I$, the product of the $\cat{C}_i$'s is given by the limit of the canonical monoidal functor $C \colon \Delta_I\op \to \poly$ sending each $[i]$ to $\ema{c}_i$.
+% \end{proposition}
+
+% Before we give the proof of the proposition above, let us examine what it says concretely in the case of binary products.
+
+% \begin{example}[Binary products in $\smcat^\sharp$] \label{ex.bin_prod}
+% For each $i \in \2$, let $\cat{C}_i$ be the category corresponding to the comonoid $(\ema{c}_i, \epsilon_i, \delta_i)$ in $\poly$.
+% Then we can define $C \colon \Delta_\2\op \to \poly$ to be the canonical monoidal functor sending each $[i]$ to $\ema{c}_i$.
+% \cref{prop.sharp_products} asserts that $\lim C$ is the product of $\cat{C}_1$ and $\cat{C}_2$ in $\smcat^\sharp$. But what kind of a polynomial is $\lim C$, and what is its comonoid structure?
+
+% Well, for every list $\ell \in \Ob(\Delta_\2\op) = \List(\2)$, the polynomial $\lim C$ should have a $C\ell$-component, i.e.\ a projection $\pi_\ell \colon \lim C \to C\ell$.
+% For example, when $\ell \coloneqq [1,2,2,1,1,1]$, we have $C\ell = \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$, giving us a projection $\lim C \to \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$.
+% These projections must commute with the morphisms in the image of $C$, which are precisely the morphisms generated by the $\epsilon_i$'s and the $\delta_i$'s via composition and taking the monoidal product.
+% For instance, the diagram
+% \begin{equation} \label{eqn.lim_example}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{[1,2,1]}"] \ar[dr, "\pi_{[1,2,2,1,1,1]}"'] & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \ar[d, "\ema{c}_1 \tri \delta_2 \tri (\delta_1 \then (\ema{c}_1 \tri \delta_1))"] \\
+%     & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1
+% \end{tikzcd}
+% \end{equation}
+% commutes.
+% In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by comultiplications $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
+% So we can generalize \eqref{eqn.lim_example} to say that
+% \begin{equation}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{\ell'}"] \ar[dr, "\pi_\ell"'] & C\ell' \ar[d, "Cd_{\ell,\ell'}"] \\
+%     & C\ell
+% \end{tikzcd}
+% \end{equation}
+% commutes.
+
+% Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
+% Let us focus, then, on only those projections.
+% Together, they form the commutative diagram
+% \begin{equation} \label{eqn.lim_projs}
+% \begin{tikzcd}
+%     \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
+%     \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
+%     \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
+% \end{tikzcd}
+% \end{equation}
+% It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eqn.lim_projs} and the limit of the bottom row of \eqref{eqn.lim_projs}.
+% In particular, the limit of the top row of \eqref{eqn.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $c_1 \in \cat{C}_1$;
+%     \item for each morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $d_2 \in \cat{C}_2$;
+%         \item for each morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $c_3 \in \cat{C}_1$;
+%             \item for each morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+%             $\quad \cdots$,
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
+% The limit of the bottom row of \eqref{eqn.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
+% From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
+
+% So every position of $\lim C$ yields a pair of these structures.
+% We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
+% But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eqn.lim_projs}.
+% For instance, the fact that the diagram
+% \begin{equation}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{[1,2]}"] \ar[dr, "\pi_{[2]}"'] & \ema{c}_1 \tri \ema{c}_2 \ar[d, "\epsilon_1 \tri \ema{c}_2"] \\
+%     & \ema{c}_2
+% \end{tikzcd}
+% \end{equation}
+% commutes implies that, when following the above instructions, the object $d_2$ chosen for the identity morphism on $c_1$ in the left structure must also be the first object chosen when constructing the right structure.
+% Similar diagrams render all such objects chosen for identity morphisms when constructing these structures redundant.
+% So, in the end, we have a one-to-one correspondence between positions of $\lim C$ and pairs of structures that can be constructed by following these instructions:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $c_1 \in \cat{C}_1$;
+%     \item for each nonidentity morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $d_2 \in \cat{C}_2$;
+%         \item for each nonidentity morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $c_3 \in \cat{C}_1$;
+%             \item for each nonidentity morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+%             $\quad \cdots$
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% for the left structure, and
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $d_1 \in \cat{C}_2$;
+%     \item for each nonidentity morphism $g_1$ in $\cat{C}_2$ with domain $d_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $c_2 \in \cat{C}_1$;
+%         \item for each nonidentity morphism $f_2$ in $\cat{C}_1$ with domain $c_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $d_3 \in \cat{C}_2$;
+%             \item for each nonidentity morphism $g_3$ in $\cat{C}_2$ with domain $d_3$:
+            
+%             $\quad \cdots$
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% for the right structure.
+% These pairs are then the objects of $\cat{C}_1 \times^\sharp \cat{C}_2$.
+% The morphisms from each object are the sequences of morphisms formed by starting from the top of either set of instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (g_1), (f_1, g_2), (g_1, f_2),$ $(f_1, g_2, f_3)$ and $(g_1, f_2, g_3)$.
+% In particular, the identity morphism is $()$.
+
+% We illustrate how to determine the codomain of each nonidentity morphism using an example.
+% To find the codomain of the morphism $(g_1, f_2)$, obtained from steps 1.2 and 2.2 in the right structure, we need to determine the left and right structures of the codomain.
+% Its right structure is easy to describe: it is simply the structure obtained by following the remaining instructions, starting from step 3.1, nested under step 2.2 for $f_2$; the recursive nature of these instructions ensures that this is, in fact, a valid right structure.
+% As for the left structure of the codomain, we can construct it as follows:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose the object $\cod(f_2) \in \cat{C}_1$;
+%     \item for each nonidentity morphism $f'_2$ in $\cat{C}_1$ with domain $\cod(f_2)$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item if $f_2 \then f'_2$ is not the identity, then follow the steps nested under step 2.2 for $f_2 \then f'_2$ in the instructions above for constructing the original right structure;
+%         \item otherwise, 
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+
+% $\cod(f_2)$ in $\cat{C}_1$, then, for each nonidentity morphism $f'_2$ in $\cat{C}_1$ 
+
+
+% %codomains...
+
+% % example for (f_1, g_2)
+
+
+% \end{example}
+
+% \begin{example}[Products of discrete categories are products of sets]
+% Given sets $S$ and $T$, consider the corresponding discrete categories $S\yon$ and $T\yon$.
+% Then by \cref{ex.bin_prod}, the product $S\yon \times^\sharp T\yon$ is the discrete category $(S \times T)\yon$.
+% \end{example}
+
+% \begin{example}[Products of one-object categories are coproducts of monoids]
+% Given monoids $M$ and $N$, consider the corresponding one-object categories $\yon^M$ and $\yon^N$.
+% Then by \cref{ex.bin_prod}, the product $\yon^M \times^\sharp \yon^N$ is the one-object category $\yon^{M \ast N}$, where $M \ast N$ is the free product (i.e.\ the coproduct) of the monoids $M$ and $N$.
+% \end{example}
+
+
+% \begin{example}[Unexpectedly-many objects]\label{ex.unexpectedly_many_objects}
+% Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. By \cref{ex.bin_prod}, the product $\cat{C}\times^\sharp\cat{C}$ has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
+% \begin{itemize}
+%     \item the sequence $s_1$ starts with either $A_1$ or $B_1$;
+%     \item the sequence $s_2$ starts with either $A_2$ or $B_2$; and
+% 	\item in either sequence:
+% 	\begin{itemize}
+% 	    \item after $A_1$ comes either $A_2$ or $B_2$;
+% 	    \item after $A_2$ comes either $B_1$ or $A_1$; and
+% 	    \item after $B_1$ or $B_2$, the sequence stops.
+% 	\end{itemize}
+% \end{itemize}
+% For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LMO{A}\To{f}\LMO{B}$}$:
+% \[
+% ((A_1,A_2,A_1,A_2,\ldots), (A_2,A_1,A_2,A_1,B_2))
+% \]
+% \end{example}
+
+% % \begin{exercise}
+% % Again let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$.
+% % \begin{enumerate}
+% % 	\item Use the official description of products, given in \cref{prop.sharp_products}, to justify the informal description of the objects in $\cat{C}\times^\sharp\cat{C}$, as given in \cref{ex.unexpectedly_many_objects}.
+% % 	\item Describe the morphisms in $\cat{C}\times^\sharp\cat{C}$.
+% % \qedhere
+% % \end{enumerate}
+% % \end{exercise}
+
+% \begin{example}
+% Let $I$ be a set and $I\yon$ the associated discrete category, and let $(M,e,*)$ be a monoid and $\yon^M$ the associated one-object category.
+% Then by \cref{ex.bin_prod}, the product $I\yon \times^\sharp \yon^M$ is the category $I^M\yon^M$.
+% Its objects are functions $i \colon M \to I$, while its morphisms have the form $i \To{m} (m' \mapsto i(m * m'))$ for each $i \colon M \to I$ and $m \in M$.
+
+% Given $i \colon M \to I$, its identity morphism is the morphism $i \To{e} i$ corresponding to $e \in M$; given $m, n \in M$, the composite of the morphisms $i \To{m} (m' \mapsto i(m * m')) \To{n} (m' \mapsto i(m * n * m'))$ is the morphism $i \To{m * n} (m' \mapsto i(m * n * m'))$.
+
+% % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
+% \end{example}
+
+% % \begin{example}[Event-based systems]
+% % Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
+
+% % % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
+% % \end{example}
+
+% \begin{proof}[Proof of \cref{prop.sharp_products}]
+% We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its counit and comultiplication.
+% The counit $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
+
+% To construct the comultiplication, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of counits), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
+% As $C$ is monoidal, it follows that
+% \[
+%     (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
+% \]
+% So specifying a map to $(\lim C) \tri (\lim C)$ amounts to specifying a map to $C(\ell \tri \ell')$ for every $\ell, \ell' \in \Delta_I\op$ such that the appropriate diagrams commute.
+% In particular, we can construct the comultiplication $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
+% It is routine to verify that the appropriate diagrams commute.
+
+% (Verify comonoid laws)
+
+% (Give projections; check that these are comonoid morphisms)
+
+% (Verify universal property of product)
+% \end{proof}
+
+% ** displaced product stuff ends
+
+
+
+
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
@@ -6760,7 +7062,7 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. 
 		};
 \end{tikzpicture}
 \end{equation}
-They all represent elements of $p\tripow{3}$, but only the third one---the single yellow dot---would count as an element of $\tr_p$. 
+They all represent elements of $p\tripow3$, but only the third one---the single yellow dot---would count as an element of $\tr_p$. 
 
 Indeed, in \cref{def.cofree}, when we speak of a (possibly infinite) tree in $p$, we mean at tree for which each node is a position in $p$ with each of its emanating directions filled by another position in $p$, and so on. Since three of the four trees shown in \eqref{eqn.some_trees_misc58} have open leaves---arrows emanating from the top---these trees are not elements of $\tr_p$. However, each of them could be extended to an actual element of $\tr_p$ by continually filling in each open leaf with another position of $p$.
 
@@ -7044,7 +7346,7 @@ We can use a copointed interface to slow down a dynamical system, in a kind of i
 
 To do this, we need $p$ to be copointed, i.e.\ we need to have in hand a map $\epsilon\colon p\to\yon$, and as we saw above that we can always assume that. Now for any $k\in\nn$ we have $k$-many maps $p\tripow{k}\to p$. For example, if $k=3$, we have
 \[
-\{\epsilon\tri\epsilon\tri p,\epsilon\tri p\tri\epsilon,p\tri\epsilon\tri\epsilon\}\ss\poly(p\tripow{3},p)
+\{\epsilon\tri\epsilon\tri p,\epsilon\tri p\tri\epsilon,p\tri\epsilon\tri\epsilon\}\ss\poly(p\tripow3,p)
 \]
 So given a dynamical system $S\yon^S\to p\tripow{k}$, which outputs as its position a whole $k$-fold strategy at one time and which takes as input sequences of $k$-many inputs, we can feed it one input and $k-1$ pauses. This is what you get when you compose $S\yon^S\to p\tripow{k}\to p$.
 
@@ -7054,7 +7356,8 @@ Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ 
 \begin{exercise}
 \begin{enumerate}
 	\item Show that there is a monoidal structure $(\yon,\otimes)$ on $\Cat{Cpt}(\poly)$ such that the forgetful functor $U\colon\Cat{Cpt}(\poly)\to\poly$ is strong monoidal.
-	\item Show that this monoidal structure is closed, i.e.\ that there is an internal hom $[-,-]$ on $\Cat{Cpt}(\poly)$. Hint: you should have $U([p\yon,q\yon]_{\Cat{Cpt}})\cong[p\yon,q]_{\poly}\yon$.
+	\item Show that this monoidal structure is closed, i.e.\ that there is an internal hom $[-,-]$ on $\Cat{Cpt}(\poly)$.
+	(Hint: You should have $U([p\yon,q\yon]_{\Cat{Cpt}})\cong[p\yon,q]_{\poly}\yon$.)
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -7160,7 +7463,7 @@ Indeed, for every $n$, there are $(n+1)$-many morphisms $q\tripow{n+1}\to q\trip
 	\yon&
 	q\ar[l, "\epsilon"']&
 	q\tri q\ar[l, shift left, "q\tri\epsilon"]\ar[l, shift right, "\epsilon\tri q"']&[10pt]
-	q\tripow{3}\ar[l, shift left=7pt, "q\tri q\tri\epsilon"]\ar[l, shift right=7pt, "\epsilon\tri q\tri q"']\ar[l, "q\tri\epsilon\tri q" description]&
+	q\tripow3\ar[l, shift left=7pt, "q\tri q\tri\epsilon"]\ar[l, shift right=7pt, "\epsilon\tri q\tri q"']\ar[l, "q\tri\epsilon\tri q" description]&
 	\cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=6pt]\ar[l, shift right=2pt]
 \end{tikzcd}
 \end{equation}
@@ -7217,7 +7520,7 @@ There is a commutative diagram in $\smcat$
 \end{equation}
 which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the comultiplication. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
 
-We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{ex.delta_n_notation}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
+We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{prop.n_duplication}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
 \[
 \begin{tikzcd}[column sep=50pt]
 	\ema{c}\ar[r, "\delta^{m+n-1}"]\ar[d, "\delta"']&
@@ -7326,7 +7629,7 @@ The following exercise is useful when considering the (topos-theoretic) logic of
 	\yon&
 	q\ar[l]&
 	q\tri q\ar[l, shift left]\ar[l, shift right]&[10pt]
-	q\tripow{3}\ar[l, shift left=7pt]\ar[l, shift right=7pt]\ar[l ]&
+	q\tripow3\ar[l, shift left=7pt]\ar[l, shift right=7pt]\ar[l ]&
 	\cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=6pt]\ar[l, shift right=2pt]
 \end{tikzcd}
       \right)
