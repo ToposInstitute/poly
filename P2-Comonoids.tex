@@ -5013,7 +5013,7 @@ where the second map is just the canonical left projection, and
     A\To{\delta_\1}A\times A\To{!\:\times\:A}\1\times A\iso A,
 \]
 where the second nap is just the canonical right projection, are both the identity on $A$.
-The only function $\delta_\1\colon A\to A\times A$ that satisfies this condition is the diagonal.
+The only function $\delta_\1\colon A\to A\times A$ that satisfies this condition is the diagonal $a\mapsto(a,a)$.
 It is easy to verify that the diagonal is coassociative, so this does define a unique comonoid structure on $A\yon$.
 (It turns out that this is equivalent to the well-known result that there is a unique comonoid structure on every set in $(\smset,\1,\times)$.)
 \end{solution}
@@ -6056,12 +6056,11 @@ Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the rep
 \end{example}
 
 \begin{exercise}
-Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the unitality and associativity requirements of a comonoid in $(\poly,\yon,\tri)$.
-\begin{solution}
-**
+Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the erasure and coassociativity requirements of a comonoid in $(\poly,\yon,\tri)$.
+\begin{solution} %** Do we want to write it out??
+This is a direct consequence of the fully faithful Yoneda embedding $\smset\op\to\poly$ sending $M\mapsto\yon^M$, and the fact that $\yon^A\tri\yon^B\iso\yon^{A\times B}$ for all $A,B\in\smset$.
 \end{solution}
 \end{exercise}
-
 
 % ** displaced content begins
 
@@ -6075,7 +6074,7 @@ Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
 \begin{enumerate}
     \item **
     \item **
@@ -6246,19 +6245,13 @@ Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that o
 %-------- Section --------%
 \section{Morphisms of comonoids are cofunctors}
 
-% ** displaced stuff begins
+% ** define comonoid morphisms
 
-We were very careful in how we stated %**
+% ** define category of comonoids
 
-Although we have seen that comonoids in $\poly$ are precisely categories. Strangely, however, the a morphism between comonoids is not a functor but something people are calling a \emph{cofunctor}.
-
-
-\begin{theorem}[Ahman-Uustalu]
-There is an equivalence of categories
-\[
-\Cat{Comon}(\poly)\cong\smcat^\sharp.
-\]
-\end{theorem} %turn this into a definition
+Note that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we claimed an isomorphism-preserving one-to-one correspondence between objects in $\comon$ and objects in $\smcat^\sharp$, we never claimed that these two categories are isomorphic or even equivalent.
+The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to a different map of categories called a \emph{cofunctor}.
+Specifying \cef{def.**} to the case of $(\poly,\yon,\tri)$, we derive the following definition of a cofunctor.
 
 \begin{definition}[Cofunctor]\label{def.cofunctor}
 Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\cod\colon C_1\to C_0$ the domain and codomain,%
@@ -6278,6 +6271,14 @@ In other words, $F^\sharp$ preserves identities, codomains, and compositions.
 
 We denote by $\smcat^\sharp$ the category of categories and cofunctors.
 \end{definition}
+
+Then \cref{thm.ahman_uustalu} can be restated as follows.
+\begin{corollary}[Ahman-Uustalu]
+There is an isomorphism of categories
+\[
+    \comon\iso\smcat^\sharp.
+\]
+\end{corollary}
 
 The cofunctor laws can be written in commutative diagram form as follows:
 \begin{gather*}
@@ -6305,6 +6306,8 @@ The cofunctor laws can be written in commutative diagram form as follows:
 	C_1\times_{C_0}C_1\ar[u, "\then_C"']
 \end{tikzcd}
 \end{gather*}
+
+% ** displaced stuff begins
 
 \begin{example}[Admissible sections]\label{ex.admissible_section}
 Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, considered as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
