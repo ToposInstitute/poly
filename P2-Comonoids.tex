@@ -5121,7 +5121,7 @@ Note that each item in the comonoid column---either a polynomial, a lens, or a l
   \rule{0pt}{3ex}
   \multirow{2}{*}{duplicator} & $\delta_\1\colon\ema{c}(\1)\to(\ema{c}\tri\ema{c})(\1)$ & codomains* & $\cod\colon\cat{C}[i]\to\Ob\cat{C}$ \\
   & 
-  \rule{0pt}{2ex} $\delta_i^\sharp\colon(\ema{c}\tri\ema{c})[\delta_\1(i)]\to\ema{c}[i]$ & composition* & $\displaystyle\comp\colon\sum_{f\in\cat{C}[i]}\cat{C}[\cod(f)]\to\cat{C}[i]$ \\
+  \rule{0pt}{2ex} $\delta_i^\sharp\colon(\ema{c}\tri\ema{c})[\delta_\1(i)]\to\ema{c}[i]$ & composition* & $\then$ \\ %$\displaystyle\comp\colon\sum_{f\in\cat{C}[i]}\cat{C}[\cod(f)]\to\cat{C}[i]$
   \hline
   \multicolumn2{c|}{\multirow{2}{*}{right erasure law}} & \multicolumn2{c}{$\ast$} \\
   \multicolumn2{c|}{} & \multicolumn2{c}{right identity law} \\
@@ -5133,15 +5133,16 @@ Note that each item in the comonoid column---either a polynomial, a lens, or a l
   \multicolumn2{c|}{} & \multicolumn2{c}{associative law of composition}
 \end{tabular}
 \end{center}
+Note that the on-positions function of $\epsilon$, being a function into the terminal set, encodes no actual data; meanwhile, the asterisk $\ast$ indicates that the right erasure law on positions works together with the duplicator to ensure that codomains and compositions are properly specified.
 
-%** explain the asterisk
 
-The identities of $\cat{C}$ are all captured by the counit $\epsilon\colon\ema{c}\to\yon$ and the codomain and composition information of $\cat{C}$ are all captured by the comultiplication map $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$.
+
+The identities of $\cat{C}$ are all captured by the eraser $\epsilon\colon\ema{c}\to\yon$ and the codomain and composition information of $\cat{C}$ are all captured by the duplicator $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$.
 Our goal is to make this clear so that we can justly proclaim:
 
 \slogan{Comonoids in $\poly$ are precisely categories!}
 
-We want to understand how the counit $\epsilon$ and comultiplication $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
+We want to understand how the eraser $\epsilon$ and duplicator $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
 \[
  \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{c}$" left] (c) {$\epsilon^\sharp(i)$\at$i$};
@@ -6422,9 +6423,9 @@ Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\d
 	c'\tri c'
 \end{tikzcd}
 \end{equation}
-\end{definition}
+\end{definition} %** maybe "preserves" erasers and duplicators??
 
-Let's see the two laws of comonoid morphisms using polyboxes. First the counit law:
+Let's see the two laws of comonoid morphisms using polyboxes. First the eraser law:
 \begin{equation}\label{eqn.unit_law_draw}
 \begin{tikzpicture}
 	\node (id1) {
@@ -6446,7 +6447,7 @@ Let's see the two laws of comonoid morphisms using polyboxes. First the counit l
 	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
 \end{tikzpicture}
 \end{equation}
-Then the comultiplication law:
+Then the duplicator law:
 \begin{equation}\label{eqn.comult_law_draw}
 \begin{tikzpicture}
 	\node (sp1) {
@@ -6893,14 +6894,14 @@ Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
 \]
 It says that $\lensput(\lensget(s))=s$. This is typically called the get-put law.
 
-We leave the comultiplication-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
+We leave the duplicator-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
 \end{example}
 
 \begin{exercise}\label{exc.well_behaved}
 Complete \cref{ex.well_behaved}.
 \begin{enumerate}
-	\item Write out the comultiplication law from \eqref{eqn.unit_law_draw} in terms of polyboxes.
-	\item What set-theoretic equations are forced by the comultiplication law?
+	\item Write out the duplicator law from \eqref{eqn.unit_law_draw} in terms of polyboxes.
+	\item What set-theoretic equations are forced by the duplicator law?
 	\item Can you see why they might be called put-put and put-get?
 \qedhere
 \end{enumerate}
@@ -7230,7 +7231,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 %\end{tikzcd}
 %}
 %\]
-%It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its counit and comultiplication are given by $0$ and addition.
+%It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its eraser and duplicator are given by $0$ and addition.
 %
 %This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
 %\[
@@ -7314,7 +7315,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 % Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
 % \end{definition}
 
-% Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own counit and comultiplication, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
+% Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own eraser and duplicator, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
 % These objects and morphisms are then subject to no relations beyond those implied by the standard comonoid axioms.
 
 % In particular, we can identify the objects of $\Delta_I\op$ with the elements of the free monoid $\List(I)$, where the $|I|$ comonoids are the singleton lists $[i]$ for each $i \in I$.
@@ -7322,7 +7323,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 % The monoidal unit must then be the empty list $[]$.
 % We could give analogous notation for $\Delta_I$.
 
-% The counits $[i] \to []$ and comultiplications $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
+% The erasers $[i] \to []$ and duplicators $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
 % For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
 % \[
 %     ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
@@ -7370,7 +7371,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 % \end{tikzcd}
 % \end{equation}
 % commutes.
-% In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by comultiplications $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
+% In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by duplicators $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
 % So we can generalize \eqref{eqn.lim_example} to say that
 % \begin{equation}
 % \begin{tikzcd}
@@ -7543,16 +7544,16 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 % % \end{example}
 
 % \begin{proof}[Proof of \cref{prop.sharp_products}]
-% We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its counit and comultiplication.
-% The counit $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
+% We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its eraser and duplicator.
+% The eraser $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
 
-% To construct the comultiplication, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of counits), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
+% To construct the duplicator, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of erasers), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
 % As $C$ is monoidal, it follows that
 % \[
 %     (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
 % \]
 % So specifying a map to $(\lim C) \tri (\lim C)$ amounts to specifying a map to $C(\ell \tri \ell')$ for every $\ell, \ell' \in \Delta_I\op$ such that the appropriate diagrams commute.
-% In particular, we can construct the comultiplication $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
+% In particular, we can construct the duplicator $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
 % It is routine to verify that the appropriate diagrams commute.
 
 % (Verify comonoid laws)
@@ -7613,7 +7614,7 @@ The terminology of \cref{def.cofree} is alluding to a specific way we like to im
 
 So a position in $\tr_p$ is one of these trees. Such a tree may end, namely if none of the top-level positions has any directions, but often it will not end. Given such a tree, say $t$, a direction $d\in\tr_p[t]$ there is simply a path from the root to some node in the tree. 
 
-We'll explain the counit $\rt$ and the comultiplication $\fs$ after going through an example.
+We'll explain the eraser $\rt$ and the duplicator $\fs$ after going through an example.
 
 \begin{example}\label{ex.imagining_trees}
 Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$. Here are four trees in $p$:
@@ -7701,7 +7702,7 @@ For each of the following polynomials $p$, describe the set of trees (positions)
 \end{enumerate}
 \end{exercise}
 
-Now that we've explained the underlying polynomial $\tr_p$ of the cofree comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, we just need to explain how identities, codomains, and composition work, i.e.\ we just need to give the counit map $\rt\colon\tr_p\to\yon$ and the comultiplication map $\fs\colon\tr_p\to\tr_p\tri\tr_p$. 
+Now that we've explained the underlying polynomial $\tr_p$ of the cofree comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, we just need to explain how identities, codomains, and composition work, i.e.\ we just need to give the eraser map $\rt\colon\tr_p\to\yon$ and the duplicator map $\fs\colon\tr_p\to\tr_p\tri\tr_p$. 
 
 Again, the objects in the category $\cofree{p}$ are $p$-trees, and a morphism emanating from such a tree $t$ is a path from its root $r$ to some node. The map $\rt$, applied to $t$, returns $t$'s root $r$, or more precisely the path from $r$ to itself. The map $\fs$, applied to $t$, first needs to give a codomain (tree) to every path from the root to some other node $n$. It is just the subtree of $t$ whose root is $n$: the tree of all nodes starting at $n$. Now, given a path from the root of that tree (namely $n$) to another node, say $n'$, we need to give a path from $r$ to $n'$; we take it to be the composite of the path $r\to n$ and the path $n\to n'$.
 
@@ -8124,9 +8125,9 @@ There is a commutative diagram in $\smcat$
 	\poly
 \end{tikzcd}
 \end{equation}
-which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the comultiplication. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
+which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the duplicator. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
 
-We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a counit map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{prop.n_duplication}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
+We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a eraser map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{prop.n_duplication}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
 \[
 \begin{tikzcd}[column sep=50pt]
 	\ema{c}\ar[r, "\delta^{m+n-1}"]\ar[d, "\delta"']&
