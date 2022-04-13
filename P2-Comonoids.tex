@@ -4187,7 +4187,7 @@ In fact,
 Using only the contents of the blue boxes and the target and run functions, write down the equation that we can read off of \eqref{eqn.trans_lens_coassoc_polybox} expressing the associativity of the ``running together'' operation.
 \begin{solution}
 Following the arrows on either side of \eqref{eqn.trans_lens_coassoc_polybox} all the way to the domain's direction box, we obtain an expression for each box's contents that we can then set equal to each other.
-The easiest way to actually write down these expressions is probably to start at the end with $s_0\to s_3$ and follow the arrows backwards, unpacking each term until only the contents of the blue boxes remain (namely $s_0, s_0\to s_1, s_1\to s_2,$ and $s_2\to s_3$).
+The easiest way to actually write down these expressions is probably to start at the end with $s_0\to s_3$ and follow the arrows backward, unpacking each term until only the contents of the blue boxes remain (namely $s_0, s_0\to s_1, s_1\to s_2,$ and $s_2\to s_3$).
 Here's what we get when we follow this process for the left hand side of \eqref{eqn.trans_lens_coassoc_polybox} (remember where to look for the three inputs to the run function):
 \begin{align*}
     s_0\to s_3&=\text{run}(s_0,s_0\to s_2,s_2\to s_3)\\
@@ -4202,7 +4202,7 @@ and here's what we get for the right (also remember where to look for the two in
 \end{align*}
 Setting these equal yields our desired associativity equation:
 \[
-    \boxed{\text{run}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2),s_2\to s_3)=\text{run}(s_0,s_0\to s_1,\text{run}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2,s_2\to s_3))}.
+    \text{run}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2),s_2\to s_3)=\text{run}(s_0,s_0\to s_1,\text{run}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2,s_2\to s_3)).
 \]
 \end{solution}
 \end{exercise}
@@ -4246,9 +4246,9 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 \begin{enumerate}
     \item Given $\ema{s}\in\poly$ and a lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$, we want all the ways to obtain a lens $\ema{s}\to\ema{s}\tripow4$ using $\delta,\id_\ema{s}$ (i.e.\ $\ema{s}$), $\tri,$ and $\then$.
     Starting with $\ema{s}$, the only way to get to $\ema{s}\tripow2$ is with a single $\delta\colon\ema{s}\to\ema{s}\tripow2$.
-    From there, we can get to $\ema{s}\tripow4$ directly by composing with $\delta\tri\delta$ to obtain $\boxed{\delta\then(\delta\tri\delta)}$.
+    From there, we can get to $\ema{s}\tripow4$ directly by composing with $\delta\tri\delta$ to obtain $\delta\then(\delta\tri\delta)$.
     Alternatively, we can preserve either the first or the second $\ema{s}$ using the identity, then get to $\ema{s}\tripow3$ from the other $\ema{s}$ in one of two ways: either $\delta\then(\delta\tri\ema{s})$ or $\delta\then(\ema{s}\tri\delta)$.
-    This gives us $4$ more ways to write a lens $\ema{s}\to\ema{s}\tripow4$: either $\boxed{\delta\then(\ema{s}\tri(\delta\then(\delta\tri\ema{s})))}$ or $\boxed{\delta\then(\ema{s}\tri(\delta\then(\ema{s}\tri\delta)))}$ if we chose to preserve the first $\ema{s}$, and either $\boxed{\delta\then((\delta\then(\delta\tri\ema{s}))\tri\ema{s})}$ or $\boxed{\delta\then((\delta\then(\ema{s}\tri\delta))\tri\ema{s})}$ if we chose to preserve the second.
+    This gives us $4$ more ways to write a lens $\ema{s}\to\ema{s}\tripow4$: either $\delta\then(\ema{s}\tri(\delta\then(\delta\tri\ema{s})))$ or $\delta\then(\ema{s}\tri(\delta\then(\ema{s}\tri\delta)))$ if we chose to preserve the first $\ema{s}$, and either $\delta\then((\delta\then(\delta\tri\ema{s}))\tri\ema{s})$ or $\delta\then((\delta\then(\ema{s}\tri\delta))\tri\ema{s})$ if we chose to preserve the second.
     Here's the full list, sorted roughly by how far to the left we try to apply each $\delta$:
     \begin{enumerate}[label=(\arabic*)]
         \item $\delta\then((\delta\then(\delta\tri\ema{s}))\tri\ema{s})$
@@ -5001,7 +5001,7 @@ Show that if $A$ is a set, then there exists a unique comonoid structure on the 
 \begin{solution}
 Given a set $A$, we wish to give a comonoid structure on $A\yon$ and show that it is unique.
 There is only one way to define an eraser lens $\epsilon\colon A\yon\to\yon$: the on-position function is the unique map $!\colon A\to\1$, while every on-directions function $\1\to\1$ must be the identity.
-Meanwhile $A\yon\tri A\yon\iso A^2\yon$, so to specify a duplicator lens $\delta\colon A\yon\to A^2\yon$, it suffices to specify an on-positions function $\delta_\1\colon A\to A^2$, and every on-directions function will again be the identity.
+Meanwhile $A\yon\tri A\yon\iso A^\2\yon$, so to specify a duplicator lens $\delta\colon A\yon\to A^\2\yon$, it suffices to specify an on-positions function $\delta_\1\colon A\to A^\2$, and every on-directions function will again be the identity.
 
 All the comonoid laws should then hold trivially on directions, so it suffices to consider each law on positions.
 The erasure laws imply that the composite functions
@@ -5079,26 +5079,53 @@ But we won't worry too much about size issues beyond this.
 \end{remark}
 
 \begin{exercise} \label{exc.ema_polys}
-What is the carrier of each of the following categories?
+What is the carrier of each of the following categories (up to isomorphism)?
 \begin{enumerate}
-	\item \boxCD{exercisecolor}{$A\Too{f}B$}?
-	\item \boxCD{exercisecolor}{$B\From{f}A\To{g}C$}?
-	\item The empty category?
-	\item \label{exc.ema_polys.nat_monoid} The monoid $(\nn,0,+)$?
-	\item A monoid $(M, e, *)$?
-	\item \label{exc.ema_polys.nat_poset} The poset $(\nn,\leq)$?
-	\item The poset $(\nn,\geq)$?
-\qedhere
+	\item The category
+	\begin{center}
+	    \boxCD{exercisecolor}{$A\Too{f}B$}
+	\end{center}
+	where we have drawn every morphism except for the identity morphisms.
+	\item The category
+	\begin{center}
+	    \boxCD{exercisecolor}{$B\To{g}A\From{h}C$}
+	\end{center}
+	where we have drawn every morphism except for the identity morphisms.
+	\item The empty category.
+	\item \label{exc.ema_polys.nat_monoid} A category with exactly $1$ object and a morphism $i$, for which every morphism can be written uniquely as the $n$-fold composite of $i$ for some $n\in\nn$.
+	\item \label{exc.ema_polys.nat_poset} The category
+	\begin{center}
+	    \boxCD{exercisecolor}{$0\to1\to2\to3\to\cdots$}
+	\end{center}
+	where there is a unique morphism $m\to n$ if $m\leq n$ (and no other morphisms).
+	\item The category
+	\begin{center}
+	    \boxCD{exercisecolor}{$0\from1\from2\from3\from\cdots$}
+	\end{center}
+	where there is a unique morphism $m\from n$ if $m\leq n$ (and no other morphisms).\qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-	\item The category \boxCD{white}{$A\Too{f}B$} has $2$ morphisms out of $A$ and $1$ morphism out of $B$, so its carrier is $\yon^\2 + \yon$.
-	\item The category \boxCD{white}{$B\From{f}A\To{g}C$} has $3$ morphisms out of $A$ and $1$ morphism out of each of $B$ and $C$, so its carrier is $\yon^\3 + 2\yon$.
-	\item The empty category has no objects, so its carrier is the empty sum $\0$.
-	\item The monoid $(\nn,0,+)$ has $1$ object, and its morphisms form the set $\nn$, so its carrier is $\yon^\nn$.
-	\item The monoid $(M, e, *)$ has $1$ object, and its morphisms form the set $M$, so its carrier is $\yon^M$.
-	\item The poset $(\nn,\leq)$ has $\nn$ as its set of objects, and there is exactly one morphism from every $n \in \nn$ to each element of $\{n' \in \nn \ | \ n \leq n'\} \iso \nn$ (and no other morphisms from $n$), so the carrier of the poset is $\nn\yon^\nn$.
-	\item The poset $(\nn,\geq)$ has $\nn$ as its set of objects, and there is exactly one morphism from every $n \in \nn$ to each element of $\{0, 1, \ldots, n\} \iso \ord{n}+\1$ (and no other morphisms from $n$), so the carrier of the poset is $\sum_{n \in \nn} \yon^{\ord{n}+\1} \iso \yon^\1 + \yon^\2 + \yon^\3 + \cdots$.
+	\item The category \boxCD{white}{$A\Too{f}B$} has $2$ morphisms out of $A$, namely $\id_A$ and $f$; and $1$ morphism out of $B$, namely $\id_B$.
+	So its carrier is $\{A\}\yon^{\{\id_A,f\}}+\{B\}\yon^{\{\id_B\}}\iso\yon^\2+\yon$.
+	\item The category \boxCD{white}{$B\To{g}A\From{h}C$} has $1$ morphism out of $A$, namely $\id_A$; $2$ morphisms out of $B$, namely $\id_B$ and $g$; and $2$ morphisms out of $C$, namely $\id_C$ and $h$.
+	So its carrier is $\{A\}\yon^{\{\id_A\}}+\{B\}\yon^{\{\id_B,g\}}+\{C\}\yon^{\{\id_C,h\}}\iso\2\yon^\2+\yon$.
+	\item The empty category has no objects or morphisms, so its carrier is just $\0$.
+	\item The category in question has $1$ object, and its set of morphisms is in bijection with $\nn$, so its carrier is isomorphic to $\yon^\nn$.
+	(This category is the monoid $(\nn,0,+)$ viewed as a $1$-object category; see \cref{ex.monoids} for the general case.)
+	\item The category in question has $\nn$ as its set of objects, and for each $m\in\nn$, the morphisms out of $m$ are determined by their codomains: there is exactly $1$ morphism $m\to n$ for every $n\in\nn$ satisfying $m\leq n$, and no other morphisms out of $m$.
+	So the carrier of the category is isomorphic to
+	\[
+	    \sum_{m\in\nn}\yon^{\{n\in\nn\mid m\leq n\}}\iso\nn\yon^\nn,
+	\]
+	as $\{n\in\nn\mid m\leq n\}\iso\nn$ under the bijection $n\mapsto n-m$.
+	(This category is the poset $(\nn,\leq)$; see \cref{**} for the general case.)
+	\item The category in question has $\nn$ as its set of objects, and for each $n\in\nn$, the morphisms out of $n$ are again determined by their codomains: there is exactly $1$ morphism $n\to m$ for every $m\in\nn$ satisfying $m\leq n$, and no other morphisms out of $n$.
+	So the carrier of the category is isomorphic to
+	\[
+	    \sum_{n\in\nn}\yon^{\{m\in\nn\mid m\leq n\}}\iso\sum_{n\in\nn}\yon^{\ord{n+1}}\iso\yon^\1+\yon^\2+\yon^\3+\cdots.
+	\]
+    (This category is the poset $(\nn,\geq)$; again, see \cref{**} for the general case.)
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -5118,10 +5145,9 @@ Note that each item in the comonoid column---either a polynomial, a lens, or a l
   \multirow{2}{*}{eraser} & $\epsilon_\1\colon\ema{c}(\1)\to\1$ & --- & --- \\
   & $\epsilon_i^\sharp\colon\1\to\ema{c}[i]$ & identities & $\id_i\in\cat{C}[i]$ \\
   \hline
-  \rule{0pt}{3ex}
   \multirow{2}{*}{duplicator} & $\delta_\1\colon\ema{c}(\1)\to(\ema{c}\tri\ema{c})(\1)$ & codomains* & $\cod\colon\cat{C}[i]\to\Ob\cat{C}$ \\
   & 
-  \rule{0pt}{2ex} $\delta_i^\sharp\colon(\ema{c}\tri\ema{c})[\delta_\1(i)]\to\ema{c}[i]$ & composition* & $\then$ \\ %$\displaystyle\comp\colon\sum_{f\in\cat{C}[i]}\cat{C}[\cod(f)]\to\cat{C}[i]$
+  $\delta_i^\sharp\colon(\ema{c}\tri\ema{c})[\delta_\1(i)]\to\ema{c}[i]$ & composition* & $\then$ \\ %$\displaystyle\comp\colon\sum_{f\in\cat{C}[i]}\cat{C}[\cod(f)]\to\cat{C}[i]$
   \hline
   \multicolumn2{c|}{\multirow{2}{*}{right erasure law}} & \multicolumn2{c}{$\ast$} \\
   \multicolumn2{c|}{} & \multicolumn2{c}{right identity law} \\
@@ -5452,6 +5478,10 @@ This proves \cref{thm.ahman_uustalu}.
 
 %---- Subsection ----%
 \subsection{Examples of categories as comonoids}
+Now that we know that polynomial comonoids are just categories, let's review some simple examples of categories and see how they may be interpreted as comonoids.
+As we go through these examples, pay attention to how the polynomial perspective causes us to view these familiar categories somewhat differently than usual. %**Does it?
+
+\subsubsection{Preorders}
 
 % update to highlight categorical structure
 \begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
@@ -5807,6 +5837,23 @@ We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the categor
 \end{solution}
 \end{exercise}
 
+%**Adjust, say we want it to be connected
+\begin{exercise}\label{ex.star_shaped}
+\begin{enumerate}
+	\item Find a category structure for the polynomial $\yon^{\ord{n}+\1}+\ord{n}\yon$.
+	\item Would you call your category ``star-shaped''?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item Take the discrete category on $\ord{n}$ and adjoin a unique initial object $A$, so that the only non-identity morphisms are the morphisms from $A$ to each of the other objects exactly once.
+    Then this category has the carrier $\yon^{\ord{n}+\1} + \ord{n}\yon$.
+    \item This category could be thought of as ``star-shaped,'' with the initial object in the center with morphisms leading out to the other $n$ objects as spokes.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
 % ** Figure out what's up with all this stuff...
 %
 %\begin{exercise}\label{ex.fleece}
@@ -6042,83 +6089,6 @@ We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the categor
 %\end{exercise}
 %
 
-\begin{example}[The category of $A$-streams]\label{ex.streams_category}
-For any set $A$, the set $A^\nn$ of $A$-streams
-\[
-s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
-\]
-are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
-
-We will see this category again in \cref{ex.streams_cofree}.
-\end{example}
-
-\begin{example}[Monoids]\label{ex.monoids}
-Let $(M,e,*)$ be a monoid. Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^2}$ and a morphism $\yon^M\to\yon^{M^2}$ can be identified with a function $M^2\to M$; under that identification we take $\delta\coloneqq *$.
-\end{example}
-
-\begin{exercise}
-Finish \cref{ex.monoids} by showing that if $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ then $(\yon^M,\epsilon,\delta)$ satisfies the erasure and coassociativity requirements of a comonoid in $(\poly,\yon,\tri)$.
-\begin{solution} %** Do we want to write it out??
-This is a direct consequence of the fully faithful Yoneda embedding $\smset\op\to\poly$ sending $M\mapsto\yon^M$, and the fact that $\yon^A\tri\yon^B\iso\yon^{A\times B}$ for all $A,B\in\smset$.
-\end{solution}
-\end{exercise}
-
-% ** displaced content begins
-
-% **move elsewhere...?
-\begin{exercise}[Monoid actions]
-Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action. 
-\begin{enumerate}
-	\item Show that $S\yon^M$ forms a comonoid. 
-	\item Show that the projection $S\yon^M\to\yon^M$ is a comonoid homomorphism.
-	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_comonad_1}?
-\qedhere
-\end{enumerate}
-\begin{solution}
-We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-% ** displaced content ends
-
-\begin{example}[Monoid action]\label{ex.monoid_action}
-Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha \colon M \times S \to S$ is an action. There is an associated category $\cat{A}$ with carrier $S \yon ^ M$. In other words, it has objects set $S$ and for every $s \in S$ there is an outgoing morphism for each $m \in M$, namely $s \To {m} \alpha (m , s)$. 
-\end{example}
-
-\begin{exercise}
-With notation as in \cref{ex.monoid_action},
-\begin{enumerate}
-    \item For a given object $s \in \cat{A}$, what is the identity morphism?
-    \item What is the composite of two morphisms in $\cat{A}$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-Here $(M,e,*)$ is a monoid, $S$ is a set, $\alpha \colon M \times S \to S$ is an action, and $\cat{A}$ is the associated category with carrier $S\yon^M$; in particular, for each $s \in S$ and $m \in M$, there is a morphism $s \To{m} \alpha(m,s)$.
-\begin{enumerate}
-    \item We wish to identify the identity morphism for each object $s \in \cat{A}$.
-    This should be a morphism whose domain and codomain are $s$.
-    By the laws of monoid actions, $\alpha(m,s)$ is guaranteed to be $s$ if $m = e$.
-    Hence, it only makes sense for the identity morphism of $s$ to be the morphism $s \To{e} s$.
-    \item Given a morphism $s \To{m} \alpha(m,s)$, we wish to determine its composite with another morphism $\alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$.
-    By the laws of monoid actions, we have that $\alpha(n,\alpha(m,s)) = \alpha(n*m,s)$, so it makes sense for the composite $s \To{m} \alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$ to be the morphism $s \To{n*m} \alpha(n*m,s)$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-
-\begin{example}[Cyclic lists]
-For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
-
-We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}c_n$ is also a comonoid.
-\end{example}
-
 \begin{example}[What category is $S\yon^S$?] \label{ex.state_comonad}
 The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}=(p,\epsilon,\delta)$, where $p=S\yon^S$ for some set $S$. Now we know that comonoids correspond to categories. So what category $\cat{S}$ corresponds to $\com{S}$?
 
@@ -6188,11 +6158,166 @@ Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category
 \end{example}
 
 \begin{exercise}
-We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $p\coloneqq A\yon$ has a unique comonoid structure. What category does it correspond to?
+We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $A\yon$ has a unique comonoid structure.
+What category does it correspond to?
 \begin{solution}
 The linear polynomial $A\yon$ corresponds to a category whose objects form the set $A$ and whose only morphisms are identities: in other words, it is the discrete category on $A$.
 \end{solution}
 \end{exercise}
+
+
+\subsubsection{Monoids and monoid actions}
+
+Here we use \emph{monoid} to refer to a monoid in the monoidal category $(\smset,\1,\times)$.
+We denote such a monoid by $(M,e,*)$, where $M$ is the underlying set, $e\in M$ is the unit, and $*\colon M\times M\to M$ is the binary operation.
+
+\begin{example}[Monoids as representable comonoids]\label{ex.monoids}
+Recall that every monoid $(M,e,*)$ can be identified with a $1$-object category $\cat{M}$ with a single hom-set $M$, a single identity morphism $e$, and composition given by $*$.
+Now we know that a $1$-object category $\cat{M}$ is also a polynomial comonoid $(\ema{m},\epsilon,\delta)$ whose carrier has $1$ position, with all of the morphisms of $\cat{M}$ becoming its directions.
+So the carrier of $\cat{M}$ is the representable polynomial $\yon^M$.
+
+Then the eraser $\epsilon\colon\yon^M\to\yon$ picks out the identity morphism $e\in M$ on directions, while the duplicator $\delta\colon\yon^M\to\yon^M\tri\yon^M\iso\yon^{M\times M}$ can be identified with the binary operation $*\colon M\times M\to M$.
+(We don't have to worry about codomains, since there's only one possible codomain to choose from.)
+In this way, every monoid $(M,e,*)$ in $\smset$ gives rise to a representable comonoid $(\yon^M,\epsilon,\delta)$ in $\poly$.
+We can just as easily invert this construction, obtaining a monoid for every representable comonoid by taking the underlying set to be the carrier's set of directions, the unit to be the direction picked out by the erasure, and the binary operation to be the duplicator's on-directions function.
+
+% Let $(M,e,*)$ be a monoid.
+% Recall that a 
+
+% Then we can construct a comonoid structure on the representable $\yon^M$. A morphism $\yon^M\to\yon$ can be identified with an element of $M$; under that identification we take $\epsilon\coloneqq e$. Similarly, $\yon^M\tri\yon^M\cong\yon^{M^\2}$ and a morphism $\yon^M\to\yon^{M^\2}$ can be identified with a function $M^\2\to M$; under that identification we take $\delta\coloneqq *$.
+\end{example}
+
+\begin{exercise}
+Verify \cref{ex.monoids} by showing that $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ if and only if $(\yon^M,\epsilon,\delta)$ satisfies the erasure and coassociativity requirements of a comonoid in $(\poly,\yon,\tri)$.
+\begin{solution} %** Do we want to write it out??
+The fact that monoids $(M,e,*)$ in $(\smset,\1,\times)$ are just comonoids $(\yon^M,\epsilon,\delta)$ in $(\poly,\yon,\tri)$, following the construction of \cref{ex.monoids}, is a direct consequence of the fully faithful Yoneda embedding $\smset\op\to\poly$ sending $A\mapsto\yon^A$ that maps $\1\mapsto\yon, A\times B\mapsto\yon^{A\times B}\iso\yon^A\tri\yon^B$ naturally, and $M\mapsto\yon^M$.
+
+We can also state the laws and the correspondences between them explicitly, keeping in mind that $e$ and $*$ are just the on-directions functinos of $\epsilon$ and $\delta$.
+The monoid's unitality condition states that $e$ is a $2$-sided unit for $*$, or that
+\[
+\begin{tikzcd}[row sep=large]
+	\1\times M & M\ar[from=d, "*" description]\ar[from=r, equal]\ar[from=l, equal]&M\times\1\\&
+	M\times M,\ar[from=ul, "e\:\times\:M"']\ar[from=ur, "M\:\times\:e"]
+\end{tikzcd}
+\]
+commutes---equivalent to the comonoid's erasure laws, which state that 
+\[
+\begin{tikzcd}[row sep=large]
+	\yon\tri \yon^{M}&\yon^{M}\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&\yon^{M}\tri\yon\\&
+	\yon^{M}\tri\yon^{M},\ar[ul, "\epsilon\:\tri\:\yon^{M}"]\ar[ur, "\yon^{M}\:\tri\:\epsilon"']
+\end{tikzcd}
+\]
+commutes (trivial on positions, equivalent to the monoid's unitality condition on directions).
+
+Similarly, the monoid's associativity condition states that $*$ is associative, or that
+\[
+\begin{tikzcd}[row sep=large]
+	M \ar[from=r, "*"']\ar[from=d, "*"]&
+	M \times M \ar[from=d, "M\:\times\:*"']\\
+	M \times M \ar[from=r, "*\:\times\:M"]&
+	M \times M \times M,
+\end{tikzcd}
+\]
+commutes---equivalent to the comonoid's coassociativity law, which state that 
+\[
+\begin{tikzcd}[row sep=large]
+	\yon^{M}\ar[r, "\delta"]\ar[d, "\delta"']&
+	\yon^{M}\tri\yon^{M}\ar[d, "\yon^{M}\:\tri\:\delta"]\\
+	\yon^{M}\tri \yon^{M}\ar[r, "\delta\:\tri\:\yon^{M}"']&
+	\yon^{M}\tri\yon^{M}\tri\yon^{M},
+\end{tikzcd}
+\]
+commutes (trivial on positions, equivalent to the monoid's associativity condition on directions).
+\end{solution}
+\end{exercise}
+
+\begin{example}[Monoid actions]\label{ex.monoid_action}
+Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is a \emph{(left) monoid action}.
+That is, for all $s\in S$ we have $\alpha(e,s)=s$ and $\alpha(n*m,s)=\alpha(n,\alpha(m,s))$ for $m,n\in M$; equivalently, the diagrams
+\[
+\begin{tikzcd}
+	1\times S\ar[rd,equals]\ar[r,"e\:\times\:S"] & M\times S\ar[d,"\alpha"]\\
+	& S
+\end{tikzcd}
+\qqand
+\begin{tikzcd}[row sep=large]
+    M\times M\times S\ar[d,"*\:\times\:S"]\ar[r,"M\:\times\:\alpha"] & M\times S\ar[d,"\alpha"]\\
+    M\times S\ar[r,"\alpha"] & S
+\end{tikzcd}
+\]
+commute.
+
+Then there is an associated category $\cat{A}$ with objects in $S$ and morphisms $s\To{m}\alpha(m,s)$ for each $s\in S$ and $m\in M$.
+This, in turn, corresponds to a comonoid $(S\yon^M,\epsilon,\delta)$, as we will see in the next exercise.
+\end{example}
+
+\begin{exercise}
+With notation as in \cref{ex.monoid_action}, characterize the comonoid structure on $S\yon^M$.
+\begin{enumerate}
+    \item How can we define the erasure $\epsilon$?
+    \item How can we define the duplicator $\delta$?
+    \item Verify that the erasure laws hold.
+    \item Verify that the coassociativity law holds.
+    \item Describe the corresponding category $\cat{A}$.
+	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_comonad_1}? %**fix this reference
+\qedhere
+\end{enumerate}
+\begin{solution}
+Here $(M,e,*)$ is a monoid, $S$ is a set, $\alpha\colon M\times S\to S$ is a monoid action, and $\cat{A}$ is the associated category, whose corresponding comonoid is $(S\yon^M,\epsilon,\delta)$.
+We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \alpha(m,s)$ in $\cat{A}$.
+\begin{enumerate}
+    \item The erasure $\epsilon\colon S\yon^M\to\yon$ picks out an element of $m\in M$ for every element $s\in S$ that will play the role of an identity, which in particular should also have $s$ as its codomain.
+    Since we want the codomain of the morphism $m$ out of $s$ to be $\alpha(m,s)$, we can take $m=e$ to guarantee that its codomain will be $\alpha(e,s)=s$.
+    So we let $\epsilon$ be the lens whose on-directions function at each $s\in S$ is $\epsilon^\sharp_s\colon\1\to M$ always maps to $e$.
+    \item The duplicator $\delta\colon S\yon^M\to S\yon^M\tri S\yon^M$ is determined by what we want the codomain of each morphism to be and how we want the morphisms to compose.
+    We already know that we want the morphism $m\in M$ out of each $s\in S$ to have the codomain $\alpha(m,s)$.
+    If we then have another morphism $n\in M$ out of $\alpha(m,s)$, its codomain will be $\alpha(n,\alpha(m,s))=\alpha(n*m,s)$, the same as the codomain of the morphism $n*m$ out of $s$.
+    So it makes sense for the composite $s \To{m} \alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$ to be the morphism $s \To{n*m} \alpha(n*m,s)$.
+    Thus, we can define $\delta$ in polyboxes as
+    \[
+    \begin{tikzpicture}[polybox, mapstos, font=\tiny]
+        \node[poly, dom] (p) {$n*m$\at$s$};
+        \node[poly, cod, right=1.8 of p.south, yshift=-1ex] (q) {$m$\at$s$};
+        \node[poly, cod, above=of q, xshift=2] (r) {$n$\at$\alpha(m,s)$};
+        \draw[double] (p_pos) to[first] (q_pos);
+        \draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
+        \draw (r_dir) to[last] node[above] {$\then$} (p_dir);
+    \end{tikzpicture}
+    \]
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+
+\begin{example}[Cyclic lists]
+For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
+
+We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}c_n$ is also a comonoid.
+\end{example}
+
+
+
+\subsubsection{Other categories}
+
+\begin{example}[The category of $A$-streams]\label{ex.streams_category}
+For any set $A$, the set $A^\nn$ of $A$-streams
+\[
+s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
+\]
+are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
+
+We will see this category again in \cref{ex.streams_cofree}.
+\end{example}
+
+
+%**Why is the above example not a preorder?
+
+%**coproducts??
+
 
 \begin{definition}[Degree, linear]
 Let $\cat{C}$ be a category and $c\in\Ob\cat{C}$ an object. The \emph{degree of $c$}, denoted $\deg(c)$, is the set of arrows in $\cat{C}$ that emanate from $c$.
@@ -6205,40 +6330,34 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 	\item If every object in $\cat{C}$ is linear, what does it mean about $\cat{C}$?
 	\item Is it possible for an object in $\cat{C}$ to have degree $0$?
 	\item Find a category that has an object of degree $\nn$.
-	\item How many categories are there that have just one linear and one quadratic (degree 2) object?
-	\item Is the above the same as asking how many comonoid structures on $\yon^\2+\yon$ there are?
+	\item Up to isomorphism, how many categories are there that have just one linear and one quadratic (degree 2) object?
+	\item Is the above the same as asking how many comonoid structures on $\yon^\2+\yon$ there are?\qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item If every object in $\cat{C}$ is linear, then the only morphisms in $\cat{C}$ are the identity morphisms, so $\cat{C}$ must be a discrete category.
     \item It is not possible for an object in $\cat{C}$ to have degree $0$, as every object must have at least an identity morphism emanating from it.
     \item Some possible examples of categories with objects of degree $\nn$ are the monoid $(\nn, 0, +)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_monoid}), the poset $(\nn, \leq)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_poset}), and the state category on $\nn$ (see \cref{ex.state_comonad}).
-    \item There are $3$ categories with just one linear and one quadratic object. They can be distinguished by the behavior of the single non-identity morphism.
-    Either its domain and its codomain are distinct, in which case we have the walking arrow category; or its domain and its codomain are the same, in which case it can be composed with itself to obtain either itself or the identity, yielding two more categories for a total of three.
-    \item Yes: since categories correspond to comonoids, there are as many categories with one linear and one quadratic object as there are comonoid structures on $\yon^\2 + \yon$.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}\label{ex.star_shaped}
-\begin{enumerate}
-	\item Find a category structure for the polynomial $\yon^{\ord{n}+\1}+\ord{n}\yon$.
-	\item Would you call your category ``star-shaped''?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item Take the discrete category on $\ord{n}$ and adjoin a unique initial object $A$, so that the only non-identity morphisms are the morphisms from $A$ to each of the other objects exactly once.
-    Then this category has the carrier $\yon^{\ord{n}+\1} + \ord{n}\yon$.
-    \item This category could be thought of as ``star-shaped,'' with the initial object in the center with morphisms leading out to the other $n$ objects as spokes.
+    \item Up to isomorphism, there are $3$ categories with just one linear and one quadratic object.
+    They can be distinguished by the behavior of the single non-identity morphism.
+    Either its domain and its codomain are distinct, in which case we have the walking arrow category; or its domain and its codomain are the same, in which case it can be composed with itself to obtain either itself or the identity, yielding $2$ more categories for a total of $3$.
+    \item Yes: since (isomorphic) categories correspond to (isomorphic) comonoids, there are as many categories with one linear and one quadratic object up to isomorphism as there are comonoid structures on $\yon^\2+\yon$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
+Let $S$ be a countable set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
 \begin{solution}
-**
+In the case of $S=\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category; and in the case of $S=\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms.
+So in those cases, the comonoid structure on $S\yon^S$ is unique.
+
+Now assume $|S|\geq2$.
+The state category is always connected, but we can always find a comonoid structure on $S\yon^S$ given by a category that is not connected as follows.
+Consider a category whose object set is $S$ that has no morphisms between distinct objects.
+Then to specify the category, it suffices to specify a monoid associated with each object that will give the morphisms whose domain and codomain are equal to that object.
+But there is always a monoid structure on a countable set $S$: take for example the cyclic group $C_{|S|}$ of order $|S|$ (either $\zz/|S|\zz$ if $S$ is finite, or $\zz$ if $S$ is countable).
+The resulting category will have carrier $S\yon^{C_{|S|}}\iso S\yon^S$.
 \end{solution}
 \end{exercise}
 
@@ -6260,7 +6379,7 @@ Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\co
  and similarly for $\cat{D}$. A \emph{cofunctor} $F\colon \cat{C}\coto \cat{D}$ consists of
 \begin{enumerate}[itemsep=0pt]
   \item a function  $F\colon C_0\to D_0$ \emph{on objects} and
-  \item a function $F^\sharp\colon C_0\times_{D_0}D_1\to C_1$ \emph{backwards on morphisms},
+  \item a function $F^\sharp\colon C_0\times_{D_0}D_1\to C_1$ \emph{backward on morphisms},
 \end{enumerate}
 satisfying the following conditions:
 \begin{enumerate}[itemsep=0pt, label=\roman*.]
@@ -6341,7 +6460,7 @@ Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers and let $\cat{N}$ 
 \begin{enumerate}
 	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
 	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
-	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backwards''?
+	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backward''?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6402,7 +6521,7 @@ Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
 Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$.
 
 
-\slogan{Cofunctors $F$ are forward on objects, and backwards on morphisms. It's good to remember: Codomains are objects, so $F$ preserves them going forwards; identities and composites are morphisms, so $F$ preserves them going backwards.}
+\slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
  
 Let's begin with a definition.
 
@@ -6520,7 +6639,7 @@ Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true
 
 We saw in \cref{ex.cofunctors_comon_homs} that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
 
-The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forwards on objects and backwards on morphisms.
+The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
 
 \slogan{
 If a functor $\cat{C}\to\cat{D}$ is a \emph{picture} of $\cat{C}$ in $\cat{D}$, then a cofunctor $\cat{C}\cof\cat{D}$ is a \emph{$D$-shaped crystallization of $C$}.
@@ -6847,6 +6966,23 @@ Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+
+
+
+% **displaced content here
+\begin{exercise}[Monoid actions]
+Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action.
+Show that the projection $S\yon^M\to\yon^M$ is a comonoid homomorphism.
+\begin{solution}
+We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
+**
+\end{solution}
+\end{exercise}
+
+
+
+
 
 %---- Subsection ----%
 \subsection{Very well behaved lenses}
