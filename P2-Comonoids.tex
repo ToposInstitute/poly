@@ -6278,7 +6278,7 @@ We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \
     \begin{tikzpicture}[polybox, mapstos, font=\tiny]
         \node[poly, dom] (p) {$n*m$\at$s$};
         \node[poly, cod, right=1.8 of p.south, yshift=-1ex] (q) {$m$\at$s$};
-        \node[poly, cod, above=of q, xshift=2] (r) {$n$\at$\alpha(m,s)$};
+        \node[poly, cod, above=of q, xshift=2.5] (r) {$n$\at$\alpha(m,s)$};
         \draw[double] (p_pos) to[first] (q_pos);
         \draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
         \draw (r_dir) to[last] node[above] {$\then$} (p_dir);
@@ -6294,9 +6294,14 @@ We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \
 
 
 \begin{example}[Cyclic lists]
-For any $n\in\nn$, consider the monoid (group) $\zz/n$. As a functor $c_n\coloneqq\yon^{\zz/n}$ sends a set $X$ to the set of length-$n$ tuples in $X$. But the comonoid structure lets us think of these as cyclic lists. Indeed, $\epsilon\colon c_n\to\yon$ allows us to pick out the ``current'' element via the map $\epsilon\tri X\colon c_n\tri X\to X$, and $\delta$ lets us move around the list.
+For any $n\in\nn$, consider $\zz/n\zz$, the cyclic group of order $n$, viewed as a monoid or, equivalently, a $1$-object category.
+Its carrier is $\yon^{\zz/n\zz}$.
 
-We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}c_n$ is also a comonoid.
+As a polynomial functor, $\yon^{\zz/n\zz}$ sends each set $X$ to the set of length-$n$ tuples in $X$.
+But the comonoid structure lets us think of these tuples as \emph{cyclic lists}: once we reach the last element, we can loop back around to the first element.
+Indeed, as a natural transformation, $\epsilon\colon\yon^{\zz/n\zz}\to\yon$ picks out the ``current'' element via its $X$-component $\epsilon\tri X\colon\yon^{\zz/n\zz}\tri X\to\yon\tri X$, which is just a function $\epsilon_X\colon X^{\zz/n\zz}\to X$; and $\delta$ lets us move around the list.%**what does this mean? exercise??
+
+We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}\yon^{\zz/n\zz}$ is also a comonoid.
 \end{example}
 
 
@@ -6347,17 +6352,19 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \end{exercise}
 
 \begin{exercise}
-Let $S$ be a countable set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
+Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
 \begin{solution}
 In the case of $S=\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category; and in the case of $S=\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms.
 So in those cases, the comonoid structure on $S\yon^S$ is unique.
 
 Now assume $|S|\geq2$.
-The state category is always connected, but we can always find a comonoid structure on $S\yon^S$ given by a category that is not connected as follows.
-Consider a category whose object set is $S$ that has no morphisms between distinct objects.
+The state category is always connected, but we can always find a comonoid structure on $S\yon^S$ given by a category that is not connected---and thus not isomorphic to the state category---as follows.
+Consider a category whose object set is $S$ that has no morphisms between distinct objects, so that it is certainly not connected.
 Then to specify the category, it suffices to specify a monoid associated with each object that will give the morphisms whose domain and codomain are equal to that object.
-But there is always a monoid structure on a countable set $S$: take for example the cyclic group $C_{|S|}$ of order $|S|$ (either $\zz/|S|\zz$ if $S$ is finite, or $\zz$ if $S$ is countable).
-The resulting category will have carrier $S\yon^{C_{|S|}}\iso S\yon^S$.
+But there is always a monoid structure on a given set $S$.
+If $S$ is finite, we can take the cyclic group $\zz/|S|\zz$ of order $|S|$, so that the resulting category has carrier $S\yon^{\zz/|S|\zz}\iso S\yon^S$.
+On the other hand, if $S$ is infinite, we can take the free monoid on $S$, which has cardinality $\sum_{n\in\nn}|S|^\ord{n}=|\nn||S|=|S|$.
+So the resulting category will again have carrier $S\yon^S$.
 \end{solution}
 \end{exercise}
 
