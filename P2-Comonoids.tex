@@ -4645,7 +4645,7 @@ We refer to a comonoid $\com{C}$ in $(\poly,\yon,\tri)$ as a \emph{polynomial co
 \begin{remark}
 The concept of a \emph{comonoid} in a monoidal category is dual to that of a \emph{monoid}, which may be more familiar.
 Monoids come with \emph{unit} and \emph{multiplication} morphisms that point the other way, so named because they generalize the unit and multiplication operations of a monoid in $\smset$.
-(We'll talk more about monoids in $\smset$ in \cref{**}.)
+(We'll talk more about monoids in $\smset$ in \cref{ex.monoids}.)
 Prepending `co-' to each term yields the corresponding terms for comonoids.
 
 The alternative names \emph{eraser} for the \emph{counit} and \emph{duplicator} for the \emph{comultiplication} are less standard, but we will favor them to avoid confusion between the counit of a \emph{comonoid} and the counit of an \emph{adjunction}---and so that their names match up with the Greek letters $\epsilon$ and $\delta$ that we will so often use to label them.
@@ -6232,22 +6232,22 @@ commutes (trivial on positions, equivalent to the monoid's associativity conditi
 \end{exercise}
 
 \begin{example}[Monoid actions]\label{ex.monoid_action}
-Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is a \emph{(left) monoid action}.
-That is, for all $s\in S$ we have $\alpha(e,s)=s$ and $\alpha(n*m,s)=\alpha(n,\alpha(m,s))$ for $m,n\in M$; equivalently, the diagrams
+Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon S\times M\to S$ is a \emph{(right) monoid action}.
+That is, for all $s\in S$ we have $\alpha(s,e)=s$ and $\alpha(s,m*n)=\alpha(\alpha(s,m),n)$ for $m,n\in M$; equivalently, the diagrams
 \[
 \begin{tikzcd}
-	1\times S\ar[rd,equals]\ar[r,"e\:\times\:S"] & M\times S\ar[d,"\alpha"]\\
+	S\times\1\ar[rd,equals]\ar[r,"S\:\times\:e"] & S\times M\ar[d,"\alpha"]\\
 	& S
 \end{tikzcd}
 \qqand
 \begin{tikzcd}[row sep=large]
-    M\times M\times S\ar[d,"*\:\times\:S"]\ar[r,"M\:\times\:\alpha"] & M\times S\ar[d,"\alpha"]\\
-    M\times S\ar[r,"\alpha"] & S
+    S\times M\times M\ar[r,"S\:\times\:*"]\ar[d,"\alpha\:\times\:M"] & S\times M\ar[d,"\alpha"]\\
+    S\times M\ar[r,"\alpha"] & S
 \end{tikzcd}
 \]
 commute.
 
-Then there is an associated category $\cat{A}$ with objects in $S$ and morphisms $s\To{m}\alpha(m,s)$ for each $s\in S$ and $m\in M$.
+Then there is an associated category $\cat{A}$ with objects in $S$ and morphisms $s\To{m}\alpha(s,m)$ for each $s\in S$ and $m\in M$.
 This, in turn, corresponds to a comonoid $(S\yon^M,\epsilon,\delta)$, as we will see in the next exercise.
 \end{example}
 
@@ -6259,33 +6259,40 @@ With notation as in \cref{ex.monoid_action}, characterize the comonoid structure
     \item Verify that the erasure laws hold.
     \item Verify that the coassociativity law holds.
     \item Describe the corresponding category $\cat{A}$.
+    In particular, what are the morphisms between any fixed pair of objects, what are the identity morphisms, and how do morphisms compose?
 	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_comonad_1}? %**fix this reference
 \qedhere
 \end{enumerate}
 \begin{solution}
-Here $(M,e,*)$ is a monoid, $S$ is a set, $\alpha\colon M\times S\to S$ is a monoid action, and $\cat{A}$ is the associated category, whose corresponding comonoid is $(S\yon^M,\epsilon,\delta)$.
-We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \alpha(m,s)$ in $\cat{A}$.
+Here $(M,e,*)$ is a monoid, $S$ is a set, $\alpha\colon S\times M\to S$ is a monoid action, and $\cat{A}$ is the associated category, whose corresponding comonoid is $(S\yon^M,\epsilon,\delta)$.
+We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \alpha(s,m)$ in $\cat{A}$.
 \begin{enumerate}
     \item The erasure $\epsilon\colon S\yon^M\to\yon$ picks out an element of $m\in M$ for every element $s\in S$ that will play the role of an identity, which in particular should also have $s$ as its codomain.
-    Since we want the codomain of the morphism $m$ out of $s$ to be $\alpha(m,s)$, we can take $m=e$ to guarantee that its codomain will be $\alpha(e,s)=s$.
+    Since we want the codomain of the morphism $m$ out of $s$ to be $\alpha(s,m)$, we can take $m=e$ to guarantee that its codomain will be $\alpha(s,e)=s$.
     So we let $\epsilon$ be the lens whose on-directions function at each $s\in S$ is $\epsilon^\sharp_s\colon\1\to M$ always maps to $e$.
     \item The duplicator $\delta\colon S\yon^M\to S\yon^M\tri S\yon^M$ is determined by what we want the codomain of each morphism to be and how we want the morphisms to compose.
-    We already know that we want the morphism $m\in M$ out of each $s\in S$ to have the codomain $\alpha(m,s)$.
-    If we then have another morphism $n\in M$ out of $\alpha(m,s)$, its codomain will be $\alpha(n,\alpha(m,s))=\alpha(n*m,s)$, the same as the codomain of the morphism $n*m$ out of $s$.
-    So it makes sense for the composite $s \To{m} \alpha(m,s) \To{n} \alpha(n,\alpha(m,s))$ to be the morphism $s \To{n*m} \alpha(n*m,s)$.
+    We already know that we want the morphism $m\in M$ out of each $s\in S$ to have the codomain $\alpha(s,m)$.
+    If we then have another morphism $n\in M$ out of $\alpha(s,m)$, its codomain will be $\alpha(\alpha(s,m),n)=\alpha(s,m*n)$, the same as the codomain of the morphism $m*n$ out of $s$.
+    So it makes sense for the composite $s\To{m}\alpha(s,m)\To{n} \alpha(\alpha(s,m),n)$ to be the morphism $s\To{m*n}\alpha(s,m*n)$.
     Thus, we can define $\delta$ in polyboxes as
     \[
     \begin{tikzpicture}[polybox, mapstos, font=\tiny]
-        \node[poly, dom] (p) {$n*m$\at$s$};
-        \node[poly, cod, right=1.8 of p.south, yshift=-1ex] (q) {$m$\at$s$};
-        \node[poly, cod, above=of q, xshift=2.5] (r) {$n$\at$\alpha(m,s)$};
+        \node[poly, dom] (p) {$m*n$\at$s$};
+        \node[poly, cod, right=1.5 of p.south, yshift=-1ex] (q) {$m$\at$s$};
+        \node[poly, cod, above=of q, xshift=3] (r) {$n$\at$\alpha(s,m)$};
         \draw[double] (p_pos) to[first] (q_pos);
         \draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
         \draw (r_dir) to[last] node[above] {$\then$} (p_dir);
     \end{tikzpicture}
     \]
-    \item **
-    \item **
+    \item We constructed $\delta$ above so that its bottom arrow is an identity function, so verifying the erasure laws amounts to checking that the direction $e\in M$ that $\epsilon$ picks out at each position $s\in S$ really does function as an identity morphism $s\To{e}\alpha(s,e)$ under the codomain and composition operations specified by $\delta$.
+    We have already ensured that the codomain of $e$ at $s$ is $\alpha(s,e)=s$; meanwhile, given $m\in M$ we have that the composite of $s\To{m}\alpha(s,m)\To{e}\alpha(s,m)$ is $m*e=m$ and that the composite of $s\To{e}s\To{m}\alpha(s,m)$ is $e*m=m$ by the monoid's own unit laws.
+    So the erasure laws hold.
+    \item Verifying the coassociativity of $\delta$ amounts to checking that composition plays nicely with codomains and is associative.
+    We already checked the former when defining $\delta$, and the latter follows from the monoid's own associativity laws: given $m,n,p\in M$, we have $(m*n)*p=m*(n*p)$.
+    \item The associated category $\cat{A}$ is a category whose objects are the elements of the set $S$ being acted on, and whose morphisms $s\to t$ for each $s,t\in S$ are the elements of the monoid $m\in M$ that send $s$ to $t$, i.e.\ $\alpha(s,m)=t$.
+    The identity morphism on each object is just the unit $e\in M$, while morphisms compose via the multiplication $*$.
+    
     \item **
 \end{enumerate}
 \end{solution}
@@ -6372,11 +6379,38 @@ So the resulting category will again have carrier $S\yon^S$.
 %-------- Section --------%
 \section{Morphisms of comonoids are cofunctors}
 
-% ** define comonoid morphisms
+We've studied comonoids in $\poly$, but what about the morphisms between them?
+If you've seen the definition of a monoid homomorphism (or even a group homomorphism), the next definition may look familiar.
+
+\begin{definition}[Comonoid morphism]\label{def.morphism_comonoids}
+Given a monoidal category $(\cat{C},\yon,\tri)$ with comonoids $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ and $\com{C}'\coloneqq(\ema{c'},\epsilon',\delta')$, a \emph{comonoid morphism} (or \emph{morphism of comonoids}) $\com{C}\to\com{C}'$ is a morphism $f\colon \ema{c}\to\ema{c'}$ in $\cat{C}$ for which the following diagrams commute:
+\begin{equation}\label{eqn.pres_era}
+\begin{tikzcd}
+    \ema{c}\ar[r, "f"]\ar[d, "\epsilon"']&
+    \ema{c'}\ar[d, "\epsilon'"]\\
+    \yon\ar[r, equal]&
+    \yon,
+\end{tikzcd}
+\end{equation}
+called the \emph{eraser preservation law} (we say $f$ \emph{preserves erasure}); and
+\begin{equation}\label{eqn.pres_dup}
+\begin{tikzcd}
+    \ema{c}\ar[r, "f"]\ar[d, "\delta"']&
+    \ema{c'}\ar[d, "\delta'"]\\
+    \ema{c}\tri \ema{c}\ar[r, "f\tri f"']&
+    \ema{c'}\tri \ema{c'}
+\end{tikzcd}
+\end{equation}
+called the \emph{duplicator preservation law} (we say $f$ \emph{preserves duplication}).
+We may also say that $f$ \emph{preserves the comonoid structure}.
+
+We let 
+\end{definition}
 
 % ** define category of comonoids
+In other words, a morphism between polynomial comonoids is a special kind of lens between their carriers that preserves their erasers and duplicators.
 
-Note that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we claimed an isomorphism-preserving one-to-one correspondence between objects in $\comon$ and objects in $\smcat^\sharp$, we never claimed that these two categories are isomorphic or even equivalent.
+Note that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we asserted the existence of an isomorphism-preserving one-to-one correspondence between comonoids in $\comon(\poly)$ and objects in $\smcat$, we never claimed that these two categories are isomorphic or even equivalent.
 The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to a different map of categories called a \emph{cofunctor}.
 Specifying \cref{def.**} to the case of $(\poly,\yon,\tri)$, we derive the following definition of a cofunctor.
 
@@ -6403,7 +6437,7 @@ Then \cref{thm.ahman_uustalu} can be restated as follows.
 \begin{corollary}[Ahman-Uustalu]
 There is an isomorphism of categories
 \[
-    \comon\iso\smcat^\sharp.
+    \comon(\poly)\iso\smcat^\sharp.
 \]
 \end{corollary}
 
@@ -6532,24 +6566,24 @@ Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids a
  
 Let's begin with a definition.
 
-\begin{definition}[Morphism of comonoids]\label{def.morphism_comonoids}
-Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
-\begin{equation}\label{eqn.morphism_comonoids}
-\begin{tikzcd}
-  c\ar[r, "f"]\ar[d, "\epsilon"']&
-	c'\ar[d, "\epsilon'"]\\
-	\yon\ar[r, equal]&
-	\yon
-\end{tikzcd}
-\hspace{.5in}
-\begin{tikzcd}
-  c\ar[r, "f"]\ar[d, "\delta"']&
-	c'\ar[d, "\delta'"]\\
-	c\tri c\ar[r, "f\tri f"']&
-	c'\tri c'
-\end{tikzcd}
-\end{equation}
-\end{definition} %** maybe "preserves" erasers and duplicators??
+% \begin{definition}[Morphism of comonoids]\label{def.morphism_comonoids}
+% Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
+% \begin{equation}\label{eqn.morphism_comonoids}
+% \begin{tikzcd}
+%   c\ar[r, "f"]\ar[d, "\epsilon"']&
+% 	c'\ar[d, "\epsilon'"]\\
+% 	\yon\ar[r, equal]&
+% 	\yon
+% \end{tikzcd}
+% \hspace{.5in}
+% \begin{tikzcd}
+%   c\ar[r, "f"]\ar[d, "\delta"']&
+% 	c'\ar[d, "\delta'"]\\
+% 	c\tri c\ar[r, "f\tri f"']&
+% 	c'\tri c'
+% \end{tikzcd}
+% \end{equation}
+% \end{definition} %** maybe "preserves" erasers and duplicators??
 
 Let's see the two laws of comonoid morphisms using polyboxes. First the eraser law:
 \begin{equation}\label{eqn.unit_law_draw}
@@ -6615,7 +6649,7 @@ Then the duplicator law:
 \end{equation}
 If we fill in \eqref{eqn.unit_law_draw} with an object $i\in\ema{c}(\1)$, we obtain the equation
 \[f^\sharp(i,\idy(f_1(i)))=\idy(i),\]
-which is the first law of \cref{def.cofunctor}. If we fill in \eqref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c}'[f(i)]$ and $m'\in\ema{c}'[\cod(m)]$, we obtain the equations
+which is the first law of \cref{def.cofunctor}. If we fill in \eqref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c'}[f(i)]$ and $m'\in\ema{c'}[\cod(m)]$, we obtain the equations
 \begin{gather*}
   \cod(m)=f_1\big(\cod\big(f^\sharp(i,m)\big)\big)\\
   f^\sharp(i,\comp(m,m'))=\comp(f^\sharp(i,m),f^\sharp(\cod(f^\sharp(i,m)),m'))
@@ -7193,7 +7227,7 @@ where $\Cat{Mon}$ is the category of monoids.
 \begin{proof}
 Let $\cat{C}$ be a category. It has only one object iff its carrier $\ema{c}$ has only one position, i.e.\ $\ema{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
 
-A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams \eqref{eqn.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
+A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
 \end{proof}
 
 \begin{exercise}\label{exc.lin_comon_set}
@@ -7237,15 +7271,15 @@ A cofunctor $\cat{C}\cof\cat{D}$ is a map of polynomials $\ema{c}\to\ema{d}$ sat
 \[
 	\ema{c}\To{g}\ema{c'}\To{h}\ema{d}.
 \]
-For simplicity, assume $g_1\colon\ema{c}(\1)\to\ema{c}'(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\ema{c}$ the map $h^\sharp_i\colon\ema{c}'[i]\to\ema{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions. 
+For simplicity, assume $g_1\colon\ema{c}(\1)\to\ema{c'}(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\ema{c}$ the map $h^\sharp_i\colon\ema{c'}[i]\to\ema{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions. 
 
-It suffices to show that the intermediate object $\ema{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\ema{c}'(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\ema{c}'[i]=\ema{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\ema{c}'[\cod(m)]$, assign the composite $m\then m'$ in $\ema{c}'$ to be $m\then m'$ in $\ema{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\ema{c}'$ is a category and both $g$ and $h$ are cofunctors.
+It suffices to show that the intermediate object $\ema{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\ema{c'}(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\ema{c'}[i]=\ema{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\ema{c'}[\cod(m)]$, assign the composite $m\then m'$ in $\ema{c'}$ to be $m\then m'$ in $\ema{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\ema{c'}$ is a category and both $g$ and $h$ are cofunctors.
 \end{proof}
 
 \begin{exercise}\label{exc.factor_cofunctor}
 We will complete the proof of \cref{prop.factor_cofunctor}, using the same notation.
 \begin{enumerate}
-	\item Show that composition is associative and unital in $\ema{c}'$.
+	\item Show that composition is associative and unital in $\ema{c'}$.
 	\item Show that $g$ preserves codomains.
 	\item Show that $g$ preserves compositions.
 	\item Show that $h$ preserves codomains.
