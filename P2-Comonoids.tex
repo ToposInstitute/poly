@@ -6383,90 +6383,291 @@ We've studied comonoids in $\poly$, but what about the morphisms between them?
 If you've seen the definition of a monoid homomorphism (or even a group homomorphism), the next definition may look familiar.
 
 \begin{definition}[Comonoid morphism]\label{def.morphism_comonoids}
-Given a monoidal category $(\cat{C},\yon,\tri)$ with comonoids $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ and $\com{C}'\coloneqq(\ema{c'},\epsilon',\delta')$, a \emph{comonoid morphism} (or \emph{morphism of comonoids}) $\com{C}\to\com{C}'$ is a morphism $f\colon \ema{c}\to\ema{c'}$ in $\cat{C}$ for which the following diagrams commute:
+Given a monoidal category $(\cat{C},\yon,\tri)$ with comonoids $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ and $\com{C}'\coloneqq(\ema{c'},\epsilon',\delta')$, a \emph{comonoid morphism} (or \emph{morphism of comonoids}) $\com{C}\to\com{C}'$ is a morphism $F\colon \ema{c}\to\ema{c'}$ in $\cat{C}$ for which the following diagrams commute:
 \begin{equation}\label{eqn.pres_era}
 \begin{tikzcd}
-    \ema{c}\ar[r, "f"]\ar[d, "\epsilon"']&
+    \ema{c}\ar[r, "F"]\ar[d, "\epsilon"']&
     \ema{c'}\ar[d, "\epsilon'"]\\
     \yon\ar[r, equal]&
     \yon,
 \end{tikzcd}
 \end{equation}
-called the \emph{eraser preservation law} (we say $f$ \emph{preserves erasure}); and
+called the \emph{eraser preservation law} (we say $F$ \emph{preserves erasure}); and
 \begin{equation}\label{eqn.pres_dup}
 \begin{tikzcd}
-    \ema{c}\ar[r, "f"]\ar[d, "\delta"']&
+    \ema{c}\ar[r, "F"]\ar[d, "\delta"']&
     \ema{c'}\ar[d, "\delta'"]\\
-    \ema{c}\tri \ema{c}\ar[r, "f\tri f"']&
-    \ema{c'}\tri \ema{c'}
+    \ema{c}\tri\ema{c}\ar[r, "F\:\tri\:F"']&
+    \ema{c'}\tri\ema{c'}
 \end{tikzcd}
 \end{equation}
-called the \emph{duplicator preservation law} (we say $f$ \emph{preserves duplication}).
-We may also say that $f$ \emph{preserves the comonoid structure}.
+called the \emph{duplicator preservation law} (we say $F$ \emph{preserves duplication}).
+We may also say that $F$ \emph{preserves the comonoid structure}.
 
-We let 
+When the monoidal structure on $\cat{C}$ can be inferred, we let $\comon(\cat{C})$ denote the subcategory of $\cat{C}$ whose objects are comonoids in $\cat{C}$ and whose morphisms are comonoid morphisms.
 \end{definition}
 
-% ** define category of comonoids
-In other words, a morphism between polynomial comonoids is a special kind of lens between their carriers that preserves their erasers and duplicators.
+So when our monoidal category of interest is $(\poly,\yon,\tri)$, a morphism between polynomial comonoids is just a special kind of lens between their carriers that preserves erasure and duplication.
 
-Note that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we asserted the existence of an isomorphism-preserving one-to-one correspondence between comonoids in $\comon(\poly)$ and objects in $\smcat$, we never claimed that these two categories are isomorphic or even equivalent.
-The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to a different map of categories called a \emph{cofunctor}.
-Specifying \cref{def.**} to the case of $(\poly,\yon,\tri)$, we derive the following definition of a cofunctor.
+\begin{exercise}
+There is something to be proved in the definition above: that comonoids and comonoid morphisms really do form a category.
+Using the notation from \cref{def.morphism_comonoids}, verify the following:
+\begin{enumerate}
+    \item The identity morphism on a comonoid is a comonoid morphism.
+    \item The composite of two comonoid morphisms is a comonoid morphism.
+\end{enumerate}
+This will show that $\comon(\cat{C})$ is indeed a subcategory of $\cat{C}$.
+\begin{solution}
+As in \cref{def.morphism_comonoids}, we have a monoidal category $(\cat{C},\yon,\tri)$ with comonoids $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ and $\com{C}'\coloneqq(\ema{c'},\epsilon',\delta')$ and a comonoid morphism $F\colon\com{C}\to\com{C'}$ (really a morphism $F\colon\ema{c}\to\ema{c'}$ in $\cat{C}$).
+Let's throw in another comonoid $\com{C}''\coloneqq(\ema{c''},\epsilon'',\delta'')$ and another comonoid morphism $G\colon\com{C'}\to\com{C''}$ (really a morphism $G\colon\ema{c'}\to\ema{c''}$ in $\cat{C}$).
+\begin{enumerate}
+    \item To show that the identity morphism $\id_\ema{c}\colon\ema{c}\to\ema{c}$ is a comonoid morphism $\com{C}\to\com{C}$, we must check that it preserves erasure by showing that \eqref{eqn.pres_era} commutes, then check that it preserves duplication by showing that \eqref{eqn.pres_era} commutes:
+    \[
+    \begin{tikzcd}
+        \ema{c}\ar[r, "\id_\ema{c}", equal]\ar[d, "\epsilon"']&
+        \ema{c}\ar[d, "\epsilon"]\\
+        \yon\ar[r, equal]&
+        \yon
+    \end{tikzcd}
+    \hspace{.5in}
+    \begin{tikzcd}[column sep=large]
+        \ema{c}\ar[r, "\id_\ema{c}", equal]\ar[d, "\delta"']&
+        \ema{c}\ar[d, "\delta"]\\
+        \ema{c}\tri\ema{c}\ar[r, "\id_\ema{c}\:\tri\:\id_\ema{c}", equal]&
+        \ema{c}\tri\ema{c}.
+    \end{tikzcd}
+    \]
+    But they do commute, since $\id_\ema{c}$ is the identity on $\ema{c}$ and $\id_\ema{c}\tri\id_\ema{c}$ is the identity on $\ema{c}\tri\ema{c}$.
+    
+    \item To show that the composite $F\then G\colon\ema{c}\to\ema{c''}$ of the two comonoid morphisms $F$ and $G$ is itself a comonoid morphism $\com{C}\to\com{C''}$, we check that it preserves erasure by showing that \eqref{eqn.pres_era} commutes, then check that it preserves duplication by showing that \eqref{eqn.pres_era} commutes:
+    \[
+    \begin{tikzcd}
+        \ema{c}\ar[r, "F\:\then\:G"]\ar[d, "\epsilon"']&
+        \ema{c''}\ar[d, "\epsilon''"]\\
+        \yon\ar[r, equal]&
+        \yon
+    \end{tikzcd}
+    \hspace{.5in}
+    \begin{tikzcd}[column sep=huge]
+        \ema{c}\ar[r, "F\:\then\:G"]\ar[d, "\delta"']&
+        \ema{c''}\ar[d, "\delta''"]\\
+        \ema{c}\tri\ema{c}\ar[r, "(F\:\then\:G)\:\tri\:(F\:\then\:G)"]&
+        \ema{c''}\tri\ema{c''}.
+    \end{tikzcd}
+    \]
+    But we can rewrite these squares like so, using the fact that $(F\then G)\tri(F\then G)=(F\tri F)\then(G\tri G)$ on the right:
+    \[
+    \begin{tikzcd}
+        \ema{c}\ar[r, "F"]\ar[d, "\epsilon"']&
+        \ema{c}\ar[r, "G"]\ar[d, "\epsilon'"']&
+        \ema{c''}\ar[d, "\epsilon''"]\\
+        \yon\ar[r, equal]&
+        \yon\ar[r, equal]&
+        \yon
+    \end{tikzcd}
+    \hspace{.5in}
+    \begin{tikzcd}
+        \ema{c}\ar[r, "F"]\ar[d, "\delta"']&
+        \ema{c'}\ar[r, "G"]\ar[d, "\delta"']&
+        \ema{c''}\ar[d, "\delta'"]\\
+        \ema{c}\tri\ema{c}\ar[r, "F\:\tri\:F"]&
+        \ema{c'}\tri\ema{c'}\ar[r, "G\:\tri\:G"]&
+        \ema{c''}\tri\ema{c''}.
+    \end{tikzcd}
+    \]
+    Then the left square in each diagram commutes because $F$ is a comonoid morphism, while the right square in each diagram commutes because $G$ is a comonoid morphism.
+    So both diagrams commute.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+Notice that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we asserted the existence of an isomorphism-preserving one-to-one correspondence between the objects of $\comon(\poly)$ and $\smcat$, we never claimed that these two categories are isomorphic or even equivalent.
+The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to different maps of categories called \emph{cofunctors}.
+
+How exactly do these maps behave?
+If we specify \cref{def.morphism_comonoids} to the case of $(\poly,\yon,\tri)$, we can write the eraser preservation law \eqref{eqn.pres_era} in polyboxes as
+\begin{equation}\label{eqn.pres_era_draw}
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\ema{c}\vphantom{\ema{c'}}$" above] (p) {\at$c$};
+		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+	\end{tikzpicture}	
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\ema{c}$" above] (p) {\at$c$};
+		\node[poly, red, right=1 of p, "$\ema{c'}$" above] (q) {};
+		\draw (p_pos) to[first] (q_pos);
+		\draw (q_dir) to[last] (p_dir);
+		\draw[red] (q_pos) to[climb'] node[right] {$\idy$} (q_dir);
+		\node at ($(p.east)!.3!(q.west)$) {$F$};
+	\end{tikzpicture}
+	};
+	\node at ($(id1.east)!.3!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+and the duplicator preservation law \eqref{eqn.pres_dup} in polyboxes as
+\begin{equation}\label{eqn.pres_dup_draw}
+\begin{tikzpicture}
+	\node (sp1) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\ema{c}$" above] (c) {\at$c$};
+		\node[poly, blue, right=2 of c.south, yshift=-1ex, "$\ema{c}$" below] (c1) {};
+		\node[poly, blue, above=of c1, "$\ema{c}$" above] (c2) {};
+		\node[poly, cod, red, right=1 of c1, "$\ema{c'}$" below] (c'1) {$g$};
+		\node[poly, cod, red, right=1 of c2, "$\ema{c'}$" above] (c'2) {$h$};
+		\node at ($(c1.east)!.5!(c'1.west)$) {$F$};
+		\node at ($(c2.east)!.5!(c'2.west)$) {$F$};
+	%
+		\draw[blue,double] (c_pos) to[first] (c1_pos);
+		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
+		\draw[blue] (c2_dir) to[last] node[above] {$\then$} (c_dir);
+		\draw (c1_pos) to[first] (c'1_pos);
+		\draw (c'1_dir) to[last] (c1_dir);
+		\draw (c2_pos) to[first] (c'2_pos);
+		\draw (c'2_dir) to[last] (c2_dir);
+    \end{tikzpicture}	
+	};
+	\node[right=of sp1] (sp2) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\ema{c}$" above] (c) {\at$c$};
+		\node[poly, red, right=1 of c, "$\ema{c'}$" above] (c') {};
+		\node[poly, cod, red, right=2 of c'.south, yshift=-1ex, "$\ema{c'}$" below] (c'1) {$g$};
+		\node[poly, cod, red, above=of c'1, "$\ema{c'}$" above] (c'2) {$h$};
+		\node at ($(c.east)!.3!(c'.west)$) {$F$};
+	%
+		\draw (c_pos) to[first] (c'_pos);
+		\draw (c'_dir) to[last] (c_dir);
+		\draw[red,double] (c'_pos) to[first] (c'1_pos);
+		\draw[red] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
+		\draw[red] (c'2_dir) to[last] node[above] {$\then$} (c'_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+If we read off the equations from these polyboxes, interpreting polynomial comonoids as categories, we derive the following definition of a cofunctor.
+(Note that \eqref{eqn.pres_id} below is equivalent to \eqref{eqn.pres_era_draw}, while \eqref{eqn.pres_cod} and \eqref{eqn.pres_comp} together are equivalent to \eqref{eqn.pres_dup_draw}.)
 
 \begin{definition}[Cofunctor]\label{def.cofunctor}
-Let $\cat{C}$ be a category with object set $C_0$, morphism set $C_1$, $\dom,\cod\colon C_1\to C_0$ the domain and codomain,%
-\footnote{We privilege the domain function $\dom\colon C_1\to C_0$ in the sense that an unnamed map $C_1\to C_0$ will be assumed to be $\dom$. For example, in the map $F^\sharp$, the pullback $C_0\times_{D_0}D_1$ is of the diagram $C_0\To{F}D_0\From{\dom}D_1$.}
- and similarly for $\cat{D}$. A \emph{cofunctor} $F\colon \cat{C}\coto \cat{D}$ consists of
-\begin{enumerate}[itemsep=0pt]
-  \item a function  $F\colon C_0\to D_0$ \emph{on objects} and
-  \item a function $F^\sharp\colon C_0\times_{D_0}D_1\to C_1$ \emph{backward on morphisms},
-\end{enumerate}
-satisfying the following conditions:
+Let $\cat{C}$ and $\cat{C'}$ be (small) categories.
+A \emph{cofunctor} $F\colon\cat{C}\coto\cat{C'}$ consists of:
+\begin{itemize}
+    \item a function $F\colon\Ob\cat{C}\to\Ob\cat{C'}$ \emph{forward on objects}\footnote{In keeping with standard functor notation, we omit the usual subscript $\1$ that we include for on-positions (in this case, on-objects) functions. We often omit parentheses when applying these functions as well.} and
+    \item a function $F^\sharp_c\colon\cat{C'}[Fc]\to\cat{C}[c]$ \emph{backward on morphisms} for each $c\in\Ob\cat{C}$,
+\end{itemize}
+satisfying the following conditions, collectively known as the \emph{cofunctor laws}:
 \begin{enumerate}[itemsep=0pt, label=\roman*.]
-	\item $F^\sharp(c,\id_{F_0c})=\id_c$ for any $c\in C_0$;
-	\item $F_0\cod F^\sharp(c,g)=\cod g$ for any $c\in C_0$ and $g\in D_{F_0(c)}$;
-	\item $F^\sharp(\cod F^\sharp(c,g_1),g_2)\circ F^\sharp(c,g_1)=F^\sharp(c,g_1\then g_2)$ for composable arrows $g_1,g_2$ out of $F_0 c$.
+	\item $F$ \emph{preserves identities}:
+	\begin{equation} \label{eqn.pres_id}
+	    F^\sharp_c\,\id_{Fc}=\id_c
+	\end{equation}
+	for each $c\in\Ob\cat{C}$;
+	\item $F$ \emph{preserves codomains}:
+	\begin{equation} \label{eqn.pres_cod}
+	    F\cod F^\sharp_c g=\cod g
+	\end{equation}
+	for each $c\in\Ob\cat{C}$ and $g\in\cat{C'}[Fc]$;
+	\item $F$ \emph{preserves composition}:
+	\begin{equation} \label{eqn.pres_comp}
+	    F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c(g)} h=F^\sharp_c\left(g\then h\right)
+	\end{equation}
+	for each $c\in\Ob\cat{C}, g\in\cat{C'}[Fc],$ and $h\in\cat{C'}[\cod g]$.
 \end{enumerate}
-In other words, $F^\sharp$ preserves identities, codomains, and compositions.
-
-We denote by $\smcat^\sharp$ the category of categories and cofunctors.
+We let $\smcat^\sharp\iso\comon(\poly)$ denote the category of (small) categories and cofunctors.
 \end{definition}
 
-Then \cref{thm.ahman_uustalu} can be restated as follows.
-\begin{corollary}[Ahman-Uustalu]
-There is an isomorphism of categories
-\[
-    \comon(\poly)\iso\smcat^\sharp.
-\]
-\end{corollary}
+Since cofunctors are just lenses between carrier polynomials, they compose the way lenses do.
 
-The cofunctor laws can be written in commutative diagram form as follows:
-\begin{gather*}
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-  C_0\times_{D_0}D_0\ar[r, "\cong"]\ar[d, "\id_D"']\&
-  C_0\ar[d, "\id_C"]\\
-  C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\&
-  C_1\ar[ul, phantom, shift right=2pt, "\text{(i)}"]
-\end{tikzcd}
-\quad
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\ar[d, "\pi_2"']\&
-	C_1\ar[r, "\cod"]\&
-	C_0\ar[d, "F_0"]\\
-	D_1\ar[rr, "\cod"']\ar[urr, phantom, "\text{(ii)}"]\&\&
-	D_0
-\end{tikzcd}
-\\
-\begin{tikzcd}[column sep=15pt, ampersand replacement=\&]
-	C_0\times_{D_0}D_1\times_{D_0}D_1\ar[r, "\then_D"]\ar[d, "F^\sharp"']\&[-15pt]
-	C_0\times_{D_0}D_1\ar[r, "F^\sharp"]\&
-	C_1\\
-	C_1\times_{D_0}D_1\ar[r, "\cong"']\&
-	C_1\times_{C_0}C_0\times_{D_0}D_1\ar[r, "F^\sharp"']\ar[u, phantom, "\text{(iii)}"]\&
-	C_1\times_{C_0}C_1\ar[u, "\then_C"']
-\end{tikzcd}
-\end{gather*}
+\begin{exercise}
+Let $\cat{C},\cat{D},\cat{E}$ be categories, and let $F\colon\cat{C}\coto\cat{D}$ and $G\colon\cat{D}\coto\cat{E}$ be cofunctors between them.
+\begin{enumerate}
+    \item Characterize the behavior of the identity cofunctor $\id_\cat{D}$ on $\cat{D}$.
+    Where does it send each object?
+    Where does it send each morphism?
+    \item Characterize the behavior of the composite cofunctor $F\then G$.
+    Where does it send each object and morphism?\qedhere
+\end{enumerate}
+\begin{solution}
+Here $F\colon\cat{C}\coto\cat{D}$ and $G\colon\cat{D}\coto\cat{E}$ are cofunctors in $\smcat^\sharp$.
+\begin{enumerate}
+    \item The identity cofunctor $\id_\cat{D}$ on $\cat{D}$ should correspond to the identity lens on the carrier of $\cat{D}$, which is the identity on both positions (objects) and directions (morphisms).
+    So $\id_\cat{D}$ sends each object $d\in\Ob\cat{D}$ to itself, while $\left(\id_\cat{D}\right)^\sharp_d\colon\cat{D}[d]\to\cat{D}[d]$ sends each morphism out of $d$ to itself as well.
+    \item The composite cofunctor $F\then G\colon\cat{C}\coto\cat{D}$ should correspond to the composite of $F$ as a lens between the carriers of $\cat{C}$ and $\cat{D}$ with $G$ as a lens between the carriers of $\cat{D}$ and $\cat{E}$.
+    So on objects, $F\then G$ sends each $c\in\Ob\cat{C}$ to $G(Fc)\in\Ob\cat{E}$.
+    Then given $c\in\Ob\cat{C}$, the on-morphisms function $(F\then G)^\sharp_c\colon\cat{E}[G(Fc)]\to\cat{C}[c]$ is the composite of on-directions functions
+    \[
+        \cat{E}[G(Fc)]\To{G^\sharp_{Fc}}\cat{D}[Fc]\To{F^\sharp_c}\cat{C}[c],
+    \]
+    sending each morphism $h$ with domain $G(Fc)$ to $F^\sharp_c\left(G^\sharp_{Fc}h\right)$.
+    \item
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+We've justified the ``isomorphism-preserving'' part of \cref{thm.ahman_uustalu} implicitly, but let's make it explicit.
+
+Recall that two categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if there exist functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$ that are mutually inverse, i.e.\ $F\then G$ and $G\then F$ are identity functors on $\cat{C}$ and $\cat{D}$.
+Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$ if there exist cofunctors $H\colon\cat{C}\coto\cat{D}$ and $K\colon\cat{D}\coto\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity cofunctors on $\cat{C}$ and $\cat{D}$.
+
+Show that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\smcat^\sharp$.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+
+% justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
+
+% isomorphisms are the same...non-isos are very different
+
+
+
+% In one sense, these laws are exactly as you'd expect: objects, morphisms, identities, codomains, and composition...in another sense, deeply weird: need to specify codomains, etc.
+
+
+\slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
+ 
+
+
+% **Not this, but the fact that this is here in the text means...
+% \begin{exercise}\label{ex.cofunctors_comon_homs}
+% Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
+% \end{exercise}
+
+\begin{proposition}\label{prop.cofunctors_isos}
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob\cat{C}$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
+\end{proposition}
+\begin{proof}
+With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
+\begin{align*}
+	\id_c&=
+	F^\sharp_c(\id_d)\\&=
+	F^\sharp_c(g\then g')\\&=
+	F^\sharp_c(g)\then F^\sharp_{c'}(g')
+\end{align*}
+Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
+\end{proof}
+
+%---- Subsection ----%
+\subsection{Examples of cofunctors}
+
+We saw in \cref{ex.cofunctors_comon_homs} that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
+
+The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
+
+\slogan{
+If a functor $\cat{C}\to\cat{D}$ is a \emph{picture} of $\cat{C}$ in $\cat{D}$, then a cofunctor $\cat{C}\cof\cat{D}$ is a \emph{$D$-shaped crystallization of $C$}.
+}
+
+Let's look at some examples to see how cofunctors look like crystallizations, or perhaps partitions.
+
+
+
+
+
 
 % ** displaced stuff begins
 
@@ -6559,134 +6760,8 @@ Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
 
 % ** displaced stuff ends
 
-Our next goal is to understand morphisms $\com{C}\to\com{D}$ between comonoids and what they look like as maps between categories $\cat{C}\to\cat{D}$.
 
 
-\slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
- 
-Let's begin with a definition.
-
-% \begin{definition}[Morphism of comonoids]\label{def.morphism_comonoids}
-% Let $\com{C}\coloneqq(c,\epsilon,\delta)$ and $\com{C}'\coloneqq(c',\epsilon',\delta')$ be polynomial comonoids as in \cref{def.comonoid}. A \emph{morphism} $\com{C}\to\com{C}'$ consists of a morphism $f\colon c\to c'$ of polynomials that commutes with the structure maps:
-% \begin{equation}\label{eqn.morphism_comonoids}
-% \begin{tikzcd}
-%   c\ar[r, "f"]\ar[d, "\epsilon"']&
-% 	c'\ar[d, "\epsilon'"]\\
-% 	\yon\ar[r, equal]&
-% 	\yon
-% \end{tikzcd}
-% \hspace{.5in}
-% \begin{tikzcd}
-%   c\ar[r, "f"]\ar[d, "\delta"']&
-% 	c'\ar[d, "\delta'"]\\
-% 	c\tri c\ar[r, "f\tri f"']&
-% 	c'\tri c'
-% \end{tikzcd}
-% \end{equation}
-% \end{definition} %** maybe "preserves" erasers and duplicators??
-
-Let's see the two laws of comonoid morphisms using polyboxes. First the eraser law:
-\begin{equation}\label{eqn.unit_law_draw}
-\begin{tikzpicture}
-	\node (id1) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$c$" above] (p) {};
-		\node[poly, dgreen, right=1 of p, "$c'$" above] (q) {};
-		\draw (p_pos) to[first] (q_pos);
-		\draw (q_dir) to[last] (p_dir);
-		\draw[dgreen] (q_pos) to[climb'] node[right] {$\idy$} (q_dir);
-		\node at ($(p.east)!.5!(q.west)$) {$f$};
-	\end{tikzpicture}
-	};
-	\node[right=of id1] (id2) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue, "$c\vphantom{c'}$" above] (p) {};
-		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
-	\end{tikzpicture}	
-	};
-	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
-\end{tikzpicture}
-\end{equation}
-Then the duplicator law:
-\begin{equation}\label{eqn.comult_law_draw}
-\begin{tikzpicture}
-	\node (sp1) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue] (c) {};
-		\node[poly, dgreen, right=1 of c] (c') {};
-		\node[poly, cod, dgreen, right=2 of c'.south, yshift=-1ex] (c'1) {};
-		\node[poly, cod, dgreen, above=of c'1] (c'2) {};
-		\node at ($(c.east)!.5!(c'.west)$) {$f$};
-	%
-		\draw (c_pos) to[first] (c'_pos);
-		\draw (c'_dir) to[last] (c_dir);
-		\draw[dgreen,double] (c'_pos) to[first] (c'1_pos);
-		\draw[dgreen] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
-		\draw[dgreen] (c'2_dir) to[last] node[above,sloped] {$\comp$} (c'_dir);
-	\end{tikzpicture}
-	};
-	\node[right=of sp1] (sp2) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom, blue] (c) {};
-		\node[poly, blue, right=2 of c.south, yshift=-1ex] (c1) {};
-		\node[poly, blue, above=of c1] (c2) {};
-		\node[poly, cod, dgreen, right=1 of c1] (c'1) {};
-		\node[poly, cod, dgreen, right=1 of c2] (c'2) {};
-		\node at ($(c1.east)!.3!(c'1.west)$) {$f$};
-		\node at ($(c2.east)!.3!(c'2.west)$) {$f$};
-	%
-		\draw[blue,double] (c_pos) to[first] (c1_pos);
-		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
-		\draw[blue] (c2_dir) to[last] node[above,sloped] {$\comp$} (c_dir);
-		\draw (c1_pos) to[first] (c'1_pos);
-		\draw (c'1_dir) to[last] (c1_dir);
-		\draw (c2_pos) to[first] (c'2_pos);
-		\draw (c'2_dir) to[last] (c2_dir);
-  \end{tikzpicture}	
-	};
-	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
-\end{tikzpicture}
-\end{equation}
-If we fill in \eqref{eqn.unit_law_draw} with an object $i\in\ema{c}(\1)$, we obtain the equation
-\[f^\sharp(i,\idy(f_1(i)))=\idy(i),\]
-which is the first law of \cref{def.cofunctor}. If we fill in \eqref{eqn.comult_law_draw} with $i\in\ema{c}(\1)$ and $m\in\ema{c'}[f(i)]$ and $m'\in\ema{c'}[\cod(m)]$, we obtain the equations
-\begin{gather*}
-  \cod(m)=f_1\big(\cod\big(f^\sharp(i,m)\big)\big)\\
-  f^\sharp(i,\comp(m,m'))=\comp(f^\sharp(i,m),f^\sharp(\cod(f^\sharp(i,m)),m'))
-\end{gather*}
-and these are the second and third laws of \cref{def.cofunctor}.
-
-% **Not this, but the fact that this is here in the text means...
-% \begin{exercise}\label{ex.cofunctors_comon_homs}
-% Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
-% \end{exercise}
-
-\begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob\cat{C}$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
-\end{proposition}
-\begin{proof}
-With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
-\begin{align*}
-	\id_c&=
-	F^\sharp_c(\id_d)\\&=
-	F^\sharp_c(g\then g')\\&=
-	F^\sharp_c(g)\then F^\sharp_{c'}(g')
-\end{align*}
-Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
-\end{proof}
-
-%---- Subsection ----%
-\subsection{Examples of cofunctors}
-
-We saw in \cref{ex.cofunctors_comon_homs} that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
-
-The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
-
-\slogan{
-If a functor $\cat{C}\to\cat{D}$ is a \emph{picture} of $\cat{C}$ in $\cat{D}$, then a cofunctor $\cat{C}\cof\cat{D}$ is a \emph{$D$-shaped crystallization of $C$}.
-}
-
-Let's look at some examples to see how cofunctors look like crystallizations, or perhaps partitions.
 
 \begin{example}\label{ex.BGEG}
 Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\to\yon^G$ given by
@@ -7047,7 +7122,7 @@ First, such a comonoid morphism includes a morphism of polynomials $f\colon S\yo
 	\draw (t_dir) to[last] node[above] {$\lensput$} (s_dir);
 \end{tikzpicture}
 \]
-Let's apply the unit-homomorphism property \eqref{eqn.unit_law_draw}
+Let's apply the unit-homomorphism property \eqref{eqn.pres_era_draw}
 \[
 \begin{tikzpicture}
 	\node (id1) {
@@ -7077,7 +7152,7 @@ We leave the duplicator-homomorphism law to \cref{exc.well_behaved}, where we wi
 \begin{exercise}\label{exc.well_behaved}
 Complete \cref{ex.well_behaved}.
 \begin{enumerate}
-	\item Write out the duplicator law from \eqref{eqn.unit_law_draw} in terms of polyboxes.
+	\item Write out the duplicator law from \eqref{eqn.pres_era_draw} in terms of polyboxes.
 	\item What set-theoretic equations are forced by the duplicator law?
 	\item Can you see why they might be called put-put and put-get?
 \qedhere
