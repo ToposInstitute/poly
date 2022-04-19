@@ -6358,10 +6358,10 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise} \label{exc.not_state_cat_but_same_carrier}
 Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
 \begin{solution}
-In the case of $S=\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category; and in the case of $S=\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms.
+In the case of $S\coloneqq\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category, the only category with no objects; and in the case of $S\coloneqq\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms, again the only such category.
 So in those cases, the comonoid structure on $S\yon^S$ is unique.
 
 Now assume $|S|\geq2$.
@@ -6377,10 +6377,16 @@ So the resulting category will again have carrier $S\yon^S$.
 
 
 %-------- Section --------%
-\section{Morphisms of comonoids are cofunctors}
+\section{Morphisms of polynomial comonoids are cofunctors}
 
-We've studied comonoids in $\poly$, but what about the morphisms between them?
-If you've seen the definition of a monoid homomorphism (or even a group homomorphism), the next definition may look familiar.
+Now that we have characterized the comonoids in $\poly$, let us consider the morphisms between them.
+These turn out to correspond to a rather odd kind of map between categories known as a \emph{cofunctor}.
+
+%---- Subsection ----%
+\subsection{Introducing comonoid morphisms and cofunctors}
+
+First, let us define morphisms of comonoids in the most general setting.
+If you've seen the definition of a monoid homomorphism (or even a group homomorphism), then this definition may look familiar.
 
 \begin{definition}[Comonoid morphism]\label{def.morphism_comonoids}
 Given a monoidal category $(\cat{C},\yon,\tri)$ with comonoids $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ and $\com{C}'\coloneqq(\ema{c'},\epsilon',\delta')$, a \emph{comonoid morphism} (or \emph{morphism of comonoids}) $\com{C}\to\com{C}'$ is a morphism $F\colon \ema{c}\to\ema{c'}$ in $\cat{C}$ for which the following diagrams commute:
@@ -6569,9 +6575,9 @@ satisfying the following conditions, collectively known as the \emph{cofunctor l
 	    F\cod F^\sharp_c g=\cod g
 	\end{equation}
 	for each $c\in\Ob\cat{C}$ and $g\in\cat{C'}[Fc]$;
-	\item $F$ \emph{preserves composition}:
+	\item $F$ \emph{preserves composites}:
 	\begin{equation} \label{eqn.pres_comp}
-	    F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c(g)} h=F^\sharp_c\left(g\then h\right)
+	    F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c g} h=F^\sharp_c\left(g\then h\right)
 	\end{equation}
 	for each $c\in\Ob\cat{C}, g\in\cat{C'}[Fc],$ and $h\in\cat{C'}[\cod g]$.
 \end{enumerate}
@@ -6611,42 +6617,54 @@ We've justified the ``isomorphism-preserving'' part of \cref{thm.ahman_uustalu} 
 
 Recall that two categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if there exist functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$ that are mutually inverse, i.e.\ $F\then G$ and $G\then F$ are identity functors on $\cat{C}$ and $\cat{D}$.
 Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$ if there exist cofunctors $H\colon\cat{C}\coto\cat{D}$ and $K\colon\cat{D}\coto\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity cofunctors on $\cat{C}$ and $\cat{D}$.
-
 Show that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\smcat^\sharp$.
 \begin{solution}
-**
+We want to show that categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\smcat^\sharp$.
+First, assume that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$, so that there exist mutually inverse functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$.
+Then we can define a cofunctor $H\colon\cat{C}\coto\cat{D}$ such that for each $c\in\cat{C}$ we have $Hc\coloneqq Fc\in\cat{D}$, and for each $g\in\cat{D}[Fc]$ we have $H^\sharp_c g\coloneqq Gg\in\cat{C}[GFc]=\cat{C}[c]$.
+We can verify that $H$ really is a cofunctor: it preserves identities and composition because $G$ does, and it preserves codomains because $H\cod H^\sharp_c g=F\cod Gg=FG\cod g=\cod g$.
+Analogously, we can define a cofunctor $K\colon\cat{D}\coto\cat{C}$ with $Kd\coloneqq Gd$ and $K^\sharp_d f\coloneqq Ff$ for each $d\in\cat{D}$ and $f\in\cat{C}[Gd]$.
+Then $H\then K$ is equal to $F\then G$ both on objects and on morphisms, so it is the identity cofunctor on $\cat{C}$; analogously, $K\then H$ is the identity cofunctor on $\cat{D}$.
+Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$.
+
+Conversely, assume $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$, so that there exist mutually inverse cofunctors $H\colon\cat{C}\coto\cat{D}$ and $K\colon\cat{D}\coto\cat{C}$.
+Given objects $c,c'$ and a morphism $f\colon c\to c'$ in $\cat{C}$, we have that $KHc=c$, so $K^\sharp_{Hc}$ is a function $\cat{C}[c]\to\cat{D}[Hc]$.
+In particular, $K^\sharp_{Hc}f$ is a morphism in $\cat{D}$ whose domain is $Hc$ and whose codomain satisfies $K\cod K^\sharp_{Hc}f=\cod f=c'$, and thus $\cod K^\sharp_{Hc}f=Hc'$.
+Hence we can define a functor $F\colon\cat{C}\to\cat{D}$ such that for each $c\in\cat{C}$ we have $Fc\coloneqq Hc\in\cat{D}$, and for each morphism $f\colon c\to c'$ in $\cat{C}$ we have $Ff\coloneqq K^\sharp_{Hc}f\colon Hc\to Hc'$.
+Functoriality follows from the fact that $K$ preserves identities and composition.
+Analogously, we can define a functor $G\colon\cat{D}\to\cat{C}$ with $Gd\coloneqq Kd$ for each $d\in\cat{D}$ and $Gg\coloneqq H^\sharp_{Kd}g$ for each $g\colon d\to d'$ in $\cat{D}$.
+Then $F\then G$ is equal to $H\then K$ on objects; on morphisms, it sends each $f\colon c\to c'$ in $\cat{C}$ to $H^\sharp_{KHc}\left(K^\sharp_{Hc}f\right)=H^\sharp_c\left(K^\sharp_{Hc}f\right)=(K\then H)^\sharp_cf=f$ itself.
+So $F\then G$ is the identity cofunctor on $\cat{C}$.
+Analogously, $G\then F$ is the identity functor on $\cat{D}$.
+Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
-
 
 % justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
 
 % isomorphisms are the same...non-isos are very different
 
 
-
 % In one sense, these laws are exactly as you'd expect: objects, morphisms, identities, codomains, and composition...in another sense, deeply weird: need to specify codomains, etc.
 
 
 \slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
- 
+
+% ** preserve structure...not surprising that they preserve isos
 
 
-% **Not this, but the fact that this is here in the text means...
-% \begin{exercise}\label{ex.cofunctors_comon_homs}
-% Summarize the proof of \cref{thm.ahman_uustalu}, developed above. You may cite anything written in the text so far.
-% \end{exercise}
-
+% ** There's something tricky going on with the codomains here...check this
 \begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\Ob\cat{C}$ objects, and $g\colon F(c)\to F(c')$ a morphism in $\cat{D}$. Then if $g$ is an isomorphism, so is $F^\sharp_{c}(g)$.
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\cat{C}$ objects, and $g\colon Fc\to Fc'$ an isomorphism in $\cat{D}$. Then $F^\sharp_{c}g$ is also an isomorphism in $\cat{C}$.
 \end{proposition}
 \begin{proof}
-With $d\coloneqq F(c)$, $d'\coloneqq F(c')$, and $g'$ the inverse of $g$, we have
+Let $g^{-1}\colon Fc'\to Fc$ be the inverse of $g$.
+Then
 \begin{align*}
 	\id_c&=
-	F^\sharp_c(\id_d)\\&=
-	F^\sharp_c(g\then g')\\&=
-	F^\sharp_c(g)\then F^\sharp_{c'}(g')
+	F^\sharp_c\,\id_{Fc} \tag*{\eqref{eqn.pres_id}}\\&=
+	F^\sharp_c\left(g\then g^{-1}\right)\\&=
+	F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c g}\left(g^{-1}\right) \tag*{\eqref{eqn.pres_comp}}
 \end{align*}
 Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
 \end{proof}
@@ -6654,7 +6672,8 @@ Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
 
-We saw in \cref{ex.cofunctors_comon_homs} that cofunctors $\cat{C}\cof\cat{D}$ are the same thing as morphisms of comonoids $\com{C}\to\com{D}$, so we elide the difference. The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
+%**intro
+The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
 
 The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
 
@@ -6672,7 +6691,7 @@ Let's look at some examples to see how cofunctors look like crystallizations, or
 % ** displaced stuff begins
 
 \begin{example}[Admissible sections]\label{ex.admissible_section}
-Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, considered as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
+Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, viewed as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
 
 To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it. So the content of $\varphi$ is all found in $\varphi^\sharp$, which assigns to each object $i\in\cat{C}$ and natural number $n\in\nn$ a morphism $\varphi^\sharp(i,n)$ emanating from $i$. That seems like a lot of data, but we still have two laws to pare it down:
 \[
@@ -6698,11 +6717,12 @@ There are $2$ choices of morphisms emanating from the object on the left, and $1
 \end{exercise}
 
 \begin{exercise}
-Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers and let $\cat{N}$ be that of natural numbers as above.
+Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers, and let $\cat{N}$ be the monoid of natural numbers as above.
+We view both $\cat{Z}$ and $\cat{N}$ as categories with one object each.
 \begin{enumerate}
 	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
 	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
-	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backward''?
+	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backward''? %** make this more precise
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6720,9 +6740,11 @@ A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
     \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
     \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
     & \; \; \; \vdots \\
-    \dot{x}_n &= f_n(x_1, \ldots, x_n)
+    \dot{x}_n &= f_n(x_1, \ldots, x_n),
 \end{align*}
-can be understood as a vector field on $\rr^n$. Usually, we are interested in integrating this vector field to get flow lines, or integral curves. In other words, for each point $x = (x_1, \ldots, x_n)$ and each amount of time $t \in \rr$, we can go forward from $x$ for time $t$ and arrive at a new point $x^{+t}$. These satisfy the equations
+can be understood as a vector field on $\rr^n$.
+We are often interested in integrating this vector field to get flow lines, or integral curves.
+In other words, for each $x=(x_1, \ldots, x_n)\in\rr^n$, viewed as a point, and each $t\in\rr$, viewed as a quantity of time, we can begin at $x$ and move along the vector field for time $t$, arriving at a new point $x^{+t}$. These satisfy the equations
 \begin{equation} \label{eqn.cofunctor_ode}
     x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
 \end{equation}
@@ -6784,7 +6806,7 @@ Does the idea of \cref{ex.BGEG} work when $G$ is merely a monoid, or does someth
 \end{exercise}
 
 \begin{proposition}\label{prop.monoids_ff}
-There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image is precisely those categories whose carrier is representable.
+There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image is precisely those categories whose carriers are representable.
 \end{proposition}
 \begin{proof}
 Given a monoid $(M,e,*)$, we think of it as a category with one object; its carrier $\yon^M$ is representable. A cofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Cofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
@@ -6795,7 +6817,7 @@ There is an adjunction
 \[
 \smcat^\sharp(\cat{C},A\yon)\cong\smset(\Ob\cat{C},A)
 \]
-where $\cat{C}\in\smcat^\sharp$ is a comonoid and $A\in\smset$ is a set.  
+for $\cat{C}\in\smcat^\sharp$ and $A\in\smset$.
 \end{proposition}
 
 \begin{example}\label{ex.cof_to_rr}
@@ -6804,19 +6826,7 @@ Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x
 Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofunctor. It assigns to every object $c$ both a real number $|c|\in\rr$ and a choice of emanating morphism $|c|^\sharp(r)\colon c\to c_r$ such that $|c|+r=|c_r|$. This assignment satisfies some laws. Namely we have $c_0=c$ and, given reals $r,s\in\rr$, we have $(c_r)_s=c_{r+s}$. 
 \end{example}
 
-\begin{exercise}
-\begin{enumerate}
-	\item Do you think a cofunctor $\cat{C}\cof\rr\yon^\rr$ as in \cref{ex.cof_to_rr} should be called an $(\rr,0,+)$-action on the objects of $\cat{C}$, or a filtration, or a valuation, or something else?
-	\item Why?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
+% ** Interpret above. Possible names: $(\rr,0,+)$-action on the objects of $\cat{C}$, filtration, valuation
 
 \begin{exercise}
 \begin{enumerate}
@@ -7065,18 +7075,15 @@ Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r
 \end{solution}
 \end{exercise}
 
+%** related to earlier iso exercise
 \begin{exercise}
 \begin{enumerate}
-	\item If two categories are isomorphic in $\smcat$, does that imply they are isomorphic in $\smcat^\sharp$?
-	\item If so, prove it; if not, give a counterexample.
 	\item Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\cong}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\cong}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
 	\item If so, prove it; if not, give a counterexample.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
     \item **
     \item **
 \end{enumerate}
@@ -7097,13 +7104,11 @@ We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\ti
 \end{exercise}
 
 
+\subsubsection{Very well-behaved lenses}
 
-
-
-%---- Subsection ----%
-\subsection{Very well behaved lenses}
-
-In the functional programming community, there is an important notion of very well-behaved lenses. These turn out to be precisely the cofunctors between state categories. Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
+In the functional programming community, there is an important notion of very well-behaved lenses.
+These turn out to be precisely the cofunctors between state categories.
+Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
 
 \begin{example}[Very well-behaved lenses]\label{ex.well_behaved}
 Recall from \cref{ex.state_comonad_1} that for any set $S$, we have the ``state'' category with carrier $S\yon^S$. What are the comonoid morphisms---cofunctors---between different state categories?
@@ -7229,13 +7234,19 @@ When we get to cofree comonoids, we'll obtain a whole new class of cofunctors th
 % %-------- Section --------%
 
 \section{Some categorical properties of $\smcat^\sharp$} %** more precise title??
-We refer to morphisms between polynomial comonoids as cofunctors, again eliding the difference between comonoids in $\poly$ and categories.
+Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon\poly$, eliding the difference between comonoids in $\poly$ and categories.
+% ** more intro---what is all this?
+
+% ** You may notice that the content of this section mirrors that of \cref{**chapter 4**}; indeed, the comonoid category $\cat^\sharp$ inherits much of the categorical structure of $\poly$.
+
+%---- Subsection ----%
+\subsection{Coproducts in $\smcat^\sharp$}
 
 \begin{proposition}
-The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the initial comonoid is $0$.
+The coproduct of polynomial comonoids agrees with the coproduct of categories. In particular, the unique comonoid carried by $\0$ is initial.
 \end{proposition}
 \begin{proof}
-We refer the claim about $0$ to \cref{exc.0_initial_com}.
+We defer the proof of the claim about $\0$ to \cref{exc.0_initial_com}.
 
 Let $\cat{C}_1$ and $\cat{C}_2$ be categories and $\ema{c}_1,\ema{c}_2$ their carriers, i.e.\ the carriers of the corresponding comonoids $\com{C}_1$ and $\com{C}_2$. We first notice that $\ema{c}\coloneqq\ema{c}_1+\ema{c}_2$ is the carrier for the comonoid $\com{C}$ corresponding to the sum category $\cat{C}\coloneqq\cat{C}_1+\cat{C}_2$. Indeed, the object-set of the sum is given by the sum of the object-sets
 \[
@@ -7250,54 +7261,49 @@ It remains to show that $\com{C}$ is the coproduct of $\com{C}_1$ and $\com{C}_2
 
 \begin{exercise}\label{exc.0_initial_com}
 \begin{enumerate}
-	\item Show that $0$ is a comonoid.
-	\item Show that $0$ is initial as a comonoid.
+	\item Show that $\0$ has a unique comonoid structure.
+	\item Show that $\0$ with its comonoid structure is initial in $\smcat^\sharp$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
+    \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category, in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
     \item **
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-If $\com{C}=(\ema{c},\epsilon,\delta)$ is a category, show there is an induced category structure on the polynomial $\2\ema{c}$.
+Given a comonoid $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$, show that there is an induced comonoid structure on the polynomial $\2\ema{c}$.
 \begin{solution}
 **
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Check that the terminal comonoid is $\yon$.
+\begin{enumerate}
+	\item Show that $\1$ has a unique comonoid structure.
+	\item Show that $\1$ with its comonoid structure is terminal in $\smcat^\sharp$.
+\qedhere
+\end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+    \item We actually already showed that $\1$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms, in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
+    \item **
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-
-\begin{proposition}[Porst]
-The forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic.
-\end{proposition}
-\begin{proof}
-The fact that a forgetful functor $\Cat{Comon}(\poly) \to \poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via a straightforward generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
-\end{proof}
-
-\begin{corollary}
-The category $\smcat^\sharp = \Cat{Comon}(\poly)$ has all small colimits.
-They are created by the underlying polynomial functor $\Cat{Comon}(\poly) \to \poly$.
-\end{corollary}
-\begin{proof}
-A comonadic functor creates all colimits that exist in its codomain (see \cite{nlab:created-limit}), and by \cref{thm.poly_colimits}, the category $\poly$ has all small colimits.
-\end{proof}
+%---- Subsection ----%
+\subsection{Special categories and adjunctions}
 
 \begin{proposition}
-Let $\Cat{Comon}(\poly)_{\text{rep}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=\yon^M$ is representable. Then there is an isomorphism of categories
+Let $\smcat^\sharp_{\text{rep}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
+Then there is an isomorphism of categories
 \[
-\Cat{Comon}(\poly)_{\text{rep}}\cong\Cat{Mon}\op
+    \smcat^\sharp_{\text{rep}}\iso\Cat{Mon}\op,
 \]
-where $\Cat{Mon}$ is the category of monoids.
+where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms.
 \end{proposition}
 \begin{proof}
 Let $\cat{C}$ be a category. It has only one object iff its carrier $\ema{c}$ has only one position, i.e.\ $\ema{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
@@ -7306,9 +7312,10 @@ A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon 
 \end{proof}
 
 \begin{exercise}\label{exc.lin_comon_set}
-Let $\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\epsilon,\delta)$ in $\poly$ for which the carrier $c=M\yon$ is linear. Show that there is an isomorphism of categories
+Let $\smcat^\sharp_{\text{lin}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with linear carriers $S\yon$ for some $S\in\smset$.
+Show that there is an isomorphism of categories
 \[
-\Cat{Comon}(\poly)_{\text{lin}}\cong\smset.
+\smcat^\sharp_{\text{lin}}\iso\smset.
 \qedhere
 \]
 \begin{solution}
@@ -7317,11 +7324,7 @@ Let $\Cat{Comon}(\poly)_{\text{lin}}$ be the full subcategory of comonoids $(c,\
 \end{exercise}
 
 \begin{proposition}
-The inclusion of linear comonoids into all comonoids has a left adjoint
-\[
-\adj{\Cat{Comon}(\poly)}{(\ema{c}\tri\1)\yon}{A\yon}{\Cat{Comon}(\poly)_{\text{lin}}}
-\]
-denoted by where they send a comonoid $(\ema{c},\epsilon,\delta)$ and a linear comonoid $A\yon$.
+The inclusion $\smcat^\sharp_{\text{lin}}\to\smcat^\sharp$ has a left adjoint sending each $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$ to the unique comonoid carried by $(\ema{c}\tri\1)\yon$ in $\smcat^\sharp_{\text{lin}}$.
 \end{proposition}
 \begin{proof}
 We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
@@ -7333,7 +7336,10 @@ We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, w
 But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities. 
 \end{proof}
 
-A cofunctor (map of polynomial comonoids) is called \emph{cartesian} if the underlying map $f\colon \ema{c}\to \ema{d}$ of polynomials is cartesian (i.e.\ for each position $i\in \ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism).
+%---- Subsection ----%
+\subsection{Vertical-cartesian factorization in $\smcat^\sharp$}
+
+A cofunctor is called \emph{cartesian} if the underlying lens $f\colon\ema{c}\to\ema{d}$ is cartesian (i.e.\ for each position $i\in\ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
 
 \begin{proposition}\label{prop.factor_cofunctor}
 Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
@@ -7415,15 +7421,16 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Dirichlet monoidal product on $\smcat^\sharp$}
+\subsection{Parallel products in $\smcat^\sharp$ are products in $\smcat$}
 
 The usual product of categories gives a monoidal operation on comonoids too, even though it is not a product in $\smcat^\sharp$. The carrier polynomial of the product is the parallel product $\otimes$ of the carrier polynomials.
 
 
 \begin{proposition}\label{prop.dirichlet_on_catsharp}
-The Dirichlet monoidal product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the functor
+The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the functor
 $U\colon\smcat^\sharp\to\poly$
-is strong monoidal with respect to $\otimes$. The Dirichlet product of two categories is their product in $\smcat$.
+is strong monoidal with respect to $\otimes$.
+The parallel product of two categories is their product in $\smcat$.
 \end{proposition}
 \begin{proof}
 Let $\cat{C},\cat{D}\in\smcat^\sharp$ be categories with carriers $\ema{c},\ema{d}\in\poly$. The carrier of $\cat{C}\otimes\cat{D}$ is defined to be $\ema{c}\otimes\ema{d}$. A position in it is a pair $(c,d)$ of objects, one from $\cat{C}$ and one from $\cat{D}$; a direction there is a pair $(f,g)$ of a morphism emanating from $c$ and one emanating from $d$. 
@@ -7845,7 +7852,7 @@ for some functor $\cofree{}\colon\poly\to\smcat^\sharp$? In fact, there is; we r
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 
 \begin{theorem}[Cofree comonoid]\label{thm.cofree}
-The forgetful functor $\Cat{Comon}(\poly)\to\poly$ has a right adjoint
+The forgetful functor $\smcat^\sharp\to\poly$ has a right adjoint
 \[
   \adj{\smcat^\sharp}{\ema{c}}{\cofree{p}}{\poly}
 \]
@@ -8587,7 +8594,23 @@ This seems like a nice generalization of dynamical systems---history-recording d
 
 
 %-------- Section --------%
-\section{Some math about cofree comonoids}
+\section{Some categorical properties of cofree comonoids}
+
+%**check precise conditions of applying Pare/Porst
+\begin{proposition}[Porst]
+The forgetful functor $\smcat^\sharp\to\poly$ is comonadic.
+\end{proposition}
+\begin{proof}
+The fact that a forgetful functor $\smcat^\sharp\iso\Cat{Comon}(\poly)\to\poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via a straightforward generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
+\end{proof}
+
+\begin{corollary}
+The category $\smcat^\sharp$ has all small colimits.
+They are created by the forgetful functor $\smcat^\sharp\to\poly$.
+\end{corollary}
+\begin{proof}
+A comonadic functor creates all colimits that exist in its codomain (see \cite{nlab:created-limit}), and by \cref{thm.poly_colimits}, the category $\poly$ has all small colimits.
+\end{proof}
 
 \begin{proposition}\label{prop.cofree_free_on_graph}
 For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. That is, there is a graph $G_p$ whose associated free category in the usual sense (the category of vertices and paths in $G_p$) is isomorphic to $\cofree{p}$.
