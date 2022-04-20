@@ -5034,12 +5034,16 @@ But let's go over their result first.
 There is a one-to-one isomorphism-preserving correspondence between polynomial comonoids and (small) categories.
 \end{theorem}
 
-Let's see how this correspondence works.
+Our goal is to define and demonstrate this correspondence so that we can justly proclaim:
+
+\slogan{Comonoids in $\poly$ are precisely categories!}
 
 \subsection{Translating between polynomial comonoids and categories}
 
-Our first goal is to understand how one translates between the carrier $\ema{c}$ of a comonoid $\com{C}\coloneqq(\ema{c},\delta,\epsilon)$ and the objects and morphisms of the corresponding category $\cat{C}$.
+First, we describe how to translate between the carrier $\ema{c}$ of a comonoid $\com{C}\coloneqq(\ema{c},\delta,\epsilon)$ and the objects and morphisms of the corresponding category $\cat{C}$.
 The idea is pretty simple, and you may have already guessed it: positions are objects and directions are morphisms.
+
+\subsubsection{Positions as objects, directions as morphisms}
 
 More precisely, the positions of $\ema{c}$ are the objects of $\cat{C}$:
 \begin{equation} \label{eqn.pos_obj}
@@ -5054,12 +5058,11 @@ The right hand side above is a little clumsier than the left; this is because wh
 On the other hand, the carrier \emph{only} encodes which morphisms have each object as its domain, i.e.\ which directions are at each position.
 Codomains will be encoded in the data of the comonoid elsewhere.
 
-This is the key difference in perspective between the polynomial comonoid perspective of categories, in contrast to our usual hom-set perspective: the polynomial perspective is in a sense domain-centric.
-This alternative perspective will come in handy, as highlighted by the following definition.
+This is the key difference in perspective between the polynomial comonoid perspective of categories, in contrast to our usual hom-set perspective: the polynomial perspective is in a sense domain-centric, as highlighted by the following definition.
 
 \begin{definition}[Polynomial carrier]
 Let $\cat{C}$ be a category.
-For every object $i$ in $\cat{C}$, denote the morphisms in $\cat{C}$ with domain $i$ by $\cat{C}[i]$, so that
+For every object $i$ in $\cat{C}$, denote the morphisms in $\cat{C}$ with domain $i$ by $\cat{C}[i]$, so that\footnote{We may also write $f\colon i\to\_$ to denote an arbitrary morphism $f\in\cat{C}[i]$, i.e.\ a morphism $f$ in $\cat{C}$ with domain $i$ and an unspecified codomain.}
 \[
     \cat{C}[i]\coloneqq\sum_{j\in\Ob\cat{C}}\cat{C}(i,j).
 \]
@@ -5131,19 +5134,19 @@ What is the carrier of each of the following categories (up to isomorphism)?
 \end{exercise}
 
 But a category $\cat{C}$ is more than its carrier polynomial, just as a comonoid $\com{C}$ is more than its carrier $\ema{c}$.
-In particular, we have said nothing about the codomains of morphisms in $\cat{C}$, nor anything about identity morphisms, composition, or how the identity and associative laws are satisfied.
-Similarly, we have said nothing about the eraser $\epsilon$ or the duplicator $\delta$ of $\com{C}$, nor anything about how its erasure and coassociative laws are satisfied.
-It will turn out that all of these correspond to each other, as summarized by the following table.
-Note that each item in the comonoid column---either a polynomial, a lens, or a lens equation---spans two rows, with the top row corresponding to positions and the bottom row corresponding to directions.
+In particular, we have said nothing about the codomains of morphisms in $\cat{C}$, nor anything about identity morphisms, composition, or how the laws of a category are satisfied.
+Similarly, we have said nothing about the eraser $\epsilon$ or the duplicator $\delta$ of $\com{C}$, nor anything about how the comonoid laws are satisfied.
+It turns out that all of these constituents and laws correspond to one another, as summarized by the following table.
+Here each item in the comonoid column---either a polynomial, a lens, or a lens equation---spans two rows, with the top row corresponding to positions and the bottom row corresponding to directions.
 \begin{center}
 \begin{tabular}{cc|cc}
   \textbf{Comonoid} & $\com{C}=(\ema{c},\epsilon,\delta)$ & \textbf{Category} & $\cat{C}$ \\ 
   \hline
   \multirow{2}{*}{carrier} & $i\in\ema{c}(\1)$ & objects & $i\in\Ob\cat{C}$ \\
-  & $f\in\cat{c}[i]$ & morphisms & $f\in\cat{C}[i]$ \\
+  & $f\in\cat{c}[i]$ & morphisms & $f\colon i\to\_$ \\
   \hline
   \multirow{2}{*}{eraser} & $\epsilon_\1\colon\ema{c}(\1)\to\1$ & --- & --- \\
-  & $\epsilon_i^\sharp\colon\1\to\ema{c}[i]$ & identities & $\id_i\in\cat{C}[i]$ \\
+  & $\epsilon_i^\sharp\colon\1\to\ema{c}[i]$ & identities & $\id_i\colon i\to\_$ \\
   \hline
   \multirow{2}{*}{duplicator} & $\delta_\1\colon\ema{c}(\1)\to(\ema{c}\tri\ema{c})(\1)$ & codomains* & $\cod\colon\cat{C}[i]\to\Ob\cat{C}$ \\
   & 
@@ -5152,52 +5155,109 @@ Note that each item in the comonoid column---either a polynomial, a lens, or a l
   \multicolumn2{c|}{\multirow{2}{*}{right erasure law}} & \multicolumn2{c}{$\ast$} \\
   \multicolumn2{c|}{} & \multicolumn2{c}{right identity law} \\
   \hline
-  \multicolumn2{c|}{\multirow{2}{*}{left erasure law}} & \multicolumn2{c}{codomains of identities} \\
+  \multicolumn2{c|}{\multirow{2}{*}{left erasure law}} & codomains of identities & $\cod\id_i=i$ \\
   \multicolumn2{c|}{} & \multicolumn2{c}{left identity law} \\
   \hline
-  \multicolumn2{c|}{\multirow{2}{*}{coassociative law}} & \multicolumn2{c}{codomains of composites} \\
+  \multicolumn2{c|}{\multirow{2}{*}{coassociative law}} & codomains of composites & $\cod(f\then g)=\cod g$ \\
   \multicolumn2{c|}{} & \multicolumn2{c}{associative law of composition}
 \end{tabular}
 \end{center}
 Note that the on-positions function of $\epsilon$, being a function into the terminal set, encodes no actual data; meanwhile, the asterisk $\ast$ indicates that the right erasure law on positions works together with the duplicator to ensure that codomains and compositions are properly specified.
 
+We have already covered the correspondence between the first two rows, so let us consider each of the following rows in turn.
+In some sense, we have already seen each piece of this correspondence in action for state systems in \cref{sec.comon.sharp.state}, so we'll go through it a little faster this time for the general case.
 
+\subsubsection{The eraser assigns identities}
 
-The identities of $\cat{C}$ are all captured by the eraser $\epsilon\colon\ema{c}\to\yon$ and the codomain and composition information of $\cat{C}$ are all captured by the duplicator $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$.
-Our goal is to make this clear so that we can justly proclaim:
-
-\slogan{Comonoids in $\poly$ are precisely categories!}
-
-We want to understand how the eraser $\epsilon$ and duplicator $\delta$ in a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ relate to identities, codomains, and composites in a category. We first use our work in \cref{subsec.working_with_composites} to get a better handle on $\epsilon$ and $\delta$. For example, since $\epsilon\colon\ema{c}\to\yon$ maps to the empty composite, we know by \eqref{eqn.map_to_0ary_composite} that it is of the form
+We know that the eraser $\epsilon\colon\ema{c}\to\yon$ can be identified with a dependent function $(i\in\ema{c}(\1))\to\com{c}[i]$, sending each position $i\in\com{c}(\1)$ to a $\com{c}[i]$-direction.
+In terms of our category $\cat{C}$, the eraser sends each object $i\in\Ob\cat{C}$ to a morphism $i\to\_$.
+But this is exactly what we need to specify identity morphisms---a morphism out of each object.
+So the eraser of $\ema{c}$ specifies the identity morphisms of the corresponding category $\cat{C}$.
+We can interpret the polybox picture for $\epsilon$ like so:
 \[
  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\ema{c}$" left] (c) {$\epsilon^\sharp(i)$\at$i$};
-  	\draw (c_pos) to[climb'] node[right] {$\epsilon^\sharp$} (c_dir);
+  	\node[poly, dom, "$\ema{c}$" left] (c) {$\id_i$\at$i$};
+  	\draw (c_pos) to[climb'] node[right] {$\idy$} (c_dir);
 	\end{tikzpicture}
 \]
-i.e.\ for every $i\in \ema{c}(\1)$, a choice of element $\epsilon^\sharp(i)\in \ema{c}[i]$. Rather than call it $\epsilon^\sharp$, we will refer to this map as $\idy$. Similarly, we know by \eqref{eqn.map_to_2ary_composite} that $\delta$ is of the form
+Here we have given the label $\idy$ to the arrow sending objects to their identity morphisms.
+
+Keep in mind that from the domain-centric polynomial perspective, we have not yet specified that the codomain of an identity morphism is equal to its domain; that comes later.
+
+\subsubsection{The right erasure law on positions: a bit of bookkeeping}
+
+Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\delta\then(\ema{c}\tri\epsilon)=\id_\ema{c}$ can be drawn in polyboxes like so:
 \[
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, above=of p] (p') {};
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\delta_2$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above left] {$\delta^\sharp$} (yX_dir);
-  \end{tikzpicture}
- \]
-We've said that this secretly holds information about the codomains and composites for a category structure on $\ema{c}$. How does that work? We will soon find that $\delta_1$ is forced to be an identity, that $\delta_2$ holds codomain information, and that $\delta^\sharp$ holds composite information. So we will use that notation here
+\begin{tikzpicture}
+	\node (1) {
+        \begin{tikzpicture}[polybox, tos]
+        	\node[poly, dom, "$\ema{c}$" left] (r) {\at$s$};
+        	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {\at$s$};
+        	\node[poly, above=.8 of p, "$\ema{c}$" above] (p') {};
+        	
+        	\draw (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_dir) to[climb] node[left=.1] {$\delta$} (p'_pos);
+        	\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
+        	\draw (p'_dir) to[last] node[above=.4] {} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+        \begin{tikzpicture}[polybox, tos]
+          	\node[poly, dom, "$\ema{c}$" left] (c) {\at$s$};
+          	\node[poly, cod, right=of c, "$\ema{c}$" right] (c') {\at$s$};
+          	\draw[double] (c_pos) -- (c'_pos);
+          	\draw[double] (c'_dir) -- (c_dir);
+	    \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) (3) {=};
+\end{tikzpicture}
+\]
+We have only filled in a few of the boxes, but that is enough to interpret what the right erasure law tells us on positions: that the bottom arrow of the duplicator must be the identity function on $\ema{c}(\1)$.
+Equipped with this knowledge, we can focus our attention on the other two arrows of $\delta$.
+
+\subsubsection{The duplicator assigns codomains and composition}
+
+In fact, in the polybox picture for $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$, the middle arrow specifies codomains, and the top arrow specifies composition.
+We therefore label these arrows as follows:
 \[
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, cod, above=of p] (p') {};
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-  \end{tikzpicture}
- \]
-and our goal now is to see that the $\cod$ map really has something to do with codomains and that the $\comp$ map really has something to do with composites, as advertised. What makes these true are the unitality and associativity equations required for $(\ema{c},\epsilon,\delta)$ to be a comonoid; see \cref{def.comonoid}.
+\begin{tikzpicture}[polybox, tos]
+    \node[poly, dom, "$\ema{c}$" left] (yX) {};
+    \node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\ema{c}$" right] (p) {};
+    \node[poly, cod, above=of p, "$\ema{c}$" right] (p') {};
+    
+    \draw[double] (yX_pos) to[first] node[below] {} (p_pos);
+    \draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+    \draw (p'_dir) to[last] node[above] {$\then$} (yX_dir);
+\end{tikzpicture}
+\]
+To check that this makes sense, we fill in the boxes:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$\ema{c}$" left] (yX) {$f\then g$\at$i$};
+    \node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\ema{c}$" right] (p) {$f$\at$i$};
+    \node[poly, cod, above=of p, "$\ema{c}$" right] (p') {$g$\at$\cod f$};
+    
+    \draw[double] (yX_pos) to[first] node[below] {} (p_pos);
+    \draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+    \draw (p'_dir) to[last] node[above] {$\then$} (yX_dir);
+\end{tikzpicture}
+\]
+Remember: each position box contains an object of $\cat{C}$, while each direction box contains a morphism of $\cat{C}$ emanating from the object below.
+So $\delta$ takes an object $i\in\Ob\cat{C}$ and a morphism $f\colon i\to\_$, then assigns another object $\cod f\in\Ob\cat{C}$ to be the codomain of $f$.
+It then takes a second morphism $g\colon\cod f\to\_$ and assigns a third morphism $f\then g\colon i\to\_$ to be the composite of $f$ and $g$.
+In this way, every morphism gets a codomain, and every pair of morphisms that can be composed (i.e.\ the codomain of one matches the domain of the other) is assigned a composite.
+As with the identity morphism, we don't know what the codomain of this composite morphism is yet, but we do know that the domain of $f\then g$ matches the domain of $f$.
+
+\subsubsection{The left erasure law on positions: codomains of identities}
+
+
+\subsubsection{The erasure laws on directions are the identity laws}
+
+
+\subsubsection{The coassociative law on positions: codomains of composites}
+
+
+\subsubsection{The coassociative law on directions is the associative law of composition}
 
 To get started, we consider the left erasure law from \eqref{eqn.erasure_law}:
 \[
@@ -5267,7 +5327,7 @@ Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the
 	\node at ($(2.east)!.5!(3.west)$) {=};
 \end{tikzpicture}
 \]
-First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said earlier. Second it's saying that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. It's neat to watch the comonoid laws declaring the standard laws of categories. It's like meeting a like-minded toad; we never knew toads could be like-minded, but the phenomena don't lie.
+First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said earlier. Second it's saying that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. It's neat to watch the comonoid laws declaring the standard laws of categories.
 
 Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ (which the first unitality equation said was always identity) and replace it with a double arrow:
 \begin{equation}\label{eqn.cod_comp}
@@ -5370,7 +5430,7 @@ Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equati
 %	\node at ($(2.east)!.5!(3.west)$) {=};
 %\end{tikzpicture}
 \]
-Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$. We couldn't have said it better ourselves; thanks like-minded toad!
+Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$.
 
 Finally we draw the associativity equation.
 \[
@@ -5462,9 +5522,9 @@ Let's fill it in with $i\in c(\1)$ and a sequence $i\To{m}\To{m'}\To{m''}$ of em
 	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
-Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity. Amazing; thanks again toad!
+Ah, it's saying that it wants $\cod(m')=\cod(m\then m')$; well yeah, that's how codomains should work. And it wants $m\then(m'\then m'')=(m\then m')\then m''$, classic associativity.
 
-We've seen that all of the data and equations of categories are embedded, though in a very non-standard way, in the data and equations of polynomial comonoids.
+We've seen that all of the data and equations of categories correspond to the data and equations of polynomial comonoids.
 This proves \cref{thm.ahman_uustalu}.
 
 % \begin{exercise}
@@ -6672,7 +6732,7 @@ Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
 
-From a realm where functors reign supreme, the back-and-forth behavior of cofunctors can seem foreign, even counterintuitive.
+From a realm where functors reign supreme, the back-and-forth behavior of cofunctors can seem foreign and  counterintuitive.
 Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture or model of the category $\cat{C}$ that can be found within another category $\cat{D}$---cofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that cofunctors generalize our dynamical systems.}
 A cofunctor $F\colon\cat{C}\coto\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
 Imagine the cofunctor as a box, with $\cat{C}$ on the inside and $\cat{D}$ on the outside.
@@ -6685,6 +6745,9 @@ Here we give a variety of examples of cofunctors to get a better handle on them.
 
 % The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
 
+\subsubsection{Cofunctors to preorders}
+
+\subsubsection{Cofunctors to monoids}
 
 \begin{example}[Admissible sections]\label{ex.admissible_section}
 Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, viewed as a category with one object. 
@@ -7234,7 +7297,7 @@ When we get to cofree comonoids, we'll obtain a whole new class of cofunctors th
 % %-------- Section --------%
 
 \section{Some categorical properties of $\smcat^\sharp$} %** more precise title??
-Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon\poly$, eliding the difference between comonoids in $\poly$ and categories.
+Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
 % ** more intro---what is all this?
 
 % ** You may notice that the content of this section mirrors that of \cref{**chapter 4**}; indeed, the comonoid category $\cat^\sharp$ inherits much of the categorical structure of $\poly$.
