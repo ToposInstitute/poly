@@ -6672,40 +6672,41 @@ Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
 
-%**intro
-The question we're interested in now is: how do we think about cofunctors? What is a map of polynomial comonoids like?
+From a realm where functors reign supreme, the back-and-forth behavior of cofunctors can seem foreign, even counterintuitive.
+Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture or model of the category $\cat{C}$ that can be found within another category $\cat{D}$---cofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that cofunctors generalize our dynamical systems.}
+A cofunctor $F\colon\cat{C}\coto\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
+Imagine the cofunctor as a box, with $\cat{C}$ on the inside and $\cat{D}$ on the outside.
+Some $c\in\cat{C}$ might be the current state inside the box, but all anyone outside the box can see is the object $Fc\in\cat{D}$ that the box chooses to display in lieu of $c$.
+Still, any morphism $g$ coming out of $Fc$ can be selected from the outside; the box guarantees that whatever $c$ is on the inside, there is a morphism $F^\sharp_c g$ coming out of that $c$.
+Then the new state on the inside is $\cod F^\sharp_c g$, the new object on the outside is $F\cod F^\sharp_c g=Fg$, and the process repeats in a manner compatible with identities and composition.
 
-The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
-
-\slogan{
-If a functor $\cat{C}\to\cat{D}$ is a \emph{picture} of $\cat{C}$ in $\cat{D}$, then a cofunctor $\cat{C}\cof\cat{D}$ is a \emph{$D$-shaped crystallization of $C$}.
-}
-
-Let's look at some examples to see how cofunctors look like crystallizations, or perhaps partitions.
-
+Here we give a variety of examples of cofunctors to get a better handle on them.
 
 
+% The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
 
-
-
-% ** displaced stuff begins
 
 \begin{example}[Admissible sections]\label{ex.admissible_section}
-Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, viewed as a category with one object. For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}. We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
+Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, viewed as a category with one object. 
+For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}.
+We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
 
-To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it. So the content of $\varphi$ is all found in $\varphi^\sharp$, which assigns to each object $i\in\cat{C}$ and natural number $n\in\nn$ a morphism $\varphi^\sharp(i,n)$ emanating from $i$. That seems like a lot of data, but we still have two laws to pare it down:
+To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it.
+(This also means that codomains are automatically preserved.)
+So $\varphi$ is characterized by its behavior on morphisms: for each object $i\in\cat{C}$, the cofunctor assigns every natural number $n\in\nn$ a morphism $\varphi^\sharp_i n$ of $\cat{C}$ emanating from $i$.
+That's a lot of data, but we still have two cofunctor laws to pare it down:
 \[
-  \varphi^\sharp(i,0)=i
-  \qqand
-  \varphi^\sharp(i,n+n')=\varphi^\sharp(\varphi^\sharp(i,n),n').
+    \varphi^\sharp_i\,0=\id_i
+        \qqand
+    \varphi^\sharp_i(m+n)=\varphi^\sharp_i m\then\varphi^\sharp_{\cod\varphi^\sharp_i m}n.
 \]
-Every natural number $n$ is a sum of 1's, so if we denote $\varphi^\sharp(i,1)$ by $\phi(i)$, we in fact have
+Then for each $i\in\cat{C}$, since every natural number $n\in\nn$ is a sum of 1's, the morphism $\varphi^\sharp_i n$ can be decomposed into $n$ copies of $\varphi^\sharp_{i_j}\,1$ for some objects $i=i_0,i_1,\ldots,i_n\in\cat{C}$, as follows:
 \[
-\varphi^\sharp(i,n)=\phi^{\circ n}i.
+    i=i_0\To{\varphi^\sharp_{i_0}1}i_1\To{\varphi^\sharp_{i_1}1}\cdots\To{\varphi^\sharp_{i_{n-1}}1}i_n.
 \]
-That is, $\varphi^\sharp(i,n)$ is just the $n$-fold application of the one-step case, $\phi$.
+Here each $i_{j+1}\coloneqq\cod\varphi^\sharp_{i_j}1$.
 
-Thus an admissible section of $\cat{C}$ is given by choosing, for each object $i\in\cat{C}$, a morphism $\phi(i)\colon i\to i'$ emanating from $i$.
+Thus an admissible section of $\cat{C}$ is given by independently choosing a morphism emanting from each $i\in\cat{C}$ to be $\varphi^\sharp_i\,1$; indeed, any such choice gives rise to a unique admissible section. 
 \end{example}
 
 \begin{exercise}
@@ -6722,12 +6723,10 @@ We view both $\cat{Z}$ and $\cat{N}$ as categories with one object each.
 \begin{enumerate}
 	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
 	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
-	\item Thinking of an admissible section $\cat{C}\cof\cat{N}$ as a policy, almost like a \emph{physical law}, suppose it factors through $\cat{Z}$. Would you say that this lets you ``run the law backward''? %** make this more precise
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
     \item **
     \item **
 \end{enumerate}
@@ -7835,7 +7834,7 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \Opensolutionfile{solutions}[solution-file7]
 
 %------------ Chapter ------------%
-\chapter{Cofree polynomial comonoids}\label{sec.cofree}
+\chapter{Cofree polynomial comonoids}\label{ch.comon.cofree}
 
 %-------- Section --------%
 \section{Introduction: Cofree comonoids and dynamical systems}
