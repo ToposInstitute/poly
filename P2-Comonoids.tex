@@ -4792,7 +4792,7 @@ Let's pick $B$ for the time being, so that on positions, $\delta$ looks like thi
 \end{tikzpicture}
 \]
 Then on directions, $\delta$ should tell us how to run two directions together into one.
-Fortunately, there's not much for us to do here---we know that if one of the two directions we run together is one of the double-barred directions that the eraser picked out, then we should ignore that ``do-nothing'' direction and end up with the other direction (again, the erasure laws ensure this).
+Fortunately, there's not much for us to do here---we know that if one of the two directions $\delta$ runs together is one of the double-barred directions that the eraser picked out, then $\delta$ should ignore that ``do-nothing'' direction and yield the other direction (again, the erasure laws ensure this).
 Here's what that looks like:
 \[
 \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
@@ -4850,113 +4850,123 @@ Here are $\epsilon\colon\ema{w}\to\yon$ and $\delta\colon\ema{w}\to\ema{w}\tri\e
 \begin{tikzpicture}
 	\node (p1) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_A$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_A$\at$A$};
+  	\node[poly, dom, "$\ema{w}$" left] (p) {$i_A$\at$A$};
+  	\node[poly, cod, right=of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q, "$\ema{w}$" above] (r) {$i_A$\at$A$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (q_dir) to[climb, "$\delta$" left] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=1 of p1] (p2) {
+	\node[right=.6 of p1] (p2) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$f$\at$A$};
+  	\node[poly, dom, "$\ema{w}$" left] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$i_A$\at$A$};
+  	\node[poly, cod, above=of q, "$\ema{w}$" above] (r) {$f$\at$A$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (q_dir) to[climb, "$\delta$" left] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=1 of p2] (p3) {
+	\node[right=.6 of p2] (p3) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
+  	\node[poly, dom, "$\ema{w}$" left] (p) {$f$\at$A$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$f$\at$A$};
+  	\node[poly, cod, above=of q, "$\ema{w}$" above] (r) {$i_B$\at$B$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (q_dir) to[climb, "$\delta$" left] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=1 of p3] (p4) {
+	\node[right=.6 of p3] (p4) {
 	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_B$\at$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\at$B$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
+  	\node[poly, dom, "$\ema{w}$" left] (p) {$i_B$\at$B$};
+  	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$i_B$\at$B$};
+  	\node[poly, cod, above=of q, "$\ema{w}$" above] (r) {$i_B$\at$B$};
   	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (q_dir) to[climb, "$\delta$" left] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
 \end{tikzpicture}
 \]
 
-It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.erasure_law} and \eqref{eqn.coassoc_law} commute. We will check unitality only for $A$; it is easier for $B$.
-\[
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A1)}
-		\idchild
-		}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
-\end{tikzpicture}
-\hspace{1in}
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A] {$\bullet$}
-		child {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (3A1) \idchild}
-      	child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
-\end{tikzpicture}
-\]
-In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+Of course, we have yet to check that $(\ema{w},\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.erasure_law} and \eqref{eqn.coassoc_law} commute.
+We leave that for \cref{exc.walking_arrow_com}.
 \end{example}
+
+\begin{exercise} \label{exc.walking_arrow_com}
+Verify that $(\ema{w},\epsilon,\delta)$ as defined in \cref{ex.walking_arrow_com} obeys the erasure laws in \eqref{eqn.erasure_law} and the coassociative law in \eqref{eqn.coassoc_law}.
+\begin{solution}
+** % probably do it with polyboxes
+
+% We will check unitality only for $A$; it is easier for $B$.
+% \[
+% \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+% 	\node (1A) [red] {$\bullet$} 
+%   	child  {coordinate (1A1) \idchild}
+%     child {coordinate (1A2)};
+%   \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+%       child  {
+%         node [red] {$\bullet$} 
+%  		    child  {coordinate (2A1) \idchild}
+%       	child {coordinate (2A2)}
+% 			\idchild
+% 			}
+%       child {node [blue] {$\bullet$} 
+%       	child  {coordinate (2A3) \idchild}
+% 			};
+% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+% 	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+% 	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+% 	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+% 	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
+% 		child {
+% 			node {$\bullet$}
+% 			child {coordinate (3A1)}
+% 		\idchild
+% 		}
+% 		child {
+% 			node {$\bullet$}
+% 			child {coordinate (3A2)}
+% 		};
+% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+% 	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+% 	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
+% \end{tikzpicture}
+% \hspace{1in}
+% \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+% 	\node (1A) [red] {$\bullet$} 
+%   	child  {coordinate (1A1) \idchild}
+%     child {coordinate (1A2)};
+%   \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+%       child  {
+%         node [red] {$\bullet$} 
+%  		    child  {coordinate (2A1) \idchild}
+%       	child {coordinate (2A2)}
+% 			\idchild
+% 			}
+%       child {node [blue] {$\bullet$} 
+%       	child  {coordinate (2A3) \idchild}
+% 			};
+% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+% 	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+% 	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+% 	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+% 	\node (3A) [right=1.5 of 2A] {$\bullet$}
+% 		child {
+%         node [red] {$\bullet$} 
+%  		    child  {coordinate (3A1) \idchild}
+%       	child {coordinate (3A2)}
+% 		};
+% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
+% 	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
+% 	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
+% \end{tikzpicture}
+% \]
+% In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+\end{solution}
+\end{exercise}
 
 \begin{exercise}\label{exc.linear_poly_comon}
 Show that if $A$ is a set, then there exists a unique comonoid structure on the linear polynomial $A\yon$.
@@ -4996,7 +5006,7 @@ But let's go over their result first.
 There is a one-to-one isomorphism-preserving correspondence between polynomial comonoids and (small) categories.
 \end{theorem}
 
-Our goal is to define and demonstrate this correspondence so that we can justly proclaim:
+Our goal is to spell out this correspondence so that we can justly proclaim:
 
 \slogan{Comonoids in $\poly$ are precisely categories!}
 
@@ -5212,7 +5222,7 @@ As with the identity morphism, we don't know what the codomain of this composite
 
 \subsubsection{The left erasure law on positions: codomains of identities}
 
-As with the right erasure law, we can partially fill in the polyboxes for the left erasure law $\delta\then(\epsilon\tri\ema{c})=\id_\ema{c}$ to read what it says on positions:
+As with the right erasure law, we can partially fill in the polyboxes for the left erasure law $\delta\then(\epsilon\tri\ema{c})=\id_\ema{c}$ from \eqref{eqn.erasure_law} to read what it says on positions:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -5290,6 +5300,112 @@ We find that on directions, the erasure laws state that for all $i\in\Ob\cat{C}$
 But these are precisely the identity laws of the category $\cat{C}$.
 
 \subsubsection{The coassociative law on positions: codomains of composites}
+
+It remains to consider the comonoid's coassociative law \eqref{eqn.coassoc_law}, $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$.
+To read what it says on positions, we draw the polyboxes and fill them in, stopping just short of the uppermost direction box of the codomain:
+\begin{equation}
+\begin{tikzpicture}
+    \node (p1) {
+        \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, dom, "$\ema{s}$" left] (m') {$i\to s_3$\at$i$};
+            \node[poly, right= of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$i\to s_2$\at$i$};
+            \node[poly, above=of mm', "$\ema{s}$" above] (C') {$s_2\to s_3$\at$s_2$};
+            \node[poly, cod, right= of mm'.south, yshift=-1ex, "$\ema{s}$" right] (D') {$i\to s_1$\at$i$};
+            \node[poly, cod, above=of D', "$\ema{s}$" right] (mmm') {$s_1\to s_2$\at$s_1$};
+            \node[poly, cod, above=of mmm', "$\ema{s}$" right] (CC') {$s_2\to s_3$\at$s_2$};
+            %
+            \draw[double] (m'_pos) to[first] (mm'_pos);
+            \draw (mm'_dir) to[climb] node[right] {$\cod$} (C'_pos);
+            \draw (C'_dir) to[last] node[above, sloped] {run} (m'_dir);
+            \draw[double] (mm'_pos) to[first] (D'_pos);
+            \draw (D'_dir) to[climb] node[right] {$\cod$} (mmm'_pos);
+            \draw (mmm'_dir) to[last] node[above, sloped] {run} (mm'_dir);
+            \draw[double] (C'_pos) to[first] (CC'_pos);
+            \draw[double] (CC'_dir) to[last] (C'_dir);
+        \end{tikzpicture}
+	};
+%
+	\node (p2) [right=of p1] {
+	    \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, dom, "$\ema{s}$" left] (m) {$i\to s_3$\at$i$};
+            \node[poly, right= of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$i\to s_1$\at$i$};
+            \node[poly, above=of D, "$\ema{s}$" above] (mm) {$s_1\to s_3$\at$s_1$};
+            \node[poly, cod, right= of D.south, yshift=-1ex, "$\ema{s}$" right] (DD) {$i\to s_1$\at$i$};
+            \node[poly, cod, above=of DD, "$\ema{s}$" right] (mmm) {$s_1\to s_2$\at$s_1$};
+            \node[poly, cod, above=of mmm, "$\ema{s}$" right] (C) {$s_2\to s_3$\at$s_2$};
+            %
+            \draw[double] (m_pos) to[first] (D_pos);
+            \draw (D_dir) to[climb] node[right] {$\cod$} (mm_pos);
+            \draw (mm_dir) to[last] node[above, sloped] {run} (m_dir);
+            \draw[double] (D_pos) to[first] (DD_pos);
+            \draw[double] (DD_dir) to[last] (D_dir);
+            \draw[double] (mm_pos) to[first] (mmm_pos);
+            \draw (mmm_dir) to[climb] node[right] {$\cod$} (C_pos);
+            \draw (C_dir) to[last] node[above, sloped] {run} (mm_dir);
+        \end{tikzpicture}
+    };	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\end{equation}
+Remember: the way to read these polyboxes is to start at the lower blue square on the left and follow the arrows; and if you reach a box with no arrows leading out of it, go up to the blue box above it and continue to follow the arrows from there.
+
+There's a lot going on here, so let's break it down---we'll focus on the run functions first.
+On the left hand side, we run together $i\to s_1$ and $s_1\to s_2$ to obtain $i\to s_2$, before running that together with $s_2\to s_3$ to obtain $i\to s_3$, as we see in the upper left box.
+Meanwhile, on the right, we run together $s_1\to s_2$ and $s_2\to s_3$ to obtain $s_1\to s_3$, before running $i\to s_1$ together with our newly obtained $s_1\to s_3$ to again obtain $i\to s_3$ in the upper left box.
+We could write this all out equationally, but all this is saying is that ``running together'' the directions of a state system is an associative operation.
+When running together three directions, it doesn't matter whether we run the first two together or the last two together to start.
+Not only is this guaranteed by the way in which we constructed $\delta$, it also makes intuitive sense.
+
+\begin{exercise}
+Using only the contents of the blue boxes and the target and run functions, write down the equation that we can read off of \eqref{eqn.trans_lens_coassoc_polybox} expressing the associativity of the ``running together'' operation.
+\begin{solution}
+Following the arrows on either side of \eqref{eqn.trans_lens_coassoc_polybox} all the way to the domain's direction box, we obtain an expression for each box's contents that we can then set equal to each other.
+The easiest way to actually write down these expressions is probably to start at the end with $i\to s_3$ and follow the arrows backward, unpacking each term until only the contents of the blue boxes remain (namely $i, i\to s_1, s_1\to s_2,$ and $s_2\to s_3$).
+Here's what we get when we follow this process for the left hand side of \eqref{eqn.trans_lens_coassoc_polybox} (remember where to look for the three inputs to the run function):
+\begin{align*}
+    i\to s_3&=\text{run}(i,i\to s_2,s_2\to s_3)\\
+    &=\text{run}(i,\text{run}(i,i\to s_1,s_1\to s_2),s_2\to s_3)\\
+    &=\text{run}(i,\text{run}(i,i\to s_1,s_1\to s_2),s_2\to s_3);
+\end{align*}
+and here's what we get for the right (also remember where to look for the two inputs to the target function):
+\begin{align*}
+    i\to s_3&=\text{run}(i,i\to s_1,s_1\to s_3)\\
+    &=\text{run}(i,i\to s_1,\text{run}(s_1,s_1\to s_2,s_2\to s_3))\\
+    &=\text{run}(i,i\to s_1,\text{run}(\text{$\cod$}(i,i\to s_1),s_1\to s_2,s_2\to s_3)).
+\end{align*}
+Setting these equal yields our desired associativity equation:
+\[
+    \text{run}(i,\text{run}(i,i\to s_1,s_1\to s_2),s_2\to s_3)=\text{run}(i,i\to s_1,\text{run}(\text{$\cod$}(i,i\to s_1),s_1\to s_2,s_2\to s_3)).
+\]
+\end{solution}
+\end{exercise}
+
+This associative property is what we get by matching up the white direction boxes on each domain side, but there are three more white position boxes on each codomain side that we can match up as well.
+The fact that the lower two of these pairs coincide is a consequence of the fact that the bottom arrow of $\delta$ is the identity, which we already knew from \cref{subsec.comon.sharp.state.cohere}; so we don't learn anything new there.
+On the other hand, the fact that both the upper position boxes in the codomain contain $s_2$ implies that
+\begin{align*}
+    \text{$\cod$}(i,\text{run}(i,i\to s_1,s_1\to s_2))&=\text{$\cod$}(i,i\to s_2)\\
+    &=s_2\\
+    &=\text{$\cod$}(s_1,s_1\to s_2)\\
+    &=\text{$\cod$}(\text{$\cod$}(i,i\to s_1),s_1\to s_2),
+\end{align*}
+which is exactly what we wanted in \eqref{eqn.state_run_tgt}.
+In English, this says that when we run together $i\to s_1$ and $s_1\to s_2$, the new direction's target is the same as the direction of $s_1\to s_2$, the latter of the two directions that we ran together.
+Again, this coincides with our intuition: if we follow two directions in order, we should end up at wherever the latter direction leads us.
+
+Hence both the associativity of running directions together and the relationship between the target and run functions from \eqref{eqn.state_run_tgt} are captured by the equality of lenses $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$.
+Equivalently, the following diagram in $\poly$ commutes:
+\begin{equation}\label{eqn.coassoc_law_states}
+\begin{tikzcd}[row sep=large]
+	\ema{s}\ar[r, "\delta"]\ar[d, "\delta"']&
+	\ema{s}\tri\ema{s}\ar[d, "\ema{s}\:\tri\:\delta"]\\
+	\ema{s}\tri\ema{s}\ar[r, "\delta\:\tri\:\ema{s}"']&
+	\ema{s}\tri\ema{s}\tri\ema{s}.
+\end{tikzcd}
+\end{equation}
+Another way to say this is that $\delta$ is \emph{coassociative}: while $\delta$ is only a lens $\ema{s}\to\ema{s}\tripow2$ as defined, the commutativity of \eqref{eqn.coassoc_law_states} tells us that the two ways of getting a lens $\ema{s}\to\ema{s}\tripow3$ out of $\delta$ are actually the same.
+(This is dual to an \emph{associative} operation, which is a binary operation that gives rise to two identical ternary operations.)
+
 
 
 
@@ -6145,7 +6261,7 @@ Similarly, the monoid's associativity condition states that $*$ is associative, 
 	M \times M \times M,
 \end{tikzcd}
 \]
-commutes---equivalent to the comonoid's coassociativity law, which state that 
+commutes---equivalent to the comonoid's coassociative law, which state that 
 \[
 \begin{tikzcd}[row sep=large]
 	\yon^{M}\ar[r, "\delta"]\ar[d, "\delta"']&
@@ -6184,7 +6300,7 @@ With notation as in \cref{ex.monoid_action}, characterize the comonoid structure
     \item How can we define the erasure $\epsilon$?
     \item How can we define the duplicator $\delta$?
     \item Verify that the erasure laws hold.
-    \item Verify that the coassociativity law holds.
+    \item Verify that the coassociative law holds.
     \item Describe the corresponding category $\cat{A}$.
     In particular, what are the morphisms between any fixed pair of objects, what are the identity morphisms, and how do morphisms compose?
 	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_comonad_1}? %**fix this reference
