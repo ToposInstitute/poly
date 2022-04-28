@@ -4634,7 +4634,7 @@ After all, there is one fact about state systems from \cref{subsec.comon.sharp.s
 Nothing in our comonoid laws guarantees this bijectivity.
 An arbitrary polynomial comonoid might assign different directions at $s$ to the same target---given a second state $t$, there may be multiple ways to get from $s$ to $t$.
 It might even assign \emph{no} directions at $s$ to a target $t$, making it impossible to get from $s$ to $t$.
-(We'll give an explicit example of a comonoid that is not a state system in \cref{**}.)
+(We'll give an explicit example of a comonoid that is not a state system in \cref{ex.walking_arrow_com}.)
 State systems as we have defined them are just the polynomial comonoids that do not allow either of these variations, for which the bijective property holds.
 
 We consider this a feature, not a bug.
@@ -4646,7 +4646,8 @@ but we will often think of polynomial comonoids as a sort of generalized state s
 
 %** update w/o category language yet
 \begin{example}[A comonoid that is not a state system]\label{ex.walking_arrow_com}
-The polynomial $\yon^\2+\yon$ can be given a comonoid structure; to describe it, we first label its positions and directions. 
+The polynomial $\yon^\2+\yon$ can be given a comonoid structure as follows.
+We'll go a little quickly here, because we'll soon discover a much more familiar way to think about comonoids.
 
 Define $\ema{w}\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}\iso\yon^\2+\yon$.
 Here is its tree picture:
@@ -4688,6 +4689,7 @@ We can draw the selections that $\epsilon$ makes like so:
 	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
 \end{tikzpicture}
 \]
+
 Now we need a duplicator $\delta\colon\ema{w}\to\ema{w}\tri\ema{w}$.
 Before we define it, let's draw out $\ema{w}\tri\ema{w}$ to see what it looks like.
 Remember that we need to glue corollas of $\ema{w}$ to leaves of $\ema{w}$ in every possible way:
@@ -4753,7 +4755,45 @@ Remember that we need to glue corollas of $\ema{w}$ to leaves of $\ema{w}$ in ev
   };
 \end{tikzpicture}
 \]
-The map $\delta$ is going to tell us both about codomains and composition. Here it is:
+Each of these trees gives a way to match directions out of one position to positions they could lead to.
+On positions, $\delta$ will decide which matchings to pick by sending $A$ to one of the four positions on the left and $B$ to one of the two positions on the right.
+We want the double-barred directions that the eraser picked out to have the same position on either end (in fact, the erasure laws guarantee this).
+So the only choice to be made is whether we want the other direction $f$ at $A$ to point to $A$ or to $B$.
+Let's pick $B$ for the time being, so that on positions, $\delta$ looks like this:
+\[
+\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
+	\node (1A) [red] {$\bullet$} 
+  	child  {coordinate (1A1) \idchild}
+    child {coordinate (1A2)};
+  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
+      child  {
+        node [red] {$\bullet$} 
+ 		    child  {coordinate (2A1) \idchild}
+      	child {coordinate (2A2)}
+			\idchild
+			}
+      child {node [blue] {$\bullet$} 
+      	child  {coordinate (2A3) \idchild}
+			};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
+% 	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
+% 	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
+% 	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
+%
+  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
+  	child  {coordinate (1B1) \idchild};
+  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
+  	child {node [blue] {$\bullet$} 
+    child  {coordinate (2B1) \idchild}
+		\idchild
+	};
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
+% 	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
+\end{tikzpicture}
+\]
+Then on directions, $\delta$ should tell us how to run two directions together into one.
+Fortunately, there's not much for us to do here---we know that if one of the two directions we run together is one of the double-barred directions that the eraser picked out, then we should ignore that ``do-nothing'' direction and end up with the other direction (again, the erasure laws ensure this).
+Here's what that looks like:
 \[
 \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
 	\node (1A) [red] {$\bullet$} 
@@ -4785,7 +4825,27 @@ The map $\delta$ is going to tell us both about codomains and composition. Here 
 	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
 \end{tikzpicture}
 \]
-The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites. Here is $\delta\colon w\to w\tri w$ again, in terms of polyboxes.
+And that's all we need to specify the triple $(\ema{w},\epsilon,\delta)$.
+
+Here are $\epsilon\colon\ema{w}\to\yon$ and $\delta\colon\ema{w}\to\ema{w}\tri\ema{w}$ again, in terms of polyboxes.
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	    \begin{tikzpicture}[polybox, mapstos]
+            \node[poly, dom, "$\ema{w}$" left] (S) {$i_A$\at$A$};
+
+            \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
+        \end{tikzpicture}  
+	};
+    \node[right=1 of p1] (p2) {
+        \begin{tikzpicture}[polybox, mapstos]
+            \node[poly, dom, "$\ema{w}$" left] (S) {$i_B$\at$B$};
+
+            \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
+        \end{tikzpicture}  
+	};
+\end{tikzpicture}
+\]
 \[
 \begin{tikzpicture}
 	\node (p1) {
