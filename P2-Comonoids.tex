@@ -4080,22 +4080,29 @@ Continuing from \cref{ex.nothing_trees}, we draw the transition lens $\delta\col
 On positions, the target function of $\delta$ tells us which root of $\ema{s}$ to glue to each leaf of $\ema{s}$.
 Then on directions, the run function of $\delta$ tells us how to collapse the level-$2$ leaves of the trees we obtain in $\ema{s}\tri\ema{s}$ down to the original level-$1$ leaves of the corollas of $\ema{s}$.
 
-We can draw what the target function is doing more compactly by taking the corollas of $\ema{s}$ and ``bending the leaves'' so that they point to their targets:
+We can draw what the target function is doing more compactly by taking the corollas of $\ema{s}$ and ``bending the arrows'' so that they point to their targets, like so:
 \[
 \begin{tikzpicture}
     \node[circle,minimum size=2cm] (b) {};
-    \foreach\x in{1,...,3}{
-      \node[minimum size=0.75cm,draw,circle] (3-\x) at (b.{360/3*\x}){\x};
+    \foreach\x/\c in {1/red, 2/dgreen, 3/blue} {
+        \node[minimum size=0.1cm,draw,circle,\c,fill=\c] (3-\x) at (b.{360/3*\x}){};
     }
-    \foreach\x in{1,...,3}{
-      \foreach\y in{1,...,3}{
-        \ifnum\x=\y\draw[->] (3-\x) to [in=360/3*\x-15,out=360/3*\x+15,loop] ();\relax\else
-          \draw (3-\x) edge[->,bend right=3] (3-\y);
-        \fi
-      }
+    \foreach\x/\c in {1/red, 2/dgreen, 3/blue} {
+        \foreach\y/\d in {1/red, 2/dgreen, 3/blue}{
+            \ifnum\x=\y
+                \draw[\d,->] (3-\x) to [in=360/3*\x-15,out=360/3*\x+15,loop] ();
+                \relax
+            \else
+                \draw[\d] (3-\x) edge[->,bend right=10] (3-\y);
+            \fi
+        }
     }
 \end{tikzpicture}
 \]
+So the target function of $\delta$ turns our corolla picture of $\ema{s}$ into a complete graph on its roots!
+Then the run function takes any two arrows that form a path in the graph and collapses them down to a single arrow that starts (and, according to \eqref{eqn.state_run_tgt}, ends) at the same vertex as the two-arrow path.
+
+If this all sounds suspiciously familiar to you, you're on the right track---hang tight.
 \end{example}
 
 \subsection{The do-nothing enclosure coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
@@ -4226,10 +4233,10 @@ But the do-nothing direction should still do nothing, so here's what the polybox
 The lens depicted on the right hand side of the equation is again the identity lens on $\ema{s}$.
 
 If we match up the two white boxes on the right hand side of the equation with the corresponding white boxes on the left, we can actually read two equations off of this polybox picture.
-Matching positions in the codomain tells us that the bottom arrow of $\delta$ on the left must send $s$ to itself: it is the identity function on $\ema{s}(\1)$.
+Matching up positions in the codomain tells us that the bottom arrow of $\delta$ on the left must send $s$ to itself: it is the identity function on $\ema{s}(\1)$.
 Indeed, this is exactly what we wanted to say about that arrow in \cref{subsec.comon.sharp.state.trans}.
 
-Meanwhile, matching directions in the domain tells us that
+Meanwhile, matching up directions in the domain tells us that
 \[
     \text{run}(s,s\to t,\id_t)=s\to t,
 \]
@@ -4474,10 +4481,10 @@ We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_tra
 		\draw[blue] (S1_dir) to[climb] (S2_pos);
 		\draw[blue] (S2_dir) to[climb] (S3_pos);
 		\draw[blue] (S3_dir) to[last] (S_dir);
-		\node[blue] at ($(S.east)!.4!(S2.west)$) {$\delta^2$};
-		\node at ($(S1.east)!.4!(p1.west)$) {$\phi$};
-		\node at ($(S2.east)!.4!(p2.west)$) {$\phi$};
-		\node at ($(S3.east)!.4!(p3.west)$) {$\phi$};		
+		\node[blue] at ($(S.east)!.33!(S2.west)$) {$\delta^2$};
+		\node at ($(S1.east)!.33!(p1.west)$) {$\phi$};
+		\node at ($(S2.east)!.33!(p2.west)$) {$\phi$};
+		\node at ($(S3.east)!.33!(p3.west)$) {$\phi$};		
   \end{tikzpicture}	
 	};
 	\node[above] at (obtain.north) (obtain_lab) {obtain $\text{Run}_3(\phi)$:};
@@ -4496,33 +4503,13 @@ Then $\text{Run}_0(\phi)=\epsilon\then\phi\tripow0=\epsilon\then\id_\yon=\epsilo
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{exc.state_comonoid_assoc}
-Let $S\coloneqq\2$ and $\ema{s}\coloneqq \2\yon^\2$.
-\begin{enumerate}
-	\item Draw $\ema{s}$ using color if possible.
-	\item We know $\ema{s}$ is supposed to be the carrier of a comonoid $(\ema{s},\epsilon,\delta)$. Which two maps $\ema{s}\to \ema{s}\tripow3$ are supposed to be equal by associativity? %**update this so it doesn't use comonoid language yet
-	\item Draw these two maps in the style of \cref{ex.picturing_SyS}.
-	\item Are they equal?
-\qedhere
-\end{enumerate}
-\begin{solution}
-**
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
 One drawback of the $\text{Run}_n(-)$ operation is that we need to keep track of a separate morphism $S\yon^S\to p\tripow{n}$ for every $n\in\nn$, as well as various ways to relate these morphisms for different values of $n$.
 Is there a way to package all this information into a single morphism that can model arbitrarily long runs through the system?
 We will answer this question in \cref{ch.comon.cofree}; but for now, let us investigate what's really going on with our state systems algebraically.
 
 \subsection{State systems as comonoids}
 
-It turns out that objects equipped with arrows like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
+It turns out that objects equipped with morphisms like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
 
 \begin{definition}[Comonoid]\label{def.comonoid}
 In a monoidal category $(\cat{C},\yon,\tri)$, a \emph{comonoid} $\com{C}\coloneqq(\ema{c},\epsilon,\delta)$ consists of:
@@ -4574,7 +4561,9 @@ But since we think of our polynomials more often as arenas than as functors, weâ
 \begin{example}[State systems are polynomial comonoids]
 Nearly all our work on state systems up until now can be summarized thusly:
 \slogan{
-    every state system is a polynomial comonoid, whose eraser is the do-nothing enclosure and whose duplicator is the transition lens.
+    every state system is a polynomial comonoid,\\
+    whose eraser is the do-nothing enclosure\\
+    and whose duplicator is the transition lens.
 }
 The comonoid structure on a state system $\ema{s}$ is what allows us to write canonical lenses $\ema{s}\to\ema{s}\tripow{n}$ for any $n\in\nn$.
 We can then model $n$ steps through a dynamical system $\phi\colon\ema{s}\to p$ with interface $p\in\poly$ by composing this canonical lens with $\phi\tripow{n}$ to obtain a ``sped-up'' dynamical system $\text{Run}_n(\phi)$.
@@ -4645,6 +4634,7 @@ After all, there is one fact about state systems from \cref{subsec.comon.sharp.s
 Nothing in our comonoid laws guarantees this bijectivity.
 An arbitrary polynomial comonoid might assign different directions at $s$ to the same target---given a second state $t$, there may be multiple ways to get from $s$ to $t$.
 It might even assign \emph{no} directions at $s$ to a target $t$, making it impossible to get from $s$ to $t$.
+(We'll give an explicit example of a comonoid that is not a state system in \cref{**}.)
 State systems as we have defined them are just the polynomial comonoids that do not allow either of these variations, for which the bijective property holds.
 
 We consider this a feature, not a bug.
@@ -4655,18 +4645,14 @@ but we will often think of polynomial comonoids as a sort of generalized state s
 \end{example}
 
 %** update w/o category language yet
-\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
-The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
+\begin{example}[A comonoid that is not a state system]\label{ex.walking_arrow_com}
+The polynomial $\yon^\2+\yon$ can be given a comonoid structure; to describe it, we first label its positions and directions. 
 
-Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
-\begin{center}
-    $\cat{W}\coloneqq\:$\boxCD{examplecolor}{
-    $A\Too{f}B$}
-\end{center}
-We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w\cong\yon^\2+\yon$:
+Define $\ema{w}\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}\iso\yon^\2+\yon$.
+Here is its tree picture:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\coloneqq$" left] {
+	\node (p1) [draw, "$\ema{w}\coloneqq$" left] {
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node["\tiny $A$" below, red] (1) {$\bullet$} 
       child  {coordinate (iA) \idchild}
@@ -4680,8 +4666,10 @@ We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comon
   };
 \end{tikzpicture}
 \]
-
-We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w[o]$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
+Notice that we have drawn one direction out of each position---$i_A$ and $i_B$---with a double bar.
+We let these be the directions that the eraser $\epsilon\colon\ema{w}\to\yon$ picks out.
+The double bar is meant to evoke an equals sign from the root position to the eventual target position, which is appropriate, as these two positions should be equal for every direction that the eraser selects.
+We can draw the selections that $\epsilon$ makes like so:
 \[
 \begin{tikzpicture}[trees, bend right=60]
   \node[red] (1) {$\bullet$} 
@@ -4700,10 +4688,12 @@ We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can b
 	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
 \end{tikzpicture}
 \]
-Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
+Now we need a duplicator $\delta\colon\ema{w}\to\ema{w}\tri\ema{w}$.
+Before we define it, let's draw out $\ema{w}\tri\ema{w}$ to see what it looks like.
+Remember that we need to glue corollas of $\ema{w}$ to leaves of $\ema{w}$ in every possible way:
 \[
 \begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\tri w=$" left] {
+	\node (p1) [draw, "$\ema{w}\tri\ema{w}=$" left] {
 	\begin{tikzpicture}[trees,
 	  level 1/.style={sibling distance=5mm},
   	level 2/.style={sibling distance=2.5mm}]
@@ -5361,7 +5351,7 @@ As we go through these examples, pay attention to how the polynomial perspective
 \subsubsection{Preorders}
 
 % **update to highlight categorical structure
-\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
+\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow_cat}
 The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
 
 Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
@@ -8122,7 +8112,7 @@ Show that the copointing functor is essentially surjective. That is, every polyn
 
 The reader might not remember any sort of copointing showing up in the tree description of $\cofree{p}=(\tr_p,\rt,\fs)$. Indeed, it was hidden in the fact that we allowed for trivial paths in the tree (e.g.\ the path from the root to itself). But we'll get to that.
 
-The copointing $p\mapsto p\yon$ just adds an extra direction to each position; we can denote this extra direction with an $=$, as we did in \cref{ex.walking_arrow}. So for example if $p=\yon^\3+\yon$, drawn as left, then $p\yon\cong\yon^\4+\yon^\2$ can be drawn as right:
+The copointing $p\mapsto p\yon$ just adds an extra direction to each position; we can denote this extra direction with an $=$, as we did in \cref{ex.walking_arrow_cat}. So for example if $p=\yon^\3+\yon$, drawn as left, then $p\yon\cong\yon^\4+\yon^\2$ can be drawn as right:
 \[
 \begin{tikzpicture}
 	\node[draw, "$p$" below] (p1) {
