@@ -2721,7 +2721,47 @@ In fact, we already have all the tools we need to characterize these conditions:
 And if this is all starting to sound suspiciously familiar, you’re not wrong—but we’ll save that surprise for the next chapter as well.
 \end{example}
 
-% ** do the reading off equations thing
+\begin{exercise}
+Let $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, and define $\phi\colon S\yon^S\to p$ to be the dynamical system with return function $\phi_\1(k)\coloneqq k$ and update function $\phi^\sharp_k(1)\coloneqq k+1$.
+\begin{enumerate}
+    \item Draw the polyboxes for $\phi$ and describe its dynamics: what does $1$ run through the system look like?
+    \item Let $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ be the transition lens of $S\yon^S$, and draw the polyboxes for the new system $\delta\then(\phi\tri\phi)\colon S\yon^S\to p\tri p$.
+    Describe its dynamics: how does it model $2$ runs through the system?
+\end{enumerate}
+
+What is the induced lens $\text{Run}_n(\phi)$?
+First of all, it is a dynamical system
+\[\text{Run}_n(\phi)\colon S\yon^S\to\rr^n\yon,\]
+meaning that it has the same set of states as before, but it outputs $n$-many reals in every moment. 
+
+For $n=3$, here is one moment of output:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, "$S\yon^S$" left] (S) {$k+3$\vphantom{!}\at$k$\vphantom{!}};
+		\node[poly, right=of S] (S2) {$k+2$\vphantom{!}\at$k+1\vphantom{!}$};
+		\node[poly, below=of S2] (S1) {$k+1$\vphantom{!}\at$k\vphantom{!}$};
+		\node[poly, above=of S2] (S3) {$k+3$\vphantom{!}\at$k+2\vphantom{!}$};
+		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}k\hphantom{+}$\vphantom{!}};
+		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$k+1$\vphantom{!}};
+		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$k+2$\vphantom{!}};
+%
+		\draw (S1_pos) to[first] (p1_pos);
+		\draw (p1_dir) to[last] (S1_dir);		
+		\draw (S2_pos) to[first] (p2_pos);
+		\draw (p2_dir) to[last]  (S2_dir);		
+		\draw (S3_pos) to[first] (p3_pos);
+		\draw (p3_dir) to[last]  (S3_dir);
+		\draw (S_pos) to[first] (S1_pos);
+		\draw (S1_dir) to[climb] (S2_pos);
+		\draw (S2_dir) to[climb] (S3_pos);
+		\draw (S3_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
+So for example, starting at initial state $k=0$, we get the following output stream, e.g.\ for 4 steps:
+\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
+\end{exercise}
+
+
 % ** stringing two dynamical systems together (maybe also an exercise?)
 
 \begin{exercise}
@@ -3909,6 +3949,47 @@ Equivalently, we could say that $\ema{s}$ can be written as the product of $\yon
 \end{solution}
 \end{exercise}
 
+\begin{example}[The do-nothing enclosure in tree pictures] \label{ex.nothing_trees}
+We have seen the do-nothing enclosure drawn in polyboxes, but let's see what it looks like in our tree pictures.
+We'll take $\ema{s}\coloneqq\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$, drawn as follows:
+\[
+\begin{tikzpicture}[rounded corners]
+\node (p1) [draw, "$\ema{s}\coloneqq$" left] {
+    \begin{tikzpicture}[trees, sibling distance=4mm]
+        \foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+        {
+            \node[\c] at (1.8*\i,0) {$\bullet$} 
+                child [red]
+                child [dgreen]
+                child [blue]
+                ;
+        };
+    \end{tikzpicture}
+};
+\end{tikzpicture}
+\]
+Then the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ can be drawn like so:
+\[
+\begin{tikzpicture}[trees, bend right]
+    \foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+    {
+        \node[\c] (\i) at (3*\i, 0) {$\bullet$} 
+            child [red] {coordinate (\i1)}
+            child [dgreen] {coordinate (\i2)}
+            child [blue] {coordinate (\i3)}
+            ;
+        \node[right=of \i] (y\i) {$\bullet$}
+            child{coordinate (y\i')}
+            ;
+        \draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (y\i);
+        \draw[densely dotted, postaction={decorate}] (y\i') to (\i\i);
+    };
+\end{tikzpicture}
+\]
+It picks out one direction at each position, namely the one of the same color.
+\end{example}
+
+
 There is not much else we can say about the do-nothing enclosure on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
 
 \subsection{The transition lens}\label{subsec.comon.sharp.state.trans}
@@ -3953,6 +4034,69 @@ Equationally, writing the left and right hand sides only in terms of the content
     \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))=s_2=\text{tgt}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2).
 \end{equation}
 We'll see that this property arises naturally when we we generalize the transition lens to more than two steps in \cref{subsec.comon.sharp.state.coassoc}.
+
+\begin{example}[The transition lens in tree pictures] \label{ex.trans_trees}
+Continuing from \cref{ex.nothing_trees}, we draw the transition lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ of $\ema{s}\coloneqq\3\yon^\3\iso\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$ (where directions are labeled with their targets) in tree pictures as well, recalling that the trees of $\ema{s}\tri\ema{s}$ are obtained by taking a corolla of $\ema{s}$ and gluing more corollas of $\ema{s}$ to each of its leaves:
+\[
+\begin{tikzpicture}[trees, 
+  level 1/.style={sibling distance=5mm},
+  level 2/.style={sibling distance=1.5mm},
+	bend right=60]
+	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
+	{
+  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
+    	child [red] {coordinate (\i1)}
+      child [dgreen] {coordinate (\i2)}
+      child [blue] {coordinate (\i3)}
+     	;
+  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
+  		child [red] {node (S\i1) {$\bullet$} 
+				child [red] {coordinate (\i11)}
+				child [dgreen] {coordinate (\i12)} 
+				child [blue] {coordinate (\i13)}
+				}
+  		child [dgreen] {node (S\i2) {$\bullet$} 
+				child [red] {coordinate (\i21)}
+				child [dgreen] {coordinate (\i22)} 
+				child [blue] {coordinate (\i23)}
+				}
+  		child [blue] {node (S\i3) {$\bullet$} 
+				child [red] {coordinate (\i31)}
+				child [dgreen] {coordinate (\i32)} 
+				child [blue] {coordinate (\i33)}
+				}
+  		;
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
+	\foreach \j in {1,2,3}
+	{
+		\foreach \k\d in {1/red, 2/dgreen, 3/blue}
+		{
+			\draw[densely dotted, postaction={decorate}, \d] (\i\j\k) to (\i\k);
+		};
+	};
+	};
+\end{tikzpicture}
+\]
+On positions, the target function of $\delta$ tells us which root of $\ema{s}$ to glue to each leaf of $\ema{s}$.
+Then on directions, the run function of $\delta$ tells us how to collapse the level-$2$ leaves of the trees we obtain in $\ema{s}\tri\ema{s}$ down to the original level-$1$ leaves of the corollas of $\ema{s}$.
+
+We can draw what the target function is doing more compactly by taking the corollas of $\ema{s}$ and ``bending the leaves'' so that they point to their targets:
+\[
+\begin{tikzpicture}
+    \node[circle,minimum size=2cm] (b) {};
+    \foreach\x in{1,...,3}{
+      \node[minimum size=0.75cm,draw,circle] (3-\x) at (b.{360/3*\x}){\x};
+    }
+    \foreach\x in{1,...,3}{
+      \foreach\y in{1,...,3}{
+        \ifnum\x=\y\draw[->] (3-\x) to [in=360/3*\x-15,out=360/3*\x+15,loop] ();\relax\else
+          \draw (3-\x) edge[->,bend right=3] (3-\y);
+        \fi
+      }
+    }
+\end{tikzpicture}
+\]
+\end{example}
 
 \subsection{The do-nothing enclosure coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
 
@@ -4167,22 +4311,6 @@ We could write this all out equationally, but all this is saying is that ``runni
 When running together three directions, it doesn't matter whether we run the first two together or the last two together to start.
 Not only is this guaranteed by the way in which we constructed $\delta$, it also makes intuitive sense.
 
-This associative property is what we get by matching up the white direction boxes on each domain side, but there are three more white position boxes on each codomain side that we can match up as well.
-The fact that the lower two of these pairs coincide is a consequence of the fact that the bottom arrow of $\delta$ is the identity, which we already knew from \cref{subsec.comon.sharp.state.cohere}; so we don't learn anything new there.
-On the other hand, the fact that both the upper position boxes in the codomain contain $s_2$ implies that
-\begin{align*}
-    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))&=\text{tgt}(s_0,s_0\to s_2)\\
-    &=s_2\\
-    &=\text{tgt}(s_1,s_1\to s_2)\\
-    &=\text{tgt}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2),
-\end{align*}
-which is exactly what we wanted in \eqref{eqn.state_run_tgt}.
-In English, this says that when we run together $s_0\to s_1$ and $s_1\to s_2$, the new direction's target is the same as the direction of $s_1\to s_2$, the latter of the two directions that we ran together.
-Again, this coincides with our intuition: if we follow two directions in order, we should end up at wherever the latter direction leads us.
-
-Now we can .
-In fact, 
-
 \begin{exercise}
 Using only the contents of the blue boxes and the target and run functions, write down the equation that we can read off of \eqref{eqn.trans_lens_coassoc_polybox} expressing the associativity of the ``running together'' operation.
 \begin{solution}
@@ -4206,6 +4334,19 @@ Setting these equal yields our desired associativity equation:
 \]
 \end{solution}
 \end{exercise}
+
+This associative property is what we get by matching up the white direction boxes on each domain side, but there are three more white position boxes on each codomain side that we can match up as well.
+The fact that the lower two of these pairs coincide is a consequence of the fact that the bottom arrow of $\delta$ is the identity, which we already knew from \cref{subsec.comon.sharp.state.cohere}; so we don't learn anything new there.
+On the other hand, the fact that both the upper position boxes in the codomain contain $s_2$ implies that
+\begin{align*}
+    \text{tgt}(s_0,\text{run}(s_0,s_0\to s_1,s_1\to s_2))&=\text{tgt}(s_0,s_0\to s_2)\\
+    &=s_2\\
+    &=\text{tgt}(s_1,s_1\to s_2)\\
+    &=\text{tgt}(\text{tgt}(s_0,s_0\to s_1),s_1\to s_2),
+\end{align*}
+which is exactly what we wanted in \eqref{eqn.state_run_tgt}.
+In English, this says that when we run together $s_0\to s_1$ and $s_1\to s_2$, the new direction's target is the same as the direction of $s_1\to s_2$, the latter of the two directions that we ran together.
+Again, this coincides with our intuition: if we follow two directions in order, we should end up at wherever the latter direction leads us.
 
 Hence both the associativity of running directions together and the relationship between the target and run functions from \eqref{eqn.state_run_tgt} are captured by the equality of lenses $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$.
 Equivalently, the following diagram in $\poly$ commutes:
@@ -4285,8 +4426,9 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 \end{solution}
 \end{exercise}
 
+\subsection{Running dynamical systems}
+
 Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
-% Define n=-1 and n=0 cases...
 Given a dynamical system $\phi\colon\ema{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\phi)$, with the same state system $\ema{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\phi)\coloneqq\delta^{n-1}\then\phi\tripow{n}$.
 Visually, we define $\text{Run}_n(\phi)$ so that the following diagram commutes:
 \begin{equation}\label{eqn.speedup}
@@ -4342,14 +4484,9 @@ We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_tra
 	\node at (given|-obtain_lab) {Given $\phi\colon \ema{s}\to p$,};
 \end{tikzpicture}
 \]
-
-
-
-
-
 Notice that we have only defined $\delta^{n-1}$, and thus $\text{Run}_n(\phi)$, for integers $n>1$.
-But a single run through $\phi$ is modeled by $\phi\colon\ema{s}\to\ema{s}$ itself, while no runs through $\phi$ is doing nothing, modeled by the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$.
-So we want $\text{Run}_0(\phi)=\epsilon$ and $\text{Run}_1(\phi)=\phi$; we can achieve this by setting $\delta^{-1}=\epsilon$ and $\delta^0=\id_\ema{s}$.
+But $n=0$ runs through $n$ is doing nothing, modeled by the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$, while $n=1$ run through $\phi$ is modeled by $\phi\colon\ema{s}\to\ema{s}$ itself.
+So we want $\text{Run}_0(\phi)=\epsilon$ and $\text{Run}_1(\phi)=\phi$; we can achieve this by setting $\delta^{-1}\coloneqq\epsilon$ and $\delta^0\coloneqq\id_\ema{s}$.
 
 \begin{exercise}
 Verify that when $\delta^{-1}=\epsilon$ and $\delta^0=\id_\ema{s}$, if $\text{Run}_n(\phi)$ is defined as $\delta^{n-1}\then\phi\tripow{n}$ for all $n\in\nn$, then $\text{Run}_0(\phi)=\epsilon$ and $\text{Run}_1(\phi)=\id_\ema{s}$.
@@ -4358,235 +4495,6 @@ We have $\text{Run}_n(\phi)=\delta^{n-1}\then\phi\tripow{n}$ for all $n\in\nn$, 
 Then $\text{Run}_0(\phi)=\epsilon\then\phi\tripow0=\epsilon\then\id_\yon=\epsilon$ and $\text{Run}_1(\phi)=\id_\ema{s}\then\phi\tripow1=\phi\tripow1=\phi$.
 \end{solution}
 \end{exercise}
-
-\begin{example} %**polish this; distinguish between steps...?
-Let $p\coloneqq\rr\yon^\1$, let $S\coloneqq\nn$, and let $\phi\colon S\yon^S\to p$ be given by $\phi_\1(k)\coloneqq k$ and $\phi^\sharp_k(1)\coloneqq k+1$. What is the induced lens $\text{Run}_n(\phi)$?
-First of all, it is a dynamical system
-\[\text{Run}_n(\phi)\colon S\yon^S\to\rr^n\yon,\]
-meaning that it has the same set of states as before, but it outputs $n$-many reals in every moment. 
-
-For $n=3$, here is one moment of output:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, "$S\yon^S$" left] (S) {$k+3$\vphantom{!}\at$k$\vphantom{!}};
-		\node[poly, right=of S] (S2) {$k+2$\vphantom{!}\at$k+1\vphantom{!}$};
-		\node[poly, below=of S2] (S1) {$k+1$\vphantom{!}\at$k\vphantom{!}$};
-		\node[poly, above=of S2] (S3) {$k+3$\vphantom{!}\at$k+2\vphantom{!}$};
-		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}k\hphantom{+}$\vphantom{!}};
-		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$k+1$\vphantom{!}};
-		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$k+2$\vphantom{!}};
-%
-		\draw (S1_pos) to[first] (p1_pos);
-		\draw (p1_dir) to[last] (S1_dir);		
-		\draw (S2_pos) to[first] (p2_pos);
-		\draw (p2_dir) to[last]  (S2_dir);		
-		\draw (S3_pos) to[first] (p3_pos);
-		\draw (p3_dir) to[last]  (S3_dir);
-		\draw (S_pos) to[first] (S1_pos);
-		\draw (S1_dir) to[climb] (S2_pos);
-		\draw (S2_dir) to[climb] (S3_pos);
-		\draw (S3_dir) to[last] (S_dir);
-\end{tikzpicture}
-\]
-So for example, starting at initial state $k=0$, we get the following output stream, e.g.\ for 4 steps:
-\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
-\end{example}
-
-% ** This is good, but update all language to current. Maybe divide it up, too, and intersperse? Do-nothing enclosure, then transition lens, then...
-\begin{example}[Picturing state systems as trees] \label{ex.picturing_SyS}
-Let's see this whole thing in tree pictures. First of all, let's take $S\coloneqq\3\cong\{\bul[red],\bul[dgreen],\bul[blue]\}$ and draw $\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$:
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$\3\yon^\3=$" left] {
-  \begin{tikzpicture}[trees, sibling distance=4mm]
-  	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
-  	{
-      \node["\tiny \i" below, \c] at (1.8*\i,0) {$\bullet$} 
-        child [red]
-        child [dgreen]
-        child [blue]
-      ;
-  	};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-The map $\epsilon\colon S\yon^S\to \yon$ can be drawn as follows:
-\[
-\begin{tikzpicture}[trees, bend right]
-	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
-	{
-  	\node["\tiny \i" below, \c] (\i) at (3*\i, 0) {$\bullet$} 
-    	child [red] {coordinate (\i1)}
-      child [dgreen] {coordinate (\i2)}
-      child [blue] {coordinate (\i3)}
-     	;
-  	\node[right=of \i] (y\i) {$\bullet$}
-  		child{coordinate (y\i')}
-  		;
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (y\i);
-	\draw[densely dotted, postaction={decorate}] (y\i') to (\i\i);
-	};
-\end{tikzpicture}
-\]
-It picks out one direction at each position, namely the one of the same color.
-
-The map $\delta\colon S\yon^S\to (S\yon^S)\tripow2$ can be drawn as follows:
-\begin{equation}\label{eqn.state_comonoid_trees}
-\begin{tikzpicture}[trees, 
-  level 1/.style={sibling distance=5mm},
-  level 2/.style={sibling distance=1.5mm},
-	bend right=60]
-	\foreach \i/\c in {1/red, 2/dgreen, 3/blue}
-	{
-  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
-    	child [red] {coordinate (\i1)}
-      child [dgreen] {coordinate (\i2)}
-      child [blue] {coordinate (\i3)}
-     	;
-  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
-  		child [red] {node (S\i1) {$\bullet$} 
-				child [red] {coordinate (\i11)}
-				child [dgreen] {coordinate (\i12)} 
-				child [blue] {coordinate (\i13)}
-				}
-  		child [dgreen] {node (S\i2) {$\bullet$} 
-				child [red] {coordinate (\i21)}
-				child [dgreen] {coordinate (\i22)} 
-				child [blue] {coordinate (\i23)}
-				}
-  		child [blue] {node (S\i3) {$\bullet$} 
-				child [red] {coordinate (\i31)}
-				child [dgreen] {coordinate (\i32)} 
-				child [blue] {coordinate (\i33)}
-				}
-  		;
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
-	\foreach \j in {1,2,3}
-	{
-		\foreach \k\d in {1/red, 2/dgreen, 3/blue}
-		{
-			\draw[densely dotted, postaction={decorate}, \d] (\i\j\k) to (\i\k);
-		};
-	};
-	};
-\end{tikzpicture}
-\end{equation}
-Note that $(S\yon^S)\tripow2$ has $SS^S$, or in this case $\8\1$ many trees, only three of which are being pointed to by $\delta$. That is, there is in general no rule on trees in that says the color of an arrow should agree in any sense with the color of the node it points to: \eqref{eqn.state_comonoid_trees} shows that the comonoid structure is pointing out the special trees where that does occur.
-
-It remains to check that the diagrams \eqref{eqn.erasure_law_state} and \eqref{eqn.coassoc_law_states} commute.
-The two commutative triangles in \eqref{eqn.erasure_law_state} say that the composites
-\[
-S\yon^S\To{\delta}(S\yon^S)\tripow2\To{\id\tri\epsilon}S\yon^S
-\qqand
-S\yon^S\To{\delta}(S\yon^S)\tripow2\To{\epsilon\tri \id}S\yon^S
-\]
-are the identity.
-Let's return to the case $S=\3$. Then the second map in each case involves 81 different assignments, but only three of them will matter.%
-\footnote{To say technically that we can disregard all but three positions in $(S\yon^S)\tripow2\cong SS^S\yon^{SS}$, one can use \cref{prop.vert_cart_factorization}.} 
-Since all three are strongly similar, we will draw only the red case. We also only draw the relevant on-directions functions.
-\[
-\begin{tikzpicture}[trees, 
-  level 1/.style={sibling distance=5mm},
-  level 2/.style={sibling distance=1.5mm},
-	bend right=60, 
-	]
-	\foreach \i/\c in {1/red}
-	{
-  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
-    	child [red] {coordinate (\i1)}
-      child [dgreen] {coordinate (\i2)}
-      child [blue] {coordinate (\i3)}
-     	;
-  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
-  		child [red] {node (S\i1) {$\bullet$} 
-				child [red] {coordinate (\i11)}
-				child [dgreen] {coordinate (\i12)} 
-				child [blue] {coordinate (\i13)}
-				}
-  		child [dgreen] {node (S\i2) {$\bullet$} 
-				child [red] {coordinate (\i21)}
-				child [dgreen] {coordinate (\i22)} 
-				child [blue] {coordinate (\i23)}
-				}
-  		child [blue] {node (S\i3) {$\bullet$} 
-				child [red] {coordinate (\i31)}
-				child [dgreen] {coordinate (\i32)} 
-				child [blue] {coordinate (\i33)}
-				}
-  		;
-  	\node[\c] (\i') at (8*\i, 0) {$\bullet$} 
-      child [red] {node[black] {$\bullet$}
-      	child [black] {coordinate (11'')}
-			}
-      child [dgreen] {node[black] {$\bullet$}
-      	child [black] {coordinate (12'')}
-			}
-      child [blue] {node[black] {$\bullet$}
-      	child [black] {coordinate (13'')}
-			}
-     	;
-		;
-  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
-  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
-		\foreach \j in {1,2,3}
-		{
-		\draw[densely dotted, postaction={decorate}] (1\j'') to (1\j\j);
-		\draw[densely dotted, postaction={decorate}] (1\j\j) to (1\j);
-		};
-	};
-\end{tikzpicture}
-\]
-\[
-\begin{tikzpicture}[trees, 
-  level 1/.style={sibling distance=5mm},
-  level 2/.style={sibling distance=1.5mm},
-	bend right=60, 
-	]
-	\foreach \i/\c in {1/red}
-	{
-  	\node[\c] (\i) at (4*\i, 0) {$\bullet$} 
-    	child [red] {coordinate (\i1)}
-      child [dgreen] {coordinate (\i2)}
-      child [blue] {coordinate (\i3)}
-     	;
-  	\node[right=1.7 of \i, \c] (SS\i) {$\bullet$}
-  		child [red] {node (S\i1) {$\bullet$} 
-				child [red] {coordinate (\i11)}
-				child [dgreen] {coordinate (\i12)} 
-				child [blue] {coordinate (\i13)}
-				}
-  		child [dgreen] {node (S\i2) {$\bullet$} 
-				child [red] {coordinate (\i21)}
-				child [dgreen] {coordinate (\i22)} 
-				child [blue] {coordinate (\i23)}
-				}
-  		child [blue] {node (S\i3) {$\bullet$} 
-				child [red] {coordinate (\i31)}
-				child [dgreen] {coordinate (\i32)} 
-				child [blue] {coordinate (\i33)}
-				}
-  		;
-  	\node[black] (\i') at (8*\i, 0) {$\bullet$}
-			child {node[red] {$\bullet$} 
-        child [red] {coordinate (11'')}
-        child [dgreen] {coordinate (12'')}
-        child [blue] {coordinate (13'')}
-      }
-     	;
-		;
-  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (\i) -- (SS\i);
-  	\draw[|->, shorten <= 3pt, shorten >= 3pt] (SS\i) -- (\i');
-		\foreach \j in {1,2,3}
-		{
-		\draw[densely dotted, postaction={decorate}] (1\j'') to (11\j);
-		\draw[densely dotted, postaction={decorate}] (11\j) to (1\j);
-		};
-	};
-\end{tikzpicture}
-\]
-We do not prove coassociativity here, but instead leave it to the reader in \cref{exc.state_comonoid_assoc}.
-\end{example}
 
 \begin{exercise}\label{exc.state_comonoid_assoc}
 Let $S\coloneqq\2$ and $\ema{s}\coloneqq \2\yon^\2$.
@@ -4608,6 +4516,10 @@ Let $S\coloneqq\2$ and $\ema{s}\coloneqq \2\yon^\2$.
 \end{solution}
 \end{exercise}
 
+One drawback of the $\text{Run}_n(-)$ operation is that we need to keep track of a separate morphism $S\yon^S\to p\tripow{n}$ for every $n\in\nn$, as well as various ways to relate these morphisms for different values of $n$.
+Is there a way to package all this information into a single morphism that can model arbitrarily long runs through the system?
+We will answer this question in \cref{ch.comon.cofree}; but for now, let us investigate what's really going on with our state systems algebraically.
+
 \subsection{State systems as comonoids}
 
 It turns out that objects equipped with arrows like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
@@ -4626,7 +4538,7 @@ such that the following diagrams, collectively known as the \emph{comonoid laws}
 	\ema{c}\tri\ema{c},\ar[ul, "\epsilon\:\tri\:\ema{c}"]\ar[ur, "\ema{c}\:\tri\:\epsilon"']
 \end{tikzcd}
 \end{equation}
-where the left triangle is known as the \emph{left erasure} (or \emph{counit}) \emph{law} and the right triangle is known as the \emph{right erasure} (or \emph{counit} (\emph{law}); and
+where the left triangle is known as the \emph{left erasure} (or \emph{counit}) \emph{law} and the right triangle is known as the \emph{right erasure} (or \emph{counit}) \emph{law}; and
 \begin{equation}\label{eqn.coassoc_law}
 \begin{tikzcd}[row sep=large]
 	\ema{c}\ar[r, "\delta"]\ar[d, "\delta"']&
@@ -5186,13 +5098,13 @@ Keep in mind that from the domain-centric polynomial perspective, we have not ye
 
 \subsubsection{The right erasure law on positions: a bit of bookkeeping}
 
-Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\delta\then(\ema{c}\tri\epsilon)=\id_\ema{c}$ can be drawn in polyboxes like so:
+Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\delta\then(\ema{c}\tri\epsilon)=\id_\ema{c}$ from \eqref{eqn.erasure_law} can be drawn in polyboxes like so:
 \[
 \begin{tikzpicture}
 	\node (1) {
-        \begin{tikzpicture}[polybox, tos]
-        	\node[poly, dom, "$\ema{c}$" left] (r) {\at$s$};
-        	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {\at$s$};
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{c}$" left] (r) {\at$i$};
+        	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {\at$i$};
         	\node[poly, above=.8 of p, "$\ema{c}$" above] (p') {};
         	
         	\draw (r_pos) to[first] node[below] {} (p_pos);
@@ -5202,9 +5114,9 @@ Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\de
         \end{tikzpicture}
 	};
 	\node[right=1.8 of 1] (2) {
-        \begin{tikzpicture}[polybox, tos]
-          	\node[poly, dom, "$\ema{c}$" left] (c) {\at$s$};
-          	\node[poly, cod, right=of c, "$\ema{c}$" right] (c') {\at$s$};
+        \begin{tikzpicture}[polybox, mapstos]
+          	\node[poly, dom, "$\ema{c}$" left] (c) {\at$i$};
+          	\node[poly, cod, right=of c, "$\ema{c}$" right] (c') {\at$i$};
           	\draw[double] (c_pos) -- (c'_pos);
           	\draw[double] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
@@ -5218,7 +5130,7 @@ Equipped with this knowledge, we can focus our attention on the other two arrows
 \subsubsection{The duplicator assigns codomains and composition}
 
 In fact, in the polybox picture for $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$, the middle arrow specifies codomains, and the top arrow specifies composition.
-We therefore label these arrows as follows:
+We therefore label these arrows as follows:\footnote{Compare these labels to the names ``target'' and ``run'' that we gave to the arrows of a state system's transition lens.}
 \[
 \begin{tikzpicture}[polybox, tos]
     \node[poly, dom, "$\ema{c}$" left] (yX) {};
@@ -5243,194 +5155,99 @@ To check that this makes sense, we fill in the boxes:
 \end{tikzpicture}
 \]
 Remember: each position box contains an object of $\cat{C}$, while each direction box contains a morphism of $\cat{C}$ emanating from the object below.
-So $\delta$ takes an object $i\in\Ob\cat{C}$ and a morphism $f\colon i\to\_$, then assigns another object $\cod f\in\Ob\cat{C}$ to be the codomain of $f$.
-It then takes a second morphism $g\colon\cod f\to\_$ and assigns a third morphism $f\then g\colon i\to\_$ to be the composite of $f$ and $g$.
+So $\delta$ takes an object $i\in\Ob\cat{C}$ and a morphism $f\colon i\to\_$ and assigns another object $\cod f\in\Ob\cat{C}$ to be the codomain of $f$.
+It then takes another morphism $g\colon\cod f\to\_$ and assigns a morphism $f\then g\colon i\to\_$ to be the composite of $f$ and $g$.
 In this way, every morphism gets a codomain, and every pair of morphisms that can be composed (i.e.\ the codomain of one matches the domain of the other) is assigned a composite.
-As with the identity morphism, we don't know what the codomain of this composite morphism is yet, but we do know that the domain of $f\then g$ matches the domain of $f$.
+As with the identity morphism, we don't know what the codomain of this composite morphism is yet; but we do know that the domain of $f\then g$ matches the domain of $f$, as it should.
 
 \subsubsection{The left erasure law on positions: codomains of identities}
 
+As with the right erasure law, we can partially fill in the polyboxes for the left erasure law $\delta\then(\epsilon\tri\ema{c})=\id_\ema{c}$ to read what it says on positions:
+\[
+\begin{tikzpicture}
+	\node (1) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{c}$" left] (r) {\at$i$};
+        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {$\id_i$\at$i$};
+        	\node[poly, cod, above=.8 of p, "$\ema{c}$" above] (p') {\at$\cod\id_i$};
+        	
+        	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+        	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+        	\draw (p'_dir) to[last] node[above] {$\then$} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=1.8 of 1] (2) {
+        \begin{tikzpicture}[polybox, mapstos]
+          	\node[poly, dom, "$\ema{c}$" left] (c) {\at$i$};
+          	\node[poly, cod, right=of c, "$\ema{c}$" right] (c') {\at$i$};
+          	\draw[double] (c_pos) -- (c'_pos);
+          	\draw[double] (c'_dir) -- (c_dir);
+	    \end{tikzpicture}
+	};
+	\node at ($(1.east)!.5!(2.west)$) (3) {=};
+\end{tikzpicture}
+\]
+So the left erasure law on positions guarantees that $\cod\id_i=i$ for all $i\in\Ob\cat{C}$.
+It makes sense that we would find this here: the eraser assigns identities, while the duplicator assigns codomains, so a statement about codomains of identities is a coherence condition between the eraser and the duplicator.
 
 \subsubsection{The erasure laws on directions are the identity laws}
 
+Let us finish filling in the polyboxes for the left and right erasure laws to see what they have to say on directions.
+In the picture below, the left equality depicts the left erasure law, while the right equality depicts the right erasure law:
+\[
+\begin{tikzpicture}
+	\node (1) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{c}$" left] (r) {$\id_i\then f$\at$i$};
+        	\node[poly, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {$\id_i$\at$i$};
+        	\node[poly, cod, above=.8 of p, "$\ema{c}$" above] (p') {$f$\at$i$};
+        	
+        	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+        	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+        	\draw (p'_dir) to[last] node[above] {$\then$} (r_dir);
+        \end{tikzpicture}
+	};
+	\node[right=.2 of 1] (2) {
+        \begin{tikzpicture}[polybox, mapstos]
+          	\node[poly, dom, "$\ema{c}$" left] (c) {$f$\at$i$};
+          	\node[poly, cod, right=of c, "$\ema{c}$" right] (c') {$f$\at$i$};
+          	\draw[double] (c_pos) -- (c'_pos);
+          	\draw[double] (c'_dir) -- (c_dir);
+	    \end{tikzpicture}
+	};
+	\node[right=.5 of 2] (3) {
+        \begin{tikzpicture}[polybox, mapstos]
+        	\node[poly, dom, "$\ema{c}$" left] (r) {$f\then\id_{\cod f}$\at$i$};
+        	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {$f$\at$i$};
+        	\node[poly, above=.8 of p, xshift=1.5ex, "$\ema{c}$" above] (p') {$\id_{\cod f}$\at$\cod f$};
+        	
+        	\draw (r_pos) to[first] node[below] {} (p_pos);
+        	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+        	\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
+        	\draw (p'_dir) to[last] node[above] {$\then$} (r_dir);
+        \end{tikzpicture}
+	};
+    \node at ($(1.east)!.2!(2.west)$) {=};
+    \node at ($(2.east)!.5!(3.west)$) {=};
+\end{tikzpicture}
+\]
+We find that on directions, the erasure laws state that for all $i\in\Ob\cat{C}$ and $f\colon i\to\_$,
+\[
+    \id_i\then f=f=f\then\id_{\cod f}.
+\]
+But these are precisely the identity laws of the category $\cat{C}$.
 
 \subsubsection{The coassociative law on positions: codomains of composites}
 
 
+
 \subsubsection{The coassociative law on directions is the associative law of composition}
 
-To get started, we consider the left erasure law from \eqref{eqn.erasure_law}:
-\[
-\begin{tikzpicture}
-	\node (1) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, above=of p] (p') {};
-  	\node[poly, cod, right=of p] (q) {};
-  	\node[poly, cod, identity, above=of q] (q') {};
-  	\draw (p_pos) -- (q_pos);
-  	\draw (q_dir) -- (p_dir);
-  	\draw (p'_pos) -- (q'_pos);
-  	\draw (q'_dir) -- node[above] {$\idy$} (p'_dir);
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1.6 of 1] (2) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, above left=.5 of p] (p') {};
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1 of 2] (3) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, cod, right=of c] (c') {};
-  	\draw[double] (c_pos) -- (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
-	\end{tikzpicture}
-	};
-	\node at ($(1.east)!.5!(2.west)$) {=};
-	\node at ($(2.east)!.5!(3.west)$) {=};
-\end{tikzpicture}
-\]
 
-Let's add some arbitrary fillers $i\in \ema{c}(\1)$ and $d\in \ema{c}[i]$ to the open slots, and hence obtain an equation:
-\[
-\begin{tikzpicture}
-	\node (2) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {$d\then\idy(\cod(d))$\at$i$};
-  	\node[poly, cod, right=5 of yX.south, yshift=-1ex] (p) {$d$\at$\delta_1(i)$};
-  	\node[poly, above left=1 and 0 of p] (p') {$\idy(\cod(d))$\at$\cod(d)$};
-  	\draw (yX_pos) to[first] node[below] {$\delta_1$}(p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-		\draw (p'_pos) to[climb'] node[right] {$\idy$} (p'_dir);
-  \end{tikzpicture}
-	};
-	\node[right=2 of 2] (3) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$d$\at$i$};
-  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
-  	\draw[double] (c_pos) -- (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
-	\end{tikzpicture}
-	};
-	\node at ($(2.east)!.5!(3.west)$) {=};
-\end{tikzpicture}
-\]
-First it's saying that $\delta_1(i)=i$. This is great news; it means we can forget about $\delta_1$, just as we said earlier. Second it's saying that $d\then\idy(\cod(d))=d$. Unpacking, this means that composing a morphism $d$ with the identity morphism on its codomain returns $d$. It's neat to watch the comonoid laws declaring the standard laws of categories.
 
-Before moving on, we redraw $\delta\colon c\to c\tri c$ with the information-lacking $\delta_1$ (which the first unitality equation said was always identity) and replace it with a double arrow:
-\begin{equation}\label{eqn.cod_comp}
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, cod, above=of p] (p') {};
-  	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-  \end{tikzpicture}
-\end{equation}
 
-Now we can write the other unitality equation.
-\[
-\begin{tikzpicture}
-	\node (1) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, above=of p] (p') {};
-  	\node[poly, cod, identity, right=of p] (q) {};
-  	\node[poly, cod, above=of q] (q') {};
-  	\draw (p_pos) -- (q_pos);
-  	\draw (q_dir) -- node[above] {$\idy$} (p_dir);
-  	\draw (p'_pos) -- (q'_pos);
-  	\draw (q'_dir) -- (p'_dir);
-  	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1.6 of 1] (2) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {};
-  	\node[poly, right=1.8 of yX.south, yshift=-1ex] (p) {};
-  	\node[poly, cod, above=of p] (p') {};
-  	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
-  \end{tikzpicture}
-	};
-	\node[right=1.6 of 2] (3) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {};
-  	\node[poly, cod, right=of c] (c') {};
-  	\draw[double] (c_pos) -- (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
-	\end{tikzpicture}
-	};
-	\node at ($(1.east)!.5!(2.west)$) {=};
-	\node at ($(2.east)!.5!(3.west)$) {=};
-\end{tikzpicture}
-\]
-Let's add some arbitrary fillers $i\in c(\1)$ and $d\in c[i]$ to get some equations:
-\[
-\begin{tikzpicture}
-	\node (2) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (yX) {$\idy(i)\then d$\at$i$};
-  	\node[poly, right=3 of yX.south, yshift=-1ex] (p) {$\idy(i)$\at$i$};
-  	\node[poly, cod, above right=1 and 0 of p] (p') {$d$\at$\cod(\idy(i))$};
-  	\draw[double] (yX_pos) to[first] (p_pos);
-  	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
-  	\draw (p'_dir) to[last] node[above, sloped] {$\comp$} (yX_dir);
-		\draw (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
-  \end{tikzpicture}
-	};
-	\node[right=2 of 2] (3) {
-  \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (c) {$d$\at$i$};
-  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
-  	\draw[double] (c_pos) -- (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
-	\end{tikzpicture}
-	};
-	\node at ($(2.east)!.5!(3.west)$) {=};
-\end{tikzpicture}
-%\begin{tikzpicture}
-%\node (2) {
-%  \begin{tikzpicture}[polybox, tos]
-%  	\node[poly, dom] (c) {$\idy(i)\then d$\at$i$};
-%  	\node[poly, right=1.2 of c] (c1) {$\idy(i)$\at$i$};
-%  	\node[poly, cod, above right=.3 and .2 of c1] (c2) {$d$\at$\cod(\idy(i))$};
-%  	\draw[double] (c_pos) -- (c1_pos);
-%  	\draw (c1_dir) to[climb] node[right] {cod} (c2_pos);
-%  	\draw (c2_dir) to[last] node[above] {com} (c_dir);
-%  	\draw (c1_pos) to[out=0, in=0, looseness=2] node[right] {idy} (c1_dir);
-%	\end{tikzpicture}
-%	};
-%	\node[right=2 of 2] (3) {
-%  \begin{tikzpicture}[polybox, tos]
-%  	\node[poly, dom] (c) {$d$\at$i$};
-%  	\node[poly, cod, right=of c] (c') {$d$\at$i$};
-%  	\draw[double] (c_pos) -- (c'_pos);
-%  	\draw[double] (c'_dir) -- (c_dir);
-%	\end{tikzpicture}
-%	};
-%	\node at ($(2.east)!.5!(3.west)$) {=};
-%\end{tikzpicture}
-\]
-Ah, it's saying that it wants $\cod(\idy(i))=i$, which makes sense---the codomain of the identity on $i$ should be $i$---and that it wants $\idy(i)\then d=d$, i.e.\ that composing the identity on $i$ with $d$ should return $d$.
 
 Finally we draw the associativity equation.
 \[
@@ -5543,7 +5360,7 @@ As we go through these examples, pay attention to how the polynomial perspective
 
 \subsubsection{Preorders}
 
-% update to highlight categorical structure
+% **update to highlight categorical structure
 \begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow}
 The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
 
