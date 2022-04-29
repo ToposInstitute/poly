@@ -3931,13 +3931,13 @@ Now all we know is that for each state $s\in\ema{s}(\1)$, the do-nothing enclosu
 So we need a different name for the $\ema{s}[s]$-direction that $\epsilon$ identifies: call it $\id_s$, because it behaves like a sort of identity operation on the state $s$.
 
 So the revised polyboxes for the do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ are as follows:
-\begin{equation*}
+\begin{equation} \label{eqn.do_nothing_polybox}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{s}$" left] (S) {$\id_s$\at$s$};
 
     \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
 \end{tikzpicture}
-\end{equation*}
+\end{equation}
 
 \begin{exercise}
 Say I have a polynomial $\ema{s}\in\poly$, and I tell you that there is a lens $\epsilon\colon\ema{s}\to\yon$.
@@ -4011,7 +4011,7 @@ We know that when $s_0$ is fixed, the target function on the second component $a
 But this property is a little tricky to state in the language of $\poly$; in fact, we won't attempt to do so just yet.
 Instead, we'll use it to make a notational choice: given $s,t\in\ema{s}$, we will let $s\to t$ denote the unique direction at $s$ that leads to $t$, so that $\text{tgt}(s,s\to t)=t$.
 So we can redraw our transition lens as
-\[
+\begin{equation} \label{eqn.trans_lens_polybox}
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{s}$" left] (r) {$s_0\to s_2$\at$s_0$};
 	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" right] (p) {$s_0\to s_1$\at$s_0$};
@@ -4021,7 +4021,7 @@ So we can redraw our transition lens as
 	\draw (p_dir) to[climb] node[right] {tgt} (p'_pos);
 	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
   \end{tikzpicture}
-\]
+\end{equation}
 In addition to the fact that $\text{tgt}(s_0,s_0\to s_1)=s_1$ as intended, this picture tells us two more properties of $\delta$.
 
 The first is that the bottom arrow is the identity on $\ema{s}(\1)$.
@@ -4624,7 +4624,7 @@ We complete the proof of \cref{prop.n_duplication}, where we are given a comonoi
 \end{solution}
 \end{exercise}
 
-\begin{example}[Not all polynomial comonoids are state systems]
+\begin{example}[Not all polynomial comonoids are state systems] \label{ex.not_all_com_state}
 At this point, a natural question to ask is whether everything we know about a state system $\ema{s}$ is captured by the fact that state systems are polynomial comonoids.
 In other words, are state systems the only polynomial comonoids there are?
 
@@ -4646,8 +4646,9 @@ but we will often think of polynomial comonoids as a sort of generalized state s
 
 %** update w/o category language yet
 \begin{example}[A comonoid that is not a state system]\label{ex.walking_arrow_com}
-The polynomial $\yon^\2+\yon$ can be given a comonoid structure as follows.
-We'll go a little quickly here, because we'll soon discover a much more familiar way to think about comonoids.
+The polynomial $\yon^\2+\yon$ is not a state system: one of its direction-sets has one fewer element than its position-set.
+But it can still be given a comonoid structure.
+We describe that structure here, but we will go a little quickly, because we'll soon discover a much more familiar way to think about comonoids.
 
 Define $\ema{w}\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}\iso\yon^\2+\yon$.
 Here is its tree picture:
@@ -4791,7 +4792,20 @@ Let's pick $B$ for the time being, so that on positions, $\delta$ looks like thi
 % 	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
 \end{tikzpicture}
 \]
-Then on directions, $\delta$ should tell us how to run two directions together into one.
+As in \cref{ex.trans_trees}, we can interpret this as telling us how to ``bend'' the arrows of $\ema{w}$ so that they point to other positions:
+\begin{equation} \label{eqn.walking_arrow_bent_cor}
+\begin{tikzpicture}
+    \node[circle,minimum size=2cm] (b) {};
+    \foreach\x/\c in {1/red, 2/blue} {
+        \node[minimum size=0.1cm,draw,circle,\c,fill=\c] (2-\x) at (b.{360/2*\x}){};
+        \draw[double] (2-\x) to [in=360/2*\x-30,out=360/2*\x+30,loop] ();
+        \relax
+    }
+    \draw (2-1) edge[->] (2-2);
+\end{tikzpicture}
+\end{equation}
+
+Meanwhile, on directions, $\delta$ should tell us how to run two directions together into one.
 Fortunately, there's not much for us to do here---we know that if one of the two directions $\delta$ runs together is one of the double-barred directions that the eraser picked out, then $\delta$ should ignore that ``do-nothing'' direction and yield the other direction (again, the erasure laws ensure this).
 Here's what that looks like:
 \[
@@ -4858,7 +4872,7 @@ Here are $\epsilon\colon\ema{w}\to\yon$ and $\delta\colon\ema{w}\to\ema{w}\tri\e
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=.5 of p1] (p2) {
+	\node[right=.4 of p1] (p2) {
 	  \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{w}$" left] (p) {$f$\at$A$};
   	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$i_A$\at$A$};
@@ -4868,7 +4882,7 @@ Here are $\epsilon\colon\ema{w}\to\yon$ and $\delta\colon\ema{w}\to\ema{w}\tri\e
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=.5 of p2] (p3) {
+	\node[right=.4 of p2] (p3) {
 	  \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{w}$" left] (p) {$f$\at$A$};
   	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$f$\at$A$};
@@ -4878,7 +4892,7 @@ Here are $\epsilon\colon\ema{w}\to\yon$ and $\delta\colon\ema{w}\to\ema{w}\tri\e
   	\draw (r_dir) to[last] (p_dir);
   \end{tikzpicture}  
 	};
-	\node[right=.5 of p3] (p4) {
+	\node[right=.4 of p3] (p4) {
 	  \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{w}$" left] (p) {$i_B$\at$B$};
   	\node[poly, cod, right= of p.south, yshift=-1ex, "$\ema{w}$" below] (q) {$i_B$\at$B$};
@@ -5134,7 +5148,8 @@ Here each item in the comonoid column---either a polynomial, a lens, or a lens e
   \multicolumn2{c|}{} & \multicolumn2{c}{associative law of composition}
 \end{tabular}
 \end{center}
-Note that the on-positions function of $\epsilon$, being a function into the terminal set, encodes no actual data; meanwhile, the asterisk $\ast$ indicates that the right erasure law on positions works together with the duplicator to ensure that codomains and compositions are properly specified.
+Note that the on-positions function of $\epsilon$, being a function into the terminal set, encodes no actual data.
+The asterisk $\ast$ indicates that the right erasure law on positions works together with the duplicator to ensure that codomains and composites are properly specified.
 
 We have already covered the correspondence between the first two rows, so let us consider each of the following rows in turn.
 In some sense, we have already seen each piece of this correspondence in action for state systems in \cref{sec.comon.sharp.state}, so we'll go through it a little faster this time for the general case.
@@ -5187,7 +5202,7 @@ Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\de
 We have only filled in a few of the boxes, but that is enough to interpret what the right erasure law tells us on positions: that the bottom arrow of the duplicator must be the identity function on $\ema{c}(\1)$.
 Equipped with this knowledge, we can focus our attention on the other two arrows of $\delta$.
 
-\subsubsection{The duplicator assigns codomains and composition}
+\subsubsection{The duplicator assigns codomains and composites}
 
 In fact, in the polybox picture for $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$, the middle arrow specifies codomains, and the top arrow specifies composition.
 We therefore label these arrows as follows:\footnote{Compare these labels to the names ``target'' and ``run'' that we gave to the arrows of a state system's transition lens.}
@@ -5206,7 +5221,7 @@ To check that this makes sense, we fill in the boxes:
 \[
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{c}$" left] (yX) {$f\then g$\at$i$};
-    \node[poly, cod, right=1.8 of yX.south, yshift=-2.5ex, "$\ema{c}$" right] (p) {$f$\at$i$};
+    \node[poly, cod, right=2 of yX.south, yshift=-2.5ex, "$\ema{c}$" right] (p) {$f$\at$i$};
     \node[poly, cod, above=.8 of p, "$\ema{c}$" right] (p') {$g$\at$\cod f$};
     
     \draw[double] (yX_pos) to[first] node[below] {} (p_pos);
@@ -5254,7 +5269,7 @@ It makes sense that we would find this here: the eraser assigns identities, whil
 \subsubsection{The erasure laws on directions are the identity laws}
 
 Let us finish filling in the polyboxes for the left and right erasure laws to see what they have to say on directions.
-In the picture below, the left equality depicts the left erasure law, while the right equality depicts the right erasure law:
+In the picture below, the left equality depicts the left erasure law (to conserve space, we'll substitute $i$ for $\cod\id_i$ on the left, which we now know we can do), while the right equality depicts the right erasure law:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -5277,7 +5292,7 @@ In the picture below, the left equality depicts the left erasure law, while the 
           	\draw[double] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
 	};
-	\node[right=.5 of 2] (3) {
+	\node[right=.25 of 2] (3) {
         \begin{tikzpicture}[polybox, mapstos]
         	\node[poly, dom, "$\ema{c}$" left] (r) {$f\then\id_{\cod f}$\at$i$};
         	\node[poly, cod, right=2.1 of r.south, yshift=-2.5ex, "$\ema{c}$" below] (p) {$f$\at$i$};
@@ -5308,7 +5323,7 @@ To read what it says on positions, we draw the polyboxes and fill them in, stopp
     \node (p1) {
         \begin{tikzpicture}[polybox, tos]
             \node[poly, dom, "$\ema{s}$" left] (m') {\at$i$};
-            \node[poly, right=2 of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$f\then g$\at$i$};
+            \node[poly, right=1.8 of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$f\then g$\at$i$};
             \node[poly, above=of mm', "$\ema{s}$" above] (C') {\at$\cod(f\then g)$};
             \node[poly, cod, right=2.3 of mm'.south, yshift=-1ex, "$\ema{s}$" right] (D') {$f$\at$i$};
             \node[poly, cod, above=of D', "$\ema{s}$" right] (mmm') {$g$\at$\cod f$};
@@ -5328,9 +5343,9 @@ To read what it says on positions, we draw the polyboxes and fill them in, stopp
 	\node (p2) [right=of p1] {
 	    \begin{tikzpicture}[polybox, tos]
             \node[poly, dom, "$\ema{s}$" left] (m) {\at$i$};
-            \node[poly, right= of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$f$\at$i$};
+            \node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$f$\at$i$};
             \node[poly, above=of D, "$\ema{s}$" above] (mm) {\at$\cod f$};
-            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$\ema{s}$" right] (DD) {$f$\at$i$};
+            \node[poly, cod, right=2.1 of D.south, yshift=-1ex, "$\ema{s}$" right] (DD) {$f$\at$i$};
             \node[poly, cod, above=of DD, "$\ema{s}$" right] (mmm) {$g$\at$\cod f$};
             \node[poly, cod, above=of mmm, "$\ema{s}$" right] (C) {\at$\cod g$};
             %
@@ -5355,19 +5370,17 @@ Hence composites are assigned the proper codomains.
 
 \subsubsection{The coassociative law on directions is the associative law of composition}
 
-Finally, let us fill in the remaining polyboxes for the coassociative law:
-It remains to consider the comonoid's coassociative law \eqref{eqn.coassoc_law}, $\delta\then(\delta\tri\ema{s})=\delta\then(\ema{s}\tri\delta)$.
-To read what it says on positions, we draw the polyboxes and fill them in, stopping just short of the uppermost direction box of the codomain:
+Finally, let us fill in the remaining polyboxes for the coassociative law (we'll substitute $\cod g$ for $\cod(f\then g)$ on the left, which we now know we can do):
 \[
 \begin{tikzpicture}
     \node (p1) {
         \begin{tikzpicture}[polybox, tos]
-            \node[poly, dom, "$\ema{s}$" left] (m') {\at$i$};
-            \node[poly, right= of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$f\then g$\at$i$};
-            \node[poly, above=of mm', "$\ema{s}$" above] (C') {\at$\cod(f\then g)$};
+            \node[poly, dom, "$\ema{s}$" left] (m') {$(f\then g)\then h$\at$i$};
+            \node[poly, right=1.8 of m'.south, yshift=-1ex, "$\ema{s}$" below] (mm') {$f\then g$\at$i$};
+            \node[poly, above=of mm', "$\ema{s}$" above] (C') {$h$\at$\cod g$};
             \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$\ema{s}$" right] (D') {$f$\at$i$};
             \node[poly, cod, above=of D', "$\ema{s}$" right] (mmm') {$g$\at$\cod f$};
-            \node[poly, cod, above=of mmm', "$\ema{s}$" right] (CC') {\at$\cod(f\then g)$};
+            \node[poly, cod, above=of mmm', "$\ema{s}$" right] (CC') {$h$\at$\cod g$};
             %
             \draw[double] (m'_pos) to[first] (mm'_pos);
             \draw (mm'_dir) to[climb] node[right] {$\cod$} (C'_pos);
@@ -5380,14 +5393,14 @@ To read what it says on positions, we draw the polyboxes and fill them in, stopp
         \end{tikzpicture}
 	};
 %
-	\node (p2) [right=of p1] {
+	\node (p2) [right=.8 of p1] {
 	    \begin{tikzpicture}[polybox, tos]
-            \node[poly, dom, "$\ema{s}$" left] (m) {\at$i$};
-            \node[poly, right= of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$f$\at$i$};
-            \node[poly, above=of D, "$\ema{s}$" above] (mm) {\at$\cod f$};
+            \node[poly, dom, "$\ema{s}$" left] (m) {$f\then(g\then h)$\at$i$};
+            \node[poly, right=2.2 of m.south, yshift=-1ex, "$\ema{s}$" below] (D) {$f$\at$i$};
+            \node[poly, above=of D, "$\ema{s}$" above] (mm) {$g\then h$\at$\cod f$};
             \node[poly, cod, right=2 of D.south, yshift=-1ex, "$\ema{s}$" right] (DD) {$f$\at$i$};
             \node[poly, cod, above=of DD, "$\ema{s}$" right] (mmm) {$g$\at$\cod f$};
-            \node[poly, cod, above=of mmm, "$\ema{s}$" right] (C) {\at$\cod g$};
+            \node[poly, cod, above=of mmm, "$\ema{s}$" right] (C) {$h$\at$\cod g$};
             %
             \draw[double] (m_pos) to[first] (D_pos);
             \draw (D_dir) to[climb] node[right] {$\cod$} (mm_pos);
@@ -5411,6 +5424,15 @@ But this is precisely the associative law of composition in a category.
 We've seen that the data and equations of polynomial comonoids correspond exactly to the data and equations of categories.
 This proves \cref{thm.ahman_uustalu}.
 
+\subsubsection{Generalized duplicators as unbiased composition}
+
+Before we move onto examples, one more note about the theory: notice that both sides of our coassociative law are given by $\delta^2\colon\ema{c}\to\ema{c}\tripow3$, as defined in \cref{prop.n_duplication}.
+On directions, $\delta^2$ tells us how to compose three morphisms $i\To{f}\_\To{g}\_\To{h}\_$ in $\cat{C}$ all at once to obtain $i\To{f\:\then\:g\:\then\:h}\_$, and (co)associativity ensures this is well-defined.
+
+In general, $\delta^{n-1}\colon\ema{c}\to\ema{c}\tripow{n}$ on directions tells us how to compose $n$ morphisms in $\cat{C}$ for each $n\in\nn$.
+After all, we have already seen that $\delta^1=\delta$ performs binary composition, that $\delta^0=\id_\ema{c}$ performs ``unary'' composition (the ``unary composite'' of a single morphism $f$ is just $f$ itself), and that $\delta^{-1}=\epsilon$ performs ``nullary'' composition (the ``nullary composite'' at any object is just its identity).
+The directions of $\ema{c}\tripow{n}$ at positions in the image of $\delta^{n-1}$ are exactly the sequences of composable morphisms of length $n$, and $\delta^{n-1}$ sends each sequence to the single direction that is its composite.
+
 % \begin{exercise}
 % Let $\cat{C}$ be a category, $\ema{c}$ its carrier, and $i\in\Ob\cat{C}$ an object. This exercise is for people who know the definition of the coslice category $i/\cat{C}$ of objects under $i$. Is it true that there is an isomorphism
 % \[\Ob(c/\cat{C})i\cong^?\ema{c}[i]\]
@@ -5427,265 +5449,30 @@ As we go through these examples, pay attention to how the polynomial perspective
 
 \subsubsection{Preorders}
 
-% **update to highlight categorical structure
-\begin{example}[A simple comonoid that's not $S\yon^S$]\label{ex.walking_arrow_cat}
-The polynomial $\yon^\2+\yon$ can be given a comonoid structure. Let's first associate names to its positions and directions. 
+A \emph{preorder} (or \emph{thin category}) is a category in which every morphism $f\colon c\to d$ is the \emph{only} morphism $c\to d$.%
+\footnote{Sometimes these are also called \emph{posets}, short for \emph{partially ordered sets}, but strictly speaking the only isomorphisms in a poset are its identities, while a preorder allows objects to be isomorphic without being equal.}
+Composition in preorders is easy to describe, because the composite of $c\to d$ and $d\to e$ is always just the unique arrow $c\to e$.
+As such, preorders are some of the simplest examples of categories to consider---we already saw several in \cref{exc.ema_polys}---so let us interpret these as comonoids first.
 
-Define $w\coloneqq\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{\{i_B\}}$; it is clearly isomorphic to $\yon^\2+\yon$, but its notation is meant to remind the reader of the walking arrow category
+\begin{example}\label{ex.walking_arrow_cat}
+Let us revisit \cref{ex.walking_arrow_com}, where we first wrote down a comonoid that was not a state system.
+We defined $\ema{w}\coloneqq\{A\}\yon^{\{\id_A,f\}}+\{B\}\yon^{\{\id_B\}}\iso\yon^\2+\yon$ and gave it a comonoid structure, with eraser $\epsilon\colon\ema{w}\to\yon$ specifying directions $\id_A$ and $\id_B$ and duplicator $\delta\colon\ema{w}\to\ema{w}\tri\ema{w}$ pointing the direction $f$ at $B$.
+
+Looking at the picture we drew of the comonoid in \eqref{eqn.walking_arrow_bent_cor}, it should come as no surprise that the corresponding category $\cat{W}$ is the \emph{walking arrow category}, which is a preorder with two objects and one morphism between them:
 \begin{center}
     $\cat{W}\coloneqq\:$\boxCD{examplecolor}{
     $A\Too{f}B$}
 \end{center}
-We will use the category $\cat{W}$ as inspiration for equipping $w$ with a comonoid structure $(w,\epsilon,\delta)$. The map $\epsilon$ will pick out identity arrows and the map $\delta$ will tell us about codomains and composition (which is rather trivial in the case of $\cat{W}$). Here's a picture of $w\cong\yon^\2+\yon$:
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\coloneqq$" left] {
-	\begin{tikzpicture}[trees, sibling distance=5mm]
-    \node["\tiny $A$" below, red] (1) {$\bullet$} 
-      child  {coordinate (iA) \idchild}
-      child {coordinate (f)};
-    \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
-      child  {coordinate (iB) \idchild};
-    \node[below left=0 of iA, font=\tiny] {$i_A$};
-    \node[below left=0 of iB, font=\tiny] {$i_B$};
-    \node[below right=0 of f, font=\tiny] {$f$};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
+Here we omit the identity morphisms from our picture, but we know that they exist.
 
-We first need to choose a map of polynomials $\epsilon\colon w\to\yon$; it can be identified with a dependent function $\epsilon^\sharp\colon (o\in w(\1))\to w[o]$, assigning to each position a direction there. Let's take $\epsilon^\sharp(A)\coloneqq i_A$ and $\epsilon^\sharp(B)\coloneqq i_B$:
-\[
-\begin{tikzpicture}[trees, bend right=60]
-  \node[red] (1) {$\bullet$} 
-  	child  {coordinate (11) \idchild}
-    child {coordinate (12)};
-  \node[right=1.5 of 1] (1y) {$\bullet$}
-  	child {coordinate (1y1)};
-%
-  \node[right=2 of 1y, blue] (2) {$\bullet$} 
-  	child  {coordinate (21) \idchild};
-  \node[right=1.5 of 2] (2y) {$\bullet$}
-  	child {coordinate (2y1)};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (1y);
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2) -- (2y);
-	\draw[densely dotted, postaction={decorate}] (1y1) to (11);
-	\draw[densely dotted, postaction={decorate}] (2y1) to (21);
-\end{tikzpicture}
-\]
-Now we need a map of polynomials $\delta\colon w\to w\tri w$. Let's draw out $w\tri w$ to see what it looks like.
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$w\tri w=$" left] {
-	\begin{tikzpicture}[trees,
-	  level 1/.style={sibling distance=5mm},
-  	level 2/.style={sibling distance=2.5mm}]
-    \node[red] (1) {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			}
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			};
-    \node[right=1 of 1, red] (2) {$\bullet$} 
-      child  {
-        node [red]{$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			};
-    \node[right=1 of 2, red] (3) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-				\idchild
-			}
-      child  {
-        node [red] {$\bullet$} 
- 		    child {\idchild}
-      	child {}
-			};
-    \node[right=1 of 3, red] (4) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			};
-    \node[right=.8 of 4, blue] (5) {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {\idchild}
-      	child {}
-			\idchild
-			};
-    \node[right=.6 of 5, blue] (6) {$\bullet$} 
-      child {node [blue] {$\bullet$} 
-      	child  {\idchild}
-			\idchild
-			};
-  \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-The map $\delta$ is going to tell us both about codomains and composition. Here it is:
-\[
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-%
-  \node[right=2 of 2A, blue] (1B) {$\bullet$} 
-  	child  {coordinate (1B1) \idchild};
-  \node[right=1.5 of 1B, blue] (2B) {$\bullet$} 
-  	child {node [blue] {$\bullet$} 
-    child  {coordinate (2B1) \idchild}
-		\idchild
-	};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
-	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
-\end{tikzpicture}
-\]
-The on-positions map selects, for each position (either $A$ or $B$) the two-level tree starting at that position and having the correct codomains: the identity arrow on $A$ points to the corolla for $A$; the $f$ map points to the corolla for $B$; and the identity arrow on $B$ points to the corolla for $B$. The on-directions maps assign the correct composites. Here is $\delta\colon w\to w\tri w$ again, in terms of polyboxes.
-\[
-\begin{tikzpicture}
-	\node (p1) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_A$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_A$\at$A$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p1] (p2) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_A$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$f$\at$A$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p2] (p3) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$f$\at$A$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$f$\at$A$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-	\node[right=1 of p3] (p4) {
-	  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$i_B$\at$B$};
-  	\node[poly, cod, right= of p.south, yshift=-1ex] (q) {$i_B$\at$B$};
-  	\node[poly, cod, above=of q] (r) {$i_B$\at$B$};
-  	\draw (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] (r_pos);
-  	\draw (r_dir) to[last] (p_dir);
-  \end{tikzpicture}  
-	};
-\end{tikzpicture}
-\]
-
-It remains to check that $(w,\epsilon,\delta)$ really is a comonoid, i.e.\ that the diagrams in \eqref{eqn.erasure_law} and \eqref{eqn.coassoc_law} commute. We will check unitality only for $A$; it is easier for $B$.
-\[
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A1)}
-		\idchild
-		}
-		child {
-			node {$\bullet$}
-			child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
-\end{tikzpicture}
-\hspace{1in}
-\begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-	\node (1A) [red] {$\bullet$} 
-  	child  {coordinate (1A1) \idchild}
-    child {coordinate (1A2)};
-  \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-      child  {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (2A1) \idchild}
-      	child {coordinate (2A2)}
-			\idchild
-			}
-      child {node [blue] {$\bullet$} 
-      	child  {coordinate (2A3) \idchild}
-			};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-	\node (3A) [right=1.5 of 2A] {$\bullet$}
-		child {
-        node [red] {$\bullet$} 
- 		    child  {coordinate (3A1) \idchild}
-      	child {coordinate (3A2)}
-		};
-	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
-\end{tikzpicture}
-\]
-In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{W}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+The category $\cat{W}$ has two objects, the $\ema{w}$-positions $A$ and $B$.
+It has two morphisms with domain $A$, the $\ema{w}[A]$-directions $\id_A$ and $f$; and one morphism with domain $B$, the $\ema{w}[B]$-direction $\id_B$.
+The morphisms $\id_A$ and $\id_B$ picked out by the erasure are the identity morphisms, and the duplicator assigns them codomains that are equal to their domains.
+The duplicator also assigns $f$ the codomain $B$; and as $\cat{W}$ is then a preorder, composites are determined automatically.
 \end{example}
 
-
-
-
 \begin{exercise}
-Let $(\ema{c},\epsilon,\delta)$ be the comonoid corresponding to the category depicted as follows (identity morphisms omitted):
+Let $(\ema{c},\epsilon,\delta)$ be the comonoid corresponding to the preorder depicted as follows (identity morphisms omitted):
 \begin{center}
     \boxCD{exercisecolor}{$B\From{f}A\To{g}C$}
 \end{center}
@@ -5695,13 +5482,13 @@ Let $(\ema{c},\epsilon,\delta)$ be the comonoid corresponding to the category de
     \item Characterize the duplicator $\delta$.\qedhere
 \end{enumerate}
 \begin{solution}
-We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the category \boxCD{white}{$B\From{f}A\To{g}C$}.
+We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the preorder \boxCD{white}{$B\From{f}A\To{g}C$}.
 \begin{enumerate}
     \item There are three morphisms with domain $A$, namely $\id_A,f,$ and $g$; the only other morphisms are the identity morphisms on $B$ and $C$.
     So the carrier is $\ema{c}=\{A\}\yon^{\{\id_A,f,g\}}+\{B\}\yon^{\{\id_B\}}+\{C\}\yon^{\{\id_C\}}$.
     \item It suffices to specify the eraser $\epsilon\colon\ema{c}\to\yon$ on directions: as always, $\epsilon_i^\sharp\colon\1\to\ema{c}[i]$ picks out $\id_i$ for each $i\in\ema{c}(\1)=\{A,B,C\}$.
-    \item The duplicator $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ tells us the codomain of each morphism, as well as how every pair of composable morphisms compose (which in this case can always be deduced from identity laws).
-    We can completely characterize the behavior of $\delta$ using polyboxes:
+    \item The duplicator $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ tells us the codomain of each morphism, as well as how every pair of composable morphisms compose (which in the case of a preorder can be deduced automatically).
+    So we can completely characterize the behavior of $\delta$ using polyboxes as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos, node distance=2ex and 1.4cm, font=\tiny]
   \node (a) {
@@ -5776,27 +5563,36 @@ We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the categor
 	};
 \end{tikzpicture}
 \]
-
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-%**Adjust, say we want it to be connected
+\begin{exercise}
+We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $A\yon$ has a unique comonoid structure.
+To what category does this comonoid correspond?
+\begin{solution}
+The linear polynomial $A\yon$ corresponds to a category whose objects form the set $A$ and whose only morphisms are identities: in other words, it is the discrete category on $A$.
+\end{solution}
+\end{exercise}
+
 \begin{exercise}\label{ex.star_shaped}
 \begin{enumerate}
-	\item Find a category structure for the polynomial $\yon^{\ord{n}+\1}+\ord{n}\yon$.
+	\item Find a comonoid structure for the polynomial $p\coloneqq\yon^{\ord{n}+\1}+\ord{n}\yon$ whose corresponding category is a preorder.
+	(It is enough to fully describe the category that it corresponds to.)
 	\item Would you call your category ``star-shaped''?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Take the discrete category on $\ord{n}$ and adjoin a unique initial object $A$, so that the only non-identity morphisms are the morphisms from $A$ to each of the other objects exactly once.
-    Then this category has the carrier $\yon^{\ord{n}+\1} + \ord{n}\yon$.
-    \item This category could be thought of as ``star-shaped,'' with the initial object in the center with morphisms leading out to the other $n$ objects as spokes.
+    \item The polynomial $p\coloneqq\yon^{\ord{n}+\1}+\ord{n}\yon$ has $n+1$ positions: $1$ with $n+1$ directions and the rest with $1$ direction each.
+    So any category carried by $p$ has $n+1$ objects, of which only $1$ has any nonidentity morphisms coming out of it: in fact, it has $n$ nonidentity morphisms coming out of it.
+    But if the category is to be a preorder, each of these $n$ nonidentity morphisms must have a distinct codomain.
+    As there are exactly $n$ other objects, this completely characterizes the category.
+    Equivalently, it is the discrete category on $\ord{n}$ adjoined with a unique initial object, so that the only nonidentity morphisms are the morphisms out of that initial object to each of the other objects exactly once.
+    \item This category can be thought of as ``star-shaped'' if we picture the initial object in the center with morphisms leading out to the other $n$ objects like spokes.
 \end{enumerate}
 \end{solution}
 \end{exercise}
-
 
 % ** Figure out what's up with all this stuff...
 %
@@ -6033,38 +5829,51 @@ We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the categor
 %\end{exercise}
 %
 
-\begin{example}[What category is $S\yon^S$?] \label{ex.state_comonad}
-The first comonoid we introduced, back in \cref{ex.state_comonad_1} was $\com{S}=(p,\epsilon,\delta)$, where $p=S\yon^S$ for some set $S$. Now we know that comonoids correspond to categories. So what category $\cat{S}$ corresponds to $\com{S}$?
+\begin{example}[State systems as categories] \label{ex.state_cat}
+We know that every state system $\ema{s}\iso S\yon^S$ with its do-nothing enclosure $\epsilon\colon\ema{s}\to\yon$ and its transition lens $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ is a comonoid, so what category $\cat{S}$ does $(\ema{s},\epsilon,\delta)$ correspond to?
 
-By the work above, we know that $\cat{S}$ has object set $S=p(\1)$, and that for every object $s\in S$ there are $S$-many emanating morphisms, though we don't yet know their codomains nor the composition formula. 
+Recall from \cref{ex.not_all_com_state} that state systems are exactly those comonoids whose codomain (i.e.\ ``target'') functions $\cod\colon\ema{s}[s]\to\ema{s}(\1)$ for $s\in\ema{s}(\1)$ are bijections.
+That is, from every object $s\in\Ob\cat S=\ema{s}(\1)$, there is exactly $1$ morphism to every object $t\in\Ob\cat S$.
+So not only is $\cat S$ a preorder, it is the \emph{codiscrete preorder} on $\ema{s}(\1)$, where there is always a morphism between every pair of objects.
 
-To calculate the codomains and compositions we examine the map $\delta\colon p\to p\tri p$, which was given set-theoretically in \eqref{eqn.state_comonoid_eps_del} and in terms of polyboxes in \eqref{eqn.state_comonoid_eps_del2}. We repeat it here for your convenience:
+Let's redraw the polyboxes for the do-nothing enclosure of $\ema{s}$ from \eqref{eqn.do_nothing_polybox} and the transition lens of $\ema{s}$ from \eqref{eqn.trans_lens_polybox}, this time with our new arrow labels, as a sanity check:
 \[
 \begin{tikzpicture}
-	\node (id) {
-  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
-  	\node[poly, identity, right=of S, "$\yon$" right] (y) {\pphantom{s}{s}};
-  	\draw (S_pos) to[first] (y_pos);
-  	\draw (y_dir) to[last] (S_dir);
-		\node at ($(S)!.5!(y)$) {$\epsilon$};
+\node (erase) {
+
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$\ema{s}$" left] (S) {$\id_s$\at$s$};
+
+    \draw (S_pos) to[climb'] node[right] {$\idy$} (S_dir);
+\end{tikzpicture}
+
+};
+\node[right=of erase] (dupl) {
+
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$\ema{s}$" left] (r) {$s_0\to s_2$\at$s_0$};
+	\node[poly, cod, right=2 of r.south, yshift=-2.5ex, "$\ema{s}$" right] (p) {$s_0\to s_1$\at$s_0$};
+	\node[poly, cod, above=.8 of p, "$\ema{s}$" right] (p') {$s_1\to s_2$\at$s_1$};
+
+	\draw[double] (r_pos) to[first] node[below] {} (p_pos);
+	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
+	\draw (p'_dir) to[last] node[above] {$\then$} (r_dir);
   \end{tikzpicture}
-  };
-  \node[right=of id] (co) {
-  \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom] (p) {$s_2$\at$s$};
-  	\node[poly, cod, right=2 of p.south, yshift=-1ex] (q) {$s_1$\at$s$};
-  	\node[poly, cod, above=of q] (r) {$s_2$\at$s_1$};
-  	\draw[double] (p_pos) to[first] (q_pos);
-  	\draw (q_dir) to[climb] node[right] {$\cod$} (r_pos);
-  	\draw (r_dir) to[last] node[above, sloped] {$\comp$} (p_dir);
-  \end{tikzpicture}  
-  };
+
+};
 \end{tikzpicture}
 \]
-The $\epsilon$ map is saying that the identity on the object $s$ is the emanating morphism $s$. Remember that both the set of objects and the set of morphisms emanating from any given object are $S$. The map $\cod=\delta_2$ is telling us that the codomain of the morphism $s_1$ emanating from $s$ is the object $s_1$, and that the composite of $s_1$ and $s_2$ is $s_1\then s_2=s_2$. 
+Indeed, we had already been writing the directions of $\ema{s}$ as arrows $s\to t$, knowing that each was uniquely specified by its source $s$ and its target $t$ in $\ema{s}(\1)$.
+And in \cref{subsec.comon.sharp.state.cohere}, we had already noted that $\id_s$ was just the arrow $s\to s$.
+So state systems have been categories with exactly one morphism between every pair of objects all along.
 
-What this all means is that $\cat{S}$ is the category with $S$-many objects and a unique morphism $s\to s'$ for any $s,s'\in S$. Here are pictures for $S=\3$ and $S=\1\5$, with all maps (even identities) drawn:
+Other names for this category include the \emph{indiscrete preorder} and the \emph{codiscrete} or \emph{indiscrete category}.
+These names highlight the fact that every object of this category is isomorphic to every other object: in fact, every arrow $s\to t$ is an isomorphism with inverse $t\to s$, for these compose as $\id_s\colon s\to s$ in one direction and $\id_t\colon t\to t$ in the other.
+Thus this category is also a \emph{groupoid}, and it may be called the \emph{codiscrete}, \emph{indiscrete}, or \emph{contractible groupoid}\dots but we will call it the \emph{state category on} $S$, where $S$ is the set of positions of $\ema{s}$ or objects of $\cat S$.%** Is this the best name? All categories are essentially state categories. Is there some universal property that this satisfies that we can name it after? 
+
+% Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}, because we will use these to think about states of dynamical systems, and also because the state comonad in functional programming is $S\yon^S$.
+
+Here are the state categories on $\3$ and on $\1\5$, with all maps (even identities) drawn:
 \[
 \begin{tikzpicture}
 \def\n{3}% how many nodes
@@ -6076,7 +5885,7 @@ What this all means is that $\cat{S}$ is the category with $S$-many objects and 
 \foreach\x in{1,...,\n}{
   \foreach\y in{1,...,\n}{
     \ifnum\x=\y\draw[->] (n-\x) to [in=360/\n*\x-15,out=360/\n*\x+15,loop] ();\relax\else
-      \draw (n-\x) edge[->,bend right=3] (n-\y);
+      \draw (n-\x) edge[->,bend right=10] (n-\y);
     \fi
   }
 }
@@ -6096,19 +5905,48 @@ What this all means is that $\cat{S}$ is the category with $S$-many objects and 
 % Source: Asterix: https://tex.stackexchange.com/questions/390647/understanding-complete-graph-example-in-tikz
 \end{tikzpicture}
 \]
-Some people would call this the contractible groupoid, or the terminal category with $S$-elements, or the unique category whose underlying graph is complete on $S$ vertices. The one that's \emph{least} good for us will be ``terminal'' category, because as we'll see, we're going to be interested in different sorts of morphisms between categories than the usual ones, namely cofunctors rather than functors, and $\cat{S}$ is not terminal for cofunctors.   %** check this: haven't defined cofunctors yet
-
-Anyway, to avoid confusion, we'll refer to $\cat{S}$ as the \emph{state category on $S$}, because we will use these to think about states of dynamical systems, and also because the state comonad in functional programming is $S\yon^S$.
+The picture on the left should look familiar: it's what we drew in \cref{ex.trans_trees} when took the corolla picture for $\3\yon^\3$ and bent the arrows to point at their targets according to its transition lens.
+Notice that the graphs we obtain in this way are always complete.
 \end{example}
 
-\begin{exercise}
-We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $A\yon$ has a unique comonoid structure.
-What category does it correspond to?
+\begin{exercise} \label{exc.not_state_cat_but_same_carrier}
+Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
 \begin{solution}
-The linear polynomial $A\yon$ corresponds to a category whose objects form the set $A$ and whose only morphisms are identities: in other words, it is the discrete category on $A$.
+In the case of $S\coloneqq\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category, the only category with no objects; and in the case of $S\coloneqq\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms, again the only such category.
+So in those cases, the comonoid structure on $S\yon^S$ is unique.
+
+Now assume $|S|\geq2$.
+The state category is always connected, but we can always find a comonoid structure on $S\yon^S$ given by a category that is not connected---and thus not isomorphic to the state category---as follows.
+Consider a category whose object set is $S$ that has no morphisms between distinct objects, so that it is certainly not connected.
+Then to specify the category, it suffices to specify a monoid associated with each object that will give the morphisms whose domain and codomain are equal to that object.
+But there is always a monoid structure on a given set $S$.
+If $S$ is finite, we can take the cyclic group $\zz/|S|\zz$ of order $|S|$, so that the resulting category has carrier $S\yon^{\zz/|S|\zz}\iso S\yon^S$.
+On the other hand, if $S$ is infinite, we can take the free monoid on $S$, which has cardinality $\sum_{n\in\nn}|S|^\ord{n}=|\nn||S|=|S|$.
+So the resulting category will again have carrier $S\yon^S$.
 \end{solution}
 \end{exercise}
 
+Not only does \cref{ex.state_cat} finally explain what our state systems really are (they're just special categories!), it illustrates two important features of our story.
+One is that on positions, the duplicator $\delta\colon\ema{c}\to\ema{c}\tri\ema{c}$ of a comonoid takes the corolla picture of $\ema{c}$ and ``bends the arrows'' so that they point to other roots, yielding the underlying graph of a category.
+Then $\delta$ on directions collapses two-arrow paths in the graph down to individual arrows, while the eraser $\epsilon\colon\ema{c}\to\yon$ identifies empty paths with identity arrows.
+
+Another important point is that we can view any category as a \emph{generalized state system}: its objects as \emph{states}, and its morphisms as \emph{transitions} between states.
+The polynomial comonoid perspective is particularly suited for thinking about categories in this way: each object is a position that we could be in, and each morphism out of that object is a direction that we might take.
+What is special about a comonoid is that each direction will always have another position at the end of it, making it reasonable to think of these directions as transitions between different states; and any sequence of transitions that we can follow is itself a transition.
+
+Comparing these ideas, we see that they say the same thing: the first from the perspective of trees and graphs, the second from the perspective of arenas and dynamics.
+We might say that
+\slogan{
+    a comonoid structure on a corolla forest turns\\
+    roots into vertices and\\
+    leaves into composable arrows between vertices;
+}
+or that
+\slogan{
+    a comonoid structure on an arena turns\\
+    positions into states and\\
+    directions into composable transitions between states.
+}
 
 \subsubsection{Monoids and monoid actions}
 
@@ -6175,6 +6013,17 @@ commutes (trivial on positions, equivalent to the monoid's associativity conditi
 \end{solution}
 \end{exercise}
 
+\begin{example}[Cyclic lists]
+For any $n\in\nn$, consider $\zz/n\zz$, the cyclic group of order $n$, viewed as a monoid or, equivalently, a $1$-object category.
+Its carrier is $\yon^{\zz/n\zz}$.
+
+As a polynomial functor, $\yon^{\zz/n\zz}$ sends each set $X$ to the set of length-$n$ tuples in $X$.
+But the comonoid structure lets us think of these tuples as \emph{cyclic lists}: once we reach the last element, we can loop back around to the first element.
+Indeed, as a natural transformation, $\epsilon\colon\yon^{\zz/n\zz}\to\yon$ picks out the ``current'' element via its $X$-component $\epsilon\tri X\colon\yon^{\zz/n\zz}\tri X\to\yon\tri X$, which is just a function $\epsilon_X\colon X^{\zz/n\zz}\to X$; and $\delta$ lets us move around the list.%**what does this mean? exercise??
+
+We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}\yon^{\zz/n\zz}$ is also a comonoid.
+\end{example}
+
 \begin{example}[Monoid actions]\label{ex.monoid_action}
 Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon S\times M\to S$ is a \emph{(right) monoid action}.
 That is, for all $s\in S$ we have $\alpha(s,e)=s$ and $\alpha(s,m*n)=\alpha(\alpha(s,m),n)$ for $m,n\in M$; equivalently, the diagrams
@@ -6204,7 +6053,7 @@ With notation as in \cref{ex.monoid_action}, characterize the comonoid structure
     \item Verify that the coassociative law holds.
     \item Describe the corresponding category $\cat{A}$.
     In particular, what are the morphisms between any fixed pair of objects, what are the identity morphisms, and how do morphisms compose?
-	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_comonad_1}? %**fix this reference
+	\item $M$ always acts on itself by multiplication. Is the associated comonoid structure on $M\yon^M$ the same or different from the one coming from \cref{ex.state_cat}?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6237,53 +6086,63 @@ We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \
     \item The associated category $\cat{A}$ is a category whose objects are the elements of the set $S$ being acted on, and whose morphisms $s\to t$ for each $s,t\in S$ are the elements of the monoid $m\in M$ that send $s$ to $t$, i.e.\ $\alpha(s,m)=t$.
     The identity morphism on each object is just the unit $e\in M$, while morphisms compose via the multiplication $*$.
     
-    \item **
+    \item ** % usually different, only same if multiplication is bijective
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-
-
-\begin{example}[Cyclic lists]
-For any $n\in\nn$, consider $\zz/n\zz$, the cyclic group of order $n$, viewed as a monoid or, equivalently, a $1$-object category.
-Its carrier is $\yon^{\zz/n\zz}$.
-
-As a polynomial functor, $\yon^{\zz/n\zz}$ sends each set $X$ to the set of length-$n$ tuples in $X$.
-But the comonoid structure lets us think of these tuples as \emph{cyclic lists}: once we reach the last element, we can loop back around to the first element.
-Indeed, as a natural transformation, $\epsilon\colon\yon^{\zz/n\zz}\to\yon$ picks out the ``current'' element via its $X$-component $\epsilon\tri X\colon\yon^{\zz/n\zz}\tri X\to\yon\tri X$, which is just a function $\epsilon_X\colon X^{\zz/n\zz}\to X$; and $\delta$ lets us move around the list.%**what does this mean? exercise??
-
-We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}\yon^{\zz/n\zz}$ is also a comonoid.
-\end{example}
-
-
-
-\subsubsection{Other categories}
-
 \begin{example}[The category of $A$-streams]\label{ex.streams_category}
-For any set $A$, the set $A^\nn$ of $A$-streams
+Fix a set $A$.
+The set $A^\nn$ consists of infinite sequences of elements in $A$, which we will call \emph{$A$-streams}.
+We can write an $A$-stream $\ol{a}\in A^\nn$ as follows:
 \[
-s=(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots)
+    \ol{a}\coloneqq(a_0\leadsto a_1\leadsto a_2\leadsto a_3\leadsto\cdots),
 \]
-are the objects of a category, where the set of morphisms emanating from each stream $s\in A^\nn$ is $\nn$. The identity on $s$ is given by $0$ and the composite of two morphisms is the sum of the corresponding natural numbers.
+with $a_n\in A$ for each $n\in\nn$.
+
+Then there is a monoid action $\tau\colon A^\nn\times\nn\to A^\nn$ for which
+\[
+    \tau(\ol{a},n)\coloneqq(a_n\leadsto a_{n+1}\leadsto a_{n+2}\leadsto a_{n+3}\leadsto\cdots).
+\]
+Roughly speaking, $\nn$ acts on $A$-streams by shifting them forward by a natural number of steps.
+We can check that this is a monoid action by observing that $\tau(\ol{a},0)=\ol{a}$ and that $\tau(\ol{a},m+n)=\tau(\tau(\ol{a},m),n)$.
+
+So by \cref{ex.monoid_action}, the corresponding comonoid is carried by $A^\nn\yon^\nn$.
+Each $A$-stream $\ol{a}$ is a position, and each $n\in\nn$ is a direction at $\ol{a}$ that can be visualized as the sequence of $n$ wavy arrows starting from $a_0$ and ending at $a_n$.
+Then at the end of the direction $n$ is a new $A$-stream: the rest of $\ol{a}$ starting at $a_n$.
+Indeed, this $A$-stream is exactly $\tau(\ol{a},n)$, the codomain assigned to the direction $n$ at $\ol{a}$.
+
+Alternatively, if we shift from the domain-centric perspective to the usual hom-set perspective, this comonoid corresponds to a category whose objects are $A$-streams and whose morphisms $\ol{a}\to\ol{b}$ consist of every way in which $\ol{b}$ can be viewed as a continguous substream of $\ol{a}$: that is, there is a morphism $n\colon\ol{a}\to\ol{b}$ for each $n\in\nn$ satisfying
+\[
+    (a_n\leadsto a_{n+1}\leadsto\cdots)=(b_0\leadsto b_1\leadsto\cdots).
+\]
+The identity on $\ol{a}$ is given by $0\colon\ol{a}\to\ol{a}$; and the composite of two morphisms is the sum of the corresponding natural numbers, as a substream of a substream of $\ol{a}$ is just a substream of $\ol{a}$ shifted by the appropriate amount.
 
 We will see this category again in \cref{ex.streams_cofree}.
 \end{example}
 
+\begin{exercise}
+Let $A\coloneqq\{0,1,2\}$ and consider the category of $A$-streams as defined in \cref{ex.streams_category}.
+\begin{enumerate}
+    \item % ** some practice problems ``classify/how many morphisms are between...?'' and the like
+\end{enumerate}
+\end{exercise}
 
-%**Why is the above example not a preorder?
+\subsubsection{The degree of an object}
 
-%**coproducts??
-
+We could continue to list examples of polynomial comonoids, but of course any list of small categories is already a list of such comonoids.
+So instead, we conclude this section with some terminology that the polynomial perspective on a category affords.
 
 \begin{definition}[Degree, linear]
 Let $\cat{C}$ be a category and $c\in\Ob\cat{C}$ an object. The \emph{degree of $c$}, denoted $\deg(c)$, is the set of arrows in $\cat{C}$ that emanate from $c$.
 
-If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
+If $\deg(c)\iso\1$, we say that $c$ is \emph{linear}.
+If $\deg(c)\iso\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
 \end{definition}
 
 \begin{exercise}
 \begin{enumerate}
-	\item If every object in $\cat{C}$ is linear, what does it mean about $\cat{C}$?
+	\item If every object in $\cat{C}$ is linear, what can we say about $\cat{C}$?
 	\item Is it possible for an object in $\cat{C}$ to have degree $0$?
 	\item Find a category that has an object of degree $\nn$.
 	\item Up to isomorphism, how many categories are there that have just one linear and one quadratic (degree 2) object?
@@ -6293,29 +6152,13 @@ If $\deg(c)\cong \1$, we say that $c$ is \emph{linear} and if $\deg(c)\cong\ord{
 \begin{enumerate}
     \item If every object in $\cat{C}$ is linear, then the only morphisms in $\cat{C}$ are the identity morphisms, so $\cat{C}$ must be a discrete category.
     \item It is not possible for an object in $\cat{C}$ to have degree $0$, as every object must have at least an identity morphism emanating from it.
-    \item Some possible examples of categories with objects of degree $\nn$ are the monoid $(\nn, 0, +)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_monoid}), the poset $(\nn, \leq)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_poset}), and the state category on $\nn$ (see \cref{ex.state_comonad}).
+    \item Some possible examples of categories with objects of degree $\nn$ are the monoid $(\nn, 0, +)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_monoid}), the poset $(\nn, \leq)$ (see \cref{exc.ema_polys} \cref{exc.ema_polys.nat_poset}), and the state category on $\nn$ (see \cref{ex.state_cat}).
     \item Up to isomorphism, there are $3$ categories with just one linear and one quadratic object.
-    They can be distinguished by the behavior of the single non-identity morphism.
-    Either its domain and its codomain are distinct, in which case we have the walking arrow category; or its domain and its codomain are the same, in which case it can be composed with itself to obtain either itself or the identity, yielding $2$ more categories for a total of $3$.
+    They can be distinguished by the behavior of the single nonidentity morphism.
+    Either its domain and its codomain are distinct, in which case we have the walking arrow category; or its domain and its codomain are the same, in which case it can be composed with itself to obtain either itself or the identity.
+    So there are $3$ possible categories in total.
     \item Yes: since (isomorphic) categories correspond to (isomorphic) comonoids, there are as many categories with one linear and one quadratic object up to isomorphism as there are comonoid structures on $\yon^\2+\yon$.
 \end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise} \label{exc.not_state_cat_but_same_carrier}
-Let $S$ be a set. Is there any comonoid structure on $S\yon^S$ other than that of the state category?
-\begin{solution}
-In the case of $S\coloneqq\0$, the only comonoid structure on $S\yon^S\iso\0$ is given by the empty category, the only category with no objects; and in the case of $S\coloneqq\1$, the only comonoid structure on $S\yon^S\iso\yon$ is given by the category with $1$ object and no nonidentity morphisms, again the only such category.
-So in those cases, the comonoid structure on $S\yon^S$ is unique.
-
-Now assume $|S|\geq2$.
-The state category is always connected, but we can always find a comonoid structure on $S\yon^S$ given by a category that is not connected---and thus not isomorphic to the state category---as follows.
-Consider a category whose object set is $S$ that has no morphisms between distinct objects, so that it is certainly not connected.
-Then to specify the category, it suffices to specify a monoid associated with each object that will give the morphisms whose domain and codomain are equal to that object.
-But there is always a monoid structure on a given set $S$.
-If $S$ is finite, we can take the cyclic group $\zz/|S|\zz$ of order $|S|$, so that the resulting category has carrier $S\yon^{\zz/|S|\zz}\iso S\yon^S$.
-On the other hand, if $S$ is infinite, we can take the free monoid on $S$, which has cardinality $\sum_{n\in\nn}|S|^\ord{n}=|\nn||S|=|S|$.
-So the resulting category will again have carrier $S\yon^S$.
 \end{solution}
 \end{exercise}
 
@@ -6323,7 +6166,7 @@ So the resulting category will again have carrier $S\yon^S$.
 %-------- Section --------%
 \section{Morphisms of polynomial comonoids are cofunctors}
 
-Now that we have characterized the comonoids in $\poly$, let us consider the morphisms between them.
+Now that we have characterized the comonoids of $\poly$, let us consider the morphisms between them.
 These turn out to correspond to a rather odd kind of map between categories known as a \emph{cofunctor}.
 
 %---- Subsection ----%
@@ -6498,7 +6341,7 @@ and the duplicator preservation law \eqref{eqn.pres_dup} in polyboxes as
 \end{tikzpicture}
 \end{equation}
 If we read off the equations from these polyboxes, interpreting polynomial comonoids as categories, we derive the following definition of a cofunctor.
-(Note that \eqref{eqn.pres_id} below is equivalent to \eqref{eqn.pres_era_draw}, while \eqref{eqn.pres_cod} and \eqref{eqn.pres_comp} together are equivalent to \eqref{eqn.pres_dup_draw}.)
+(Here \eqref{eqn.pres_id} is equivalent to \eqref{eqn.pres_era_draw}, while \eqref{eqn.pres_cod} and \eqref{eqn.pres_comp} are together equivalent to \eqref{eqn.pres_dup_draw}.)
 
 \begin{definition}[Cofunctor]\label{def.cofunctor}
 Let $\cat{C}$ and $\cat{C'}$ be (small) categories.
@@ -6551,7 +6394,6 @@ Here $F\colon\cat{C}\coto\cat{D}$ and $G\colon\cat{D}\coto\cat{E}$ are cofunctor
         \cat{E}[G(Fc)]\To{G^\sharp_{Fc}}\cat{D}[Fc]\To{F^\sharp_c}\cat{C}[c],
     \]
     sending each morphism $h$ with domain $G(Fc)$ to $F^\sharp_c\left(G^\sharp_{Fc}h\right)$.
-    \item
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6584,7 +6426,7 @@ Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
 
-% justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
+% ** justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
 
 % isomorphisms are the same...non-isos are very different
 
@@ -6594,12 +6436,17 @@ Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 
 \slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
 
+% The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
+
+
+
+
 % ** preserve structure...not surprising that they preserve isos
 
 
 % ** There's something tricky going on with the codomains here...check this
 \begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\cat{C}$ objects, and $g\colon Fc\to Fc'$ an isomorphism in $\cat{D}$. Then $F^\sharp_{c}g$ is also an isomorphism in $\cat{C}$.
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c,c'\in\cat{C}$ be objects, and $g\colon Fc\to Fc'$ be an isomorphism in $\cat{D}$. Then $F^\sharp_{c}g$ is also an isomorphism in $\cat{C}$.
 \end{proposition}
 \begin{proof}
 Let $g^{-1}\colon Fc'\to Fc$ be the inverse of $g$.
@@ -6610,26 +6457,34 @@ Then
 	F^\sharp_c\left(g\then g^{-1}\right)\\&=
 	F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c g}\left(g^{-1}\right) \tag*{\eqref{eqn.pres_comp}}
 \end{align*}
-Thus $F^\sharp_{c}(g)$ is a section of $F^\sharp_{c'}(g')$. The opposite is true similarly, completing the proof.
+and
+\begin{align*}
+	\id_{c'}&=
+	F^\sharp_{c'}\,\id_{Fc'} \tag*{\eqref{eqn.pres_id}}\\&=
+	F^\sharp_{c'}\left(g^{-1}\then g\right)\\&=
+	F^\sharp_{c'}\left(g^{-1}\right)\then F^\sharp_{\cod F^\sharp_{c'}g}g \tag*{\eqref{eqn.pres_comp}}
+\end{align*}
+%** does this actually work??
 \end{proof}
 
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
 
 From a realm where functors reign supreme, the back-and-forth behavior of cofunctors can seem foreign and  counterintuitive.
-Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture or model of the category $\cat{C}$ that can be found within another category $\cat{D}$---cofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that cofunctors generalize our dynamical systems.}
-A cofunctor $F\colon\cat{C}\coto\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
+Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture in the shape of $\cat{C}$, drawn with the objects and arrows of $\cat{D}$---cofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that cofunctors generalize our dynamical systems.}
+
+That is, a cofunctor $F\colon\cat{C}\coto\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
 Imagine the cofunctor as a box, with $\cat{C}$ on the inside and $\cat{D}$ on the outside.
-Some $c\in\cat{C}$ might be the current state inside the box, but all anyone outside the box can see is the object $Fc\in\cat{D}$ that the box chooses to display in lieu of $c$.
-Still, any morphism $g$ coming out of $Fc$ can be selected from the outside; the box guarantees that whatever $c$ is on the inside, there is a morphism $F^\sharp_c g$ coming out of that $c$.
-Then the new state on the inside is $\cod F^\sharp_c g$, the new object on the outside is $F\cod F^\sharp_c g=Fg$, and the process repeats in a manner compatible with identities and composition.
+Some $c\in\cat{C}$ may be the current state inside the box, but all anyone outside the box can see is the object $Fc\in\cat{D}$ that the box chooses to display in lieu of $c$.
+Still, any transition $g$ out of $Fc$ can be selected from the outside; the box guarantees that whatever $c$ is on the inside, there is a corresponding transition $F^\sharp_c g$ out of that $c$.
+As $g$ is followed from $Fc$ to $\cod g$ on the outside, $F^\sharp_c g$ is followed from $c$ to $\cod F^\sharp_c g$ on the inside.
+But codomain preservation guarantees that the new state $\cod g$ on the outside is equal to what the box would want to display in lieu of the new state $\cod F^\sharp_c g$ on the inside, as $\cod g=F\cod F^\sharp_c g$,
+Then the process repeats in a manner compatible with identities and composition.
 
 Here we give a variety of examples of cofunctors to get a better handle on them.
 
-
-% The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
-
 \subsubsection{Cofunctors to preorders}
+
 
 \subsubsection{Cofunctors to monoids}
 
