@@ -5579,14 +5579,14 @@ The linear polynomial $A\yon$ corresponds to a category whose objects form the s
 
 \begin{exercise}\label{ex.star_shaped}
 \begin{enumerate}
-	\item Find a comonoid structure for the polynomial $p\coloneqq\yon^{\ord{n}+\1}+\ord{n}\yon$ whose corresponding category is a preorder.
+	\item Find a comonoid structure for the polynomial $p\coloneqq{\yon}^{\ord{n}+\1}+\ord{n}\yon$ whose corresponding category is a preorder.
 	(It is enough to fully describe the category that it corresponds to.)
 	\item Would you call your category ``star-shaped''?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item The polynomial $p\coloneqq\yon^{\ord{n}+\1}+\ord{n}\yon$ has $n+1$ positions: $1$ with $n+1$ directions and the rest with $1$ direction each.
+    \item The polynomial $p\coloneqq{\yon}^{\ord{n}+\1}+\ord{n}\yon$ has $n+1$ positions: $1$ with $n+1$ directions and the rest with $1$ direction each.
     So any category carried by $p$ has $n+1$ objects, of which only $1$ has any nonidentity morphisms coming out of it: in fact, it has $n$ nonidentity morphisms coming out of it.
     But if the category is to be a preorder, each of these $n$ nonidentity morphisms must have a distinct codomain.
     As there are exactly $n$ other objects, this completely characterizes the category.
@@ -6766,7 +6766,7 @@ Let $S$ be a set. Describe a way to visualize cofunctors from categories into th
 
 \begin{exercise}
 \begin{enumerate}
-	\item Recall the star-shaped category $\yon^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
+	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
 	\item Describe cofunctors into $A\yon$ for a set $A$.
 	\item Describe cofunctors into $(\nn,\leq)$.
 	\item Describe cofunctors into $(\nn,\geq)$.
@@ -7687,82 +7687,36 @@ The forgetful functor $U\colon \smcat^\sharp\to\poly$ has a right adjoint $\cofr
 \[
     \adj{\smcat^\sharp}{U}{\cofree{-}}{\poly}
 \]
-where the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of $\cofree{p}$ for $p\in\poly$ is given by the limit of the following diagram:
-\begin{equation} \label{eqn.cofree_limit}
+where the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ for $p\in\poly$ is given by the limit of the following diagram:
+\begin{equation} \label{eqn.cofree_diagram}
 \begin{tikzcd}
 	\yon \ar[d] &
 	p \ar[d] &
-	p\tri p \ar[d] &
-	[10pt] p\tri p\tri p \ar[d] &
+	p\tripow2 \ar[d] &
+	[10pt] p\tripow3 \ar[d] &
 	\cdots\\
 	\1 &
 	p\tri\1 \ar[l, "!"'] &
-	p\tri p\tri\1 \ar[l, "p\:\tri\:!"'] &
-	p\tri p\tri p\tri\1 \ar[l, "p\:\tri\:p\:\tri\:!"'] &
-	\cdots\ar[l]
+	p\tripow2\tri\1 \ar[l, "p\:\tri\:!"'] &
+	p\tripow3\tri\1 \ar[l, "p\tripow2\:\tri\:!"'] &
+	\cdots.\ar[l]
 \end{tikzcd}
 \end{equation}
-\end{theorem}
-But first, let us investigate the implications of this theorem and give a concrete characterization of the cofree comonoid in terms of its positions, directions, and categorical structure.
-
-%---- Subsection ----%
-\subsection{The many (inter)faces of the cofree comonoid} \label{subsec.comon.cofree.cons.faces}
-
-% ** maybe move all this later, except keep the notation
-
-The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\smcat^\sharp$ with carrier $\ema{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
+That is, given a category $\cat{C}\in\smcat^\sharp$ with carrier $\ema{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
 \[
     \poly(\ema{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
 \]
-So every lens $\phi\colon\ema{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
+\end{theorem}
+As $\cofree{-}$ is the right adjoint of a forgetful functor sending comonoids to their carriers, this is a forgetful-cofree adjunction, and $\cofree{p}$ is called the \emph{cofree comonoid} on $p$.
 
-We can view $\phi$ as a dynamical system with an interface $p$ and a generalized state system $\ema{c}$, carrying an arbitrary category $\cat{C}$ of states and transitions.
-Then the lens $\text{Run}_n(\phi)\colon\ema{c}\to p\tripow{n}$ for $n\in\nn$, defined as the composite
-\[
-    \ema{c}\To{\delta^n}\ema{c}\tripow{n}\To{\phi\tripow{n}}p\tripow{n}
-\]
-models $n$ runs through the system $\phi$.
-
-Meanwhile, as the limit of the diagram \eqref{eqn.cofree_limit} with the row of polynomials of the form $p\tripow{n}$ across the top, the carrier $\ema{t}_p$ of the cofree comonoid on $p$ comes equipped with a lens $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$ for each $n\in\nn$.
-As the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\ema{c}\to\ema{t}_p$, we can obtain another lens $\ema{c}\to\tripow{n}$ as the composite
-\[
-    \ema{c}\To{f}\ema{t}_p\To{\epsilon^n_p}p\tripow{n}.
-\]
-
-It turns out that these two composites are equal---that is, the following diagram commutes:
-\[
-\begin{tikzcd}
-    \ema{c} \ar[r,"f"] \ar[d, "\delta^n"'] & \ema{t}_p \ar[d, "\epsilon^n_p"] \\
-    \ema{c}\tripow{n} \ar[r, "\phi\tripow{n}"'] & p\tripow{n}
-\end{tikzcd}
-\]
-We will prove this in \cref{**} once we have the tools to do so.
-
-Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\phi)\colon\ema{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\ema{t}_p$ equipped with lenses $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
-All together, $\ema{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
-But to see all this explicitly, we need to be clear on what the positions and directions of $\ema{t}_p$ are and what category $\cofree{p}$ it carries, as well as how each lens $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$ behaves.
+But before we prove \cref{thm.cofree}, let us investigate the implications of this theorem and give a concrete characterization of the cofree comonoid in terms of its positions, directions, and categorical structure.
 
 %---- Subsection ----%
 \subsection{The carrier of the cofree comonoid} \label{subsec.comon.cofree.cons.car}
 
-We begin by characterizing the carrier $\ema{t}_p\coloneqq U\cat{T}_p$ of the cofree comonoid as a polynomial.
-
-\subsubsection{Positions of the cofree comonoid, diagrammatically}
-
-Recall from \cref{ex.compute_limits} that in $\poly$, the positions of a limit are the limit of the positions.
-Moreover, in \eqref{eqn.cofree_limit}, every vertical map $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
-So on positions, the diagram collapses down to the following, viewed as a diagram in $\smset$:
-\begin{equation} \label{eqn.cofree_limit_pos}
-\begin{tikzcd}
-	\1 &
-	p(\1) \ar[l, "!"'] &
-	p\tri p(\1) \ar[l, "p(!)"'] &
-	[10pt] p\tri p\tri p(\1) \ar[l, "p\:\tri\:p(!)"'] &
-	\cdots\ar[l]
-\end{tikzcd}
-\end{equation}
-If you know about coalgebras for functors, as defined in \cref{ex.coalgebras}, then the limit of this diagram may be familiar to you: it is the \emph{terminal coalgebra for the functor} $p$ or the \emph{terminal $p$-coalgebra}.
-But it will be convenient for us to think about this limit a little differently, as the set of \emph{$p$-trees}: trees comprised of $p$-corollas.
+We begin by characterizing the carrier $\ema{t}_p\in\poly$ of the cofree comonoid on $p$.
+We can compute it directly as the limit of \eqref{eqn.cofree_diagram}, but we will be able to describe it more concretely in terms of what we call \emph{$p$-trees}: trees comprised of $p$-corollas.
+In doing so, we will formalize the tree pictures we have been using to describe polynomials all along.
 
 \subsubsection{Trees on polynomials}
 
@@ -7777,7 +7731,7 @@ To choose a $p$-tree in $\tr_p$:
 \begin{enumerate}
     \item choose a $p$-corolla:
     \begin{itemize}
-        \item its root $i_0\in p(\1)$ will be tree's root, and
+        \item its root $i_0\in p(\1)$ will be the tree's root, and
         \item its leaves in $p[i_0]$ will be the edges out of the root;
     \end{itemize}
     \item for each $p[i_0]$-leaf $a_1$:
@@ -7802,7 +7756,7 @@ To choose a $p$-tree in $\tr_p$:
 \end{enumerate}
 \end{quote}
 Of course, there may eventually be multiple copies of any one $p$-root as a vertex or $p$-leaf as an edge in our $p$-tree, and these vertices and edges are not literally the same.
-So we should really think of the positions and directions of $p$ involved each step as \emph{labels} for the vertices and edges of a $p$-tree.
+So we should really think of the positions and directions of $p$ involved each step as \emph{labels} for the vertices and edges of a $p$-tree---although crucially, each $p[i]$-direction must be used as a label exactly once among the edges emanating from a given vertex labeled with $i$.
 
 Although these instructions continue forever, we could abbreviate them by writing them recursively:
 \begin{quote}
@@ -7810,8 +7764,8 @@ To choose a $p$-tree in $\tr_p$:
 \begin{enumerate}
     \item choose a $p$-corolla:
     \begin{itemize}
-        \item its root $i_0\in p(\1)$ will be tree's root, and
-        \item its leaves in $p[i_0]$ will be the edges out of the root;
+        \item its root $i_0\in p(\1)$ will be (the label of) the tree's root, and
+        \item its leaves in $p[i_0]$ will be (the labels of) the edges out of the root;
     \end{itemize}
     \item for each $p[i_0]$-leaf $a_1$:
     \begin{enumerate}[label*=\arabic*.]
@@ -7823,7 +7777,8 @@ To choose a $p$-tree in $\tr_p$:
 \end{enumerate}
 \end{quote}
 
-Note that a $p$-tree can have infinite height---in fact, it always will unless every one of its branches terminates at a $p$-corolla with no leaves, i.e.\ a position with an empty direction set.
+We would like to draw some examples of $p$-trees, but note that a $p$-tree can have infinite height---in fact, it always will unless every one of its branches terminates at a $p$-corolla with no leaves, i.e.\ a position with an empty direction set.
+This means that plenty of $p$-trees cannot be drawn, even when all the position- and direction-sets of $p$ are finite; but we can instead consider finite-height portions of them that we will call \emph{pretrees}.
 
 \subsubsection{Pretrees on polynomials}
 
@@ -7881,12 +7836,22 @@ Here are four partially constructed $p$-trees:
 		};
 \end{tikzpicture}
 \end{equation}
-Note that only the third one---the single yellow dot---would count as an element of $\tr_p$. 
+Here only the third one---the single yellow dot---would count as an element of $\tr_p$. 
 After all, in \cref{def.poly_tree}, when we speak of a tree on $p$, we mean a tree for which every vertex is a position in $p$ with all of its emanating directions filled by another position in $p$.
 Since three of the four trees shown in \eqref{eqn.some_trees_misc58} have leaves emanating from the top that have not been filled by any $p$-corollas, these trees are not elements of $\tr_p$.
-However, each of them could be extended to an actual element of $\tr_p$ by continuing to fill in each open leaf with another $p$-corolla.
+
+However, each of these trees can be extended to an actual element of $\tr_p$ by continually filling in each open leaf with another $p$-corolla.
 These might continue forever---or, if you're lazy, you could just cap them all off with the direction-less yellow dot.
 \end{example}
+
+\begin{exercise}
+Let $q\coloneqq\yon^\2+\3\yon^\1$.
+Are there any finite $q$-trees?
+If not, could there be any vertices of a given $q$-tree with finitely many descendents?
+\begin{solution}
+With $q\coloneqq\yon^\2+\3\yon^\1$, every vertex of a $q$-tree starting from the root has either $1$ or $2$ outgoing edges, from which it follows that the tree is infinite and that every vertex has infinitely many descendents.
+\end{solution}
+\end{exercise}
 
 The trees in \eqref{eqn.some_trees_misc58} can all be obtained by following just the first $3$ levels of instructions for building a $p$-tree (in fact, exactly as many instructions as we initially wrote out).
 On the other hand, we know from \cref{subsec.comon.comp.def.corolla} that such a tree represents a position of $p\tripow3$, whose directions are its height-$3$ leaves---and this is true for any $n\in\nn$ in place of $3$.
@@ -7906,14 +7871,14 @@ On the other hand, we know from our discussion in \cref{subsec.comon.comp.def.co
 Nevertheless, we do want to refer to a stage $n$ pretree on $p$ as having up to $n$ levels of edges, rather than flattening it into, say, a corolla; so we will adopt the convention that if we write a polynomial out as $p\tripow{n}$ in ``$p\tripow{n}$-pretree,'' we mean a stage $n$ pretree on $p$ unless otherwise noted.
 \end{remark}
 
-\begin{remark}
+\begin{remark} \label{rmk.stage}
 In \cref{def.pretree}, we use \emph{stage} instead of \emph{height} to allow for the fact that a $p\tripow{n}$-pretree may not reach its maximum height $n$ if all of its branches terminate early.
 For example, the yellow dot in \eqref{eqn.some_trees_misc58} is a $p\tripow1$-pretree, but it is also a $p\tripow2$-pretree, a $p\tripow{50}$-pretree, and indeed a $p$-tree.
 On the other hand, even though it has height $0$, it is \emph{not} a $p\tripow0$-pretree, as we did assign its height-$0$ vertex a position of $p$, so it is not the case that we only assigned $p$-positions to vertices of height strictly less than $0$.
 A similar statement can be made for all $p$-trees of finite height, and indeed only to $p$-trees of finite height.
 
 In fact, there is exactly one stage-$0$ pretree on $p$ for any $p\in\poly$, and it is the stage-$0$ pretree of every possible $p$-tree.
-It is the rooted tree with no vertices other than the root and no position assigned to that root.
+It is the rooted tree with no vertices other than the root---which is therefore also the only leaf---and no position assigned to that root.
 This does follow from the definition, or you could accept it as a convention.
 Note that the stage-$0$ pretree is \emph{not} itself a $p$-tree for any $p\in\poly$, as a $p$-tree requires at least a $p$-position $i$ as a label for its root.
 More generally, any pretree on $p$ with unlabeled vertices is not yet a tree on $p$.
@@ -7925,29 +7890,38 @@ The following result summarizes our observations from \cref{subsec.comon.comp.de
 \begin{proposition}
 The $p\tripow{n}$-pretrees are in bijection with $p\tripow{n}(\1)$, and for each $i\in p\tripow{n}(\1)$ the height-$n$ leaves of the pretree corresponding to $i$ are in bijection with $p\tripow{n}[i]$.
 \end{proposition}
+In particular, $p\tripow0\iso\yon$, coinciding with our observation from \cref{rmk.stage} that there is exactly one $p\tripow0$-pretree, with a single height-$0$ leaf.
 
 Hence we can \emph{identify} the polynomial $p\tripow{n}$ with a forest of $p\tripow{n}$-pretrees, so that each $p\tripow{n}$-pretree is a $p\tripow{n}$-position whose directions are its height-$n$ leaves.
 This subsumes our corolla language in the case of $n=1$.
 
-\begin{example}[Trimming pretrees]
+\begin{example}[Trimming pretrees] \label{ex.trim}
 Since $p\tripow1(\1)\iso p(\1)$ and $p\tripow0(\1)\iso\yon(\1)\iso\1$, the unique function $!\colon p(\1)\to\1$ can be thought of as a function from $p\tripow1$-positions to $p\tripow0$-positions, or equivalently a function from stage-$1$ pretrees (i.e.\ corollas) to stage-$0$ pretrees on $p$.
 We can interpret this function as taking a corolla and ``stripping away'' its leaves along with the position-label on its root, leaving only a single unlabeled root: a stage-$0$ pretree.
 
-This deceptively boring function is what will make our whole theory work.
-For any $n\in\nn$, we can take the composition product of the identity on $p\tripow{n}$ and $!$, interpreted as a lens between constant polynomials, to obtain a lens $p\tripow{n}\tri \:!\colon p\tripow{n}\tri p(\1)\to p\tripow{n}\tri\1$, or equivalently a function $p\tripow{n}(!)\colon p\tripow{n+1}(\1)\to p\tripow{n}(\1)$ from stage-$(n+1)$ pretrees to stage-$n$ pretrees on $p$.
+This deceptively simple function has a surprising amount of utility when combined with other maps.
+For any $n\in\nn$, we can take the composition product in $\poly$ of the identity on $p\tripow{n}$ and $!$, interpreted as a lens between constant polynomials, to obtain a lens $p\tripow{n}\tri \:!\colon p\tripow{n}\tri p(\1)\to p\tripow{n}\tri\1$, or equivalently a function $p\tripow{n}(!)\colon p\tripow{n+1}(\1)\to p\tripow{n}(\1)$ from stage-$(n+1)$ pretrees to stage-$n$ pretrees on $p$.
 
 We can deduce the behavior of this function on stage-$(n+1)$ pretrees from what we know about how the composition product interacts with pretrees on $p$.
 The identity lens on $p\tripow{n}$ keeps the lower $n$ levels of each $p\tripow{(n+1)}$-pretree intact, while $!$ will ``strip away'' the $p\tripow{(n+1)}$-pretree's height-$(n+1)$ leaves, along with all the position-labels on its height-$n$ vertices.
+Thus $p\tripow{n}(!)$ is the function sending every stage-$(n+1)$ pretree on $p$ to its stage-$n$ pretree, effectively \emph{trimming it down} a level.
 
-
-we can deduce that $p\tripow{n}(!)$ keeps the lower $n$ levels of each $p\tripow{n}$-pretree intact, as $\id_{p\tripow{n}}$ does, while ``stripping away'' the height-$(n+1)$ leaves of 
+We can go even further: composing several such functions yields a composite function
+\begin{equation} \label{eqn.trim}
+    p\tripow{n}(\1) \From{p\tripow{n}(!)}
+	p\tripow{(n+1)}(\1) \from\cdots\from
+	p\tripow{(n+k-1)}(\1) \From{p\tripow{(n+k-1)}(!)}
+	p\tripow{(n+k)}(\1)
+\end{equation}
+sending every stage-$(n+k)$ pretree on $p$ to its stage-$n$ pretree by trimming off its top $k$ levels.
+We will see these functions again shortly.
 \end{example}
 
 % ** some pretree exercises?
 
-\subsubsection{Back to trees}
+\subsubsection{Trees as a limit of pretrees}
 
-Before we go further in the theory of $p$-trees, let us look at some more examples.
+Before we go any further in the theory of $p$-trees, let us look at some more examples.
 
 \begin{example}[A few more actual $p$-trees] \label{ex.imagining_trees}
 Keeping $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$, here are some elements of $\tr_p$ that we could imagine (or even draw, at least in part):
@@ -7968,15 +7942,16 @@ Thus most elements of $\tr_p$ cannot even be described.
 % \begin{enumerate}
 % 	\item Interpret each of the five tree examples imagined in \cref{ex.imagining_trees} by drawing three or four layers (your choice) of it.
 % \end{enumerate}
-For each of the following polynomials $p$, describe the set of trees $\tr_{p}$.
+For each of the following polynomials $p$, characterize the set of trees $\tr_{p}$.
 \begin{enumerate}[resume]
-	\item $p=\1$.
-	\item $p=\2$.
-	\item $p=\yon$.
-	\item $p=\yon^\2$.
-	\item $p={\2\yon}$.
-	\item $p={\yon+\1}$.
-	\item $p={B\yon^A}$ for some sets $A,B\in\smset$.
+	\item $p\coloneqq\1$.
+	\item $p\coloneqq\2$.
+	\item $p\coloneqq\yon$.
+	\item $p\coloneqq\yon^\2$.
+	\item $p\coloneqq{\2\yon}$.
+	\item $p\coloneqq{\yon+\1}$.
+	\item $p\coloneqq\yon^\2+\3\yon^\1$.
+	\item $p\coloneqq{B\yon^A}$ for some sets $A,B\in\smset$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -7987,17 +7962,81 @@ For each of the following polynomials $p$, describe the set of trees $\tr_{p}$.
     \item **
     \item **
     \item **
+    \item **
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-It turns out that $\tr_p$ is the position-set of the cofree comonoid on $p$.
+From here, a natural question to ask is how the set of $p$-trees $\tr_p$ is related to the set of $p\tripow{n}$-pretrees $p\tripow{n}(\1)$ for each $n\in\nn$.
+A look back at \cref{def.pretree} gives a clue: every $p$-tree has a stage-$n$ pretree obtained by removing all vertices of height greater than $n$, yielding a function $\tr_p\to p\tripow{n}(\1)$ that we will denote (for now) by $\pi^n_p$.
 
-%** show that it really is a p-coalgebra??
+Moreover, since the stage-$n$ pretree of a given $p$-tree agrees with the stage-$n$ pretree of any stage-$(n+k)$ pretree of the $p$-tree, the functions $\pi^n_p$ should commute with our tree-trimming functions $p\tripow{(n+k)}(\1)\to p\tripow{n}(\1)$ from \eqref{eqn.trim} in \cref{ex.trim}.
+In particular, the following diagram commutes for all $n\in\nn$:
+\[
+\begin{tikzcd}[column sep=large]
+    \tr_p \ar[d,"\pi^n_p"'] \ar[dr,"\pi^{n+1}_p",outer sep=-2pt] \\
+    p\tripow{n}(\1) & p\tripow{(n+1)}(\1). \ar[l,"p\tripow{n}(!)"]
+\end{tikzcd}
+\]
+All this says is that if we trim a $p$-tree down until only $n+1$ levels are left via $\pi^{n+1}_p$, then trimmed off one more level via $p\tripow{n}(!)$, it would be the same as if we had trimmed it down to $n$ levels from the start via $\pi^n_p$.
+This is summarized by the following larger commutative diagram, which contains every function of the form \cref{ex.trim}:
+\begin{equation} \label{eqn.cofree_pos_with_lim}
+\begin{tikzcd}[sep=large]
+    \tr_p \ar[dd,"\pi^0_p"'] \ar[ddr,"\pi^1_p"',outer sep=-2pt] \ar[ddrr,"\pi^2_p"',outer sep=-1.5pt] \ar[ddrrrr,"\pi^3_p"',outer sep=-1.5pt]\\
+    &&&\cdots\\
+    \1 &
+	p(\1) \ar[l, "!"] &
+	p\tripow2(\1) \ar[l, "p(!)"] &&
+% 	[10pt]
+	p\tripow3(\1) \ar[ll, "p\tripow2(!)"] &
+	\cdots.\ar[l]
+\end{tikzcd}
+\end{equation}
+% \[
+% \begin{tikzcd}[sep=large]
+%     \tr_p \ar[dd,"\pi^0_p"'] \ar[ddr,"\pi^1_p"',outer sep=-2pt] \ar[ddrr,"\pi^2_p"',outer sep=-1.5pt] \ar[ddrrrr,"\pi^3_p"',outer sep=-1.5pt]\\
+%     &&&\ldots\\
+%     \1 &
+% 	p(\1) \ar[l, "!"] &
+% 	p\tri p(\1) \ar[l, "p(!)"] &&
+% % 	[10pt]
+% 	p\tri p\tri p(\1) \ar[ll, "p\:\tri\:p(!)"] &
+% 	\cdots.\ar[l]
+% \end{tikzcd}
+% \]
+So $\tr_p$ with the functions $\pi^n_p$ forms a cone over the the bottom row---in fact, it is the universal cone.
 
+\begin{exercise}
+Prove that $\tr_p$ with the functions $\pi^n_p\colon\tr_p\to p\tripow{n}(\1)$ is the limit of the diagram
+\begin{equation} \label{eqn.cofree_pos_diagram}
+\begin{tikzcd}
+    \1 &
+	p(\1) \ar[l, "!"'] &
+	p\tripow2(\1) \ar[l, "p(!)"'] &
+ 	[10pt]
+	p\tripow3(\1) \ar[l, "p\tripow2(!)"'] &
+	\cdots.\ar[l]
+\end{tikzcd}
+\end{equation}
+You may use the fact that \eqref{eqn.cofree_pos_with_lim} commutes.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
 
-%---- Subsection ----%
-\subsection{The directions of the cofree comonoid} \label{subsec.comon.cofree.cons.dir}
+\subsubsection{Positions of the cofree comonoid, diagrammatically}
+
+Now recall from \cref{ex.compute_limits} that in $\poly$, the positions of a limit are the limit of the positions.
+Moreover, in \eqref{eqn.cofree_diagram}, every vertical map $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
+So \eqref{eqn.cofree_diagram} on positions collapses down to its bottom row, viewed as a diagram in $\smset$.
+Yet this is precisely the diagram from \eqref{eqn.cofree_pos_diagram}, whose limit is $\tr_p$.
+So $\tr_p$ is the position-set of the cofree comonoid on $p$: we write $\ema{t}_p(\1)\iso\tr_p$.
+
+If you know about coalgebras for functors, as mentioned in \cref{ex.coalgebras}, then you might know the limit $\ema{t}_p(\1)$ of \eqref{eqn.cofree_pos_diagram} by a different name: it is the \emph{terminal coalgebra for the functor} $p$, or the \emph{terminal $p$-coalgebra}.
+But we prefer to think of $\ema{t}_p(\1)$ as a set of trees, for it gives us a concrete way to realize the limit and its projections, as well as a natural interpretation of the directions of $\ema{t}$ at each position.
+
+\subsubsection{The directions of the cofree comonoid}
+
 
 
 %---- Subsection ----%
@@ -8005,9 +8044,9 @@ It turns out that $\tr_p$ is the position-set of the cofree comonoid on $p$.
 
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
-Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or informally the category of \emph{(possibly infinite) $p$-trees}.
+Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or the category of \emph{$p$-trees}.
 
-An object $t\in \tr_p(\1)$ is a called a \emph{(possibly infinite) tree in $p$.} Given such an object $t$ in the category, an emanating morphism $n\in\tr_p[t]$ is called a \emph{path from root}.
+An object $t\in \tr_p(\1)$ is a called a \emph{tree on $p$.} Given such an object $t$ in the category, an emanating morphism $n\in\tr_p[t]$ is called a \emph{path from root}.
 \end{definition}
 
 The terminology of \cref{def.cofree} is alluding to a specific way we like to imagine the comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, namely in terms of trees. To every polynomial $p$, we will associate a new polynomial $\tr_p$ whose positions are (possibly infinite) $p$-trees. To choose such a tree we first choose its root to be some position $i\in p(\1)$. Then for every direction $d\in p[i]$ there, we choose another position, and for every direction from each of those we choose another position, and so on indefinitely.
@@ -8208,6 +8247,42 @@ where $x'\coloneqq(12\,112\,1112\,11112\,111112\ldots)$. There are three cofunct
 holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. If $i=x$ and either $q_1>0$ or $q_2>0$, it is easy to check that both sides equal $x'$, so again it holds.
 \end{solution}
 \end{exercise}
+
+%---- Subsection ----%
+\subsection{The many (inter)faces of the cofree comonoid} \label{subsec.comon.cofree.cons.faces}
+
+The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\smcat^\sharp$ with carrier $\ema{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
+\[
+    \poly(\ema{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
+\]
+So every lens $\phi\colon\ema{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
+
+We can view $\phi$ as a dynamical system with an interface $p$ and a generalized state system $\ema{c}$, carrying an arbitrary category $\cat{C}$ of states and transitions.
+Then the lens $\text{Run}_n(\phi)\colon\ema{c}\to p\tripow{n}$ for $n\in\nn$, defined as the composite
+\[
+    \ema{c}\To{\delta^n}\ema{c}\tripow{n}\To{\phi\tripow{n}}p\tripow{n},
+\]
+models $n$ runs through the system $\phi$.
+
+Meanwhile, as the limit of the diagram \eqref{eqn.cofree_diagram} with the row of polynomials of the form $p\tripow{n}$ across the top, the carrier $\ema{t}_p$ of the cofree comonoid on $p$ comes equipped with a lens $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$ for each $n\in\nn$.
+As the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\ema{c}\to\ema{t}_p$, we can obtain another lens $\ema{c}\to\tripow{n}$ as the composite
+\[
+    \ema{c}\To{f}\ema{t}_p\To{\epsilon^n_p}p\tripow{n}.
+\]
+
+It turns out that these two composites are equal---that is, the following diagram commutes:
+\[
+\begin{tikzcd}
+    \ema{c} \ar[r,"f"] \ar[d, "\delta^n"'] & \ema{t}_p \ar[d, "\epsilon^n_p"] \\
+    \ema{c}\tripow{n} \ar[r, "\phi\tripow{n}"'] & p\tripow{n}
+\end{tikzcd}
+\]
+We will prove this in \cref{**} once we have the tools to do so.
+
+Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\phi)\colon\ema{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\ema{t}_p$ equipped with lenses $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
+All together, $\ema{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
+But to see all this explicitly, we need to be clear on what the positions and directions of $\ema{t}_p$ are and what category $\cofree{p}$ it carries, as well as how each lens $\epsilon^n_p\colon\ema{t}_p\to p\tripow{n}$ behaves.
+
 
 %---- Subsection ----%
 \subsection{Decision trees}
