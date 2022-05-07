@@ -6485,49 +6485,157 @@ But codomain preservation guarantees that the new state $\cod g$ on the outside 
 Then the process repeats in a manner compatible with identities and composition.
 
 Here we give a variety of examples of cofunctors to get a better handle on them.
+Often we will denote a category by its carrier when its comonoid structure can be deduced from context, and $\cat{C}$ will be a category throughout.
 
 \subsubsection{Cofunctors to preorders}
 
+Given a cofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing an simplified model or abstraction of the states and transitions possible in $\cat{C}$.
+While the transitions in a general category may be more complex, all that a preorder tells you is whether you can get from one state to another or not.
+Let's see some examples; $S$ will be a set throughout.
 
-\subsubsection{Cofunctors to monoids}
-
-\begin{example}[Admissible sections]\label{ex.admissible_section}
-Consider the monoid $\cat{N}\coloneqq (\nn,0,+)$, viewed as a category with one object. 
-For any category $\cat{C}$, a cofunctor $\varphi\colon\cat{C}\cof\cat{N}$ is called an \emph{admissible section} \cite{aguiar1997internal}.
-We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
-
-To specify $\varphi$, we first say what it does on objects, but this is trivial: there is only one object in $\cat{N}$, so each object of $\cat{C}$ is sent to it.
-(This also means that codomains are automatically preserved.)
-So $\varphi$ is characterized by its behavior on morphisms: for each object $i\in\cat{C}$, the cofunctor assigns every natural number $n\in\nn$ a morphism $\varphi^\sharp_i n$ of $\cat{C}$ emanating from $i$.
-That's a lot of data, but we still have two cofunctor laws to pare it down:
-\[
-    \varphi^\sharp_i\,0=\id_i
-        \qqand
-    \varphi^\sharp_i(m+n)=\varphi^\sharp_i m\then\varphi^\sharp_{\cod\varphi^\sharp_i m}n.
-\]
-Then for each $i\in\cat{C}$, since every natural number $n\in\nn$ is a sum of 1's, the morphism $\varphi^\sharp_i n$ can be decomposed into $n$ copies of $\varphi^\sharp_{i_j}\,1$ for some objects $i=i_0,i_1,\ldots,i_n\in\cat{C}$, as follows:
-\[
-    i=i_0\To{\varphi^\sharp_{i_0}1}i_1\To{\varphi^\sharp_{i_1}1}\cdots\To{\varphi^\sharp_{i_{n-1}}1}i_n.
-\]
-Here each $i_{j+1}\coloneqq\cod\varphi^\sharp_{i_j}1$.
-
-Thus an admissible section of $\cat{C}$ is given by independently choosing a morphism emanting from each $i\in\cat{C}$ to be $\varphi^\sharp_i\,1$; indeed, any such choice gives rise to a unique admissible section. 
+\begin{example}[Cofunctors to discrete categories] \label{ex.cof_to_discrete}
+The discrete category on $S$ is the category with objects in $S$ and only identity morphisms; its carrier is $S\yon$.
+So a cofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
 \end{example}
 
 \begin{exercise}
-How many admissible sections does the category \fbox{$\bullet\to\bullet$} have?
+\begin{enumerate}
+	\item Show that $\yon$ has a unique comonoid structure.
+	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
+	\item Explain why $\yon$ is terminal using the language of states and transitions.
+\qedhere
+\end{enumerate}
 \begin{solution}
-We seek the number of admissible sections of the category \fbox{$\bullet\to\bullet$}.
-There are $2$ choices of morphisms emanating from the object on the left, and $1$ choice of morphism emanating from the object on the right, for a total of $2 \cdot 1 = 2$ admissible sections.
+\begin{enumerate}
+    \item We actually already showed that $\yon$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms (which we will also denote by $\yon$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
+    \item For any category $\cat{C}$, there is a unique cofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
+    \item By \cref{ex.cof_to_discrete}, a cofunctor from a category $\cat C$ to the discrete category on $S\in\smset$ is a way of assigning each state in $\cat C$ a label in $S$.
+    In this case, $\yon$ is the discrete category on $\1$, so there is only $1$ label to choose from; hence there is always just $1$ way to assign the labels.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Let $\cat{Z}\coloneqq(\zz,0,+)$ denote the monoid of integers, and let $\cat{N}$ be the monoid of natural numbers as above.
-We view both $\cat{Z}$ and $\cat{N}$ as categories with one object each.
+%** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
+\begin{example}[Cofunctors to state categories]
+Our familiar state category on $S$ is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; its carrier is $S\yon^S$.
+% ** use iso-pres
+% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
+
+% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
+\end{example}
+
+
+
+\subsubsection{Very well-behaved lenses}
+
+In the functional programming community, there is an important notion of very well-behaved lenses.
+These turn out to be precisely the cofunctors between state categories.
+Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
+
+\begin{example}[Very well-behaved lenses]\label{ex.well_behaved}
+Recall from \cref{ex.state_comonad_1} that for any set $S$, we have the ``state'' category with carrier $S\yon^S$. What are the comonoid morphisms---cofunctors---between different state categories?
+
+First, such a comonoid morphism includes a morphism of polynomials $f\colon S\yon^S\to T\yon^T$; we'll use the standard terminology of ``get'' and ``put'':
+\[
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom] (s) {};
+	\node[poly, cod, right=of s] (t) {};
+	\node[left=0pt of s_pos] {$S$};
+	\node[left=0pt of s_dir] {$S$};
+	\node[right=0pt of t_pos] {$T$};
+	\node[right=0pt of t_dir] {$T$};
+	%
+	\draw (s_pos) to[first] node[below] {$\lensget$} (t_pos);
+	\draw (t_dir) to[last] node[above] {$\lensput$} (s_dir);
+\end{tikzpicture}
+\]
+Let's apply the unit-homomorphism property \eqref{eqn.pres_era_draw}
+\[
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, tos]
+  	\node[poly, dom] (s) {put$($get$(s))$\at$s\vphantom{(}$};
+  	\node[poly, right=of s] (t) {get$(s$)\at get$(s$)};
+  	%
+  	\draw (s_pos) to[first] node[below] {get} (t_pos);
+  	\draw (t_dir) to[last] node[above] {put} (s_dir);
+  	\draw (t_pos) to[climb'] (t_dir);
+	\end{tikzpicture}
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, tos]
+		\node[poly, dom] (s) {$s$\at$s$};
+		\draw (s_pos) to[climb'] (s_dir);
+	\end{tikzpicture}	
+	};
+	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\]
+It says that $\lensput(\lensget(s))=s$. This is typically called the get-put law.
+
+We leave the duplicator-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
+\end{example}
+
+\begin{exercise}\label{exc.well_behaved}
+Complete \cref{ex.well_behaved}.
 \begin{enumerate}
-	\item For a category $\cat{C}$, describe the data of a cofunctor $\cat{C}\cof\cat{Z}$.
-	\item What would you say is the canonical cofunctor $\cat{Z}\cof\cat{N}$?
+	\item Write out the duplicator law from \eqref{eqn.pres_era_draw} in terms of polyboxes.
+	\item What set-theoretic equations are forced by the duplicator law?
+	\item Can you see why they might be called put-put and put-get?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{example}[Very well-behaved lenses product projections]\label{ex.well_behaved_boring}
+We saw in \cref{exc.well_behaved} that a comomonoid homomorphism (cofunctor) $S\yon^S\cof T\yon^T$ between state comonoids can be characterized as a pair of functions $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ satisfying get-put, put-get, and put-put. 
+
+In fact, it turns out that this happens if and only if $\lensget$ is a product projection! For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$. A stringent condition, no? We'll explore it in  \cref{exc.how_many_vwbls} below.
+
+Let's explain why cofunctors between state categories are just product projections. A product projection $A\times B\to A$ always has another factor ($B$); if every cofunctor between state categories is a product projection, what is the other factor? It turns out that the other factor will be:
+\[
+F\coloneqq\{f\colon T\to S\mid \forall t\in T,\;\lensget(f(t))=t\text{ and }\lensput(f(t),t)=f(t)\}.
+\]
+In other words we will see that if $(\lensget,\lensput)$ is a comonoid homomorphism then there is a bijection $S\cong T\times F$ and that $\lensget\colon S\to T$ is one of the projections. We will see that the converse is true in \cref{exc.well_behaved_boring}
+
+So assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a comonoid homomorphism, in particular that it satisfies put-get, get-put, and put-put. We obtain a function $\pi\colon S\to T\times F$ given by
+\[s\mapsto\big(\lensget(s),t\mapsto\lensput(s,t)\big)\]
+and it is well-defined since for all $s\in S$ and $t,t'\in T$ we have $\lensget(\lensput(s,t))=t$ by put-get and $\lensput(\lensput(s,t),t')=\lensput(s,t')$ by put-put. We also obtain a function $\pi'\colon T\times F\to S$ given by
+\[
+(t,f)\mapsto f(t).
+\]
+The two functions $\pi,\pi'$ are mutually inverse: the roundtrip on $S$ is identity because $\lensput(s,\lensget(s))=s$ by get-put; the roundtrip on $T\times F$ is identity because $\lensget(f(t))=t$ and $\lensput(f(t),t)=f(t)$ by assumption on $f\in F$.
+\end{example}
+
+\begin{exercise}\label{exc.well_behaved_boring}
+Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times F$.
+\begin{enumerate}
+	\item Show that there exists a very well behaved lens $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$.
+	\item Show that there exists a cofunctor between the state category on $S$ and the state category on $T$.
+	\item Show that there exists a comonoid homomorphism $S\yon^S\to T\yon^T$ between the state comonoids.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.how_many_vwbls}
+\begin{enumerate}
+	\item Suppose $|S|=3$. How many cofunctors are there $S\yon^S\to S\yon^S$?
+	\item Suppose $|S|=4$ and $|T|=2$. How many cofunctors are there $S\yon^S\cof T\yon^T$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6538,38 +6646,110 @@ We view both $\cat{Z}$ and $\cat{N}$ as categories with one object each.
 \end{solution}
 \end{exercise}
 
-%** make terminology/definition precise
-\begin{example}[Systems of ODEs]
-A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
-\begin{align*}
-    \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
-    \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
-    & \; \; \; \vdots \\
-    \dot{x}_n &= f_n(x_1, \ldots, x_n),
-\end{align*}
-can be understood as a vector field on $\rr^n$.
-We are often interested in integrating this vector field to get flow lines, or integral curves.
-In other words, for each $x=(x_1, \ldots, x_n)\in\rr^n$, viewed as a point, and each $t\in\rr$, viewed as a quantity of time, we can begin at $x$ and move along the vector field for time $t$, arriving at a new point $x^{+t}$. These satisfy the equations
-\begin{equation} \label{eqn.cofunctor_ode}
-    x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
-\end{equation}
-Let's call such things \emph{differentiable dynamical systems} with time domain $(T, 0, +)$; above, we used $T\coloneqq\rr$, but any monoid will do.
+\begin{exercise}
+Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ the parts of a very well behaved lens, i.e.\ a cofunctor $S\yon^S\to T\yon^T$ between state categories. Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection, i.e.\ sends $(s,t)\mapsto s$?
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
 
-Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
-In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
-The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
-The identity is $v = 0$, and composition is given by addition.
-The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
 
-The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
-Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
+\subsubsection{Cofunctors to monoids}
 
-The codomain law ii is vacuously true, since $\yon^T$ only has one object.
-Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
+When a monoid $(M,e,*)$, viewed as a $1$-object category $\yon^M$, is the codomain of a cofunctor $\cat{C}\cof\yon^M$, it plays the role of a joystick: an ``input device'' that ``reports its\dots direction to the device it is controlling.''%
+\footnote{Description from Wikipedia.} % https://en.wikipedia.org/wiki/Joystick
+Like a joystick, $\yon^M$ stays in one ``place''---a single state---but has a number of directions it can take that are reported back to $\cat{C}$, controlling the way it moves through its transitions.
+As we string together a sequence of directions in $M$, we chart a course through the transitions of $\cat C$.
+We make this analogy concrete in the following examples.
+
+% ** Corepresentable?
+\begin{example}[Arrow fields]\label{ex.arrow_field}
+Consider the monoid $(\nn,0,+)$ viewed as a category $\yon^\nn$.
+Cofunctors $\cat{C}\cof\yon^\nn$ have been called \emph{admissible sections} \cite{aguiar1997internal}.
+We prefer to call them \emph{arrow fields} (on $\cat{C}$), for they turn out to resemble vector fields---but with arrows in $\cat{C}$ instead of vectors.%
+\footnote{After all, a vector field is a section of a vector bundle.
+Our arrow fields will be sections of $\cat{C}$'s carrier, viewed as a bundle of directions over positions.}
+We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
+
+To specify a cofunctor $A\colon\cat{C}\cof\yon^\nn$, we first say what it does on objects, but this is already decided: there is only one object in $\yon^\nn$, so every object of $\cat{C}$ is sent to it.
+This also means that codomains are automatically preserved.
+So as will be the case for all cofunctors to monoids, $A$ is characterized by its behavior on morphisms: for each object $c\in\cat{C}$, the cofunctor assigns each $n\in\nn$ a morphism $A^\sharp_c n$ of $\cat{C}$ emanating from $c$.
+That's a lot of data, but we still have two cofunctor laws to pare it down:
 \[
-    F^\sharp(x^{+t_1}, t_2) + F^\sharp(x, t_1) = (x^{+t_1})^{+t_2} - x^{+t_1} + x^{+t_1} - x = x^{+t_1 + t_2} - x = F^\sharp(x, t_1+t_2).
+    A^\sharp_c0=\id_c
+        \qqand
+    A^\sharp_c(m+n)=A^\sharp_c m\then A^\sharp_{\cod A^\sharp_c m}n.
 \]
+Then for each $c\in\cat{C}$, since every $n\in\nn$ is a sum of 1's, the morphism $A^\sharp_i n$ can be decomposed into $n$ copies of $A^\sharp_{c_j}1$ for objects $c_0\coloneqq c,c_1,\ldots,c_n\in\cat{C}$, as follows:
+\begin{equation} \label{eqn.arrow_field_composite}
+    c=c_0\To{A^\sharp_{c_0}1}c_1\To{A^\sharp_{c_1}1}\cdots\To{A^\sharp_{c_{n-1}}1}c_n.
+\end{equation}
+Here each $c_{j+1}\coloneqq\cod A^\sharp_{c_j}1$.
+
+Thus an arrow field of $\cat{C}$ is given by independently choosing a morphism emanting from each $c\in\cat{C}$ to be $A^\sharp_i1$: an arrow (morphism) out of each object, like how a vector field has a vector out of each point.
+Indeed, any such choice uniquely determines the cofunctor $A\colon\cat{C}\cof\yon^\nn$: as every object is assigned an arrow coming out of it, we can follow the arrow out of $c$ to an object $c_1$, then following the arrow out of $c_1$ to an object $c_2$, and so on until we have followed the $n$ arrows in \eqref{eqn.arrow_field_composite}, which then compose to yield $A^\sharp_cn$.
+With our joystick analogy, a single flick sends us from a state $c\in\cat{C}$ along its assigned arrow $A^\sharp_c1$, while $n$ flicks send us through $n$ arrows along the arrow field.
+
+Here is an example of an arrow field on the product of preorders $(\nn,\leq)\times(\nn,\leq)$:
+\[
+\begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
+	\foreach \i in {0,1,2,3} 
+	{
+		\foreach \j in {0,1,2}
+		{
+			\node (\i\j) at (\i,\j) {$\bullet$};
+			\draw[->] (\i,\j) -- (\i+1,\j);
+			\draw[->] (\i,\j) -- (\i,\j+1);
+		};
+	};
+	\begin{scope}[blue, thick]
+		\draw[->] (0,0) -- (0,1);
+		\draw[->] (0,1) -- (1,3);
+		\draw[->] (0,2) -- (1,2);
+		\draw[->] (1,0) -- (2,1);
+		\draw[->] (1,1) edge[in=30, out=60, loop] (1,1);
+		\draw[->] (1,2) -- (3,3);
+		\draw[->] (2,0) to[bend right] (2,2);
+		\draw[->] (2,1) -- (2,2);
+		\draw[->] (2,2) -- (3,2);
+		\draw[->] (3,0) -- (3,1);
+		\draw[->] (3,1) -- (3,2);
+		\draw[->] (3,2) edge[in=30, out=60, loop] (3,2);
+	\end{scope}
+\end{tikzpicture}
+\]
+Every object has been assigned an emanating morphism drawn in blue, but there need not be any rhyme or reason to our choice.
 \end{example}
+
+\begin{exercise}
+How many arrow fields on the category \fbox{$\bullet\to\bullet$} are there?
+\begin{solution}
+We seek the number of arrow fields on the category \fbox{$\bullet\to\bullet$}.
+There are $2$ choices of morphisms emanating from the object on the left, and $1$ choice of morphism emanating from the object on the right, for a total of $2 \cdot 1 = 2$ arrow fields.
+\end{solution}
+\end{exercise}
+
+% ** Show that arrow fields can be composed
+% ** maybe just bring all the arrow field stuff up here!
+
+We will see later in \cref{prop.traj_mon_poly} that the arrow fields on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
+
+\begin{exercise}
+Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$, and let $\yon^\nn$ be the monoid of natural numbers $(\nn,0,+)$ viewed as a $1$-object category as above.
+\begin{enumerate}
+	\item Describe the data of a cofunctor $\cat{C}\cof\yon^\zz$.
+	\item What would you say is the canonical cofunctor $\yon^\zz\cof\yon^\nn$?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item We seek a canonical cofunctor $\yon^\zz\cof\yon^\nn$.
+    The canonical inclusion $i\colon\nn\inj\zz$ gives rise to a lens $\iota$ from $\yon^\zz$ to $\yon^\nn$, whose sole on-directions function $\iota^\sharp\colon\nn\inj\zz$ coincides with $i$. 
+    We verify that $\iota$ is a cofunctor: it preserves identities, as $\iota^\sharp0=0$; it automatically preserves codomains; and it preserves composites, given by addition in either monoid, as $\iota^\sharp(m+n)=m+n=\iota^\sharp(m)+\iota^\sharp(n)$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
@@ -6585,8 +6765,18 @@ Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
 \end{solution}
 \end{exercise}
 
-% ** displaced stuff ends
 
+
+
+%** displaced content here
+\begin{exercise}[Monoid actions]
+Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action.
+Show that the projection $S\yon^M\to\yon^M$ is a comonoid homomorphism.
+\begin{solution}
+We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
+**
+\end{solution}
+\end{exercise}
 
 
 
@@ -6624,6 +6814,51 @@ There is an adjunction
 \]
 for $\cat{C}\in\smcat^\sharp$ and $A\in\smset$.
 \end{proposition}
+
+
+\begin{exercise}[Continuous trajectories]
+Suppose we say that a continuous policy in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
+
+Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+%** make terminology/definition precise
+\begin{example}[Systems of ODEs]
+A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
+\begin{align*}
+    \dot{x}_1 &= f_1(x_1, \ldots, x_n) \\
+    \dot{x}_2 &= f_2(x_1, \ldots, x_n) \\
+    & \; \; \; \vdots \\
+    \dot{x}_n &= f_n(x_1, \ldots, x_n),
+\end{align*}
+can be understood as a vector field on $\rr^n$.
+We are often interested in integrating this vector field to get flow lines, or integral curves.
+In other words, for each $x=(x_1, \ldots, x_n)\in\rr^n$, viewed as a point, and each $t\in\rr$, viewed as a quantity of time, we can begin at $x$ and move along the vector field for time $t$, arriving at a new point $x^{+t}$. These satisfy the equations
+\begin{equation} \label{eqn.cofunctor_ode}
+    x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}. 
+\end{equation}
+Let's call such things \emph{differentiable dynamical systems} with time domain $(T, 0, +)$; above, we used $T\coloneqq\rr$, but any monoid will do.
+
+Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
+In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
+The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
+The identity is $v = 0$, and composition is given by addition.
+The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
+
+The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
+Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
+
+The codomain law ii is vacuously true, since $\yon^T$ only has one object.
+Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
+\[
+    F^\sharp(x^{+t_1}, t_2) + F^\sharp(x, t_1) = (x^{+t_1})^{+t_2} - x^{+t_1} + x^{+t_1} - x = x^{+t_1 + t_2} - x = F^\sharp(x, t_1+t_2).
+\]
+\end{example}
+
+\subsubsection{Other cofunctors}
 
 \begin{example}\label{ex.cof_to_rr}
 Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x$ is $x+r$, identities are $0$, and composition is given by addition. What are cofunctors into $\rr\yon^\rr$?
@@ -6807,63 +7042,6 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 \end{solution}
 \end{exercise}
 
-\begin{example}[Policies are co-representable]\label{ex.trajectories_corep}
-For a category $\cat{C}$, let's say that a \emph{policy in $\cat{C}$} is a choice, for each object $c\in\cat{C}$, of an emanating morphism $f\colon c\to c'$. For example, consider the category $(\nn,\leq)\times(\nn,\leq)$:
-\[
-\begin{tikzpicture}[shorten <=4pt, shorten >=4pt]
-	\foreach \i in {0,1,2,3} 
-	{
-		\foreach \j in {0,1,2}
-		{
-			\node (\i\j) at (\i,\j) {$\bullet$};
-			\draw[->] (\i,\j) -- (\i+1,\j);
-			\draw[->] (\i,\j) -- (\i,\j+1);
-		};
-	};
-	\begin{scope}[red, thick]
-		\draw[->] (0,0) -- (0,1);
-		\draw[->] (0,1) -- (1,3);
-		\draw[->] (0,2) -- (1,2);
-		\draw[->] (1,0) -- (1,1);
-		\draw[->] (1,1) edge[in=30, out=60, loop] (1,1);
-		\draw[->] (1,2) -- (2,2);
-		\draw[->] (2,0) to[bend right] (2,2);
-		\draw[->] (2,1) -- (2,2);
-		\draw[->] (2,2) -- (3,2);
-		\draw[->] (3,0) -- (3,1);
-		\draw[->] (3,1) -- (3,2);
-		\draw[->] (3,2) edge[in=30, out=60, loop] (3,2);
-	\end{scope}
-\end{tikzpicture}
-\]
-In red we have drawn a policy: every object has been assigned an emanating morphism to another object; there doesn't need to be any rhyme or reason to our choice.
-
-For any category $\cat{C}$, the set of trajectories in $\cat{C}$ is in bijection with the set of cofunctors
-\[
-\cat{C}\cof\cat{N}
-\]
-where $\cat{N}=\yon^\nn$ is the monoid of natural numbers under addition.
-\end{example}
-
-\begin{exercise}
-At the end of \cref{ex.trajectories_corep} we said that a policy on $\cat{C}$ can be identified with a cofunctor $F\colon\cat{C}\cof\cat{N}$. But at first it appears that $F$ includes more than just a policy: for every object $c\in\Ob\cat{C}$ and natural number $n\in\nn$, we have a morphism $F^\sharp_c(n)$ emanating from $c$. That's infinitely many emanating morphisms per object, whereas a policy seems to include only one emanating morphism per object.
-
-Explain why looks are deceiving in this case: why is a policy on $\cat{C}$ the same as a cofunctor $\cat{C}\cof\cat{N}$?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-We will see later in \cref{prop.traj_mon_poly} that the trajectories on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
-
-\begin{exercise}[Continuous trajectories]
-Suppose we say that a continuous policy in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
-
-Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
 
 \begin{exercise}
 Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. More down to earth, it's the set of real numbers between 0 and 1, including 0 but not 1.%]
@@ -6896,143 +7074,6 @@ Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r
 \end{exercise}
 
 
-
-
-% **displaced content here
-\begin{exercise}[Monoid actions]
-Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action.
-Show that the projection $S\yon^M\to\yon^M$ is a comonoid homomorphism.
-\begin{solution}
-We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
-**
-\end{solution}
-\end{exercise}
-
-
-\subsubsection{Very well-behaved lenses}
-
-In the functional programming community, there is an important notion of very well-behaved lenses.
-These turn out to be precisely the cofunctors between state categories.
-Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
-
-\begin{example}[Very well-behaved lenses]\label{ex.well_behaved}
-Recall from \cref{ex.state_comonad_1} that for any set $S$, we have the ``state'' category with carrier $S\yon^S$. What are the comonoid morphisms---cofunctors---between different state categories?
-
-First, such a comonoid morphism includes a morphism of polynomials $f\colon S\yon^S\to T\yon^T$; we'll use the standard terminology of ``get'' and ``put'':
-\[
-\begin{tikzpicture}[polybox, tos]
-	\node[poly, dom] (s) {};
-	\node[poly, cod, right=of s] (t) {};
-	\node[left=0pt of s_pos] {$S$};
-	\node[left=0pt of s_dir] {$S$};
-	\node[right=0pt of t_pos] {$T$};
-	\node[right=0pt of t_dir] {$T$};
-	%
-	\draw (s_pos) to[first] node[below] {$\lensget$} (t_pos);
-	\draw (t_dir) to[last] node[above] {$\lensput$} (s_dir);
-\end{tikzpicture}
-\]
-Let's apply the unit-homomorphism property \eqref{eqn.pres_era_draw}
-\[
-\begin{tikzpicture}
-	\node (id1) {
-	\begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (s) {put$($get$(s))$\at$s\vphantom{(}$};
-  	\node[poly, right=of s] (t) {get$(s$)\at get$(s$)};
-  	%
-  	\draw (s_pos) to[first] node[below] {get} (t_pos);
-  	\draw (t_dir) to[last] node[above] {put} (s_dir);
-  	\draw (t_pos) to[climb'] (t_dir);
-	\end{tikzpicture}
-	};
-	\node[right=of id1] (id2) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom] (s) {$s$\at$s$};
-		\draw (s_pos) to[climb'] (s_dir);
-	\end{tikzpicture}	
-	};
-	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
-\end{tikzpicture}
-\]
-It says that $\lensput(\lensget(s))=s$. This is typically called the get-put law.
-
-We leave the duplicator-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
-\end{example}
-
-\begin{exercise}\label{exc.well_behaved}
-Complete \cref{ex.well_behaved}.
-\begin{enumerate}
-	\item Write out the duplicator law from \eqref{eqn.pres_era_draw} in terms of polyboxes.
-	\item What set-theoretic equations are forced by the duplicator law?
-	\item Can you see why they might be called put-put and put-get?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{example}[Very well-behaved lenses are kinda boring]\label{ex.well_behaved_boring}
-We saw in \cref{exc.well_behaved} that a comomonoid homomorphism (cofunctor) $S\yon^S\cof T\yon^T$ between state comonoids can be characterized as a pair of functions $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ satisfying get-put, put-get, and put-put. 
-
-In fact, it turns out that this happens if and only if $\lensget$ is a product projection! For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$. A stringent condition, no? We'll explore it in  \cref{exc.how_many_vwbls} below.
-
-Let's explain why cofunctors between state categories are just product projections. A product projection $A\times B\to A$ always has another factor ($B$); if every cofunctor between state categories is a product projection, what is the other factor? It turns out that the other factor will be:
-\[
-F\coloneqq\{f\colon T\to S\mid \forall t\in T,\;\lensget(f(t))=t\text{ and }\lensput(f(t),t)=f(t)\}.
-\]
-In other words we will see that if $(\lensget,\lensput)$ is a comonoid homomorphism then there is a bijection $S\cong T\times F$ and that $\lensget\colon S\to T$ is one of the projections. We will see that the converse is true in \cref{exc.well_behaved_boring}
-
-So assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a comonoid homomorphism, in particular that it satisfies put-get, get-put, and put-put. We obtain a function $\pi\colon S\to T\times F$ given by
-\[s\mapsto\big(\lensget(s),t\mapsto\lensput(s,t)\big)\]
-and it is well-defined since for all $s\in S$ and $t,t'\in T$ we have $\lensget(\lensput(s,t))=t$ by put-get and $\lensput(\lensput(s,t),t')=\lensput(s,t')$ by put-put. We also obtain a function $\pi'\colon T\times F\to S$ given by
-\[
-(t,f)\mapsto f(t).
-\]
-The two functions $\pi,\pi'$ are mutually inverse: the roundtrip on $S$ is identity because $\lensput(s,\lensget(s))=s$ by get-put; the roundtrip on $T\times F$ is identity because $\lensget(f(t))=t$ and $\lensput(f(t),t)=f(t)$ by assumption on $f\in F$.
-\end{example}
-
-\begin{exercise}\label{exc.well_behaved_boring}
-Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times F$.
-\begin{enumerate}
-	\item Show that there exists a very well behaved lens $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$.
-	\item Show that there exists a cofunctor between the state category on $S$ and the state category on $T$.
-	\item Show that there exists a comonoid homomorphism $S\yon^S\to T\yon^T$ between the state comonoids.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}\label{exc.how_many_vwbls}
-\begin{enumerate}
-	\item Suppose $|S|=3$. How many cofunctors are there $S\yon^S\to S\yon^S$?
-	\item Suppose $|S|=4$ and $|T|=2$. How many cofunctors are there $S\yon^S\cof T\yon^T$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ the parts of a very well behaved lens, i.e.\ a cofunctor $S\yon^S\to T\yon^T$ between state categories. Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection, i.e.\ sends $(s,t)\mapsto s$?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
 
 When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
 
@@ -7101,20 +7142,6 @@ It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ give
 Given a comonoid $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is an induced comonoid structure on the polynomial $\2\ema{c}$.
 \begin{solution}
 ** % sum with itself
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-\begin{enumerate}
-	\item Show that $\yon$ has a unique comonoid structure.
-	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item We actually already showed that $\yon$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms (which we will also denote by $\yon$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
-    \item For any category $\cat{C}$, there is a unique cofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
-\end{enumerate}
 \end{solution}
 \end{exercise}
 
@@ -8109,6 +8136,8 @@ The lens $\epsilon^n_p\colon\ema{t}\to p\tripow{n}$ sends each $p$-tree $t\in\tr
 %---- Subsection ----%
 \subsection{Cofree comonoids as categories} \label{subsec.comon.cofree.cons.cat}
 
+We now the carrier $\ema{t}_p$ of the cofree comonoid $\cofree{p}$, but what is its comonoid structure?
+
 
 \begin{definition}[Cofree comonoid]\label{def.cofree}
 Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or the category of \emph{$p$-trees}.
@@ -8953,10 +8982,10 @@ The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{
 The unique polynomial map $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the polynomial map $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
 \end{proof}
 
-Recall from \cref{ex.admissible_section} that an admissible section of a category $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\nn$.
+Recall from \cref{ex.arrow_field} that an arrow field of a category $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\nn$.
 
 \begin{corollary}
-For any category $\cat{C}$, the set $\smcat^\sharp(\cat{C},\yon^\nn)$ of admissible sections has the structure of a monoid. Moreover, this construction is functorial
+For any category $\cat{C}$, the set $\smcat^\sharp(\cat{C},\yon^\nn)$ of arrow fields has the structure of a monoid. Moreover, this construction is functorial
 \[\smcat^\sharp(-,\yon^\nn)\colon\smcat^\sharp\to\Cat{Mon}\op\]
 \end{corollary}
 \begin{proof}
@@ -8965,15 +8994,15 @@ We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}.
 
 A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid.
 
-We use the notation $\cat{C}\mapsto\vec{\cat{C}}$ for the monoid of admissible sections.
+We use the notation $\cat{C}\mapsto\vec{\cat{C}}$ for the monoid of arrow fields.
 
 \begin{theorem}\label{thm.catsharp_to_mon}
-The admissible sections functor
+The arrow fields functor
 \[\smcat^\sharp\to\Cat{Mon}\op\]
 is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
 \end{theorem}
 \begin{proof}
-Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an admissible section $\cat{C}$, preserving unit and multiplication.
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an arrow field $\cat{C}$, preserving unit and multiplication.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
