@@ -6402,6 +6402,62 @@ Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are cofunctors 
 \end{solution}
 \end{exercise}
 
+On the surface, functors and cofunctors have much in common: both send objects to objects and morphisms to morphisms in a way that preserves domains and codomains as well as identities and composites.
+The main difference is that functors send morphisms \emph{forward}, while cofunctors send morphisms \emph{backward}.
+As we work with cofunctors, it will be helpful to remember the following:
+\slogan{
+    A cofunctor $F$ goes forward on objects and backward on morphisms.\\
+    Codomains are objects, so $F$ preserves them going forward.\\
+    Identities and composites are morphisms, so $F$ preserves them going backward.
+}
+
+Before we explore just how different functors and cofunctors can be, let us note a few more similarities that these two kinds of maps between categories share.
+For example, cofunctors, like functors, preserve isomorphisms.
+
+\begin{proposition}\label{prop.cofunctors_isos}
+Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c\in\cat{C}$ be an object, and $g\colon Fc\to\_$ be an isomorphism in $\cat{D}$.
+Then $F^\sharp_c g$ is also an isomorphism in $\cat{C}$.
+\end{proposition}
+\begin{proof}
+Let $c'\coloneqq\cod F^\sharp_c g$, so that $Fc'=\cod g$ by \eqref{eqn.pres_cod}, and let $g^{-1}\colon Fc'\to Fc$ be the inverse of $g$.
+Then
+\begin{align*}
+	\id_c&=
+	F^\sharp_c\,\id_{Fc} \tag*{\eqref{eqn.pres_id}}\\&=
+	F^\sharp_c\left(g\then g^{-1}\right)\\&=
+	F^\sharp_c g\then F^\sharp_{c'}\left(g^{-1}\right), \tag*{\eqref{eqn.pres_comp}}
+\end{align*}
+so in particular $c=\cod\id_c=\cod F^\sharp_{c'}\left(g^{-1}\right)$, and
+\begin{align*}
+	\id_{c'}&=
+	F^\sharp_{c'}\,\id_{Fc'} \tag*{\eqref{eqn.pres_id}}\\&=
+	F^\sharp_{c'}\left(g^{-1}\then g\right)\\&=
+	F^\sharp_{c'}\left(g^{-1}\right)\then F^\sharp_{\cod F^\sharp_{c'}\left(g^{-1}\right)}g \tag*{\eqref{eqn.pres_comp}}\\&=
+	F^\sharp_{c'}\left(g^{-1}\right)\then F^\sharp_c g.
+\end{align*}
+Hence $F^\sharp_c g$ and $F^\sharp_{c'}\left(g^{-1}\right)$ are inverses, and the result follows.
+\end{proof}
+
+% In cases where it does not matter whether we send morphisms forward or backward, functors and cofunctors effectively coincide.
+% The following exercise formalizes this idea.
+
+% \begin{exercise} %** this isn't actually true: needs to be stronger than fully faithful functor, actually a coproduct 
+% Let $F\colon\cat{C}\to\cat{D}$ be a fully faithful functor; that is, for every $c,c'\in\cat{C}$, the induced map of hom-sets $F\colon\cat{C}(c,c')\to\cat{D}(Fc,Fc')$ is a bijection.
+% Show that there exists a unique cofunctor $\Tilde{F}\colon\cat{C}\cof\cat{D}$ that agrees with $F$ on objects such that for all morphisms $f\colon c\to\_$ in $\cat{C}$ and $g\colon Fc\to\_$ in $\cat{D}$,
+% \[
+%     \Tilde{F}^\sharp_c(Ff)=f \qqand F\left(\Tilde{F}^\sharp_cg\right)=g.
+% \]
+% Then show that $F$ can be uniquely recovered from $\Tilde{F}$; further characterize all cofunctors $\Tilde{F}$ that arise from fully faithful functors $F$ in this way.
+% \begin{solution}
+% Given a fully faithful functor $F\colon\cat{C}\to\cat{D}$, we seek a cofunctor $\Tilde{F}\colon\cat{C}\cof\cat{D}$ that agrees with $F$ on objects and satisfies $\Tilde{F}^\sharp_c(Ff)=f$ and $F\left(\Tilde{F}^\sharp_cg\right)=g$ for all $f\colon c\to\_$ and $g\colon Fc\to\_$.
+
+% **
+% % , the fact that $\Tilde{F}\colon\cat{C}\cof\cat{D}$ agrees with $F$ on objects and satisfies $\Tilde{F}^\sharp_c(Ff)=f$ for all $f\colon c\to\_$ in $\cat{C}$ uniquely characterizes $\Tilde{F}$: as $F$ is full, every morphism $g\colon Fc\to\_$ in $\cat{D}$ is the image $Ff$ of some morphism $f\colon c\to\_$, 
+% \end{solution}
+% \end{exercise}
+
+Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\smcat^\sharp$.
+
 \begin{exercise}
 We've justified the ``isomorphism-preserving'' part of \cref{thm.ahman_uustalu} implicitly, but let's make it explicit.
 
@@ -6430,45 +6486,18 @@ Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
 
+\begin{exercise}
+Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\iso}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\iso}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
+If so, prove it; if not, give a counterexample.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
 % ** justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
 
-% isomorphisms are the same...non-isos are very different
-
-
-% In one sense, these laws are exactly as you'd expect: objects, morphisms, identities, codomains, and composition...in another sense, deeply weird: need to specify codomains, etc.
-
-
-\slogan{Cofunctors $F$ go forward on objects, and backward on morphisms. It's good to remember: codomains are objects, so $F$ preserves them going forward; identities and composites are morphisms, so $F$ preserves them going backward.}
-
-% The rough idea is that a cofunctor $\cat{C}\cof\cat{D}$ is, in particular, a morphism $\ema{c}\to\ema{d}$ in $\poly$ between their carriers. This map preserves identities, codomains, and composition, which is great, but you still feel like you've got a map of polynomials on your hands: it goes forward on objects and backward on morphisms.
-
-
-% ** preserve structure...not surprising that they preserve isos
-
-
-\begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c\in\cat{C}$ be an object, and $g\colon Fc\to\_$ be an isomorphism in $\cat{D}$.
-Then $F^\sharp_c g$ is also an isomorphism in $\cat{C}$.
-\end{proposition}
-\begin{proof}
-Let $c'\coloneqq\cod F^\sharp_c g$, so that $Fc'=\cod g$ by \eqref{eqn.pres_cod}, and let $g^{-1}\colon Fc'\to Fc$ be the inverse of $g$.
-Then
-\begin{align*}
-	\id_c&=
-	F^\sharp_c\,\id_{Fc} \tag*{\eqref{eqn.pres_id}}\\&=
-	F^\sharp_c\left(g\then g^{-1}\right)\\&=
-	F^\sharp_c g\then F^\sharp_{c'}\left(g^{-1}\right), \tag*{\eqref{eqn.pres_comp}}
-\end{align*}
-so in particular $c=\cod\id_c=\cod F^\sharp_{c'}\left(g^{-1}\right)$, and
-\begin{align*}
-	\id_{c'}&=
-	F^\sharp_{c'}\,\id_{Fc'} \tag*{\eqref{eqn.pres_id}}\\&=
-	F^\sharp_{c'}\left(g^{-1}\then g\right)\\&=
-	F^\sharp_{c'}\left(g^{-1}\right)\then F^\sharp_{\cod F^\sharp_{c'}\left(g^{-1}\right)}g \tag*{\eqref{eqn.pres_comp}}\\&=
-	F^\sharp_{c'}\left(g^{-1}\right)\then F^\sharp_c g.
-\end{align*}
-Hence $F^\sharp_c g$ and $F^\sharp_{c'}\left(g^{-1}\right)$ are inverses, and the result follows.
-\end{proof}
+While the isomorphisms in $\smcat^\sharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
+We'll see this in our examples.
 
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
@@ -6753,8 +6782,10 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 
 \begin{exercise}
 \begin{enumerate}
-	\item Suppose that $M,N$ are monoids (each is a category with one object). Are cofunctors between them related to monoid homomorphisms? If so, how?
-	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a cofunctor. Does there necessarily exist a cofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
+	\item Suppose that $M,N$ are monoids (each is a category with one object).
+	Are cofunctors between them related to monoid homomorphisms? If so, how?
+	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a cofunctor.
+	Does there necessarily exist a cofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6770,8 +6801,8 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 
 %** displaced content here
 \begin{exercise}[Monoid actions]
-Suppose that $(M,e,*)$ is a monoid, $S$ is a set, and $\alpha\colon M\times S\to S$ is an $M$-action.
-Show that the projection $S\yon^M\to\yon^M$ is a comonoid homomorphism.
+Recall from \cref{ex.monoid_action} that every monoid action $\alpha\colon S\times M\to S$, where $S$ is a set and $(M,e,*)$ is a monoid, gives rise to a category carried by $S\yon^M$.
+Show that the projection $S\yon^M\to\yon^M$ is a cofunctor.
 \begin{solution}
 We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
 **
@@ -7048,21 +7079,6 @@ Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r
 \begin{enumerate}
 	\item Find a comonoid structure on $(\rr/\zz)\yon^\rr$.
 	\item Is it a groupoid?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-%** related to earlier iso exercise
-\begin{exercise}
-\begin{enumerate}
-	\item Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\cong}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\cong}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
-	\item If so, prove it; if not, give a counterexample.
 \qedhere
 \end{enumerate}
 \begin{solution}
