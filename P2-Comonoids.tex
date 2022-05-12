@@ -6130,6 +6130,23 @@ We will see this category again in \cref{ex.streams_cofree}.
 % \end{enumerate}
 % \end{exercise}
 
+\begin{exercise}
+Let $\rr/\zz\iso[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. 
+More concretely, it is the set of real numbers between 0 and 1, including 0 but not 1.
+\begin{enumerate}
+	\item Find a comonoid structure on $(\rr/\zz)\yon^\rr$.
+	\item Is the corresponding category a groupoid?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
 \subsubsection{The degree of an object}
 
 We could continue to list examples of polynomial comonoids, but of course any list of small categories is already a list of such comonoids.
@@ -6486,18 +6503,18 @@ Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\iso}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\iso}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
-If so, prove it; if not, give a counterexample.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+% \begin{exercise}
+% Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\iso}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\iso}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
+% If so, prove it; if not, give a counterexample.
+% \begin{solution}
+% **
+% \end{solution}
+% \end{exercise}
 
 % ** justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
 
-While the isomorphisms in $\smcat^\sharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
-We'll see this in our examples.
+But while the isomorphisms in $\smcat^\sharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
+We'll see this in the examples to come.
 
 %---- Subsection ----%
 \subsection{Examples of cofunctors}
@@ -6516,115 +6533,41 @@ Then the process repeats in a manner compatible with identities and composition.
 Here we give a variety of examples of cofunctors to get a better handle on them.
 Often we will denote a category by its carrier when its comonoid structure can be deduced from context, and $\cat{C}$ will be a category throughout.
 
-\subsubsection{Cofunctors to preorders}
+\subsubsection{Cofunctors and state categories}
 
-Given a cofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing an simplified model or abstraction of the states and transitions possible in $\cat{C}$.
-While the transitions in a general category may be more complex, all that a preorder tells you is whether you can get from one state to another or not.
-Let's see some examples; $S$ will be a set throughout.
+% ** add intro about how we've worked with state categories, so...
 
-\begin{example}[Cofunctors to discrete categories] \label{ex.cof_to_discrete}
-The discrete category on $S$ is the category with objects in $S$ and only identity morphisms; its carrier is $S\yon$.
-So a cofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
-We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
+\begin{example}[Cofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
+Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
+
+Then a cofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
+We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\text{get}\colon S\to T$, and the on-morphisms (on-directions) function $\text{put}\colon S\times T\to S$.%
+\footnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a cofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
+Then the cofunctor laws are as follows:
+\begin{enumerate}
+    \item Preservation of identities \eqref{eqn.pres_id} becomes
+    \[
+        \text{put}(s,\text{get}(s))=s,
+    \]
+    for all $s\in S$, known as the \emph{get-put law} (named in diagrammatic order: we apply $\text{get}$ before we apply $\text{put}$).
+    
+    \item Preservation of codomains \eqref{eqn.pres_cod} becomes
+    \[
+        \text{get}(\text{put}(s,t))=t,
+    \]
+    for all $s\in S$ and $t\in T$, known as the \emph{put-get law}.
+    
+    \item Preservation of composition becomes
+    \[
+        \text{put}(\text{put}(s,t),t')=\text{put}(s,t')
+    \]
+    for all $s\in S$ and $t,t'\in T$, known as the \emph{put-put law}.
+\end{enumerate}
 \end{example}
 
-\begin{exercise}
-\begin{enumerate}
-	\item Show that $\yon$ has a unique comonoid structure.
-	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
-	\item Explain why $\yon$ is terminal using the language of states and transitions.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item We actually already showed that $\yon$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms (which we will also denote by $\yon$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
-    \item For any category $\cat{C}$, there is a unique cofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
-    \item By \cref{ex.cof_to_discrete}, a cofunctor from a category $\cat C$ to the discrete category on $S\in\smset$ is a way of assigning each state in $\cat C$ a label in $S$.
-    In this case, $\yon$ is the discrete category on $\1$, so there is only $1$ label to choose from; hence there is always just $1$ way to assign the labels.
-\end{enumerate}
-\end{solution}
-\end{exercise}
+% ** merge
 
-%** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
-\begin{example}[Cofunctors to state categories]
-Our familiar state category on $S$ is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; its carrier is $S\yon^S$.
-% ** use iso-pres
-% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
-
-% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
-% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
-\end{example}
-
-
-
-\subsubsection{Very well-behaved lenses}
-
-In the functional programming community, there is an important notion of very well-behaved lenses.
-These turn out to be precisely the cofunctors between state categories.
-Since state categories $S\yon^S$ play an important role in our theory, we take a bit of time to consider cofunctors between them.
-
-\begin{example}[Very well-behaved lenses]\label{ex.well_behaved}
-Recall from \cref{ex.state_comonad_1} that for any set $S$, we have the ``state'' category with carrier $S\yon^S$. What are the comonoid morphisms---cofunctors---between different state categories?
-
-First, such a comonoid morphism includes a morphism of polynomials $f\colon S\yon^S\to T\yon^T$; we'll use the standard terminology of ``get'' and ``put'':
-\[
-\begin{tikzpicture}[polybox, tos]
-	\node[poly, dom] (s) {};
-	\node[poly, cod, right=of s] (t) {};
-	\node[left=0pt of s_pos] {$S$};
-	\node[left=0pt of s_dir] {$S$};
-	\node[right=0pt of t_pos] {$T$};
-	\node[right=0pt of t_dir] {$T$};
-	%
-	\draw (s_pos) to[first] node[below] {$\lensget$} (t_pos);
-	\draw (t_dir) to[last] node[above] {$\lensput$} (s_dir);
-\end{tikzpicture}
-\]
-Let's apply the unit-homomorphism property \eqref{eqn.pres_era_draw}
-\[
-\begin{tikzpicture}
-	\node (id1) {
-	\begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom] (s) {put$($get$(s))$\at$s\vphantom{(}$};
-  	\node[poly, right=of s] (t) {get$(s$)\at get$(s$)};
-  	%
-  	\draw (s_pos) to[first] node[below] {get} (t_pos);
-  	\draw (t_dir) to[last] node[above] {put} (s_dir);
-  	\draw (t_pos) to[climb'] (t_dir);
-	\end{tikzpicture}
-	};
-	\node[right=of id1] (id2) {
-	\begin{tikzpicture}[polybox, tos]
-		\node[poly, dom] (s) {$s$\at$s$};
-		\draw (s_pos) to[climb'] (s_dir);
-	\end{tikzpicture}	
-	};
-	\node at ($(id1.east)!.5!(id2.west)-(0,6pt)$) {$=$};
-\end{tikzpicture}
-\]
-It says that $\lensput(\lensget(s))=s$. This is typically called the get-put law.
-
-We leave the duplicator-homomorphism law to \cref{exc.well_behaved}, where we will see that it specifies that get and put must satisfy two other properties, called the put-put and the put-get laws.
-\end{example}
-
-\begin{exercise}\label{exc.well_behaved}
-Complete \cref{ex.well_behaved}.
-\begin{enumerate}
-	\item Write out the duplicator law from \eqref{eqn.pres_era_draw} in terms of polyboxes.
-	\item What set-theoretic equations are forced by the duplicator law?
-	\item Can you see why they might be called put-put and put-get?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{example}[Very well-behaved lenses product projections]\label{ex.well_behaved_boring}
+\begin{example}[Very well-behaved lenses are product projections]\label{ex.well_behaved_boring}
 We saw in \cref{exc.well_behaved} that a comomonoid homomorphism (cofunctor) $S\yon^S\cof T\yon^T$ between state comonoids can be characterized as a pair of functions $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ satisfying get-put, put-get, and put-put. 
 
 In fact, it turns out that this happens if and only if $\lensget$ is a product projection! For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$. A stringent condition, no? We'll explore it in  \cref{exc.how_many_vwbls} below.
@@ -6682,6 +6625,173 @@ Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S
 \end{solution}
 \end{exercise}
 
+\begin{exercise}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\com{C}$. There is a map of polynomials $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ given by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom] (s) {$\cod(m)$\at$i$};
+	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\at$i$};
+	\draw[double] (s_pos) -- (c_pos);
+	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
+\end{tikzpicture}
+\]
+for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{example}[Canonical cofunctors from state categories]\label{ex.cof_from_state}
+Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid, where $\delta=(\id,\cod,\comp)$ as in \eqref{eqn.cod_comp}. For any position $i\in\ema{c}(\1)$, there is a cofunctor
+\[
+	(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}.
+\]
+That is, an object $f\in \ema{c}[i]$ is also a morphism in $\cat{C}$ and we send it to its codomain $\cod(f)$. A morphism in $\cat{C}$ emanating from $\cod(f)$ is passed back to its composite with $f$. 
+\end{example}
+
+\begin{exercise}
+Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
+\begin{enumerate}
+	\item Show that the map $(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ from \cref{ex.cof_from_state} satisfies the conditions necessary for being a cofunctor (identities, codomains, and composites).
+	\item Find a comonoid structure on the polynomial $p\coloneqq\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $p\to\ema{c}$.
+	\item Is the polynomial map $p\to\ema{c}$ an epimorphism?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structure, and that $f\colon \ema{c}\to\ema{d}$ and $g\colon\ema{d}\to\ema{e}$ are maps of polynomials.
+\begin{enumerate}
+	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
+	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set.
+(Hint: Use \cref{prop.cofunctors_isos}.)
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+%** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
+\begin{example}[Cofunctors to state categories]
+Our familiar state category on $S$ is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; its carrier is $S\yon^S$.
+% ** use iso-pres
+% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
+% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
+\end{example}
+
+
+\subsubsection{Cofunctors to other preorders}
+
+Given a cofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing an simplified model or abstraction of the states and transitions possible in $\cat{C}$.
+While the transitions in a general category may be more complex, all that a preorder tells you is whether you can get from one state to another or not.
+Let's see some examples; $S$ will be a set throughout.
+
+\begin{example}[Cofunctors to discrete categories] \label{ex.cof_to_discrete}
+The discrete category on $S$ is the category with objects in $S$ and only identity morphisms; its carrier is $S\yon$.
+So a cofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
+\end{example}
+
+\begin{exercise}
+\begin{enumerate}
+	\item Show that $\yon$ has a unique comonoid structure.
+	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
+	\item Explain why $\yon$ is terminal using the language of states and transitions.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We actually already showed that $\yon$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms (which we will also denote by $\yon$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
+    \item For any category $\cat{C}$, there is a unique cofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
+    \item By \cref{ex.cof_to_discrete}, a cofunctor from a category $\cat C$ to the discrete category on $S\in\smset$ is a way of assigning each state in $\cat C$ a label in $S$.
+    In this case, $\yon$ is the discrete category on $\1$, so there is only $1$ label to choose from; hence there is always just $1$ way to assign the labels.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+\begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
+For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the terminal (one morphism) category.
+
+This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
+\end{example}
+
+\begin{exercise}\label{exc.rep_objects}
+We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
+\begin{enumerate}
+	\item Show that for any category $\cat{T}$, there are $2^{\#\Ob\cat{T}}$-many cofunctors $\cat{T}\cof\2\yon$.
+	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if a category $\cat{T}$ is going to represent objects as in \cref{ex.rep_objects} then $\cat{T}$ must have one object.
+	\item Now use a different $\cat{C}$ to show that if a category $\cat{T}$ is going to represent objects, it must have more than one object.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+
+\begin{exercise}
+Are cofunctors between posets interesting?
+\begin{enumerate}
+	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ for all $m,n\in\{0,1,2,3\}$?
+	\item What does a cofunctor from $\yon$ into a poset represent? Is there anything you'd call ``asymmetric'' about it?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+
+\begin{exercise}
+\begin{enumerate}
+	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
+	\item Describe cofunctors into $A\yon$ for a set $A$.
+	\item Describe cofunctors into $(\nn,\leq)$.
+	\item Describe cofunctors into $(\nn,\geq)$.
+	\item Let $\yon^\4+\2\yon^\2+\yon$ denote the commutative square category. List the cofunctors from it to the walking arrow category $\yon^\2+\yon$.
+	There should be six or so.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 \subsubsection{Cofunctors to monoids}
 
@@ -6918,35 +7028,10 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 \end{exercise}
 
 \begin{exercise}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\com{C}$. There is a map of polynomials $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ given by
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (s) {$\cod(m)$\at$i$};
-	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\at$i$};
-	\draw[double] (s_pos) -- (c_pos);
-	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
-\end{tikzpicture}
-\]
-for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example}[Canonical cofunctors from state categories]\label{ex.cof_from_state}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid, where $\delta=(\id,\cod,\comp)$ as in \eqref{eqn.cod_comp}. For any position $i\in\ema{c}(\1)$, there is a cofunctor
-\[
-	(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}.
-\]
-That is, an object $f\in \ema{c}[i]$ is also a morphism in $\cat{C}$ and we send it to its codomain $\cod(f)$. A morphism in $\cat{C}$ emanating from $\cod(f)$ is passed back to its composite with $f$. 
-\end{example}
-
-\begin{exercise}
-Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
 \begin{enumerate}
-	\item Show that the map $(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ from \cref{ex.cof_from_state} satisfies the conditions necessary for being a cofunctor (identities, codomains, and composites).
-	\item Find a comonoid structure on the polynomial $p\coloneqq\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $p\to\ema{c}$.
-	\item Is the polynomial map $p\to\ema{c}$ an epimorphism?
+	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids (defined up to isomorphism) for which the carrier polynomial is $\yon^\2+\yon$?
+	\item For each category $\com{Q}_i$, describe how to imagine a cofunctor $\com{C}\to\com{Q}_i$ from an arbitrary category into it.
+	\item What cofunctors exist between the various $\com{Q}_i$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6958,20 +7043,6 @@ Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structure, and that $f\colon \ema{c}\to\ema{d}$ and $g\colon\ema{d}\to\ema{e}$ are maps of polynomials.
-\begin{enumerate}
-	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
-	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
@@ -6991,712 +7062,8 @@ Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structur
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Are cofunctors between posets interesting?
-\begin{enumerate}
-	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$. How many cofunctors are there from $[m]\to[n]$ for all $m,n\in\{0,1,2,3\}$?
-	\item What does a cofunctor from $\yon$ into a poset represent? Is there anything you'd call ``asymmetric'' about it?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-\begin{enumerate}
-	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids (defined up to isomorphism) for which the carrier polynomial is $\yon^\2+\yon$?
-	\item For each category $\com{Q}_i$, describe how to imagine a cofunctor $\com{C}\to\com{Q}_i$ from an arbitrary category into it.
-	\item What cofunctors exist between the various $\com{Q}_i$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set.
-(Hint: Use \cref{prop.cofunctors_isos}.)
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-\begin{enumerate}
-	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
-	\item Describe cofunctors into $A\yon$ for a set $A$.
-	\item Describe cofunctors into $(\nn,\leq)$.
-	\item Describe cofunctors into $(\nn,\geq)$.
-	\item Let $\yon^\4+2\yon^\2+\yon$ denote the commutative square category. List the cofunctors from it to the walking arrow category $\yon^\2+\yon$? There should be six or so.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
-For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the terminal (one morphism) category.
-
-This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
-\end{example}
-
-\begin{exercise}\label{exc.rep_objects}
-We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
-\begin{enumerate}
-	\item Show that for any category $\cat{T}$, there are $2^{\#\Ob\cat{T}}$-many cofunctors $\cat{T}\cof\2\yon$.
-	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if a category $\cat{T}$ is going to represent objects as in \cref{ex.rep_objects} then $\cat{T}$ must have one object.
-	\item Now use a different $\cat{C}$ to show that if a category $\cat{T}$ is going to represent objects, it must have more than one object.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-\begin{exercise}
-Let $\rr/\zz\cong[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. More down to earth, it's the set of real numbers between 0 and 1, including 0 but not 1.%]
-\begin{enumerate}
-	\item Find a comonoid structure on $(\rr/\zz)\yon^\rr$.
-	\item Is it a groupoid?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-
-When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
-
-% %-------- Section --------%
-
-\section{Some categorical properties of $\smcat^\sharp$} %** more precise title??
-Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
-% ** more intro---what is all this?
-
-% ** You may notice that the content of this section mirrors that of \cref{**chapter 4**}; indeed, the comonoid category $\cat^\sharp$ inherits much of the categorical structure of $\poly$.
-
-%---- Subsection ----%
-\subsection{Coproducts in $\smcat^\sharp$}
-
-\begin{proposition}
-The coproduct of polynomial comonoids in $\smcat^\sharp$ agrees with the coproduct of categories in $\smcat$, and its carrier agrees with the coproduct of carriers in $\poly$.
-In particular, the unique comonoid carried by $\0$ is initial in $\smcat^\sharp$.
-\end{proposition}
-\begin{proof}
-We defer the proof of the claim about $\0$ to \cref{exc.0_initial_com}.
-
-Let $I$ be a set and $(\cat{C}_i)_{i\in I}$ be categories with carriers $(\ema{c}_i)_{i\in I}$.
-Then the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat$ is the category $\sum_{i\in I}\cat{C}_i$, whose objects are given by the disjoint union of the objects in each summand, so that
-\[
-    \Ob\left(\sum_{i\in I}\cat{C}_i\right)\iso\sum_{i\in I}\Ob\cat{C}_i=\sum_{i\in I}\ema{c}_i(\1)\iso\left(\sum_{i\in I}\ema{c}_i\right)(\1),
-\]
-and whose morphisms out of each $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$ are just the morphisms out of $c$ in the summand $\cat{C}_j$, so
-\[
-    \left(\sum_{i\in I}\cat{C}_i\right)[c]\iso\cat{C}_j[c]=\ema{c}_j[c]\iso\left(\sum_{i\in I}\ema{c}_i\right)[c]
-\]
-Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_{i\in I}\ema{c}_i$.
-
-% ** give inclusions as cofunctors
-
-It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
-For each $j\in J$, we define an inclusion cofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as cofunctors first??
-
-Suppose we have a category $\cat{D}$ and cofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
-For every object $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$, we have an object $F_j c\in\Ob\cat{D}$, so we can set $Fc\coloneqq F_j c$.
-Then for every morphism $g\colon Fc\to\_$ in $\cat{D}$, we have a morphism $\left(F_j\right)^\sharp_c g\colon c\to\_$, so we can set $F^\sharp_c g\coloneqq\left(F_j\right)^\sharp_c g$.
-As each $F_j$ satisfies the cofunctor laws, so does $F$.
-
-% ** check cofunctor laws
-% ** check commutes
-% ** check uniqueness
-
-
-It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
-\end{proof}
-
-\begin{exercise}\label{exc.0_initial_com}
-\begin{enumerate}
-	\item Show that $\0$ has a unique comonoid structure.
-	\item Show that $\0$ with its comonoid structure is initial in $\smcat^\sharp$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category (which we will also denote by $\0$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
-    \item For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Given a comonoid $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is an induced comonoid structure on the polynomial $\2\ema{c}$.
-\begin{solution}
-** % sum with itself
-\end{solution}
-\end{exercise}
-
-%---- Subsection ----%
-\subsection{Special categories and adjunctions}
-
-\begin{proposition}
-Let $\smcat^\sharp_{\text{rep}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
-Then there is an isomorphism of categories
-\[
-    \smcat^\sharp_{\text{rep}}\iso\Cat{Mon}\op,
-\]
-where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms.
-\end{proposition}
-\begin{proof}
-Let $\cat{C}$ be a category. It has only one object iff its carrier $\ema{c}$ has only one position, i.e.\ $\ema{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
-
-A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
-\end{proof}
-
-\begin{exercise}\label{exc.lin_comon_set}
-Let $\smcat^\sharp_{\text{lin}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with linear carriers $S\yon$ for some $S\in\smset$.
-Show that there is an isomorphism of categories
-\[
-\smcat^\sharp_{\text{lin}}\iso\smset.
-\qedhere
-\]
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{proposition}
-The inclusion $\smcat^\sharp_{\text{lin}}\to\smcat^\sharp$ has a left adjoint sending each $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$ to the unique comonoid carried by $(\ema{c}\tri\1)\yon$ in $\smcat^\sharp_{\text{lin}}$.
-\end{proposition}
-\begin{proof}
-We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
-\[
-  \smcat^\sharp(\ema{c},A\yon).
-  \cong^?
-  \smcat^\sharp((\ema{c}\tri\1)\yon,A\yon)
-\]
-But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities. 
-\end{proof}
-
-%---- Subsection ----%
-\subsection{Vertical-cartesian factorization in $\smcat^\sharp$}
-
-A cofunctor is called \emph{cartesian} if the underlying lens $f\colon\ema{c}\to\ema{d}$ is cartesian (i.e.\ for each position $i\in\ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
-
-\begin{proposition}\label{prop.factor_cofunctor}
-Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
-\[
-\cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cof}\com{D}.
-\]
-\end{proposition}
-\begin{proof}
-A cofunctor $\cat{C}\cof\cat{D}$ is a map of polynomials $\ema{c}\to\ema{d}$ satisfying some properties, and any map of polynomials $f\colon\ema{c}\to\ema{d}$ can be factored as a vertical morphism followed by a cartesian morphism
-\[
-	\ema{c}\To{g}\ema{c'}\To{h}\ema{d}.
-\]
-For simplicity, assume $g_1\colon\ema{c}(\1)\to\ema{c'}(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\ema{c}$ the map $h^\sharp_i\colon\ema{c'}[i]\to\ema{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions. 
-
-It suffices to show that the intermediate object $\ema{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\ema{c'}(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\ema{c'}[i]=\ema{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\ema{c'}[\cod(m)]$, assign the composite $m\then m'$ in $\ema{c'}$ to be $m\then m'$ in $\ema{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\ema{c'}$ is a category and both $g$ and $h$ are cofunctors.
-\end{proof}
-
-\begin{exercise}\label{exc.factor_cofunctor}
-We will complete the proof of \cref{prop.factor_cofunctor}, using the same notation.
-\begin{enumerate}
-	\item Show that composition is associative and unital in $\ema{c'}$.
-	\item Show that $g$ preserves codomains.
-	\item Show that $g$ preserves compositions.
-	\item Show that $h$ preserves codomains.
-	\item Show that $h$ preserves compositions.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-\begin{proposition}
-The wide subcategory of cartesian maps in $\smcat^\sharp$ is isomorphic to the category of wide subcategory of discrete opfibrations in $\smcat$.
-\end{proposition}
-\begin{proof}
-Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
-\end{proof}
-
-\begin{proposition}\label{prop.com_vert_cat_boo}
-The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
-\[
-\smcat^\sharp_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
-\]
-\end{proposition}
-\begin{proof}
-Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob\cat{C}\to\Ob\cat{D}$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f)))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
-
-The construction of a vertical cofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
-\end{proof}
-
-\begin{exercise}
-Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\to\cat{C}$ can be identified with categories whose set of objects is $S$.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{D}\coloneqq\fbox{$\bullet\to\bullet$}$. There is a unique bijective-on-objects (boo) functor $F\colon\cat{C}\to\cat{D}$ and two boo functors $G_1,G_2\colon\cat{D}\to\cat{C}$.
-\begin{enumerate}
-	\item Write down the morphism $\ema{d}\to\ema{c}$ of carriers underlying $F$.
-	\item Write down the morphism $\ema{c}\to\ema{d}$ of carriers underlying either $G_1$ or $G_2$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-%---- Subsection ----%
-\subsection{Parallel products in $\smcat^\sharp$ are products in $\smcat$}
-
-The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this
-It is, however, a \emph{monoidal} product on $\smcat^\sharp$, coinciding with the parallel product $\otimes$ on $\poly$.
-
-\begin{proposition}\label{prop.dirichlet_on_catsharp}
-The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the forgetful functor
-$U\colon\smcat^\sharp\to\poly$
-is strong monoidal with respect to $\otimes$.
-The parallel product of two categories is their product in $\smcat$.
-\end{proposition}
-\begin{proof}
-Given $(\ema{c},\epsilon_{\ema c},\delta_{\ema c}),(\ema{d},\epsilon_{\ema d},\delta_{\ema d})\in\smcat^\sharp$, 
-
-be categories corresponding to comonoids $(\ema{c},\epsilon_{\ema c},\delta_{\ema c})$ and $(\ema{d},\epsilon_{\ema d},\delta_{\ema d})$.
-
-
-
-The carrier of $\cat{C}\otimes\cat{D}$ is defined to be $\ema{c}\otimes\ema{d}$. A position in it is a pair $(c,d)$ of objects, one from $\cat{C}$ and one from $\cat{D}$; a direction there is a pair $(f,g)$ of a morphism emanating from $c$ and one emanating from $d$. 
-
-We define $\epsilon_{\cat{C}\otimes\cat{D}}\colon\ema{c}\otimes\ema{d}\to\yon$ as
-\[
-\ema{c}\otimes\ema{d}\To{\epsilon_{\ema{C}}\otimes\epsilon_{\ema{D}}}\yon\otimes\yon\cong\yon.
-\]
-This says that the identity at $(c,d)$ is the pair of identities.
-
-We define $\delta_{\cat{C}\otimes\cat{D}}\colon(\ema{c}\otimes\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d})$ using the duoidal property:
-\[
-\ema{c}\otimes\ema{d}\To{\delta_{\ema{c}}\otimes\delta_{\ema{d}}}(\ema{c}\tri\ema{c})\otimes(\ema{d}\tri\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d}).
-\]
-One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.dirichlet_on_catsharp}.
-\end{proof}
-
-\begin{exercise}\label{exc.dirichlet_on_catsharp}
-We complete the proof of \cref{prop.dirichlet_on_catsharp}.
-\begin{enumerate}
-	\item Show that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$, as described in \cref{prop.dirichlet_on_catsharp}, forms a comonoid.
-	\item Check that the construction $(\cat{C},\cat{D})\mapsto\cat{C}\otimes\cat{D}$ is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-%
-%As everyone reading this is probably aware, strict monoidal structure on a category $\cat{C}$ is a functor $1\to\cat{C}$ and a functor $\cat{C}\times\cat{C}\to\cat{C}$ that together satisfy the monoid equations. Here the $\times$ takes place in $\smcat$. 
-%
-%If we replace $(\smcat,\1,\times)$ with $(\smcat^\sharp,\yon,\otimes)$, then a monoid is a cofunctor $\intercal\colon\yon\cof\cat{C}$, which we call the \emph{terminus}, and a cofunctor $\curlyvee\colon\cat{C}\otimes\cat{C}\cof\cat{C}$, which we call the \emph{team-up product} satisfying the monoid equations. Let's call these $\otimes$-monoids in $\smcat^\sharp$. 
-%
-%It appears that $\otimes$-monoids $(\cat{C},\intercal,\curlyvee)$ in $\smcat^\sharp$ could be interesting for thinking about the dynamics of something like ``swarms'': collections of dynamical systems that work very well together as a population. Indeed, $\curlyvee$ takes a pair of objects $c_1,c_2$ and returns a single object $c_1\curlyvee c_2$, but it takes a morphism $f\colon c_1\curlyvee c_2\to d$ emanating that object to a pair of morphisms $f_1\colon c_1\to d_1$ and $f_2\colon c_2\to d_2$ with $d_1\curlyvee d_2=d$.
-%
-%
-%\begin{example}[Representable and linear $\otimes$-monoids]
-%Representable polynomials have at most one commutative $\otimes$-monoid structure by a theorem of Fox. Category (polynomial comonoid) structures on a representable polynomial $\yon^M$ are just monoid structures on its underlying set $M$. So a commutative monoid $(M,e,*)$ in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ that has carrier $\yon^M$.
-%
-%A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ having carrier $M\yon$.
-%\end{example}
-%
-%\begin{example}\label{ex.monaco_cat}
-%Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
-%\[
-%\fbox{
-%\begin{tikzcd}[ampersand replacement=\&]
-%	\cdots\ar[r, "-1"']\&
-%	\LMO{n}\ar[r, "-1"']\&
-%	\cdots\ar[r, "-1"']\&
-%	\LMO{2}\ar[r, "-1"']\&
-%	\LMO{1}\ar[r, "-1"']\&
-%	\LMO{0}
-%\end{tikzcd}
-%}
-%\]
-%It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its eraser and duplicator are given by $0$ and addition.
-%
-%This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
-%\[
-%\curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
-%and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
-%\[
-%\curlyvee^\sharp_{n_1+n_2}(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
-%\]
-%For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
-%\[
-%\begin{array}{c|c}
-%	i&\curlyvee^\sharp(i)\\\hline
-%	0&(3,2)\\
-%	1&(3,1)\\
-%	2&(3,0)\\
-%	3&(2,0)\\
-%	4&(1,0)\\
-%	5&(0,0)
-%\end{array}
-%\]
-%\end{example}
-%
-%\begin{exercise}
-%Let $\com{C}$ be the comonoid from \cref{ex.monaco_cat}. We need to check that everything works correctly.
-%\begin{enumerate}
-%	\item Check that the terminus $\intercal\colon\yon\to\com{C}$ is a cofunctor.
-%	\item Check that $\curlyvee$ preserves identities.
-%	\item Check that $\curlyvee$ preserves codomains and compositions, and hence is a cofunctor.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%Consider the polynomial
-%\[
-%  c\coloneqq
-%  \sum_{n\in\nn}\sum_{\ell\colon\ord{n}\to\nn}
-%  \yon^{\{\ell'\colon\ord{n}\to\nn\;\mid\; \ell'\leq\ell\}}
-%\]
-%A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
-%\begin{enumerate}
-%	\item Find a comonoid structure on $c$.
-%	\item Find a $\otimes$-monoid structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%Every $\otimes$-monoid in $\smcat^\sharp$ has an underlying category. This forgetful functor has a left adjoint: to every category $\cat{C}\in\smcat^\sharp$ we can assign a \emph{free} $\otimes$-monoid.
-%\begin{enumerate}
-%	\item Make the above claim precise, but don't prove it yet.
-%	\item We propose that if the carrier of $\cat{C}$ is $\ema{c}$ then the free $\otimes$-monoid on it has carrier $\ema{L_c}$ given by
-%	\[
-%	\ema{L_c}\coloneqq\sum_{[\ell_1,\ldots,\ell_n]\in\Set{List}(\ema{c}(\1))}\yon^{\ema{c}[\ell_1]\times\cdots\times\ema{c}[\ell_n]}.
-%	\]
-%	This is supposed to be a comonoid in $\poly$; what should be the identities, codomains, and composition?
-%	\item	Propose a terminus $\intercal\colon\yon\to\ema{L_c}$.
-%	\item Propose a team-up product $\curlyvee\colon\ema{L_c}\otimes\ema{L_c}\to\ema{L_c}$.
-%	\item Does it look promising that these will satisfy the monoid laws?
-%	\item Sketch an argument that this construction is left adjoint to the forgetful functor sending a $\otimes$-monoid in $\smcat^\sharp$ to its underlying category.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-
-
-
-% ** displaced product stuff starts
-%-------- Section --------%
-% \section{Products in $\smcat^\sharp$}
-
-% Products in $\smcat^\sharp$ are fascinating. Given categories $\cat{C}$ and $\cat{D}$, the set of objects in their $\smcat$-product is given by the product of their sets of objects, but this is not the case in $\smcat^\sharp$. So what is an object in $\cat{C}\times^\sharp\cat{D}$ (the usual categorical product, but taken in $\smcat^\sharp)$? 
-
-% An object in $\cat{C}\times^\sharp\cat{D}$ is, roughly speaking, a tree for which each node is a pair of objects: some $i\in\cat{C}$ and some $j\in\cat{D}$.
-% The edges leading out of node $(i, j)$ are then all the morphisms emanating from $i$ and all the morphisms emanating from $j$.
-% The tree must respect identities, codomains, and composites in $\cat{C}$ and $\cat{D}$, as we'll explain.
-% But before we do, we define the following category, which will be crucial to our understanding of products in $\smcat^\sharp$.
-
-% \begin{definition}[Free monoidal category on monoids and comonoids] \label{def.free_monoid_cat}
-% Given a (small) set $I$, define $\Delta_I$ to be the free monoidal category generated by $|I|$ distinct monoids.
-% Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
-% \end{definition}
-
-% Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own eraser and duplicator, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
-% These objects and morphisms are then subject to no relations beyond those implied by the standard comonoid axioms.
-
-% In particular, we can identify the objects of $\Delta_I\op$ with the elements of the free monoid $\List(I)$, where the $|I|$ comonoids are the singleton lists $[i]$ for each $i \in I$.
-% The monoidal product of $\Delta_I\op$ can then be interpreted as list concatenation, which---in a suggestive overloading of notation---we will denote by $\tri$.
-% The monoidal unit must then be the empty list $[]$.
-% We could give analogous notation for $\Delta_I$.
-
-% The erasers $[i] \to []$ and duplicators $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
-% For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
-% \[
-%     ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
-% \]
-% and the other is given by
-% \[
-%     ([2] \to [2,2]) \tri ([3] \to []) \tri ([1] \to []) \tri \id_{[3]}.
-% \]
-
-% Another way to state \cref{def.free_monoid_cat} would be to say that $\Delta_I\op$ is initial among monoidal categories equipped with $|I|$ comonoids.
-% That is, given any monoidal category $(\cat{C}, \yon, \tri)$ with a comonoid $(c_i, \epsilon_i, \delta_i)$ for each $i \in I$, there is a unique monoidal functor $\Delta_I\op \to \cat{C}$ that sends each $[i]$ to $c_i$, each $[i] \to []$ to $\epsilon_i$, and each $[i] \to [i,i]$ to $\delta_i$.
-% Dually, $\Delta_I$ is initial among monoidal categories equipped with $|I|$ monoids.
-
-% \begin{example}[The augmented simplex category]
-% If we take $I \coloneqq \1$, then $\Delta \coloneqq \Delta_I$ is what is commonly known as the \emph{augmented simplex category} or the \emph{algebraist's simplex category}.
-% It is the free monoidal category generated by the monoid $[1]$ with unit $[] \to [1]$ and multiplication $[1,1] \to [1])$.
-
-% If we identify each $n$-element list $[1,\ldots,1]$ with the finite set $\ord{n}$, interpreted as an ordinal, we can see that $\Delta$ is in fact the category of all finite ordinals (i.e.\ $\0, \1, \2, \ldots$) and the order-preserving maps between them.
-% In \cite[Chapter~VII, Section~8]{MacLane:1998a}, Mac Lane verifies that $\Delta$ is initial among monoidal categories equipped with a monoid.
-% \end{example}
-
-% Armed with the free monoidal category $\Delta_I\op$, we are now ready to state how products can be constructed in $\smcat^\sharp$.
-
-% \begin{proposition}\label{prop.sharp_products}
-% The category $\smcat^\sharp$ has all small products.
-
-% In particular, for a small set $I$ and a category $\cat{C}_i \in \smcat^\sharp$ corresponding to a comonoid $\ema{c}_i \in \poly$ for each $i \in I$, the product of the $\cat{C}_i$'s is given by the limit of the canonical monoidal functor $C \colon \Delta_I\op \to \poly$ sending each $[i]$ to $\ema{c}_i$.
-% \end{proposition}
-
-% Before we give the proof of the proposition above, let us examine what it says concretely in the case of binary products.
-
-% \begin{example}[Binary products in $\smcat^\sharp$] \label{ex.bin_prod}
-% For each $i \in \2$, let $\cat{C}_i$ be the category corresponding to the comonoid $(\ema{c}_i, \epsilon_i, \delta_i)$ in $\poly$.
-% Then we can define $C \colon \Delta_\2\op \to \poly$ to be the canonical monoidal functor sending each $[i]$ to $\ema{c}_i$.
-% \cref{prop.sharp_products} asserts that $\lim C$ is the product of $\cat{C}_1$ and $\cat{C}_2$ in $\smcat^\sharp$. But what kind of a polynomial is $\lim C$, and what is its comonoid structure?
-
-% Well, for every list $\ell \in \Ob\Delta_\2\op = \List(\2)$, the polynomial $\lim C$ should have a $C\ell$-component, i.e.\ a projection $\pi_\ell \colon \lim C \to C\ell$.
-% For example, when $\ell \coloneqq [1,2,2,1,1,1]$, we have $C\ell = \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$, giving us a projection $\lim C \to \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$.
-% These projections must commute with the morphisms in the image of $C$, which are precisely the morphisms generated by the $\epsilon_i$'s and the $\delta_i$'s via composition and taking the monoidal product.
-% For instance, the diagram
-% \begin{equation} \label{eqn.lim_example}
-% \begin{tikzcd}
-%     \lim C \ar[r, "\pi_{[1,2,1]}"] \ar[dr, "\pi_{[1,2,2,1,1,1]}"'] & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \ar[d, "\ema{c}_1 \tri \delta_2 \tri (\delta_1 \then (\ema{c}_1 \tri \delta_1))"] \\
-%     & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1
-% \end{tikzcd}
-% \end{equation}
-% commutes.
-% In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by duplicators $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
-% So we can generalize \eqref{eqn.lim_example} to say that
-% \begin{equation}
-% \begin{tikzcd}
-%     \lim C \ar[r, "\pi_{\ell'}"] \ar[dr, "\pi_\ell"'] & C\ell' \ar[d, "Cd_{\ell,\ell'}"] \\
-%     & C\ell
-% \end{tikzcd}
-% \end{equation}
-% commutes.
-
-% Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
-% Let us focus, then, on only those projections.
-% Together, they form the commutative diagram
-% \begin{equation} \label{eqn.lim_projs}
-% \begin{tikzcd}
-%     \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
-%     \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
-%     \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
-% \end{tikzcd}
-% \end{equation}
-% It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eqn.lim_projs} and the limit of the bottom row of \eqref{eqn.lim_projs}.
-% In particular, the limit of the top row of \eqref{eqn.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
-% \begin{quote}
-% \begin{enumerate}[label=1.\arabic*.]
-%     \item choose an object $c_1 \in \cat{C}_1$;
-%     \item for each morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
-%     \begin{enumerate}[label=2.\arabic*.]
-%         \item choose an object $d_2 \in \cat{C}_2$;
-%         \item for each morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
-%         \begin{enumerate}[label=3.\arabic*.]
-%             \item choose an object $c_3 \in \cat{C}_1$;
-%             \item for each morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
-            
-%             $\quad \cdots$,
-%         \end{enumerate}
-%     \end{enumerate}
-% \end{enumerate}
-% \end{quote}
-% Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
-% The limit of the bottom row of \eqref{eqn.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
-% From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
-
-% So every position of $\lim C$ yields a pair of these structures.
-% We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
-% But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eqn.lim_projs}.
-% For instance, the fact that the diagram
-% \begin{equation}
-% \begin{tikzcd}
-%     \lim C \ar[r, "\pi_{[1,2]}"] \ar[dr, "\pi_{[2]}"'] & \ema{c}_1 \tri \ema{c}_2 \ar[d, "\epsilon_1 \tri \ema{c}_2"] \\
-%     & \ema{c}_2
-% \end{tikzcd}
-% \end{equation}
-% commutes implies that, when following the above instructions, the object $d_2$ chosen for the identity morphism on $c_1$ in the left structure must also be the first object chosen when constructing the right structure.
-% Similar diagrams render all such objects chosen for identity morphisms when constructing these structures redundant.
-% So, in the end, we have a one-to-one correspondence between positions of $\lim C$ and pairs of structures that can be constructed by following these instructions:
-% \begin{quote}
-% \begin{enumerate}[label=1.\arabic*.]
-%     \item choose an object $c_1 \in \cat{C}_1$;
-%     \item for each nonidentity morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
-%     \begin{enumerate}[label=2.\arabic*.]
-%         \item choose an object $d_2 \in \cat{C}_2$;
-%         \item for each nonidentity morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
-%         \begin{enumerate}[label=3.\arabic*.]
-%             \item choose an object $c_3 \in \cat{C}_1$;
-%             \item for each nonidentity morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
-            
-%             $\quad \cdots$
-%         \end{enumerate}
-%     \end{enumerate}
-% \end{enumerate}
-% \end{quote}
-% for the left structure, and
-% \begin{quote}
-% \begin{enumerate}[label=1.\arabic*.]
-%     \item choose an object $d_1 \in \cat{C}_2$;
-%     \item for each nonidentity morphism $g_1$ in $\cat{C}_2$ with domain $d_1$:
-%     \begin{enumerate}[label=2.\arabic*.]
-%         \item choose an object $c_2 \in \cat{C}_1$;
-%         \item for each nonidentity morphism $f_2$ in $\cat{C}_1$ with domain $c_2$:
-%         \begin{enumerate}[label=3.\arabic*.]
-%             \item choose an object $d_3 \in \cat{C}_2$;
-%             \item for each nonidentity morphism $g_3$ in $\cat{C}_2$ with domain $d_3$:
-            
-%             $\quad \cdots$
-%         \end{enumerate}
-%     \end{enumerate}
-% \end{enumerate}
-% \end{quote}
-% for the right structure.
-% These pairs are then the objects of $\cat{C}_1 \times^\sharp \cat{C}_2$.
-% The morphisms from each object are the sequences of morphisms formed by starting from the top of either set of instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (g_1), (f_1, g_2), (g_1, f_2),$ $(f_1, g_2, f_3)$ and $(g_1, f_2, g_3)$.
-% In particular, the identity morphism is $()$.
-
-% We illustrate how to determine the codomain of each nonidentity morphism using an example.
-% To find the codomain of the morphism $(g_1, f_2)$, obtained from steps 1.2 and 2.2 in the right structure, we need to determine the left and right structures of the codomain.
-% Its right structure is easy to describe: it is simply the structure obtained by following the remaining instructions, starting from step 3.1, nested under step 2.2 for $f_2$; the recursive nature of these instructions ensures that this is, in fact, a valid right structure.
-% As for the left structure of the codomain, we can construct it as follows:
-% \begin{quote}
-% \begin{enumerate}[label=1.\arabic*.]
-%     \item choose the object $\cod(f_2) \in \cat{C}_1$;
-%     \item for each nonidentity morphism $f'_2$ in $\cat{C}_1$ with domain $\cod(f_2)$:
-%     \begin{enumerate}[label=2.\arabic*.]
-%         \item if $f_2 \then f'_2$ is not the identity, then follow the steps nested under step 2.2 for $f_2 \then f'_2$ in the instructions above for constructing the original right structure;
-%         \item otherwise, 
-%     \end{enumerate}
-% \end{enumerate}
-% \end{quote}
-
-% $\cod(f_2)$ in $\cat{C}_1$, then, for each nonidentity morphism $f'_2$ in $\cat{C}_1$ 
-
-
-% %codomains...
-
-% % example for (f_1, g_2)
-
-
-% \end{example}
-
-% \begin{example}[Products of discrete categories are products of sets]
-% Given sets $S$ and $T$, consider the corresponding discrete categories $S\yon$ and $T\yon$.
-% Then by \cref{ex.bin_prod}, the product $S\yon \times^\sharp T\yon$ is the discrete category $(S \times T)\yon$.
-% \end{example}
-
-% \begin{example}[Products of one-object categories are coproducts of monoids]
-% Given monoids $M$ and $N$, consider the corresponding one-object categories $\yon^M$ and $\yon^N$.
-% Then by \cref{ex.bin_prod}, the product $\yon^M \times^\sharp \yon^N$ is the one-object category $\yon^{M \ast N}$, where $M \ast N$ is the free product (i.e.\ the coproduct) of the monoids $M$ and $N$.
-% \end{example}
-
-
-% \begin{example}[Unexpectedly-many objects]\label{ex.unexpectedly_many_objects}
-% Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. By \cref{ex.bin_prod}, the product $\cat{C}\times^\sharp\cat{C}$ has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
-% \begin{itemize}
-%     \item the sequence $s_1$ starts with either $A_1$ or $B_1$;
-%     \item the sequence $s_2$ starts with either $A_2$ or $B_2$; and
-% 	\item in either sequence:
-% 	\begin{itemize}
-% 	    \item after $A_1$ comes either $A_2$ or $B_2$;
-% 	    \item after $A_2$ comes either $B_1$ or $A_1$; and
-% 	    \item after $B_1$ or $B_2$, the sequence stops.
-% 	\end{itemize}
-% \end{itemize}
-% For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LMO{A}\To{f}\LMO{B}$}$:
-% \[
-% ((A_1,A_2,A_1,A_2,\ldots), (A_2,A_1,A_2,A_1,B_2))
-% \]
-% \end{example}
-
-% % \begin{exercise}
-% % Again let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$.
-% % \begin{enumerate}
-% % 	\item Use the official description of products, given in \cref{prop.sharp_products}, to justify the informal description of the objects in $\cat{C}\times^\sharp\cat{C}$, as given in \cref{ex.unexpectedly_many_objects}.
-% % 	\item Describe the morphisms in $\cat{C}\times^\sharp\cat{C}$.
-% % \qedhere
-% % \end{enumerate}
-% % \end{exercise}
-
-% \begin{example}
-% Let $I$ be a set and $I\yon$ the associated discrete category, and let $(M,e,*)$ be a monoid and $\yon^M$ the associated one-object category.
-% Then by \cref{ex.bin_prod}, the product $I\yon \times^\sharp \yon^M$ is the category $I^M\yon^M$.
-% Its objects are functions $i \colon M \to I$, while its morphisms have the form $i \To{m} (m' \mapsto i(m * m'))$ for each $i \colon M \to I$ and $m \in M$.
-
-% Given $i \colon M \to I$, its identity morphism is the morphism $i \To{e} i$ corresponding to $e \in M$; given $m, n \in M$, the composite of the morphisms $i \To{m} (m' \mapsto i(m * m')) \To{n} (m' \mapsto i(m * n * m'))$ is the morphism $i \To{m * n} (m' \mapsto i(m * n * m'))$.
-
-% % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
-% \end{example}
-
-% % \begin{example}[Event-based systems]
-% % Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
-
-% % % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
-% % \end{example}
-
-% \begin{proof}[Proof of \cref{prop.sharp_products}]
-% We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its eraser and duplicator.
-% The eraser $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
-
-% To construct the duplicator, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of erasers), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
-% As $C$ is monoidal, it follows that
-% \[
-%     (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
-% \]
-% So specifying a map to $(\lim C) \tri (\lim C)$ amounts to specifying a map to $C(\ell \tri \ell')$ for every $\ell, \ell' \in \Delta_I\op$ such that the appropriate diagrams commute.
-% In particular, we can construct the duplicator $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
-% It is routine to verify that the appropriate diagrams commute.
-
-% (Verify comonoid laws)
-
-% (Give projections; check that these are comonoid morphisms)
-
-% (Verify universal property of product)
-% \end{proof}
-
-% ** displaced product stuff ends
-
+% ** End this
+% ** When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
 
 %-------- Section --------%
 \section{Exercise solutions}
@@ -7707,7 +7074,9 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \Opensolutionfile{solutions}[solution-file7]
 
 %------------ Chapter ------------%
-\chapter{Cofree polynomial comonoids} \label{ch.comon.cofree}
+\chapter{The category of categories and cofunctors} \label{ch.comon.cofree}
+
+% ** generalize intro; borrow from Ch. 4
 
 Consider a dynamical system $\phi\colon\ema{s}\to p$ with state system $\ema{s}$ and interface $p$.
 In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there was a single morphism that could capture all the information encoded by the family of lenses $\text{Run}_n(\phi)\colon\ema{s}\to p\tripow{n}$ for all $n\in\nn$, defined as the composite
@@ -8920,6 +8289,617 @@ But in fact we get a little more from $F$, and this is where the differences com
 Thus we can think of a map $\ema{c}\to p$ as a dynamical system that ``records its history.'' That is, given a path $\cofree{p}$, a sequence of inputs to our dynamical system, we get a morphism in $\cat{C}$. If, unlike in a state category $S\yon^S$, there are multiple morphisms between objects, we will know which one was actually taken by the system.
 
 This seems like a nice generalization of dynamical systems---history-recording dynamical systems---and may have some use. However, we will see in \cref{chapter.bimod} that there are strong theoretical reasons to emphasize the ahistorical state categories $S\yon^S$. For one thing, the category of all such $S\yon^S$-style dynamical systems on $p$ forms a topos for any $p\in\poly$.
+
+
+
+
+
+% %-------- Section --------%
+
+\section{Some categorical properties of $\smcat^\sharp$} %** more precise title??
+Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
+% ** more intro---what is all this?
+
+% ** You may notice that the content of this section mirrors that of \cref{**chapter 4**}; indeed, the comonoid category $\cat^\sharp$ inherits much of the categorical structure of $\poly$.
+
+%---- Subsection ----%
+\subsection{Coproducts in $\smcat^\sharp$}
+
+\begin{proposition}
+The coproduct of polynomial comonoids in $\smcat^\sharp$ agrees with the coproduct of categories in $\smcat$, and its carrier agrees with the coproduct of carriers in $\poly$.
+In particular, the unique comonoid carried by $\0$ is initial in $\smcat^\sharp$.
+\end{proposition}
+\begin{proof}
+We defer the proof of the claim about $\0$ to \cref{exc.0_initial_com}.
+
+Let $I$ be a set and $(\cat{C}_i)_{i\in I}$ be categories with carriers $(\ema{c}_i)_{i\in I}$.
+Then the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat$ is the category $\sum_{i\in I}\cat{C}_i$, whose objects are given by the disjoint union of the objects in each summand, so that
+\[
+    \Ob\left(\sum_{i\in I}\cat{C}_i\right)\iso\sum_{i\in I}\Ob\cat{C}_i=\sum_{i\in I}\ema{c}_i(\1)\iso\left(\sum_{i\in I}\ema{c}_i\right)(\1),
+\]
+and whose morphisms out of each $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$ are just the morphisms out of $c$ in the summand $\cat{C}_j$, so
+\[
+    \left(\sum_{i\in I}\cat{C}_i\right)[c]\iso\cat{C}_j[c]=\ema{c}_j[c]\iso\left(\sum_{i\in I}\ema{c}_i\right)[c]
+\]
+Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_{i\in I}\ema{c}_i$.
+
+% ** give inclusions as cofunctors
+
+It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
+For each $j\in J$, we define an inclusion cofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as cofunctors first??
+
+Suppose we have a category $\cat{D}$ and cofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
+For every object $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$, we have an object $F_j c\in\Ob\cat{D}$, so we can set $Fc\coloneqq F_j c$.
+Then for every morphism $g\colon Fc\to\_$ in $\cat{D}$, we have a morphism $\left(F_j\right)^\sharp_c g\colon c\to\_$, so we can set $F^\sharp_c g\coloneqq\left(F_j\right)^\sharp_c g$.
+As each $F_j$ satisfies the cofunctor laws, so does $F$.
+
+% ** check cofunctor laws
+% ** check commutes
+% ** check uniqueness
+
+
+It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
+\end{proof}
+
+\begin{exercise}\label{exc.0_initial_com}
+\begin{enumerate}
+	\item Show that $\0$ has a unique comonoid structure.
+	\item Show that $\0$ with its comonoid structure is initial in $\smcat^\sharp$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category (which we will also denote by $\0$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
+    \item For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Given a comonoid $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is an induced comonoid structure on the polynomial $\2\ema{c}$.
+\begin{solution}
+** % sum with itself
+\end{solution}
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Special categories and adjunctions}
+
+\begin{proposition}
+Let $\smcat^\sharp_{\text{rep}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
+Then there is an isomorphism of categories
+\[
+    \smcat^\sharp_{\text{rep}}\iso\Cat{Mon}\op,
+\]
+where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms.
+\end{proposition}
+\begin{proof}
+Let $\cat{C}$ be a category. It has only one object iff its carrier $\ema{c}$ has only one position, i.e.\ $\ema{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
+
+A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
+\end{proof}
+
+\begin{exercise}\label{exc.lin_comon_set}
+Let $\smcat^\sharp_{\text{lin}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with linear carriers $S\yon$ for some $S\in\smset$.
+Show that there is an isomorphism of categories
+\[
+\smcat^\sharp_{\text{lin}}\iso\smset.
+\qedhere
+\]
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{proposition}
+The inclusion $\smcat^\sharp_{\text{lin}}\to\smcat^\sharp$ has a left adjoint sending each $(\ema{c},\epsilon,\delta)\in\smcat^\sharp$ to the unique comonoid carried by $(\ema{c}\tri\1)\yon$ in $\smcat^\sharp_{\text{lin}}$.
+\end{proposition}
+\begin{proof}
+We need to show that for any comonoid $(\ema{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
+\[
+  \smcat^\sharp(\ema{c},A\yon).
+  \cong^?
+  \smcat^\sharp((\ema{c}\tri\1)\yon,A\yon)
+\]
+But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities. 
+\end{proof}
+
+%---- Subsection ----%
+\subsection{Vertical-cartesian factorization in $\smcat^\sharp$}
+
+A cofunctor is called \emph{cartesian} if the underlying lens $f\colon\ema{c}\to\ema{d}$ is cartesian (i.e.\ for each position $i\in\ema{c}(\1)$, the map $f^\sharp_i\colon\ema{d}[f_1(i)]\to\ema{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
+
+\begin{proposition}\label{prop.factor_cofunctor}
+Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
+\[
+\cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cof}\com{D}.
+\]
+\end{proposition}
+\begin{proof}
+A cofunctor $\cat{C}\cof\cat{D}$ is a map of polynomials $\ema{c}\to\ema{d}$ satisfying some properties, and any map of polynomials $f\colon\ema{c}\to\ema{d}$ can be factored as a vertical morphism followed by a cartesian morphism
+\[
+	\ema{c}\To{g}\ema{c'}\To{h}\ema{d}.
+\]
+For simplicity, assume $g_1\colon\ema{c}(\1)\to\ema{c'}(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\ema{c}$ the map $h^\sharp_i\colon\ema{c'}[i]\to\ema{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions. 
+
+It suffices to show that the intermediate object $\ema{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\ema{c'}(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\ema{c'}[i]=\ema{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\ema{c'}[\cod(m)]$, assign the composite $m\then m'$ in $\ema{c'}$ to be $m\then m'$ in $\ema{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\ema{c'}$ is a category and both $g$ and $h$ are cofunctors.
+\end{proof}
+
+\begin{exercise}\label{exc.factor_cofunctor}
+We will complete the proof of \cref{prop.factor_cofunctor}, using the same notation.
+\begin{enumerate}
+	\item Show that composition is associative and unital in $\ema{c'}$.
+	\item Show that $g$ preserves codomains.
+	\item Show that $g$ preserves compositions.
+	\item Show that $h$ preserves codomains.
+	\item Show that $h$ preserves compositions.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+\begin{proposition}
+The wide subcategory of cartesian maps in $\smcat^\sharp$ is isomorphic to the category of wide subcategory of discrete opfibrations in $\smcat$.
+\end{proposition}
+\begin{proof}
+Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
+\end{proof}
+
+\begin{proposition}\label{prop.com_vert_cat_boo}
+The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
+\[
+\smcat^\sharp_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
+\]
+\end{proposition}
+\begin{proof}
+Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob\cat{C}\to\Ob\cat{D}$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f)))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
+
+The construction of a vertical cofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
+\end{proof}
+
+\begin{exercise}
+Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\to\cat{C}$ can be identified with categories whose set of objects is $S$.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{D}\coloneqq\fbox{$\bullet\to\bullet$}$. There is a unique bijective-on-objects (boo) functor $F\colon\cat{C}\to\cat{D}$ and two boo functors $G_1,G_2\colon\cat{D}\to\cat{C}$.
+\begin{enumerate}
+	\item Write down the morphism $\ema{d}\to\ema{c}$ of carriers underlying $F$.
+	\item Write down the morphism $\ema{c}\to\ema{d}$ of carriers underlying either $G_1$ or $G_2$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+%---- Subsection ----%
+\subsection{Parallel products in $\smcat^\sharp$ are products in $\smcat$}
+
+The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this
+It is, however, a \emph{monoidal} product on $\smcat^\sharp$, coinciding with the parallel product $\otimes$ on $\poly$.
+
+\begin{proposition}\label{prop.dirichlet_on_catsharp}
+The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the forgetful functor
+$U\colon\smcat^\sharp\to\poly$
+is strong monoidal with respect to $\otimes$.
+The parallel product of two categories is their product in $\smcat$.
+\end{proposition}
+\begin{proof}
+Given $(\ema{c},\epsilon_{\ema c},\delta_{\ema c}),(\ema{d},\epsilon_{\ema d},\delta_{\ema d})\in\smcat^\sharp$, 
+
+be categories corresponding to comonoids $(\ema{c},\epsilon_{\ema c},\delta_{\ema c})$ and $(\ema{d},\epsilon_{\ema d},\delta_{\ema d})$.
+
+
+
+The carrier of $\cat{C}\otimes\cat{D}$ is defined to be $\ema{c}\otimes\ema{d}$. A position in it is a pair $(c,d)$ of objects, one from $\cat{C}$ and one from $\cat{D}$; a direction there is a pair $(f,g)$ of a morphism emanating from $c$ and one emanating from $d$. 
+
+We define $\epsilon_{\cat{C}\otimes\cat{D}}\colon\ema{c}\otimes\ema{d}\to\yon$ as
+\[
+\ema{c}\otimes\ema{d}\To{\epsilon_{\ema{C}}\otimes\epsilon_{\ema{D}}}\yon\otimes\yon\cong\yon.
+\]
+This says that the identity at $(c,d)$ is the pair of identities.
+
+We define $\delta_{\cat{C}\otimes\cat{D}}\colon(\ema{c}\otimes\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d})$ using the duoidal property:
+\[
+\ema{c}\otimes\ema{d}\To{\delta_{\ema{c}}\otimes\delta_{\ema{d}}}(\ema{c}\tri\ema{c})\otimes(\ema{d}\tri\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d}).
+\]
+One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.dirichlet_on_catsharp}.
+\end{proof}
+
+\begin{exercise}\label{exc.dirichlet_on_catsharp}
+We complete the proof of \cref{prop.dirichlet_on_catsharp}.
+\begin{enumerate}
+	\item Show that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$, as described in \cref{prop.dirichlet_on_catsharp}, forms a comonoid.
+	\item Check that the construction $(\cat{C},\cat{D})\mapsto\cat{C}\otimes\cat{D}$ is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+%
+%As everyone reading this is probably aware, strict monoidal structure on a category $\cat{C}$ is a functor $1\to\cat{C}$ and a functor $\cat{C}\times\cat{C}\to\cat{C}$ that together satisfy the monoid equations. Here the $\times$ takes place in $\smcat$. 
+%
+%If we replace $(\smcat,\1,\times)$ with $(\smcat^\sharp,\yon,\otimes)$, then a monoid is a cofunctor $\intercal\colon\yon\cof\cat{C}$, which we call the \emph{terminus}, and a cofunctor $\curlyvee\colon\cat{C}\otimes\cat{C}\cof\cat{C}$, which we call the \emph{team-up product} satisfying the monoid equations. Let's call these $\otimes$-monoids in $\smcat^\sharp$. 
+%
+%It appears that $\otimes$-monoids $(\cat{C},\intercal,\curlyvee)$ in $\smcat^\sharp$ could be interesting for thinking about the dynamics of something like ``swarms'': collections of dynamical systems that work very well together as a population. Indeed, $\curlyvee$ takes a pair of objects $c_1,c_2$ and returns a single object $c_1\curlyvee c_2$, but it takes a morphism $f\colon c_1\curlyvee c_2\to d$ emanating that object to a pair of morphisms $f_1\colon c_1\to d_1$ and $f_2\colon c_2\to d_2$ with $d_1\curlyvee d_2=d$.
+%
+%
+%\begin{example}[Representable and linear $\otimes$-monoids]
+%Representable polynomials have at most one commutative $\otimes$-monoid structure by a theorem of Fox. Category (polynomial comonoid) structures on a representable polynomial $\yon^M$ are just monoid structures on its underlying set $M$. So a commutative monoid $(M,e,*)$ in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ that has carrier $\yon^M$.
+%
+%A $\otimes$-monoidal structure on a linear $M\yon$ polynomial, on the other hand, can be identified with a monoid structure $(M,e,*)$ on the set $M$. But there is a unique comonoid structure on $M\yon$. So a monoid in $\smset$ can be identified with a $\otimes$-monoid in $\smcat^\sharp$ having carrier $M\yon$.
+%\end{example}
+%
+%\begin{example}\label{ex.monaco_cat}
+%Consider the comonoid $\com{C}=(\ema{c},0,+)$ corresponding to the category
+%\[
+%\fbox{
+%\begin{tikzcd}[ampersand replacement=\&]
+%	\cdots\ar[r, "-1"']\&
+%	\LMO{n}\ar[r, "-1"']\&
+%	\cdots\ar[r, "-1"']\&
+%	\LMO{2}\ar[r, "-1"']\&
+%	\LMO{1}\ar[r, "-1"']\&
+%	\LMO{0}
+%\end{tikzcd}
+%}
+%\]
+%It is carried by the polynomial $\ema{c}\coloneqq\sum_{n\in\nn}\yon^{\{0,-1,-2\ldots,-n\}}\cong\yon+\yon^\2+\yon^\3+\cdots$, its codomain map is given by $(n,-i)\mapsto n+(-i)$ and its eraser and duplicator are given by $0$ and addition.
+%
+%This comonoid has a (non-symmetric) $\otimes$-monoid structure. Namely its terminus is $0$ and its team-up product $\curlyvee$ on an object $(n_1,n_2)$ is given by
+%\[
+%\curlyvee_1(n_1,n_2)\coloneqq n_1+n_2,\]
+%and on a morphism $-n_1-n_2\leq i\leq 0$ works as follows:
+%\[
+%\curlyvee^\sharp_{n_1+n_2}(i)\coloneqq	\big(\min(n_1,n_1+n_2+i),\max(0,n_2+i)\big)
+%\]
+%For example, say $n_1=3$ and $n_2=2$, so $\curlyvee_1(n_1,n_2)=5$. Let's pick $-5\leq i\geq 0$. 
+%\[
+%\begin{array}{c|c}
+%	i&\curlyvee^\sharp(i)\\\hline
+%	0&(3,2)\\
+%	1&(3,1)\\
+%	2&(3,0)\\
+%	3&(2,0)\\
+%	4&(1,0)\\
+%	5&(0,0)
+%\end{array}
+%\]
+%\end{example}
+%
+%\begin{exercise}
+%Let $\com{C}$ be the comonoid from \cref{ex.monaco_cat}. We need to check that everything works correctly.
+%\begin{enumerate}
+%	\item Check that the terminus $\intercal\colon\yon\to\com{C}$ is a cofunctor.
+%	\item Check that $\curlyvee$ preserves identities.
+%	\item Check that $\curlyvee$ preserves codomains and compositions, and hence is a cofunctor.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%Consider the polynomial
+%\[
+%  c\coloneqq
+%  \sum_{n\in\nn}\sum_{\ell\colon\ord{n}\to\nn}
+%  \yon^{\{\ell'\colon\ord{n}\to\nn\;\mid\; \ell'\leq\ell\}}
+%\]
+%A position in $c$ is a list of natural numbers, and a direction is a smaller list. 
+%\begin{enumerate}
+%	\item Find a comonoid structure on $c$.
+%	\item Find a $\otimes$-monoid structure $(\intercal,\curlyvee)$ on the comonoid you just found. (If you can't, start over.)
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+%\begin{exercise}
+%Every $\otimes$-monoid in $\smcat^\sharp$ has an underlying category. This forgetful functor has a left adjoint: to every category $\cat{C}\in\smcat^\sharp$ we can assign a \emph{free} $\otimes$-monoid.
+%\begin{enumerate}
+%	\item Make the above claim precise, but don't prove it yet.
+%	\item We propose that if the carrier of $\cat{C}$ is $\ema{c}$ then the free $\otimes$-monoid on it has carrier $\ema{L_c}$ given by
+%	\[
+%	\ema{L_c}\coloneqq\sum_{[\ell_1,\ldots,\ell_n]\in\Set{List}(\ema{c}(\1))}\yon^{\ema{c}[\ell_1]\times\cdots\times\ema{c}[\ell_n]}.
+%	\]
+%	This is supposed to be a comonoid in $\poly$; what should be the identities, codomains, and composition?
+%	\item	Propose a terminus $\intercal\colon\yon\to\ema{L_c}$.
+%	\item Propose a team-up product $\curlyvee\colon\ema{L_c}\otimes\ema{L_c}\to\ema{L_c}$.
+%	\item Does it look promising that these will satisfy the monoid laws?
+%	\item Sketch an argument that this construction is left adjoint to the forgetful functor sending a $\otimes$-monoid in $\smcat^\sharp$ to its underlying category.
+%\qedhere
+%\end{enumerate}
+%\end{exercise}
+%
+
+
+
+% ** displaced product stuff starts
+%-------- Section --------%
+% \section{Products in $\smcat^\sharp$}
+
+% Products in $\smcat^\sharp$ are fascinating. Given categories $\cat{C}$ and $\cat{D}$, the set of objects in their $\smcat$-product is given by the product of their sets of objects, but this is not the case in $\smcat^\sharp$. So what is an object in $\cat{C}\times^\sharp\cat{D}$ (the usual categorical product, but taken in $\smcat^\sharp)$? 
+
+% An object in $\cat{C}\times^\sharp\cat{D}$ is, roughly speaking, a tree for which each node is a pair of objects: some $i\in\cat{C}$ and some $j\in\cat{D}$.
+% The edges leading out of node $(i, j)$ are then all the morphisms emanating from $i$ and all the morphisms emanating from $j$.
+% The tree must respect identities, codomains, and composites in $\cat{C}$ and $\cat{D}$, as we'll explain.
+% But before we do, we define the following category, which will be crucial to our understanding of products in $\smcat^\sharp$.
+
+% \begin{definition}[Free monoidal category on monoids and comonoids] \label{def.free_monoid_cat}
+% Given a (small) set $I$, define $\Delta_I$ to be the free monoidal category generated by $|I|$ distinct monoids.
+% Dually, $\Delta_I\op$ is the free monoidal category generated by $|I|$ distinct comonoids.
+% \end{definition}
+
+% Essentially, what this definition says is that $\Delta_I\op$ is a monoidal category with $|I|$ distinct comonoids, each with its own eraser and duplicator, as well as all the objects and morphisms that can be obtained from these comonoids via composition and taking the monoidal product.
+% These objects and morphisms are then subject to no relations beyond those implied by the standard comonoid axioms.
+
+% In particular, we can identify the objects of $\Delta_I\op$ with the elements of the free monoid $\List(I)$, where the $|I|$ comonoids are the singleton lists $[i]$ for each $i \in I$.
+% The monoidal product of $\Delta_I\op$ can then be interpreted as list concatenation, which---in a suggestive overloading of notation---we will denote by $\tri$.
+% The monoidal unit must then be the empty list $[]$.
+% We could give analogous notation for $\Delta_I$.
+
+% The erasers $[i] \to []$ and duplicators $[i] \to [i,i]$ for each $i \in I$ generate all the morphisms of $\Delta_I\op$ via composition and taking the monoidal product, while satisfying associativity and left and right unit laws.
+% For instance, with $I \coloneqq \3$, there are two distinct morphisms $[2,3,1,3] \to [2,2,3]$ in $\Delta_I\op$. One of them is given by
+% \[
+%     ([2] \to [2,2]) \tri \id_{[3]} \tri ([1] \to []) \tri ([3] \to []),
+% \]
+% and the other is given by
+% \[
+%     ([2] \to [2,2]) \tri ([3] \to []) \tri ([1] \to []) \tri \id_{[3]}.
+% \]
+
+% Another way to state \cref{def.free_monoid_cat} would be to say that $\Delta_I\op$ is initial among monoidal categories equipped with $|I|$ comonoids.
+% That is, given any monoidal category $(\cat{C}, \yon, \tri)$ with a comonoid $(c_i, \epsilon_i, \delta_i)$ for each $i \in I$, there is a unique monoidal functor $\Delta_I\op \to \cat{C}$ that sends each $[i]$ to $c_i$, each $[i] \to []$ to $\epsilon_i$, and each $[i] \to [i,i]$ to $\delta_i$.
+% Dually, $\Delta_I$ is initial among monoidal categories equipped with $|I|$ monoids.
+
+% \begin{example}[The augmented simplex category]
+% If we take $I \coloneqq \1$, then $\Delta \coloneqq \Delta_I$ is what is commonly known as the \emph{augmented simplex category} or the \emph{algebraist's simplex category}.
+% It is the free monoidal category generated by the monoid $[1]$ with unit $[] \to [1]$ and multiplication $[1,1] \to [1])$.
+
+% If we identify each $n$-element list $[1,\ldots,1]$ with the finite set $\ord{n}$, interpreted as an ordinal, we can see that $\Delta$ is in fact the category of all finite ordinals (i.e.\ $\0, \1, \2, \ldots$) and the order-preserving maps between them.
+% In \cite[Chapter~VII, Section~8]{MacLane:1998a}, Mac Lane verifies that $\Delta$ is initial among monoidal categories equipped with a monoid.
+% \end{example}
+
+% Armed with the free monoidal category $\Delta_I\op$, we are now ready to state how products can be constructed in $\smcat^\sharp$.
+
+% \begin{proposition}\label{prop.sharp_products}
+% The category $\smcat^\sharp$ has all small products.
+
+% In particular, for a small set $I$ and a category $\cat{C}_i \in \smcat^\sharp$ corresponding to a comonoid $\ema{c}_i \in \poly$ for each $i \in I$, the product of the $\cat{C}_i$'s is given by the limit of the canonical monoidal functor $C \colon \Delta_I\op \to \poly$ sending each $[i]$ to $\ema{c}_i$.
+% \end{proposition}
+
+% Before we give the proof of the proposition above, let us examine what it says concretely in the case of binary products.
+
+% \begin{example}[Binary products in $\smcat^\sharp$] \label{ex.bin_prod}
+% For each $i \in \2$, let $\cat{C}_i$ be the category corresponding to the comonoid $(\ema{c}_i, \epsilon_i, \delta_i)$ in $\poly$.
+% Then we can define $C \colon \Delta_\2\op \to \poly$ to be the canonical monoidal functor sending each $[i]$ to $\ema{c}_i$.
+% \cref{prop.sharp_products} asserts that $\lim C$ is the product of $\cat{C}_1$ and $\cat{C}_2$ in $\smcat^\sharp$. But what kind of a polynomial is $\lim C$, and what is its comonoid structure?
+
+% Well, for every list $\ell \in \Ob\Delta_\2\op = \List(\2)$, the polynomial $\lim C$ should have a $C\ell$-component, i.e.\ a projection $\pi_\ell \colon \lim C \to C\ell$.
+% For example, when $\ell \coloneqq [1,2,2,1,1,1]$, we have $C\ell = \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$, giving us a projection $\lim C \to \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1$.
+% These projections must commute with the morphisms in the image of $C$, which are precisely the morphisms generated by the $\epsilon_i$'s and the $\delta_i$'s via composition and taking the monoidal product.
+% For instance, the diagram
+% \begin{equation} \label{eqn.lim_example}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{[1,2,1]}"] \ar[dr, "\pi_{[1,2,2,1,1,1]}"'] & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \ar[d, "\ema{c}_1 \tri \delta_2 \tri (\delta_1 \then (\ema{c}_1 \tri \delta_1))"] \\
+%     & \ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_2 \tri \ema{c}_1 \tri \ema{c}_1 \tri \ema{c}_1
+% \end{tikzcd}
+% \end{equation}
+% commutes.
+% In fact, notice that for all $\ell \in \List(\2)$, there exists a unique alternating list $\ell'$ of $1$'s and $2$'s with no repetitions (such as $[1,2,1], [2,1,2,1], [],$ or $[2]$) for which there is a unique morphism $d_{\ell, \ell'} \colon \ell' \to \ell$ generated by duplicators $[i] \to [i,i]$ (here uniqueness is guaranteed by associativity).
+% So we can generalize \eqref{eqn.lim_example} to say that
+% \begin{equation}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{\ell'}"] \ar[dr, "\pi_\ell"'] & C\ell' \ar[d, "Cd_{\ell,\ell'}"] \\
+%     & C\ell
+% \end{tikzcd}
+% \end{equation}
+% commutes.
+
+% Hence the family of projections $\pi_\ell$ for all $\ell \in \List(\2)$ is completely characterized by just the projections $\pi_{\ell'}$ for which $\ell'$ contains no repetitions.
+% Let us focus, then, on only those projections.
+% Together, they form the commutative diagram
+% \begin{equation} \label{eqn.lim_projs}
+% \begin{tikzcd}
+%     \yon & \ema{c}_1 \ar[l, "\epsilon_1"'] & \ema{c}_1 \tri \ema{c}_2 \ar[l, "\ema{c}_1 \tri \epsilon_2"'] & \cdots \ar[l] \\
+%     \lim C \ar[u, "\pi_{[]}"] \ar[d, "\pi_{[]}"'] \ar[ur, "\pi_{[1]}"] \ar[dr, "\pi_{[2]}"'] \ar[urr, "\pi_{[1,2]}"'] \ar[drr, "\pi_{[2,1]}"] \\
+%     \yon & \ema{c}_2 \ar[l, "\epsilon_2"] & \ema{c}_2 \tri \ema{c}_1 \ar[l, "\ema{c}_2 \tri \epsilon_1"] & \cdots. \ar[l]
+% \end{tikzcd}
+% \end{equation}
+% It follows that there are projections from $\lim C$ to both the limit of the top row of \eqref{eqn.lim_projs} and the limit of the bottom row of \eqref{eqn.lim_projs}.
+% In particular, the limit of the top row of \eqref{eqn.lim_projs} can be thought of intuitively as the ``infinite'' monoidal product $\ema{c}_1 \tri \ema{c}_2 \tri \ema{c}_1 \tri \cdots$, corresponding to the polynomial whose positions are all of the infinite structures that can be constructed by following these instructions:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $c_1 \in \cat{C}_1$;
+%     \item for each morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $d_2 \in \cat{C}_2$;
+%         \item for each morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $c_3 \in \cat{C}_1$;
+%             \item for each morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+%             $\quad \cdots$,
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% Then the directions at each such position are the sequences of morphisms formed by starting from the top of the instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (f_1, g_2),$ and $(f_1, g_2, f_3)$.
+% The limit of the bottom row of \eqref{eqn.lim_projs} can be characterized in the same way, but with the roles of $\cat{C}_1$ and $\cat{C}_2$ swapped.
+% From these structures, we can read off the behavior of each projection $\pi_{\ell'}$ from $\lim C$; for instance, the projection $\pi_{[1,2]}$ sends each position of $\lim C$ to the position of $\ema{c}_1 \tri \ema{c}_2$ specified by following just the first three steps of the above instructions.
+
+% So every position of $\lim C$ yields a pair of these structures.
+% We'll call the structure obtained by following the instructions above the \emph{left} structure, and the structure obtained by following the instructions above, but with $\cat{C}_1$ and $\cat{C}_2$ swapped, the \emph{right} structure.
+% But not every such pair of structures corresponds to a position of $\lim C$; they must satisfy additional conditions, given by morphisms in the image of $C$ that are not depicted in \eqref{eqn.lim_projs}.
+% For instance, the fact that the diagram
+% \begin{equation}
+% \begin{tikzcd}
+%     \lim C \ar[r, "\pi_{[1,2]}"] \ar[dr, "\pi_{[2]}"'] & \ema{c}_1 \tri \ema{c}_2 \ar[d, "\epsilon_1 \tri \ema{c}_2"] \\
+%     & \ema{c}_2
+% \end{tikzcd}
+% \end{equation}
+% commutes implies that, when following the above instructions, the object $d_2$ chosen for the identity morphism on $c_1$ in the left structure must also be the first object chosen when constructing the right structure.
+% Similar diagrams render all such objects chosen for identity morphisms when constructing these structures redundant.
+% So, in the end, we have a one-to-one correspondence between positions of $\lim C$ and pairs of structures that can be constructed by following these instructions:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $c_1 \in \cat{C}_1$;
+%     \item for each nonidentity morphism $f_1$ in $\cat{C}_1$ with domain $c_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $d_2 \in \cat{C}_2$;
+%         \item for each nonidentity morphism $g_2$ in $\cat{C}_2$ with domain $d_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $c_3 \in \cat{C}_1$;
+%             \item for each nonidentity morphism $f_3$ in $\cat{C}_1$ with domain $c_3$:
+            
+%             $\quad \cdots$
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% for the left structure, and
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose an object $d_1 \in \cat{C}_2$;
+%     \item for each nonidentity morphism $g_1$ in $\cat{C}_2$ with domain $d_1$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item choose an object $c_2 \in \cat{C}_1$;
+%         \item for each nonidentity morphism $f_2$ in $\cat{C}_1$ with domain $c_2$:
+%         \begin{enumerate}[label=3.\arabic*.]
+%             \item choose an object $d_3 \in \cat{C}_2$;
+%             \item for each nonidentity morphism $g_3$ in $\cat{C}_2$ with domain $d_3$:
+            
+%             $\quad \cdots$
+%         \end{enumerate}
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+% for the right structure.
+% These pairs are then the objects of $\cat{C}_1 \times^\sharp \cat{C}_2$.
+% The morphisms from each object are the sequences of morphisms formed by starting from the top of either set of instructions above and taking the morphisms mentioned in steps $1.2, 2.2, \ldots, n.2$, for some finite $n$, to obtain sequences such as $(), (f_1), (g_1), (f_1, g_2), (g_1, f_2),$ $(f_1, g_2, f_3)$ and $(g_1, f_2, g_3)$.
+% In particular, the identity morphism is $()$.
+
+% We illustrate how to determine the codomain of each nonidentity morphism using an example.
+% To find the codomain of the morphism $(g_1, f_2)$, obtained from steps 1.2 and 2.2 in the right structure, we need to determine the left and right structures of the codomain.
+% Its right structure is easy to describe: it is simply the structure obtained by following the remaining instructions, starting from step 3.1, nested under step 2.2 for $f_2$; the recursive nature of these instructions ensures that this is, in fact, a valid right structure.
+% As for the left structure of the codomain, we can construct it as follows:
+% \begin{quote}
+% \begin{enumerate}[label=1.\arabic*.]
+%     \item choose the object $\cod(f_2) \in \cat{C}_1$;
+%     \item for each nonidentity morphism $f'_2$ in $\cat{C}_1$ with domain $\cod(f_2)$:
+%     \begin{enumerate}[label=2.\arabic*.]
+%         \item if $f_2 \then f'_2$ is not the identity, then follow the steps nested under step 2.2 for $f_2 \then f'_2$ in the instructions above for constructing the original right structure;
+%         \item otherwise, 
+%     \end{enumerate}
+% \end{enumerate}
+% \end{quote}
+
+% $\cod(f_2)$ in $\cat{C}_1$, then, for each nonidentity morphism $f'_2$ in $\cat{C}_1$ 
+
+
+% %codomains...
+
+% % example for (f_1, g_2)
+
+
+% \end{example}
+
+% \begin{example}[Products of discrete categories are products of sets]
+% Given sets $S$ and $T$, consider the corresponding discrete categories $S\yon$ and $T\yon$.
+% Then by \cref{ex.bin_prod}, the product $S\yon \times^\sharp T\yon$ is the discrete category $(S \times T)\yon$.
+% \end{example}
+
+% \begin{example}[Products of one-object categories are coproducts of monoids]
+% Given monoids $M$ and $N$, consider the corresponding one-object categories $\yon^M$ and $\yon^N$.
+% Then by \cref{ex.bin_prod}, the product $\yon^M \times^\sharp \yon^N$ is the one-object category $\yon^{M \ast N}$, where $M \ast N$ is the free product (i.e.\ the coproduct) of the monoids $M$ and $N$.
+% \end{example}
+
+
+% \begin{example}[Unexpectedly-many objects]\label{ex.unexpectedly_many_objects}
+% Let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$ be the walking arrow category. By \cref{ex.bin_prod}, the product $\cat{C}\times^\sharp\cat{C}$ has infinitely many objects. Namely, it has an object for every pair of sequences $(s_1, s_2)$, finite or infinite, that one can write in the alphabet $\{A_1, A_2, B_1, B_2\}$ subject to the following conditions:
+% \begin{itemize}
+%     \item the sequence $s_1$ starts with either $A_1$ or $B_1$;
+%     \item the sequence $s_2$ starts with either $A_2$ or $B_2$; and
+% 	\item in either sequence:
+% 	\begin{itemize}
+% 	    \item after $A_1$ comes either $A_2$ or $B_2$;
+% 	    \item after $A_2$ comes either $B_1$ or $A_1$; and
+% 	    \item after $B_1$ or $B_2$, the sequence stops.
+% 	\end{itemize}
+% \end{itemize}
+% For example, here is an object in $\fbox{$\LMO{A}\To{f}\LMO{B}$}\times\fbox{$\LMO{A}\To{f}\LMO{B}$}$:
+% \[
+% ((A_1,A_2,A_1,A_2,\ldots), (A_2,A_1,A_2,A_1,B_2))
+% \]
+% \end{example}
+
+% % \begin{exercise}
+% % Again let $\cat{C}\coloneqq\fbox{$\LMO{A}\To{f}\LMO{B}$}$.
+% % \begin{enumerate}
+% % 	\item Use the official description of products, given in \cref{prop.sharp_products}, to justify the informal description of the objects in $\cat{C}\times^\sharp\cat{C}$, as given in \cref{ex.unexpectedly_many_objects}.
+% % 	\item Describe the morphisms in $\cat{C}\times^\sharp\cat{C}$.
+% % \qedhere
+% % \end{enumerate}
+% % \end{exercise}
+
+% \begin{example}
+% Let $I$ be a set and $I\yon$ the associated discrete category, and let $(M,e,*)$ be a monoid and $\yon^M$ the associated one-object category.
+% Then by \cref{ex.bin_prod}, the product $I\yon \times^\sharp \yon^M$ is the category $I^M\yon^M$.
+% Its objects are functions $i \colon M \to I$, while its morphisms have the form $i \To{m} (m' \mapsto i(m * m'))$ for each $i \colon M \to I$ and $m \in M$.
+
+% Given $i \colon M \to I$, its identity morphism is the morphism $i \To{e} i$ corresponding to $e \in M$; given $m, n \in M$, the composite of the morphisms $i \To{m} (m' \mapsto i(m * m')) \To{n} (m' \mapsto i(m * n * m'))$ is the morphism $i \To{m * n} (m' \mapsto i(m * n * m'))$.
+
+% % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
+% \end{example}
+
+% % \begin{example}[Event-based systems]
+% % Let $R\coloneqq\{r\in\rr\mid r\geq 0\}$ denote the nonnegative real numbers, and let $\yon^R$ be the associated monoid (under addition). Let $I$ be a set and $I\yon$ the associated discrete category.
+
+% % % The product $I\yon\times^\sharp\yon^R$ can be thought of as an \emph{event-based system} with states in $I$. Namely, an object in it can be identified as a sequence consisting of an element in $I$, followed by a nonzero amount of time, followed by another element in $I$, followed by another nonzero amount of time, etc.
+% % \end{example}
+
+% \begin{proof}[Proof of \cref{prop.sharp_products}]
+% We first show that $\lim C$ actually is a comonoid in $\poly$ by giving its eraser and duplicator.
+% The eraser $\epsilon \colon \lim C \to \yon$ is given by the projection $\pi_{[]} \colon \lim C \to C[]$, since $C[] \iso \yon$.
+
+% To construct the duplicator, we observe that $\Delta_I\op$ is connected (every object has map to $[]$ given by a monoidal product of erasers), so by \cref{thm.connected_limits}, $\tri$ preserves $\Delta_I\op$-shaped limits.
+% As $C$ is monoidal, it follows that
+% \[
+%     (\lim C) \tri (\lim C) \iso \lim_{\ell \in \Delta_I\op} \lim_{\ell' \in \Delta_I\op} C(\ell \tri \ell').
+% \]
+% So specifying a map to $(\lim C) \tri (\lim C)$ amounts to specifying a map to $C(\ell \tri \ell')$ for every $\ell, \ell' \in \Delta_I\op$ such that the appropriate diagrams commute.
+% In particular, we can construct the duplicator $\delta \colon \lim C \to (\lim C) \tri (\lim C)$ by specifying the projection $\pi_{\ell \tri \ell'} \colon \lim C \to C(\ell \tri \ell')$ for each $\ell, \ell' \in \Delta_I\op$.
+% It is routine to verify that the appropriate diagrams commute.
+
+% (Verify comonoid laws)
+
+% (Give projections; check that these are comonoid morphisms)
+
+% (Verify universal property of product)
+% \end{proof}
+
+% ** displaced product stuff ends
+
+
+
 
 
 %-------- Section --------%

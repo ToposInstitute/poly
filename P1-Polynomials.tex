@@ -2716,16 +2716,16 @@ So an arena morphism between two monomials is just a bimorphic lens.
 Then an arena morphism between any two arenas is a kind of generalized lens.
 In fact, henceforth we will refer to arena morphisms simply as \emph{lenses}.
 
-\begin{example}
+\begin{example} \label{ex.lens_get_put}
 Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
 In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
 Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
 We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
 
-A lens $(\text{get, set})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+A lens $(\text{get, put})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
 When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\text{get}(s) \in T$ for help.
-If your friend selects option $t \in T$, then you know to select option $\text{set}(s, t) \in S$.
-Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\text{set}(s, t)$, and you may each check the corresponding menus at your new positions.
+If your friend selects option $t \in T$, then you know to select option $\text{put}(s, t) \in S$.
+Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\text{put}(s, t)$, and you may each check the corresponding menus at your new positions.
 
 But what happens when we string together these decisions into cycles?
 Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
@@ -2734,22 +2734,23 @@ In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ sh
     \item If your friend chooses to stay put, then you should stay put, too.
     This is reflected by the equation
     \[
-        \text{set}(s,\text{get}(s))=s.
+        \text{put}(s,\text{get}(s))=s.
     \]
     
     \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
     This is reflected by the equation
     \[
-        \text{get}(\text{set}(s,t))=t.
+        \text{get}(\text{put}(s,t))=t.
     \]
 
     \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
     This is reflected by the equation
     \[
-        \text{set}(\text{set}(s,t),t')=\text{set}(s,t')
+        \text{put}(\text{put}(s,t),t')=\text{put}(s,t')
     \]
 \end{enumerate}
-We will see these three conditions emerge from more general theory in \cref{**}.
+Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
+But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
 \end{example}
 
 %---- Subsection ----%
