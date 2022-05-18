@@ -12,6 +12,12 @@ jobs:
         root_file: Book-Poly.tex
         latexmk_shell_escape: true
         post_compile: "mkdir output/ && mv Book-Poly.pdf output/poly-book.pdf"
+    - name: Deploy to build branch
+      uses: JamesIves/github-pages-deploy-action@3.6.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: pdf
+        FOLDER: output
     - name: Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
