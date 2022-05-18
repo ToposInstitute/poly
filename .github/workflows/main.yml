@@ -11,14 +11,13 @@ jobs:
       with:
         root_file: Book-Poly.tex
         latexmk_shell_escape: true
-        post_compile: "mkdir output/ && mv Book-Poly.pdf output/poly-book.pdf"
+        post_compile: "mv Book-Poly.pdf poly-book.pdf && mkdir output/ && cp poly-book.pdf output/poly-book.pdf"
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
         server: ${{ secrets.SERVER_FTP_ADDRESS }}
         username: ${{ secrets.SERVER_FTP_USERNAME }}
         password: ${{ secrets.SERVER_FTP_PASSWORD }}
-        local-dir: output/
         server-dir: ${{ github.event.repository.name }}/
         exclude: .git*
           - .git*/**
