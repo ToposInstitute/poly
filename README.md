@@ -1,6 +1,6 @@
 # poly
 
-Visit https://topos.site/poly-book.pdf for the latest build.
+See the [`pdf` branch](https://github.com/ToposInstitute/poly/blob/pdf/poly-book.pdf) or visit [topos.site/poly-book.pdf](https://topos.site/poly-book.pdf) for the latest build.
 
 In the summer of 2021, we offered a course based on this book: visit https://topos.site/poly-course/ for more details.
 
