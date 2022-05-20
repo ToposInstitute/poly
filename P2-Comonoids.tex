@@ -3449,7 +3449,7 @@ We are given $A,B\in\smset$ and $p,q\in\poly$
 % Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 
 \begin{example}[Dynamical systems as coalgebras] \label{ex.coalgebras}
-Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\tablefootnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonoad}, which is a coalgebra for a functor with extra conditions that we will introduce later.
+Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\tablefootnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonad}, which is a coalgebra for a functor with extra conditions that we will introduce later.
 The version we are using will usually be clear from context---here, for example, we do not expect $p$ to be a comonad---but we will try to be explicit with our terminology whenever the interpretation may be ambiguous.}
 
 Coalgebras as models of dynamical systems have been studied extensively in the context of computer science, most notably by Jacobs in \cite{jacobs2017introduction}.
@@ -4985,24 +4985,24 @@ Verify that $(\ema{w},\epsilon,\delta)$ as defined in \cref{ex.walking_arrow_com
 \end{exercise}
 
 \begin{exercise}\label{exc.linear_poly_comon}
-Show that if $A$ is a set, then there exists a unique comonoid structure on the linear polynomial $A\yon$.
+Show that if $B$ is a set, then there exists a unique comonoid structure on the linear polynomial $B\yon$.
 \begin{solution}
-Given a set $A$, we wish to give a comonoid structure on $A\yon$ and show that it is unique.
-There is only one way to define an eraser lens $\epsilon\colon A\yon\to\yon$: the on-position function is the unique map $!\colon A\to\1$, while every on-directions function $\1\to\1$ must be the identity.
-Meanwhile $A\yon\tri A\yon\iso A^\2\yon$, so to specify a duplicator lens $\delta\colon A\yon\to A^\2\yon$, it suffices to specify an on-positions function $\delta_\1\colon A\to A^\2$, and every on-directions function will again be the identity.
+Given a set $B$, we wish to give a comonoid structure on $B\yon$ and show that it is unique.
+There is only one way to define an eraser lens $\epsilon\colon B\yon\to\yon$: the on-position function is the unique map $!\colon B\to\1$, while every on-directions function $\1\to\1$ must be the identity.
+Meanwhile $B\yon\tri B\yon\iso B^\2\yon$, so to specify a duplicator lens $\delta\colon B\yon\to B^\2\yon$, it suffices to specify an on-positions function $\delta_\1\colon B\to B^\2$, and every on-directions function will again be the identity.
 
 All the comonoid laws should then hold trivially on directions, so it suffices to consider each law on positions.
 The erasure laws imply that the composite functions
 \[
-    A\To{\delta_\1}A\times A\To{A\:\times\:!}A\times\1\iso A,
+    B\To{\delta_\1}B\times B\To{B\:\times\:!}B\times\1\iso B,
 \]
 where the second map is just the canonical left projection, and
 \[
-    A\To{\delta_\1}A\times A\To{!\:\times\:A}\1\times A\iso A,
+    B\To{\delta_\1}B\times B\To{!\:\times\:B}\1\times B\iso B,
 \]
-where the second nap is just the canonical right projection, are both the identity on $A$.
-The only function $\delta_\1\colon A\to A\times A$ that satisfies this condition is the diagonal $a\mapsto(a,a)$.
-It is easy to verify that the diagonal is coassociative, so this does define a unique comonoid structure on $A\yon$.
+where the second nap is just the canonical right projection, are both the identity on $B$.
+The only function $\delta_\1\colon B\to B\times B$ that satisfies this condition is the diagonal $a\mapsto(a,a)$.
+It is easy to verify that the diagonal is coassociative, so this does define a unique comonoid structure on $B\yon$.
 (It turns out that this is equivalent to the well-known result that there is a unique comonoid structure on every set in $(\smset,\1,\times)$.)
 \end{solution}
 \end{exercise}
@@ -5569,11 +5569,11 @@ We are given a comonoid $(\ema{c},\epsilon,\delta)$ corresponding to the preorde
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-We showed in \cref{exc.linear_poly_comon} that for any set $A$, the linear polynomial $A\yon$ has a unique comonoid structure.
+\begin{exercise} \cref{exc.linear_poly_cat}
+We showed in \cref{exc.linear_poly_comon} that for any set $B$, the linear polynomial $B\yon$ has a unique comonoid structure.
 To what category does this comonoid correspond?
 \begin{solution}
-The linear polynomial $A\yon$ corresponds to a category whose objects form the set $A$ and whose only morphisms are identities: in other words, it is the discrete category on $A$.
+The linear polynomial $B\yon$ corresponds to a category whose objects form the set $B$ and whose only morphisms are identities: in other words, it is the discrete category on $B$.
 \end{solution}
 \end{exercise}
 
@@ -6531,7 +6531,7 @@ But codomain preservation guarantees that the new state $\cod g$ on the outside 
 Then the process repeats in a manner compatible with identities and composition.
 
 Here we give a variety of examples of cofunctors to get a better handle on them.
-Often we will denote a category by its carrier when its comonoid structure can be deduced from context, and $\cat{C}$ will be a category throughout.
+Often we will denote a category by its carrier when its comonoid structure can be deduced from context, and $\cat{C}$ will be a category throughout with carrier $\ema{c}$.
 
 \subsubsection{Cofunctors and state categories}
 
@@ -6541,66 +6541,113 @@ Often we will denote a category by its carrier when its comonoid structure can b
 Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
 
 Then a cofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
-We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\text{get}\colon S\to T$, and the on-morphisms (on-directions) function $\text{put}\colon S\times T\to S$.%
+We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\lensget\colon S\to T$, and the on-morphisms (on-directions) function $\lensput\colon S\times T\to S$.%
 \tablefootnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a cofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
 Then the cofunctor laws are as follows:
 \begin{enumerate}
     \item Preservation of identities \eqref{eqn.pres_id} becomes
     \[
-        \text{put}(s,\text{get}(s))=s,
+        \lensput(s,\lensget(s))=s,
     \]
-    for all $s\in S$, known as the \emph{get-put law} (named in diagrammatic order: we apply $\text{get}$ before we apply $\text{put}$).
+    for all $s\in S$, known as the \emph{get-put law} (named in diagrammatic order: we apply $\lensget$ before we apply $\lensput$).
     
     \item Preservation of codomains \eqref{eqn.pres_cod} becomes
     \[
-        \text{get}(\text{put}(s,t))=t,
+        \lensget(\lensput(s,t))=t,
     \]
     for all $s\in S$ and $t\in T$, known as the \emph{put-get law}.
     
     \item Preservation of composition becomes
     \[
-        \text{put}(\text{put}(s,t),t')=\text{put}(s,t')
+        \lensput(\lensput(s,t),t')=\lensput(s,t')
     \]
     for all $s\in S$ and $t,t'\in T$, known as the \emph{put-put law}.
 \end{enumerate}
-\end{example}
 
-% ** merge
+In fact, it turns out that these laws can be satisfied if and only if $\lensget$ is a product projection! 
+For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$.
+A stringent condition, no?
+We'll explore it in  \cref{exc.how_many_vwbls} below.
 
-\begin{example}[Very well-behaved lenses are product projections]\label{ex.well_behaved_boring}
-We saw in \cref{exc.well_behaved} that a comomonoid homomorphism (cofunctor) $S\yon^S\cof T\yon^T$ between state comonoids can be characterized as a pair of functions $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ satisfying get-put, put-get, and put-put. 
-
-In fact, it turns out that this happens if and only if $\lensget$ is a product projection! For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$. A stringent condition, no? We'll explore it in  \cref{exc.how_many_vwbls} below.
-
-Let's explain why cofunctors between state categories are just product projections. A product projection $A\times B\to A$ always has another factor ($B$); if every cofunctor between state categories is a product projection, what is the other factor? It turns out that the other factor will be:
+Let's explore why cofunctors between state categories are just product projections.
+A product projection $A\times B\to A$ always has a second factor $B$; if every cofunctor between state categories is a product projection, what is the second factor?
+It turns out to be
 \[
-F\coloneqq\{f\colon T\to S\mid \forall t\in T,\;\lensget(f(t))=t\text{ and }\lensput(f(t),t)=f(t)\}.
+    U\coloneqq\{u\colon T\to S\mid \forall t,t'\in T,\;\lensget(u(t))=t\text{ and }\lensput(u(t),t')=u(t')\}.
 \]
-In other words we will see that if $(\lensget,\lensput)$ is a comonoid homomorphism then there is a bijection $S\cong T\times F$ and that $\lensget\colon S\to T$ is one of the projections. We will see that the converse is true in \cref{exc.well_behaved_boring}
+In other words, we will show that if $(\lensget,\lensput)$ defines a cofunctor $S\yon^S\cof T\yon^T$, then there is a bijection $S\iso T\times U$ making $\lensget\colon S\to T$ a product projection.
+We then prove the converse in \cref{exc.well_behaved_boring}.
 
-So assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a comonoid homomorphism, in particular that it satisfies put-get, get-put, and put-put. We obtain a function $\pi\colon S\to T\times F$ given by
-\[s\mapsto\big(\lensget(s),t\mapsto\lensput(s,t)\big)\]
-and it is well-defined since for all $s\in S$ and $t,t'\in T$ we have $\lensget(\lensput(s,t))=t$ by put-get and $\lensput(\lensput(s,t),t')=\lensput(s,t')$ by put-put. We also obtain a function $\pi'\colon T\times F\to S$ given by
+Assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a cofunctor, so that it satisfies the enumerated laws.
+First, we define a function $\alpha\colon S\to T\times U$ as follows.
+Given $s\in S$, the function $u_s\colon T\to S$ defined by
 \[
-(t,f)\mapsto f(t).
+    u_s(t)=\lensput(s,t)
 \]
-The two functions $\pi,\pi'$ are mutually inverse: the roundtrip on $S$ is identity because $\lensput(s,\lensget(s))=s$ by get-put; the roundtrip on $T\times F$ is identity because $\lensget(f(t))=t$ and $\lensput(f(t),t)=f(t)$ by assumption on $f\in F$.
+lies in $U$: we check that it satisfies
+\[
+    \lensget(u_s(t))=\lensget(\lensput(s,t))=t
+\]
+by the put-get law for $t\in T$ and
+\[
+    \lensput(u_s(t),t')=\lensput(\lensput(s,t),t')=\lensput(s,t')=u_s(t')
+\]
+by the put-put law for $t,t'\in T$.
+We can therefore define a function $\alpha\colon S\to T\times U$ by
+\[
+    \alpha(s)=\left(\lensget(s),u_s\right).
+\]
+In the other direction, we have a function $\beta\colon T\times U\to S$ given by
+\[
+    \beta(t,u)=u(t).
+\]
+The two functions $\alpha$ and $\beta$ are mutually inverse: $\alpha\then\beta\colon S\to S$ is the identity because
+\[
+    \beta(\alpha(s))=u_s(\lensget(s))=\lensput(s,\lensget(s))=s
+\]
+by the get-put law, while $\beta\then\alpha\colon T\times U\to T\times U$ is the identity because
+\[
+    \alpha(\beta(t,u))=\left(\lensget(u(t)),u_{u(t)}\right)=(t,t'\mapsto\lensput(u(t),t'))=(t,u),
+\]
+as $\lensget(u(t))=t$ and $\lensput(u(t),t')=u(t')$ by construction for $u\in U$.
+Thus $S\iso T\times U$, and the product projection $S\To\alpha T\times U\to T$ sends $s\mapsto\lensget(s)$, as desired.
+
+We have therefore shown that for every cofunctor $S\yon^S\cof T\yon^T$, there exists a set $U$ for which $S\iso T\times U$ and the on-positions function $\lensget$ is the product projection $S\iso T\times U\to T$.
+Notice that the on-directions function $\lensput$ can be uniquely recovered from the bijection $S\iso T\times U$ we constructed: it is determined by the functions $u_s\colon T\to S$ for $s\in S$, which in turn is determined by the second projection $T\times U\to U$.
+
+More precisely, composing $\alpha\colon S\to T\times U$ with the projection to $U$ yields a map $S\to U$ sending $s\mapsto u_s$; then $\lensput(s,t)$ is given by $u_s(t)$.
+Of course, a priori $U$ could just be a set---we may not know how to interpret its elements as a functions $T\to S$.
+This is where $\beta\colon T\times U\to S$ comes in: we know $\beta(t,u_s)=u_s(t)$.
+So $\lensput(s,t)$ must be $\beta(t,u_s)$.
 \end{example}
 
 \begin{exercise}\label{exc.well_behaved_boring}
-Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times F$.
-\begin{enumerate}
-	\item Show that there exists a very well behaved lens $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$.
-	\item Show that there exists a cofunctor between the state category on $S$ and the state category on $T$.
-	\item Show that there exists a comonoid homomorphism $S\yon^S\to T\yon^T$ between the state comonoids.
-\qedhere
-\end{enumerate}
+Let $S,T,U$ be sets for which we have a bijection $S\iso T\times U$.
+Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.**
+% Adjust the statement...more like each prod proj gives rise to unique...??
 \begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
+Given a bijection of sets $S\iso T\times U$, we seek a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
+Such a cofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
+With $S\iso T\times U$, such a function is uniquely determined by its components
+\[
+    S\times T\To\lensput S\To\lensget T \qqand S\times T\To\lensput S\To\pi U,
+\]
+where $\pi\colon S\iso T\times U\to U$ is the other product projection.
+The left component is determined by the put-get law, which specifies the behavior of the composite $\lensput\then\lensget$: it should send $(s,t)\mapsto t$.
+Identifying $S$ with $T\times U$, the get-put law for $s=(t,u)\in T\times U$ (so $\lensget(t,u)=t$) reads as
+\[
+    \lensput((t,u),t)=(t,u),
+\]
+while the put-put law reads as
+\[
+    \lensput(\lensput((t,u),t'),t'')=\lensput((t,u),t'')
+\]
+for $t',t''\in T$.
+Applying $\lensget$ to both sides, we observe that the first coordinate (in $T$) of either side of each equation are automatically equal when the put-get law holds.
+So we are really only concerned with the second coordinates of either side (in $U$); applying $\pi$ to both sides yields
+\[
+    \pi(\lensput((t,u),t))=u \qqand \pi(\lensput(\lensput((t,u),t'),t''))=\pi(\lensput((t,u),t''))
+\]
 \end{solution}
 \end{exercise}
 
@@ -6619,58 +6666,69 @@ Let $S,T,F$ be sets and suppose given an isomorphism $\alpha\colon S\to T\times 
 \end{exercise}
 
 \begin{exercise}
-Let $S,T$ be sets and $\lensget\colon S\to T$ and $\lensput\colon S\times T\to S$ the parts of a very well behaved lens, i.e.\ a cofunctor $S\yon^S\to T\yon^T$ between state categories. Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection, i.e.\ sends $(s,t)\mapsto s$?
+Given a cofunctor $S\yon^S\cof T\yon^T$, let $\lensget\colon S\to T$ be its on-positions function and $\lensput\colon S\times T\to S$ be its on-directions function.
+Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection sending $(s,t)\mapsto s$?
 \begin{solution}
 **
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\com{C}$. There is a map of polynomials $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ given by
+Recall that we have a category $\cat{C}$ with carrier $\ema{c}$.
+Here are some examples of cofunctors between state categories and $\cat{C}$.
+
+\begin{example} %**what name: [Canonical cofunctors from state categories]??
+%** fill out this example; check using polyboxes
+We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\cat{C}$.
+Define a lens $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ by
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom] (s) {$\cod(m)$\at$i$};
-	\node[poly, cod, right=of s] (c) {$m\vphantom{d}$\at$i$};
+	\node[poly, dom, "$\ema{c}(\1)\yon^{\ema{c}(\1)}$" below] (s) {$\cod f$\at$i$};
+	    \node[left=0pt of s_pos] {$\Ob\cat{C}$};
+        \node[left=0pt of s_dir] {$\Ob\cat{C}$};
+
+	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$f\vphantom{d}$\at$i$};
+	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
+        \node[right=0pt of c_dir] {$\cat{C}[-]$};
+	
 	\draw[double] (s_pos) -- (c_pos);
 	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
 \end{tikzpicture}
 \]
-for an object $i\in\ema{c}(\1)$ and an outgoing morphism $m\in\ema{c}[i]$. Is this map a cofunctor?
+sending each object $i\in\cat{C}$ to itself on positions and, at $i$, sending each morphism $f\colon i\to\_$ to its codomain $\cod f$ on directions.
+Is this lens a cofunctor $\ema{c}(\1)\yon^{\ema{c}(\1)}\cof\cat{C}$?
+\end{example}
+
+\begin{exercise}
+Fix an object $i\in\ema{c}(\1)=\Ob\cat{C}$.
+Then we have a state category $\ema{c}[i]\yon^{\ema{c}[i]}$ on the set $\ema{c}[i]=\cat{C}[i]$ of morphisms out of $i$ in $\cat{C}$.
+Define a lens $\ema{c}[i]\yon^{\ema{c}[i]}\to\ema{c}$ by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "{$\ema{c}[i]\yon^{\ema{c}[i]}$}" below] (s) {$f\then g$\at$f$};
+        \node[left=0pt of s_pos] {$\cat{C}[i]$};
+        \node[left=0pt of s_dir] {$\cat{C}[i]$};
+
+	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$g$\at$\cod f$};
+	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
+        \node[right=0pt of c_dir] {$\cat{C}[-]$};
+
+	\draw (s_pos) -- node[below] {$\cod$} (c_pos);
+	\draw (c_dir) -- node[above] {$\then$} (s_dir);
+\end{tikzpicture}
+\]
+sending each morphism $f\colon i\to\_$ to its codomain on positions and, at $f$, sending each morphism $g\colon\cod f\to\_$ to the composite $f\then g\colon i\to\_$ on directions.
+Is this lens a cofunctor $\ema{c}[i]\yon^{\ema{c}[i]}\cof\cat{C}$?
 \begin{solution}
 **
 \end{solution}
 \end{exercise}
 
-\begin{example}[Canonical cofunctors from state categories]\label{ex.cof_from_state}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid, where $\delta=(\id,\cod,\comp)$ as in \eqref{eqn.cod_comp}. For any position $i\in\ema{c}(\1)$, there is a cofunctor
-\[
-	(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}.
-\]
-That is, an object $f\in \ema{c}[i]$ is also a morphism in $\cat{C}$ and we send it to its codomain $\cod(f)$. A morphism in $\cat{C}$ emanating from $\cod(f)$ is passed back to its composite with $f$. 
-\end{example}
-
+% ** do we want this exercise if we haven't intro'd coproducts yet? Maybe move way later?
 \begin{exercise}
-Suppose $\cat{C}=(\ema{c},\epsilon,\delta)$ is a comonoid.
+Let $\cat{C}$ be a category with carrier $\ema{c}$.
 \begin{enumerate}
-	\item Show that the map $(\cod,\comp)\colon\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ from \cref{ex.cof_from_state} satisfies the conditions necessary for being a cofunctor (identities, codomains, and composites).
-	\item Find a comonoid structure on the polynomial $p\coloneqq\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $p\to\ema{c}$.
-	\item Is the polynomial map $p\to\ema{c}$ an epimorphism?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structure, and that $f\colon \ema{c}\to\ema{d}$ and $g\colon\ema{d}\to\ema{e}$ are maps of polynomials.
-\begin{enumerate}
-	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
-	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor? If so, sketch a proof; if not sketch a counterexample.
+	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $\cat{D}\cof\cat{C}$.
+	\item Is the underlying lens $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ of this cofunctor an epimorphism?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6689,6 +6747,8 @@ Let $S$ be a set. Describe a way to visualize cofunctors from categories into th
 **
 \end{solution}
 \end{exercise}
+
+%** merge below & above
 
 %** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
 \begin{example}[Cofunctors to state categories]
@@ -6731,21 +6791,27 @@ We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\
 
 
 \begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
-For categories and ordinary functors, there is a category $\cat{T}$ that \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ are the same as objects in $\cat{C}$; indeed, take $\cat{T}=\fbox{$\bullet$}$ to be the terminal (one morphism) category.
+In the world of categories and the usual functors between them, the terminal category $\cat{T}\coloneqq\fbox{$\bullet$}$ with one object and one morphism \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ naturally correspond to objects in $\cat{C}$.
 
-This does not work for cofunctors, as we'll see in \cref{exc.rep_objects}. The comonoid corresponding to $\cat{T}$ is $\yon$ with its unique comonoid structure. Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. The reason is the codomain condition (\cref{def.cofunctor}, condition 2).
+Unfortunately, the same cannot be said for cofunctors: we'll see in \cref{exc.rep_objects} that there does not exist a fixed category $\cat{U}$ for which cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$ for every category $\cat{C}$.
+
+Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: because they must preserve codomains, they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. %** any more?
 \end{example}
 
 \begin{exercise}\label{exc.rep_objects}
 We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
 \begin{enumerate}
-	\item Show that for any category $\cat{T}$, there are $2^{\#\Ob\cat{T}}$-many cofunctors $\cat{T}\cof\2\yon$.
-	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if a category $\cat{T}$ is going to represent objects as in \cref{ex.rep_objects} then $\cat{T}$ must have one object.
-	\item Now use a different $\cat{C}$ to show that if a category $\cat{T}$ is going to represent objects, it must have more than one object.
+	\item Show that for any category $\cat{U}$, cofunctors $\cat{U}\cof\2\yon$ are in bijection with the set $\2^{\Ob\cat{U}}$.
+	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
+	\item Now use a different category $\cat{D}$ to show that if cofunctors $\cat{U}\cof\cat{D}$ are in bijection with objects in $\cat{D}$, then $\cat{U}$ must have more than one object.
+	Conclude that objects are not reprsentable in $\smcat^\sharp$ the way they are in $\smcat$.
+	\item Is there a fixed category $\cat{V}$ for which cofunctors $\cat{E}\cof\cat{V}$ are in bijection with objects in $\cat{E}$ for every category $\cat{E}$?
+	If so, find it; if not, prove it.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
+    \item **
     \item **
     \item **
     \item **
@@ -6775,16 +6841,14 @@ Are cofunctors between posets interesting?
 \begin{exercise}
 \begin{enumerate}
 	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors into it.
-	\item Describe cofunctors into $A\yon$ for a set $A$.
-	\item Describe cofunctors into $(\nn,\leq)$.
-	\item Describe cofunctors into $(\nn,\geq)$.
+	\item Describe cofunctors into the preorder $(\nn,\leq)$.
+	\item Describe cofunctors into the preorder $(\nn,\geq)$.
 	\item Let $\yon^\4+\2\yon^\2+\yon$ denote the commutative square category. List the cofunctors from it to the walking arrow category $\yon^\2+\yon$.
 	There should be six or so.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
     \item **
     \item **
     \item **
@@ -6913,6 +6977,7 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 \begin{exercise}[Monoid actions]
 Recall from \cref{ex.monoid_action} that every monoid action $\alpha\colon S\times M\to S$, where $S$ is a set and $(M,e,*)$ is a monoid, gives rise to a category carried by $S\yon^M$.
 Show that the projection $S\yon^M\to\yon^M$ is a cofunctor.
+%** Or: Show that there is a cofunctor $S\yon^M\cof\yon^M$.
 \begin{solution}
 We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
 **
@@ -6942,7 +7007,7 @@ Does the idea of \cref{ex.BGEG} work when $G$ is merely a monoid, or does someth
 \end{exercise}
 
 \begin{proposition}\label{prop.monoids_ff}
-There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image is precisely those categories whose carriers are representable.
+There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image consists of all categories whose carriers are representable.
 \end{proposition}
 \begin{proof}
 Given a monoid $(M,e,*)$, we think of it as a category with one object; its carrier $\yon^M$ is representable. A cofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Cofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
@@ -6955,12 +7020,14 @@ There is an adjunction
 \]
 for $\cat{C}\in\smcat^\sharp$ and $A\in\smset$.
 \end{proposition}
+\begin{proof}
+**
+\end{proof}
 
+\begin{exercise}[Continuous arrow fields]
+Suppose we say that a \emph{continuous arrow field} on $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\rr$, viewing $\yon^\rr$ as the monoid of real numbers with addition.
 
-\begin{exercise}[Continuous trajectories]
-Suppose we say that a continuous policy in $\cat{C}$ is a cofunctor $\cat{C}\cof\cat{R}$, where $\cat{R}$ is the monoid of real numbers under addition, considered as a category with one object. 
-
-Describe continuous trajectories in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
+Describe continuous arrow fields in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
 \begin{solution}
 **
 \end{solution}
@@ -7009,28 +7076,21 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 
 % ** Interpret above. Possible names: $(\rr,0,+)$-action on the objects of $\cat{C}$, filtration, valuation
 
-\begin{exercise}
-\begin{enumerate}
-	\item Over two discrete objects $\{A,B\}$, how many cofunctors
-    \[
-        \yon^\2+\yon\cong\fbox{$A\to B$}\cof\fbox{$A\tto B$}\cong\yon^\3+\yon
-    \]
-    are there from the walking arrow category to the walking parallel-arrows category?
-	\item What is meant more precisely by ``over two discrete objects $\{A,B\}$'' above?
-\qedhere
-\end{enumerate}
+\begin{exercise} %** label the arrows, and maybe the polys to
+How many cofunctors
+\[
+    \yon^\2+\yon\iso\fbox{$A\to B$}\cof\fbox{$C\tto D$}\iso\yon^\3+\yon
+\]
+are there from the walking arrow category to the walking parallel-arrows category?
 \begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
+**
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of comonoids (defined up to isomorphism) for which the carrier polynomial is $\yon^\2+\yon$?
-	\item For each category $\com{Q}_i$, describe how to imagine a cofunctor $\com{C}\to\com{Q}_i$ from an arbitrary category into it.
+	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of (isomorphism classes of) categories whose carrier is $\yon^\2+\yon$? %** did we do this already?
+	\item For each category $\com{Q}_i$, characterize a cofunctor $\cat{C}\to\com{Q}_i$.
 	\item What cofunctors exist between the various $\com{Q}_i$?
 \qedhere
 \end{enumerate}
@@ -7047,8 +7107,8 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 \begin{exercise}
 \begin{enumerate}
 	\item For any category $\cat{C}$ with carrier $\ema{c}$, find a category with carrier $\ema{c}\yon$.
-	\item Show your construction is functorial; i.e.\ given a cofunctor $\ema{c}\cof\ema{d}$, find one $\ema{c}\yon\cof\ema{d}\yon$, preserving identity and composition.
-	\item Is your functor either a monad or a comonad on $\smcat^\sharp$?
+	\item Show your construction is functorial; i.e.\ assign each cofunctor $\cat{C}\cof\cat{D}$ a cofunctor $\ema{c}\yon\cof\ema{d}\yon$ in a way that preserves identities and composites.
+	\item Is your functor a monad on $\smcat^\sharp$, a comonad on $\smcat^\sharp$, both, or neither?
 	\item What category do you get by repeatedly applying this functor to $\yon$?
 \qedhere
 \end{enumerate}
@@ -7062,8 +7122,26 @@ Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofuncto
 \end{solution}
 \end{exercise}
 
-% ** End this
-% ** When we get to cofree comonoids, we'll obtain a whole new class of cofunctors that are interesting to consider. But for now, we move on to more theory.
+
+\begin{exercise}
+Suppose $\ema{c},\ema{d},\ema{e}$ are polynomials, each with a comonoid structure, and that $f\colon\ema{c}\to\ema{d}$ and $g\colon\ema{d}\to\ema{e}$ are lenses.
+\begin{enumerate}
+	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor?
+	If so, sketch a proof; if not, sketch a counterexample.
+	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor?
+	If so, sketch a proof; if not, sketch a counterexample.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+In the next chapter, we will delve deeper into the categorical structure and properties of $\smcat^\sharp$.
+We'll encounter many more categories and cofunctors along the way.
 
 %-------- Section --------%
 \section{Exercise solutions}
@@ -7097,6 +7175,7 @@ In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid on $p
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 We'll go through this construction and its implications in this section, culminating in a purely formal proof of the following.
 
+%** restructure so this is later, so that dependencies are clear?
 \begin{theorem}[Cofree comonoid] \label{thm.cofree}
 The forgetful functor $U\colon \smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, giving rise to an adjunction
 \[
@@ -7527,13 +7606,13 @@ sending height-$n$ leaves of $\pi^{(n)}T$ to height-$n$ vertices of $T$.
 For each of the following polynomials $p$, characterize the polynomial $\ema{t}_p$.
 (Note that these are the same polynomials from \cref{exc.p_tree_sets}.)
 \begin{enumerate}[resume]
-	\item $p\coloneqq\1$.
+	\item \label{exc.p_tree_polys.1} $p\coloneqq\1$.
 	\item $p\coloneqq\2$.
-	\item \label{exc.p_tree_sets.unary} $p\coloneqq\yon$.
-	\item \label{exc.p_tree_sets.binary} $p\coloneqq\yon^\2$.
+	\item \label{exc.p_tree_polys.unary} $p\coloneqq\yon$.
+	\item \label{exc.p_tree_polys.binary} $p\coloneqq\yon^\2$.
 	\item $p\coloneqq{\2\yon}$.
 	\item $p\coloneqq{\yon+\1}$.
-	\item \label{exc.p_tree_sets.monomial} $p\coloneqq{B\yon^A}$ for some sets $A,B\in\smset$.
+	\item \label{exc.p_tree_polys.monomial} $p\coloneqq{B\yon^A}$ for some sets $A,B\in\smset$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -7951,13 +8030,16 @@ Then on directions, $\epsilon^{(\ell)}_p\tri\epsilon^{(m)}_p$ is the canonical i
 These lenses comprise the universal cone over \eqref{eqn.cofree_tri2_diagram}.
 
 Meanwhile, the other cone we formed over \eqref{eqn.cofree_tri2_diagram} is comprised of lenses of the form $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow{(\ell+m)}\iso p\tripow\ell\tri p\tripow{m}$, each of which should factor through $\ema{t}_p\tri\ema{t}_p$, as depicted in the following commutative diagram:
-\[
+\begin{equation} \label{eqn.delta_p_tri_epsilons}
 \begin{tikzcd}
     \ema{t}_p \ar[r,dashed,"\delta_p"] \ar[dr,"\epsilon^{(\ell+m)}_p"'] & \ema{t}_p\tri\ema{t}_p \ar[d,"\epsilon^{(\ell)}_p\:\tri\:\epsilon^{(m)}_p"] \\
     & p\tripow{\ell}\tri p\tripow{m}.
 \end{tikzcd}
-\]
-Expressing this commutativity as an equation of polyboxes, using our usual labels for the arrows of the duplicator $\delta_p$ on the left and our depiction of the $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow\ell\tri p\tripow{m}$ \cref{ex.eps_n_polybox} on the right, we have
+\end{equation}
+In fact, we can take this to be the definition of $\delta_p$: it is the unique lens for which the above diagram commutes for all $\ell,m\in\nn$.
+We will use the equation given by the commutativity of \eqref{eqn.delta_p_tri_epsilons} repeatedly in what follows, whenever we work with $\delta_p$.
+
+Expressing this commutativity as an equation of polyboxes, using our usual labels for the arrows of the duplicator $\delta_p$ on the left and our depiction of the projection $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow\ell\tri p\tripow{m}$ \cref{ex.eps_n_polybox} on the right, we have
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -7992,109 +8074,170 @@ Expressing this commutativity as an equation of polyboxes, using our usual label
 \end{tikzpicture}
 \]
 Recall from \cref{ex.eps_n_polybox} that $T_v$ denotes the $p$-tree equal to the subtree of $T$ rooted at $v\in\vtx(T)$, while $v\leadsto w\in\vtx(T)$ for $w\in\vtx(T_v)$ is the descendent of $v$ that coincides with $w$ when $T_v$ is identified with the subtree of $T$ rooted at $v$.
+Equivalently, we can identify $v\in\vtx(T)$ with the rooted path in $T$ that ends at the vertex $v$ and $w\in\vtx(T_v)$ with the rooted path of $T_v$ that ends at the vertex $w$, so $v\leadsto w$ becomes the rooted path in $T$ obtained by concatenating $v$ and $w$.
 Then for this equality to hold over all $\ell,m\in\nn$, we want $\cod v\coloneqq T_v$ and $v\then w\coloneqq v\leadsto w$; in fact, this will henceforth be our preferred notation.
-
-All this leads to the following result.
-\begin{proposition} \label{prop.cofree_as_cat}
-As defined above, $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ is a polynomial comonoid corresponding to a category characterized as follows.
-\begin{itemize}
-    \item Objects are $p$-trees in $\tr_p$.
-    \item Morphisms are vertices of $p$-trees: for each $p$-tree $T\in\tr_p$ and vertex $v\in\vtx(T)$, there is a morphism $v\colon T\to\_$ whose codomain $\cod v\in\tr_p$ is the $p$-subtree of $T$ rooted at $v$.
-    \item Identity morphisms are roots: for each $p$-tree $T\in\tr_p$, the identity morphism $\id_T\in\vtx(T)$ on $T$ is the root vertex of $T$.
-    \item Composition is given as follows: for each $p$-tree $T\in\tr_p$, vertex $v\in\vtx(T)$, and vertex $w\in\vtx(\cod T)$, the composite morphism $v\then w\in\vtx(T)$ is the descendent of $v$ in $T$ that coincides with $w$ when $T_v$ is identified with the subtree of $T$ rooted at $v$.
-\end{itemize}
-\end{proposition}
-Unsurprisingly, we call this category the \emph{category of $p$-trees}; it will turn out to be our cofree category $\cofree{p}$ on $p$.
-We have already shown how to construct its carrier, eraser, and duplicator purely diagrammatically, and we have given them concrete interpretations in terms of $p$-trees, their vertices, and their $p$-subtrees.
-So to complete the proof of \cref{prop.cofree_as_cat}, it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$.
 
 \subsubsection{Verifying the comonoid laws}
 
-% ** erasure
+Putting together our constructions of the carrier, the eraser, and the duplicator of the cofree comonoid yields the following result.
+\begin{proposition} \label{prop.cofree_as_cat}
+As defined above, $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ is a polynomial comonoid corresponding to a category $\cofree{p}$ characterized as follows.
+\begin{itemize}
+    \item Objects are $p$-trees in $\tr_p$.
+    \item Morphisms are vertices of $p$-trees: for each $p$-tree $T\in\tr_p$ and vertex $v\in\vtx(T)$, there is a morphism $v\colon T\to\_$ whose codomain $\cod v\in\tr_p$ is the $p$-subtree of $T$ rooted at $v$.
+    Equivalently, a morphism is a finite rooted path in its domain whose codomain is the $p$-subtree rooted at the end of the path.%
+    \footnote{Both the morphisms-as-vertices and the morphisms-as-(finite-)rooted-paths perspectives are helpful for interpreting the category $\cofree{p}$, so we include both; it is not terribly difficult to translate between them.}
+    \item Identity morphisms are roots: for each $p$-tree $T\in\tr_p$, the identity morphism $\id_T\in\vtx(T)$ on $T$ is the root vertex of $T$.
+    Equivalently, identity morphisms are empty rooted paths that start and end at the root.
+    \item Composition is given as follows: for each $p$-tree $T\in\tr_p$, vertex $v\in\vtx(T)$, and vertex $w\in\vtx(\cod T)$, the composite morphism $v\then w\in\vtx(T)$ is the descendent of $v$ in $T$ that coincides with $w$ when $\cod v$ is identified with the subtree of $T$ rooted at $v$.
+    Equivalently, rooted paths $v$ and $w$ compose via concatentation: given a rooted path $v$ in $T$ and a rooted path $w$ in $\cod v$ (the $p$-subtree rooted at the end of $v$), we identify $w$ with the corresponding path in $T$ that starts where $v$ ends, then concatenate the two paths in $T$ to obtain the composite morphism $v\then w$, another rooted path in $T$. 
+\end{itemize}
+\end{proposition}
+\begin{proof}[Proof of \cref{prop.cofree_as_cat}]
+We have already shown how to construct its carrier, eraser, and duplicator purely diagrammatically, and we have given them concrete interpretations in terms of $p$-trees, their vertices, and their $p$-subtrees.
+So to complete the proof of \cref{prop.cofree_as_cat}, it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$.
+Again, our argument will be purely formal, although of course it is not so hard to see that our concrete characterization above in terms of $p$-trees satisfies the laws for a category.
 
-% ** coassociativity
+First, we verify the left erasure law: that
+\[
+\begin{tikzcd}
+    \yon\tri\ema{t}_p & \ema{t}_p \ar[l,equals] \ar[d, "\delta_p"] \\
+    & \ema{t}_p\tri\ema{t}_p \ar[ul, "\epsilon^{(0)}_p\:\tri\:\ema{t}_p"]
+\end{tikzcd}
+\]
+commutes.
+We know the lens $\epsilon^{(0)}_p\tri\ema{t}_p\colon\ema{t}_p\tri\ema{t}_p\to\yon\tri\ema{t}_p$ is specified by its components $\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\colon\ema{t}_p\tri\ema{t}_p\to p\tripow0\tri p\tripow{n}$, a projection out of the limit $\ema{t}_p\tri\ema{t}_p$, for all $n\in\nn$.
+Then by our construction of $\delta_p$, each composite $\delta_p\then\left(\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\right)\colon\ema{t}_p\to p\tripow0\tri p\tripow{n}$ is the component of $\delta_p$ equal to $\epsilon^{(n)}_p=\epsilon^{(0+n)}_p\colon\ema{t}_p\to p\tripow0\tri p\tripow{n}\iso p\tripow{n}$ (this is just the commutativity of \eqref{eqn.delta_p_tri_epsilons} in the case of $(\ell,m)=(0,n)$).
+Together, these specify the composite lens $\delta_p\then\left(\epsilon^{(0)}_p\tri\ema{t}_p\right)\colon\ema{t}_p\to\yon\tri\ema{t}_p\iso\ema{t}_p$ as the lens whose components are the projections $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$ from the limit.
+It follows from the universal property of $\ema{t}_p$ that $\delta_p\then\left(\epsilon^{(0)}_p\tri\ema{t}_p\right)$ can only be the identity lens on $\ema{t}_p$.
+Hence the left erasure law holds.
 
-**
+The right erasure law, that
+\[
+\begin{tikzcd}
+    \ema{t}_p \ar[r,equals] \ar[d, "\delta_p"'] & \ema{t}_p\tri\yon \\
+    \ema{t}_p\tri\ema{t}_p \ar[ur, "\ema{t}_p\:\tri\:\epsilon^{(0)}_p"']
+\end{tikzcd}
+\]
+commutes, follows similarly: the composite $\delta_p\then\left(\ema{t}_p\tri\epsilon^{(0)}_p\right)$ is specified by its components over $n\in\nn$ of the form $\delta_p\then\left(\epsilon^{(n)}_p\tri\epsilon^{(0)}_p\right)\colon\ema{t}_p\to p\tripow{n}\tri p\tripow0$, which we know by \eqref{eqn.delta_p_tri_epsilons} is equal to $\epsilon^{(n+0)}_p=\epsilon^{(n)}_p$, the projection out of the limit $\ema{t}_p$.
+It follows from the universal property of this limit that $\delta_p\then\left(\ema{t}_p\tri\epsilon^{(0)}_p\right)$ must be the identity lens on $\ema{t}_p$.
 
+Finally, we check the coassociative law: that
+\[
+\begin{tikzcd}[column sep=large]
+	\ema{t}_p\ar[r, "\delta_p"]\ar[d, "\delta_p"']&
+	\ema{t}_p\tri\ema{t}_p\ar[d, "\ema{t}_p\:\tri\:\delta_p"]\\
+	\ema{t}_p\tri\ema{t}_p\ar[r, "\delta_p\:\tri\:\ema{t}_p"']&
+	\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p,
+\end{tikzcd}
+\]
+commutes.
+Because $\tri$ preserves connected limits, we can write $\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p$ as a limit the way we did with $\ema{t}_p\tri\ema{t}_p$: it is the limit of diagram consisting of arrows
+\[
+    p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}\to p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}\tri\1
+\]
+for each $i,j,k\in\nn$, with additional arrows between the constant polynomials.
+So a lens to $\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p$, such as those in the square above, is uniquely determined by its components to $p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}$ for all $i,j,k\in\nn$, obtained by composing it with the projections $\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\tri\epsilon^{(k)}_p$ out of the limit.
+Then by \eqref{eqn.delta_p_tri_epsilons},
+\begin{align*}
+    \delta_p\then\left(\ema{t}_p\tri\delta_p\right)\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\tri\epsilon^{(k)}_p\right) &=
+    \delta_p\then\left(\epsilon^{(i)}_p\tri\left(\delta_p\then\left(\epsilon^{(j)}_p\tri\epsilon^{(k)}_p\right)\right)\right) \\ &=
+    \delta_p\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j+k)}_p\right) \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
+    \epsilon^{(i+j+k)}_p \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
+    \delta_p\then\left(\epsilon^{(i+j)}_p\tri\epsilon^{(k)}_p\right) \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
+    \delta_p\then\left(\left(\delta_p\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\right)\right)\tri\epsilon^{(k)}_p\right) \\ &=
+    \delta_p\then\left(\delta_p\tri\ema{t}_p\right)\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\tri\epsilon^{(k)}_p\right).
+\end{align*}
+for all $i,j,k\in\nn$.
+So by the universal property of $\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p$, coassociativity holds.
+\end{proof}
 
-%---- Subsection ----%
-\subsection{Exhibiting the forgetful-cofree adjunction}
+We call the category $\cofree{p}$ corresponding to the comonoid $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
+In the next section, we will prove that it really is the cofree category on $p$, but first we give some examples.
 
-% \begin{definition}[Cofree comonoid]\label{def.cofree}
-% Let $p\in\poly$ be a polynomial. The comonoid $\cofree{p}=(\tr_p,\rt,\fs)$ as in \cref{thm.cofree} is called the \emph{cofree comonoid on $p$} or the category of \emph{$p$-trees}.
+\subsubsection{Examples of $p$-tree categories}
 
-% An object $t\in \tr_p(\1)$ is a called a \emph{tree on $p$.} Given such an object $t$ in the category, an emanating morphism $n\in\tr_p[t]$ is called a \emph{path from root}.
-% \end{definition}
+Throughout these examples, we will freely switch between the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives of $p$-tree categories given in \cref{prop.cofree_as_cat} as is convenient.
+Since only finite rooted paths correspond to vertices, all our rooted paths will be assumed to be finite.
+When we wish to refer to what one might call an infinite (rooted) ``path,'' we will instead call it a (rooted) \emph{ray}.
 
-% The terminology of \cref{def.cofree} is alluding to a specific way we like to imagine the comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, namely in terms of trees. To every polynomial $p$, we will associate a new polynomial $\tr_p$ whose positions are (possibly infinite) $p$-trees. To choose such a tree we first choose its root to be some position $i\in p(\1)$. Then for every direction $d\in p[i]$ there, we choose another position, and for every direction from each of those we choose another position, and so on indefinitely.
+\begin{example}[The category of $\1$-trees is the terminal category]
+Let's start by taking $p\coloneqq\1$.
+In \cref{exc.p_tree_polys} \cref{exc.p_tree_polys.1}, we showed that there is a unique $\1$-tree: a tree with only $1$ vertex, its root.
+So $\ema{t}_\1\iso\yon$ is the carrier of the category of $\1$-trees $\cofree\1$.
 
-% So a position in $\tr_p$ is one of these trees. Such a tree may end, namely if none of the top-level positions has any directions, but often it will not end. Given such a tree, say $t$, a direction $d\in\tr_p[t]$ there is simply a path from the root to some node in the tree. 
-
-% We'll explain the eraser $\rt$ and the duplicator $\fs$ after going through an example.
-
-% **
-
-% Now that we've explained the underlying polynomial $\tr_p$ of the cofree comonoid $\cofree{p}=(\tr_p,\rt,\fs)$, we just need to explain how identities, codomains, and composition work, i.e.\ we just need to give the eraser map $\rt\colon\tr_p\to\yon$ and the duplicator map $\fs\colon\tr_p\to\tr_p\tri\tr_p$. 
-
-% Again, the objects in the category $\cofree{p}$ are $p$-trees, and a morphism emanating from such a tree $t$ is a path from its root $r$ to some node. The map $\rt$, applied to $t$, returns $t$'s root $r$, or more precisely the path from $r$ to itself. The map $\fs$, applied to $t$, first needs to give a codomain (tree) to every path from the root to some other node $n$. It is just the subtree of $t$ whose root is $n$: the tree of all nodes starting at $n$. Now, given a path from the root of that tree (namely $n$) to another node, say $n'$, we need to give a path from $r$ to $n'$; we take it to be the composite of the path $r\to n$ and the path $n\to n'$.
-
-\begin{exercise}
-Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\bul[dgreen]\yon+\bul[dyellow]$ as in \cref{ex.imagining_trees}.
-\begin{enumerate}
-	\item Choose an object $t\in \tr_p$, i.e.\ a tree in $p$, and draw a finite approximation of it (say four layers).
-	\item What is the identity morphism at $t$?
-	\item Choose a nonidentity morphism $f$ emanating from $t$ and draw it.
-	\item What is the codomain of $f$? Draw a finite approximation of it.
-	\item Choose a morphism emanating from the codomain of $f$ and draw it.
-	\item What is the composite of your two morphisms? Draw it on $t$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{example}
-Let's take $p\coloneqq\1$. An element in $\tr_p(\1)$ is given by choosing an element $i\in p(\1)$ and filling each of its direction $p[i]$ with another element of $p(\1)$, and so on. But there is only one element of $p(\1)$ and it has no directions. So $\tr_\1$ has only one position, and the only emanating morphism there is the identity. In other words, $\tr_\1=\yon$.
-
-Since $\yon$ has a unique comonoid structure, we've described the cofree comonoid $\cofree(\1)$. It is a single tree consisting of a single node, and the only outgoing morphism is the identity on that node.
+Up to isomorphism, there is only one category carried by $\yon$: the terminal category with $1$ object and no morphisms aside from the $1$ identity.
+When we think of this as the category of $\1$-trees, we can characterize it as follows.
+\begin{itemize}
+    \item The $1$ object is the tree with $1$ vertex: call it $\ast$.
+    \item The $1$ morphism $\ast\to\_$ is the $1$ vertex of $\ast$, its root.
+    Since the $\1$-subtree of $\ast$ rooted as its root is just the entire $\1$-tree $\ast$, the codomain of this morphism is still $\ast$, which makes sense---it's the only object we have.
+    \item The identity morphism $\id_\ast\colon\ast\to\ast$ is the root of $\ast$.
+    This is the same morphism we just mentioned.
+    Equivalently, it is the empty rooted path.
+    \item The composite morphism $\id_\ast\then\id_\ast=\id_\ast\then\id_{\cod(\id_\ast)}\colon\ast\to\_$ is obtained by concatenating the empty rooted path $\id_\ast$ of $\ast$ with the empty rooted path $\id_{\cod(\id_\ast)}$ of $\cod(\id_\ast)$, which is again just the empty rooted path of $\ast$.
+    Hence $\id_\ast\then\id_{\cod\id_\ast}=\id_\ast$, as expected---it's the only morphism we have.
+\end{itemize}
+This is certainly too trivial an example to say much about, but it demonstrates how we can interpret the category carried by $\yon$ as the category of $p$-trees for $p\coloneqq\1$.
+Moreover, it helps us see concretely why taking the identity to be the root gives it the right codomain and compositional behavior.
 \end{example}
 
-\begin{exercise}
-Let $A$ be a set.
+\begin{exercise}[The category of trees on a constant polynomial]
+Let $B$ be a set, viewed as a constant polynomial.
 \begin{enumerate}
-	\item What is $\tr_A$? 
-	\item How is it given the structure of a category?
+	\item What is the polynomial $\ema{t}_B$? 
+	\item Characterize the $B$-tree category $\cofree{B}$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item We compute $\ema{t}_B$ as follows.
+    To select a $B$-tree, we must select a position from $B$.
+    Then we are done, because there are no directions.
+    So every $B$-tree consists of $1$ vertex labeled with an element of $B$.
+    Hence the set of $B$-trees $\ema{t}_B(\1)=\tr_B$ is in bijection with $B$ itself, yielding $\ema{t}_B\iso B\yon$.
+    (We could have also applied \cref{exc.p_tree_polys} \cref{exc.p_tree_polys.monomial} in the case of $A=\0$, yielding $\ema{t}_{B\yon^\0}\iso B^{\lst(\0)}\yon^{\lst(\0)}\iso B\yon$, as $\lst(\0)\iso\1+\0^\1+\0^\2+\cdots\iso\1$---the empty sequence is the only sequence with elements in $\0$.)
+    \item We characterize the $B$-tree category $\cofree{B}$ as follows.
+    We saw in \cref{exc.linear_poly_comon,exc.linear_poly_cat} that (up to isomorphism) there is a unique comonoid structure on $B\yon$, corresponding to the discrete category on $B$.
+    So $\cofree{B}$ must be isomorphic to the discrete category on $B$.
+    In the language of $B$-trees, the objects of $\cofree{B}$ are trees with exactly $1$ vertex, labeled with an element of $B$.
+    Each tree has an identity morphism, its root; but there are no vertices aside from the root, so there are no morphisms aside from the identities.
+    In particular, the only $B$-subtree of any one $B$-tree is the entire $B$-tree itself, so there are no morphisms from one $B$-tree to a different $B$-tree.
+    So the category of $B$-trees can indeed be identified with the discrete category on $B$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}
-Let $p\coloneqq\yon$. An element in $\tr_p(\1)$ is given by choosing an element $i\in p(\1)$ and filling each of its direction $p[i]$ with another element of $p(\1)$, and so on. There is only one way to do this, i.e.\ there is only one such tree, namely $t\coloneqq\fbox{$\bullet\to\bullet\to\bullet\to\cdots$}$.
+\begin{example}[The category of $\yon$-trees is the natural numbers monoid]
+Now consider $p\coloneqq\yon$.
+In \cref{exc.p_tree_polys} \cref{exc.p_tree_polys.unary}, we showed that there is a unique $\yon$-tree: a single ray extending from the root in which every vertex has exactly $1$ child, so that there is exactly $1$ height-$n$ vertex---and $1$ length-$n$ rooted path---for every $n\in\nn$.
+Then $\ema{t}_\yon\iso\yon^\nn$ is the carrier of the category of $\yon$-trees $\cofree\yon$.
+In fact, we can identify the set of rooted paths of this $\yon$-tree with $\nn$, so that $n\in\nn$ is the $\yon$-tree's unique length-$n$ rooted path.
 
-So $\tr_p$ has a single position, namely $t$. That position has an emanating morphism for each path out of the root, so it has $\nn$-many emanating morphisms: one for every length. Hence $\tr_\yon=\yon^\nn$.
+We know from \label{ex.monoids} that comonoids with representable carriers correspond to $1$-object categories, which can be identified with monoids.
+In particular, a comonoid structure on $\yon^\nn$ corresponds to a monoid structure on $\nn$.
+There is more than one monoid structure on $\nn$, though, so which one corresponds to the category $\cofree\yon$?
 
-Of course the codomain of each morphism emanating from $t$ is again $t$: that's the only object. The composite of two paths, one of length $m$ and one of length $n$ is $m+n$. Hence we see that the category $\cofree(\yon)$ is the monoid $(\nn,0,+)$ considered as a category with one object.
+We can characterize $\cofree\yon$ in terms of $\yon$-trees as follows.
+\begin{itemize}
+    \item The $1$ object is the unique $\yon$-tree, a single ray: call it $\ast$.
+    \item The morphisms are the rooted paths of $\ast$; they comprise the set $\nn$, where each $n\in\nn$ is the unique rooted path of $\ast$ of length $n$.
+    Since $\ast$ is an infinite ray, the $\yon$-subtree of $\ast$ rooted at any of its vertices is still just a copy of $\ast$.
+    So the codomain of each morphism is still $\ast$, which makes sense---it's the only object we have.
+    \item The identity morphism $\id_\ast\colon\ast\to\ast$ is the empty rooted path, which has length $0$; so $\id_\ast=0$.
+    In the corresponding monoid structure on $\nn$, the element $0\in\nn$ must then be the unit.
+    \item The composite morphism $m\then n\colon\ast\to\ast$ for $m,n\in\nn$ is obtained by concatenating $m$, i.e.\ the length-$m$ rooted path of $\ast$, with $n$, i.e.\ the length-$n$ rooted path of $\ast$, translating the latter path so that it begins where the former path ends.
+    The result is then the rooted path of $\ast$ of length $m+n$; so $m\then n=m+n$.
+    In the corresponding monoid structure on $\nn$, the binary operation must then be given by addition.
+\end{itemize}
+Hence the $\cofree{\yon}$ is the monoid $(\nn,0,+)$ viewed as a $1$-object category.
 \end{example}
 
-\begin{exercise}
-Let $A$ be a set.
+\begin{exercise}[The category of trees on a linear polynomial]
+Let $B$ be a set, so that $B\yon$ is a linear polynomial.
 \begin{enumerate}
-	\item What is $\tr_{A\yon}$? 
-	\item How is it given the structure of a category?
+	\item What is the polynomial $\ema{t}_{B\yon}$? 
+	\item Characterize the $B\yon$-tree category $\cofree{B\yon}$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -8105,7 +8248,15 @@ Let $A$ be a set.
 \end{solution}
 \end{exercise}
 
-\begin{example}
+% ** Exercise (above) or example (below)?
+
+\begin{example}[$\cofree{A\yon}$ for linear polynomials]\label{ex.streams_cofree}
+Let $A\in\smset$ be a set. The cofree comonoid $\cofree{A\yon}$ on the associated linear polynomial has as its carrier $\tr_{A\yon}\cong (A\yon)^\nn$. Its objects are $A$-streams. For each stream $t\colon \nn\to A$, an emanating morphism is just an element $n\in\nn$. The identity is $0\in\nn$, the codomain of $n$ is the composite function $\nn\To{+n}\nn\To{t}A$, and if we denote it by $n\colon t\to (t+n)$ then the composite of morphisms $n,n'$ is $(n+n')\colon t\to (t+n+n')$.
+
+We first saw this category in \cref{ex.streams_category}**
+\end{example}
+
+\begin{example}[The category of $\nn$-labeled binary trees]
 Let $p\coloneqq\nn\yon^\2$. An element of $\tr_p$ might start like this:
 \[
 \begin{tikzpicture}[trees,
@@ -8144,7 +8295,7 @@ So the carrier of $\cofree{p}$ is
 with identities given by the empty list. An object $t\in\tr_p(\1)$ is a function $t\colon\Set{List}(\2)\to\nn$, a way to put a natural number at every node of the infinite binary tree. An emanating morphism $\ell\in\Set{List}(\2)$ is just a path from the root to another node, and its codomain is the other node. Formally it is the function $t'\colon\Set{List}(\2)\to\nn$ given by $t'(\ell')\coloneqq t(\ell:\ell')$, where $\ell:\ell'$ is the concatenation of these lists. Composition of morphisms is also given by concatenation of the corresponding lists.
 \end{example}
 
-\begin{exercise}
+\begin{exercise}[The category of $B$-labeled $A$-ary trees]
 Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
 \begin{enumerate}
 	\item Describe the objects of the cofree category $\cofree{p}$.
@@ -8160,12 +8311,6 @@ Let $p\coloneqq B\yon^A$ for sets $A,B\in\smset$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
-
-\begin{example}[$\cofree{A\yon}$ for linear polynomials]\label{ex.streams_cofree}
-Let $A\in\smset$ be a set. The cofree comonoid $\cofree{A\yon}$ on the associated linear polynomial has as its carrier $\tr_{A\yon}\cong (A\yon)^\nn$. Its objects are $A$-streams. For each stream $t\colon \nn\to A$, an emanating morphism is just an element $n\in\nn$. The identity is $0\in\nn$, the codomain of $n$ is the composite function $\nn\To{+n}\nn\To{t}A$, and if we denote it by $n\colon t\to (t+n)$ then the composite of morphisms $n,n'$ is $(n+n')\colon t\to (t+n+n')$.
-
-We first saw this category in \cref{ex.streams_category}
-\end{example}
 
 \begin{exercise}
 Let $p\coloneqq \yon+\1$.
@@ -8202,9 +8347,33 @@ Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
 \end{exercise}
 
 \begin{exercise}
+Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\{\bul[dgreen]\}\yon+\{\bul[dyellow]\}$ as in \cref{ex.imagining_trees}.
+\begin{enumerate}
+	\item Choose an object $t\in \tr_p$, i.e.\ a tree in $p$, and draw a finite approximation of it (say four layers).
+	\item What is the identity morphism at $t$?
+	\item Choose a nonidentity morphism $f$ emanating from $t$ and draw it.
+	\item What is the codomain of $f$? Draw a finite approximation of it.
+	\item Choose a morphism emanating from the codomain of $f$ and draw it.
+	\item What is the composite of your two morphisms? Draw it on $t$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
 Let $p$ be a polynomial, let $Q\coloneqq\{q\in\qq\mid q\geq 0\}$ and consider the monoid $\yon^Q$ of nonnegative rational numbers under addition. Is it true that any cofunctor $\varphi\colon\cofree{p}\cof\yon^\qq$ is constant, i.e.\ that it factors as
 \[
-\cofree{p}\cof\yon\cof\yon^\qq?
+\cofree{p}\cof\yon\cof\yon^\qq? \qedhere
 \]
 \begin{solution}
 Take $p\coloneqq\2\yon$, and consider the object $x\in\cofree{p}(\1)$ given by the stream
@@ -8224,6 +8393,17 @@ where $x'\coloneqq(12\,112\,1112\,11112\,111112\ldots)$. There are three cofunct
 holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. If $i=x$ and either $q_1>0$ or $q_2>0$, it is easy to check that both sides equal $x'$, so again it holds.
 \end{solution}
 \end{exercise}
+
+
+%---- Subsection ----%
+\subsection{Exhibiting the forgetful-cofree adjunction}
+
+% ** borrow nLab pf, check old paper
+
+
+
+% ** include examples from systems stuff
+
 
 %---- Subsection ----%
 \subsection{The many (inter)faces of the cofree comonoid} \label{subsec.comon.cofree.cons.faces}
