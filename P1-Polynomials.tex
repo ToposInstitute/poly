@@ -2706,11 +2706,11 @@ But for monomials, every position has the same set of directions, so $f^\sharp$ 
 The monomials in $\poly$ and the morphisms between them form a full subcategory of $\poly$, and it has been called the \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
 \begin{equation}\label{eqn.bimorphic_lens}
 \begin{aligned}
-	\text{get} \coloneqq f_\1 &\colon B_1\to B_2\\
-	\text{set} \coloneqq f^\sharp &\colon B_1\times A_2\to A_1
+	\lensget\coloneqq f_\1 &\colon B_1\to B_2\\
+	\lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
 \end{aligned}
 \end{equation}
-The idea is that each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``sets'' a direction back at $b$ in $A_1$.
+The idea is that each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
 
 So an arena morphism between two monomials is just a bimorphic lens.
 Then an arena morphism between any two arenas is a kind of generalized lens.
@@ -2722,10 +2722,10 @@ In the language of decision-making, each $s \in S$ is a menu whose options are t
 Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
 We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
 
-A lens $(\text{get, put})\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\text{get}(s) \in T$ for help.
-If your friend selects option $t \in T$, then you know to select option $\text{put}(s, t) \in S$.
-Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\text{put}(s, t)$, and you may each check the corresponding menus at your new positions.
+A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
+If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
+Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
 
 But what happens when we string together these decisions into cycles?
 Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
@@ -2734,19 +2734,19 @@ In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ sh
     \item If your friend chooses to stay put, then you should stay put, too.
     This is reflected by the equation
     \[
-        \text{put}(s,\text{get}(s))=s.
+        \lensput(s,\lensget(s))=s.
     \]
     
     \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
     This is reflected by the equation
     \[
-        \text{get}(\text{put}(s,t))=t.
+        \lensget(\lensput(s,t))=t.
     \]
 
     \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
     This is reflected by the equation
     \[
-        \text{put}(\text{put}(s,t),t')=\text{put}(s,t')
+        \lensput(\lensput(s,t),t')=\lensput(s,t')
     \]
 \end{enumerate}
 Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
@@ -4002,9 +4002,9 @@ We'll see that $\poly$ gives us a more concise way to express this in \cref{**}.
 Does \cref{def.moore_machine} look familiar?
 It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens between monomials
 \[
-(\text{get}, \text{set})\colon S\yon^S\to B\yon^A,
+(\lensget, \lensput)\colon S\yon^S\to B\yon^A,
 \]
-with $\text{get} \coloneqq \text{return}$ and $\text{set} \coloneqq \text{update}$.\footnote{Recall from \eqref{eqn.bimorphic_lens} that ``get'' and ``set'' are our special names for the on-positions and on-directions functions of a lens between monomials.}
+with $\lensget\coloneqq\text{return}$ and $\lensput\coloneqq\text{update}$.\footnote{Recall from \eqref{eqn.bimorphic_lens} that ``get'' and ``put'' are our special names for the on-positions and on-directions functions of a lens between monomials.}
 Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes how an outsider can interact with the machine, namely the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
 
 \begin{exercise}
@@ -4016,7 +4016,7 @@ Write the Moore machine from \cref{ex.Moore_three} as a lens between monomials.
 Call the left state $1$, the right state $2$, and the bottom state $3$.
 \begin{enumerate}[resume]
     \item What is the on-positions function ``get''?
-    \item What is the on-directions function ``set''? \qedhere
+    \item What is the on-directions function ``put''? \qedhere
 \end{enumerate}
 \begin{solution}
 We can write the Moore machine from \cref{ex.Moore_three} as a lens $S\yon^S\to B\yon^A$ between monomials as follows.
@@ -4024,7 +4024,7 @@ We can write the Moore machine from \cref{ex.Moore_three} as a lens $S\yon^S\to 
     \item As $S=\3$, the state system is $S\yon^S=\3\yon^\3$.
     \item As $B=\{b_1,b_2\}$ and $A=\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$, the interface is $B\yon^A=\{b_1,b_2\}\yon^{\{{\color{orange}\text{orange}},\,{\color{dgreen}\text{green}}\}}$.
     \item The on-positions function ``get'' sends $1\mapsto b_1, 2\mapsto b_2,$ and $3\mapsto b_2$.
-    \item The on-directions function ``set'' sends
+    \item The on-directions function ``put'' sends
     \begin{align*}
         (1, {\color{orange}\text{orange}})\mapsto1&,\quad(1, {\color{dgreen}\text{green}})\mapsto2, \\
         (2, {\color{orange}\text{orange}})\mapsto1&,\quad(2, {\color{dgreen}\text{green}})\mapsto3, \\
