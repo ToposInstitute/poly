@@ -6533,234 +6533,7 @@ Then the process repeats in a manner compatible with identities and composition.
 Here we give a variety of examples of cofunctors to get a better handle on them.
 Often we will denote a category by its carrier when its comonoid structure can be deduced from context, and $\cat{C}$ will be a category throughout with carrier $\ema{c}$.
 
-\subsubsection{Cofunctors and state categories}
-
-% ** add intro about how we've worked with state categories, so...
-
-\begin{example}[Cofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
-Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
-
-Then a cofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
-We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\lensget\colon S\to T$, and the on-morphisms (on-directions) function $\lensput\colon S\times T\to S$.%
-\tablefootnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a cofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
-Then the cofunctor laws are as follows:
-\begin{enumerate}
-    \item Preservation of identities \eqref{eqn.pres_id} becomes
-    \[
-        \lensput(s,\lensget(s))=s,
-    \]
-    for all $s\in S$, known as the \emph{get-put law} (named in diagrammatic order: we apply $\lensget$ before we apply $\lensput$).
-    
-    \item Preservation of codomains \eqref{eqn.pres_cod} becomes
-    \[
-        \lensget(\lensput(s,t))=t,
-    \]
-    for all $s\in S$ and $t\in T$, known as the \emph{put-get law}.
-    
-    \item Preservation of composition becomes
-    \[
-        \lensput(\lensput(s,t),t')=\lensput(s,t')
-    \]
-    for all $s\in S$ and $t,t'\in T$, known as the \emph{put-put law}.
-\end{enumerate}
-
-In fact, it turns out that these laws can be satisfied if and only if $\lensget$ is a product projection! 
-For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$.
-A stringent condition, no?
-We'll explore it in  \cref{exc.how_many_vwbls} below.
-
-Let's explore why cofunctors between state categories are just product projections.
-A product projection $A\times B\to A$ always has a second factor $B$; if every cofunctor between state categories is a product projection, what is the second factor?
-It turns out to be
-\[
-    U\coloneqq\{u\colon T\to S\mid \forall t,t'\in T,\;\lensget(u(t))=t\text{ and }\lensput(u(t),t')=u(t')\}.
-\]
-In other words, we will show that if $(\lensget,\lensput)$ defines a cofunctor $S\yon^S\cof T\yon^T$, then there is a bijection $S\iso T\times U$ making $\lensget\colon S\to T$ a product projection.
-We then prove the converse in \cref{exc.well_behaved_boring}.
-
-Assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a cofunctor, so that it satisfies the enumerated laws.
-First, we define a function $\alpha\colon S\to T\times U$ as follows.
-Given $s\in S$, the function $u_s\colon T\to S$ defined by
-\[
-    u_s(t)=\lensput(s,t)
-\]
-lies in $U$: we check that it satisfies
-\[
-    \lensget(u_s(t))=\lensget(\lensput(s,t))=t
-\]
-by the put-get law for $t\in T$ and
-\[
-    \lensput(u_s(t),t')=\lensput(\lensput(s,t),t')=\lensput(s,t')=u_s(t')
-\]
-by the put-put law for $t,t'\in T$.
-We can therefore define a function $\alpha\colon S\to T\times U$ by
-\[
-    \alpha(s)=\left(\lensget(s),u_s\right).
-\]
-In the other direction, we have a function $\beta\colon T\times U\to S$ given by
-\[
-    \beta(t,u)=u(t).
-\]
-The two functions $\alpha$ and $\beta$ are mutually inverse: $\alpha\then\beta\colon S\to S$ is the identity because
-\[
-    \beta(\alpha(s))=u_s(\lensget(s))=\lensput(s,\lensget(s))=s
-\]
-by the get-put law, while $\beta\then\alpha\colon T\times U\to T\times U$ is the identity because
-\[
-    \alpha(\beta(t,u))=\left(\lensget(u(t)),u_{u(t)}\right)=(t,t'\mapsto\lensput(u(t),t'))=(t,u),
-\]
-as $\lensget(u(t))=t$ and $\lensput(u(t),t')=u(t')$ by construction for $u\in U$.
-Thus $S\iso T\times U$, and the product projection $S\To\alpha T\times U\to T$ sends $s\mapsto\lensget(s)$, as desired.
-
-We have therefore shown that for every cofunctor $S\yon^S\cof T\yon^T$, there exists a set $U$ for which $S\iso T\times U$ and the on-positions function $\lensget$ is the product projection $S\iso T\times U\to T$.
-Notice that the on-directions function $\lensput$ can be uniquely recovered from the bijection $S\iso T\times U$ we constructed: it is determined by the functions $u_s\colon T\to S$ for $s\in S$, which in turn is determined by the second projection $T\times U\to U$.
-
-More precisely, composing $\alpha\colon S\to T\times U$ with the projection to $U$ yields a map $S\to U$ sending $s\mapsto u_s$; then $\lensput(s,t)$ is given by $u_s(t)$.
-Of course, a priori $U$ could just be a set---we may not know how to interpret its elements as a functions $T\to S$.
-This is where $\beta\colon T\times U\to S$ comes in: we know $\beta(t,u_s)=u_s(t)$.
-So $\lensput(s,t)$ must be $\beta(t,u_s)$.
-\end{example}
-
-\begin{exercise}\label{exc.well_behaved_boring}
-Let $S,T,U$ be sets for which we have a bijection $S\iso T\times U$.
-Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.**
-% Adjust the statement...more like each prod proj gives rise to unique...??
-\begin{solution}
-Given a bijection of sets $S\iso T\times U$, we seek a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
-Such a cofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
-With $S\iso T\times U$, such a function is uniquely determined by its components
-\[
-    S\times T\To\lensput S\To\lensget T \qqand S\times T\To\lensput S\To\pi U,
-\]
-where $\pi\colon S\iso T\times U\to U$ is the other product projection.
-The left component is determined by the put-get law, which specifies the behavior of the composite $\lensput\then\lensget$: it should send $(s,t)\mapsto t$.
-Identifying $S$ with $T\times U$, the get-put law for $s=(t,u)\in T\times U$ (so $\lensget(t,u)=t$) reads as
-\[
-    \lensput((t,u),t)=(t,u),
-\]
-while the put-put law reads as
-\[
-    \lensput(\lensput((t,u),t'),t'')=\lensput((t,u),t'')
-\]
-for $t',t''\in T$.
-Applying $\lensget$ to both sides, we observe that the first coordinate (in $T$) of either side of each equation are automatically equal when the put-get law holds.
-So we are really only concerned with the second coordinates of either side (in $U$); applying $\pi$ to both sides yields
-\[
-    \pi(\lensput((t,u),t))=u \qqand \pi(\lensput(\lensput((t,u),t'),t''))=\pi(\lensput((t,u),t''))
-\]
-\end{solution}
-\end{exercise}
-
-\begin{exercise}\label{exc.how_many_vwbls}
-\begin{enumerate}
-	\item Suppose $|S|=3$. How many cofunctors are there $S\yon^S\to S\yon^S$?
-	\item Suppose $|S|=4$ and $|T|=2$. How many cofunctors are there $S\yon^S\cof T\yon^T$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Given a cofunctor $S\yon^S\cof T\yon^T$, let $\lensget\colon S\to T$ be its on-positions function and $\lensput\colon S\times T\to S$ be its on-directions function.
-Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection sending $(s,t)\mapsto s$?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-Recall that we have a category $\cat{C}$ with carrier $\ema{c}$.
-Here are some examples of cofunctors between state categories and $\cat{C}$.
-
-\begin{example} %**what name: [Canonical cofunctors from state categories]??
-%** fill out this example; check using polyboxes
-We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\cat{C}$.
-Define a lens $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ by
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$\ema{c}(\1)\yon^{\ema{c}(\1)}$" below] (s) {$\cod f$\at$i$};
-	    \node[left=0pt of s_pos] {$\Ob\cat{C}$};
-        \node[left=0pt of s_dir] {$\Ob\cat{C}$};
-
-	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$f\vphantom{d}$\at$i$};
-	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
-        \node[right=0pt of c_dir] {$\cat{C}[-]$};
-	
-	\draw[double] (s_pos) -- (c_pos);
-	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
-\end{tikzpicture}
-\]
-sending each object $i\in\cat{C}$ to itself on positions and, at $i$, sending each morphism $f\colon i\to\_$ to its codomain $\cod f$ on directions.
-Is this lens a cofunctor $\ema{c}(\1)\yon^{\ema{c}(\1)}\cof\cat{C}$?
-\end{example}
-
-\begin{exercise}
-Fix an object $i\in\ema{c}(\1)=\Ob\cat{C}$.
-Then we have a state category $\ema{c}[i]\yon^{\ema{c}[i]}$ on the set $\ema{c}[i]=\cat{C}[i]$ of morphisms out of $i$ in $\cat{C}$.
-Define a lens $\ema{c}[i]\yon^{\ema{c}[i]}\to\ema{c}$ by
-\[
-\begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "{$\ema{c}[i]\yon^{\ema{c}[i]}$}" below] (s) {$f\then g$\at$f$};
-        \node[left=0pt of s_pos] {$\cat{C}[i]$};
-        \node[left=0pt of s_dir] {$\cat{C}[i]$};
-
-	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$g$\at$\cod f$};
-	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
-        \node[right=0pt of c_dir] {$\cat{C}[-]$};
-
-	\draw (s_pos) -- node[below] {$\cod$} (c_pos);
-	\draw (c_dir) -- node[above] {$\then$} (s_dir);
-\end{tikzpicture}
-\]
-sending each morphism $f\colon i\to\_$ to its codomain on positions and, at $f$, sending each morphism $g\colon\cod f\to\_$ to the composite $f\then g\colon i\to\_$ on directions.
-Is this lens a cofunctor $\ema{c}[i]\yon^{\ema{c}[i]}\cof\cat{C}$?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-% ** do we want this exercise if we haven't intro'd coproducts yet? Maybe move way later?
-\begin{exercise}
-Let $\cat{C}$ be a category with carrier $\ema{c}$.
-\begin{enumerate}
-	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $\cat{D}\cof\cat{C}$.
-	\item Is the underlying lens $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ of this cofunctor an epimorphism?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-\begin{exercise}
-Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set.
-(Hint: Use \cref{prop.cofunctors_isos}.)
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-%** merge below & above
-
-%** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
-\begin{example}[Cofunctors to state categories]
-Our familiar state category on $S$ is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; its carrier is $S\yon^S$.
-% ** use iso-pres
-% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
-% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
-% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
-\end{example}
-
-
-\subsubsection{Cofunctors to other preorders}
+\subsubsection{Cofunctors to preorders}
 
 Given a cofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing an simplified model or abstraction of the states and transitions possible in $\cat{C}$.
 While the transitions in a general category may be more complex, all that a preorder tells you is whether you can get from one state to another or not.
@@ -7066,6 +6839,233 @@ Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
 \]
 \end{example}
 
+\subsubsection{Cofunctors from state categories}
+
+% ** add intro about how we've worked with state categories, so...
+
+\begin{example}[Cofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
+Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
+
+Then a cofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
+We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\lensget\colon S\to T$, and the on-morphisms (on-directions) function $\lensput\colon S\times T\to S$.%
+\tablefootnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a cofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
+Then the cofunctor laws are as follows:
+\begin{enumerate}
+    \item Preservation of identities \eqref{eqn.pres_id} becomes
+    \[
+        \lensput(s,\lensget(s))=s,
+    \]
+    for all $s\in S$, known as the \emph{get-put law} (named in diagrammatic order: we apply $\lensget$ before we apply $\lensput$).
+    
+    \item Preservation of codomains \eqref{eqn.pres_cod} becomes
+    \[
+        \lensget(\lensput(s,t))=t,
+    \]
+    for all $s\in S$ and $t\in T$, known as the \emph{put-get law}.
+    
+    \item Preservation of composition becomes
+    \[
+        \lensput(\lensput(s,t),t')=\lensput(s,t')
+    \]
+    for all $s\in S$ and $t,t'\in T$, known as the \emph{put-put law}.
+\end{enumerate}
+
+In fact, it turns out that these laws can be satisfied if and only if $\lensget$ is a product projection! 
+For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$.
+A stringent condition, no?
+We'll explore it in  \cref{exc.how_many_vwbls} below.
+
+Let's explore why cofunctors between state categories are just product projections.
+A product projection $A\times B\to A$ always has a second factor $B$; if every cofunctor between state categories is a product projection, what is the second factor?
+It turns out to be
+\[
+    U\coloneqq\{u\colon T\to S\mid \forall t,t'\in T,\;\lensget(u(t))=t\text{ and }\lensput(u(t),t')=u(t')\}.
+\]
+In other words, we will show that if $(\lensget,\lensput)$ defines a cofunctor $S\yon^S\cof T\yon^T$, then there is a bijection $S\iso T\times U$ making $\lensget\colon S\to T$ a product projection.
+We then prove the converse in \cref{exc.well_behaved_boring}.
+
+Assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a cofunctor, so that it satisfies the enumerated laws.
+First, we define a function $\alpha\colon S\to T\times U$ as follows.
+Given $s\in S$, the function $u_s\colon T\to S$ defined by
+\[
+    u_s(t)=\lensput(s,t)
+\]
+lies in $U$: we check that it satisfies
+\[
+    \lensget(u_s(t))=\lensget(\lensput(s,t))=t
+\]
+by the put-get law for $t\in T$ and
+\[
+    \lensput(u_s(t),t')=\lensput(\lensput(s,t),t')=\lensput(s,t')=u_s(t')
+\]
+by the put-put law for $t,t'\in T$.
+We can therefore define a function $\alpha\colon S\to T\times U$ by
+\[
+    \alpha(s)=\left(\lensget(s),u_s\right).
+\]
+In the other direction, we have a function $\beta\colon T\times U\to S$ given by
+\[
+    \beta(t,u)=u(t).
+\]
+The two functions $\alpha$ and $\beta$ are mutually inverse: $\alpha\then\beta\colon S\to S$ is the identity because
+\[
+    \beta(\alpha(s))=u_s(\lensget(s))=\lensput(s,\lensget(s))=s
+\]
+by the get-put law, while $\beta\then\alpha\colon T\times U\to T\times U$ is the identity because
+\[
+    \alpha(\beta(t,u))=\left(\lensget(u(t)),u_{u(t)}\right)=(t,t'\mapsto\lensput(u(t),t'))=(t,u),
+\]
+as $\lensget(u(t))=t$ and $\lensput(u(t),t')=u(t')$ by construction for $u\in U$.
+Thus $S\iso T\times U$, and the product projection $S\To\alpha T\times U\to T$ sends $s\mapsto\lensget(s)$, as desired.
+
+We have therefore shown that for every cofunctor $S\yon^S\cof T\yon^T$, there exists a set $U$ for which $S\iso T\times U$ and the on-positions function $\lensget$ is the product projection $S\iso T\times U\to T$.
+Notice that the on-directions function $\lensput$ can be uniquely recovered from the bijection $S\iso T\times U$ we constructed: it is determined by the functions $u_s\colon T\to S$ for $s\in S$, which in turn is determined by the second projection $T\times U\to U$.
+
+More precisely, composing $\alpha\colon S\to T\times U$ with the projection to $U$ yields a map $S\to U$ sending $s\mapsto u_s$; then $\lensput(s,t)$ is given by $u_s(t)$.
+Of course, a priori $U$ could just be a set---we may not know how to interpret its elements as a functions $T\to S$.
+This is where $\beta\colon T\times U\to S$ comes in: we know $\beta(t,u_s)=u_s(t)$.
+So $\lensput(s,t)$ must be $\beta(t,u_s)$.
+\end{example}
+
+\begin{exercise}\label{exc.well_behaved_boring}
+Let $S,T,U$ be sets for which we have a bijection $S\iso T\times U$.
+Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.**
+% Adjust the statement...more like each prod proj gives rise to unique...??
+\begin{solution}
+Given a bijection of sets $S\iso T\times U$, we seek a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
+Such a cofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
+With $S\iso T\times U$, such a function is uniquely determined by its components
+\[
+    S\times T\To\lensput S\To\lensget T \qqand S\times T\To\lensput S\To\pi U,
+\]
+where $\pi\colon S\iso T\times U\to U$ is the other product projection.
+The left component is determined by the put-get law, which specifies the behavior of the composite $\lensput\then\lensget$: it should send $(s,t)\mapsto t$.
+Identifying $S$ with $T\times U$, the get-put law for $s=(t,u)\in T\times U$ (so $\lensget(t,u)=t$) reads as
+\[
+    \lensput((t,u),t)=(t,u),
+\]
+while the put-put law reads as
+\[
+    \lensput(\lensput((t,u),t'),t'')=\lensput((t,u),t'')
+\]
+for $t',t''\in T$.
+Applying $\lensget$ to both sides, we observe that the first coordinate (in $T$) of either side of each equation are automatically equal when the put-get law holds.
+So we are really only concerned with the second coordinates of either side (in $U$); applying $\pi$ to both sides yields
+\[
+    \pi(\lensput((t,u),t))=u \qqand \pi(\lensput(\lensput((t,u),t'),t''))=\pi(\lensput((t,u),t''))
+\]
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.how_many_vwbls}
+\begin{enumerate}
+	\item Suppose $|S|=3$. How many cofunctors are there $S\yon^S\to S\yon^S$?
+	\item Suppose $|S|=4$ and $|T|=2$. How many cofunctors are there $S\yon^S\cof T\yon^T$?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}
+Given a cofunctor $S\yon^S\cof T\yon^T$, let $\lensget\colon S\to T$ be its on-positions function and $\lensput\colon S\times T\to S$ be its on-directions function.
+Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection sending $(s,t)\mapsto s$?
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+Recall that we have a category $\cat{C}$ with carrier $\ema{c}$.
+Here are some examples of cofunctors between state categories and $\cat{C}$.
+
+\begin{example} %**what name: [Canonical cofunctors from state categories]??
+%** fill out this example; check using polyboxes
+We have a state category $\ema{c}(\1)\yon^{\ema{c}(\1)}$ on the set of objects of $\cat{C}$.
+Define a lens $\ema{c}(\1)\yon^{\ema{c}(\1)}\to\ema{c}$ by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$\ema{c}(\1)\yon^{\ema{c}(\1)}$" below] (s) {$\cod f$\at$i$};
+	    \node[left=0pt of s_pos] {$\Ob\cat{C}$};
+        \node[left=0pt of s_dir] {$\Ob\cat{C}$};
+
+	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$f\vphantom{d}$\at$i$};
+	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
+        \node[right=0pt of c_dir] {$\cat{C}[-]$};
+	
+	\draw[double] (s_pos) -- (c_pos);
+	\draw (c_dir) -- node[above] {$\cod$} (s_dir); 
+\end{tikzpicture}
+\]
+sending each object $i\in\cat{C}$ to itself on positions and, at $i$, sending each morphism $f\colon i\to\_$ to its codomain $\cod f$ on directions.
+Is this lens a cofunctor $\ema{c}(\1)\yon^{\ema{c}(\1)}\cof\cat{C}$?
+\end{example}
+
+\begin{exercise}
+Fix an object $i\in\ema{c}(\1)=\Ob\cat{C}$.
+Then we have a state category $\ema{c}[i]\yon^{\ema{c}[i]}$ on the set $\ema{c}[i]=\cat{C}[i]$ of morphisms out of $i$ in $\cat{C}$.
+Define a lens $\ema{c}[i]\yon^{\ema{c}[i]}\to\ema{c}$ by
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "{$\ema{c}[i]\yon^{\ema{c}[i]}$}" below] (s) {$f\then g$\at$f$};
+        \node[left=0pt of s_pos] {$\cat{C}[i]$};
+        \node[left=0pt of s_dir] {$\cat{C}[i]$};
+
+	\node[poly, cod, right=of s, "$\ema{c}$" below] (c) {$g$\at$\cod f$};
+	    \node[right=0pt of c_pos] {$\Ob\cat{C}$};
+        \node[right=0pt of c_dir] {$\cat{C}[-]$};
+
+	\draw (s_pos) -- node[below] {$\cod$} (c_pos);
+	\draw (c_dir) -- node[above] {$\then$} (s_dir);
+\end{tikzpicture}
+\]
+sending each morphism $f\colon i\to\_$ to its codomain on positions and, at $f$, sending each morphism $g\colon\cod f\to\_$ to the composite $f\then g\colon i\to\_$ on directions.
+Is this lens a cofunctor $\ema{c}[i]\yon^{\ema{c}[i]}\cof\cat{C}$?
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+% ** do we want this exercise if we haven't intro'd coproducts yet? Maybe move way later?
+\begin{exercise}
+Let $\cat{C}$ be a category with carrier $\ema{c}$.
+\begin{enumerate}
+	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}$ and a cofunctor $\cat{D}\cof\cat{C}$.
+	\item Is the underlying lens $\sum_{i\in\ema{c}(\1)}\ema{c}[i]\yon^{\ema{c}[i]}\cof\ema{c}$ of this cofunctor an epimorphism?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+\begin{exercise}
+Let $S$ be a set. Describe a way to visualize cofunctors from categories into the state category $S\yon^S$. Feel free to focus on the case where $S$ is a small finite set.
+(Hint: Use \cref{prop.cofunctors_isos}.)
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+%** merge below & above
+
+%** Do we actually want cofunctors from state categories? Or both? What's worth discussing? What's the universal property...always (Ob C)y^(Ob C)-/->C
+\begin{example}[Cofunctors to state categories]
+Our familiar state category on $S$ is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; its carrier is $S\yon^S$.
+% ** use iso-pres
+% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
+% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
+\end{example}
+
+
 \subsubsection{Other cofunctors}
 
 \begin{example}\label{ex.cof_to_rr}
@@ -7171,17 +7171,10 @@ In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there w
 that models $n$ runs through the system $\phi$.
 
 It turns out that there is: the key is that there is a natural way to interpret every polynomial $p$ as a category $\cofree{p}$, so that cofunctors into $\cofree{p}$ are exactly lenses into $p$.
-In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid on $p$}.
+In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid} (or \emph{cofree category}) \emph{on $p$}.
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
-We'll go through this construction and its implications in this section, culminating in a purely formal proof of the following.
 
-%** restructure so this is later, so that dependencies are clear?
-\begin{theorem}[Cofree comonoid] \label{thm.cofree}
-The forgetful functor $U\colon \smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, giving rise to an adjunction
-\[
-    \adj{\smcat^\sharp}{U}{\cofree{-}}{\poly}
-\]
-where the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ for $p\in\poly$ is given by the limit of the following diagram:
+We'll go through the construction of the cofree comonoid and its implications in this section, featuring a purely formal proof of the fact the forgetful functor $U\colon\smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, where for each $p\in\poly$, the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ is given by the limit of the following diagram:
 \begin{equation} \label{eqn.cofree_diagram}
 \begin{tikzcd}
 	\yon \ar[d] &
@@ -7196,25 +7189,19 @@ where the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ 
 	\cdots.\ar[l]
 \end{tikzcd}
 \end{equation}
-That is, given a category $\cat{C}\in\smcat^\sharp$ with carrier $\ema{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
-\[
-    \poly(\ema{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
-\]
-\end{theorem}
-As $\cofree{-}$ is the right adjoint of a forgetful functor sending comonoids to their carriers, this is a forgetful-cofree adjunction, and $\cofree{p}$ is called the \emph{cofree comonoid} on $p$.
-
-But before we prove \cref{thm.cofree}, let us investigate the implications of this theorem and give a concrete characterization of the cofree comonoid in terms of its positions, directions, and categorical structure.
+Thus, we will show that $U$ and $\cofree{-}$ form a forgetful-cofree adjunction, making $\cofree{p}$ the cofree comonoid on $p$.
+But first, let us concretely characterize the canonical comonoid structure on the limit of \eqref{eqn.cofree_diagram}, before showing that it is indeed cofree.
 
 %---- Subsection ----%
 \subsection{The carrier of the cofree comonoid} \label{subsec.comon.cofree.cons.car}
 
-We begin by characterizing the carrier $\ema{t}_p\in\poly$ of the cofree comonoid on $p$.
-We can compute it directly as the limit of \eqref{eqn.cofree_diagram}, but we will be able to describe it more concretely in terms of what we call \emph{$p$-trees}: trees comprised of $p$-corollas.
+Let $\ema{t}_p$ be the limit of the diagram \eqref{eqn.cofree_diagram} in $\poly$; it will turn out to be the carrier of the cofree comonoid on $p$ (where $p$ will be an arbitrary polynomial throughout).
+We could compute this limit directly, but we will be able to describe it more concretely in terms of what we call \emph{trees on $p$} or \emph{$p$-trees}: trees comprised of $p$-corollas.
 In doing so, we will formalize the tree pictures we have been using to describe polynomials all along.
 
 \subsubsection{Trees on polynomials}
 
-\begin{definition}[Trees on a polynomial] \label{def.poly_tree}
+\begin{definition}[Trees on polynomials] \label{def.poly_tree}
 Let $p\in\poly$ be a polynomial.
 A \emph{tree on $p$}, or a \emph{$p$-tree}, is a rooted tree whose every vertex $v$ is assigned a $p$-position $i$ and a bijection from the children of $v$ to $p[i]$.
 We denote the set of $p$-trees by $\tr_p$.
@@ -7351,7 +7338,7 @@ The trees in \eqref{eqn.some_trees_misc58} can all be obtained by following just
 On the other hand, we know from \cref{subsec.comon.comp.def.corolla} that such a tree represents a position of $p\tripow3$, whose directions are its height-$3$ leaves---and this is true for any $n\in\nn$ in place of $3$.
 So these trees are still important to our theory; but since they are not always complete $p$-trees, we will call them something else.
 
-\begin{definition}[Pretrees on a polynomial] \label{def.pretree}
+\begin{definition}[Pretrees on polynomials] \label{def.pretree}
 Let $p\in\poly$ be a polynomial and $n\in\nn$.
 A \emph{stage-$n$ pretree on $p$}, or a \emph{$p\tripow{n}$-pretree} for short, is a rooted tree of height at most $n$ whose every vertex $v$ of height strictly less than $n$ is assigned a $p$-position $i$ and a bijection from the children of $v$ to $p[i]$.
 
@@ -7466,12 +7453,12 @@ For each of the following polynomials $p$, characterize the set of trees $\tr_{p
     Hence $\tr_{\2\yon}\iso\2^\nn$.
     \item To select a $(\yon+\1)$-tree, we choose either a position with $1$ direction or a position with no directions: if the position has no directions, we stop, and if the position has $1$ direction, we repeat our choice for the next level.
     So a choice of $(\yon+\1)$-tree is equivalent to a choice of when, if ever, to stop.
-    That is, for each $n\in\nn$, there is a unique $(\yon+\1)$-tree of height-$n$ consisting of $(n+1)$ vertices along a single path, so that every vertex aside from the height-$n$ leaf has exactly $1$ child.
+    That is, for each $n\in\nn$, there is a unique $(\yon+\1)$-tree of height-$n$ consisting of $n+1$ vertices along a single path, so that every vertex aside from the height-$n$ leaf has exactly $1$ child.
     Then there is exactly one more $(\yon+\1)$-tree: an infinite ray, obtained by always picking the position with $1$ directions and never the one with no directions.
     Hence we could write $\tr_{\yon+\1}\iso\nn\cup\{\infty\}$ (although this set is in bijection with $\nn$).
     \item To select a $B\yon^A$-tree for fixed $A,B\in\smset$, we must select a position from $B$; then for each direction in $A$ at that position, we must select a position from $B$; and so forth.
     This yields a tree in which every vertex has $A$-many children and a label from $B$.
-    Such a tree has $1$ root and $|A|$ times as many vertices in one level than the level below it, so its height-$n$ vertices for each $n\in\nn$ are in bijection with the set $A^\ord{n}$: each $n$-tuple in $A^\ord{n}$ gives a length-$n$ path of directions in $A$ to follow up the tree, uniquely specifying a height-$n$ vertex.
+    Such a tree has $1$ root and $|A|$ times as many vertices in one level than the level below it, so its height-$n$ vertices for each $n\in\nn$ are in bijection with the set $A^\ord{n}$: each $n$-tuple in $A^\ord{n}$ gives a length-$n$ rooted path of directions in $A$ to follow up the tree, uniquely specifying a height-$n$ vertex.
     So the set of all vertices is given by $\sum_{n\in\nn}A^\ord{n}=\lst(A)$.
     Then specifying a $B\yon^A$-tree amounts to assigning a label from $B$ to every vertex via a function $\lst(A)\to B$.
     Hence $\tr_{B\yon^A}\iso B^{\lst(A)}$.
@@ -7559,7 +7546,7 @@ Now recall from \cref{ex.compute_limits} that in $\poly$, the positions of a lim
 Moreover, in \eqref{eqn.cofree_diagram}, every vertical map $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
 So \eqref{eqn.cofree_diagram} on positions collapses down to its bottom row, viewed as a diagram in $\smset$.
 Yet this is precisely the diagram from \eqref{eqn.cofree_pos_diagram}, whose limit is $\tr_p$.
-So $\tr_p$ is the position-set of the cofree comonoid on $p$: we write $\ema{t}_p(\1)\iso\tr_p$.
+So $\tr_p$ is the position-set of the limit $\ema{t}_p$ of \eqref{eqn.cofree_diagram}: we write $\ema{t}_p(\1)\iso\tr_p$.
 
 If you know about coalgebras for functors, as mentioned in \cref{ex.coalgebras}, then you might know the limit $\ema{t}_p(\1)$ of \eqref{eqn.cofree_pos_diagram} by a different name: it is the \emph{terminal coalgebra for the functor} $p$, or the \emph{terminal $p$-coalgebra}, because it is terminal in the category of $p$-coalgebras, as the following exercise shows.
 
@@ -7578,7 +7565,6 @@ Then show that the function $\tr_p\to p(\tr_p)$ you chose is a bijection.
 **
 \end{solution}
 \end{exercise}
-
 But we prefer to think of $\ema{t}_p(\1)$ as the set of $p$-trees, for it gives us a concrete way to realize the limit and its projections, as well as a natural interpretation of the directions of $\ema{t}_p$ at each position.
 
 \subsubsection{The directions of the cofree comonoid}
@@ -7602,10 +7588,19 @@ The on-directions function at $T$ of each projection $\ema{t}_p\to p\tripow{n}$ 
 \]
 sending height-$n$ leaves of $\pi^{(n)}T$ to height-$n$ vertices of $T$.
 
+Here is alternative way to think about the directions of $\ema{t}_p$ and each $p\tripow{n}$ that will be helpful.
+A defining feature of a rooted tree is that its vertices are in bijection with its finite rooted paths: each vertex gives rise to a unique path to that vertex from the root, and every finite rooted path arises this way.
+So the directions of $p\tripow{n}$ at a given $p\tripow{n}$-pretree correspond in turn to the rooted paths of that pretree leading to its height-$n$ leaves; indeed, each such direction is comprised of a sequence of $n$ directions of $p$, which together specify a length-$n$ rooted path up the pretree.
+Then for $T\in\tr_p$, the direction-set $\ema{t}_p[T]$ consists of every finite rooted path of $T$.
+
+Since only finite rooted paths correspond to vertices, all our paths will be assumed to be finite from here on out.
+When we wish to refer to what one might call an infinite (rooted) ``path,'' we will instead call it a (rooted) \emph{ray}.
+
 \begin{exercise}\label{exc.p_tree_polys}
 For each of the following polynomials $p$, characterize the polynomial $\ema{t}_p$.
+You may choose to think of the directions of $\ema{t}_p$ either as vertices or as rooted paths.
 (Note that these are the same polynomials from \cref{exc.p_tree_sets}.)
-\begin{enumerate}[resume]
+\begin{enumerate}
 	\item \label{exc.p_tree_polys.1} $p\coloneqq\1$.
 	\item $p\coloneqq\2$.
 	\item \label{exc.p_tree_polys.unary} $p\coloneqq\yon$.
@@ -7616,25 +7611,30 @@ For each of the following polynomials $p$, characterize the polynomial $\ema{t}_
 \qedhere
 \end{enumerate}
 \begin{solution}
-For the given values of $p$, we have already characterized the position-set $\ema{t}_p(\1)=\tr_p$ of $\ema{t}$ in \cref{exc.p_tree_sets}, so it remains to characterize the directions at each position, i.e.\ the vertices of each $p$-tree.
+For the given values of $p$, we have already characterized the position-set $\ema{t}_p(\1)\iso\tr_p$ of $\ema{t}$ in \cref{exc.p_tree_sets}, so it remains to characterize the directions at each position, i.e.\ the vertices of each $p$-tree.
 \begin{enumerate}
     \item We saw that $\tr_\1\iso\1$ and that the unique $\1$-tree has a single vertex, its root.
+    Equivalently, it has only $1$ rooted path: the empty path from the root to itself.
     So $\ema{t}_\1\iso\1\yon^\1\iso\yon$.
     \item We saw that $\tr_\2\iso\2$ and that each $\2$-tree has a single vertex, its root.
+    Equivalently, its only rooted path is the empty path.
     So $\ema{t}_\2\iso\2\yon^\1\iso\2\yon$.
-    \item We saw that $\tr_\yon\iso\1$ and that the unique $\yon$-tree is an infinite ray extending from the root, where every vertex has exactly $1$ child.
+    \item We saw that $\tr_\yon\iso\1$ and that the unique $\yon$-tree is a single ray extending from the root, where every vertex has exactly $1$ child.
     So there is exactly $1$ vertex of height-$n$ for each $n\in\nn$, yielding a bijection between the vertices of the $\yon$-tree to $\nn$.
+    Equivalently, the ray has exactly $1$ rooted path of length $n$ for each $n\in\nn$.
     So $\ema{t}_\yon\iso\yon^\nn$.
     \item We saw that $\tr_{\yon^\2}\iso\1$ and that the unique $\yon^\2$-tree is an infinite binary tree, where every vertex has exactly $2$ children.
     So the vertices of height-$n$ are in bijection with $\2^\ord{n}$, yielding a bijection between the vertices of the $\yon^\2$-tree to $\sum_{n\in\nn}\2^\ord{n}\iso\lst(\2)$.
+    Equivalently, the rooted paths of an infinite binary tree are just finite binary sequences, which comprise the set $\lst(\2)$.
     Hence $\ema{t}_{\yon^\2}\iso\yon^{\lst(\2)}$.
-    \item We saw that $\tr_{\2\yon}\iso\2^\nn$, and that every $2\yon$-tree is an infinite ray, whose vertices are in bijection with $\nn$.
+    \item We saw that $\tr_{\2\yon}\iso\2^\nn$, and that every $2\yon$-tree is an infinite ray, whose vertices (or rooted paths) are in bijection with $\nn$.
     Hence $\ema{t}_{\2\yon}\iso\2^\nn\yon^\nn$.
     \item We saw that $\tr_{\yon+\1}\iso\nn\cup\{\infty\}$.
     Here the $(\yon+\1)$-tree corresponding to $n\in\nn$ consists of $n+1$ vertices along a single path, so that every vertex aside from the height-$n$ leaf has exactly $1$ child; and the $(\yon+\1)$-tree corresponding to $\infty$ is an infinite ray.
     Thus the direction-set of $\ema{t}_{\yon+\1}$ at $n\in\nn$ is $\ord{n}+\1$, while its direction-set at $\infty$ is $\nn$.
     Hence $\ema{t}_{\yon+\1}\iso\{\infty\}\yon^\nn+\sum_{n\in\nn}\yon^{\ord{n}+\1}$.
     \item We saw that $\tr_{B\yon^A}\iso B^{\lst(A)}$, where the height-$n$ vertices of a given $B\yon^A$-tree are in bijection with the set $A^\ord{n}$, so the set of all vertices of a $B\yon^A$-tree is given by $\sum_{n\in\nn}A^\ord{n}=\lst(A)$.
+    Equivalently, the rooted paths of the $B\yon^A$-tree are just finite sequences in $A$, which comprise the set $\lst(A)$.
     Hence $\ema{t}_{B\yon^A}\iso B^{\lst(A)}\yon^{\lst(A)}$.
 \end{enumerate}
 \end{solution}
@@ -7671,7 +7671,7 @@ Then $\ema{t}_p$ is the limit of the diagram \eqref{eqn.cofree_diagram}, with pr
 The lens $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$ sends each $p$-tree $T\in\tr_p$ to its stage-$n$ pretree $\pi^{(n)}T$ on positions and each height-$n$ leaf of $\pi^{(n)}T$ to the corresponding height-$n$ vertex of $T$ on directions.
 \end{proposition}
 
-\begin{example} \label{ex.eps_n_polybox}
+\begin{example}[Drawing $\epsilon^{(n)}_p$ in polyboxes] \label{ex.eps_n_polybox}
 Here is $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$ drawn in polyboxes, where we continue to denote the stage-$n$ pretree of a $p$-tree by $\pi^{(n)}T$:
 \begin{equation} \label{eqn.eps_n_polybox}
 \begin{tikzpicture}
@@ -7719,9 +7719,9 @@ The $p$-position $i_0$ is the label on the root of $T$, while the $p[i_0]$-direc
 While expressed differently, the direction $v$ on the codomain side of \eqref{eqn.eps_n_polybox} in the case of $n=4$ carries the same data as the direction $(a_1,a_2,a_3,a_4)$ on the codomain side of \eqref{eqn.eps_1_1_1_1_polybox}.
 The former is a single height-$4$ leaf of $\pi^{(4)}T$, equivalently a height-$4$ vertex of $T$.
 Meanwhile, the latter is a sequence of $4$ directions that we can follow, starting from the root labeled $i_0$ and traveling up the edges labeled with each $a_j$ in sequence.
-Any such length-$4$ rooted path up the tree ends at a height-$4$ vertex, so such a sequence of $4$ directions of $p$ comprising a direction of $p\tripow4$ is just another way to specify a height-$4$ vertex.
+This is just a length-$4$ rooted path of $T$; and we know that height-$n$ vertices correspond to length-$n$ rooted paths.
 
-Similarly, the contents of position-boxes and the arrows going up on the codomain side carry all the data of the bottom $4$ levels of $T$: namely the label $i_0$ of the root, the label $i_1$ of the vertex at the end of every direction $a_1$ out of the root, and so on until $i_3$.
+Similarly, the contents of the position-boxes and the arrows going up on the codomain side carry all the data of the bottom $4$ levels of $T$: namely the label $i_0$ of the root, the label $i_1$ of the vertex at the end of every direction $a_1$ out of the root, and so on until $i_3$.
 All this specifies a unique $p\tripow4$-position, a $p\tripow4$-pretree, which is the same as the $p\tripow4$-pretree $T$.
 Indeed, we can think of $\pi^{(4)}T$ as a shorthand for the gadget comprised of the $4$ polyboxes on the right hand side of \eqref{eqn.eps_1_1_1_1_polybox} when their blue boxes are yet to be filled.
 So the position and direction depicted on the codomain side of \eqref{eqn.eps_1_1_1_1_polybox} is equivalent to the position and direction depicted on the codomain side of \eqref{eqn.eps_n_polybox}.
@@ -7746,8 +7746,8 @@ We can still put a $p$-tree $T$ in the lower left position box.
 From the commutativity of \eqref{eqn.cofree_with_lim}, we know the on-positions function $\pi^{(4)}$ of $\epsilon^{(4)}_p$ factors through the on-positions function $\pi^{(2)}$ of $\epsilon^{(2)}_p$, which tells us that $p\tripow2$-pretree that should go in the lower right position box should be $\pi^{(2)}T$: the $p\tripow2$-pretree of $T$.
 
 Another way to think about this is that the polyboxes for the lower $p\tripow2$ on the right side of \eqref{eqn.eps_2_2_polybox_empty} are equivalent to the polyboxes for the $2$ lower copies of $p$ on the right side of \eqref{eqn.eps_1_1_1_1_polybox}---just like how the polyboxes for $p\tripow{n}$ in \eqref{eqn.eps_n_polybox} are equivalent to the polyboxes for all $n=4$ copies of $p$ in \eqref{eqn.eps_1_1_1_1_polybox}.
-There, the position could be represented with a single $p\tripow{n}$-pretree $\pi^{(n)}T$, and the direction $(a_1,\ldots,a_n)$ could be represented with a single height-$n$ vertex from $\vtx_n(T)$.
-So here, too, we can package the $2$ lower copies of $p$ into a single pair of polyboxes for $p\tripow2$, if we let $u$ be the height-$2$ vertex of $T$ at the end of the path $(a_1,a_2)$:
+There, the position could be represented with a single $p\tripow{n}$-pretree $\pi^{(n)}T$, and the direction $(a_1,\ldots,a_n)$ is one of its length-$n$ rooted paths.
+So here, too, we can package the $2$ lower copies of $p$ into a single pair of polyboxes for $p\tripow2$, if we let $u$ be the height-$2$ vertex of $T$ at the end of the rooted path $(a_1,a_2)$:
 \begin{equation} \label{eqn.eps_2_2_polybox_partly}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{t}_p$" left] (r) {\at$T$};
@@ -7768,21 +7768,21 @@ So the polyboxes end up looking like this:
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{t}_p$" left] (r) {$u\leadsto w$\at$T$};
     \node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$p\tripow2$" right] (q) {$u$\at$\pi^{(2)}T$};
-    \node[poly, cod, above=of q, "$p\tripow2$" right] (q') {$w$\at$\pi^{(2)}T_u$};
+    \node[poly, cod, above=of q, "$p\tripow2$" right] (q') {$w$\at$\pi^{(2)}T(u)$};
     
     \draw (r_pos) to[first] node[below] {} (q_pos);
     \draw (q_dir) to[climb] node[right] {} (q'_pos);
     \draw (q'_dir) to[last] node[above] {} (r_dir);
 \end{tikzpicture}
 \end{equation}
-Here $T_u$ denotes the $p$-tree equal to the subtree of $T$ rooted at its vertex $u$, and $w$ is one of $T_u$'s height-$2$ vertices.
-When viewed as the subtree of $T$ rooted at its the height-$2$ vertex $u$, the $p$-tree $T_u$ has its height-$2$ vertex $w$ identified with a height-$4$ vertex of $T$, a descendent of $u$ that we denote by $u\leadsto w$.
-Alternatively, we can think of $u$ as representing the rooted path $(a_1,a_2)$ of $T$, while $w$ represents the rooted path $(a_3,a_4)$ of $T_u$, so $u\leadsto w$ represents the concatenated rooted path $(a_1,a_2,a_3,a_4)$ of $T$.
+Here $T(u)$ denotes the $p$-tree equal to the subtree of $T$ rooted at its vertex $u$, and $w$ is one of $T(u)$'s height-$2$ vertices.
+When viewed as the subtree of $T$ rooted at its the height-$2$ vertex $u$, the $p$-tree $T(u)$ has its height-$2$ vertex $w$ identified with a height-$4$ vertex of $T$, a descendent of $u$ that we denote by $u\leadsto w$.
+Alternatively, $u$ corresponds to the rooted path $(a_1,a_2)$ of $T$, while $w$ corresponds to the rooted path $(a_3,a_4)$ of $T(u)$, so $u\leadsto w$ corresponds to the concatenated rooted path $(a_1,a_2,a_3,a_4)$ of $T$.
 As concatenation is associative, $\leadsto$ is associative as well. 
 
-Note that both the notation $T_u$, for what we will call the $p$-\emph{subtree} of the $p$-tree $T$ rooted at $u\in\vtx(T)$, and the notation $u\leadsto w$, for the vertex in $\vtx(T)$ that $w\in\vtx(T_u)$ coincides with when $T_u$ is identified with the subtree of $p$ rooted at $u$, will turn out to be temporary---we will soon justify why we can express these concepts in much more familiar terms.%
+Both the notation $T(u)$, for what we will call the $p$-\emph{subtree} of the $p$-tree $T$ rooted at $u\in\vtx(T)$, and the notation $u\leadsto w$, for the vertex in $\vtx(T)$ that $w\in\vtx(T(u))$ coincides with when $T(u)$ is identified with the subtree of $p$ rooted at $u$, will turn out to be temporary---we will soon justify why we can express these concepts in much more familiar terms.%
 \tablefootnote{As a reminder, due to the definition of a $p$-tree $T$, a $p$-subtree of $T$ is still itself a $p$-tree, whereas the $p\tripow{n}$-pretree of $T$ is not a $p$-tree unless the height of $T$ is strictly less than $n$.}
-As a sneak peek, they will be crucial to defining the categorical structure of the cofree comonoid on $p$.
+As a sneak preview, they will be crucial to defining the categorical structure of the cofree comonoid on $p$.
 
 Here are three more ways to depict $\epsilon^{(4)}_p$, viewing its codomain in turn as $p\tripow3\tri p\tripow1$, as $p\tripow1\tri p\tripow2\tri p\tripow1$, or as $p\tripow1\tri p\tripow1\tri p\tripow1\tri p\tripow1$:
 \[
@@ -7791,7 +7791,7 @@ Here are three more ways to depict $\epsilon^{(4)}_p$, viewing its codomain in t
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{t}_p$" left] (r) {$r\leadsto t$\at$T$};
     \node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$p\tripow3$" right] (q) {$r$\at$\pi^{(3)}T$};
-    \node[poly, cod, above=of q, "$p\tripow1$" right] (q') {$t$\at$\pi^{(1)}T_r$};
+    \node[poly, cod, above=of q, "$p\tripow1$" right] (q') {$t$\at$\pi^{(1)}T(r)$};
     
     \draw (r_pos) to[first] node[below] {} (q_pos);
     \draw (q_dir) to[climb] node[right] {} (q'_pos);
@@ -7801,9 +7801,9 @@ Here are three more ways to depict $\epsilon^{(4)}_p$, viewing its codomain in t
 \node[right=1.5 of 1] (2) {
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{t}_p$" left] (S) {$x\leadsto s\leadsto t$\at$T$};
-	\node[poly, cod, right=of S, "$p\tripow2$" right] (S2) {$s$\at$\pi^{(2)}T_x$};
+	\node[poly, cod, right=of S, "$p\tripow2$" right] (S2) {$s$\at$\pi^{(2)}T(x)$};
 	\node[poly, cod, below=of S2, "$p\tripow1$" right] (S1) {$x$\at$\pi^{(1)}T$};
-	\node[poly, cod, above=of S2, "$p\tripow1$" right] (S3) {$t$\at$\pi^{(1)}T_{x\leadsto s}$};
+	\node[poly, cod, above=of S2, "$p\tripow1$" right] (S3) {$t$\at$\pi^{(1)}T(x\leadsto s)$};
 %
 	\draw (S_pos) to[first] (S1_pos);
 	\draw (S1_dir) to[climb] (S2_pos);
@@ -7818,9 +7818,9 @@ Here are three more ways to depict $\epsilon^{(4)}_p$, viewing its codomain in t
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$=\qquad\ema{t}_p$" left] (p) {$x\leadsto y\leadsto z\leadsto t$\at$T$};
   	\node[poly, cod, "$p\tripow1$" right] (q1) at (4,1.5*1-3.25) {$x$\at$\pi^{(1)}T$};
-  	\node[poly, cod, "$p\tripow1$" right] (q2) at (4,1.5*2-3.25) {$y$\at$\pi^{(1)}T_x$};
-  	\node[poly, cod, "$p\tripow1$" right] (q3) at (4,1.5*3-3.25) {$z$\at$\pi^{(1)}T_{x\leadsto y}$};
-  	\node[poly, cod, "$p\tripow1$" right] (q4) at (4,1.5*4-3.25) {$t$\at$\pi^{(1)}T_{x\leadsto y\leadsto z}$};
+  	\node[poly, cod, "$p\tripow1$" right] (q2) at (4,1.5*2-3.25) {$y$\at$\pi^{(1)}T(x)$};
+  	\node[poly, cod, "$p\tripow1$" right] (q3) at (4,1.5*3-3.25) {$z$\at$\pi^{(1)}T(x\leadsto y)$};
+  	\node[poly, cod, "$p\tripow1$" right] (q4) at (4,1.5*4-3.25) {$t$\at$\pi^{(1)}T(x\leadsto y\leadsto z)$};
   	
 	\draw (p_pos) to[first] node[below] {} (q1_pos.west);
 	\foreach \i/\j in {1/2,2/3,3/4}
@@ -7834,8 +7834,8 @@ Here are three more ways to depict $\epsilon^{(4)}_p$, viewing its codomain in t
 	\draw (q4_dir) to[last] node[above left] {} (p_dir);
 \end{tikzpicture}
 \]
-Notice that $r=x\leadsto s$ and that $s=y\leadsto z$.
-Also notice that this last depiction is just another way to write \eqref{eqn.eps_1_1_1_1_polybox}, with each $p\tripow1$-pretree in place of the $p$-position that labels its root and height-$1$ vertices in place of their corresponding directions.
+Here $r=x\leadsto s$ and $s=y\leadsto z$.
+Notice that the last depiction is just another way to write \eqref{eqn.eps_1_1_1_1_polybox}, with each $p\tripow1$-pretree in place of the $p$-position that labels its root and height-$1$ vertices in place of their corresponding directions, which are just length-$1$ rooted paths.
 
 Finally, all this could be generalized to other values of $n$.
 Here are different ways to draw polyboxes for $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$, viewing its codomain as $p\tripow\ell\tri p\tripow{m}$ with $n=\ell+m$ or $p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}$ with $n=i+j+k$:
@@ -7845,7 +7845,7 @@ Here are different ways to draw polyboxes for $\epsilon^{(n)}_p\colon\ema{t}_p\t
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\ema{t}_p$" left] (r) {$u\leadsto w$\at$T$};
     \node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$p\tripow\ell$" right] (q) {$u$\at$\pi^{(\ell)}T$};
-    \node[poly, cod, above=of q, "$p\tripow{m}$" right] (q') {$w$\at$\pi^{(m)}T_u$};
+    \node[poly, cod, above=of q, "$p\tripow{m}$" right] (q') {$w$\at$\pi^{(m)}T(u)$};
     
     \draw (r_pos) to[first] node[below] {} (q_pos);
     \draw (q_dir) to[climb] node[right] {} (q'_pos);
@@ -7855,9 +7855,9 @@ Here are different ways to draw polyboxes for $\epsilon^{(n)}_p\colon\ema{t}_p\t
 \node[right=1.5 of 1] (2) {
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{t}_p$" left] (S) {$x\leadsto s\leadsto t$\at$T$};
-	\node[poly, cod, right=of S, "$p\tripow{j}$" right] (S2) {$s$\at$\pi^{(j)}T_x$};
+	\node[poly, cod, right=of S, "$p\tripow{j}$" right] (S2) {$s$\at$\pi^{(j)}T(x)$};
 	\node[poly, cod, below=of S2, "$p\tripow{i}$" right] (S1) {$x$\at$\pi^{(i)}T$};
-	\node[poly, cod, above=of S2, "$p\tripow{k}$" right] (S3) {$t$\at$\pi^{(k)}T_{x\leadsto s}$};
+	\node[poly, cod, above=of S2, "$p\tripow{k}$" right] (S3) {$t$\at$\pi^{(k)}T(x\leadsto s)$};
 %
 	\draw (S_pos) to[first] (S1_pos);
 	\draw (S1_dir) to[climb] (S2_pos);
@@ -7873,13 +7873,13 @@ Here are different ways to draw polyboxes for $\epsilon^{(n)}_p\colon\ema{t}_p\t
 %---- Subsection ----%
 \subsection{Cofree comonoids as categories} \label{subsec.comon.cofree.cons.cat}
 
-We now the carrier $\ema{t}_p$ of the cofree comonoid $\cofree{p}$, but we have yet to describe its comonoid structure.
-This comonoid structure will allow us to interpret $\cofree{p}$ as a category, whose objects will be $p$-trees and whose morphisms will be the vertices of each $p$-tree.
+We have now characterized the carrier $\ema{t}_p$ of the comonoid $\cofree{p}$ that will turn out to be cofree on $p$; but we have yet to describe the comonoid structure of $\cofree{p}$ that $\ema{t}_p$ carries.
+This structure will allow us to interpret $\cofree{p}$ as a category, whose objects will be $p$-trees and whose morphisms will be the vertices of each $p$-tree.
 We could go ahead and describe this category right now, but as category theorists, let us show that the eraser and duplicator of $\cofree{p}$, as well as the comonoid laws that they satisfy, arise naturally from our construction of $\ema{t}_p$ as the limit of \eqref{eqn.cofree_diagram}.
 
 \subsubsection{The eraser of the cofree comonoid}
 
-The eraser for a comonoid $\cofree{p}$ carried by $\ema{t}_p$ should be a lens of the form $\epsilon_p\colon\ema{t}_p\to\yon$.
+The eraser for a comonoid $\cofree{p}$ carried by $\ema{t}_p$ should be a lens of the form $\ema{t}_p\to\yon$.
 Conveniently, since $\yon$ appears in \eqref{eqn.cofree_diagram}, its limit $\ema{t}_p$ is already equipped with a canonical lens $\epsilon^{(0)}_p\colon\ema{t}_p\to\yon$, as seen in \eqref{eqn.cofree_with_lim}.
 This lens will turn out to be the eraser of the cofree comonoid on $p$.
 
@@ -7889,12 +7889,12 @@ Even without looking at \eqref{eqn.cofree_with_lim}, you may already have your s
 Indeed, \cref{prop.cofree_carrier_lim} tells us that $\epsilon^{(0)}_p\colon\ema{t}_p\to\yon$ sends each $p$-tree $T\in\tr_p$ to its stage-$0$ pretree on positions, stripping away everything except for the single unlabeled root of $T$; then on-directions, $\epsilon^{(0)}_p$ picks out the unique height-$0$ vertex of $T$ in $\vtx_0(T)\ss\vtx(T)$, which is just its root.
 
 So in the category $\cofree{p}$, where morphisms out of objects are vertices of trees, the identity morphism on a tree is its root---in fact, we will henceforth denote the root of a $p$-tree by $\id_T$ (so that $\vtx_0(T)=\{\id_T\}$).
-As for the rest of its categorical structure, that will be determined by its duplicator.
-
+Equivalently, we can identify $\id_T$ with the unique length-$0$ rooted path of $T$: the \emph{empty rooted path}, which starts and ends at the root.
+The rest of the categorical structure of $\cofree{p}$ will be determined by its duplicator.
 
 \subsubsection{The duplicator of the cofree comonoid}
 
-The duplicator for a comonoid $\cofree{p}$ carried by $\ema{t}_p$ should be a lens of the form $\delta_p\colon\ema{t}_p\to\ema{t}_p\tri\ema{t}_p$.
+The duplicator for a comonoid $\cofree{p}$ carried by $\ema{t}_p$ should be a lens $\delta_p\colon\ema{t}_p\to\ema{t}_p\tri\ema{t}_p$.
 But before we can specify such a lens, we need to figure out what kind of polynomial $\ema{t}_p\tri\ema{t}_p$ is.
 
 Here is where our work from \cref{subsec.comon.comp.prop.lim_left,subsec.comon.comp.prop.lim_right} comes in handy: since the diagram in \eqref{eqn.cofree_diagram} is connected, its limit $\ema{t}_p$ is a connected limit, and we showed in \cref{thm.connected_limits} that $\tri$ preserves connected limits.
@@ -7989,9 +7989,9 @@ drawn vertically in \eqref{eqn.cofree_tri2_diagram}; and
     p\tripow{\ell+1}\tri p\tripow0\tri\1\iso p\tripow{\ell+1}\tri\1\to p\tripow\ell\tri\1\iso p\tripow\ell\tri p\tripow0\tri\1,
 \end{equation}
 drawn horizontally in \eqref{eqn.cofree_tri2_diagram} along the bottom row.
-Of course, we could write each $p\tripow\ell\tri p\tripow{m}$ as $p\tripow{(\ell+m)}$, but the notation $p\tripow\ell\tri p\tripow{m}$ helps us distinguish it as the object appearing $\ell$ rows above the bottom and $m$ columns to the right in \eqref{eqn.cofree_tri2_diagram}, in contrast with any other $p\tripow{\ell'}\tri p\tripow{m'}$ with $(\ell,m)\neq(\ell',m')$, even if $\ell+m=\ell'+m'$ guarantees that they are isomorphic objects.
+Of course, we could write each $p\tripow\ell\tri p\tripow{m}$ as $p\tripow{(\ell+m)}$, but the notation $p\tripow\ell\tri p\tripow{m}$ helps us distinguish it as the object appearing $\ell$ rows above the bottom and $m$ columns to the right in \eqref{eqn.cofree_tri2_diagram}, in contrast with any other $p\tripow{\ell'}\tri p\tripow{m'}$ with $(\ell,m)\neq(\ell',m')$, even if $\ell+m=\ell'+m'$ guarantees that there are isomorphisms between these objects.
 
-Nevertheless, it is these isomorphisms that induce a canonical lens $\ema{t}_p\to\ema{t}_p\tri\ema{t}_p$ by giving a map from the diagram \eqref{eqn.cofree_diagram} to the diagram \eqref{eqn.cofree_tri2_diagram}, as follows.
+Nevertheless, it is these isomorphisms that induce a canonical lens $\ema{t}_p\to\ema{t}_p\tri\ema{t}_p$, by giving a map from the diagram \eqref{eqn.cofree_diagram} to the diagram \eqref{eqn.cofree_tri2_diagram} as follows.
 For all $\ell,m,n\in\nn$ with $n=\ell+m$, we have a canonical isomorphism $p\tripow{n}\To\iso p\tripow\ell\tri p\tripow{m}$ sending the $p\tripow{n}$ that appears in \eqref{eqn.cofree_diagram} to the $p\tripow\ell\tri p\tripow{m}$ that appears in \eqref{eqn.cofree_tri2_diagram}, and similarly sending $p\tripow{n}\tri\1$ in \eqref{eqn.cofree_diagram} to $p\tripow\ell\tri p\tripow{m}\tri\1$ in \eqref{eqn.cofree_tri2_diagram}.
 Then all the arrows that appear in \eqref{eqn.cofree_tri2_diagram}---i.e.\ all the arrows in \eqref{eqn.cofree_tri2_diagram_arr_diag}, \eqref{eqn.cofree_tri2_diagram_arr_vert}, and \eqref{eqn.cofree_tri2_diagram_arr_horiz}---can be identified with arrows that appear in \eqref{eqn.cofree_diagram}, so everything commutes.
 We therefore induce a lens from the limit $\ema{t}_p$ of \eqref{eqn.cofree_diagram} to the limit $\ema{t}_p\tri\ema{t}_p$ of \eqref{eqn.cofree_tri2_diagram}, which we call $\delta_p\colon\ema{t}_p\to\ema{t}_p\tri\ema{t}_p$.
@@ -8001,20 +8001,20 @@ How does $\delta_p$ behave in terms of $p$-trees?
 First, we characterize $\ema{t}_p\tri\ema{t}_p$ and its projections to each $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram}.
 Concretely, we know that a $\ema{t}_p\tri\ema{t}_p$-position is just a $p$-tree $T\in\tr_p$ along with a $p$-tree $U(v)\in\tr_p$ associated with every vertex $v\in\vtx(T)$.
 Then a direction at that position is a choice of vertex $v\in\vtx(T)$ and another vertex $w\in\vtx(U(v))$ of the $p$-tree $U(v)$ associated with $v$.
-Each projection from $\ema{t}_p\tri\ema{t}_p$ to $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram} is then the composition product of the projections $\epsilon^{(\ell)}_p\colon\ema{t}_p\to p\tripow\ell$ and $\epsilon^{(m)}_p\colon\ema{t}_p\to p\tripow{m}$, which we can draw in polyboxes like so:
+Each projection from $\ema{t}_p\tri\ema{t}_p$ to $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram} is then the composition product of the projections $\epsilon^{(\ell)}_p\colon\ema{t}_p\to p\tripow\ell$ and $\epsilon^{(m)}_p\colon\ema{t}_p\to p\tripow{m}$, which by \cref{ex.eps_n_polybox} we can draw in polyboxes like so:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\ema{t}_p$" below] (p) {$v$\at$T$};
         \node[left=0pt of p_pos] {$\tr_p$};
         \node[left=0pt of p_dir] {$\vtx(-)$};
-	\node[poly, dom, above=.8 of p, "$\ema{t}_p$" above] (p') {$w$\at$U(v)$};
+	\node[poly, dom, above=.8 of p, "$\ema{t}_p$" above] (p') {$w$\at$U_v$};
         \node[left=0pt of p'_pos] {$\tr_p$};
         \node[left=0pt of p'_dir] {$\vtx(-)$};
 	    
 	\node[poly, cod, right=of p, "$p\tripow\ell$" below] (q) {$v$\at$\pi^{(\ell)}T$};
 	    \node[right=0pt of q_pos] {$p\tripow\ell(\1)$};
         \node[right=0pt of q_dir] {$\vtx_\ell(-)$};
-	\node[poly, cod, above=.8 of q, "$p\tripow{m}$" above] (q') {$w$\at$\pi^{(m)}U(v)$};
+	\node[poly, cod, above=.8 of q, "$p\tripow{m}$" above] (q') {$w$\at$\pi^{(m)}U_v$};
 	    \node[right=0pt of q'_pos] {$p\tripow{m}(\1)$};
         \node[right=0pt of q'_dir] {$\vtx_m(-)$};
 	
@@ -8024,22 +8024,22 @@ Each projection from $\ema{t}_p\tri\ema{t}_p$ to $p\tripow\ell\tri p\tripow{m}$ 
 	\draw (q'_dir) -- node[above] {} (p'_dir);
 \end{tikzpicture}
 \]
-On positions, $\epsilon^{(\ell)}_p\tri\epsilon^{(m)}_p$ sends the $p$-tree $T$ to its stage-$\ell$ pretree $\pi^{(\ell)}T$, and it sends each $p$-tree $U(v)$ associated to a height-$\ell$ vertex $v\in\vtx_\ell(T)$ to its stage-$m$ pretree $\pi^{(m)}U(v)$, to be $p\tripow{m}$-pretree associated with the height-$\ell$ leaf $v$ of $\pi^{(m)}T$.
-Equivalently, this specifies a $p\tripow{(\ell+m)}$-pretree on the right: its bottom $\ell$ levels coincide with the bottom $\ell$ levels of $T$, and its top $m$ levels coincide with the bottom $m$ levels of the $U(v)$'s for $v\in\vtx_\ell(T)$.
-Then on directions, $\epsilon^{(\ell)}_p\tri\epsilon^{(m)}_p$ is the canonical inclusion of vertices $\vtx_\ell(T)\inj\vtx(T)$ sending $v\mapsto v$, followed by the canonical inclusion of vertices $\vtx_m(U(v))\inj\vtx(U(v))$.
+On positions, $\epsilon^{(\ell)}_p\tri\epsilon^{(m)}_p$ sends the $p$-tree $T$ to its stage-$\ell$ pretree $\pi^{(\ell)}T$, and it sends each $p$-tree $U_v$ associated to a height-$\ell$ vertex $v\in\vtx_\ell(T)$ to its stage-$m$ pretree $\pi^{(m)}U_v$, to be $p\tripow{m}$-pretree associated with the height-$\ell$ leaf $v$ of $\pi^{(m)}T$.
+Equivalently, this specifies a $p\tripow{(\ell+m)}$-pretree on the right: its bottom $\ell$ levels coincide with the bottom $\ell$ levels of $T$, and its top $m$ levels coincide with the bottom $m$ levels of the $U_v$'s for $v\in\vtx_\ell(T)$.
+Then on directions, $\epsilon^{(\ell)}_p\tri\epsilon^{(m)}_p$ is the canonical inclusion of vertices $\vtx_\ell(T)\inj\vtx(T)$ sending $v\mapsto v$, followed by the canonical inclusion of vertices $\vtx_m(U_v)\inj\vtx(U_v)$.
 These lenses comprise the universal cone over \eqref{eqn.cofree_tri2_diagram}.
 
 Meanwhile, the other cone we formed over \eqref{eqn.cofree_tri2_diagram} is comprised of lenses of the form $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow{(\ell+m)}\iso p\tripow\ell\tri p\tripow{m}$, each of which should factor through $\ema{t}_p\tri\ema{t}_p$, as depicted in the following commutative diagram:
 \begin{equation} \label{eqn.delta_p_tri_epsilons}
-\begin{tikzcd}
+\begin{tikzcd}[row sep=large]
     \ema{t}_p \ar[r,dashed,"\delta_p"] \ar[dr,"\epsilon^{(\ell+m)}_p"'] & \ema{t}_p\tri\ema{t}_p \ar[d,"\epsilon^{(\ell)}_p\:\tri\:\epsilon^{(m)}_p"] \\
     & p\tripow{\ell}\tri p\tripow{m}.
 \end{tikzcd}
 \end{equation}
-In fact, we can take this to be the definition of $\delta_p$: it is the unique lens for which the above diagram commutes for all $\ell,m\in\nn$.
+Indeed, by the universal property of $\ema{t}_p\tri\ema{t}_p$, our $\delta_p$ is the unique lens for which the above diagram commutes for all $\ell,m\in\nn$.
 We will use the equation given by the commutativity of \eqref{eqn.delta_p_tri_epsilons} repeatedly in what follows, whenever we work with $\delta_p$.
 
-Expressing this commutativity as an equation of polyboxes, using our usual labels for the arrows of the duplicator $\delta_p$ on the left and our depiction of the projection $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow\ell\tri p\tripow{m}$ \cref{ex.eps_n_polybox} on the right, we have
+Expressing \eqref{eqn.delta_p_tri_epsilons} as an equation of polyboxes, using our usual labels for the arrows of the duplicator $\delta_p$ on the left and our depiction of the projection $\epsilon^{(\ell+m)}_p\colon\ema{t}_p\to p\tripow\ell\tri p\tripow{m}$ from \cref{ex.eps_n_polybox} on the right, we have
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -8063,7 +8063,7 @@ Expressing this commutativity as an equation of polyboxes, using our usual label
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\ema{t}_p$" left] (r) {$v\leadsto w$\at$T$};
   	\node[poly, cod, right=1.8 of r.south, yshift=-1ex, "$p\tripow\ell$" right] (q) {$v$\at$\pi^{(\ell)}T$};
-  	\node[poly, cod, above=of q, "$p\tripow{m}$" right] (q') {$w$\at$\pi^{(m)}T_v$};
+  	\node[poly, cod, above=of q, "$p\tripow{m}$" right] (q') {$w$\at$\pi^{(m)}T(v)$};
   	
   	\draw (r_pos) to[first] node[below] {} (q_pos);
   	\draw (q_dir) to[climb] node[right] {} (q'_pos);
@@ -8073,30 +8073,39 @@ Expressing this commutativity as an equation of polyboxes, using our usual label
 	\node at ($(1.east)!.5!(2.west)$) {=};
 \end{tikzpicture}
 \]
-Recall from \cref{ex.eps_n_polybox} that $T_v$ denotes the $p$-tree equal to the subtree of $T$ rooted at $v\in\vtx(T)$, while $v\leadsto w\in\vtx(T)$ for $w\in\vtx(T_v)$ is the descendent of $v$ that coincides with $w$ when $T_v$ is identified with the subtree of $T$ rooted at $v$.
-Equivalently, we can identify $v\in\vtx(T)$ with the rooted path in $T$ that ends at the vertex $v$ and $w\in\vtx(T_v)$ with the rooted path of $T_v$ that ends at the vertex $w$, so $v\leadsto w$ becomes the rooted path in $T$ obtained by concatenating $v$ and $w$.
-Then for this equality to hold over all $\ell,m\in\nn$, we want $\cod v\coloneqq T_v$ and $v\then w\coloneqq v\leadsto w$; in fact, this will henceforth be our preferred notation.
+Recall from \cref{ex.eps_n_polybox} that $T(v)$ denotes the $p$-tree equal to the subtree of $T$ rooted at $v\in\vtx(T)$, while $v\leadsto w\in\vtx(T)$ for $w\in\vtx(T(v))$ is the descendent of $v$ that coincides with $w$ when $T(v)$ is identified with the subtree of $T$ rooted at $v$.
+Equivalently, we can identify $v\in\vtx(T)$ with the rooted path in $T$ that ends at the vertex $v$ and $w\in\vtx(T(v))$ with the rooted path of $T(v)$ that ends at the vertex $w$, so $v\leadsto w$ becomes the rooted path in $T$ obtained by concatenating $v$ and $w$.
+Then for this equality to hold over all $\ell,m\in\nn$, we want $\cod v\coloneqq T(v)$ and $v\then w\coloneqq v\leadsto w$; in fact, $\cod v$ and $v\then w$ will henceforth be our preferred notation for $T(v)$ and $v\leadsto w$.
 
 \subsubsection{Verifying the comonoid laws}
 
-Putting together our constructions of the carrier, the eraser, and the duplicator of the cofree comonoid yields the following result.
+Putting together our constructions of the carrier, the eraser, and the duplicator of the $\cofree{p}$ yields the following result.
 \begin{proposition} \label{prop.cofree_as_cat}
 As defined above, $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ is a polynomial comonoid corresponding to a category $\cofree{p}$ characterized as follows.
 \begin{itemize}
-    \item Objects are $p$-trees in $\tr_p$.
-    \item Morphisms are vertices of $p$-trees: for each $p$-tree $T\in\tr_p$ and vertex $v\in\vtx(T)$, there is a morphism $v\colon T\to\_$ whose codomain $\cod v\in\tr_p$ is the $p$-subtree of $T$ rooted at $v$.
-    Equivalently, a morphism is a finite rooted path in its domain whose codomain is the $p$-subtree rooted at the end of the path.%
-    \footnote{Both the morphisms-as-vertices and the morphisms-as-(finite-)rooted-paths perspectives are helpful for interpreting the category $\cofree{p}$, so we include both; it is not terribly difficult to translate between them.}
-    \item Identity morphisms are roots: for each $p$-tree $T\in\tr_p$, the identity morphism $\id_T\in\vtx(T)$ on $T$ is the root vertex of $T$.
-    Equivalently, identity morphisms are empty rooted paths that start and end at the root.
-    \item Composition is given as follows: for each $p$-tree $T\in\tr_p$, vertex $v\in\vtx(T)$, and vertex $w\in\vtx(\cod T)$, the composite morphism $v\then w\in\vtx(T)$ is the descendent of $v$ in $T$ that coincides with $w$ when $\cod v$ is identified with the subtree of $T$ rooted at $v$.
-    Equivalently, rooted paths $v$ and $w$ compose via concatentation: given a rooted path $v$ in $T$ and a rooted path $w$ in $\cod v$ (the $p$-subtree rooted at the end of $v$), we identify $w$ with the corresponding path in $T$ that starts where $v$ ends, then concatenate the two paths in $T$ to obtain the composite morphism $v\then w$, another rooted path in $T$. 
+    \item Objects are \textit{$p$-trees} in $\tr_p$.
+    \item Morphisms are \textit{vertices} or \textit{rooted paths} of $p$-trees:%
+    \tablefootnote{Both the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives are helpful for interpreting the category $\cofree{p}$, so we include both; as we have seen, it is not terribly difficult to translate between them.}
+    \begin{itemize}
+        \item Given a $p$-tree $T\in\tr_p$, each \textit{vertex} $v\in\vtx(T)$ gives rise to a corresponding morphism $v\colon T\to\_$ whose codomain $\cod v\in\tr_p$ is the $p$-subtree of $T$ rooted at $v$.
+        \item Equivalently, a morphism is a \textit{rooted path} in its domain whose codomain is the $p$-subtree rooted at the end of the path.
+    \end{itemize}
+    \item Identity morphisms are \textit{roots} or \textit{empty rooted paths}:
+    \begin{itemize}
+        \item The identity morphism $\id_T\in\vtx(T)$ on $T\in\tr_p$ is the \textit{root vertex} of $T$.
+        \item Equivalently, identity morphisms are \textit{empty rooted paths}---paths that start and end at the root.
+    \end{itemize}
+    \item Composition is given as follows:
+    \begin{itemize}
+        \item Given $T\in\tr_p$ and vertices $v\in\vtx(T)$ and $w\in\vtx(\cod T)$, the composite morphism $v\then w\in\vtx(T)$ is the descendent of $v$ in $T$ that coincides with $w$ when $\cod v$ is identified with the subtree of $T$ rooted at $v$.
+        \item Equivalently, rooted paths $v$ and $w$ compose via \textit{concatentation}---given a rooted path $v$ in $T$ and a rooted path $w$ in $\cod v$, the $p$-subtree rooted at the end of $v$, we identify $w$ with the corresponding path in $T$ that starts where $v$ ends, then concatenate the two paths in $T$ to obtain the composite morphism $v\then w$, another rooted path in $T$.
+    \end{itemize}
 \end{itemize}
 \end{proposition}
-\begin{proof}[Proof of \cref{prop.cofree_as_cat}]
-We have already shown how to construct its carrier, eraser, and duplicator purely diagrammatically, and we have given them concrete interpretations in terms of $p$-trees, their vertices, and their $p$-subtrees.
-So to complete the proof of \cref{prop.cofree_as_cat}, it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$.
-Again, our argument will be purely formal, although of course it is not so hard to see that our concrete characterization above in terms of $p$-trees satisfies the laws for a category.
+\begin{proof}
+We have already shown how to construct the given carrier, eraser, and duplicator purely diagrammatically, and we have given them concrete interpretations in terms of $p$-trees, their vertices, and their $p$-subtrees.
+So it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$.
+Again, our argument will be purely formal, although it is not too hard to see that our concrete characterization above in terms of $p$-trees satisfies the laws for a category.
 
 First, we verify the left erasure law: that
 \[
@@ -8106,9 +8115,9 @@ First, we verify the left erasure law: that
 \end{tikzcd}
 \]
 commutes.
-We know the lens $\epsilon^{(0)}_p\tri\ema{t}_p\colon\ema{t}_p\tri\ema{t}_p\to\yon\tri\ema{t}_p$ is specified by its components $\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\colon\ema{t}_p\tri\ema{t}_p\to p\tripow0\tri p\tripow{n}$, a projection out of the limit $\ema{t}_p\tri\ema{t}_p$, for all $n\in\nn$.
+We know the lens $\epsilon^{(0)}_p\tri\ema{t}_p\colon\ema{t}_p\tri\ema{t}_p\to\yon\tri\ema{t}_p$ is characterized by its components $\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\colon\ema{t}_p\tri\ema{t}_p\to p\tripow0\tri p\tripow{n}$, a projection out of the limit $\ema{t}_p\tri\ema{t}_p$, for all $n\in\nn$.
 Then by our construction of $\delta_p$, each composite $\delta_p\then\left(\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\right)\colon\ema{t}_p\to p\tripow0\tri p\tripow{n}$ is the component of $\delta_p$ equal to $\epsilon^{(n)}_p=\epsilon^{(0+n)}_p\colon\ema{t}_p\to p\tripow0\tri p\tripow{n}\iso p\tripow{n}$ (this is just the commutativity of \eqref{eqn.delta_p_tri_epsilons} in the case of $(\ell,m)=(0,n)$).
-Together, these specify the composite lens $\delta_p\then\left(\epsilon^{(0)}_p\tri\ema{t}_p\right)\colon\ema{t}_p\to\yon\tri\ema{t}_p\iso\ema{t}_p$ as the lens whose components are the projections $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$ from the limit.
+Together, these characterize the composite lens $\delta_p\then\left(\epsilon^{(0)}_p\tri\ema{t}_p\right)\colon\ema{t}_p\to\yon\tri\ema{t}_p\iso\ema{t}_p$ as the lens whose components are the projections $\epsilon^{(n)}_p\colon\ema{t}_p\to p\tripow{n}$ from the limit.
 It follows from the universal property of $\ema{t}_p$ that $\delta_p\then\left(\epsilon^{(0)}_p\tri\ema{t}_p\right)$ can only be the identity lens on $\ema{t}_p$.
 Hence the left erasure law holds.
 
@@ -8119,7 +8128,7 @@ The right erasure law, that
     \ema{t}_p\tri\ema{t}_p \ar[ur, "\ema{t}_p\:\tri\:\epsilon^{(0)}_p"']
 \end{tikzcd}
 \]
-commutes, follows similarly: the composite $\delta_p\then\left(\ema{t}_p\tri\epsilon^{(0)}_p\right)$ is specified by its components over $n\in\nn$ of the form $\delta_p\then\left(\epsilon^{(n)}_p\tri\epsilon^{(0)}_p\right)\colon\ema{t}_p\to p\tripow{n}\tri p\tripow0$, which we know by \eqref{eqn.delta_p_tri_epsilons} is equal to $\epsilon^{(n+0)}_p=\epsilon^{(n)}_p$, the projection out of the limit $\ema{t}_p$.
+commutes, follows similarly: the composite $\delta_p\then\left(\ema{t}_p\tri\epsilon^{(0)}_p\right)$ is characterized by its components over $n\in\nn$ of the form $\delta_p\then\left(\epsilon^{(n)}_p\tri\epsilon^{(0)}_p\right)\colon\ema{t}_p\to p\tripow{n}\tri p\tripow0$, which we know by \eqref{eqn.delta_p_tri_epsilons} is equal to $\epsilon^{(n+0)}_p=\epsilon^{(n)}_p$, the projection out of the limit $\ema{t}_p$.
 It follows from the universal property of this limit that $\delta_p\then\left(\ema{t}_p\tri\epsilon^{(0)}_p\right)$ must be the identity lens on $\ema{t}_p$.
 
 Finally, we check the coassociative law: that
@@ -8136,7 +8145,7 @@ Because $\tri$ preserves connected limits, we can write $\ema{t}_p\tri\ema{t}_p\
 \[
     p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}\to p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}\tri\1
 \]
-for each $i,j,k\in\nn$, with additional arrows between the constant polynomials.
+for each $i,j,k\in\nn$, with additional arrows between the position-sets.
 So a lens to $\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p$, such as those in the square above, is uniquely determined by its components to $p\tripow{i}\tri p\tripow{j}\tri p\tripow{k}$ for all $i,j,k\in\nn$, obtained by composing it with the projections $\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\tri\epsilon^{(k)}_p$ out of the limit.
 Then by \eqref{eqn.delta_p_tri_epsilons},
 \begin{align*}
@@ -8145,7 +8154,7 @@ Then by \eqref{eqn.delta_p_tri_epsilons},
     \delta_p\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j+k)}_p\right) \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
     \epsilon^{(i+j+k)}_p \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
     \delta_p\then\left(\epsilon^{(i+j)}_p\tri\epsilon^{(k)}_p\right) \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
-    \delta_p\then\left(\left(\delta_p\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\right)\right)\tri\epsilon^{(k)}_p\right) \\ &=
+    \delta_p\then\left(\left(\delta_p\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\right)\right)\tri\epsilon^{(k)}_p\right) \tag*{\eqref{eqn.delta_p_tri_epsilons}} \\ &=
     \delta_p\then\left(\delta_p\tri\ema{t}_p\right)\then\left(\epsilon^{(i)}_p\tri\epsilon^{(j)}_p\tri\epsilon^{(k)}_p\right).
 \end{align*}
 for all $i,j,k\in\nn$.
@@ -8153,15 +8162,13 @@ So by the universal property of $\ema{t}_p\tri\ema{t}_p\tri\ema{t}_p$, coassocia
 \end{proof}
 
 We call the category $\cofree{p}$ corresponding to the comonoid $\left(\ema{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
-In the next section, we will prove that it really is the cofree category on $p$, but first we give some examples.
+Soon we will prove that it really is the cofree category on $p$, but first we give some examples.
 
 \subsubsection{Examples of $p$-tree categories}
 
-Throughout these examples, we will freely switch between the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives of $p$-tree categories given in \cref{prop.cofree_as_cat} as is convenient.
-Since only finite rooted paths correspond to vertices, all our rooted paths will be assumed to be finite.
-When we wish to refer to what one might call an infinite (rooted) ``path,'' we will instead call it a (rooted) \emph{ray}.
+In what follows, we will freely switch between the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives of $p$-tree categories given in \cref{prop.cofree_as_cat} whenever convenient.
 
-\begin{example}[The category of $\1$-trees is the terminal category]
+\begin{example}[Category of $\1$-trees: the terminal category]
 Let's start by taking $p\coloneqq\1$.
 In \cref{exc.p_tree_polys} \cref{exc.p_tree_polys.1}, we showed that there is a unique $\1$-tree: a tree with only $1$ vertex, its root.
 So $\ema{t}_\1\iso\yon$ is the carrier of the category of $\1$-trees $\cofree\1$.
@@ -8182,7 +8189,7 @@ This is certainly too trivial an example to say much about, but it demonstrates 
 Moreover, it helps us see concretely why taking the identity to be the root gives it the right codomain and compositional behavior.
 \end{example}
 
-\begin{exercise}[The category of trees on a constant polynomial]
+\begin{exercise}[Category of trees on constants]
 Let $B$ be a set, viewed as a constant polynomial.
 \begin{enumerate}
 	\item What is the polynomial $\ema{t}_B$? 
@@ -8208,7 +8215,7 @@ Let $B$ be a set, viewed as a constant polynomial.
 \end{solution}
 \end{exercise}
 
-\begin{example}[The category of $\yon$-trees is the natural numbers monoid]
+\begin{example}[Category of $\yon$-trees: the natural numbers monoid]
 Now consider $p\coloneqq\yon$.
 In \cref{exc.p_tree_polys} \cref{exc.p_tree_polys.unary}, we showed that there is a unique $\yon$-tree: a single ray extending from the root in which every vertex has exactly $1$ child, so that there is exactly $1$ height-$n$ vertex---and $1$ length-$n$ rooted path---for every $n\in\nn$.
 Then $\ema{t}_\yon\iso\yon^\nn$ is the carrier of the category of $\yon$-trees $\cofree\yon$.
@@ -8233,7 +8240,7 @@ We can characterize $\cofree\yon$ in terms of $\yon$-trees as follows.
 Hence the $\cofree{\yon}$ is the monoid $(\nn,0,+)$ viewed as a $1$-object category.
 \end{example}
 
-\begin{exercise}[The category of trees on a linear polynomial]
+\begin{exercise}[Category of trees on linear polynomials]
 Let $B$ be a set, so that $B\yon$ is a linear polynomial.
 \begin{enumerate}
 	\item What is the polynomial $\ema{t}_{B\yon}$? 
@@ -8398,7 +8405,39 @@ holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. 
 %---- Subsection ----%
 \subsection{Exhibiting the forgetful-cofree adjunction}
 
+We are now ready to give a diagrammatic proof of the main result of this section: as promised, the category $\cofree{p}$ we constructed is the cofree comonoid on $p$.
+
+\begin{theorem}[Cofree comonoid] \label{thm.cofree}
+The forgetful functor $U\colon \smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, giving rise to an adjunction
+\[
+    \adj{\smcat^\sharp}{U}{\cofree{-}}{\poly},
+\]
+such that for each $p\in\poly$, the carrier $\ema{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ is given by the limit of the diagram \eqref{eqn.cofree_diagram}, repeated here:
+\[
+\begin{tikzcd}
+	\yon \ar[d] &
+	p \ar[d] &
+	p\tripow2 \ar[d] &
+	[10pt] p\tripow3 \ar[d] &
+	\cdots\\
+	\1 &
+	p\tri\1 \ar[l, "!"'] &
+	p\tripow2\tri\1 \ar[l, "p\:\tri\:!"'] &
+	p\tripow3\tri\1 \ar[l, "p\tripow2\:\tri\:!"'] &
+	\cdots.\ar[l]
+\end{tikzcd}
+\]
+That is, for any category $\cat{C}\in\smcat^\sharp$ with carrier $\ema{c}\coloneqq U\cat{C}$, there is a natural isomorphism
+\[
+    \poly(\ema{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
+\]
+\end{theorem}
+
+\begin{proof}
+**
 % ** borrow nLab pf, check old paper
+\end{proof}
+
 
 
 
