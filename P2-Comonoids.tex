@@ -8753,32 +8753,6 @@ The following exercise is useful when considering the (topos-theoretic) logic of
 %---- Subsection ----%
 \subsection{Some categorical properties of cofree comonoids}
 
-We record the following proposition here; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
-
-\begin{proposition}
-If $f\colon p\to q$ is a cartesian lens, then $\cofree{f}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
-\[
-    \left(\cofree{f}\right)^\sharp_t\colon\cofree{q}[\cofree{f}t]\To{\iso}\cofree{p}[t]
-\]
-is a bijection.
-\end{proposition}
-\begin{proof}
-**
-\end{proof}
-
-\begin{proposition}
-The cofree comonoid functor is lax monoidal; in particular, we have maps
-\[
-\yon\to\cofree{\yon}
-\qqand
-\cofree{p}\otimes\cofree{q}\to\cofree{p\otimes q}
-\]
-for any $p,q\in\poly$.
-\end{proposition}
-\begin{proof}
-**
-\end{proof}
-
 \begin{theorem}\label{thm.cofree_coalgebras}
 Let $\cofree{p}$ be the cofree comonoid on $p\in\poly$. There is an equivalence of categories
 \[
@@ -8793,303 +8767,6 @@ between the category of dynamical systems on $p$ and that of functors $\cofree{p
 A consequence of this is that $\sys(p)$ forms a topos, and hence has a ready-made type theory and internal logic. While we don't have space to do this justice, we will briefly discuss the sort of logical statement one can make about dynamical systems.
 
 
-%-------- Section --------%
-% \section{Formal construction of $\cofree{p}$}
-
-% We will sketch how one can formally construct $\cofree{p}$ from $p$. The first step is called copointing, and it's pretty easy: just multiply $p$ by $\yon$. It adds a kind of ``default'' direction to each position in $p$.
-
-% %---- Subsection ----%
-% \subsection{Copointing}
-
-% \begin{definition}[Copointed polynomial]
-% A \emph{copointed polynomial} is a pair $(p,\epsilon)$, where $p\in\poly$ is a polynomial and $\epsilon\colon p\to\yon$ is a morphism in $\poly$.
-
-% A \emph{morphism} of copointed polynomials $f\colon (p,\epsilon)\to(p',\epsilon')$ is a morphism $f\colon p\to p'$ such that $\epsilon=f\then\epsilon'$.
-% \end{definition}
-
-% Comonoids in $\poly$ are triples $(p,\epsilon,\delta)$, with $(p,\epsilon)$ a copointed polynomial, so there are forgetful functors
-% \[
-% \Cat{Comon}(\poly)\to\Cat{Cpt}(\poly)\to\poly.
-% \]
-% We want to find the right adjoint to the composite---that's the functor $\cofree{-}\colon\poly\to\Cat{Comon}(\poly)$---and we will obtain it in two steps. 
-
-% \begin{proposition}\label{prop.copointing}
-% For any polynomial $p$, the polynomial $p\yon$ is naturally copointed by the projection to $\yon$, and the functor sending $p\mapsto p\yon$ is right adjoint to the forgetful functor
-% \[
-% \adj{\Cat{Cpt}(\poly)}{p\yon}{q}{\poly},
-% \]
-% where the functors are named by where they send $p\in\poly$ and $(q,\epsilon)\in\Cat{Cpt}(\poly)$.
-% \end{proposition}
-% \begin{proof}
-% Clearly the product $p\yon\cong p\times\yon$ is copointed by the projection map, call it $\pi\colon p\yon\to\yon$, and the map $p\mapsto p\yon$ is functorial in $p$. For any copointed polynomial $q\To{\epsilon}\yon$, there is an obvious bijection between morphisms of polynomials $q\to p$ and commutative triangles
-% \[
-% \begin{tikzcd}[column sep=small]
-% 	q\ar[dr, "\epsilon"']\ar[rr]&&
-% 	p\yon\ar[dl, "\pi"]\\&
-% 	\yon
-% \end{tikzcd}
-% \]
-% natural in both $q$ and $p$. This completes the proof.
-% \end{proof}
-
-% \begin{exercise}
-% Show that the copointing functor is essentially surjective. That is, every polynomial $p$ equipped with a map $\epsilon\colon p\to\yon$ is isomorphic to one of the form $p'\yon$ (equipped with the projection $p'\yon\to\yon$).
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
-
-% The reader might not remember any sort of copointing showing up in the tree description of $\cofree{p}=(\tr_p,\rt,\fs)$. Indeed, it was hidden in the fact that we allowed for trivial paths in the tree (e.g.\ the path from the root to itself). But we'll get to that.
-
-% The copointing $p\mapsto p\yon$ just adds an extra direction to each position; we can denote this extra direction with an $=$, as we did in \cref{ex.walking_arrow_cat}. So for example if $p=\yon^\3+\yon$, drawn as left, then $p\yon\cong\yon^\4+\yon^\2$ can be drawn as right:
-% \[
-% \begin{tikzpicture}
-% 	\node[draw, "$p$" below] (p1) {
-% 	\begin{tikzpicture}[trees, sibling distance=4mm]
-%     \node (1) {$\bullet$} 
-%       child 
-%       child 
-%       child;
-%     \node[right=.75 of 1] (2) {$\bullet$} 
-%       child;
-%   \end{tikzpicture}
-%   };
-% 	\node[draw, "$p\yon$" below] (p2) [right=of p1] {
-% 	\begin{tikzpicture}[trees, sibling distance=3mm]
-%     \node (1) {$\bullet$} 
-%       child {\idchild}
-%       child 
-%       child 
-%       child;
-%     \node[right=.75 of 1] (2) {$\bullet$} 
-%       child {\idchild}
-%       child;
-%   \end{tikzpicture}
-% 	};
-% \end{tikzpicture}
-% \]
-% It just adds a default direction to each position. A copointed map from $(q,\epsilon)$ to $(p\yon,\pi)$ must pass the default direction back to the default direction in $q$, but leaves the other directions in $p$ to go wherever they want to.
-
-% \begin{example}[Slowing down dynamical systems]
-% Given a dynamical system $f\colon S\yon^S\to p$, we automatically get a map $S\yon^S\to p\yon$ to the cofree pointing. We called this ``adding a pause button'' in \cref{ex.pause}. Thus we can take any dynamical system and replace it with one whose interface is copointed.
-
-% We can use a copointed interface to slow down a dynamical system, in a kind of inverse to how we sped up dynamical systems in \eqref{eqn.speedup}. There we took a dynamical system $f$ with interface $p$ and produced one with interface $p\tripow{k}$. Here we will take one with interface $p\tripow{k}$ and produce one with interface $p$.
-
-% To do this, we need $p$ to be copointed, i.e.\ we need to have in hand a map $\epsilon\colon p\to\yon$, and as we saw above that we can always assume that. Now for any $k\in\nn$ we have $k$-many maps $p\tripow{k}\to p$. For example, if $k=3$, we have
-% \[
-% \{\epsilon\tri\epsilon\tri p,\epsilon\tri p\tri\epsilon,p\tri\epsilon\tri\epsilon\}\ss\poly(p\tripow3,p)
-% \]
-% So given a dynamical system $S\yon^S\to p\tripow{k}$, which outputs as its position a whole $k$-fold strategy at one time and which takes as input sequences of $k$-many inputs, we can feed it one input and $k-1$ pauses. This is what you get when you compose $S\yon^S\to p\tripow{k}\to p$.
-
-% Given a dynamical system $f\colon S\yon^S\to p$, where $p$ is copointed and $f$ preserves the copoint, we could speed it up as before to get $S\yon^S\to p\tripow{k}$ and then slow it down to get $S\yon^S\to p$, and we get back $f$. So slowing down is a retract of speeding up in this sense.
-% \end{example}
-
-% \begin{exercise}
-% \begin{enumerate}
-% 	\item Show that there is a monoidal structure $(\yon,\otimes)$ on $\Cat{Cpt}(\poly)$ such that the forgetful functor $U\colon\Cat{Cpt}(\poly)\to\poly$ is strong monoidal.
-% 	\item Show that this monoidal structure is closed, i.e.\ that there is an internal hom $[-,-]$ on $\Cat{Cpt}(\poly)$.
-% 	(Hint: You should have $U([p\yon,q\yon]_{\Cat{Cpt}})\cong[p\yon,q]_{\poly}\yon$.)
-% \qedhere
-% \end{enumerate}
-% \begin{solution}
-% \begin{enumerate}
-%     \item **
-%     \item **
-% \end{enumerate}
-% \end{solution}
-% \end{exercise}
-
-% %---- Subsection ----%
-% \subsection{Constructing the cofree comonoid}
-
-% It remains to show that we can functorially take any copointed polynomial $(q,\epsilon)$ and return a comonoid, and that this construction is right adjoint to the forgetful functor. From the description in \cref{subsec.comon.cofree.cons.car}, we know the cofree comonoid is supposed to have something to do with infinite trees. And we know that the set of height-$n$ $p$-trees is given by $p\tripow{n}$. So we might think we can somehow take a limit of these height-$n$ trees for various $n$. 
-
-% The problem is there's no obvious maps between $p\tripow{n}$ and $p\tripow{n+1}$. Luckily, the copointing fixes that problem. Given $\epsilon\colon q\to\yon$, we have two maps $q\tri q\tto q$, namely $q\tri\epsilon$ and $\epsilon\tri q$.
-
-% \begin{example}
-% Suppose $q=\{A\}\yon^{\{i_A,f\}}+\{B\}\yon^{i_B}$ with copointing $\epsilon$ selecting $i_A$ and $i_B$:
-% \[
-% \begin{tikzpicture}[rounded corners]
-% 	\node (p1) [draw, "$q\coloneqq$" left] {
-% 	\begin{tikzpicture}[trees, sibling distance=5mm]
-%     \node["\tiny $A$" below, red] (1) {$\bullet$} 
-%       child  {coordinate (iA) \idchild}
-%       child {coordinate (f)};
-%     \node[right=.8 of 1,"\tiny $B$" below, blue] (2) {$\bullet$} 
-%       child  {coordinate (iB) \idchild};
-%     \node[below left=0 of iA, font=\tiny] {$i_A$};
-%     \node[below left=0 of iB, font=\tiny] {$i_B$};
-%     \node[below right=0 of f, font=\tiny] {$f$};
-%   \end{tikzpicture}
-%   };
-% \end{tikzpicture}
-% \]
-% Then $q\tri q$ looks as follows
-% \[
-% \begin{tikzpicture}[rounded corners]
-% 	\node (p1) [draw, "$q\tri q=$" left] {
-% 	\begin{tikzpicture}[trees,
-% 	  level 1/.style={sibling distance=5mm},
-%   	level 2/.style={sibling distance=2.5mm}]
-%     \node[red] (1) {$\bullet$} 
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child  {\idchild}
-%       	child {}
-% 			\idchild
-% 			}
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child  {\idchild}
-%       	child {}
-% 			};
-%     \node[right=1 of 1, red] (2) {$\bullet$} 
-%       child  {
-%         node [red]{$\bullet$} 
-%  		    child  {\idchild}
-%       	child {}
-% 			\idchild
-% 			}
-%       child {node [blue] {$\bullet$} 
-%       	child  {\idchild}
-% 			};
-%     \node[right=1 of 2, red] (3) {$\bullet$} 
-%       child {node [blue] {$\bullet$} 
-%       	child  {\idchild}
-% 				\idchild
-% 			}
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child {\idchild}
-%       	child {}
-% 			};
-%     \node[right=1 of 3, red] (4) {$\bullet$} 
-%       child {node [blue] {$\bullet$} 
-%       	child  {\idchild}
-% 			\idchild
-% 			}
-%       child {node [blue] {$\bullet$} 
-%       	child  {\idchild}
-% 			};
-%     \node[right=.8 of 4, blue] (5) {$\bullet$} 
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child  {\idchild}
-%       	child {}
-% 			\idchild
-% 			};
-%     \node[right=.6 of 5, blue] (6) {$\bullet$} 
-%       child {node [blue] {$\bullet$} 
-%       	child  {\idchild}
-% 			\idchild
-% 			};
-%   \end{tikzpicture}
-%   };
-% \end{tikzpicture}
-% \]
-% How can we picture the maps $(q\tri\epsilon),(\epsilon\tri q)\colon q\tri q\to q$?
-
-% The map $q\tri\epsilon$ takes each position of $q\tri q$ to whatever is on the bottom layer: it takes the first four to $A$ and the last two to $B$. It passes back directions using the defaults ($i_A$ and $i_B$) on the top layer.
-
-% The map $\epsilon\tri q$ uses the defaults on the bottom layer instead. Every position in $q\tri q$ has a default direction, and the corolla sitting there in the top layer is where $\epsilon\tri q$ sends it, with identity on directions. 
-% \end{example}
-
-% Indeed, for every $n$, there are $(n+1)$-many morphisms $q\tripow{n+1}\to q\tripow{n}$, so we have a diagram
-% \begin{equation}\label{eqn.simplicial_diag}
-% \begin{tikzcd}
-% 	\yon&
-% 	q\ar[l, "\epsilon"']&
-% 	q\tri q\ar[l, shift left, "q\tri\epsilon"]\ar[l, shift right, "\epsilon\tri q"']&[10pt]
-% 	q\tripow3\ar[l, shift left=7pt, "q\tri q\tri\epsilon"]\ar[l, shift right=7pt, "\epsilon\tri q\tri q"']\ar[l, "q\tri\epsilon\tri q" description]&
-% 	\cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=6pt]\ar[l, shift right=2pt]
-% \end{tikzcd}
-% \end{equation}
-% The cofree comonoid is given by the limit of this diagram.
-
-% Let's denote the shape of this diagram by $\Delta_+$: its objects are finite ordered sets---including the empty set---and its morphisms are order-preserving injections. For any copointed polynomial $q\To{\epsilon}\yon$, we get a diagram $Q\colon\Delta_+\to\poly$ as above, and this is functorial in $q$.
-
-% \begin{theorem}\label{thm.cofree2}
-% For any copointed polynomial $q\To{\epsilon}\yon$, let $\bar{q}$ denote the limit of $Q\colon\Delta_+\to\poly$. It naturally has the structure of a comonoid $(\bar{q},\epsilon,\delta)$, and this construction is right adjoint to the forgetful functor
-% \[
-% \adj{\Cat{Comon}(\poly)}{U}{\bar{q}}{\Cat{Cpt}(\poly)}.
-% \]
-% \end{theorem}
-% \begin{proof}[Proof sketch]
-% We first give $\bar{q}$ the structure of a comonoid. Since $\bar{q}$ is the limit of \eqref{eqn.simplicial_diag}, the inclusion the inclusion $\{0\}\to\Delta_+$ induces a projection map $\bar{q}\to\yon$, which we again call $\epsilon$. Since $\tri$ commutes with connected limits in both variables and $\Delta_+$ is connected, we have that $\bar{q}\tri\bar{q}$ is the limit of the following $\Delta_+\times\Delta_+$-shaped diagram:
-% \[
-% \bar{q}\tri\bar{q}\cong\lim\left(
-% \begin{tikzcd}
-%   q\tripow{(0+0)}&
-%   q\tripow{(0+1)}\ar[l]&
-%   q\tripow{(0+2)}\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
-%   q\tripow{(0+3)}\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
-%   \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
-%   q\tripow{(1+0)}\ar[u]&
-%   q\tripow{(1+1)}\ar[u]\ar[l]&
-%   q\tripow{(1+2)}\ar[u]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
-%   q\tripow{(1+3)}\ar[u]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
-%   \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
-%   q\tripow{(2+0)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]&
-%   q\tripow{(2+1)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l]&
-%   q\tripow{(2+2)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
-%   q\tripow{(2+3)}\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
-%   \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
-%   q\tripow{(3+0)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]&
-%   q\tripow{(3+1)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l]&
-%   q\tripow{(3+2)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]&
-%   q\tripow{(3+3)}\ar[u]\ar[u, shift left=4pt]\ar[u, shift right=4pt]\ar[l]\ar[l, shift left=4pt]\ar[l, shift right=4pt]&
-%   \cdots\ar[l, shift left=6pt]\ar[l, shift left=2pt]\ar[l, shift right=2pt]\ar[l, shift right=6pt]\\
-% 	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
-% 	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
-% 	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
-% 	\vdots\ar[u, shift left=6pt]\ar[u, shift left=2pt]\ar[u, shift right=2pt]\ar[u, shift right=6pt]&
-% 	\ddots
-% \end{tikzcd}
-% \right)
-% \]
-% There is a commutative diagram in $\smcat$
-% \begin{equation}\label{eqn.simplicial_poly_misc384}
-% \begin{tikzcd}[column sep=small]
-% 	\Delta_+\times\Delta_+\ar[rr, "+"]\ar[dr, bend right, near start, "{(m_1,m_2)\mapsto q\tripow{(m_1+m_2)}}"']&&
-% 	\Delta_+\ar[dl, bend left, near start, "n\mapsto q\tripow{n}"]\\&
-% 	\poly
-% \end{tikzcd}
-% \end{equation}
-% which induces a map (in the opposite direction) between their limits $\delta\colon\bar{q}\to\bar{q}\tri\bar{q}$, which we take to be the duplicator. Appending \eqref{eqn.simplicial_poly_misc384} with the inclusion $\{0\}\times\Delta_+\to\Delta_+\times\Delta_+$, etc., it is easy to see that $(\bar{q},\epsilon,\delta)$ satisfies the axioms of a comonoid.
-
-% We sketch the proof that this construction is right adjoint to the forgetful functor. For any copointed polynomial $(q,\epsilon)$, there is a eraser map $\bar{q}\to q$, given by the obvious projection of the limit \eqref{eqn.simplicial_diag}. Given a comonoid $(\ema{c},\epsilon,\delta)$, there is a morphism $\ema{c}\to\bar{\ema{c}}$ induced by the maps $\delta^{(n-1)}\colon\ema{c}\to\ema{c}\tripow{n}$ from \cref{prop.n_duplication}. It is easy to check that these commute with the $\epsilon$'s in the diagram. To see that $\ema{c}\to\bar{\ema{c}}$ extends to a morphism of comonoids amounts to checking that the diagram
-% \[
-% \begin{tikzcd}[column sep=50pt]
-% 	\ema{c}\ar[r, "\delta^{(m+n-1)}"]\ar[d, "\delta"']&
-% 	\ema{c}\tripow{(m+n)}\ar[d, equal]\\
-% 	\ema{c}\tri\ema{c}\ar[r, "\delta^{(m-1)}\tri\delta^{(n-1)}"']&
-% 	\ema{c}\tripow{m}\tri\ema{c}\tripow{n}
-% \end{tikzcd}
-% \]
-% commutes for any $m,n\in\nn$. Both triangle equations are straightforward.
-% \end{proof}
-
-% \begin{remark}
-% The construction of the cofree comonoid from a copointed endofunctor in the proof of \cref{thm.cofree2} is fairly standard; see \cite{lack2010note}. 
-% One could also construct this right adjoint using the following limit, again applied to the original polynomial $p$:
-% \[
-% \begin{tikzcd}[sep=small]
-% 	\yon\ar[dr]&&
-% 	p\ar[dl]\ar[dr]&&
-% 	p\tri p\ar[dl]\ar[dr]&&
-% 	p\tri p\tri p\ar[dl]\ar[dr]&
-% 	\cdots\\&
-% 	\1&&
-% 	p\tri\1&&
-% 	p\tri p\tri \1&&
-% 	\cdots
-% \end{tikzcd}
-% \]
-% \end{remark}
-
-
-%-------- Section --------%
-\section{Categorical consequences of cofree comonoids}
 
 %**check precise conditions of applying Pare/Porst
 \begin{proposition}[Porst]
@@ -9127,33 +8804,6 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 \begin{proof}
 The free category on a graph always has this property, so the result follows from \cref{prop.cofree_free_on_graph}.
 \end{proof}
-
-\begin{proposition}\label{prop.cofree_lax_monoidal}
-The cofree functor $p\mapsto\cofree{p}=(\tr_p,\rt,\fs)$ is lax monoidal; in particular there is a map of polynomials $\yon\to\tr_\yon$, and for any $p,q\in\poly$ there is a natural map
-\[
-	\tr_p\otimes\tr_q\to\tr_{p\otimes q}.
-\]
-satisfying the usual conditions.
-\end{proposition}
-\begin{proof}
-By \cref{prop.dirichlet_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an op-lax monoidal functor is lax monoidal.
-\end{proof}
-
-\begin{exercise}
-\begin{enumerate}
-	\item What polynomial is $\tr_\yon$?
-	\item What is the map $\yon\to\tr_\yon$ from \cref{prop.cofree_lax_monoidal}?
-	\item Explain in words how to think about the map $\tr_p\otimes\tr_q\to\tr_{p\otimes q}$ from \cref{prop.cofree_lax_monoidal}, for arbitrary $p,q\in\poly$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
 
 \begin{proposition}\label{prop.ynn_monoid}
 The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
@@ -9335,9 +8985,18 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \end{solution}
 \end{exercise}
 
+We record the following proposition here; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
 
-
-%**
+\begin{proposition}
+If $f\colon p\to q$ is a cartesian lens, then $\cofree{f}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
+\[
+    \left(\cofree{f}\right)^\sharp_t\colon\cofree{q}[\cofree{f}t]\To{\iso}\cofree{p}[t]
+\]
+is a bijection.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 %-------- Section --------%
 \section{Limits and colimits of comonoids}
@@ -9419,12 +9078,12 @@ Let $\cat{C}$ be a category with carrier $\ema{c}$.
 \end{exercise}
 
 %-------- Section --------%
-\section{Parallel product comonoids are usual product categories}
+\section{Parallel product comonoids}
 
 The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this
 It is, however, a \emph{monoidal} product on $\smcat^\sharp$, coinciding with the parallel product $\otimes$ on $\poly$.
 
-\begin{proposition}\label{prop.dirichlet_on_catsharp}
+\begin{proposition}\label{prop.parallel_on_catsharp}
 The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the forgetful functor
 $U\colon\smcat^\sharp\to\poly$
 is strong monoidal with respect to $\otimes$.
@@ -9449,13 +9108,13 @@ We define $\delta_{\cat{C}\otimes\cat{D}}\colon(\ema{c}\otimes\ema{d})\to(\ema{c
 \[
 \ema{c}\otimes\ema{d}\To{\delta_{\ema{c}}\otimes\delta_{\ema{d}}}(\ema{c}\tri\ema{c})\otimes(\ema{d}\tri\ema{d})\to(\ema{c}\otimes\ema{d})\tri(\ema{c}\otimes\ema{d}).
 \]
-One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.dirichlet_on_catsharp}.
+One can check that this says that codomains and composition are defined coordinate-wise, and that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.parallel_on_catsharp}.
 \end{proof}
 
-\begin{exercise}\label{exc.dirichlet_on_catsharp}
-We complete the proof of \cref{prop.dirichlet_on_catsharp}.
+\begin{exercise}\label{exc.parallel_on_catsharp}
+We complete the proof of \cref{prop.parallel_on_catsharp}.
 \begin{enumerate}
-	\item Show that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$, as described in \cref{prop.dirichlet_on_catsharp}, forms a comonoid.
+	\item Show that $(\ema{c}\otimes\ema{d},\epsilon_{\ema{c}\otimes\ema{d}},\delta_{\ema{c}\otimes\ema{d}})$, as described in \cref{prop.parallel_on_catsharp}, forms a comonoid.
 	\item Check that the construction $(\cat{C},\cat{D})\mapsto\cat{C}\otimes\cat{D}$ is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$.
 \qedhere
 \end{enumerate}
@@ -9467,7 +9126,32 @@ We complete the proof of \cref{prop.dirichlet_on_catsharp}.
 \end{solution}
 \end{exercise}
 
+\begin{proposition}\label{prop.cofree_lax_monoidal}
+The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is a map of polynomials $\yon\to\ema{t}_\yon$, and for any $p,q\in\poly$ there is a natural map
+\[
+	\ema{t}_p\otimes\ema{t}_q\to\ema{t}_{p\otimes q}.
+\]
+satisfying the usual conditions.
+\end{proposition}
+\begin{proof}
+By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an oplax monoidal functor is lax monoidal.
+\end{proof}
 
+\begin{exercise}
+\begin{enumerate}
+	\item What polynomial is $\ema{t}_\yon$?
+	\item What is the map $\yon\to\ema{t}_\yon$ from \cref{prop.cofree_lax_monoidal}?
+	\item Explain in words how to think about the map $\ema{t}_p\otimes\ema{t}_q\to\ema{t}_{p\otimes q}$ from \cref{prop.cofree_lax_monoidal}, for arbitrary $p,q\in\poly$.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
 
 %-------- Section --------%
 \section{Exercise solutions}

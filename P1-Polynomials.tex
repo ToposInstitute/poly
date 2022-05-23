@@ -970,11 +970,11 @@ We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it h
 Beyond the cocartesian and cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
 \end{proposition}
 \begin{proof}
-We will define $\otimes$ in \cref{def.dirichlet} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.dirichlet_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
+We will define $\otimes$ in \cref{def.parallel} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.parallel_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
 Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{**}.
 
 In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
-Then in \cref{prop.dirichlet_closure}, we will prove that $\otimes$ is closed.
+Then in \cref{prop.parallel_closure}, we will prove that $\otimes$ is closed.
 In \cref{prop.comp_left_coclosed}, we will show that $\circ$ is left coclosed, and in \cref{thm.connected_limits}, we will show that $\circ$ preserves connected limits.
 \end{proof}
 
@@ -3382,7 +3382,7 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 \subsection{The parallel product} \label{subsec.poly.func_nat.monoidal.par}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
-\begin{definition}[Parallel product of polynomials] \label{def.dirichlet}
+\begin{definition}[Parallel product of polynomials] \label{def.parallel}
 Let $p$ and $q$ be polynomials. Their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
 \begin{equation}\label{eqn.parallel_def}
 p\otimes q\iso\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
@@ -3738,8 +3738,8 @@ Let $p,q,r\in\poly$ be any polynomials.
 
 In \cref{exc.prepare_poly_smc}, we have gone most of the way to proving that $(\poly,\yon,\otimes)$ is a symmetric monoidal category. 
 
-\begin{proposition}\label{prop.dirichlet_monoidal}
-The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parallel product from \cref{def.dirichlet}.
+\begin{proposition}\label{prop.parallel_monoidal}
+The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parallel product from \cref{def.parallel}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
 Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
@@ -4734,7 +4734,7 @@ For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_
 Then we can take the parallel product of all of them to get a lens \[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
 
 We can characterize the dynamics of $\phi$ in terms of each constituent dynamical system $\phi_i$ as follows.
-By the proof of \cref{prop.dirichlet_monoidal}, the return function \[\phi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\phi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
+By the proof of \cref{prop.parallel_monoidal}, the return function \[\phi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\phi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
 Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function \[\phi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\phi_i)_\1(s_i)]\to\prod_{i\in\ord{n}}S_i\] sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\phi_i)_\1(s_i)]$, to the $n$-tuple $((\phi_i)^\sharp_{s_i}(d_i))_{i\in\ord{n}}$ consisting of states where the update function of each $\phi_i$ at $s_i$ sends $d_i$.
 
 In other words, multiple dynamical systems running in parallel can be thought of as a single dynamical system.
@@ -6281,7 +6281,7 @@ We verify \eqref{eqn.dir_hom_p_yon_dir_p} as follows:
 \end{solution}
 \end{exercise}
 
-\begin{example}\label{ex.dirichlet_dual}
+\begin{example}\label{ex.parallel_dual}
 For any $A\in\smset$ we have
 \[
   \ihom{\yon^A,\yon} \iso A\yon
@@ -6347,7 +6347,7 @@ a contradiction.
 \end{solution}
 \end{exercise}
 
-\begin{proposition}\label{prop.dirichlet_closure}
+\begin{proposition}\label{prop.parallel_closure}
 With $\ihom{-,-}$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
 \begin{equation}\label{eqn.poly_closure_brackets}
 	\poly(p\otimes q,r)\cong\poly(p,\ihom{q,r}).
@@ -6396,7 +6396,7 @@ Since $p \iso \yon \otimes p$, we have that
 \end{exercise}
 
 The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} map
-\begin{equation}\label{eqn.eval_dirichlet}
+\begin{equation}\label{eqn.eval_parallel}
   \fun{eval}\colon \ihom{p,q}\otimes p\too q.
 \end{equation}
 As in any closed monoidal category, such an evaluation map has the universal property that for any $r\in\poly$ and map $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
@@ -6408,8 +6408,8 @@ As in any closed monoidal category, such an evaluation map has the universal pro
     \end{tikzcd}
 \]
 
-\begin{exercise} \label{exc.eval_dirichlet}
-Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_dirichlet}.
+\begin{exercise} \label{exc.eval_parallel}
+Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_parallel}.
 \begin{solution}
 To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
 \[
@@ -6444,7 +6444,7 @@ Then by the universal property of coproducts, this collection of maps induces a 
 
 \begin{exercise}
 \begin{enumerate}
-	\item For any set $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is the identity on $S$ using eval and \cref{ex.dirichlet_dual}.
+	\item For any set $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is the identity on $S$ using eval and \cref{ex.parallel_dual}.
 	\item Show that four maps in \eqref{eqn.snapped_maps} from \cref{ex.bonds_break}, written equivalently as
 	\begin{equation} \label{eqn.snapped_maps2}
 	\arraycolsep=1.4pt
@@ -6460,16 +6460,16 @@ Then by the universal property of coproducts, this collection of maps induces a 
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-directions map is the identity by using eval and \cref{ex.dirichlet_dual}.
+    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-directions map is the identity by using eval and \cref{ex.parallel_dual}.
     The example shows that
     \[
         \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
     \]
-    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_dirichlet}, we obtain an evaluation map $\fun{eval} \colon S\yon^S \to \yon$.
-    By the solution to \cref{exc.eval_dirichlet}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
+    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_parallel}, we obtain an evaluation map $\fun{eval} \colon S\yon^S \to \yon$.
+    By the solution to \cref{exc.eval_parallel}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
     In other words, it is indeed the identity on directions.
     \item We wish to write the four maps in \eqref{eqn.snapped_maps2} from \cref{ex.bonds_break} as the parallel product of identity maps and eval maps.
-    By the solution to \cref{exc.eval_dirichlet}, the eval map $\ihom{F,\yon^F}\otimes F\to\yon^F$
+    By the solution to \cref{exc.eval_parallel}, the eval map $\ihom{F,\yon^F}\otimes F\to\yon^F$
     is a map from
     \[
         \ihom{F,\yon^F}\otimes F\iso F\left(\sum_{f\colon F\to\yon^F}\prod_{i\in F}\yon^F\right)\iso F\yon^{FF}
@@ -6745,7 +6745,7 @@ which in turn is naturally isomorphic to $\smset(A, \Gamma(p))$ by \eqref{eqn.ga
 \end{proof}
 
 % \begin{exercise} % Already basically done
-% Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.dirichlet_closure}.
+% Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.parallel_closure}.
 % \end{exercise}
 
 \begin{corollary}[Principal monomial]\label{cor.principal_monomial}
@@ -6780,7 +6780,7 @@ for any $p,q\in\poly$.
 %       \qqand
 %       \adj{\poly}{-\otimes q}{{\ihom{q,-}}}{\poly}
 % \]
-% from \cref{cor.principal_monomial,prop.dirichlet_closure} together with the isomorphism $\ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give
+% from \cref{cor.principal_monomial,prop.parallel_closure} together with the isomorphism $\ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give
 We have the following chain of natural isomorphisms:
 \begin{align*}
 	\Gamma(p \otimes q) &=
