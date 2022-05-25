@@ -20,7 +20,7 @@ It turns out that bimodules between comonoids in $\poly$ (categories) are also i
 Indeed, we'll make due on a claim we made in \cref{chapter.poly}, that there is a strong connection between the basic theory of databases and the theory of bimodules in $\poly$. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
 
 \begin{theorem}\label{thm.tfae_c_sets}
-For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$, also understood as a category $\cat{C}$, the following categories are equivalent:
+For a comonoid $\com{C}=(\car{c},\epsilon,\delta)$, also understood as a category $\cat{C}$, the following categories are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$;
 	\item discrete opfibrations over $\cat{C}$;
@@ -332,16 +332,16 @@ Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with d
 \end{proposition}
 In case it isn't clear, this association is only functorial on the groupoid of objects and isomorphisms.
 \begin{proof}
-Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor. 
+Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor. 
 
-Conversely, given a cofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\ema{c}$, the function $\varphi_1$ induces a map of polynomials $S\yon\to\ema{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\ema{s}\To{\psi}\ema{c}$. We can give $\ema{s}$ the structure of a category such that $\psi$ is a cofunctor; see \cref{exc.ds_dopf}.
+Conversely, given a cofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$, the function $\varphi_1$ induces a map of polynomials $S\yon\to\car{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\car{s}\To{\psi}\car{c}$. We can give $\car{s}$ the structure of a category such that $\psi$ is a cofunctor; see \cref{exc.ds_dopf}.
 \end{proof}
 
 \begin{exercise}\label{exc.ds_dopf}
 With notation as in \cref{prop.ds_dopf}, complete the proof as follows.
 \begin{enumerate}
 	\item Check that $(\varphi,\varphi^\sharp)$ defined in the first paragraph is indeed a cofunctor.
-	\item Find a comonoid structure on $\ema{s}$ such that $\psi$ is a cofunctor, as stated in the second paragraph. 
+	\item Find a comonoid structure on $\car{s}$ such that $\psi$ is a cofunctor, as stated in the second paragraph. 
 	\item Show that the two directions are inverse, up to isomorphism.
 \qedhere
 \end{enumerate}
@@ -406,65 +406,65 @@ In a monoidal category, one can not only consider monoids and comonoids, but als
 We will see that bimodules in $\poly$ are equivalent to data-migration functors. Given comonoids/categories $\cat{C}$ and $\cat{D}$, a bimodule $\cat{C}\bimodfrom[m]\cat{D}$ is a way of moving database instances on $\cat{D}$ to database instances on $\cat{C}$. One could call it a ``$\cat{D}$-indexed union of conjunctive queries.''
 
 \begin{definition}[Bimodule]\label{def.bimodule}
-Let $\cat{C}=(\ema{c},\epsilon,\delta)$ and $\cat{D}=(\ema{d},\epsilon,\delta)$ be comonoids. A \emph{$(\cat{C},\cat{D})$-bimodule} $(m,\lambda,\rho)$, denoted $\cat{C}\bimodfrom[m]\cat{D}$ or in shorthand $\ema{c}\bimodfrom[m]\ema{d}$,%
+Let $\cat{C}=(\car{c},\epsilon,\delta)$ and $\cat{D}=(\car{d},\epsilon,\delta)$ be comonoids. A \emph{$(\cat{C},\cat{D})$-bimodule} $(m,\lambda,\rho)$, denoted $\cat{C}\bimodfrom[m]\cat{D}$ or in shorthand $\car{c}\bimodfrom[m]\car{d}$,%
 %
-\footnote{Note that the symbol $\ema{c}\bimodfrom\ema{d}$ looks like it's going backward, from $\ema{d}$ to $\ema{c}$; this is good because we'll see that this is the direction of data migration for a $(\cat{C},\cat{D})$-bimodule. But the symbology is also mnemonically good because the $\tri$'s go in the correct direction $\ema{c}\tri m\from m$ and $m\to m\tri\ema{d}$.}
+\footnote{Note that the symbol $\car{c}\bimodfrom\car{d}$ looks like it's going backward, from $\car{d}$ to $\car{c}$; this is good because we'll see that this is the direction of data migration for a $(\cat{C},\cat{D})$-bimodule. But the symbology is also mnemonically good because the $\tri$'s go in the correct direction $\car{c}\tri m\from m$ and $m\to m\tri\car{d}$.}
 %
 consists of
 %
 \begin{enumerate}
 	\item a polynomial $m\in\poly$,
-	\item a morphism $\ema{c}\tri m\From{\lambda}m$, and
-	\item a morphism $m\To{\rho}m\tri\ema{d}$,
+	\item a morphism $\car{c}\tri m\From{\lambda}m$, and
+	\item a morphism $m\To{\rho}m\tri\car{d}$,
 \end{enumerate}
 %
 satisfying the following commutative diagrams:
 %
 \begin{gather}\label{eqn.bimod_left}
 \begin{tikzcd}[ampersand replacement=\&]
-	\ema{c}\tri m\ar[d, "\epsilon\tri m"']\&
+	\car{c}\tri m\ar[d, "\epsilon\tri m"']\&
 	m\ar[l, "\lambda"']\ar[dl, equal, bend left]\\
 	m
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}[ampersand replacement=\&]
-	\ema{c}\tri m\ar[d, "\delta\tri m"']\&
+	\car{c}\tri m\ar[d, "\delta\tri m"']\&
 	m\ar[l, "\lambda"']\ar[d, "\lambda"]\\
-	\ema{c}\tri\ema{c}\tri m\&
-	\ema{c}\tri m\ar[l, "\ema{c}\tri\lambda"]
+	\car{c}\tri\car{c}\tri m\&
+	\car{c}\tri m\ar[l, "\car{c}\tri\lambda"]
 \end{tikzcd}
 \\\label{eqn.bimod_right}
 \begin{tikzcd}[ampersand replacement=\&]
 	m\ar[r, "\rho"]\ar[dr, equal, bend right]\&
-	m\tri\ema{d}\ar[d, "m\tri\epsilon"]\\\&
+	m\tri\car{d}\ar[d, "m\tri\epsilon"]\\\&
 	m
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}[ampersand replacement=\&]
 	m\ar[r, "\rho"]\ar[d, "\rho"']\&
-	m\tri\ema{d}\ar[d, "m\tri\delta"]\\
-	m\tri\ema{d}\ar[r, "\rho\tri\ema{d}"']\&
-	m\tri\ema{d}\tri\ema{d}
+	m\tri\car{d}\ar[d, "m\tri\delta"]\\
+	m\tri\car{d}\ar[r, "\rho\tri\car{d}"']\&
+	m\tri\car{d}\tri\car{d}
 \end{tikzcd}
 \\\label{eqn.bimod_coherence}
 \begin{tikzcd}[ampersand replacement=\&]
 	m\ar[r, "\rho"]\ar[d, "\lambda"']\&
-	m\tri\ema{d}\ar[d, "\lambda\tri\ema{d}"]\\
-	\ema{c}\tri m\ar[r, "\ema{c}\tri\rho"']\&
-	\ema{c}\tri m\tri\ema{d}
+	m\tri\car{d}\ar[d, "\lambda\tri\car{d}"]\\
+	\car{c}\tri m\ar[r, "\car{c}\tri\rho"']\&
+	\car{c}\tri m\tri\car{d}
 \end{tikzcd}
 \end{gather}
-Just $(m,\lambda)$ and the first line of diagrams is called a left $\cat{C}$-module, and similarly just $(m,\rho)$ and the second line of diagrams is called a right $\ema{D}$-module.
+Just $(m,\lambda)$ and the first line of diagrams is called a left $\cat{C}$-module, and similarly just $(m,\rho)$ and the second line of diagrams is called a right $\car{D}$-module.
 
 A \emph{morphism} of $(\cat{C},\cat{D})$-bimodules is a map $m\to n$ making the following diagram commute:
 \[
 \begin{tikzcd}
-	\ema{c}\tri m\ar[d]&
+	\car{c}\tri m\ar[d]&
 	m\ar[l]\ar[r]\ar[d]&
-	m\tri\ema{d}\ar[d]\\
-	\ema{c}\tri n&
+	m\tri\car{d}\ar[d]\\
+	\car{c}\tri n&
 	n\ar[l]\ar[r]&
-	n\tri\ema{d}
+	n\tri\car{d}
 \end{tikzcd}
 \]
 We denote the category of $(\cat{C},\cat{D})$-bimodules by $\bimod{\cat{C}}{\cat{D}}$.
@@ -539,7 +539,7 @@ Note that \eqref{eqn.bimod_coherence_polybox} means that we can unambiguously wr
 \]
 
 \begin{exercise}
-Let $\cat{C}=(\ema{c},\epsilon,\delta)$ be a category. Recall from \cref{**} that $\yon$ has a unique category structure.
+Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{**} that $\yon$ has a unique category structure.
 \begin{enumerate}
 	\item Show that a left $\cat{C}$-module is the same thing as a $(\cat{C},\yon)$-bimodule.
 	\item Show that a right $\cat{C}$-module is the same thing as a $(\yon,\cat{C})$-bimodule.
@@ -550,28 +550,28 @@ Let $\cat{C}=(\ema{c},\epsilon,\delta)$ be a category. Recall from \cref{**} tha
 \end{exercise}
 
 \begin{definition}[$\com{C}$-coalgebra]\label{def.coalgebra}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid. A \emph{$\com{C}$-coalgebra} consists of a set $S$ and a function $\alpha\colon S\to\ema{c}\tri S$, making the two diagrams below commute:
+Let $\com{C}=(\car{c},\epsilon,\delta)$ be a comonoid. A \emph{$\com{C}$-coalgebra} consists of a set $S$ and a function $\alpha\colon S\to\car{c}\tri S$, making the two diagrams below commute:
 \[
 \begin{tikzcd}
-	\ema{c}\tri S\ar[d, "\epsilon\tri "']&
+	\car{c}\tri S\ar[d, "\epsilon\tri "']&
 	S\ar[l, "\alpha"']\ar[dl, equal, bend left]\\
 	S
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}
-	\ema{c}\tri S\ar[d, "\delta\tri S"']&
+	\car{c}\tri S\ar[d, "\delta\tri S"']&
 	S\ar[l, "\alpha"']\ar[d, "\alpha"]\\
-	\ema{c}\tri\ema{c}\tri m&
-	\ema{c}\tri S\ar[l, "\ema{c}\tri\alpha"]
+	\car{c}\tri\car{c}\tri m&
+	\car{c}\tri S\ar[l, "\car{c}\tri\alpha"]
 \end{tikzcd}
 \]
-In other words, it is a left $\ema{c}$-comodule whose carrier is constant on a set. A morphism is a function $S\to T$ commuting with $\alpha$, just as for comodules; see \cref{def.bimodule}.
+In other words, it is a left $\car{c}$-comodule whose carrier is constant on a set. A morphism is a function $S\to T$ commuting with $\alpha$, just as for comodules; see \cref{def.bimodule}.
 \end{definition}
 
 In order to as quickly as possible orient the reader to bimodules, we begin by proving the following.
 
 \begin{theorem}\label{thm.tfae_c_sets}
-For a comonoid $\com{C}=(\ema{c},\epsilon,\delta)$ (category $\cat{C}$), the following categories are equivalent:
+For a comonoid $\com{C}=(\car{c},\epsilon,\delta)$ (category $\cat{C}$), the following categories are equivalent:
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$;
 	\item discrete opfibrations over $\cat{C}$;
@@ -587,11 +587,11 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 \begin{proof}
 \begin{description}
 	\item[$1\simeq 2\cong 3$:] This was shown in \cref{prop.tfae_dopf}.
-	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\ema{c}$-coalgebra structure $\alpha\colon S\to\ema{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
+	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\car{c}$-coalgebra structure $\alpha\colon S\to\car{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
 	\[
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\nodepart{two}$s$};
-  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\ema{c}$" right] (p) {$f$\nodepart{two}$\pi_1(s)$};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\car{c}$" right] (p) {$f$\nodepart{two}$\pi_1(s)$};
   	\node[poly, above=of p, "$S$" right] (p') {$\varnothing$\nodepart{two}$\cod\pi^\sharp_s(f)$};
   	\draw (yX_pos) to[first] node[below] {$\alpha_1$}(p_pos);
   	\draw (p_dir) to[climb] node[right] {$\alpha_2$} (p'_pos);
@@ -612,36 +612,36 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 		\cod\left(\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
 		\alpha_2(\alpha_2(s,f),g).
 	\end{align*}
-	Going backward, if we're given a coalgebra $\alpha\colon S\to\ema{c}\tri S$, we obtain a function $\alpha_1\colon S\to\ema{c}\tri\1$ and we define $\ema{s}\coloneqq \alpha_1^*\ema{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\ema{s}\to\ema{c}$ to be the base change from \cref{prop.basechange}. We need to show $\ema{s}$ has a comonoid structure $(\ema{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the eraser $\epsilon\colon\ema{s}\to\yon$ using $\alpha_1$ and the eraser on $\ema{c}$:
+	Going backward, if we're given a coalgebra $\alpha\colon S\to\car{c}\tri S$, we obtain a function $\alpha_1\colon S\to\car{c}\tri\1$ and we define $\car{s}\coloneqq \alpha_1^*\car{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\car{s}\to\car{c}$ to be the base change from \cref{prop.basechange}. We need to show $\car{s}$ has a comonoid structure $(\car{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the eraser $\epsilon\colon\car{s}\to\yon$ using $\alpha_1$ and the eraser on $\car{c}$:
 	\[
 	\begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\ema{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
-  	\node[poly, cod, right=of c, "$\ema{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
+  	\node[poly, dom, "$\car{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
+  	\node[poly, cod, right=of c, "$\car{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
   	\draw (c_pos) -- node[below] {$\alpha_1$} (c'_pos);
   	\draw[double] (c'_dir) -- (c_dir);
-		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\ema{c}$} (c'_dir);
+		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\car{c}$} (c'_dir);
 	\end{tikzpicture}
 	\]
- We give the duplicator $\delta\colon\ema{s}\to\ema{s}\tri\ema{s}$ using $\alpha_2$ for the codomain, and using the composite $\then$ from $\ema{c}$:
+ We give the duplicator $\delta\colon\car{s}\to\car{s}\tri\car{s}$ using $\alpha_2$ for the codomain, and using the composite $\then$ from $\car{c}$:
 	\[
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\ema{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
-  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\ema{s}$" right] (p) {$f$\nodepart{two}$s$};
-  	\node[poly, cod, above=of p, "$\ema{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
+  	\node[poly, dom, "$\car{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
+  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\car{s}$" right] (p) {$f$\nodepart{two}$s$};
+  	\node[poly, cod, above=of p, "$\car{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
   	\draw[double] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
   \end{tikzpicture}	
   \]
-  In \cref{exc.tfae_c_sets} we check that $(\ema{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\ema{s}\cof\ema{c}$ is a cofunctor, that the roundtrips between cartesian cofunctors and coalgebras are identities, and that these assignments are functorial.
+  In \cref{exc.tfae_c_sets} we check that $(\car{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a cofunctor, that the roundtrips between cartesian cofunctors and coalgebras are identities, and that these assignments are functorial.
 	\item[$4\cong5$:]This is straightforward and was mentioned in \cref{def.coalgebra}.
 	\item[$5\cong6$:]A right $\0$-module is in particular a polynomial $m\in\poly$ and a map $\rho\colon m\to m\tri\0$ such that $(m\tri\epsilon)\circ\rho=\id_m$. This implies $\rho$ is monic, which itself implies by \cref{prop.monics_in_poly} that $m$ must be constant since $m\tri\0$ is constant. This makes $m\tri\epsilon$ the identity, at which point $\rho$ must also be the identity. Conversely, for any set $M$, the corresponding constant polynomial is easily seen to make the diagrams in \eqref{eqn.bimod_right} commute.
 	\item[$5\cong7$:] By the adjunction in \cref{prop.adjoint_quadruple} and the fully faithful inclusion $\smset\to\poly$ of sets as constant polynmials, \cref{prop.ff_const_set_to_poly}, we have isomorphisms
-	\[\poly(S\yon,\ema{c}\tri S\yon)\cong\smset(S,\ema{c}\tri S\yon\tri\1)=\smset(S,\ema{c}\tri S)\cong\poly(S,\ema{c}\tri S).\]
-	One checks easily that if $S\yon\to\ema{c}\tri S\yon)$ corresponds to $S\to\ema{c}\tri S$ under the above isomorphism, then one is a left module iff the other is.
+	\[\poly(S\yon,\car{c}\tri S\yon)\cong\smset(S,\car{c}\tri S\yon\tri\1)=\smset(S,\car{c}\tri S)\cong\poly(S,\car{c}\tri S).\]
+	One checks easily that if $S\yon\to\car{c}\tri S\yon)$ corresponds to $S\to\car{c}\tri S$ under the above isomorphism, then one is a left module iff the other is.
 	\item[$7\cong8$:] By \eqref{eqn.flip_reps_lins} we have a natural isomorphism
 	\[
-		\poly(S\yon,\ema{c}\tri S\yon)\cong\poly(\yon^S,\yon^S\tri\ema{c}).
+		\poly(S\yon,\car{c}\tri S\yon)\cong\poly(\yon^S,\yon^S\tri\car{c}).
 	\]
 	In pictures,
 	\[
@@ -652,8 +652,8 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 			\node[poly, cod, right=of s.south, yshift=-1ex] (c) {};
 			\node[poly, linear cod, above=of c] (s') {};
     	\node[left=0pt of s_pos] {$S$};
-    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
-    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of c_pos] {$\car{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\car{c}[\ ]$};
     	\node[right=0pt of s'_pos] {$S$};
 			\draw (s_pos) to[first] node[below] {$f$} (c_pos);
 			\draw (c_dir) to[climb] node[right] {$g$} (s'_pos);
@@ -666,8 +666,8 @@ In fact, all but the first are isomorphic categories, and their core groupoid of
 			\node[poly, pure cod, right=of s.south, yshift=-1ex] (s') {};
 			\node[poly, cod, above=of s'] (c) {};
     	\node[left=0pt of s_dir] {$S$};
-    	\node[right=0pt of c_pos] {$\ema{c}(\1)$};
-    	\node[right=0pt of c_dir] {$\ema{c}[\ ]$};
+    	\node[right=0pt of c_pos] {$\car{c}(\1)$};
+    	\node[right=0pt of c_dir] {$\car{c}[\ ]$};
     	\node[right=0pt of s'_dir] {$S$};
 			\draw (s_pos) to[first] node[below] {$!$} (s'_pos);
 			\draw (s'_dir) to[climb] node[right] {$f$} (c_pos);
@@ -684,8 +684,8 @@ The last claim was proven in \cref{prop.ds_dopf}.
 \begin{exercise}\label{exc.tfae_c_sets}
 Complete the proof of \cref{thm.tfae_c_sets} ($3\cong 4$) by proving the following.
 \begin{enumerate}
-	\item Show that $(\ema{s},\epsilon,\delta)$ really is a comonoid.
-	\item Show that $(\alpha_1,\id)\colon\ema{s}\cof\ema{c}$ is a cofunctor.
+	\item Show that $(\car{s},\epsilon,\delta)$ really is a comonoid.
+	\item Show that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a cofunctor.
 	\item Show that the roundtrips between cartesian cofunctors and coalgebras are identities.
 	\item Show that the assignment of a $\com{C}$-coalgebra to a cartesian cofunctor over $\cat{C}$ is functorial.
 	\item Show that the assignment of a cartesian cofunctor over $\cat{C}$ to a $\com{C}$-coalgebra is functorial.
@@ -775,18 +775,18 @@ We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\c
 Recall from \cref{prop.basechange} that for any function $f\colon A\to B$, we have a base-change functor $f^*\colon B\poly\to A\poly$ and a cartesian morphism $f^*p\to p$ for any polynomial $p$ and isomorphism $p(\1)\cong B$.
 
 \begin{proposition}\label{prop.right_modules_as_sums}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid and suppose that $\rho\colon m\to m\tri\ema{c}$ is a right $\com{C}$-module. Then for any set $A$ and function $f\colon A\to m\tri\1$, the polynomial $f^*m$ has an induced right module structure $\rho_f$ fitting into the commutative square below:
+Let $\com{C}=(\car{c},\epsilon,\delta)$ be a comonoid and suppose that $\rho\colon m\to m\tri\car{c}$ is a right $\com{C}$-module. Then for any set $A$ and function $f\colon A\to m\tri\1$, the polynomial $f^*m$ has an induced right module structure $\rho_f$ fitting into the commutative square below:
 \[
 \begin{tikzcd}
   f^*m\ar[d]\ar[r, "\rho_f"]&
-  f^*m\tri\ema{c}\ar[d]\\
+  f^*m\tri\car{c}\ar[d]\\
   m\ar[r, "\rho"']&
-  m\tri\ema{c}
+  m\tri\car{c}
 \end{tikzcd}
 \]
 \end{proposition}
 \begin{proof}
-The pullback diagram to the left defines $f^*(m)$ and that to the right is its composition with $\ema{c}$
+The pullback diagram to the left defines $f^*(m)$ and that to the right is its composition with $\car{c}$
 \[
 \begin{tikzcd}
 	f^*m\ar[r]\ar[d]&
@@ -796,20 +796,20 @@ The pullback diagram to the left defines $f^*(m)$ and that to the right is its c
 \end{tikzcd}
 \hspace{.7in}
 \begin{tikzcd}
-	f^*m\tri\ema{c}\ar[r]\ar[d]&
-	m\tri\ema{c}\ar[d]\\
+	f^*m\tri\car{c}\ar[r]\ar[d]&
+	m\tri\car{c}\ar[d]\\
 	A\ar[r, "f"']&
 	m\tri\1\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \]
-which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\ema{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
+which is again a pullback by \cref{thm.connected_limits,exc.composing_with_constants}. Now the map $\rho\colon m\to m\tri\car{c}$ induces a map $\rho_f\colon f^*(m)\to f^*(m)\tri c$; we claim it is a right module. It suffices to check that $\rho_f$ interacts properly with $\epsilon$ and $\delta$, which we leave to \cref{exc.right_modules_as_sums}.
 \end{proof}
 
 \begin{exercise}\label{exc.right_modules_as_sums}
-Let $\ema{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\ema{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
+Let $\car{c},\epsilon,\delta)$, $\rho\colon m\to m\tri\car{c}$, and $f\colon A\to m\tri\1$ be as in \cref{prop.right_modules_as_sums}. Complete the proof of that proposition as follows:
 \begin{enumerate}
 	\item Show that $\rho_f\then\epsilon=\id_m$
-	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\ema{c})$.
+	\item Show that $\rho_f\then(f^*m\tri\delta)=\rho_f\then(\rho_f\tri\car{c})$.
 \qedhere
 \end{enumerate}
 \end{exercise}
@@ -917,21 +917,21 @@ Explain why \eqref{eqn.starting_color_v} models an initialization, i.e.\ a way t
 \end{exercise}
 
 \begin{proposition}\label{prop.all_free_modules}
-Let $\com{C}=(\ema{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\ema{c}$ has a natural right $\com{C}$-module structure.
+Let $\com{C}=(\car{c},\epsilon,\delta)$ be a comonoid in $\poly$. For any set $G$, the polynomial $\yon^G\tri\car{c}$ has a natural right $\com{C}$-module structure.
 \end{proposition}
 \begin{proof}
-We use the map $(\yon^G\tri\delta)\colon(\yon^G\tri\ema{c})\to(\yon^G\tri\ema{c}\tri\ema{c})$. It satisfies the unitality and associativity laws because $\ema{c}$ does.
+We use the map $(\yon^G\tri\delta)\colon(\yon^G\tri\car{c})\to(\yon^G\tri\car{c}\tri\car{c})$. It satisfies the unitality and associativity laws because $\car{c}$ does.
 \end{proof}
 
-We can think of elements of $G$ as ``generators''. Then if $i'\colon G\to\ema{c}\tri\1$ assigns to every generator an object of a category $\cat{C}$, then we should be able to find the free $\cat{C}$-set that $i'$ generates.
+We can think of elements of $G$ as ``generators''. Then if $i'\colon G\to\car{c}\tri\1$ assigns to every generator an object of a category $\cat{C}$, then we should be able to find the free $\cat{C}$-set that $i'$ generates.
 
 \begin{proposition}
-Functions $i'\colon G\to\ema{c}\tri\1$ are in bijection with positions $i\in\yon^G\tri\ema{c}\tri\1$. Let $m\coloneqq i^*(\yon^G\tri\ema{c})$ and let $\rho_i$ be the induced right $\com{C}$-module structure from \cref{prop.right_modules_as_sums}. Then $\rho_i$ corresponds to the free $\cat{C}$-set generated by $i'$. 
+Functions $i'\colon G\to\car{c}\tri\1$ are in bijection with positions $i\in\yon^G\tri\car{c}\tri\1$. Let $m\coloneqq i^*(\yon^G\tri\car{c})$ and let $\rho_i$ be the induced right $\com{C}$-module structure from \cref{prop.right_modules_as_sums}. Then $\rho_i$ corresponds to the free $\cat{C}$-set generated by $i'$. 
 \end{proposition}
 \begin{proof}
 The polynomial $m$ has the following form:
 \[
-m\cong\yon^{\sum_{g\in G}\ema{c}[i'(g)]}
+m\cong\yon^{\sum_{g\in G}\car{c}[i'(g)]}
 \]
 In particular $\rho_i$ is a representable right $\com{C}$-module, and we can identify it with a $\cat{C}$-set by \cref{thm.tfae_c_sets}. The elements of this $\cat{C}$-set are pairs $(g, f)$, where $g\in G$ is a generator and $f\colon i'(g)\to\cod(f)$ is a morphism in $\cat{C}$ emanating from $i'(g)$. It is easy to see that the module structure induced by \cref{prop.all_free_modules} is indeed the free one.
 \end{proof}
@@ -939,40 +939,40 @@ In particular $\rho_i$ is a representable right $\com{C}$-module, and we can ide
 \begin{exercise}
 Let $\cat{C}$ be a category and $i \in \cat{C}$ an object.
 \begin{enumerate}
-    \item Consider $i$ as a map $\yon \to \ema{c}$.
-    Show that the vertical-cartesian factorization of this map is $\yon \to \yon^{\ema{c}[i]} \To{\varphi} \ema{c}$.
-    \item Use \cref{prop.comp_pres_cart} to show that $\yon^{\ema{c}[i]} \tri \ema{c} \to \ema{c} \tri \ema{c}$ is cartesian.
+    \item Consider $i$ as a map $\yon \to \car{c}$.
+    Show that the vertical-cartesian factorization of this map is $\yon \to \yon^{\car{c}[i]} \To{\varphi} \car{c}$.
+    \item Use \cref{prop.comp_pres_cart} to show that $\yon^{\car{c}[i]} \tri \car{c} \to \car{c} \tri \car{c}$ is cartesian.
     \item Show that there is a commutative square
     \[
     \begin{tikzcd}
-        \yon^{\ema{c}[i]} \ar[r, "\delta^i"] \ar[d, "\varphi"'] & \yon^{\ema{c}[i]} \tri \ema{c} \ar[d, "\text{cart}"] \\
-        \ema{c} \ar[r, "\delta"'] & \ema{c} \tri \ema{c} \ar[ul, phantom, very near end, "\lrcorner"]
+        \yon^{\car{c}[i]} \ar[r, "\delta^i"] \ar[d, "\varphi"'] & \yon^{\car{c}[i]} \tri \car{c} \ar[d, "\text{cart}"] \\
+        \car{c} \ar[r, "\delta"'] & \car{c} \tri \car{c} \ar[ul, phantom, very near end, "\lrcorner"]
     \end{tikzcd}
     \]
     \item Show that this square is a pullback, as indicated.
-    \item Show that $\delta^i$ makes $\yon^{\ema{c}[i]}$ a right $\com{C}$-module.
+    \item Show that $\delta^i$ makes $\yon^{\car{c}[i]}$ a right $\com{C}$-module.
     \qedhere
 \end{enumerate}
 \end{exercise}
 
-The map $\delta^i$ can be seen as the restriction of $\delta \colon \ema{c} \to \ema{c} \tri \ema{c}$ to a single starting position.
+The map $\delta^i$ can be seen as the restriction of $\delta \colon \car{c} \to \car{c} \tri \car{c}$ to a single starting position.
 
-We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends the object $i$ to $\yon^{\ema{c}[i]}$. Given a morphism $f \colon i \to i'$ in $\cat{C}$, we get a function $\ema{c}[i'] \to \ema{c}[i]$ given by composition with $f$, and hence a map of polynomials $\yon^{\ema{c}[f]} \colon \yon^{\ema{c}[i]} \to \yon^{\ema{c}[i']}$.
+We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends the object $i$ to $\yon^{\car{c}[i]}$. Given a morphism $f \colon i \to i'$ in $\cat{C}$, we get a function $\car{c}[i'] \to \car{c}[i]$ given by composition with $f$, and hence a map of polynomials $\yon^{\car{c}[f]} \colon \yon^{\car{c}[i]} \to \yon^{\car{c}[i']}$.
 
 \begin{exercise}
 \begin{enumerate}
-    \item Show that $\yon^{\ema{c}[f]}$ is a map of right $\com{C}$-modules.
-    \item Show that the construction $\yon^{\ema{c}[f]}$ is functorial in $f$. \qedhere
+    \item Show that $\yon^{\car{c}[f]}$ is a map of right $\com{C}$-modules.
+    \item Show that the construction $\yon^{\car{c}[f]}$ is functorial in $f$. \qedhere
 \end{enumerate}
 \end{exercise}
 
 \begin{definition}[Yoneda] \label{def.yoneda_functor}
 Let $\cat{C}$ be a category.
-We refer to the above functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ as the \emph{Yoneda} functor.
+We refer to the above functor $\yon^{\car{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ as the \emph{Yoneda} functor.
 \end{definition}
 
 \begin{proposition}
-The Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ is fully faithful.
+The Yoneda functor $\yon^{\car{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ is fully faithful.
 \end{proposition}
 \begin{proof}
 **
@@ -1021,14 +1021,14 @@ Thus if $\yon^M$ is both a right-$\com{C}$ module and a right-$\com{D}$ module, 
 \section{Morphisms between bimodules}
 
 \begin{proposition}
-For any two categories $\ema{c},\ema{d}$, the category $\bimod{\ema{d}}{\ema{c}}$ of bimodules between them is a rig category: it has a terminal object (carried by $\ema{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
+For any two categories $\car{c},\car{d}$, the category $\bimod{\car{d}}{\car{c}}$ of bimodules between them is a rig category: it has a terminal object (carried by $\car{d}\tri\1$), an initial object (carried by $\0$), as well as products that distribute over coproducts.
 \end{proposition}
 \begin{proof}
-For bimodules $\ema{d}\bimodfrom[m]\ema{c}$ and $\ema{d}\bimodfrom[n]\ema{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
+For bimodules $\car{d}\bimodfrom[m]\car{c}$ and $\car{d}\bimodfrom[n]\car{c}$, the coproduct has carrier $m+n$, and the product has carrier $m\times_{d\tri\1}n$. **Finish**
 \end{proof}
 
 \begin{proposition}
-For any two categories $\ema{c},\ema{d}$, the category $\bimod{\ema{d}}{\ema{c}}$ has all limits and is extensive.
+For any two categories $\car{c},\car{d}$, the category $\bimod{\car{d}}{\car{c}}$ has all limits and is extensive.
 \end{proposition}
 \begin{proof}
 **
@@ -1251,7 +1251,7 @@ is an equivalence.
 %     	\[
 %   \begin{tikzpicture}[polybox, tos]
 %   	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-%   	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" right] (c)  {$f$ \nodepart{two} $i$};
+%   	\node[poly, cod, right=1.8 of m.south, yshift=-1ex, "$\car{c}$" right] (c)  {$f$ \nodepart{two} $i$};
 %   	\node[poly, cod, above=of c, "$m$" right] (mm) {$q$};
 %   	\draw (m_pos) to[first] node[below] {$\lambda_1$}(c_pos);
 %   	\draw (c_dir) to[climb] node[right] {$\lambda_2$} (mm_pos);
@@ -1264,7 +1264,7 @@ is an equivalence.
 %     	\node (1) {
 %     \begin{tikzpicture}[polybox, tos]
 %       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-%       	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, right=1.8 of m.south, yshift=-1ex, "$\car{c}$" below] (c) {\nodepart{two} $i$};
 %       	\node[poly, above=of c, "$m$" above] (mm) {$q'$};
 %       	\node[poly, cod, identity, right=of c] (y) {};
 %       	\node[poly, cod, above=of y, "$m$" above] (mmm) {$q'$};
@@ -1294,10 +1294,10 @@ is an equivalence.
 %     	\node (1) {
 %     \begin{tikzpicture}[polybox, tos]
 %       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {\nodepart{two} $i$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\car{c}$" below] (c) {\nodepart{two} $i$};
 %       	\node[poly, above=of c, "$m$" above] (mm) {};
-%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
-%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\car{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\car{c}$" right] (ccc) {};
 %       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
 %     %
 %     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
@@ -1313,10 +1313,10 @@ is an equivalence.
 %     	\node[right=1.8 of 1] (2) {
 %     \begin{tikzpicture}[polybox, tos]
 %       	\node[poly, dom, "$m$" left] (m) {\nodepart{two} $j$};
-%       	\node[poly, right= of m.south, yshift=-1ex, "$\ema{c}$" below] (c) {$f$ \nodepart{two} $i$};
+%       	\node[poly, right= of m.south, yshift=-1ex, "$\car{c}$" below] (c) {$f$ \nodepart{two} $i$};
 %       	\node[poly, above=of c, "$m$" above] (mm) {};
-%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\ema{c}$" right] (cc) {$f$ \nodepart{two} $i$};
-%       	\node[poly, cod, above=of DD, "$\ema{c}$" right] (ccc) {};
+%       	\node[poly, cod, right= of c.south, yshift=-1ex, "$\car{c}$" right] (cc) {$f$ \nodepart{two} $i$};
+%       	\node[poly, cod, above=of DD, "$\car{c}$" right] (ccc) {};
 %       	\node[poly, cod, above=of ccc, "$m$" right] (mmm) {};
 %     %
 %     	\draw (m_pos) to[first] node[below] {$\lambda_1$} (c_pos);
@@ -1333,20 +1333,20 @@ is an equivalence.
 %     \end{equation}
     
 %     We give the functor $L_m \colon \cat{C} \to \poly$ corresponding to $m$.
-%     To each object $i \in \Ob(\cat{C}) = \ema{c}(\1)$, we assign
+%     To each object $i \in \Ob(\cat{C}) = \car{c}(\1)$, we assign
 %     \[
 %         L_m(i) := \sum_{\substack{j \in m(\1), \\ \lambda_1(j) = i}} \yon^{m[j]}.
 %     \]
 %     This is the pullback in the diagram
 %     \[
 %     \begin{tikzcd}
-%         L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\ema{c}[i]} \tri m \ar[d, "\text{cart}"] \\
-%         m \ar[r] & \ema{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
+%         L_m(i) \ar[r] \ar[d, "\text{cart}"'] & \yon^{\car{c}[i]} \tri m \ar[d, "\text{cart}"] \\
+%         m \ar[r] & \car{c} \tri m \ar[ul, phantom, very near end, "\lrcorner"]
 %     \end{tikzcd}
 %     \]
-%     where the map $\yon^{\ema{c}[i]} \tri m \to \ema{c} \tri m$ is the cartesian map $\yon^{\ema{c}[i]} \to \ema{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
+%     where the map $\yon^{\car{c}[i]} \tri m \to \car{c} \tri m$ is the cartesian map $\yon^{\car{c}[i]} \to \car{c}$ associated to the position $i$ composed with $m$; see \cref{prop.comp_pres_cart,prop.pullback_cartesian}.
     
-%     Then for each outgoing morphism $f \in \ema{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
+%     Then for each outgoing morphism $f \in \car{c}[i]$, we give a map of polynomials $L_m(f) \colon L_m(i) \to L_m(\cod(f))$.
 %     On positions, $L_m(f)$ sends each $j \in m(\1)$ satisfying $\lambda_1(j) = i$ to $\lambda_2(f) \in m(\1)$, which by \eqref{eqn.resp_dupl} satisfies $\lambda_1(\lambda_2(f)) = \cod(f)$ and is thus indeed a position of $L_m(\cod(f))$.
 %     On directions, $L_m(f)$ sends each $q \in L_m(\cod(f))[\lambda_2(f)] = m[\lambda_2(f)]$ to $\lambda^\sharp(q) \in m[j] = L_m(i)[j]$.
     
@@ -1364,8 +1364,8 @@ is an equivalence.
 %     Suppose we are given a map of left $\com{C}$-modules $\varphi \colon m \to m'$ satisfying the commutative diagram
 %     \[
 %     \begin{tikzcd}
-%       m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \ema{c} \tri m \ar[d, "\ema{c} \tri \varphi"] \\
-%       m' \ar[r, "\lambda'"'] & \ema{c} \tri m'
+%       m \ar[r, "\lambda"] \ar[d, "\varphi"'] & \car{c} \tri m \ar[d, "\car{c} \tri \varphi"] \\
+%       m' \ar[r, "\lambda'"'] & \car{c} \tri m'
 %     \end{tikzcd}
 %     \]
 %     We will give a natural transformation $L_\varphi \colon L_m \to L_{m'}$ by giving a component morphism of polynomials $(L_\varphi)_i \colon L_m(i) \to L_{m'}(i)$ for each object $i$ in $\cat{C}$, then verifying naturality.
@@ -1373,10 +1373,10 @@ is an equivalence.
 %     We construct the following diagram, where the top and bottom squares are pullbacks:
 %     \[
 %     \begin{tikzcd}[sep=5pt]
-%         L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\ema{c}[i]} \tri m \ar[dd] \ar[dr] \\
-%         & m \ar[rr, crossing over] & & \ema{c} \tri m \ar[dd] \\
-%         L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\ema{c}[i]} \tri m' \ar[dr] \\
-%         & m' \ar[from=uu, crossing over] \ar[rr] & & \ema{c} \tri m'
+%         L_m(i) \ar[rr] \ar[dd, dashed, "(L_\varphi)_i"'] \ar[dr] & & \yon^{\car{c}[i]} \tri m \ar[dd] \ar[dr] \\
+%         & m \ar[rr, crossing over] & & \car{c} \tri m \ar[dd] \\
+%         L_{m'}(i) \ar[rr] \ar[dr] & & \yon^{\car{c}[i]} \tri m' \ar[dr] \\
+%         & m' \ar[from=uu, crossing over] \ar[rr] & & \car{c} \tri m'
 %     \end{tikzcd}
 %     \]
 %     The component $(L_\varphi)_i$ is given by the induced dashed arrow.
@@ -1440,33 +1440,33 @@ By \cref{cor.tensored}, it suffices to show that there is an adjunction
 \end{proof}
 
 \begin{proposition}
-If $\ema{c}\bimodfrom[m_1]\ema{d}$ and $\ema{c}\bimodfrom[m_2]\ema{d}$ are bimodules, then so are
+If $\car{c}\bimodfrom[m_1]\car{d}$ and $\car{c}\bimodfrom[m_2]\car{d}$ are bimodules, then so are
 \[
-\ema{c}\bimodfrom[m_1+m_2]\ema{d}
+\car{c}\bimodfrom[m_1+m_2]\car{d}
 \qqand
-\ema{c}\bimodfrom[m_1\times_{\ema{c}(\1)}m_2]\ema{d}
+\car{c}\bimodfrom[m_1\times_{\car{c}(\1)}m_2]\car{d}
 \]
 \end{proposition}
 
 \begin{proposition}
-If $\ema{c}_1\bimodfrom[m_1]\ema{d}_1$ and $\ema{c}_2\bimodfrom[m_2]\ema{d}_2$ are bimodules, then so are
+If $\car{c}_1\bimodfrom[m_1]\car{d}_1$ and $\car{c}_2\bimodfrom[m_2]\car{d}_2$ are bimodules, then so are
 \[
-  \ema{c}_1+\ema{c}_2\bimodfrom[m_1+m_2]\ema{d}_1+\ema{d}_2
+  \car{c}_1+\car{c}_2\bimodfrom[m_1+m_2]\car{d}_1+\car{d}_2
   \qqand
-  \ema{c}_1\otimes\ema{c}_2\bimodfrom[m_1\otimes m_2]\ema{d}_1\otimes\ema{d}_2
+  \car{c}_1\otimes\car{c}_2\bimodfrom[m_1\otimes m_2]\car{d}_1\otimes\car{d}_2
 \]
 \end{proposition}
 
 %-------- Section --------%
 \section{Composing bimodules}
 
-We denote the composite of $\ema{e}\bimodfrom[n]\ema{d}\bimodfrom[m]\ema{c}$ by 
-\[\ema{e}\bimodfrom[n\tri_\ema{d}m]\ema{c}.\]
+We denote the composite of $\car{e}\bimodfrom[n]\car{d}\bimodfrom[m]\car{c}$ by 
+\[\car{e}\bimodfrom[n\tri_\car{d}m]\car{c}.\]
 
-Recall the Yoneda functor $\yon^{\ema{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
+Recall the Yoneda functor $\yon^{\car{c}[-]} \colon \cat{C} \to \bimod{\yon}{\cat{C}}$ from \cref{def.yoneda_functor}.
 Using bimodule composition, we obtain the composite functor
 \[
-    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\ema{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \To[\tri_\cat{C}] \bimod{\yon}{\cat{D}}.
+    \cat{C} \times \bimod{\cat{C}}{\cat{D}} \To{\yon^{\car{c}[-]} \times \bimod{\cat{C}}{\cat{D}}} \bimod{\yon}{\cat{C}} \times \bimod{\cat{C}}{\cat{D}} \To[\tri_\cat{C}] \bimod{\yon}{\cat{D}}.
 \]
 By the cartesian closure of $\smcat$, this can be identified with a functor $\bimod{\cat{C}}{\cat{D}} \to \smcat(\cat{C}, \bimod{\yon}{\cat{D}})$.
 
@@ -1506,13 +1506,13 @@ For any category $\cat{C}$, the carrier functor
 \[
 \smset[\cat{C}]\to\poly
 \]
-sending $m\to m\tri\ema{c}$ to $m\in\poly\cong\smset[\yon]$ is given by composition with the principal $\cat{C}$-module $\cat{C}\bimodfrom[\widecheck{\ema{c}}]\yon$.
+sending $m\to m\tri\car{c}$ to $m\in\poly\cong\smset[\yon]$ is given by composition with the principal $\cat{C}$-module $\cat{C}\bimodfrom[\widecheck{\car{c}}]\yon$.
 \end{proposition}
 \begin{proof}
 **
 \end{proof}
 \begin{proposition}
-The functor $\eta_{\cat{C}} \colon \cat{C} \to \smset[\cat{C}]$ corresponding to the unit bimodule $\ema{c} \bimodfrom[\ema{c}] \ema{c}$ sends each object $i \in \ema{c}(\1)$ to the bimodule $\yon \bimodfrom[\yon ^{\ema{c}[i]}]\ema{c}$.
+The functor $\eta_{\cat{C}} \colon \cat{C} \to \smset[\cat{C}]$ corresponding to the unit bimodule $\car{c} \bimodfrom[\car{c}] \car{c}$ sends each object $i \in \car{c}(\1)$ to the bimodule $\yon \bimodfrom[\yon ^{\car{c}[i]}]\car{c}$.
 \end{proposition}
 
 \begin{proposition}
@@ -1554,11 +1554,11 @@ The composite of a linear left $\cat{C}$-module and a representable right $\cat{
 
 
 \begin{proposition}
-For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\ema{d}\bimodfrom[m]\ema{c}$, we have
+For any categories $\cat{C}$ and $\cat{D}$ and $(\cat{D},\cat{C})$-bimodule $\car{d}\bimodfrom[m]\car{c}$, we have
 \[
-m\tri_\ema{c}\ema{c}\cong m
+m\tri_\car{c}\car{c}\cong m
 \]
-where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
+where $\car{c}\bimodfrom[\car{c}]\yon$ is the regular left $\car{c}$-module.
 \end{proposition}
 
 %\begin{example}
@@ -1567,9 +1567,9 @@ where $\ema{c}\bimodfrom[\ema{c}]\yon$ is the regular left $\ema{c}$-module.
 %\end{example}
 
 \begin{theorem}\label{thm.elements}
-For any category $\ema{c}$, there is an adjunction
+For any category $\car{c}$, there is an adjunction
 \[
-\adj{\smcat^\sharp/\ema{c}}{}{\int}{\bimod{\ema{c}}{\0}}
+\adj{\smcat^\sharp/\car{c}}{}{\int}{\bimod{\car{c}}{\0}}
 \]
 where $\int$ is the usual category-of-elements (``Grothendieck'') construction. 
 
@@ -1593,29 +1593,29 @@ A type of categorical structure called framed bicategory---also known as a proar
 \section{Adjoint bimodules}
 
 \begin{proposition}
-A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= left adjoint pra) $\ema{c}\bimodfrom[\Delta_F]\ema{d}$.
+A functor $F\colon\cat{C}\to\cat{D}$ gives rise to a right adjoint bimodule (= left adjoint pra) $\car{c}\bimodfrom[\Delta_F]\car{d}$.
 \end{proposition}
 \begin{proof}
-The carriers of $\ema{c}\bimodfrom[\Delta_F]\ema{d}$ and its right adjoint $\ema{d}\bimodfrom[\Pi_F]\ema{c}$ are the polynomials
+The carriers of $\car{c}\bimodfrom[\Delta_F]\car{d}$ and its right adjoint $\car{d}\bimodfrom[\Pi_F]\car{c}$ are the polynomials
 \[
-  \sum_{i\in\ema{c}(\1)}\yon^{Fi}
+  \sum_{i\in\car{c}(\1)}\yon^{Fi}
   \qqand
-  \sum_{j\in\ema{d}(\1)}\yon^{\sum_{j\to j'}(Fi=j')}
+  \sum_{j\in\car{d}(\1)}\yon^{\sum_{j\to j'}(Fi=j')}
 \]
 respectively. One may recognize the exponent of the latter, namely $\sum_{j\to j'}(Fi=j')$ as the set of objects in the comma category $(j\downarrow F)$, which shows up in the usual conical limit formula for the right Kan extension $\Pi_F$.
 \end{proof}
 
 
 \begin{proposition}
-A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\ema{c}\bimodfrom[\wh{\varphi}]\ema{d}$; we denote its right adjoint bimodule (= left adjoint pra) by $\wc{\varphi}$,
+A cofunctor $\varphi\colon\cat{C}\cof\cat{D}$ gives rise to a left adjoint bimodule (= right adjoint pra) $\car{c}\bimodfrom[\wh{\varphi}]\car{d}$; we denote its right adjoint bimodule (= left adjoint pra) by $\wc{\varphi}$,
 \begin{equation}\label{eqn.cof_adj_bimod}
 \begin{tikzcd}
-	\ema{c}\ar[r, biml-bimr, shift left=7pt, "\wc{\varphi}"]\ar[r, phantom, "\Rightarrow"]&
-	\ema{d}\ar[l, biml-bimr, shift left=7pt, "\wh{\varphi}"]
+	\car{c}\ar[r, biml-bimr, shift left=7pt, "\wc{\varphi}"]\ar[r, phantom, "\Rightarrow"]&
+	\car{d}\ar[l, biml-bimr, shift left=7pt, "\wh{\varphi}"]
 \end{tikzcd}
 \end{equation}
 \end{proposition}
-Note that the adjunction notation in \eqref{eqn.cof_adj_bimod} is unambiguous: if you read $\ema{c}\bimodfrom\ema{d}$ in the bimodule direction---i.e.\ as a map from $\ema{c}$ to $\ema{d}$---then the notation indicates that $\wh{\varphi}$ is the left adjoint. If instead you read $\ema{c}\bimodfrom\ema{d}$ in the pra direction---i.e.\ as a map from $\ema{d}$ to $\ema{c}$---then the notation indicates that $\wh{\varphi}$ is the right adjoint.
+Note that the adjunction notation in \eqref{eqn.cof_adj_bimod} is unambiguous: if you read $\car{c}\bimodfrom\car{d}$ in the bimodule direction---i.e.\ as a map from $\car{c}$ to $\car{d}$---then the notation indicates that $\wh{\varphi}$ is the left adjoint. If instead you read $\car{c}\bimodfrom\car{d}$ in the pra direction---i.e.\ as a map from $\car{d}$ to $\car{c}$---then the notation indicates that $\wh{\varphi}$ is the right adjoint.
 \begin{proof}
 **
 \end{proof}
@@ -1645,13 +1645,13 @@ If $\varphi\colon\cat{C}\cof\cat{D}$ is a cartesian cofunctor corresponding to a
 In particular, $\wh{\varphi}$ has an extra adjoint
 \[
 \begin{tikzcd}[column sep=large, background color=theoremcolor]
-	\ema{c}
+	\car{c}
 		\ar[r, biml-bimr, shift left=18pt, "\wc{\varphi}"]
 		\ar[r, phantom, shift left=10pt, "\Rightarrow"]
 		\ar[r, biml-bimr, shift left=-18pt, "\wt{\varphi}"']
 		\ar[r, phantom, shift left=-10pt, "\Leftarrow"]
 		&
-	\ema{d}
+	\car{d}
 		\ar[l, biml-bimr, "\wh{\varphi}" description]
 \end{tikzcd}
 \]
@@ -1661,13 +1661,13 @@ In particular, $\wh{\varphi}$ has an extra adjoint
 \end{proof}
 
 \begin{proposition}
-Every bimodule $\ema{c}\bimodfrom[S]\0$, is isomorphic to the composite
+Every bimodule $\car{c}\bimodfrom[S]\0$, is isomorphic to the composite
 \[
-\ema{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
+\car{c}\bimodfrom[S\yon]\yon\bimodfrom[\1]\0
 \]
-for a bimodule $\ema{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
+for a bimodule $\car{c}\bimodfrom[S\yon]\yon$ with carrier $S\yon\in\poly$.
 
-Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with carrier $\yon^S\in\poly$.
+Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\car{c}$ with carrier $\yon^S\in\poly$.
 \end{proposition}
 \begin{proof}
 **Construct this using \cref{thm.elements,cor.cartesian_cof_extra_adjoint}.**
@@ -1676,10 +1676,10 @@ Moreover, $S\yon$ is adjoint to a bimodule $\yon\bimodfrom[\yon^S]\ema{c}$ with 
 Now that we have the double category $\pp$, we can consider the squares between cofunctors
 \[
 \begin{tikzcd}
-	\ema{c}\ar[r, "\ema{c}"]\ar[d, "f"']&
-	\ema{c}\ar[d, "g"]\\
-	\ema{d}\ar[r, "\ema{d}"']&
-	\ema{d}\ar[ul, phantom, "\Downarrow"]
+	\car{c}\ar[r, "\car{c}"]\ar[d, "f"']&
+	\car{c}\ar[d, "g"]\\
+	\car{d}\ar[r, "\car{d}"']&
+	\car{d}\ar[ul, phantom, "\Downarrow"]
 \end{tikzcd}
 \]
 \begin{definition}[Natural co-transformations]
@@ -1706,11 +1706,11 @@ satisfying two conditions for every $i\in\Ob(\cat{C})$. Namely, letting $i'\colo
 %-------- Section --------%
 \section{Monoidal structures on $\pp$}
 
-For any bimodules $\ema{c}_1\bimodfrom[m_1]\ema{d}_1$ and $\ema{c_2}\bimodfrom[m_2]\ema{d_2}$, we can construct a new bimodule in two ways:
+For any bimodules $\car{c}_1\bimodfrom[m_1]\car{d}_1$ and $\car{c_2}\bimodfrom[m_2]\car{d_2}$, we can construct a new bimodule in two ways:
 \[
-	\ema{c}_1+\ema{c}_2\bimodfrom[m_1+m_2]\ema{d}_1+\ema{d}_2
+	\car{c}_1+\car{c}_2\bimodfrom[m_1+m_2]\car{d}_1+\car{d}_2
 	\qqand
-	\ema{c}_1\otimes\ema{c}_2\bimodfrom[m_1\otimes m_2]\ema{d}_1\otimes \ema{d}_2
+	\car{c}_1\otimes\car{c}_2\bimodfrom[m_1\otimes m_2]\car{d}_1\otimes \car{d}_2
 \]
 One can think of this quite easily in terms of prafunctors: given prafunctors $[\cat{D}_1,\smset]\to[\cat{C}_1,\smset]$ and $[\cat{D}_2,\smset]\to[\cat{C}_2,\smset]$, one obtains prafunctors between the coproduct categories and the product categories
 \[
