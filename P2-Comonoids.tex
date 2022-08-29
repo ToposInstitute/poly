@@ -181,6 +181,26 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
+\begin{exercise}
+Recall the closure operation $\ihom{-,-}\colon\poly\op\times\poly\to\poly$ for $\otimes$ from \eqref{eqn.par_hom}.
+Show that for all $A\in\smset$ and $q\in\poly$, there is an isomorphism
+\[
+    \yon^A\tri q\iso\ihom{A\yon,q}.
+\]
+\begin{solution}
+Given $A\in\smset$ and $q\in\poly$, we have
+\begin{align*}
+    \yon^A\tri q    &\iso
+	\sum_{\bar{j}\colon A\to q(\1)}\yon^{\sum_{a\in A}q[\bar{j}(a)]}
+	\tag*{\eqref{eqn.composite_formula_sums_first}} \\ &\iso
+	\sum_{\varphi\colon A\yon\to q}\yon^{\sum_{a\in A}q[\varphi_\1(a)]}   \\&\iso
+	\ihom{A\yon,q},
+	\tag*{\eqref{eqn.par_hom_sum}}
+\end{align*}
+for a lens $\varphi\colon A\yon\to q$ has an on-positions function $A\to q(\1)$ and uniquely determined on-directions functions.
+\end{solution}
+\end{exercise}
+
 We know how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
 For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their composition product $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
 
@@ -984,27 +1004,6 @@ Now $r\coloneqq \2\yon+\1$. Before we draw the composites, here's a picture of $
 \end{exercise}
 
 
-% ** Find a home for this
-% Here is a curious fact relating composition and the closure operation adjoint to $\otimes$. Recall that for any two polynomials $p,q$, there is a polynomial $[p,q]\in\poly$.
- 
-% \begin{proposition}
-% For any set $A\in\smset$ and any polynomial $p\in\poly$, there is an isomorphism
-% \[
-% \yon^A\tri p\cong[A\yon,p].
-% \]
-% \end{proposition}
-% \begin{proof}
-% \begin{align*}
-% 	\yon^A\tri p&\cong
-% 	\prod_{a\in A}\sum_{i\in p(\1)}\yon^{p[i]}\\&\cong
-% 	\sum_{i\colon A\to p(\1)}\prod_{a\in A}\yon^{p[i(a)]}\\&\cong
-% 	\sum_{i\colon A\to p(\1)}\yon^{\sum_{a\in A}p[i(a)]}\\&\cong
-% 	\sum_{\varphi\colon A\yon\to p}\yon^{\sum_{a\in A\yon(\1)}
-% 	p[\varphi_\1(a)]}\\&\cong
-% 	[A\yon,p]
-% \end{align*}
-% \end{proof}
-
 \begin{example}[Composing polynomials with constants] \label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
 
@@ -1167,6 +1166,22 @@ Below, $X$ is a set and $p$ is a polynomial.
 
 In particular, this means we could write the position-set of a polynomial $p$ interchangeably as $p(\1)$ or as $p\tri\1$.
 We'll generally write $p(\1)$ when we want to emphasize the position-set as a set, and $p\tri\1$ when we want to emphasize the position-set as a polynomial (albeit a constant one, with no directions).
+
+\begin{exercise}
+Let $\varphi\colon p\to q$ be a lens and $X$ be a set viewed as a constant polynomial.
+Consider the lens $\varphi\tri X\colon p\tri X\to q\tri X$, given by taking the composition product of $\varphi$ with the identity lens on $X$.
+Show that $\varphi\tri X$, when viewed as a function $p(X)\to q(X)$ between sets, is exactly the $X$-component of $\varphi$ viewed as a natural transformation.
+\begin{solution}
+Let $\varphi\colon p\to q$ be a lens and $X$ be a set viewed as a constant polynomial.
+Note that every component of the identity natural transformation on $X$ as a constant functor is just the identity function $\id_X\colon X\to X$ on $X$ as a set.
+Then by \cref{def.horiz_comp_nat_trans}, any component of the composition product $\varphi\tri X$ viewed as a natural transformation is given by the composite function
+\[
+    p(X) \To{\varphi_X} q(X) \To{q(\id_X)} q(X).
+\]
+By functoriality, $q(\id_X)$ is itself an identity function, so every component of $\varphi\tri X$ is the $X$-component of $\varphi$.
+Therefore $\varphi\tri X$ as a function can be identified with the $X$-component of $\varphi$, as desired.
+\end{solution}
+\end{exercise}
 
 \begin{exercise}\label{ex.compose_yon}
 For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso\yon\tri p$.
@@ -1808,70 +1823,79 @@ If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ 
 Back in \cref{ex.do_nothing}, we posed the question of how to model running multiple steps of dynamical system in $\poly$.
 The answer lies with the composition product.
 
-Recall that a dependent dynamical system is a lens $\phi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
-We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\phi$ the return and update functions, respectively.
+Recall that a dependent dynamical system is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
+We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\varphi$ the return and update functions, respectively.
 More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a situation $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
 
 The lens models a dynamical system as follows.
-Every state $s\in q(\1)=S$ returns an output $o\coloneqq\phi_\1(s)\in p(\1)$, and every input $i\in p[o]$ yields an updated direction $s'\coloneqq\phi^\sharp_s(a)\in q[s]=S'$.
-Then to model a second step through the system, we identify the $q[s]$-direction $s'$ with a $q$-position $e^{-1}(s')$, plug this position back into $\phi_\1$, and repeat the process all over again.
+Every state $s\in q(\1)=S$ returns an output $o\coloneqq\varphi_\1(s)\in p(\1)$, and every input $i\in p[o]$ yields an updated direction $s'\coloneqq\varphi^\sharp_s(a)\in q[s]=S'$.
+Then to model a second step through the system, we identify the $q[s]$-direction $s'$ with a $q$-position $e^{-1}(s')$, plug this position back into $\varphi_\1$, and repeat the process all over again.
 
 % Equivalently, we could think of running through two steps of the system as picking an initial state $s\in q(\1)$ and using a bijection $\ol{t}\colon q[s]\to q(\1)$ to assign each direction at $s$ to a state in $q(\1)$.
-% Then we apply $\phi$ in two rounds.
-% First, we use the return function to compute an output $i\coloneqq\phi_\1(s)$ and the update function $\phi^\sharp_s\colon p[i]\to q[s]$ to compute a direction at $s$ for each input.
+% Then we apply $\varphi$ in two rounds.
+% First, we use the return function to compute an output $i\coloneqq\varphi_\1(s)$ and the update function $\varphi^\sharp_s\colon p[i]\to q[s]$ to compute a direction at $s$ for each input.
 % Before the next round, we use $\ol{t}$ to compute the state assigned to that direction.
 % Second, we use the return function to compute an output for that state 
 
-But this is exactly what the composition product $\phi\tri\phi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
+But this is exactly what the composition product $\varphi\tri\varphi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
 \begin{equation} \label{eqn.interface_position_pair}
-    \left(\phi_\1(s_0),\phi^\sharp_{s_0}\then e^{-1}\then\phi_\1\right)\in(p\tri p)(\1),
+    \left(\varphi_\1(s_0),\varphi^\sharp_{s_0}\then e^{-1}\then\varphi_\1\right)\in(p\tri p)(\1),
 \end{equation}
-comprised of the initial output $o_0\coloneqq\phi_\1(s)\in p(\1)$ and a composite function
+comprised of the initial output $o_0\coloneqq\varphi_\1(s)\in p(\1)$ and a composite function
 \begin{equation} \label{eqn.interface_position_fn1}
-    p[o_0]\To{\phi^\sharp_{s_0}}q[s_0]=S'\To{e^{-1}}S=q(\1)\To{\phi_\1}p(\1),
+    p[o_0]\To{\varphi^\sharp_{s_0}}q[s_0]=S'\To{e^{-1}}S=q(\1)\To{\varphi_\1}p(\1),
 \end{equation}
 which uses the update function at $s_0$ and the return function to tell us what the next output $o_1$ will be for every possible input $i_1$ we could select.
-Then by \eqref{eqn.comp_lens_dir}, the on-directions function of $\phi\tri\phi$ sends each direction $(i_1,i_2)$ at the position \eqref{eqn.interface_position_pair}, comprised of a first input $i_1\in p[o_0]$ and (setting $o_1$ to be the function \eqref{eqn.interface_position_fn1} applied to $i_1$) a second input $i_2\in p[o_1]$, to the pair
+Then by \eqref{eqn.comp_lens_dir}, the on-directions function of $\varphi\tri\varphi$ sends each direction $(i_1,i_2)$ at the position \eqref{eqn.interface_position_pair}, comprised of a first input $i_1\in p[o_0]$ and (setting $o_1$ to be the function \eqref{eqn.interface_position_fn1} applied to $i_1$) a second input $i_2\in p[o_1]$, to the pair
 \[
-    \left(\phi^\sharp_{s_0}(i_1), \phi^\sharp_{e^{-1}(\phi^\sharp_{s_0}(i_1))}(i_2)\right),
+    \left(\varphi^\sharp_{s_0}(i_1), \varphi^\sharp_{e^{-1}(\varphi^\sharp_{s_0}(i_1))}(i_2)\right),
 \]
 comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next state $s_1$ upon selecting input $i_1$ at state $s_0$ and the successive state $s_2$ upon selecting input $i_2$ at $s_1$.
-In summary, at certain positions, $\phi\tri\phi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning output $o_0$, receiving input $i_1$, updating its state to $s_1$, returning output $o_1$, receiving input $i_2$, and preparing to update its state to $s_2$.
-Adding another layer, $\phi\tri\phi\tri\phi\colon q\tri q\tri q\to p\tri p\tri p$ will tell us how the system behaves when we step through it three times; and in general, $\phi\tripow{n}\colon q\tripow{n}\to p\tripow{n}$ will tell us how the system behaves when we step through it $n$ times.
+In summary, at certain positions, $\varphi\tri\varphi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning output $o_0$, receiving input $i_1$, updating its state to $s_1$, returning output $o_1$, receiving input $i_2$, and preparing to update its state to $s_2$.
+Adding another layer, $\varphi\tri\varphi\tri\varphi\colon q\tri q\tri q\to p\tri p\tri p$ will tell us how the system behaves when we step through it three times; and in general, $\varphi\tripow{n}\colon q\tripow{n}\to p\tripow{n}$ will tell us how the system behaves when we step through it $n$ times.
 
 This is what we meant in the introduction when we said that the composition product has to do with time.
-It takes a specification $\phi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\phi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
-Alternatively, we can think of $\phi\tripow{n}$ as ``speeding up'' the original dynamical system $\phi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
-The lens $\phi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
+It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
+Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
+The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
 
 \subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
 There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
-The first is a communication issue: as you probably sensed, our set-theoretic notation for $\phi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
+The first is a communication issue: as you probably sensed, our set-theoretic notation for $\varphi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
 We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{exc.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
 A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
 
-The second issue is more technical: to ensure that $\phi\tri\phi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
+The second issue is more technical: to ensure that $\varphi\tri\varphi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
 But there are many other positions $(s_0,f)$ of $q\tri q$ that we could have specified, and each $f\colon S'\to S$ associates $q[s_0]$-directions to $q$-positions in a different way.
-So $\phi\tri\phi$ is carrying around a lot of extraneous---even misleading!---data about how our dynamical system behaves when the state system moves in the right direction but to the wrong state.
+So $\varphi\tri\varphi$ is carrying around a lot of extraneous---even misleading!---data about how our dynamical system behaves when the state system moves in the right direction but to the wrong state.
 Our isomorphism $e^{-1}$ is a temporary fix, but as we pointed out in \cref{ex.do_nothing}, it relies on the set-theoretic equality of the direction-sets of $q$---there's nothing inherent to the categorical structure of $q$ in $\poly$ that encodes how directions map to states, at least not yet.
 What are we missing?
 
 The key to resolving both these issues lies in the next section, where we will introduce a graphical notation to help us study lenses whose codomains are composite polynomials.
 
 \begin{exercise} \label{exc.comp_dyn_sys_tree}
-** % draw a sample dynamical system using corollas
+Consider the dynamical system $\varphi\colon S\yon^S\to p$ corresponding to the halting deterministic state automaton \eqref{eqn.halt_dsa} from \cref{exc.halt_dsa}, depicted here again for your convenience:
+\[
+\begin{tikzcd}[column sep=small]
+	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[red]
+\end{tikzcd}
+\]
+
+% Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and c
 \begin{solution}
 **
 \end{solution}
 \end{exercise}
 
 
-\begin{exercise} \label{exc.comp_interface}
-** % composite interfaces...how to interpret them
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+% \begin{exercise} \label{exc.comp_interface}
+% ** % composite interfaces...how to interpret them
+% \begin{solution}
+% **
+% \end{solution}
+% \end{exercise}
 
 %-------- Section --------%
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
@@ -1971,7 +1995,7 @@ Throughout the rest of this book, we'll see how this polybox notation provides i
 
 \begin{example}[Dynamical systems as polyboxes]
 Polyboxes provide a natural way to model our dependent dynamical systems.
-We can express such a system $\phi\colon S\yon^S\to p$ in polyboxes as
+We can express such a system $\varphi\colon S\yon^S\to p$ in polyboxes as
 \begin{equation*}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
@@ -1987,7 +2011,7 @@ The state system enters its current state $s\in S$ into the lower left blue box,
 Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
 Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
 
-We then compose $\phi$ with a wrapper $f\colon p\to q$ like so:
+We then compose $\varphi$ with a wrapper $f\colon p\to q$ like so:
 \begin{equation*}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
@@ -2007,7 +2031,7 @@ Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interac
 The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
 
 Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving output from the white box below and feeding input into the blue box above.
-To an agent who is unaware of its inner workings, the composite dynamical system $\phi\then f$ might as well look like this:
+To an agent who is unaware of its inner workings, the composite dynamical system $\varphi\then f$ might as well look like this:
 \begin{equation*}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
@@ -2455,26 +2479,26 @@ We explored dynamical systems with product interfaces in \cref{subsec.poly.dyn_s
 How about dynamical systems with composite interfaces?
 We now have all the tools we need to characterize them.
 
-By the previous example, a dynamical system $\phi\colon S\yon^S\to q\tri r$ can be drawn as
+By the previous example, a dynamical system $\varphi\colon S\yon^S\to q\tri r$ can be drawn as
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$S\yon^S$" left] (p) {$t$\at$s$};
 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q$" right] (q) {$b$\at$j$};
 	\node[poly, cod, above=of q, "$r$" right] (r) {$c$\at$k$};
-  	\draw (p_pos) to[first] node[below] {$\phi^q$} (q_pos);
-  	\draw (q_dir) to[climb] node[right] {$\phi^r$} (r_pos);
-  	\draw (r_dir) to[last] node[above] {$\phi^\sharp$} (p_dir);
+  	\draw (p_pos) to[first] node[below] {$\varphi^q$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {$\varphi^r$} (r_pos);
+  	\draw (r_dir) to[last] node[above] {$\varphi^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
 We can interpret the behavior of this system as follows.
-Rather than a single interface $q\tri r$, we view $\phi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.
+Rather than a single interface $q\tri r$, we view $\varphi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.
 
-Given the current state $s\in S$, the system feeds it into $\phi^q$ to return an output $j$ of the first interface $q$.
-Upon receiving an input $b\in q[j]$, it then uses $\phi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
-Once a second input $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of inputs $(b,c)$ it received into $\phi^\sharp$, yielding a new state $t\in S$.
+Given the current state $s\in S$, the system feeds it into $\varphi^q$ to return an output $j$ of the first interface $q$.
+Upon receiving an input $b\in q[j]$, it then uses $\varphi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
+Once a second input $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of inputs $(b,c)$ it received into $\varphi^\sharp$, yielding a new state $t\in S$.
 
 That's a lot of words, which is why the polybox picture is so helpful: by following the arrows, we can see that a dynamical system with a composite interface actually captures a very natural type of interaction!
-Mixing our metaphors a little, $\phi$ could model a system that displays cascading menus, where selecting an option $b$ on the first menu $j$ opens up a second menu $k$.
+Mixing our metaphors a little, $\varphi$ could model a system that displays cascading menus, where selecting an option $b$ on the first menu $j$ opens up a second menu $k$.
 It is only when the interacting agent selects an option $c$ from this second menu that both choices are sent back to the state system, which updates its state accordingly.
 
 All this generalizes to $n$-fold composite interfaces exactly how you'd expect: a dynamical system with interface $q_1\tri\cdots\tri q_n$ produces output and receives input through interface $q_1$, then accordingly produces output and receives input through interface $q_2$, and so on, until it produces output (according to the current state and all previous inputs) and receives input through $q_n$, whereupon it updates its state according to the $n$ inputs it received along with the current state.
@@ -2511,7 +2535,7 @@ Finally, once the user fills in the upper box of $q'$, following the top arrow $
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
 \begin{example}[Dynamical systems and the composition product, revisited] \label{ex.dyn_sys_comp_polyboxes}
-In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold composition product $\phi\tripow{n}$ of a dynamical system $\phi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
+In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold composition product $\varphi\tripow{n}$ of a dynamical system $\varphi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
 We can visualize this behavior using polyboxes---for example, here's what the $n=3$ case looks like:
 \[
 \begin{tikzpicture}[polybox, mapstos]
@@ -2533,7 +2557,7 @@ We can visualize this behavior using polyboxes---for example, here's what the $n
 	\draw (p''_dir) -- node[above] {update} (s''_dir);
 \end{tikzpicture}
 \]
-It is now patently obvious what $\phi\tripow3$ does from this picture, as long as we know how to read polyboxes (and we could probably make a pretty good guess even if we didn't!).
+It is now patently obvious what $\varphi\tripow3$ does from this picture, as long as we know how to read polyboxes (and we could probably make a pretty good guess even if we didn't!).
 This resolves the first issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues}: we now have a concise way of depicting the $n$-fold composite of a dynamical system.
 The second issue becomes clear when we look at which boxes are blue along the left: we would really like the position $s_1$ to be entered above the direction $s_1$ automatically, the $s_2$ entered above $s_2$ automatically, etc.\ rather than having to specify the contents of those blue boxes manually.
 We shouldn't even having the option to fill those blue boxes in with anything else.
@@ -2605,7 +2629,7 @@ We will read equations off of polyboxes like this repeatedly in the rest of the 
 
 \begin{example}[Transition lenses for state systems] \label{ex.dyn_sys_trans_polyboxes}
 
-In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\phi\tripow2$ of a dynamical system $\phi\colon S\yon^S\to p$ can be drawn as follows:
+In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\varphi\tripow2$ of a dynamical system $\varphi\colon S\yon^S\to p$ can be drawn as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$S\yon^S$" left] (s) {$s_1$\at$s_0$};
@@ -2625,8 +2649,8 @@ This \emph{almost} models the behavior of running through the system twice, exce
 The second blue box on the domain side, the one we fill with $s_1$, should instead be filled automatically with the same state as the direction $s_1$ in the white box below it.
 
 In fact, it would be nice if the domain were still just $S\yon^S$.
-Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\phi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
-But we just learned how to take a composition product of lenses such as $\phi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
+Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\varphi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
+But we just learned how to take a composition product of lenses such as $\varphi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -2701,7 +2725,7 @@ Here is another picture of the transition lens $\delta$ of $S\yon^S$ with our ne
 	\draw (p'_dir) to[last] node[above=.4] {run} (r_dir);
   \end{tikzpicture}
 \]
-This resolves the second issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues} for the case of $n=2$, giving us a dynamical system $\delta\then(\phi\tri\phi)\colon S\yon^S\to p\tri p$ that simulates stepping through the system $\phi$ twice.
+This resolves the second issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues} for the case of $n=2$, giving us a dynamical system $\delta\then(\varphi\tri\varphi)\colon S\yon^S\to p\tri p$ that simulates stepping through the system $\varphi$ twice.
 But what about more general values of $n$?
 
 We already have a way of talking about the $n=0$ case: that is what the do-nothing enclosure $\epsilon\colon S\yon^S\to\yon$ models.
@@ -2709,11 +2733,11 @@ But there is some overlap in how $\epsilon$ matches up state-positions with dire
 Put another way, if $\epsilon$ tells us how to do nothing, and $\delta$ tells us how to do two things, then we had better check that if one of the two things we do is nothing, then that's the same as doing just one thing.
 Can we ensure that $\epsilon$ and $\delta$ agree on what they are saying about our state system?
 
-Then for $n=3$, we would like a dynamical system $S\yon^S\to p\tri p\tri p$ that simulates stepping through $\phi$ three times.
-One way to do this would be to compose $\phi\tripow3$ with a lens of the form $S\yon^S\to\left(S\yon^S\right)\tripow3$ that we obtain by extending $\delta$ from modeling two-step transitions to three-step transitions.
+Then for $n=3$, we would like a dynamical system $S\yon^S\to p\tri p\tri p$ that simulates stepping through $\varphi$ three times.
+One way to do this would be to compose $\varphi\tripow3$ with a lens of the form $S\yon^S\to\left(S\yon^S\right)\tripow3$ that we obtain by extending $\delta$ from modeling two-step transitions to three-step transitions.
 But there are two ways to derive a lens with codomain $\left(S\yon^S\right)\tripow3$ from $\delta$: we could either take $\delta\then\left(\delta\tri\id_{S\yon^S}\right)$, or we could take $\delta\then\left(\id_{S\yon^S}\tri\delta\right)$
 For larger values of $n$, there are even more possibilities for what we could do.
-But there should really only be one dynamical system that models stepping through $\phi$ a fixed number of times.
+But there should really only be one dynamical system that models stepping through $\varphi$ a fixed number of times.
 How do we guarantee that all these different ways of extending $\delta$ to $n$-step transitions end up telling us the same thing?
 
 In summary, we need some kind of compatibility condition between $\epsilon$ and $\delta$, as well as some kind of associativity condition on $\delta$ to guarantee that it can be extended coherently.
@@ -2722,16 +2746,16 @@ And if this is all starting to sound suspiciously familiar, youâ€™re not wrongâ€
 \end{example}
 
 \begin{exercise}
-Let $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, and define $\phi\colon S\yon^S\to p$ to be the dynamical system with return function $\phi_\1(k)\coloneqq k$ and update function $\phi^\sharp_k(1)\coloneqq k+1$.
+Let $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, and define $\varphi\colon S\yon^S\to p$ to be the dynamical system with return function $\varphi_\1(k)\coloneqq k$ and update function $\varphi^\sharp_k(1)\coloneqq k+1$.
 \begin{enumerate}
-    \item Draw the polyboxes for $\phi$ and describe its dynamics: what does $1$ run through the system look like?
-    \item Let $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ be the transition lens of $S\yon^S$, and draw the polyboxes for the new system $\delta\then(\phi\tri\phi)\colon S\yon^S\to p\tri p$.
+    \item Draw the polyboxes for $\varphi$ and describe its dynamics: what does $1$ run through the system look like?
+    \item Let $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ be the transition lens of $S\yon^S$, and draw the polyboxes for the new system $\delta\then(\varphi\tri\varphi)\colon S\yon^S\to p\tri p$.
     Describe its dynamics: how does it model $2$ runs through the system?
 \end{enumerate}
 
-What is the induced lens $\text{Run}_n(\phi)$?
+What is the induced lens $\text{Run}_n(\varphi)$?
 First of all, it is a dynamical system
-\[\text{Run}_n(\phi)\colon S\yon^S\to\rr^n\yon,\]
+\[\text{Run}_n(\varphi)\colon S\yon^S\to\rr^n\yon,\]
 meaning that it has the same set of states as before, but it outputs $n$-many reals in every moment. 
 
 For $n=3$, here is one moment of output:
@@ -4371,9 +4395,9 @@ Another way to say this is that $\delta$ is \emph{coassociative}: while $\delta$
 (This is dual to an \emph{associative} operation, which is a binary operation that gives rise to two identical ternary operations.)
 
 So $\delta$ induces a canonical lens $\car{s}\to\car{s}\tripow3$, which we will call $\delta^{(3)}$, as it has $3$ copies of $\car{s}$ in its codomain.
-Armed with this new lens, we can model three steps through a system $\phi\colon\car{s}\to p$ with interface $p\in\poly$ as the composite lens
+Armed with this new lens, we can model three steps through a system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$ as the composite lens
 \[
-    \car{s}\To{\delta^{(3)}}\car{s}\tripow3\To{\phi\tripow3}p\tripow3.
+    \car{s}\To{\delta^{(3)}}\car{s}\tripow3\To{\varphi\tripow3}p\tripow3.
 \]
 
 In fact, coassociativity guarantees that $\delta$ induces a canonical lens $\delta^{(n)}\colon\car{s}\to\car{s}\tripow{n}$ for every integer $n\geq2$, starting with $\delta^{(2)}\coloneqq\delta$.%
@@ -4439,18 +4463,18 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 \subsection{Running dynamical systems}\label{subsec.comon.sharp.state.run}
 
 Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
-Given a dynamical system $\phi\colon\car{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\phi)$, with the same state system $\car{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\phi)\coloneqq\delta^{(n)}\then\phi\tripow{n}$.
-Visually, we define $\text{Run}_n(\phi)$ so that the following diagram commutes:
+Given a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\varphi)$, with the same state system $\car{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\varphi)\coloneqq\delta^{(n)}\then\varphi\tripow{n}$.
+Visually, we define $\text{Run}_n(\varphi)$ so that the following diagram commutes:
 \begin{equation}\label{eqn.speedup}
 \begin{tikzcd}
-	\car{s}\ar[r, "\delta^{(n)}"]\ar[rr, bend right, "{\text{Run}_n(\phi)}"']&
-	\car{s}\tripow{n}\ar[r, "\phi\tripow{n}"]&
+	\car{s}\ar[r, "\delta^{(n)}"]\ar[rr, bend right, "{\text{Run}_n(\varphi)}"']&
+	\car{s}\tripow{n}\ar[r, "\varphi\tripow{n}"]&
 	p\tripow n
 \end{tikzcd}
 \end{equation}
-One way to think of this is that $\text{Run}_n(\phi)$ is a sped-up version of $\phi$: one step through $\text{Run}_n(\phi)$ is equivalent to $n$ steps through $\phi$.
+One way to think of this is that $\text{Run}_n(\varphi)$ is a sped-up version of $\varphi$: one step through $\text{Run}_n(\varphi)$ is equivalent to $n$ steps through $\varphi$.
 But this is just because a single interaction with the interface $p\tripow{n}$ models a sequence of $n$ interactions with the interface $p$, as detailed in \cref{subsec.comon.comp.def.dyn_sys,ex.dyn_sys_comp_polyboxes}.
-So $\text{Run}_n(\phi)$ repackages $n$ cycles through $\phi$ into a single step.
+So $\text{Run}_n(\varphi)$ repackages $n$ cycles through $\varphi$ into a single step.
 Crucially, $\delta^{(n)}$ is what tells us how to sequence all $n$ of these steps together on the state system side.
 We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_trans_polyboxes}, and here's a polybox picture for the $n=3$ case:
 \[
@@ -4461,7 +4485,7 @@ We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_tra
 		\node[poly, cod, dgreen, right=of S, "$p$" right] (p) {};
 		\draw (S_pos) to[first] (p_pos);
 		\draw (p_dir) to[last]  (S_dir);
-		\node at ($(S.east)!.5!(p.west)$) {$\phi$};
+		\node at ($(S.east)!.5!(p.west)$) {$\varphi$};
 	\end{tikzpicture}
 	};
 	\node[right=of given] (obtain) {
@@ -4485,25 +4509,25 @@ We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_tra
 		\draw[blue] (S2_dir) to[climb] (S3_pos);
 		\draw[blue] (S3_dir) to[last] (S_dir);
 		\node[blue] at ($(S.east)!.33!(S2.west)$) {$\delta^{(3)}$};
-		\node at ($(S1.east)!.33!(p1.west)$) {$\phi$};
-		\node at ($(S2.east)!.33!(p2.west)$) {$\phi$};
-		\node at ($(S3.east)!.33!(p3.west)$) {$\phi$};		
+		\node at ($(S1.east)!.33!(p1.west)$) {$\varphi$};
+		\node at ($(S2.east)!.33!(p2.west)$) {$\varphi$};
+		\node at ($(S3.east)!.33!(p3.west)$) {$\varphi$};		
   \end{tikzpicture}	
 	};
-	\node[above] at (obtain.north) (obtain_lab) {obtain $\text{Run}_3(\phi)$:};
-	\node at (given|-obtain_lab) {Given $\phi\colon \car{s}\to p$,};
+	\node[above] at (obtain.north) (obtain_lab) {obtain $\text{Run}_3(\varphi)$:};
+	\node at (given|-obtain_lab) {Given $\varphi\colon \car{s}\to p$,};
 \end{tikzpicture}
 \]
-Notice that we have only defined $\delta^{(n)}$, and thus $\text{Run}_n(\phi)$, for integers $n\geq2$.
-But $n=0$ runs through $n$ is doing nothing, modeled by the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$, while $n=1$ run through $\phi$ is modeled by $\phi\colon\car{s}\to\car{s}$ itself.
-So we want $\text{Run}_0(\phi)=\epsilon$ and $\text{Run}_1(\phi)=\phi$; we can achieve this by setting $\delta^{(0)}\coloneqq\epsilon$ and $\delta^{(1)}\coloneqq\id_\car{s}$.
+Notice that we have only defined $\delta^{(n)}$, and thus $\text{Run}_n(\varphi)$, for integers $n\geq2$.
+But $n=0$ runs through $n$ is doing nothing, modeled by the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$, while $n=1$ run through $\varphi$ is modeled by $\varphi\colon\car{s}\to\car{s}$ itself.
+So we want $\text{Run}_0(\varphi)=\epsilon$ and $\text{Run}_1(\varphi)=\varphi$; we can achieve this by setting $\delta^{(0)}\coloneqq\epsilon$ and $\delta^{(1)}\coloneqq\id_\car{s}$.
 Here we should think of the do-nothing enclosure $\delta^{(0)}$ as the transition lens modeling $0$ steps through our state system, and the identity $\delta^{(1)}$ as the transition lens modeling a single step.
 
 \begin{exercise}
-Verify that when $\delta^{(0)}=\epsilon$ and $\delta^{(1)}=\id_\car{s}$, if $\text{Run}_n(\phi)$ is defined as $\delta^{(n)}\then\phi\tripow{n}$ for all $n\in\nn$, then $\text{Run}_0(\phi)=\epsilon$ and $\text{Run}_1(\phi)=\id_\car{s}$.
+Verify that when $\delta^{(0)}=\epsilon$ and $\delta^{(1)}=\id_\car{s}$, if $\text{Run}_n(\varphi)$ is defined as $\delta^{(n)}\then\varphi\tripow{n}$ for all $n\in\nn$, then $\text{Run}_0(\varphi)=\epsilon$ and $\text{Run}_1(\varphi)=\id_\car{s}$.
 \begin{solution}
-We have $\text{Run}_n(\phi)=\delta^{(n)}\then\phi\tripow{n}$ for all $n\in\nn$, as well as $\delta^{(0)}=\epsilon$ and $\delta^{(1)}=\id_\car{s}$.
-Then $\text{Run}_0(\phi)=\epsilon\then\phi\tripow0=\epsilon\then\id_\yon=\epsilon$ and $\text{Run}_1(\phi)=\id_\car{s}\then\phi\tripow1=\phi\tripow1=\phi$.
+We have $\text{Run}_n(\varphi)=\delta^{(n)}\then\varphi\tripow{n}$ for all $n\in\nn$, as well as $\delta^{(0)}=\epsilon$ and $\delta^{(1)}=\id_\car{s}$.
+Then $\text{Run}_0(\varphi)=\epsilon\then\varphi\tripow0=\epsilon\then\id_\yon=\epsilon$ and $\text{Run}_1(\varphi)=\id_\car{s}\then\varphi\tripow1=\varphi\tripow1=\varphi$.
 \end{solution}
 \end{exercise}
 
@@ -4570,7 +4594,7 @@ Nearly all our work on state systems up until now can be summarized thusly:
     and whose duplicator is the transition lens.
 }
 The comonoid structure on a state system $\car{s}$ is what allows us to write canonical lenses $\car{s}\to\car{s}\tripow{n}$ for any $n\in\nn$.
-We can then model $n$ steps through a dynamical system $\phi\colon\car{s}\to p$ with interface $p\in\poly$ by composing this canonical lens with $\phi\tripow{n}$ to obtain a ``sped-up'' dynamical system $\text{Run}_n(\phi)$.
+We can then model $n$ steps through a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$ by composing this canonical lens with $\varphi\tripow{n}$ to obtain a ``sped-up'' dynamical system $\text{Run}_n(\varphi)$.
 This new system has the same state system $\car{s}$, but its interface is now $p\tripow{n}$.
 
 The canonicity of $\car{s}\to\car{s}\tripow{n}$ is due to the following standard result about comonoids, which can be proved inductively. %**remove this last part if you end up including the proof
@@ -5603,26 +5627,26 @@ The linear polynomial $B\yon$ corresponds to a category whose objects form the s
 %\begin{exercise}\label{ex.fleece}
 %\begin{enumerate}
 %	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\phi_c\colon c\to \fl{c}$ such that the induced map $(\phi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\phi_c$ is a product projection.
-%	\item Show that $\phi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
+%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\varphi_c\colon c\to \fl{c}$ such that the induced map $(\varphi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\varphi_c$ is a product projection.
+%	\item Show that $\varphi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
 %\qedhere
 %\end{enumerate}
 %\end{exercise}
 %
 %\begin{definition}\label{def.fleece}
-%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\phi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\phi_c$ as the \emph{fleecing map}.
+%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\varphi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\varphi_c$ as the \emph{fleecing map}.
 %
 %If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
 %\[
 %\begin{tikzcd}
-%	c\ar[r, "\delta"]\ar[d, "\phi_c"']&
-%	c\tri c\ar[d, "\phi_c\tri\phi_c"]\\
+%	c\ar[r, "\delta"]\ar[d, "\varphi_c"']&
+%	c\tri c\ar[d, "\varphi_c\tri\varphi_c"]\\
 %	\fl{c}\ar[r, "\fl{\delta}"']&
 %	\fl{c}\tri \fl{c}
 %\end{tikzcd}
 %\]
 %commute,%
-%\tablefootnote{Note that such a morphism $\fl{\delta}$ must be unique since $\phi_c$ is an epimorphism.}
+%\tablefootnote{Note that such a morphism $\fl{\delta}$ must be unique since $\varphi_c$ is an epimorphism.}
 %we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
 %\end{definition}
 %
@@ -7223,12 +7247,12 @@ Finally, we will touch on other constructions we can make over the comonoids in 
 %-------- Section --------%
 \section{Cofree comonoids} \label{sec.comon.cofree.cons}
 
-Consider a dynamical system $\phi\colon\car{s}\to p$ with state system $\car{s}$ and interface $p$.
-In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there was a single morphism that could capture all the information encoded by the family of lenses $\text{Run}_n(\phi)\colon\car{s}\to p\tripow{n}$ for all $n\in\nn$, defined as the composite
+Consider a dynamical system $\varphi\colon\car{s}\to p$ with state system $\car{s}$ and interface $p$.
+In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there was a single morphism that could capture all the information encoded by the family of lenses $\text{Run}_n(\varphi)\colon\car{s}\to p\tripow{n}$ for all $n\in\nn$, defined as the composite
 \[
-    \car{s}\To{\delta^{(n)}}\car{s}\tripow{n}\To{\phi\tripow{n}}p\tripow{n}
+    \car{s}\To{\delta^{(n)}}\car{s}\tripow{n}\To{\varphi\tripow{n}}p\tripow{n}
 \]
-that models $n$ runs through the system $\phi$.
+that models $n$ runs through the system $\varphi$.
 
 It turns out that there is: the key is that there is a natural way to interpret every polynomial $p$ as a category $\cofree{p}$, so that cofunctors into $\cofree{p}$ are exactly lenses into $p$.
 In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid} (or \emph{cofree category}) \emph{on $p$}.
@@ -7611,10 +7635,10 @@ So $\tr_p$ is the position-set of the limit $\car{t}_p$ of \eqref{eqn.cofree_dia
 If you know about coalgebras for functors, as mentioned in \cref{ex.coalgebras}, then you might know the limit $\car{t}_p(\1)$ of \eqref{eqn.cofree_pos_diagram} by a different name: it is the \emph{terminal coalgebra for the functor} $p$, or the \emph{terminal $p$-coalgebra}, because it is terminal in the category of $p$-coalgebras, as the following exercise shows.
 
 \begin{exercise}
-A \emph{$p$-coalgebra morphism} between $p$-coalgebras $\phi\colon S\to p(S)$ and $\psi\colon T\to p(T)$ (as in \cref{ex.coalgebras}) is a function $f\colon S\to T$ such that the square
+A \emph{$p$-coalgebra morphism} between $p$-coalgebras $\varphi\colon S\to p(S)$ and $\psi\colon T\to p(T)$ (as in \cref{ex.coalgebras}) is a function $f\colon S\to T$ such that the square
 \[
 \begin{tikzcd}
-    S \ar[r,"\phi"] \ar[d,"f"'] & p(S) \ar[d,"p(f)"] \\
+    S \ar[r,"\varphi"] \ar[d,"f"'] & p(S) \ar[d,"p(f)"] \\
     T \ar[r,"\psi"] & p(T)
 \end{tikzcd}
 \]
@@ -8570,37 +8594,37 @@ That is, for any category $\cat{C}\in\smcat^\sharp$ with carrier $\car{c}\colone
 \end{theorem}
 
 \begin{proof}
-To show that $\cofree{-}$ is the right adjoint of $U$, it is enough to show that for every lens $\phi\colon\car{c}\to p$, there exists a unique cofunctor $F\colon\cat{C}\cof\cofree{p}$ for which
+To show that $\cofree{-}$ is the right adjoint of $U$, it is enough to show that for every lens $\varphi\colon\car{c}\to p$, there exists a unique cofunctor $F\colon\cat{C}\cof\cofree{p}$ for which
 \begin{equation} \label{eqn.cofree_universal_lens_counit}
 \begin{tikzcd}
-    \car{c} \ar[d,dashed,"F"'] \ar[dr,"\phi"] \\
+    \car{c} \ar[d,dashed,"F"'] \ar[dr,"\varphi"] \\
     \car{t}_p \ar[r,"\epsilon^{(1)}_p"'] & p
 \end{tikzcd}
 \end{equation}
 commutes.
 Here the projection $\epsilon^{(1)}_p\colon U\cofree{p}\iso\car{t}_p\to p$ serves as the counit of the adjunction, and we identify the cofunctor $F$ with its underlying lens $UF\colon\car{c}\to\car{t}_p$.
 
-First, we construct $F$ from $\phi$ as follows.
+First, we construct $F$ from $\varphi$ as follows.
 If we let $\epsilon$ and $\delta$ be the eraser and duplicator of $\cat{C}$, the diagram
 \begin{equation} \label{eqn.phi_seed}
 \begin{tikzcd}[column sep=large]
-    \car{c} \ar[d, "\epsilon"'] \ar[r, "\delta"] \ar[dr, "\phi"'] &
-    \car{c}\tri\car{c} \ar[d, "\epsilon\:\tri\:\phi"] \\
+    \car{c} \ar[d, "\epsilon"'] \ar[r, "\delta"] \ar[dr, "\varphi"'] &
+    \car{c}\tri\car{c} \ar[d, "\epsilon\:\tri\:\varphi"] \\
     \yon \ar[d] & p \ar[d] \\
     \1 & p\tri\1 \ar[l]
 \end{tikzcd}
 \end{equation}
 commutes: the pentagon in the lower left commutes trivially, while the triangle in the upper right commutes by the left erasure law of $\cat{C}$, as
 \begin{align*}
-    \delta\then\left(\epsilon\tri\phi\right)&=
-    \delta\then\left(\epsilon\tri\car{c}\right)\then\phi \\ &=
-    \id_\car{c}\then\phi \tag{Left erasure law} \\ &=
-    \phi.
+    \delta\then\left(\epsilon\tri\varphi\right)&=
+    \delta\then\left(\epsilon\tri\car{c}\right)\then\varphi \\ &=
+    \id_\car{c}\then\varphi \tag{Left erasure law} \\ &=
+    \varphi.
 \end{align*}
 Then by induction, the larger diagram
 \begin{equation} \label{eqn.phi_expand}
 \begin{tikzcd}[column sep=large]
-    \car{c} \ar[d,"\epsilon"'] \ar[r,"\delta"] \ar[dr,"\phi"'] & \car{c}\tri\car{c} \ar[d,"\epsilon\:\tri\:\phi"] \ar[r,"\delta\:\tri\:\car{c}"] & \car{c}\tripow3 \ar[d, "\epsilon\:\tri\:\phi\tripow2"] \ar[r,"\delta\:\tri\:\car{c}\tripow2"] & \car{c}\tripow4 \ar[d,"\epsilon\:\tri\:\phi\tripow{3}"] \ar[r] & \cdots \\
+    \car{c} \ar[d,"\epsilon"'] \ar[r,"\delta"] \ar[dr,"\varphi"'] & \car{c}\tri\car{c} \ar[d,"\epsilon\:\tri\:\varphi"] \ar[r,"\delta\:\tri\:\car{c}"] & \car{c}\tripow3 \ar[d, "\epsilon\:\tri\:\varphi\tripow2"] \ar[r,"\delta\:\tri\:\car{c}\tripow2"] & \car{c}\tripow4 \ar[d,"\epsilon\:\tri\:\varphi\tripow{3}"] \ar[r] & \cdots \\
     \yon \ar[d] & p \ar[d] & p\tripow2 \ar[d] & p\tripow3 \ar[d] & \cdots \\
     \1 & p\tri\1 \ar[l] & p\tripow2\tri\1 \ar[l] & p\tripow3\tri\1 \ar[l] & \cdots \ar[l]
 \end{tikzcd}
@@ -8608,14 +8632,14 @@ Then by induction, the larger diagram
 commutes as well: its leftmost rectangle is \eqref{eqn.phi_seed}, and taking the composition product of each rectangle in \eqref{eqn.phi_expand} with the commutative rectangle
 \[
 \begin{tikzcd}[column sep=large]
-    \car{c} \ar[d, "\phi"'] \ar[r, equals] & \car{c} \ar[d, "\phi"] \\
+    \car{c} \ar[d, "\varphi"'] \ar[r, equals] & \car{c} \ar[d, "\varphi"] \\
     p \ar[d, equals] & p \ar[d, equals] \\
     p & p \ar[l, equals]
 \end{tikzcd}
 \]
 yields the rectangle to its right.
 As $\car{t}_p$ is the limit of the bottom two rows of \eqref{eqn.phi_expand}, it follows that there is an induced lens $F\colon\car{c}\to\car{t}_p$ that, when composed with each projection $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, yields the lens depicted in \eqref{eqn.phi_expand} from $\car{c}$ to $p\tripow{n}$.
-This lens is the composite of the lens $\car{c}\to\car{c}\tripow{(n+1)}$ in the top row, which by \cref{prop.n_duplication} is the canonical lens $\delta^{(n+1)}$ associated with the comonoid $\cat{C}$, composed with the lens $\epsilon\tri\phi\tripow{n}\colon\car{c}\tripow{(n+1)}\to p\tripow{n}$.
+This lens is the composite of the lens $\car{c}\to\car{c}\tripow{(n+1)}$ in the top row, which by \cref{prop.n_duplication} is the canonical lens $\delta^{(n+1)}$ associated with the comonoid $\cat{C}$, composed with the lens $\epsilon\tri\varphi\tripow{n}\colon\car{c}\tripow{(n+1)}\to p\tripow{n}$.
 %** check that it satisfies cofunctor laws
 
 Next, we prove uniqueness: that a cofunctor $\cat{C}\cof\cofree{p}$ with underlying lens $f\colon\car{c}\to\car{t}_p$ is completely determined by the value of $f\then\epsilon^{(1)}_p$.
@@ -8659,14 +8683,14 @@ The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a categ
 \[
     \poly(\car{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
 \]
-So every lens $\phi\colon\car{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
+So every lens $\varphi\colon\car{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
 
-We can view $\phi$ as a dynamical system with an interface $p$ and a generalized state system $\car{c}$, carrying an arbitrary category $\cat{C}$ of states and transitions.
-Then the lens $\text{Run}_n(\phi)\colon\car{c}\to p\tripow{n}$ for $n\in\nn$, defined as the composite
+We can view $\varphi$ as a dynamical system with an interface $p$ and a generalized state system $\car{c}$, carrying an arbitrary category $\cat{C}$ of states and transitions.
+Then the lens $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ for $n\in\nn$, defined as the composite
 \[
-    \car{c}\To{\delta^{(n)}}\car{c}\tripow{n}\To{\phi\tripow{n}}p\tripow{n},
+    \car{c}\To{\delta^{(n)}}\car{c}\tripow{n}\To{\varphi\tripow{n}}p\tripow{n},
 \]
-models $n$ runs through the system $\phi$.
+models $n$ runs through the system $\varphi$.
 
 Meanwhile, as the limit of the diagram \eqref{eqn.cofree_diagram} with the row of polynomials of the form $p\tripow{n}$ across the top, the carrier $\car{t}_p$ of the cofree comonoid on $p$ comes equipped with a lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ for each $n\in\nn$.
 As the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\car{c}\to\car{t}_p$, we can obtain another lens $\car{c}\to\tripow{n}$ as the composite
@@ -8678,12 +8702,12 @@ It turns out that these two composites are equal---that is, the following diagra
 \[
 \begin{tikzcd}
     \car{c} \ar[r,"f"] \ar[d, "\delta^{(n)}"'] & \car{t}_p \ar[d, "\epsilon^{(n)}_p"] \\
-    \car{c}\tripow{n} \ar[r, "\phi\tripow{n}"'] & p\tripow{n}
+    \car{c}\tripow{n} \ar[r, "\varphi\tripow{n}"'] & p\tripow{n}
 \end{tikzcd}
 \]
 We will prove this in \cref{**} once we have the tools to do so.
 
-Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\phi)\colon\car{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\car{t}_p$ equipped with lenses $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
+Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\car{t}_p$ equipped with lenses $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
 All together, $\car{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
 But to see all this explicitly, let's consider some examples.
 
@@ -8694,7 +8718,7 @@ Recall from \cref{def.gen_moore} that a dependent system (or generalized Moore m
 But now we know that $S\yon^S$ is secretly the underlying polynomial of a comonoid. This means that $f$ has a mate, i.e.\ a corresponding cofunctor $S\yon^S\cof\cofree{p}$ to the category of $p$-trees. How does that work?
 
 \begin{example}\label{ex.cofree_dyn_sys}
-Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.det_fsa_misc_398}, depicted here again for your convenience:
+Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.halt_dsa}, depicted here again for your convenience:
 \[
 \begin{tikzcd}[column sep=small]
 	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
@@ -8703,6 +8727,7 @@ Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+
 \end{tikzcd}
 \]
 The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each state $s\in S$, we need to associate a tree; which should it be? 
+**
 \end{example}
 
 % ** figure out what this means

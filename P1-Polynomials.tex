@@ -2603,7 +2603,7 @@ Below $p, q \in \poly$.
 	\item Is there always a canonical map $p\to \dot{p}$?
 	\item Is there always a canonical map $\dot{p}\to p$?
 	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
-	\item We will define the binary operations $\otimes$ and $\ihom{-,-}$ on $\poly$ later on in \eqref{eqn.parallel_def} and \eqref{eqn.dir_hom}, and in \cref{exc.dir_hom_p_yon_dir_p}, you will be able to use \cref{exc.dir_hom_sum} to deduce that
+	\item We will define the binary operations $\otimes$ and $\ihom{-,-}$ on $\poly$ later on in \eqref{eqn.parallel_def} and \eqref{eqn.par_hom}, and in \cref{exc.dir_hom_p_yon_dir_p}, you will be able to use \cref{exc.par_hom_sum} to deduce that
 	\begin{equation} \label{eqn.dir_hom_p_yon_dir_p}
 	    \ihom{p, \yon} \otimes p \iso \sum_{f \in \prod_{i \in p(\1)} p[i]} \; \sum_{i \in p(\1)} \yon^{p(\1) \times p[i]},
 	\end{equation}
@@ -3339,17 +3339,17 @@ In practice, we can multiply polynomial functors the same way we would multiply 
 \end{solution}
 \end{exercise}
 
-As lenses, the canonical projections $\pi \colon pq \to p$ and $\phi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
+As lenses, the canonical projections $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
 
 \begin{exercise} \label{exc.poly_prod}
-Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
+Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
 \begin{solution}
-We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\phi \colon pq \to q$ as described in the text satisfy the universal property of the product.
+We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ as described in the text satisfy the universal property of the product.
 That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
 \begin{equation} \label{eqn.prod_univ_prop}
 \begin{tikzcd}
 	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
-	p & pq. \ar[l, "\pi"] \ar[u, "\phi"'] 
+	p & pq. \ar[l, "\pi"] \ar[u, "\varphi"'] 
 \end{tikzcd}
 \end{equation}
 We apply \cref{ex.comm_poly}.
@@ -3357,21 +3357,21 @@ In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions
 \begin{equation} \label{eqn.prod_univ_prop_pos}
 \begin{tikzcd}
 	r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
-	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\phi_\1"'] 
+	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\varphi_\1"'] 
 \end{tikzcd}
 \end{equation}
-But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\phi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
+But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\varphi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
 In particular, it must send each $k \in r(\1)$ to the pair $(f_\1(k), g_\1(k)) \in (pq)(\1)$.
 
 Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
 \begin{equation} \label{eqn.prod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
-	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\phi^\sharp_{(f_\1(k), g_\1(k))}"] \\
+	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\varphi^\sharp_{(f_\1(k), g_\1(k))}"] \\
 	p[f_\1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1(k), g_\1(k))}"'] & (pq)[(f_\1(k), g_\1(k))]. \ar[ul, "h^\sharp_k"', dashed] 
 \end{tikzcd}
 \end{equation}
-As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\phi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
+As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\varphi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
 Hence $h$ is also uniquely characterized on directions, so it is unique overall.
 Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
 As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
@@ -4306,11 +4306,11 @@ But by replacing $B\yon^A$ with an arbitrary polynomial $p$---a sum of monomials
 
 \begin{definition}[Dependent dynamical system]\label{def.gen_moore}
 A \emph{dependent dynamical system} (or a \emph{dependent Moore machine}, or simply a \emph{dynamical system}) is a lens
-\[\phi\colon S\yon^S\to p\]
+\[\varphi\colon S\yon^S\to p\]
 for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states}---with $S\yon^S$ called the \emph{state system}---and the polynomial $p$ is called the \emph{interface}.
 Positions of the interface are called \emph{outputs}, and directions of the interface are called \emph{inputs}.
 
-The lens's on-positions function $\phi_\1\colon S\to p(\1)$ is called the \emph{return function}, and for each $s\in S$, the lens's on-directions function $\phi^\sharp_s\colon p[\phi_\1(s)]\to S$ is called the \emph{update function} at $s$.
+The lens's on-positions function $\varphi_\1\colon S\to p(\1)$ is called the \emph{return function}, and for each $s\in S$, the lens's on-directions function $\varphi^\sharp_s\colon p[\varphi_\1(s)]\to S$ is called the \emph{update function} at $s$.
 \end{definition}
 
 \subsection{Thinking about dependency}
@@ -4353,23 +4353,23 @@ Recall deterministic state automata from \cref{def.dfa}.
 Say we want such an automaton to halt after reaching an accept state and no longer take input.
 For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
 \[
-\phi\colon S\yon^S\to \yon^A+\1.
+\varphi\colon S\yon^S\to \yon^A+\1.
 \]
-To give such a map, we provide a return function $\phi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
-A function $\phi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
+To give such a map, we provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
+A function $\varphi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
 
 If we reach an accept state, we want the machine to halt.
 So at the position $2$, corresponding to the summand $\1$, there are no directions---and thus no inputs available.
-In other words, the update function $\phi^\sharp_s$ is trivial when $\phi_\1(s)=2$.
+In other words, the update function $\varphi^\sharp_s$ is trivial when $\varphi_\1(s)=2$.
 
-On the other hand, $\phi^\sharp_s$ is not trivial on those elements $s\in S$ for which $\phi_\1(s)=1$.
-Instead, these update functions $\phi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
+On the other hand, $\varphi^\sharp_s$ is not trivial on those elements $s\in S$ for which $\varphi_\1(s)=1$.
+Instead, these update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
 This is in line with the way the automaton's update function behaves.
 
 When equipped with an initial state $s_0\in S$ specified by a map $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
-Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ in $\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\phi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\phi_\1(s_k)=1$ and
+Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ in $\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\varphi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\varphi_\1(s_k)=1$ and
 \[
-    s_{k+1}=\phi^\sharp_{s_k}(a_{k+1}).
+    s_{k+1}=\varphi^\sharp_{s_k}(a_{k+1}).
 \]
 We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
 \end{example}
@@ -4379,21 +4379,28 @@ Again, the conditions for when one of these automata accepts a word are rather a
 We will see in \cref{**} a nicer way of saying whether a word is accepted or a language is recognized by a halting deterministic state automaton.
 \end{remark}
 
-\begin{exercise}\label{exc.det_fsa_misc_398}
+\begin{exercise}\label{exc.halt_dsa}
 Consider the halting deterministic state automaton shown below:
-\begin{equation} \label{eqn.hdsa}
-\begin{tikzpicture}
-\node[draw] {
+\begin{equation} \label{eqn.halt_dsa}
 \begin{tikzcd}[column sep=small]
-	\LMO{}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
-	\LMO{}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
-	\LMO{}
+	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[red]
 \end{tikzcd}
-};
-\end{tikzpicture}
 \end{equation}
-Call the left state 1, the right state 2, and the bottom state 3.
-We designate state $1$ as the initial state.
+% \begin{equation} \label{eqn.halt_dsa}
+% \begin{tikzpicture}
+% \node[draw] {
+% \begin{tikzcd}[column sep=small]
+% 	\LMO{}\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+% 	\LMO{}\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+% 	\LMO{}
+% \end{tikzcd}
+% };
+% \end{tikzpicture}
+% \end{equation}
+Let the left state $\bul[dgreen]$ be $1$, the right state $\bul[dyellow]$ be $2$, and the bottom state $\bul[red]$ be $3$.
+We designate $\bul[dgreen]$, state $1$, as the initial state.
 We can also call the orange arrows ``{\color{orange}orange}'' and the green arrows ``{\color{dgreen}green}.''
 Answer the following questions, in keeping with the notation from \cref{ex.regular_lang_stop}.
 
@@ -4409,21 +4416,21 @@ Answer the following questions, in keeping with the notation from \cref{ex.regul
 \qedhere
 \end{enumerate}
 \begin{solution}
-Here we examine the halting deterministic state automaton depicted in \eqref{eqn.hdsa}, with left state (and initial state) 1, right state 2, bottom state 3, and arrows {\color{orange}orange} and {\color{dgreen}green}.
+Here we examine the halting deterministic state automaton depicted in \eqref{eqn.halt_dsa}, with left state (and initial state) 1, right state 2, bottom state 3, and arrows {\color{orange}orange} and {\color{dgreen}green}.
 
 \begin{enumerate}
-    \item The set of states is $S\coloneqq\3=\{1,2,3\}$.
+    \item The set of states is $S\coloneqq\{1,2,3\}=\3$ (or equivalently $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}\iso\3$).
     \item The set of input symbols is $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
     \item The automaton should halt at the accept states, so the accept states are exactly the states that have no arrows coming out of them---in this case, only state 3.
     States 1 and 2 are not accept states.
-    \item Let the corresponding lens be $\phi\colon S\yon^S\to\yon^A+\1$, or $\phi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
-    According to the previous part, $\phi$ has a return function $\phi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
-    Then the two nontrivial update functions behave as follows, according to the targets of the arrows in \eqref{eqn.hdsa}:
+    \item Let the corresponding lens be $\varphi\colon S\yon^S\to\yon^A+\1$, or $\varphi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
+    According to the previous part, $\varphi$ has a return function $\varphi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
+    Then the two nontrivial update functions behave as follows, according to the targets of the arrows in \eqref{eqn.halt_dsa}:
     \begin{align*}
-        \phi^\sharp_1&\colon\quad{\color{orange}\text{orange}}\mapsto2,{\color{dgreen}\text{green}}\mapsto1\\
-        \phi^\sharp_2&\colon\quad{\color{orange}\text{orange}}\mapsto3,{\color{dgreen}\text{green}}\mapsto1,
+        \varphi^\sharp_1&\colon\quad{\color{orange}\text{orange}}\mapsto2,{\color{dgreen}\text{green}}\mapsto1\\
+        \varphi^\sharp_2&\colon\quad{\color{orange}\text{orange}}\mapsto3,{\color{dgreen}\text{green}}\mapsto1,
     \end{align*}
-    while $\phi^\sharp_3\colon\0\to S$ is trivial.
+    while $\varphi^\sharp_3\colon\0\to S$ is trivial.
     \item Some examples of words accepted by this automaton include the word $({\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ the word $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ and the word $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
     \item Some words are not accepted by the automaton because they lead you to a non-accept state (1 or 2); others are not accepted by the automaton because they lead you to an accept state (3) too early.
     Some examples of the former possibility include the words $({\color{dgreen}\text{green}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$, while some examples of the latter possibility include the words $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
@@ -4447,13 +4454,13 @@ Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map
 Its positions are the vertices of the graph, and at each position $v\in V$, its directions are the edges coming out of $v$.
 We call this the \emph{emanation polynomial} of $G$.
 
-The graph itself can be seen as a dynamical system $\phi\colon V\yon^V \to g$, where $\phi_\1 = \id_V$ and $\phi^\sharp_v(e) = t(e)$.
-So its states are the vertices of the graph, each vertex returns itself as output, and an input at a vertex $v\in V$ is an edge $e\in E$ coming out of that vertex that takes us from the vertex $v=s(e)$ along the edge $e$ to its target vertex $\phi^\sharp_v(e)=t(e)$.
+The graph itself can be seen as a dynamical system $\varphi\colon V\yon^V \to g$, where $\varphi_\1 = \id_V$ and $\varphi^\sharp_v(e) = t(e)$.
+So its states are the vertices of the graph, each vertex returns itself as output, and an input at a vertex $v\in V$ is an edge $e\in E$ coming out of that vertex that takes us from the vertex $v=s(e)$ along the edge $e$ to its target vertex $\varphi^\sharp_v(e)=t(e)$.
 \end{example}
 
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
-Draw its labeled transition diagram as in \eqref{eqn.trans_diag} or \eqref{eqn.hdsa}.
+Draw its labeled transition diagram as in \eqref{eqn.trans_diag} or \eqref{eqn.halt_dsa}.
 \begin{solution}
 No matter what graph you chose, \cref{ex.graph_dyn} tells us that if you were to draw out the labeled transition diagram of its associated dynamical system, you would just end up with a picture of your graph!
 The vertices of your graph are the states, and the edges of your graph are the possible transitions between them.
@@ -4474,7 +4481,7 @@ The vertices of your graph are the states, and the edges of your graph are the p
 
 \begin{example}\label{ex.generalized_file_reader}
 In \cref{exc.file_reader} one is tasked with building a file-reader as a Moore machine, where a file is a function $f\colon\ord{n}\to\Set{ascii}$. 
-Now we turn that file-reader into a dependent dynamical system $\phi\colon S\yon^S\to p$ that cannot take in input while it is reading.
+Now we turn that file-reader into a dependent dynamical system $\varphi\colon S\yon^S\to p$ that cannot take in input while it is reading.
 
 We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
 Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
@@ -4491,9 +4498,9 @@ That way, our file-reader can receive any pair of entries in $S$ as input when i
 
 We want our file-reader to be `ready' if its current entry is the terminal entry; otherwise, it will be `busy.'
 In either case, it will return the ascii character at the current position.
-So we define the return function $\phi_\1$ such that, for all $(s,t)\in S$,
+So we define the return function $\varphi_\1$ such that, for all $(s,t)\in S$,
 \begin{align*}
-  \phi_\1(s, t) =
+  \varphi_\1(s, t) =
   \begin{cases}
     (\text{`ready'}, f(s)) &\mbox{if $s = t$}\\
     (\text{`busy'}, f(s)) &\mbox{otherwise}  
@@ -4501,10 +4508,10 @@ So we define the return function $\phi_\1$ such that, for all $(s,t)\in S$,
 \end{align*}
 
 While the file-reader is `ready,' we want it to set its new current and terminal entries to be the input.
-So for each $(s,t)\in S$ for which $s=t$, we define the update function $\phi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
+So for each $(s,t)\in S$ for which $s=t$, we define the update function $\varphi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
 
 On the other hand, while the file-reader is `busy,' we want it to step forward through the file each time it receives an input.
-So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\phi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
+So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\varphi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
 \begin{exercise} \label{exc.file_searcher}
@@ -4512,7 +4519,7 @@ Say instead of a file-reader, we wanted a file-searcher, which acts just like th
 Give the lens for this file-searcher by explicitly defining its return (on-positions) and update (on-directions) functions.
 Hint: You should be able to use the same state system.
 \begin{solution}
-We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $c=100$.
+We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $c=100$.
 In place of any other ascii character, we'll have it output $\_$ instead.
 So its possible outputs should form the set
 \[
@@ -4522,7 +4529,7 @@ The direction-sets of $q$ can be defined in the same way we defined the directio
 \[
     q[(\text{`ready'}, c)]\coloneqq S \qqand q[(\text{`busy'}, c)]\coloneqq\1.
 \]
-Then we define the return function $\psi_\1$ like $\phi_\1$, but first checking to see if the character at the current entry is $100$: so for all $(s,t)\in S$,
+Then we define the return function $\psi_\1$ like $\varphi_\1$, but first checking to see if the character at the current entry is $100$: so for all $(s,t)\in S$,
 \begin{align*}
   \psi_\1(s, t) =
   \begin{cases}
@@ -4532,7 +4539,7 @@ Then we define the return function $\psi_\1$ like $\phi_\1$, but first checking 
     (\text{`busy'}, \_) &\mbox{otherwise}\\
   \end{cases}
 \end{align*}
-Then the update functions of $\psi$ behave just like those of $\phi$.
+Then the update functions of $\psi$ behave just like those of $\varphi$.
 For each $(s,t)\in S$ for which $s=t$, we define the update function $\psi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
 On the other hand, for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\psi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
 \end{solution}
@@ -4556,14 +4563,14 @@ Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be t
 We can think of $D_i$ as the set of all directions a robot could move if at position $i$.
 In particular, a robot already at $i=1$ cannot move in the $-1$ direction; likewise, a robot already at $i=n$ cannot move in the $+1$ direction.
 
-Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\phi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
+Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\varphi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
 \[
     p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
 \]
 The robot's state is a position in the grid.
-We let $\phi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that each state returns itself as output---in particular, the robot returns a position as output by moving to that position in the grid.
+We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that each state returns itself as output---in particular, the robot returns a position as output by moving to that position in the grid.
 
-Then for each $(i,j)\in\ord{n}\times\ord{n}$, we let $\phi^\sharp_{(i,j)}$ send each pair of directions $(d,e)\in D_i\times D_j$ to the grid position given by $(i+d,j+e)$.
+Then for each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair of directions $(d,e)\in D_i\times D_j$ to the grid position given by $(i+d,j+e)$.
 Concretely, this says that if a robot at position $(i,j)$ in the grid receives the pair of directions $(d,e)$ as its input, its new position in the grid will be $(i+d,j+e)$.
 Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still in the grid.
 With this setup, the robot has more movement options when it is in the center of the grid than when it is on the sides or corners:
@@ -4592,7 +4599,7 @@ Modify the dynamical system from \cref{ex.grid_robot} as follows.
 \begin{enumerate}
 	\item Replace $p$ with another interface $p'$ so that at each grid value, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$. 
 	\item Replace $S$ with another set of states $S'$ so that an element $s\in S'$ may include both the robot's position and a list of all reward values so far.
-	\item With your new $p'$ and $S'$, define a new lens $\phi'\colon S'\yon^{S'}\to p'$ that preserves the behavior of $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot}, but also properly updates the robots list of rewards.
+	\item With your new $p'$ and $S'$, define a new lens $\varphi'\colon S'\yon^{S'}\to p'$ that preserves the behavior of $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot}, but also properly updates the robots list of rewards.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -4607,11 +4614,11 @@ We modify the dynamical system from \cref{ex.grid_robot}.
     \item Previously, a state was just a position in $\ord{n}\times\ord{n}$.
     But now we want to be able to record a list of reward values as well.
     Since each reward value is a real number, it suffices to define the state set to be $S'\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.
-    \item The former return function $\phi_\1\colon S\to p(\1)$ was the identity on $\ord{n}\times\ord{n}$.
-    The new return function $\phi'_\1$ should still just yield the robot's current grid position, but since it is now a function from $S'=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\phi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
+    \item The former return function $\varphi_\1\colon S\to p(\1)$ was the identity on $\ord{n}\times\ord{n}$.
+    The new return function $\varphi'_\1$ should still just yield the robot's current grid position, but since it is now a function from $S'=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\varphi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
     
-    For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\phi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
-    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\phi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, updating the list of rewards.
+    For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\varphi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
+    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, updating the list of rewards.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -4630,8 +4637,8 @@ But we have yet to take full advantage of the categorical structure that $\poly$
 In particular, purely based on what we know of $\poly$ so far from \cref{ch.poly.func_nat}, we have three rather different ways of obtaining new dynamical systems from old ones:
 \begin{enumerate}
     \item Given dynamical systems $S\yon^S\to p$ and $S\yon^S\to q$, we can use the universal property of the \emph{categorical product} to obtain a dynamical system $S\yon^S\to p\times q$; see \cref{subsec.poly.dyn_sys.new.prod}.
-    \item Given dynamical systems $\phi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\phi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{subsec.poly.dyn_sys.new.par}.
-    \item Given a dynamical system $\phi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\phi\then f\colon S\yon^S\to q$; see \cref{subsec.poly.dyn_sys.new.wrap}.
+    \item Given dynamical systems $\varphi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\varphi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{subsec.poly.dyn_sys.new.par}.
+    \item Given a dynamical system $\varphi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\varphi\then f\colon S\yon^S\to q$; see \cref{subsec.poly.dyn_sys.new.wrap}.
 \end{enumerate}
 Each of these operations has a concrete interpretation in terms of dynamical systems.
 In this section, we'll review each of them in turn.
@@ -4639,12 +4646,12 @@ In this section, we'll review each of them in turn.
 %---- Subsection ----%
 \subsection{Categorical products: multiple interfaces operating on the same states}\label{subsec.poly.dyn_sys.new.prod}
 
-For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
-Then by the universal property of products in $\poly$, there is an induced lens \[\phi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
+For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
+Then by the universal property of products in $\poly$, there is an induced lens \[\varphi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
 
-We can characterize the dynamics of $\phi$ in terms of each original dynamical system $\phi_i$ as follows.
-By \cref{exc.poly_prod}, the return function \[\phi_\1\colon S\to\prod_{i\in\ord{n}}p_i(\1)\] sends each state $s\in S$ to the corresponding $n$-tuple of outputs $((\phi_i)_\1(s))_{i\in\ord{n}}$ returned by each of the original dynamical systems at that state.
-Then at each state $s\in S$, the update function \[\phi^\sharp_s\colon\sum_{i\in\ord{n}}p_i[(\phi_i)_\1(s)]\to S\] sends each pair $(i,d)$ in its domain, with $i\in\ord{n}$ and $d\in p_i[(\phi_i)_\1(s)]$, to where the update function of $\phi_i$ at $s$ sends $d$: namely $(\phi_i)^\sharp_s(d)$.
+We can characterize the dynamics of $\varphi$ in terms of each original dynamical system $\varphi_i$ as follows.
+By \cref{exc.poly_prod}, the return function \[\varphi_\1\colon S\to\prod_{i\in\ord{n}}p_i(\1)\] sends each state $s\in S$ to the corresponding $n$-tuple of outputs $((\varphi_i)_\1(s))_{i\in\ord{n}}$ returned by each of the original dynamical systems at that state.
+Then at each state $s\in S$, the update function \[\varphi^\sharp_s\colon\sum_{i\in\ord{n}}p_i[(\varphi_i)_\1(s)]\to S\] sends each pair $(i,d)$ in its domain, with $i\in\ord{n}$ and $d\in p_i[(\varphi_i)_\1(s)]$, to where the update function of $\varphi_i$ at $s$ sends $d$: namely $(\varphi_i)^\sharp_s(d)$.
 
 In other words, if there are multiple interfaces that can drive the same set of states, we may view them as a single product interface that can drives those states.
 This single dynamical system returns output in all of the original systems at once; then it can receive input from any one of the original systems' input sets and update its state accordingly.
@@ -4665,7 +4672,7 @@ which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Mo
 \end{exercise}
 
 \begin{example} \label{ex.prod_diagrams}
-Consider two four-state dependent dynamical systems $\phi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,$ and $p$ as red, blue, green, and purple, respectively):
+Consider two four-state dependent dynamical systems $\varphi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,$ and $p$ as red, blue, green, and purple, respectively):
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4700,23 +4707,23 @@ The universal property of products provides a unique way to put these systems to
   };
 \end{tikzpicture}
 \]
-Each state now returns two outputs: one according to the return function of $\phi$, and another according to the return function of $\psi$.
-As for the possible inputs, we now have the option of giving either an input from a direction-set of $\phi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\phi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
+Each state now returns two outputs: one according to the return function of $\varphi$, and another according to the return function of $\psi$.
+As for the possible inputs, we now have the option of giving either an input from a direction-set of $\varphi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\varphi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
 \end{example}
 
 \begin{exercise}[Toward event-based systems]
-Let $\phi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
+Let $\varphi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
 
-So suppose we want to allow our dynamical system not to do anything. That is, rather than needing to press a button corresponding to a direction of $p$ at each time step, we want to be able to \emph{not} press any button, in which case the system just stays where it is. We want a new system $\phi'\colon S\yon^S\to p'$ that has this behavior; what are $p'$ and $\phi'$?
+So suppose we want to allow our dynamical system not to do anything. That is, rather than needing to press a button corresponding to a direction of $p$ at each time step, we want to be able to \emph{not} press any button, in which case the system just stays where it is. We want a new system $\varphi'\colon S\yon^S\to p'$ that has this behavior; what are $p'$ and $\varphi'$?
 \begin{solution}
-Given a dynamical system $\phi\colon S\yon^S\to p$, we seek a new dynamical system $\phi'\colon S\yon^S\to p'$ that has the added option to provide no input at a step so that the state does not change.
-We can think of this as having two different interfaces acting on the same system: the original interface $p$ of $\phi$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the state.
+Given a dynamical system $\varphi\colon S\yon^S\to p$, we seek a new dynamical system $\varphi'\colon S\yon^S\to p'$ that has the added option to provide no input at a step so that the state does not change.
+We can think of this as having two different interfaces acting on the same system: the original interface $p$ of $\varphi$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the state.
 This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
 So the second interface we want acting on $S\yon^S$ is $\yon$.
 
 If $\yon$ were the only interface acting on the system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
-Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\phi'\colon S\yon^S \to p'$ is the unique map induced by $\phi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
-In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\phi'$ consists of a return function $\phi'_\1\colon S \to p(\1)$ that is the same as the return function of $\phi$ and, for each state $s\in S$, an update function $\phi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\phi$ at $s$ when the input is from $p[i]$ (sending $a\in p[i]$ to $\phi^\sharp_s(a)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
+Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\varphi'\colon S\yon^S \to p'$ is the unique map induced by $\varphi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
+In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\varphi'$ consists of a return function $\varphi'_\1\colon S \to p(\1)$ that is the same as the return function of $\varphi$ and, for each state $s\in S$, an update function $\varphi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\varphi$ at $s$ when the input is from $p[i]$ (sending $a\in p[i]$ to $\varphi^\sharp_s(a)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
 
 This construction is actually universal in a way we'll find important later. Indeed, it's called \emph{copointing}; see \cref{prop.copointing}.
 \end{solution}
@@ -4730,12 +4737,12 @@ In particular, the parallel product of two state systems is still a state system
 So parallel products give us another way to create new dynamical systems from old ones.
 In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
 
-For $n\in\nn$, say that we have $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$.
-Then we can take the parallel product of all of them to get a lens \[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
+For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$.
+Then we can take the parallel product of all of them to get a lens \[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
 
-We can characterize the dynamics of $\phi$ in terms of each constituent dynamical system $\phi_i$ as follows.
-By the proof of \cref{prop.parallel_monoidal}, the return function \[\phi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\phi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
-Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function \[\phi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\phi_i)_\1(s_i)]\to\prod_{i\in\ord{n}}S_i\] sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\phi_i)_\1(s_i)]$, to the $n$-tuple $((\phi_i)^\sharp_{s_i}(d_i))_{i\in\ord{n}}$ consisting of states where the update function of each $\phi_i$ at $s_i$ sends $d_i$.
+We can characterize the dynamics of $\varphi$ in terms of each constituent dynamical system $\varphi_i$ as follows.
+By the proof of \cref{prop.parallel_monoidal}, the return function \[\varphi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\varphi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
+Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function \[\varphi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\varphi_i)_\1(s_i)]\to\prod_{i\in\ord{n}}S_i\] sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\varphi_i)_\1(s_i)]$, to the $n$-tuple $((\varphi_i)^\sharp_{s_i}(d_i))_{i\in\ord{n}}$ consisting of states where the update function of each $\varphi_i$ at $s_i$ sends $d_i$.
 
 In other words, multiple dynamical systems running in parallel can be thought of as a single dynamical system.
 This system stores the states of all the constituent systems at once and returns output from all of them together; then it can receive input from all of the constituent systems' input sets at once and update each constituent state accordingly.
@@ -4755,7 +4762,7 @@ which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Mo
 \end{exercise}
 
 \begin{example} \label{ex.par_diagrams}
-Consider two dependent dynamical systems $\phi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
+Consider two dependent dynamical systems $\varphi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4793,15 +4800,15 @@ that looks like this (we use purple to indicate $(b,r)$, red to indicate $(r,r)$
   };
 \end{tikzpicture}
 \]
-Each state---really a pair of states from the constituent state sets---returns two outputs, one according to the return function of $\phi$ and another according to the return function of $\psi$.
-Then every input must be a pair of inputs from the constituent state sets, with the update function updating each state in the pair given each input in the pair according to the constituent update functions $\phi$ and $\psi$.
+Each state---really a pair of states from the constituent state sets---returns two outputs, one according to the return function of $\varphi$ and another according to the return function of $\psi$.
+Then every input must be a pair of inputs from the constituent state sets, with the update function updating each state in the pair given each input in the pair according to the constituent update functions $\varphi$ and $\psi$.
 \end{example}
 
 \begin{exercise} \label{exc.grid_reward_par}
-Explain how the dynamical system $\phi'\colon S'\yon^{S'}\to p'$ you built in \cref{exc.grid_reward} can be expressed as the parallel product of the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} with another dynamical system, $\psi\colon T\yon^T\to q$.
+Explain how the dynamical system $\varphi'\colon S'\yon^{S'}\to p'$ you built in \cref{exc.grid_reward} can be expressed as the parallel product of the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} with another dynamical system, $\psi\colon T\yon^T\to q$.
 Be sure to specify $T, q,$ and $\psi$.
 \begin{solution}
-We will show that taking the parallel product of the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} and a reward-tracking dynamical system $\psi\colon T\yon^T\to q$ that we will define yields the dynamical system $\phi'\colon S'\yon^{S'}\to p'$ from \cref{exc.grid_reward}.
+We will show that taking the parallel product of the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} and a reward-tracking dynamical system $\psi\colon T\yon^T\to q$ that we will define yields the dynamical system $\varphi'\colon S'\yon^{S'}\to p'$ from \cref{exc.grid_reward}.
 
 The reward-tracking dynamical system should have states in $\lst(\rr)$ to record a list of reward values, unchanging output, and inputs in $\rr$ to give new reward values.
 So it is the lens $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$ that has a uniquely defined return function, while its update function sends each state $(r_1,\ldots,r_k)\in\lst(\rr)$ and each input $r\in\rr$ to the new state $(r_1,\ldots,r_k,r)$.
@@ -4812,7 +4819,7 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 
 \begin{exercise} \label{exc.grid_robot_par}
 \begin{enumerate}
-    \item Explain how the robot-on-a-grid dynamical system $\phi\colon S\yon^S\to p$ from \cref{ex.grid_robot} can be written as the parallel product of some dynamical system with itself.
+    \item Explain how the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} can be written as the parallel product of some dynamical system with itself.
     \item Use $k$-fold parallel products to generalize \cref{ex.grid_robot} to robots on $k$-dimensional grids.\qedhere
 \end{enumerate}
 \begin{solution}
@@ -4834,17 +4841,17 @@ We'll introduce wrapper interfaces in the next section, before describing how th
 \subsection{Composing lenses: wrapper interfaces}\label{subsec.poly.dyn_sys.new.wrap}
 
 The idea behind a wrapper interface is simple.
-Given a dynamical system $\phi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
-We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\phi}p\To{f}q$.
-We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\phi$ (or sometimes just $p$, if a dynamical system $\phi$ has yet to be specified) using $f$.
+Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
+We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\varphi}p\To{f}q$.
+We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\varphi$ (or sometimes just $p$, if a dynamical system $\varphi$ has yet to be specified) using $f$.
 
-To see how this new composite system $\phi\then f$ relates to the original dynamical system $\phi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.func_nat.morph.concrete}.
+To see how this new composite system $\varphi\then f$ relates to the original dynamical system $\varphi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.func_nat.morph.concrete}.
 The lens $f$ converts an output $i$ from $p$ to an output $f_\1(i)$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1(i)]$ instead, via its on-directions function at $i$.
 So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
 Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
 
 \begin{example} \label{ex.wrap_diagrams}
-Consider a dependent dynamical system $\phi\colon\6\yon^\6\to p$ with 
+Consider a dependent dynamical system $\varphi\colon\6\yon^\6\to p$ with 
 \[
     p\coloneqq\{1\}\yon^{\{b,y,r\}}+\{2\}\yon^{\{b,r\}}+\{3\}\yon^{\{b\}}+\{4\}\yon^{\{r\}},
 \]
@@ -4863,7 +4870,7 @@ drawn below as a labeled transition diagram (we think of $b,y,$ and $r$ as blue,
   };
 \end{tikzpicture}
 \]
-We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}+\{c\}\] around $\phi$ using the following lens $f\colon p\to q$ (we think of $g,p,$ and $o$ as green, purple, and orange, respectively):
+We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}+\{c\}\] around $\varphi$ using the following lens $f\colon p\to q$ (we think of $g,p,$ and $o$ as green, purple, and orange, respectively):
 \[
 \begin{tikzpicture}
 	\node (p1) {
@@ -4926,7 +4933,7 @@ We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}
 	};	
 \end{tikzpicture}
 \]
-Composing $\phi$ with $f$, we obtain a dynamical system $\6\yon^\6\To{\phi}p\To{f}q$ that looks like this:
+Composing $\varphi$ with $f$, we obtain a dynamical system $\6\yon^\6\To{\varphi}p\To{f}q$ that looks like this:
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -4942,15 +4949,15 @@ Composing $\phi$ with $f$, we obtain a dynamical system $\6\yon^\6\To{\phi}p\To{
 \end{tikzpicture}
 \]
 Each state returns an output in $q$ according to where the on-positions function of $f$ sends the output the state returns in $p$.
-Then each input in $q$ is passed to an input in $p$ via the corresponding on-directions function of $f$, whereupon the update function of $\phi$ computes the new state.
-So $f$ allows us to operate $\phi$ with the wrapper interface $q$ instead of the original interface $p$.
+Then each input in $q$ is passed to an input in $p$ via the corresponding on-directions function of $f$, whereupon the update function of $\varphi$ computes the new state.
+So $f$ allows us to operate $\varphi$ with the wrapper interface $q$ instead of the original interface $p$.
 \end{example}
 
 \begin{exercise} \label{exc.file_searcher_wrap}
-In \cref{exc.file_searcher}, you constructed a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
-Express this construction as wrapping $q$ around $\phi$ by giving a lens $f\colon p\to q$ for which composing $\phi$ with $f$ yields $\psi$.
+In \cref{exc.file_searcher}, you constructed a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
+Express this construction as wrapping $q$ around $\varphi$ by giving a lens $f\colon p\to q$ for which composing $\varphi$ with $f$ yields $\psi$.
 \begin{solution}
-We give a lens $f\colon p\to q$ for which composing the file-reader $\phi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} with $f$ yields the file-searcher $\psi\colon S\yon^S\to q$ from \cref{exc.file_searcher}.
+We give a lens $f\colon p\to q$ for which composing the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} with $f$ yields the file-searcher $\psi\colon S\yon^S\to q$ from \cref{exc.file_searcher}.
 The file-searcher returns the same output as the file-reader when the second coordinate is $100$, but replaces the second coordinate with a blank $\_$ otherwise.
 So the on-positions function of $f$ should send each $(m,c)\in p(\1)$ to
 \[
@@ -4968,8 +4975,8 @@ In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
 \subsection{Situations as enclosures}\label{subsec.poly.dyn_sys.new.sit_encl}
-Say we wanted to model a dynamical system $\phi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
-We can think of this as wrapping $\yon$, the interface with one output and one input, around $\phi$.
+Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
+We can think of this as wrapping $\yon$, the interface with one output and one input, around $\varphi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
 We call such a wrapper an \emph{enclosure} for an interface $p$, since it is a way of closing off $p$ to the outside world.
 
@@ -4995,11 +5002,11 @@ Although they both refer to lenses into $\yon$, we will favor the term \emph{enc
 \end{remark}
 
 \begin{exercise} \label{exc.enclosures_as_functions}
-Let $\phi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
+Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{enumerate}
 	\item Is it true that an enclosure $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
 	\item Describe how to interpret an enclosure $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
-	\item Given an enclosure $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\phi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\phi$ using $\gamma$.
+	\item Given an enclosure $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -5007,7 +5014,7 @@ Let $\phi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 	\item No, it represents a function $B\to A$!
 	An enclosure assigns each output $b\in B$ to an input $a\in A$.
 	\item As a wrapper around an interface $B\yon^A$, an enclosure $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
-	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with an enclosure $\gamma$ yields a Moore machine $S\yon^S\To{\phi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
+	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with an enclosure $\gamma$ yields a Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
 	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the enclosure $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
 	\[
 	    S\To{\Delta}S\times S\To{\id_S\times\text{return}}S\times B\To{\id_S\times g}S\times A\To{\text{update}}S,
@@ -5019,8 +5026,8 @@ Let $\phi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \end{exercise}
 
 \begin{example}[The do-nothing enclosure] \label{ex.do_nothing}
-There is something rather off-putting about the way we model dynamical systems as lenses $\phi\colon S\yon^S\to p$.
-We know that $\phi$ tells us how state-positions return output-positions and, given a current state-position, how input-directions update state-directions.
+There is something rather off-putting about the way we model dynamical systems as lenses $\varphi\colon S\yon^S\to p$.
+We know that $\varphi$ tells us how state-positions return output-positions and, given a current state-position, how input-directions update state-directions.
 But we rely only on the labels of elements in $S$ to tell us which positions and directions refer to the same states!
 
 Nothing inherent in the language of $\poly$ makes these associations between state-positions and state-directions for us; we have to bank on the position-set and direction-sets of the state system being the same set for the machine to work properly.
@@ -5044,7 +5051,7 @@ Yet this isn't the whole story.
 The do-nothing enclosure knows, at each position, the direction that keeps the system at the same state; but it doesn't know which of the other directions send the system to which of the other positions' states.
 We're still relying on the labels of direction-sets being the same for that: for instance, the polynomials $\{1',2',3'\}\yon^{\{1,2,3\}}$ and $\{1'\}\yon^{\{0,1,4\}}+\{2'\}\yon^{\{2,5,6\}}+\{3'\}\yon^{\{-8,-1,3\}}$ are isomorphic, but even with a do-nothing enclosure matching $1'\mapsto1,2'\mapsto2,3'\mapsto3$ to make the first one into a state system, we don't have a way to tell $\poly$ how to make the second one a state system yet.
 
-From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\phi\colon S\yon^S\to p$ does ``one thing'': it steps through the system once, generating the current state's output with the return function and taking in input with the update function.
+From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\varphi\colon S\yon^S\to p$ does ``one thing'': it steps through the system once, generating the current state's output with the return function and taking in input with the update function.
 It's all set to take another step, but how does $\poly$ know which state to visit next?
 Is there a lens that does ``two things,'' ``$n$ things,'' or ``arbitrarily many things''?
 Can we actually $\emph{run}$ a dynamical system in $\poly$?
@@ -5110,36 +5117,36 @@ We now have all the pieces we need to fulfill the promises of \cref{sec.poly.int
 \subsection{Wrapping juxtaposed dynamical systems together}
 
 When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
-Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\phi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
-\[\phi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
+Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
+\[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
 by taking their parallel product.
-Then we can wrap an interface $q$ around $\phi$ using a wrapper $f$, yielding a new dynamical system
-\[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\phi}\bigotimes_{i\in\ord{n}}p_i\To{f}q.\]
+Then we can wrap an interface $q$ around $\varphi$ using a wrapper $f$, yielding a new dynamical system
+\[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\varphi}\bigotimes_{i\in\ord{n}}p_i\To{f}q.\]
 On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interace.
 On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the constituent interfaces.
 In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
 When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
 
 \begin{example}[Repeater]
-Suppose we have a dependent dynamical system $\phi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
-What if we wanted to construct a system $\psi$ that operates just like $\phi$, but \emph{always} returns elements of $A$ as output?
-Where $\phi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\phi$ returns silence before it has returned any elements of $A$ yet.)
+Suppose we have a dependent dynamical system $\varphi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
+What if we wanted to construct a system $\psi$ that operates just like $\varphi$, but \emph{always} returns elements of $A$ as output?
+Where $\varphi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\varphi$ returns silence before it has returned any elements of $A$ yet.)
 
 Let's think like a programmer.
 What we need is a way to store an element of $A$ and then retrieve it.
-So whenever $\phi$ returns an element of $A$ as output, we store it; then when $\phi$ returns silence, we retrieve the last element of $A$ we stored and return that instead.
+So whenever $\varphi$ returns an element of $A$ as output, we store it; then when $\varphi$ returns silence, we retrieve the last element of $A$ we stored and return that instead.
 
 What should this storage-retrieval dynamical system look like?
 It needs to take elements of $A$ as input, return elements of $A$ as output, and store elements of $A$ as states.
 In fact, the identity lens $\iota\colon A\yon^A\to A\yon^A$ works perfectly: it returns the element of $A$ currently stored as output and updates its state to the input it receives.
 
-Now we can juxtapose our original system $\phi$ with the storage-retrieval system $\iota$ by taking their parallel product, yielding a dynamical system
+Now we can juxtapose our original system $\varphi$ with the storage-retrieval system $\iota$ by taking their parallel product, yielding a dynamical system
 \[
-    \phi\otimes\iota\colon SA\yon^{SA}\to (A\yon+\yon)\otimes A\yon^A
+    \varphi\otimes\iota\colon SA\yon^{SA}\to (A\yon+\yon)\otimes A\yon^A
 \]
 that runs both systems simultaneously---and independently.
-But what we want is for $\phi$ and $\iota$ to interact with each other, and for the resulting system to only output elements of $A$.
-To do so, we need to wrap an interface $A\yon$ around $\phi\otimes\iota$ by composing it with some lens
+But what we want is for $\varphi$ and $\iota$ to interact with each other, and for the resulting system to only output elements of $A$.
+To do so, we need to wrap an interface $A\yon$ around $\varphi\otimes\iota$ by composing it with some lens
 \[
     f\colon(A\yon+\yon)\otimes A\yon^A\to A\yon,
 \]
@@ -5149,13 +5156,13 @@ Since $\otimes$ distributes over $+$, it suffices to give maps
 \[
     g\colon A\yon\otimes A\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\to A\yon.
 \]
-The former corresponds to the case where $\phi$ outputs an element of $A$, while the latter corresponds to the case where $\phi$ is silent.
+The former corresponds to the case where $\varphi$ outputs an element of $A$, while the latter corresponds to the case where $\varphi$ is silent.
 
-When $\phi$ outputs an element of $A$, we want to return that output, but we also want to give that output as input to $\iota$ so that it can be stored.
+When $\varphi$ outputs an element of $A$, we want to return that output, but we also want to give that output as input to $\iota$ so that it can be stored.
 We don't need to do anything with the output of $\iota$; we can simply discard it.
-So $g$ should send $(a,a')\mapsto a$ on positions, returning the output of $\phi$ and discarding the output of $\iota$; and the on-directions function $g^\sharp_{(a,a')}\colon\1\to A$ should specify the direction $a\in A$, feeding the output of $\phi$ as input to $\iota$.
+So $g$ should send $(a,a')\mapsto a$ on positions, returning the output of $\varphi$ and discarding the output of $\iota$; and the on-directions function $g^\sharp_{(a,a')}\colon\1\to A$ should specify the direction $a\in A$, feeding the output of $\varphi$ as input to $\iota$.
 
-Meanwhile, when $\phi$ outputs silence, we want to return the output of $\iota$ instead.
+Meanwhile, when $\varphi$ outputs silence, we want to return the output of $\iota$ instead.
 We also need to feed the output of $\iota$ back into $\iota$ as input so that it can continue to be stored.
 So $h$ should be the identity on positions as well as the identity on directions.
 \end{example}
@@ -5269,7 +5276,7 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 	Otherwise, it receives the default signal.
 	\item Write down an interaction pattern $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
 	\item Suppose that each robot has a set $S,S'$ of possible private states in addition to their locations.
-	What functions are involved in providing a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$, if the location state $x\in X$ is directly returned without modification?
+	What functions are involved in providing a dynamical system $\varphi\colon SX\yon^{SX}\to AX\yon^{A'X}$, if the location state $x\in X$ is directly returned without modification?
 	\item Change the setup in any way so that each robot only extends a port to hear the other's signal when the distance between them is less than $s$. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
 	(Don't worry too much about timing---one missed signal when the robots first get close or one extra signal when the robots first get far is okay.)
 \qedhere
@@ -5295,7 +5302,7 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
           	((a'_0,x'),(a_0,x))&\tn{ otherwise}.
           \end{cases}
     \]
-    \item To provide a dynamical system $\phi\colon SX\yon^{SX}\to AX\yon^{A'X}$ under the condition that the on-positions function preserves the second coordinate $x\in X$, we must provide the first projection $SX\to A$ of an on-positions function that turns the robot's private state and current location into the signal it returns, as well as an on-directions function $SX\times A'X\to SX$ that provides a new private state and location for the robot given its old private state, old location, and the signal and location it receives from the other robot.
+    \item To provide a dynamical system $\varphi\colon SX\yon^{SX}\to AX\yon^{A'X}$ under the condition that the on-positions function preserves the second coordinate $x\in X$, we must provide the first projection $SX\to A$ of an on-positions function that turns the robot's private state and current location into the signal it returns, as well as an on-directions function $SX\times A'X\to SX$ that provides a new private state and location for the robot given its old private state, old location, and the signal and location it receives from the other robot.
     
     \item To have the robots listen for each others' signals only when they are sufficiently close, we must move away from monomial interfaces and Moore machines to leverage dependency.
     There are several ways of doing this; we give just one method below.
@@ -5333,7 +5340,7 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
     
     Finally, in order for each robot to properly remember whether the other is close or far, we record an element of $D$ in its state that is returned and updated: one robot is a lens
     \[
-        \phi\colon DSX\yon^{DSX}\to \{\text{`close'}\}AX\yon^{DA'X}+\{\text{`far'}\}AX\yon^{DX}
+        \varphi\colon DSX\yon^{DSX}\to \{\text{`close'}\}AX\yon^{DA'X}+\{\text{`far'}\}AX\yon^{DX}
     \]
     whose on-positions function preserves not just the third coordinate $x\in X$ but also the first coordinate $d\in D$, while the on-directions function also preserves the first coordinate $d\in D$; and the other robot is constructed similarly.
 \end{enumerate}
@@ -5494,9 +5501,9 @@ We wish to specify an enclosure around their juxtaposition.
     \item Say we wanted to feed the sum of the outputs of $p$ and $q$ as input to $q$.
     What function $g\colon p(\1)\to\Gamma(q)$ captures this behavior?
     \item What enclosure $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
-	\item Let dynamical systems $\phi\colon\nn\yon^\nn\to p$ and $\psi\colon\nn\yon^\nn\to q$ both be the identity on $\nn\yon^\nn$.
-	Suppose $\phi$ starts in the state $0\in\nn$ and $\psi$ starts in the state $1\in\nn$.
-	Describe the behavior of the system obtained by enclosing $\phi$ and $\psi$ together with $\gamma$, i.e.\ the system $(\phi\otimes\psi)\then\gamma$.
+	\item Let dynamical systems $\varphi\colon\nn\yon^\nn\to p$ and $\psi\colon\nn\yon^\nn\to q$ both be the identity on $\nn\yon^\nn$.
+	Suppose $\varphi$ starts in the state $0\in\nn$ and $\psi$ starts in the state $1\in\nn$.
+	Describe the behavior of the system obtained by enclosing $\varphi$ and $\psi$ together with $\gamma$, i.e.\ the system $(\varphi\otimes\psi)\then\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -5507,7 +5514,7 @@ We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
     \item If we want to feed the sum of the outputs of $p$ and $q$ as input to $q$, the corresponding function $g\colon p(\1)\to\Gamma(q)$ should send any output $a\in q(\1)$ to the enclosure $\nn\to\nn$ of $q$ that sends every natural number output $b$ of $q$ to the sum $a+b$.
     That is, $g$ is the function $a\mapsto(b\mapsto a+b)$.
     \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((f(b))(a),(g(a))(b))=(b,a+b)$, which is the enclosure $\gamma\colon p\otimes q\to\yon$ that $(f,g)$ corresponds to via \eqref{eqn.situations2}.
-    \item As $\phi$ and $\psi$ are both the identity, the system $(\phi\otimes\psi)\then\gamma$ is really just the system $\gamma\colon p\otimes q\to\yon$.
+    \item As $\varphi$ and $\psi$ are both the identity, the system $(\varphi\otimes\psi)\then\gamma$ is really just the system $\gamma\colon p\otimes q\to\yon$.
     When it is at state $(a,b)$, its next state will be $(b,a+b)$.
     So if its initial state is $(0,1)$, its following states will be $(1,1),(1,2),(2,3),(3,5),(5,8),(8,13),\ldots$, forming the familiar Fibonacci sequence. 
 \end{enumerate}
@@ -5668,13 +5675,13 @@ Rather, each box is a monomial that could be the interface of a dynamical system
 When we assign to a box a dynamical system having that box as its interface, we say that \emph{give dynamics} to the box.
 So the entire wiring diagram is a wrapper that tells us how, given the dynamics for each inner box,
 \[
-\phi\colon S\yon^S\to\const{Plant}
+\varphi\colon S\yon^S\to\const{Plant}
 \qqand
 \psi\colon T\yon^T\to\const{Controller},
 \]
 we can obtain the dynamics for the outer box:
 \[
-ST\yon^{ST}\To{\phi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\const{System}.
+ST\yon^{ST}\To{\varphi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\const{System}.
 \]
 \end{example}
 
@@ -5838,13 +5845,13 @@ We will see in \cref{**} how to use a system to build another dynamical system t
         w\colon\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^\nn
     \]
     with on-positions function $(s,q,r,t,p)\mapsto(q,p)$ and on-directions function $(s,q,r,t,p,a)\mapsto(a,s,r,t)$.
-    So the dynamical system induced by the wiring diagram is the composite lens $\phi$ given by
+    So the dynamical system induced by the wiring diagram is the composite lens $\varphi$ given by
     \[
         \yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\yon\otimes\nn\yon^\nn\To{7\otimes\fun{divmod}\otimes10\otimes*}\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\To{w}\nn\times\nn\yon^\nn,
     \]
     whose return function is given by the composite map $(q,r,p)\mapsto(7,q,r,10,p)\mapsto(q,p)$ and whose update function at state $(q,r,p)$ is given by the composite map $a\mapsto(a,7,r,10)\mapsto(a\bdiv7,a\bmod7,r*10)$.
     
-    In other words, the dynamical system $\phi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns the quotient and the product.
+    In other words, the dynamical system $\varphi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns the quotient and the product.
     Then it is fed a dividend $a$ and evaluates $a\bdiv7$ to obtain the new quotient and $a\bmod7$ to obtain the new remainder.
     Meanwhile, the new product is given by the previous remainder multiplied by $10$.
     
@@ -5855,11 +5862,11 @@ We will see in \cref{**} how to use a system to build another dynamical system t
     with on-positions function $(q,p)\mapsto q$ and on-directions function $(q,p)\mapsto p$.
     So the dynamical system induced by nesting the first wiring diagram within the inner box in this second wiring diagram is a composite lens
     \[
-        \left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\nn\yon^\nn\To{\phi}\nn\times\nn\yon^\nn\To{w'}\nn\yon
+        \left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\nn\yon^\nn\To{\varphi}\nn\times\nn\yon^\nn\To{w'}\nn\yon
     \]
     whose return function is given by the composite map $(q,r,p)\mapsto(q,p)\mapsto q$ and whose update function at state $(q,r,p)$ is specifies the new state $(p\bdiv7,p\bmod7,r*10)$.
     
-    In other words, the dynamical system $\phi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns just the quotient.
+    In other words, the dynamical system $\varphi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns just the quotient.
     Then it advances to a new state by evaluating $p\bdiv7$ to obtain the new quotient and $p\bmod7$ to obtain the new remainder.
     Meanwhile, the new product is given by the previous remainder multiplied by $10$.
     
@@ -6031,15 +6038,15 @@ Finally, we are ready to formalize the examples we previewed in \cref{sec.poly.i
 Recall the first picture from \cref{ex.changing_wiring_bonds_supplier_assemble}. We said that when too much force is applied to a material, bonds can break. Let's simplify the picture a bit.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
-	\node[bb={1}{1}, fill=blue!10] (x1) {$\phi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\phi_2$};
+	\node[bb={1}{1}, fill=blue!10] (x1) {$\varphi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\varphi_2$};
 	\node[bb={1}{1}, fit= (x1) (x2)] (outer) {};
 	\draw[->, shorten >= -4mm] (x1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] {Force};
 	\draw (x1_out1) -- (x2_in1);
 	\draw[->, shorten >= -4mm] (x2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] (L) {Force};
 %
-	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\phi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\phi_2$};
+	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\varphi_1$};
+	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\varphi_2$};
 	\node[bb={1}{1}, fit= (y1) (y2)] (outer) {};
 	\draw[->, shorten >= -4mm] (y1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] (R){Force};
 	\draw[->, shorten >= -4mm] (y2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] {Force};
@@ -6047,7 +6054,7 @@ Recall the first picture from \cref{ex.changing_wiring_bonds_supplier_assemble}.
 {Snap!};
 \end{tikzpicture}
 \]
-We will imagine the dependent dynamical systems $\phi_1\colon S\yon^S\to p_1$ and $\phi_2\colon S\yon^S\to p_2$ as initially connected in space.
+We will imagine the dependent dynamical systems $\varphi_1\colon S\yon^S\to p_1$ and $\varphi_2\colon S\yon^S\to p_2$ as initially connected in space.
 They experience forces from the outside world, and---for as long as they are connected---they experience forces from each other.
 More precisely, each interface is defined by
 \[
@@ -6063,9 +6070,9 @@ The wrapper interface is defined to be
 \]
 it takes as input two forces $(f_L, f_R)$ and returns unchanging output.
 
-Though the systems $\phi_1$ and $\phi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
+Though the systems $\varphi_1$ and $\varphi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
 
-To do so, we need to define an interaction pattern $p_1\otimes p_2\to p$ that wraps $p$ around $\phi_1$ and $\phi_2$.
+To do so, we need to define an interaction pattern $p_1\otimes p_2\to p$ that wraps $p$ around $\varphi_1$ and $\varphi_2$.
 That is, we need to give a lens
 \[
     \kappa\colon (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\otimes (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\to\yon^{FF}.
@@ -6083,13 +6090,13 @@ By the distributivity of $\otimes$ over $+$, it suffices to give four maps:
 The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary.
 We take the last map $\kappa_{22}$ to be the obvious isomorphism, passing the forces from outside to the two internal interfaces.
 The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
-While the multiple $F$'s may be a little hard to keep track of, what this map says is that if $\phi_1$ returns the force $f_1$ on $\phi_2$ as output and $\phi_2$ returns the force $f_2$ on $\phi_1$ as output, then $\phi_1$ receives the force $f_2$ from the right as input and $\phi_2$ receives the force $f_1$ from the left as input; and in the meantime the left external force $f_L$ is given to $\phi_1$ on the left, while the right external force is given to $\phi_2$ on the right.
+While the multiple $F$'s may be a little hard to keep track of, what this map says is that if $\varphi_1$ returns the force $f_1$ on $\varphi_2$ as output and $\varphi_2$ returns the force $f_2$ on $\varphi_1$ as output, then $\varphi_1$ receives the force $f_2$ from the right as input and $\varphi_2$ receives the force $f_1$ from the left as input; and in the meantime the left external force $f_L$ is given to $\varphi_1$ on the left, while the right external force is given to $\varphi_2$ on the right.
 
 Now that we have the interfaces wrapped together, it remains to specify each dynamical system.
 The states in the two cases will be identical, namely $S\coloneqq F+\{`snapped'\}$, meaning that at any point the system will either be in the state of applying a force to the other system or not.
 The dynamical systems themselves will be identical as well, up to a symmetry swapping left and right; let's just define the left system for now.
 It is given by a lens
-\[\phi_1\colon (F+\{\text{`snapped'}\})\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF}+\{\text{`snapped'}\}\yon^F\]
+\[\varphi_1\colon (F+\{\text{`snapped'}\})\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF}+\{\text{`snapped'}\}\yon^F\]
 which we write as the sum of two maps
 \[F\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF} \qqand \{\text{`snapped'}\}\yon^{F+\{\text{`snapped'}\}}\to\{\text{`snapped'}\}\yon^F.\]
 Both maps are the identity on positions, directly returning their current state.
@@ -6187,7 +6194,7 @@ The parallel monoidal product is closed---we have a monoidal closed structure on
 \end{equation}
 natural in $p,q,r$.
 The closure operation is defined on $q,r$ as follows:
-\begin{equation}\label{eqn.dir_hom}
+\begin{equation}\label{eqn.par_hom}
 	\ihom{q,r} \coloneqq \prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
 Here $\circ$ denotes standard functor composition; informally, $r \circ (q[j]\yon)$ is the polynomial you get when you replace each appearance of $\yon$ in $r$ by $q[j]\yon$.
@@ -6207,7 +6214,7 @@ Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
 \qedhere
 \end{enumerate}
 \begin{solution}
-We compute $\ihom{q,r}$ for various values of $q, r \in \poly$ using \eqref{eqn.dir_hom}.
+We compute $\ihom{q,r}$ for various values of $q, r \in \poly$ using \eqref{eqn.par_hom}.
 \begin{enumerate}
     \item If $q \coloneqq \0$, then $q(\1) \iso \0$, so $\ihom{q,r}$ is an empty product.
     Hence $\ihom{q,r} \iso \1$.
@@ -6232,16 +6239,16 @@ Show that for any polynomials $p_1,p_2,q$, we have an isomorphism
 \]
 \begin{solution}
 We wish to show that for all $p_1, p_2, q \in \poly$, we have $\ihom{p_1 + p_2, q} \iso \ihom{p_1, q} \times \ihom{p_2, q}$.
-By \eqref{eqn.dir_hom},
+By \eqref{eqn.par_hom},
 \[
     \ihom{p_1 + p_2, q} \iso \left(\prod_{i \in p_1(\1)} q \circ (p_1[i]\yon)\right) \left(\prod_{i \in p_2(\1)} q \circ (p_2[i]\yon)\right) \iso \ihom{p_1, q} \times \ihom{p_2, q}.
 \]
 \end{solution}
 \end{exercise}
 
-\begin{exercise} \label{exc.dir_hom_sum}
+\begin{exercise} \label{exc.par_hom_sum}
 Show that there is an isomorphism
-\begin{equation} \label{eqn.dir_hom_sum}
+\begin{equation} \label{eqn.par_hom_sum}
 \scalebox{1.3}{$\displaystyle
 \ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_\1(j)]}
 $}
@@ -6250,7 +6257,7 @@ where the sum is indexed by $f\in\poly(q,r)$.
 \begin{solution}
 We may compute
 \begin{align*}
-    \ihom{q, r} &\iso \prod_{j \in q(\1)} r \circ (q[j]\yon) \tag*{\eqref{eqn.dir_hom}} \\
+    \ihom{q, r} &\iso \prod_{j \in q(\1)} r \circ (q[j]\yon) \tag*{\eqref{eqn.par_hom}} \\
     &\iso \prod_{j \in q(\1)} \, \sum_{k \in r(\1)} (q[j]\yon)^{r[k]} \tag{Replacing each $\yon$ in $r$ by $q[j]\yon$} \\
     &\iso \sum_{f_\1 \colon q(\1) \to r(\1)} \, \prod_{j \in q(\1)} (q[j]\yon)^{r[f_\1(j)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
     &\iso \sum_{f_\1 \colon q(\1) \to r(\1)} \, \left(\prod_{j \in q(\1)} q[j]^{r[f_\1(j)]} \right)\left(\prod_{j \in q(\1)} \yon^{r[f_\1(j)]} \right) \\
@@ -6268,7 +6275,7 @@ We verify \eqref{eqn.dir_hom_p_yon_dir_p} as follows:
     \ihom{p, \yon} \otimes p
     &\iso
     \left(\sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]}\right) \otimes p
-    \tag*{\eqref{eqn.dir_hom_sum}} \\
+    \tag*{\eqref{eqn.par_hom_sum}} \\
     &\iso
     \sum_{f \in \Gamma(p)} \yon^{p(\1)} \otimes \sum_{i \in p(\1)} \yon^{p[i]} \\
     &\iso
@@ -6292,7 +6299,7 @@ More generally, for any polynomial $p\in\poly$ we have
 \begin{equation}\label{eqn.dir_dual}
   \ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}.
 \end{equation}
-All these facts follow directly from \eqref{eqn.dir_hom}.
+All these facts follow directly from \eqref{eqn.par_hom}.
 \end{example}
 
 \begin{exercise}
@@ -6308,7 +6315,7 @@ that
 \]
 and that
 \begin{align*}
-    \ihom{p, \yon} &\iso \sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]} \tag{\cref{exc.dir_hom_sum}} \\
+    \ihom{p, \yon} &\iso \sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]} \tag{\cref{eqn.par_hom_sum}} \\
     &\iso \sum_{f \in \Gamma(p)} \yon^{\sum_{i \in p(\1)} \1} \\
     &\iso \Gamma(p)\yon^{p(\1)}.
 \end{align*}
@@ -6348,7 +6355,7 @@ a contradiction.
 \end{exercise}
 
 \begin{proposition}\label{prop.parallel_closure}
-With $\ihom{-,-}$ as defined in \eqref{eqn.dir_hom}, there is a natural isomorphism
+With $\ihom{-,-}$ as defined in \eqref{eqn.par_hom}, there is a natural isomorphism
 \begin{equation}\label{eqn.poly_closure_brackets}
 	\poly(p\otimes q,r)\cong\poly(p,\ihom{q,r}).
 \end{equation}
@@ -6381,10 +6388,10 @@ Show that for any $p,q$ we have an isomorphism of sets
 \[
 \poly(p,q) \iso \ihom{p,q}(\1).
 \]
-Hint: you can either use the formula \eqref{eqn.dir_hom}, or just use 
+Hint: you can either use the formula \eqref{eqn.par_hom}, or just use 
 \eqref{eqn.poly_closure_brackets} with the Yoneda lemma and the fact that $\yon\otimes p \iso p$.
 \begin{solution}
-The isomorphism $\poly(p,q) \iso \ihom{p,q}(\1)$ follows directly from \cref{exc.dir_hom_sum} when both sides are applied to $\1$.
+The isomorphism $\poly(p,q) \iso \ihom{p,q}(\1)$ follows directly from \cref{exc.par_hom_sum} when both sides are applied to $\1$.
 Alternatively, we can apply \eqref{eqn.poly_closure_brackets}.
 Since $p \iso \yon \otimes p$, we have that
 \begin{align*}
@@ -6417,7 +6424,7 @@ To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we co
 \]
 Then the evaluation map is the map corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
 To recover this map, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
-To start, \cref{exc.dir_hom_sum} implies that
+To start, \cref{exc.par_hom_sum} implies that
 \begin{align*}
     \poly(\ihom{p,q}, \ihom{p,q})
     &\iso
@@ -6958,28 +6965,28 @@ The monomorphism $i\colon f(X)\to Y$ is then given by including the image into t
 $\poly$ has epi-mono factorization.
 \end{proposition}
 \begin{proof}
-Take an arbitrary lens $\phi\colon p\to q$.
-It suffices to show that there exists a unique polynomial $r$ equipped with an epimorphism $\epsilon\colon p\to r$ and a monomorphism $\mu\colon r\to q$ such that $\phi=\epsilon\then\mu$.
+Take an arbitrary lens $\varphi\colon p\to q$.
+It suffices to show that there exists a unique polynomial $r$ equipped with an epimorphism $\epsilon\colon p\to r$ and a monomorphism $\mu\colon r\to q$ such that $\varphi=\epsilon\then\mu$.
 
-On positions, we must have $\phi_\1 = \epsilon_\1\then\mu_\1$, with $\mu_\1$ a monomorphism and $\epsilon_\1$ an epimorphism per \cref{prop.monics_in_poly,prop.epis_in_poly}.
+On positions, we must have $\varphi_\1 = \epsilon_\1\then\mu_\1$, with $\mu_\1$ a monomorphism and $\epsilon_\1$ an epimorphism per \cref{prop.monics_in_poly,prop.epis_in_poly}.
 By \cref{ex.epi_mono_set}, since $\smset$ has epi-mono factorization, such $r(\1), \epsilon_\1,$ and $\mu_\1$ uniquely exist.
-In particular, we must have that $r(\1)\iso \phi_\1(p(\1))$, that $\epsilon_\1\colon p(\1)\to\phi_\1(p(\1))$ is the corestriction of $\phi_\1$ sending $i\mapsto\phi_\1(i)$ for each $p$-position $i$, and that $\mu_\1\colon\phi_\1(p(\1))\to q(\1)$ is the inclusion sending $j\mapsto j$ for each $r$-position $j$.
+In particular, we must have that $r(\1)\iso \varphi_\1(p(\1))$, that $\epsilon_\1\colon p(\1)\to\varphi_\1(p(\1))$ is the corestriction of $\varphi_\1$ sending $i\mapsto\varphi_\1(i)$ for each $p$-position $i$, and that $\mu_\1\colon\varphi_\1(p(\1))\to q(\1)$ is the inclusion sending $j\mapsto j$ for each $r$-position $j$.
 
 Then on directions, for any $i\in p(\1)$, we must have that
 \[
 \begin{tikzcd}
-    q[\phi_\1(i)] \ar[r, "\mu^\sharp_{\phi_\1(i)}"] \ar[dr, "\phi^\sharp_i"'] & r[\phi_\1(i)] \ar[d, "\epsilon^\sharp_i"] \\
+    q[\varphi_\1(i)] \ar[r, "\mu^\sharp_{\varphi_\1(i)}"] \ar[dr, "\varphi^\sharp_i"'] & r[\varphi_\1(i)] \ar[d, "\epsilon^\sharp_i"] \\
     & p[i]
 \end{tikzcd}
 \]
-commutes---or, equivalently, for every $j\in r(\1)\iso\phi_\1(p(\1))$,
+commutes---or, equivalently, for every $j\in r(\1)\iso\varphi_\1(p(\1))$,
 \[
 \begin{tikzcd}
-    q[j] \ar[r, "\mu^\sharp_j"] \ar[dr, "\phi^\flat_j"'] & r[j] \ar[d, "\epsilon^\flat_j"] \\
-    & \prod\limits_{\substack{i\in p(\1), \\ \phi_\1(i)=j}} p[i]
+    q[j] \ar[r, "\mu^\sharp_j"] \ar[dr, "\varphi^\flat_j"'] & r[j] \ar[d, "\epsilon^\flat_j"] \\
+    & \prod\limits_{\substack{i\in p(\1), \\ \varphi_\1(i)=j}} p[i]
 \end{tikzcd}
 \]
-commutes (here $\phi^\flat_j$ and $\epsilon^\flat_j$ are the induced functions from \eqref{eqn.useful_misc472}), with $\mu_j^\sharp$ an epimorphism and $\epsilon^\flat_j$ a monomorphism per
+commutes (here $\varphi^\flat_j$ and $\epsilon^\flat_j$ are the induced functions from \eqref{eqn.useful_misc472}), with $\mu_j^\sharp$ an epimorphism and $\epsilon^\flat_j$ a monomorphism per
 \cref{prop.monics_in_poly,prop.epis_in_poly}.
 So again since $\smset$ has epi-mono factorization, such $r[j], \mu^\sharp_j,$ and $\epsilon^\flat_j$ uniquely exist.
 Hence such $p \To{\epsilon} r \To{\mu} q$ uniquely exists overall.
@@ -7181,8 +7188,8 @@ equipped with a canonical projection $\pi_j$ to each $p_j(\1)$, and whose direct
 \begin{equation} \label{eqn.lim_dir}
     \left(\lim_{j\in\cat{J}} p_j\right)[i] \iso \colim_{j\in\cat{J}\op} p_j[\pi_j(i)].
 \end{equation}
-This notation obscures what is occuring on lenses, but in particular, each lens $\phi\colon p_j\to p_{j'}$ in the diagram $p_-$ induces an on-positions function $\phi_\1\colon p_j(\1)\to p_{j'}(\1)$ in the diagram whose limit we take in \eqref{eqn.lim_pos} and, for every position $i$ of the limit, an on-directions function $\phi^\sharp_{\pi_j(i)}\colon p_{j'}[\pi_{j'}(i)]\to p_j[\pi_j(i)]$ in the diagram whose colimit we take in \eqref{eqn.lim_dir}.
-(Note that, by the definition of a limit, $\phi_\1(\pi_j(i)) = \pi_{j'}(i)$.)
+This notation obscures what is occuring on lenses, but in particular, each lens $\varphi\colon p_j\to p_{j'}$ in the diagram $p_-$ induces an on-positions function $\varphi_\1\colon p_j(\1)\to p_{j'}(\1)$ in the diagram whose limit we take in \eqref{eqn.lim_pos} and, for every position $i$ of the limit, an on-directions function $\varphi^\sharp_{\pi_j(i)}\colon p_{j'}[\pi_{j'}(i)]\to p_j[\pi_j(i)]$ in the diagram whose colimit we take in \eqref{eqn.lim_dir}.
+(Note that, by the definition of a limit, $\varphi_\1(\pi_j(i)) = \pi_{j'}(i)$.)
 
 We have seen \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for products: the position-set of the product is just the product of the original position-sets, while the direction-set at a tuple of the original positions is just the coproduct of the direction-sets at every position in the tuple.
 We have also just shown \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for equalizers in the proof of \cref{thm.poly_limits}.
