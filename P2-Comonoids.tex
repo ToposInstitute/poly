@@ -1862,7 +1862,7 @@ The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes
 \subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
 There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
 The first is a communication issue: as you probably sensed, our set-theoretic notation for $\varphi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
-We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{exc.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
+We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{ex.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
 A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
 
 The second issue is more technical: to ensure that $\varphi\tri\varphi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
@@ -1873,21 +1873,101 @@ What are we missing?
 
 The key to resolving both these issues lies in the next section, where we will introduce a graphical notation to help us study lenses whose codomains are composite polynomials.
 
-\begin{exercise} \label{exc.comp_dyn_sys_tree}
-Consider the dynamical system $\varphi\colon S\yon^S\to p$ corresponding to the halting deterministic state automaton \eqref{eqn.halt_dsa} from \cref{exc.halt_dsa}, depicted here again for your convenience:
+\begin{example} \label{ex.comp_dyn_sys_tree}
+Consider the dynamical system $\varphi\colon S\yon^S\to p$ with $p\coloneqq\yon^A+\1$, corresponding to the halting deterministic state automaton \eqref{eqn.halt_dsa} from \cref{exc.halt_dsa}, depicted again here for convenience:
 \[
 \begin{tikzcd}[column sep=small]
-	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[blue]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
 	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
 	\bul[red]
 \end{tikzcd}
 \]
-
-% Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and c
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
+Below, we draw the corolla pictures for $S\yon^S$ and for $p$.
+\[
+\begin{tikzpicture}[rounded corners]
+	\node (p1) [draw, "$S\yon^S$" above] {
+	    \begin{tikzpicture}[trees, sibling distance=2.5mm]
+            \node[blue, below] (1) {$\bullet$} 
+              child[blue] {}
+              child[dyellow] {}
+              child[red] {};
+            \node[dyellow, right=1 of 1] (2) {$\bullet$} 
+              child[blue] {}
+              child[dyellow] {}
+              child[red] {};
+            \node[red, right=1 of 2] (3) {$\bullet$} 
+              child[blue] {}
+              child[dyellow] {}
+              child[red] {};
+        \end{tikzpicture}
+    };
+%
+	\node (p2) [draw, right=2 of p1, "$p$" above] {
+        \begin{tikzpicture}[trees, sibling distance=4mm]
+            \node (1) {$\circ$}
+                child[dgreen] {}
+                child[orange] {};
+            \node[right=0.5 of 1] (2) {$\diamond$};
+            ;
+        \end{tikzpicture}
+    };
+\end{tikzpicture}
+\]
+In the picture for $S\yon^S$, the roots are the three states in $\{\bul[blue],\bul[dyellow],\bul[red]\}$ appearing in the automaton, while the leaves of each corolla correspond to the three states as well.
+In the picture for $p$, there is one corolla whose two leaves correspond to the two arrows coming out of every state---except for the halting state, which is sent to the corolla with no leaves instead.
+So the lens $\varphi\colon S\yon^S\to p$ capturing the dynamics of the automaton can be drawn as follows:
+\[
+\begin{tikzpicture}
+	\node (p1) {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+        \node[blue] (1) {$\bullet$} 
+            child[blue]     {coordinate (11)}
+            child[dyellow]  {coordinate (12)}
+            child[red]      {coordinate (13)};
+        \node[right=1.5 of 1] (2) {$\circ$} 
+            child[dgreen] {coordinate (21)}
+            child[orange] {coordinate (22)};
+        \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+        \begin{scope}[densely dotted, bend right]
+          \draw[postaction={decorate}] (21) to (11);
+          \draw[postaction={decorate}] (22) to (12);
+        \end{scope}
+    \end{tikzpicture}	
+	};	
+%
+	\node (p2) [right=1 of p1] {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+        \node[blue] (1) {$\bullet$} 
+            child[blue]     {coordinate (11)}
+            child[dyellow]  {coordinate (12)}
+            child[red]      {coordinate (13)};
+        \node[right=1.5 of 1] (2) {$\circ$} 
+            child[dgreen] {coordinate (21)}
+            child[orange] {coordinate (22)};
+        \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+        \begin{scope}[densely dotted, bend right]
+          \draw[postaction={decorate}] (21) to (11);
+          \draw[postaction={decorate}] (22) to (12);
+        \end{scope}
+    \end{tikzpicture}	
+	};	
+%
+	\node [right=1 of p2] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
+	\begin{tikzpicture}[trees, sibling distance=5mm]
+    \node[red!75!black, "\color{red!75!black} \tiny 1" below] (1) {$\bullet$} 
+      child[red!75!black] {coordinate (11)}
+      child[red!75!black] {coordinate (12)};
+    \node[right=1.5 of 1, red, "\color{red} \tiny 1" below] (2) {$\bullet$} 
+      child[red] {coordinate (21)};
+    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right]
+      \draw[postaction={decorate}] (21) to (12);
+    \end{scope}
+  \end{tikzpicture}	
+	};
+\end{tikzpicture}
+\]
+\end{example}
 
 
 % \begin{exercise} \label{exc.comp_interface}
