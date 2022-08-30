@@ -4768,11 +4768,11 @@ We will answer this question in \cref{ch.comon.cofree}; but for now, let us inve
 It turns out that objects equipped with morphisms like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
 
 \begin{definition}[Comonoid]\label{def.comonoid}
-In a monoidal category $(\cat{C},\yon,\tri)$, a \emph{comonoid} $\com{C}\coloneqq(\car{c},\epsilon,\delta)$ consists of:
+In a monoidal category $(\Cat{C},\yon,\tri)$, a \emph{comonoid} $\com{C}\coloneqq(\car{c},\epsilon,\delta)$ consists of:
 \begin{itemize}
-    \item an object $\car{c}\in\cat{C}$, called the \emph{carrier};
-    \item a morphism $\epsilon\colon\car{c}\to\yon$ in $\cat{C}$, called the \emph{eraser} (or the \emph{counit}); and
-    \item a morphism $\delta\colon\car{c}\to\car{c}\tri\car{c}$ in $\cat{C}$, called the \emph{duplicator} (or the \emph{comultiplication});
+    \item an object $\car{c}\in\Cat{C}$, called the \emph{carrier};
+    \item a morphism $\epsilon\colon\car{c}\to\yon$ in $\Cat{C}$, called the \emph{eraser} (or the \emph{counit}); and
+    \item a morphism $\delta\colon\car{c}\to\car{c}\tri\car{c}$ in $\Cat{C}$, called the \emph{duplicator} (or the \emph{comultiplication});
 \end{itemize}
 such that the following diagrams, collectively known as the \emph{comonoid laws}, commute: 
 \begin{equation}\label{eqn.erasure_law}
@@ -9113,11 +9113,14 @@ Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\smcat^\sharp$ 
 The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
 \end{proof}
 
+\section{More categorical properties of $\smcat^\sharp$}
+
+Many of the properties of $\poly$ we covered in \cref{ch.poly.func_nat,ch.poly.bonus} have analogues in $\smcat^\sharp$; we review these here.
+
 %-------- Section --------%
 \section{Other special comonoids and adjunctions}
 
-We now observe some further categorical properties of $\smcat^\sharp$.
-First we highlight a few other adjunctions involving $\smcat^\sharp$.
+We begin by highlighting a few other adjunctions involving $\smcat^\sharp$, as well as the special comonoids in $\smcat^\sharp$ they identify.
 
 \begin{proposition}
 Let $\smcat^\sharp_{\text{rep}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
@@ -9380,7 +9383,7 @@ Then the result follows from \cite[Fact~3.4]{porst2019colimits}.
 %-------- Section --------%
 \section{Parallel product comonoids}
 
-The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this
+The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this with small counterexample
 It is, however, a \emph{monoidal} product on $\smcat^\sharp$, coinciding with the parallel product $\otimes$ on $\poly$.
 
 \begin{proposition}\label{prop.parallel_on_catsharp}
@@ -9454,9 +9457,152 @@ By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\p
 \end{exercise}
 
 
+\section{Comodules over polynomial comonoids}
+
+Just as we can define a category of comonoids within any monoidal category, we can further define a notion of comodules over such comonoids.
+And much like how polynomial comonoids are categories, these comodules can also be described in category-theoretic terms we are already familiar with.
+
+\subsection{Left and right comodules}
+
+When the monoidal category is not symmetric, left comodules and right comodules may differ significantly, so we define them separately (but notice that the diagrams for one are analogous to the diagrams for the other).
+
+\begin{definition}[Left comodule]\label{def.left_comod}
+In a monoidal category $(\Cat{C},\yon,\tri)$, let $\cat{C}=(\car{c},\epsilon,\delta)$ be a comonoid.
+A \emph{left $\cat{C}$-comodule} is
+\begin{itemize}
+    \item an object $m\in\Cat{C}$, equipped with
+    \item a morphism $\car{c}\tri m\From{\lambda}m$ called the \emph{left coaction},
+\end{itemize}
+such that the following diagrams, collectively known as the \emph{left comodule laws}, commute:
+\begin{equation} \label{eqn.left_comod_laws}
+\begin{tikzcd}[ampersand replacement=\&]
+	\car{c}\tri m\ar[d, "\epsilon\:\tri\:m"']\&
+	m\ar[l, "\lambda"']\ar[dl, equal, bend left]\\
+	m
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[ampersand replacement=\&]
+	\car{c}\tri m\ar[d, "\delta\:\tri\:m"']\&
+	m\ar[l, "\lambda"']\ar[d, "\lambda"]\\
+	\car{c}\tri\car{c}\tri m\&
+	\car{c}\tri m\ar[l, "\car{c}\:\tri\:\lambda"]
+\end{tikzcd}
+\end{equation}
+When referring to a left $\cat{C}$-comodule, we may omit its coaction if it can be inferred from context.
+
+A \emph{morphism} of left $\cat{C}$-comodules $m$ and $n$ is a morphism $m\to n$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+	\car{c}\tri m\ar[d]&
+	m\ar[l]\ar[d]\\
+	\car{c}\tri n&
+	n\ar[l]
+\end{tikzcd}
+\]
+Here the top and bottom morphisms are the left coactions of $m$ and $n$.
+
+When $\cat{C}$ is a polynomial comonoid, we denote the category of left $\cat{C}$-comodules in $\poly$ by $\lcmod{\cat{C}}$.
+\end{definition}
+
+\begin{definition}[Right comodule]\label{def.right_comod}
+In a monoidal category $(\Cat{C},\yon,\tri)$, let $\cat{D}=(\car{d},\epsilon,\delta)$ be a comonoid.
+A \emph{right $\cat{D}$-comodule} is
+\begin{itemize}
+    \item an object $m\in\Cat{C}$, equipped with
+    \item a morphism $m\To{\rho}m\tri\car{d}$ called the \emph{right coaction},
+\end{itemize}
+such that the following diagrams, collectively known as the \emph{right comodule laws}, commute:
+\begin{equation} \label{eqn.right_comod_laws}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[dr, equal, bend right]\&
+	m\tri\car{d}\ar[d, "m\:\tri\:\epsilon"]\\\&
+	m
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[d, "\rho"']\&
+	m\tri\car{d}\ar[d, "m\:\tri\:\delta"]\\
+	m\tri\car{d}\ar[r, "\rho\:\tri\:\car{d}"']\&
+	m\tri\car{d}\tri\car{d}
+\end{tikzcd}
+\end{equation}
+When referring to a right $\cat{D}$-comodule, we may omit its coaction if it can be inferred from context.
+
+A \emph{morphism} of right $\cat{D}$-comodules $m$ and $n$ is a morphism $m\to n$ such that the following diagram commutes:
+\[
+\begin{tikzcd}
+	m\ar[r]\ar[d]&
+	m\tri\car{d}\ar[d]\\
+	n\ar[r]&
+	n\tri\car{d}
+\end{tikzcd}
+\]
+Here the top and bottom morphisms are the right coactions of $m$ and $n$.
+
+When $\cat{D}$ is a polynomial comonoid, we denote the category of right $\cat{D}$-comodules in $\poly$ by $\rcmod{\cat{D}}$.
+\end{definition}
 
 
-\section{??}
+
+\begin{definition}[Bimodule]\label{def.bimodule}
+Let $\cat{C}=(\car{c},\epsilon,\delta)$ and $\cat{D}=(\car{d},\epsilon,\delta)$ be comonoids. A \emph{$(\cat{C},\cat{D})$-bimodule} $(m,\lambda,\rho)$, denoted $\cat{C}\bimodfrom[m]\cat{D}$ or in shorthand $\car{c}\bimodfrom[m]\car{d}$,%
+%
+\footnote{Note that the symbol $\car{c}\bimodfrom\car{d}$ looks like it's going backward, from $\car{d}$ to $\car{c}$; this is good because we'll see that this is the direction of data migration for a $(\cat{C},\cat{D})$-bimodule. But the symbology is also mnemonically good because the $\tri$'s go in the correct direction $\car{c}\tri m\from m$ and $m\to m\tri\car{d}$.}
+%
+consists of
+%
+\begin{enumerate}
+	\item a polynomial $m\in\poly$,
+	\item a morphism $\car{c}\tri m\From{\lambda}m$, and
+	\item a morphism $m\To{\rho}m\tri\car{d}$,
+\end{enumerate}
+%
+satisfying the following commutative diagrams:
+%
+\begin{gather}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[dr, equal, bend right]\&
+	m\tri\car{d}\ar[d, "m\tri\epsilon"]\\\&
+	m
+\end{tikzcd}
+\hspace{.6in}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[d, "\rho"']\&
+	m\tri\car{d}\ar[d, "m\tri\delta"]\\
+	m\tri\car{d}\ar[r, "\rho\tri\car{d}"']\&
+	m\tri\car{d}\tri\car{d}
+\end{tikzcd}
+\\\label{eqn.bimod_coherence}
+\begin{tikzcd}[ampersand replacement=\&]
+	m\ar[r, "\rho"]\ar[d, "\lambda"']\&
+	m\tri\car{d}\ar[d, "\lambda\tri\car{d}"]\\
+	\car{c}\tri m\ar[r, "\car{c}\tri\rho"']\&
+	\car{c}\tri m\tri\car{d}
+\end{tikzcd}
+\end{gather}
+Just $(m,\lambda)$ and the first line of diagrams is called a left $\cat{C}$-module, and similarly just $(m,\rho)$ and the second line of diagrams is called a right $\car{D}$-module.
+
+A \emph{morphism} of $(\cat{C},\cat{D})$-bimodules is a map $m\to n$ making the following diagram commute:
+\[
+\begin{tikzcd}
+	\car{c}\tri m\ar[d]&
+	m\ar[l]\ar[r]\ar[d]&
+	m\tri\car{d}\ar[d]\\
+	\car{c}\tri n&
+	n\ar[l]\ar[r]&
+	n\tri\car{d}
+\end{tikzcd}
+\]
+We denote the category of $(\cat{C},\cat{D})$-bimodules by $\bimod{\cat{C}}{\cat{D}}$.
+\end{definition}
+
+
+
+
+
+
+
+
 
 
 \begin{theorem}\label{thm.cofree_coalgebras}
