@@ -3621,6 +3621,22 @@ Here we show that this is indeed the case.
 \end{exercise}
 
 \begin{exercise}
+In personal communication, Todd Trimble noted that the left coclosure can be thought of as a left Kan extension
+\[
+\begin{tikzcd}
+	\smset\ar[r, "p"]\ar[d, "q"']\ar[dr, phantom, very near start, "\Downarrow"]&
+	\smset\\
+	\smset\ar[ur, "\lchom{q}{p}"']&~
+\end{tikzcd}
+\]
+Verify this.
+\end{exercise}
+\begin{solution}
+In order for $\lchom{q}{p}$ to be a left Kan extension of $p$ along $q$, we need to first provide a natural transformation $p\to \lchom{q}{p}\tri q$, and second show that it is universal. But this is exactly the content of \cref{prop.comp_left_coclosed}: the adjunction \eqref{eqn.lchom_adj_iso} provides a unit $p\to \lchom{q}{p}\tri q$ that is universal in the appropriate way. 
+\end{solution}
+
+
+\begin{exercise}
 Let $A$ and $B$ be sets, and let $p$ and $q$ be polynomials.
 \begin{enumerate}
     \item Prove that the following natural isomorphism holds:
@@ -4150,7 +4166,13 @@ Here $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are lenses.
 %-------- Section --------%
 \section{Summary and further reading}
 
+In this chapter we introduced the composition (sometimes called ``substitution'') product $\tri$. Given polynomials $p,q$ thought of as functors, their composite is again polynomial and is given by $p\tri q$. We explained how it looks in terms of algebra, e.g.\ how to compute $\yon^\2\tri(\yon+\1)$; in terms of dependent types, e.g.\ as a sum-product-sum-product $\sum\prod\sum\prod$, which can be reduced to a single $\sum\prod$; in terms of trees, by stacking corollas on top of corollas; and in terms of polyboxes. We paid particular attention to maps into a composite $p\to q\tri r$.
 
+This allowed us to explain how to think of dynamical systems $S\yon^S\to p\tri q$ with composite interfaces as multi-step machines: each state produces a $p$-output, and then for every $p$-input produces a $q$-output, and then for every $q$-input returns an updated $S$-state. 
+
+Finally, we discussed some facts of the composition product. For example, we showed that $-\tri q$ has a left adjoint $\lchom{q}{-}$ and that $q\tri -$ has a left multi-adjoint $-\frown q$. We also explained that $p\tri q$ preserves all with limits in the variable $p$ and all connected limits in the variable $q$. We also explained the duoidal interaction between $\otimes$ and $\tri$, i.e.\ the natural map $\tri\otimes\tri\to\otimes\tri\otimes$, and how $\tri$ interacts with cartesian maps.
+
+Polynomial composition is one of the best known aspects of polynomial functors. Again, see \cite{kock2012polynomial} for more on this. We learned of the left coclosure (see \cref{prop.comp_left_coclosed}) from Josh Meyers, though it may have already been known in the containers community. 
 %-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
