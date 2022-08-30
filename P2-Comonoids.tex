@@ -79,7 +79,7 @@ To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which s
 \begin{align}\label{eqn.composite_formula_sums_first_circ}
   p\circ q\iso
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}$}
+  \sum_{i\in p(\1)} \; \sum_{\bar{j}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j}(a)]}$}
 \end{align}
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
@@ -106,7 +106,7 @@ p\tri q\iso\sum_{i\in p(\1)}\prod_{a\in p[i]}\sum_{j\in q(\1)}\prod_{b\in q[j]}\
 \begin{align}\label{eqn.composite_formula_sums_first}
   p\tri q\iso
   \scalebox{1.3}{$\displaystyle
-  \sum_{i\in p(\1)} \; \sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}$}
+  \sum_{i\in p(\1)} \; \sum_{\bar{j}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j}(a)]}$}
 \end{align}
 
 % \[
@@ -131,7 +131,7 @@ Let's consider \eqref{eqn.composite_formula_sums_first} piece by piece, with con
 	\item For each function $\bar{j_1}$ as above, what is $\sum_{a\in p[1]} q[\bar{j_1}(a)]$?
 	\item How many functions $\bar{j_2}\colon p[2]\to q(\1)$ are there?
 	\item For each function $\bar{j_2}$ as above, what is $\sum_{a\in p[2]} q[\bar{j_2}(a)]$?
-	\item Write out \[\sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j_i}(a)]}.\]
+	\item Write out \[\sum_{i\in p(\1)}\;\sum_{\bar{j}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[\bar{j}(a)]}.\]
 	Does the result agree with what $p\tri q$ should be?
 \qedhere
 \end{enumerate}
@@ -158,7 +158,7 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
     \item When $j_2 \colon p[2] \to q(\1)$ maps to $1 \in q(\1)$, we have that $\sum_{a \in p[2]} q[\bar{j_2}(a)] \iso q[1] \iso \3$, and when $\bar{j_2} \colon p[2] \to q(\1)$ maps to $2 \in q(\1)$, we have that $\sum_{a \in p[2]} q[\bar{j_2}(a)] \iso q[2] \iso \0$.
     \item From the previous parts, we have that
     \[
-        \sum_{i\in p(\1)}\;\sum_{\bar{j_i}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[j_i(a)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
+        \sum_{i\in p(\1)}\;\sum_{\bar{j}\colon p[i]\to q(\1)}\yon^{\sum_{a\in p[i]}q[j_i(a)]} \iso (\2\yon^\3 + \yon^\6 + \yon^\0) + (\yon^\3 + \yon^\0) \iso \yon^\6 + \3\yon^\3 + \2,
     \]
     which agrees with what $p \tri q$ should be.
 \end{enumerate}
@@ -242,7 +242,8 @@ Meanwhile, we'll use the term \emph{composition product (of lenses)} for lenses 
 This corresponds to \emph{horizontal composition} of natural transformations.
 In this case, we'll use the verb phrase ``\emph{taking the monoidal product}.''
 
-On the other hand, we'll use the terms ``composite'' and ``composition product'' interchangeably to refer to polynomials $p\tri q$, obtained by composing $p,q\in\poly$ as functors or, equivalently, applying the monoidal product functor $\tri$ on them---as there is no risk of confusion here.
+On the other hand, we'll use the terms ``composite'' and ``composition product'' interchangeably to refer to polynomials $p\tri q$, obtained by composing $p,q\in\poly$ as functors or, equivalently, applying the monoidal product functor $\tri$ on them---as there is no risk of confusion here.%
+\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the composition product. We elected to use the composition product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
 
 This is another reason we tend to avoid the symbol $\circ$, preferring to use $\then$ for vertical composition and $\tri$ for horizontal composition.
 Of course, if you're ever confused, you can always check whether the codomain of the first lens matches up with the domain of the second.
@@ -257,15 +258,15 @@ However, we only sometimes think of it as the composition of functors and the ho
 Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of what it says about the positions and directions of the corresponding arenas.
 The position-set of $p \tri q$ is
 \begin{equation} \label{eqn.comp_pos}
-    (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\bar{j_i} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
+    (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\bar{j} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
 \end{equation}
-In other words, specifying a position of $p \tri q$ amounts to first specifying a $p$-position $i$, then specifying a function $\bar{j_i} \colon p[i] \to q(\1)$, i.e.\ a $q$-position $\bar{j_i}(a)$ for each $p[i]$-direction $a$.
+In other words, specifying a position of $p \tri q$ amounts to first specifying a $p$-position $i$, then specifying a function $\bar{j} \colon p[i] \to q(\1)$, i.e.\ a $q$-position $\bar{j}(a)$ for each $p[i]$-direction $a$.
 
-Given such a position $(i, \bar{j_i})$ of $p \tri q$, the direction-set of $p \tri q$ at $(i, \bar{j_i})$ is
+Given such a position $(i, \bar{j})$ of $p \tri q$, the direction-set of $p \tri q$ at $(i, \bar{j})$ is
 \begin{equation} \label{eqn.comp_dir}
-    (p \tri q)[(i, \bar{j_i})] \iso \sum_{a \in p[i]} q[\bar{j_i}(a)].
+    (p \tri q)[(i, \bar{j})] \iso \sum_{a \in p[i]} q[\bar{j}(a)].
 \end{equation}
-So a direction of $p \tri q$ at $(i, \bar{j_i})$ consists of a $p[i]$-direction $a$ and a $q[\bar{j_i}(a)]$-direction.
+So a direction of $p \tri q$ at $(i, \bar{j})$ consists of a $p[i]$-direction $a$ and a $q[\bar{j}(a)]$-direction.
 
 While this description completely characterizes $p \tri q$ as an arena, it may be a bit tricky to wrap your head around.
 Here is an alternative perspective that can help us get a better intuition for what's going on with composite arenas.
@@ -1465,10 +1466,10 @@ For any pair of lenses $p\to p'$ and $q\to q'$, we have a lens $p\tri q\to p'\tr
 \end{tikzpicture}
 \]
 
-Let's also pick a pair of lenses, $f\colon p\to p'$ and $g\colon q\to q'$.
+Let's also pick a pair of lenses, $\varphi\colon p\to p'$ and $\psi\colon q\to q'$.
 \[
 \begin{tikzpicture}
-	\node (p1) {\raisebox{.3cm}{$f\colon p\to p'$}\qquad
+	\node (p1) {\raisebox{.3cm}{$\varphi\colon p\to p'$}\qquad
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node[blue!50!black, "\color{blue!50!black} \tiny 1" below] (1) {$\bullet$} 
       child[blue!50!black] {coordinate (11)}
@@ -1498,7 +1499,7 @@ Let's also pick a pair of lenses, $f\colon p\to p'$ and $g\colon q\to q'$.
 		\end{scope}
   \end{tikzpicture}	
 	};	
-	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
+	\node [below=.5 of p1] (p3) {\raisebox{.3cm}{$\psi\colon q\to q'$}\qquad
 	\begin{tikzpicture}[trees, sibling distance=5mm]
     \node[red!75!black, "\color{red!75!black} \tiny 1" below] (1) {$\bullet$} 
       child[red!75!black] {coordinate (11)}
@@ -1522,21 +1523,21 @@ Let's also pick a pair of lenses, $f\colon p\to p'$ and $g\colon q\to q'$.
 	};	
 \end{tikzpicture}
 \]
-Then by \cref{exc.comp_prod_lens}, we can form the lens $f\tri g\colon p\tri q\to p'\tri q'$ as follows.
-On positions, we follow \eqref{eqn.comp_lens_pos}: for each tree $t$ in the picture of $p\tri q$, we begin by using $f_\1$ to send the $p$-corolla $i$ that forms the bottom level of $t$ to a $p'$-corolla $i'$.
-Then for each $p'[i']$-leaf $a'$ of $i'$, to choose which $q'$-corolla gets glued to $a'$, we use $f^\sharp_i$ to send $a'$ back to a $p[i]$-leaf $a$.
+Then by \cref{exc.comp_prod_lens}, we can form the lens $\varphi\tri \psi\colon p\tri q\to p'\tri q'$ as follows.
+On positions, we follow \eqref{eqn.comp_lens_pos}: for each tree $t$ in the picture of $p\tri q$, we begin by using $\varphi_\1$ to send the $p$-corolla $i$ that forms the bottom level of $t$ to a $p'$-corolla $i'$.
+Then for each $p'[i']$-leaf $a'$ of $i'$, to choose which $q'$-corolla gets glued to $a'$, we use $\varphi^\sharp_i$ to send $a'$ back to a $p[i]$-leaf $a$.
 Since $t$ has the corolla $i$ as its bottom level, $a$ is just a height-$1$ vertex of the tree $t$.
-So we can take the $q$-corolla $j$ that is glued to $a$ in $t$, then use $g_\1$ to send $j$ forward to a $q'$-corolla $j'$.
+So we can take the $q$-corolla $j$ that is glued to $a$ in $t$, then use $\psi_\1$ to send $j$ forward to a $q'$-corolla $j'$.
 This is the corolla we glue to the $p'[i']$-leaf $a'$.
-All this specifies a tree $t'$ in $p'\tri q'$ that $t$ gets sent to via $(f\tri g)_\1$.
+All this specifies a tree $t'$ in $p'\tri q'$ that $t$ gets sent to via $(\varphi\tri \psi)_\1$.
 
 On directions, we follow \eqref{eqn.comp_lens_dir}: picking a direction of $t'$ consists of picking a height-$1$ vertex $a'$ and a height-$2$ leaf $b'$ emanating from $a'$.
-The on-directions function $f^\sharp_i$ sends $a'$ back to a height-$1$ vertex $a$ of $t$, and as we saw, the on-positions function $g_\1$ sends the $q$-corolla $j$ glued to $a$ in $t$ forward to the $q'$-corolla glued to $a'$.
-Then $b'$ is a leaf of that $q'$-corolla, and $g^\sharp_j$ sends $b'$ back to a leaf $b$ emanating from $a$.
-So the on-directions function $(f\tri g)^\sharp_t$ sends the height-$2$ leaf $b'$ to the height-$2$ leaf $b$.
+The on-directions function $\varphi^\sharp_i$ sends $a'$ back to a height-$1$ vertex $a$ of $t$, and as we saw, the on-positions function $\psi_\1$ sends the $q$-corolla $j$ glued to $a$ in $t$ forward to the $q'$-corolla glued to $a'$.
+Then $b'$ is a leaf of that $q'$-corolla, and $\psi^\sharp_j$ sends $b'$ back to a leaf $b$ emanating from $a$.
+So the on-directions function $(\varphi\tri \psi)^\sharp_t$ sends the height-$2$ leaf $b'$ to the height-$2$ leaf $b$.
 
-We draw the lens $f\tri g\to p\tri q\to p'\tri q'$ below.
-To avoid clutter, we leave out the arrows for $g_\1$ that show how the red corollas on the right are selected; we hope the reader can put it together for themselves.
+We draw the lens $\varphi\tri \psi\to p\tri q\to p'\tri q'$ below.
+To avoid clutter, we leave out the arrows for $\psi_\1$ that show how the red corollas on the right are selected; we hope the reader can put it together for themselves.
 \[
 	\begin{tikzpicture}[trees]
 	\begin{scope}[
@@ -1681,9 +1682,9 @@ To avoid clutter, we leave out the arrows for $g_\1$ that show how the red corol
 \end{example}
 
 \begin{exercise}
-With $p,q,p',q'$ and $f,g$ as in \cref{ex.comp_prod_trees}, draw the lens $g\tri f\colon q\tri p\to q'\tri p'$ in terms of trees as in the example.
+With $p,q,p',q'$ and $\varphi,\psi$ as in \cref{ex.comp_prod_trees}, draw the lens $\psi\tri\varphi\colon q\tri p\to q'\tri p'$ in terms of trees as in the example.
 \begin{solution}
-Using the definitions, instructions, and style from \cref{ex.comp_prod_trees}, we draw $g\tri f\colon q\tri p\to q'\tri p'$:
+Using the definitions, instructions, and style from \cref{ex.comp_prod_trees}, we draw $\psi\tri\varphi\colon q\tri p\to q'\tri p'$:
 \[
 	\begin{tikzpicture}[trees]
 	\begin{scope}[
@@ -1799,22 +1800,22 @@ Using the definitions, instructions, and style from \cref{ex.comp_prod_trees}, w
 \end{exercise}
 
 \begin{exercise}
-Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$. Does the following diagram necessarily commute?\tablefootnote{When the name of an object is used in place of a morphism, we refer to the identity morphism on that object.
-So for instance, $f\tri r$ is the composition product of $f$ with the identity lens on $r$.}
+Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary lenses $\varphi\colon q\to p\tri q$ and $\psi\colon q\to q\tri r$. Does the following diagram necessarily commute?\tablefootnote{When the name of an object is used in place of a morphism, we refer to the identity morphism on that object.
+So for instance, $\varphi\tri r$ is the composition product of $\varphi$ with the identity lens on $r$.}
 \[
 \begin{tikzcd}
-	q\ar[r, "g"]\ar[d, "f"']&
-	q\tri r\ar[d, "f\:\tri\:r"]\\
-	p\tri q\ar[r, "p\:\tri\:g"']&
+	q\ar[r, "g"]\ar[d, "\varphi"']&
+	q\tri r\ar[d, "\varphi\:\tri\:r"]\\
+	p\tri q\ar[r, "p\:\tri\:\psi"']&
 	p\tri q\tri r\ar[ul, phantom, "?"]
 \end{tikzcd}
 \]
-That is, do we have $f\then (p\tri g)=^?g\then (f\tri r)$?
+That is, do we have $\varphi\then (p\tri \psi)=^?\psi\then (\varphi\tri r)$?
 \begin{solution}
-Given arbitrary polynomials $p,q,r$ and lenses $f\colon q\to p\tri q$ and $g\colon q\to q\tri r$, it is \emph{not} necessarily the case that $f\then (p\tri g)=g\then (f\tri r)$!
-After all, we can let $p\coloneqq\yon$ and $q\coloneqq\2$ so that $f$ is a lens $\2\to\yon\tri\2\iso\2$ (see \cref{ex.compose_yon}) and $g$ is a lens $\2\to\2\tri r\iso\2$ (see \cref{exc.composing_with_constants}).
-Then by following the instructions for interpreting a composition product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri g=\yon\tri g$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $g$, while $f\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $f$.
-If, say, we let $f\colon\2\to\2$ be the function sending everything to $1\in\2$ and $g\colon\2\to\2$ be the function sending everything to $2\in\2$, then in this case $f\then (p\tri g)=f\then g\neq g\then f=g\then (f\tri r)$.
+Given arbitrary polynomials $p,q,r$ and lenses $\varphi\colon q\to p\tri q$ and $\psi\colon q\to q\tri r$, it is \emph{not} necessarily the case that $\varphi\then (p\tri \psi)=\psi\then (\varphi\tri r)$!
+After all, we can let $p\coloneqq\yon$ and $q\coloneqq\2$ so that $\varphi$ is a lens $\2\to\yon\tri\2\iso\2$ (see \cref{ex.compose_yon}) and $\psi$ is a lens $\2\to\2\tri r\iso\2$ (see \cref{exc.composing_with_constants}).
+Then by following the instructions for interpreting a composition product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri \psi=\yon\tri \psi$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\psi$, while $\varphi\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\varphi$.
+If, say, we let $\varphi\colon\2\to\2$ be the function sending everything to $1\in\2$ and $\psi\colon\2\to\2$ be the function sending everything to $2\in\2$, then in this case $\varphi\then (p\tri \psi)=\varphi\then \psi\neq \psi\then \varphi=\psi\then (\varphi\tri r)$.
 \end{solution}
 \end{exercise}
 
@@ -2472,20 +2473,20 @@ Together, all the options that $q_1,\ldots,q_n$ chose then inform the option tha
 \slogan{A lens $p\to q_1\tri\cdots\tri q_n$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$, then $q_2$, etc., all the way to $q_n$, then interpreting the results.}
 
 \begin{example}[Lenses $p\to q\tri r$]\label{ex.map_to_comp}
-Consider a lens $f\colon p\to q\tri r$.
+Consider a lens $\varphi\colon p\to q\tri r$.
 Let's label the three arrows in the lens's polybox depiction:
 \[
 \begin{tikzpicture}[polybox, tos]
 	\node[poly, dom, "$p$" left] (p) {};
 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$q$" right] (q) {};
 	\node[poly, cod, above=of q, "$r$" right] (r) {};
-  	\draw (p_pos) to[first] node[below] {$f^q$} (q_pos);
-  	\draw (q_dir) to[climb] node[right] {$f^r$} (r_pos);
-  	\draw (r_dir) to[last] node[above] {$f^\sharp$} (p_dir);
+  	\draw (p_pos) to[first] node[below] {$\varphi^q$} (q_pos);
+  	\draw (q_dir) to[climb] node[right] {$\varphi^r$} (r_pos);
+  	\draw (r_dir) to[last] node[above] {$\varphi^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
-So the on-position function of $f$ can be split into two parts: a function $f^q\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^r_i\colon q[f^q(i)]\to r(\1)$.
-Then the on-directions function $f^\sharp_i\colon (q\tri r)[f_\1(i)]\to p[i]$ takes the direction of $q$ and the direction of $r$ in the two blue boxes on the right and sends them to a direction of $p$ at $i$ to fill the white box on the left.
+So the on-position function of $\varphi$ can be split into two parts: a function $\varphi^q\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $\varphi^r_i\colon q[\varphi^q(i)]\to r(\1)$.
+Then the on-directions function $\varphi^\sharp_i\colon (q\tri r)[\varphi_\1(i)]\to p[i]$ takes the direction of $q$ and the direction of $r$ in the two blue boxes on the right and sends them to a direction of $p$ at $i$ to fill the white box on the left.
 
 For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C\}\yon^{\{U,V,W\}}+\{D\}\yon^{\{X\}}$, and $r\coloneqq\{E\}\yon^{\{Y,Z\}}+\{F\}$.
 \[
@@ -2520,7 +2521,7 @@ For example, let $p\coloneqq\{A\}\yon^{\{R,S\}}+{B}\yon^{\{T\}}$, $q\coloneqq\{C
   };
 \end{tikzpicture}
 \]
-Here is a tree picture of a lens $f\colon p\to q\tri r$:
+Here is a tree picture of a lens $\varphi\colon p\to q\tri r$:
 \[
 	\begin{tikzpicture}[trees,
 		level 1/.style={sibling distance=5mm},
@@ -2562,13 +2563,13 @@ Here is a tree picture of a lens $f\colon p\to q\tri r$:
   \end{scope}
 \end{tikzpicture}
 \]
-If we write $f$ as the corresponding triple $(f^q, f^r, f^\sharp)$, then we have
+If we write $\varphi$ as the corresponding triple $(\varphi^q, \varphi^r, \varphi^\sharp)$, then we have
 \begin{gather*}
-f^q(A)=C,\quad f^q(B)=D;\\
-f^r_A(U)=E,\quad f^r_A(V)=F,\quad f^r_A(W)=E;\\
-f^r_B(X)=E;\\
-f^\sharp_A(U,Y)=S,\quad f^\sharp_A(U,Z)=R,\quad f^\sharp_A(W,Y)=R,\quad f^\sharp_A(W,Z)=R;\\
-f^\sharp_B(X,Y)=T,\quad f^\sharp_B(X,Z)=T.
+\varphi^q(A)=C,\quad \varphi^q(B)=D;\\
+\varphi^r_A(U)=E,\quad \varphi^r_A(V)=F,\quad \varphi^r_A(W)=E;\\
+\varphi^r_B(X)=E;\\
+\varphi^\sharp_A(U,Y)=S,\quad \varphi^\sharp_A(U,Z)=R,\quad \varphi^\sharp_A(W,Y)=R,\quad \varphi^\sharp_A(W,Z)=R;\\
+\varphi^\sharp_B(X,Y)=T,\quad \varphi^\sharp_B(X,Z)=T.
 \end{gather*}
 Polyboxes display the same data in a different format:
 \[
@@ -2647,7 +2648,7 @@ Polyboxes display the same data in a different format:
 \]
 As before, keep in mind that each arrow of a lens depends not only on the box it emerges from, but also on every box that came before it in our usual reading order (lower left to lower right to upper right to upper left).
 
-The third set of polyboxes, where the left blue box has been filled with an $A$ and the lower right blue box has been filled with a $V$, is worth highlighting: as $f^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the upper right box.
+The third set of polyboxes, where the left blue box has been filled with an $A$ and the lower right blue box has been filled with a $V$, is worth highlighting: as $\varphi^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the upper right box.
 To indicate this, we color the upper right box red and leave the arrow emerging from it dashsed.
 \end{example}
 
@@ -2722,29 +2723,29 @@ All this generalizes to $n$-fold composite interfaces exactly how you'd expect: 
 
 A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.
 If we draw such a lens using polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the polyboxes for the constituent lenses on top of each other.
-For example, given lenses $f\colon p\to q$ and $f'\colon p'\to q'$, here is $f\tri f'$ drawn as polyboxes:
+For example, given lenses $\varphi\colon p\to q$ and $\varphi'\colon p'\to q'$, here is $\varphi\tri \varphi'$ drawn as polyboxes:
 \begin{equation} \label{eqn.comp_lens_polybox}
 \begin{tikzpicture}[polybox, tos]
 	\node[poly, dom, "$p$" left] (p) {};
 	\node[poly, dom, above=.8 of p, "$p'$" left] (p') {};
 	\node[poly, cod, right=of p, "$q$" right] (q) {};
 	\node[poly, cod, above=.8 of q, "$q'$" right] (q') {};
-	\draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-	\draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
-	\draw (p'_pos) -- node[below] {$f'_\1$} (q'_pos);
-	\draw (q'_dir) -- node[above] {$(f')^\sharp$} (p'_dir);	
+	\draw (p_pos) -- node[below] {$\varphi_\1$} (q_pos);
+	\draw (q_dir) -- node[above] {$\varphi^\sharp$} (p_dir);
+	\draw (p'_pos) -- node[below] {$\varphi'_\1$} (q'_pos);
+	\draw (q'_dir) -- node[above] {$(\varphi')^\sharp$} (p'_dir);	
 \end{tikzpicture}
 \end{equation}
-What differentiates this from simply writing down the polyboxes for $f$ and the polyboxes for $f'$ is that we are explictly associating the position that will fill the lower box of $p'$ with the direction that will fill the upper box of $p$, and likewise the position that will fill the lower box of $q'$ with the direction that will fill the upper box of $q$.
-Moreover, we have the user fill out the lower set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $f_\1$ and $f^\sharp$ to decide what to put in the lower box of $p'$.
+What differentiates this from simply writing down the polyboxes for $\varphi$ and the polyboxes for $\varphi'$ is that we are explictly associating the position that will fill the lower box of $p'$ with the direction that will fill the upper box of $p$, and likewise the position that will fill the lower box of $q'$ with the direction that will fill the upper box of $q$.
+Moreover, we have the user fill out the lower set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $\varphi_\1$ and $\varphi^\sharp$ to decide what to put in the lower box of $p'$.
 So this really does depict a lens $p\tri p'\to q\tri q'$.
 
 How does \eqref{eqn.comp_lens_polybox} relate to our usual polybox depiction of a lens to a composite, as in \eqref{eqn.map_to_2ary_composite}, but with the domain also replaced with a composite?
-A user who interacts with \eqref{eqn.comp_lens_polybox} can fill the lower set of polyboxes (the ones for $f$) first, ignoring the upper set of polyboxes (the ones for $f'$) until the entire lower half is filled.
+A user who interacts with \eqref{eqn.comp_lens_polybox} can fill the lower set of polyboxes (the ones for $\varphi$) first, ignoring the upper set of polyboxes (the ones for $\varphi'$) until the entire lower half is filled.
 Alternatively, after they fill in the lower box of $p$, but before they fill in anything else, they can already decide what position to put in the lower box of $p'$ for every possible direction that could end up in the upper box of $p$.
 By \eqref{eqn.comp_pos}, such a choice is equivalent to picking a position of the composite $p\tri p'$.
-Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $f_\1$ leads to the corresponding position of $q$ given by $f\tri f'$, while filling in the upper box of $q$ and following $f^\sharp$, then $f'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
-Finally, once the user fills in the upper box of $q'$, following the top arrow $(f')^\sharp$ completes the specification of a direction of $p\tri p'$.
+Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $\varphi_\1$ leads to the corresponding position of $q$ given by $\varphi\tri \varphi'$, while filling in the upper box of $q$ and following $\varphi^\sharp$, then $\varphi'_\1$ leads to the position of $q'$ that goes in the bottom box of $q'$.
+Finally, once the user fills in the upper box of $q'$, following the top arrow $(\varphi')^\sharp$ completes the specification of a direction of $p\tri p'$.
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
 \begin{example}[Dynamical systems and the composition product, revisited] \label{ex.dyn_sys_comp_polyboxes}
@@ -3054,7 +3055,7 @@ and
 \end{equation}
 \end{proposition} 
 \begin{proof}
-Formally, this comes down to the fact that (co)products of functors $\smset\to\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise}) and that (co)products in $\poly$ coincide with (co)products in $[\smset,\smset]$ (\cref{prop.poly_coprods,prop.poly_prods}).
+Formally, this comes down to the fact that (co)products of functors $\smset\to\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise}) and that (co)products in $\poly$ coincide with (co)products in $\smset^\smset$ (\cref{prop.poly_coprods,prop.poly_prods}).
 One could instead give an explicit proof using \eqref{eqn.composite_formula}; this is done in \cref{exc.left_dist}.
 In fact, we will see yet another proof of \eqref{eqn.comp_left_pres_prod} (and thus \eqref{eqn.comp_left_pres_times}) in \cref{exc.comp_left_pres_lim} \cref{exc.comp_left_pres_lim.prod}.
 \end{proof}
@@ -3524,7 +3525,7 @@ We'll see this in action after we discuss how $\tri$ preserves limits on the lef
 
 \subsection{Interaction with limits on the left} \label{subsec.comon.comp.prop.lim_left}
 
-We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $[\smset,\smset]$.
+We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $\smset^\smset$.
 Hence the argument in the proof of \cref{prop.left_dist_prod} by appealing to \cref{prop.presheaf_lim_ptwise} can be generalized to arbitrary limits.
 It follows that $\tri$ preserves all limits on the left.
 But we will present a proof of this fact from an alternative perspective: by appealing to the left coclosure of $\tri$.
@@ -3544,28 +3545,28 @@ In particular, the left coclosure operation sends $q,p\in\poly$ to
 \begin{proof} % ** exercise to show that coclosure operation is actually functorial?
 We present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_left_coclosed_calc}.
 
-As in \cref{ex.map_to_comp}, a lens $f\colon p\to r\tri q$ can be written as follows:
+As in \cref{ex.map_to_comp}, a lens $\varphi\colon p\to r\tri q$ can be written as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$p$" left] (p) {$a$\at$i$};
 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$r$" right] (r) {$c$\at$k$};
 	\node[poly, cod, above=of r, "$q$" right] (q) {$b$\at$j$};
-  	\draw (p_pos) to[first] node[below] {$f^r$} (r_pos);
-  	\draw (r_dir) to[climb] node[right] {$f^q$} (q_pos);
-  	\draw (q_dir) to[last] node[above] {$f^\sharp$} (p_dir);
+  	\draw (p_pos) to[first] node[below] {$\varphi^r$} (r_pos);
+  	\draw (r_dir) to[climb] node[right] {$\varphi^q$} (q_pos);
+  	\draw (q_dir) to[last] node[above] {$\varphi^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
-But this is equivalent to the following gadget (to visualize this equivalence, imagine leaving the positions box for $p$, the arrow $f^r$, and the polyboxes for $r$ untouched, while dragging the polyboxes for $q$ leftward to the directions box for $p$, merging all the data from $q$ and the arrows $f^q$ and $f^\sharp$ into a single on-directions arrow and directions box):
+But this is equivalent to the following gadget (to visualize this equivalence, imagine leaving the positions box for $p$, the arrow $\varphi^r$, and the polyboxes for $r$ untouched, while dragging the polyboxes for $q$ leftward to the directions box for $p$, merging all the data from $q$ and the arrows $\varphi^q$ and $\varphi^\sharp$ into a single on-directions arrow and directions box):
 \[
 \begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$\lchom{q}{p}$" left] (l) {$(j,f^\sharp)$\at$i$};
+    \node[poly, dom, "$\lchom{q}{p}$" left] (l) {$(j,\varphi^\sharp)$\at$i$};
     \node[poly, cod, "$r$" right, right=of l, yshift=-0.5ex] (r) {$c$\at$k$};
-    \draw (l_pos) -- node[below] {$f^r$} (r_pos);
+    \draw (l_pos) -- node[below] {$\varphi^r$} (r_pos);
     \draw (r_dir) -- node[above] {} (l_dir);
 \end{tikzpicture}
 \]
-Here the on-directions function encodes the behaviors of both $f^q$ and $f^\sharp$ by sending each $r[k]$-direction $c$ to both a $q$-position $j$, as $f^q$ does, and a function sending $q[j]$-directions to $p[i]$-directions, as $f^\sharp$ does.
-So the polyboxes on the left represent a polynomial whose positions are the same as those of $p$, but whose directions at $i\in p(\1)$ are pairs $(j,f^\sharp)$ consisting of a $q$-position $j$ and a function $f^\sharp\colon q[j]\to p[i]$.
+Here the on-directions function encodes the behaviors of both $\varphi^q$ and $\varphi^\sharp$ by sending each $r[k]$-direction $c$ to both a $q$-position $j$, as $\varphi^q$ does, and a function sending $q[j]$-directions to $p[i]$-directions, as $\varphi^\sharp$ does.
+So the polyboxes on the left represent a polynomial whose positions are the same as those of $p$, but whose directions at $i\in p(\1)$ are pairs $(j,\varphi^\sharp)$ consisting of a $q$-position $j$ and a function $\varphi^\sharp\colon q[j]\to p[i]$.
 Such pairs are precisely the elements of $q(p[i])$, so the polynomial represented by the polyboxes on the left is indeed the one defined as $\lchom{q}{p}$ in \eqref{eqn.lchom_def}.
 It follows that there is a natural isomorphism between lenses $p\to r\tri q$ and lenses $\lchom{q}{p}\to r$.
 \end{proof}
@@ -3591,29 +3592,29 @@ But polyboxes help us see right on paper exactly what is going on in this adjunc
 In stating \cref{prop.comp_left_coclosed}, we implicitly assumed that $\lchom{-}{-}$ is a functor $\poly\op\times\poly\to\poly$.
 Here we show that this is indeed the case.
 \begin{enumerate}
-    \item Given a polynomial $q$ and a lens $g\colon p\to p'$, to what lens $\lchom{q}{p}\to\lchom{q}{p'}$ should the covariant functor $\lchom{q}{-}$ send $g$?
+    \item Given a polynomial $q$ and a lens $\varphi\colon p\to p'$, to what lens $\lchom{q}{p}\to\lchom{q}{p'}$ should the covariant functor $\lchom{q}{-}$ send $\varphi$?
     Prove that your construction is functorial.
     
-    \item Given a polynomial $p$ and a lens $h\colon q'\to q$, to what lens $\lchom{q}{p}\to\lchom{q'}{p}$ should the contravariant functor $\lchom{-}{p}$ send $h$?
+    \item Given a polynomial $p$ and a lens $\psi\colon q'\to q$, to what lens $\lchom{q}{p}\to\lchom{q'}{p}$ should the contravariant functor $\lchom{-}{p}$ send $\psi$?
     Prove that your construction is functorial.
     \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a polynomial $q$ and a lens $g\colon p\to p'$, the functor $\lchom{q}{-}$ should send $g$ to a lens $\lchom{q}{p}\to\lchom{q}{p'}$; by \eqref{eqn.lchom_def}, this is a lens
+    \item Given a polynomial $q$ and a lens $\varphi\colon p\to p'$, the functor $\lchom{q}{-}$ should send $\varphi$ to a lens $\lchom{q}{p}\to\lchom{q}{p'}$; by \eqref{eqn.lchom_def}, this is a lens
     \[
-        \lchom{q}{g}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i'\in p'(\1)}\yon^{q(p'[i'])}.
+        \lchom{q}{\varphi}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i'\in p'(\1)}\yon^{q(p'[i'])}.
     \]
-    We give $\lchom{q}{g}$ the same on-positions function $p(\1)\to p'(\1)$ that $g$ has.
-    Then viewing $q$ as a functor, we define the on-directions function $\lchom{q}{g}^\sharp_i\colon q(p'[g_\1(i)])\to q(p[i])$ for each $i\in p(\1)$ to be the function obtained by applying $q$ to the corresponding on-directions function $g^\sharp_i\colon p'[g_\1(i)]\to p[i]$.
+    We give $\lchom{q}{\varphi}$ the same on-positions function $p(\1)\to p'(\1)$ that $\varphi$ has.
+    Then viewing $q$ as a functor, we define the on-directions function $\lchom{q}{\varphi}^\sharp_i\colon q(p'[\varphi_\1(i)])\to q(p[i])$ for each $i\in p(\1)$ to be the function obtained by applying $q$ to the corresponding on-directions function $\varphi^\sharp_i\colon p'[\varphi_\1(i)]\to p[i]$.
     Functoriality follows trivially on positions and by the functoriality of $q$ itself on directions.
 
-    \item Given a polynomial $p$ and a lens $h\colon q'\to q$, the functor $\lchom{-}{p}$ should send $h$ to a lens $\lchom{q}{p}\to\lchom{q'}{p}$; by \eqref{eqn.lchom_def}, this is a lens
+    \item Given a polynomial $p$ and a lens $\psi\colon q'\to q$, the functor $\lchom{-}{p}$ should send $\psi$ to a lens $\lchom{q}{p}\to\lchom{q'}{p}$; by \eqref{eqn.lchom_def}, this is a lens
     \[
-        \lchom{h}{p}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i\in p(\1)}\yon^{q'(p[i])}.
+        \lchom{\psi}{p}\colon\sum_{i\in p(\1)}\yon^{q(p[i])}\to\sum_{i\in p(\1)}\yon^{q'(p[i])}.
     \]
-    We let the on-positions function of $\lchom{h}{p}$ be the identity on $p(\1)$.
-    Then viewing $h$ as a natural transformation, we define the on-directions function $\lchom{h}{p}^\sharp_i\colon q'(p[i])\to q(p[i])$ for each $i\in p(\1)$ to be the $p[i]$-component of $h$.
+    We let the on-positions function of $\lchom{\psi}{p}$ be the identity on $p(\1)$.
+    Then viewing $\psi$ as a natural transformation, we define the on-directions function $\lchom{\psi}{p}^\sharp_i\colon q'(p[i])\to q(p[i])$ for each $i\in p(\1)$ to be the $p[i]$-component of $\psi$.
     Functoriality follows trivially on positions and because natural transformations compose componentwise on directions.
 \end{enumerate}
 \end{solution}
@@ -3797,19 +3798,19 @@ For ease of notation, we'll often suppress the actual morphism and just write do
 So for example, on the left hand side of \eqref{eqn.rchom_adj_iso} below, $p$ represents the lens $f\colon p\to q\tri 1$ and $q\tri r$ represents the lens $q\:\tri\:!\colon q\tri r\to q\tri\1$, both objects in the slice category $\poly/q\tri\1$.
 
 \begin{proposition} \label{prop.comp_right_slice_coclosed}
-Given polynomials $p,q,r\in\poly$ and a lens $f\colon p\to q\tri\1$, there is a natural isomorphism
+Given polynomials $p,q,r\in\poly$ and a function $f\colon p\to q\tri\1$, there is a natural isomorphism
 \begin{equation} \label{eqn.rchom_adj_iso}
-    \poly/q\tri\1\left(p, q\tri r\right)\iso\poly\left(p\rchom{f}q, r\right),
+    \poly/(q\tri\1)\left(p, q\tri r\right)\iso\poly\left(p\rchom{f}q, r\right),
 \end{equation}
 where
 \begin{equation} \label{eqn.rchom_def}
-    p\rchom{f}q\coloneqq\sum_{i\in p(\1)}q[f_\1(i)]\yon^{p[i]}.
+    p\rchom{f}q\coloneqq\sum_{i\in p(\1)}q[f(i)]\yon^{p[i]}.
 \end{equation}
 \end{proposition}
 \begin{proof}
 Again, we present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_right_slice_coclosed_calc}.
 
-By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ are lenses $g\colon p\to q\tri r$ for which $g\then(q\:\tri\:!)=f$.
+Note that to consider $q\tri r$ as an object in $\poly/(q\tri\1)$, we are implicitly using the map $q\:\tri\:!\colon q\tri r\to q\tri 1$. By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/(q\tri\1)$ are lenses $\varphi\colon p\to q\tri r$ for which $\varphi\then(q\:\tri\:!)=f$.
 We can write this equation using polyboxes:
 \[
 \begin{tikzpicture}
@@ -3824,25 +3825,25 @@ We can write this equation using polyboxes:
 	\draw[double] (q'_dir) -- node[above] {} (q_dir);
 	\draw (r_pos) -- node[below] {} (1_pos);
 	\draw[densely dotted] (1_dir) -- node[above] {} (r_dir);	
-	\draw (p_pos) to[first] node[below] {$g^q$} (q_pos);
-	\draw (q_dir) to[climb] node[right] {$g^r$} (r_pos);
-	\draw (r_dir) to[last] node[above] {$g^\sharp$} (p_dir);
+	\draw (p_pos) to[first] node[below] {$\varphi^q$} (q_pos);
+	\draw (q_dir) to[climb] node[right] {$\varphi^r$} (r_pos);
+	\draw (r_dir) to[last] node[above] {$\varphi^\sharp$} (p_dir);
   \end{tikzpicture}
 	};
 	\node[right=1.8 of a] (b) {
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$p$" left] (p) {\at$i$};
-  	\node[poly, cod, right=1.8 of p.south, yshift=-1ex, "$q$" right] (q) {$b$\at$f_\1(i)$};
+  	\node[poly, cod, right=1.8 of p.south, yshift=-1ex, "$q$" right] (q) {$b$\at$f(i)$};
   	\node[poly, terminal, above=of q, "$\1$" right] (1) {};
-  	\draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
+  	\draw (p_pos) to[first] node[below] {$f$} (q_pos);
   	\draw (q_dir) to[climb] node[right] {} (1_pos);
-  	\draw[densely dotted] (1_dir) to[last] node[above] {$f^\sharp$} (p_dir);
+  	\draw[densely dotted] (1_dir) to[last] node[above] {$!$} (p_dir);
   \end{tikzpicture}
 	};
 	\node at ($(a.east)!.5!(b.west)$) {=};
 \end{tikzpicture}
 \]
-We can read off the picture that a lens $g\colon p\to q\tri r$ is a morphism from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ if and only if $g^q=f_\1$.
+We can read off the picture that a lens $\varphi\colon p\to q\tri r$ is a morphism from $f$ to $q\:\tri\:!$ in $\poly/q\tri\1$ if and only if $\varphi^q=f_\1$.
 % , so specifying such a morphism amounts to specifying a position $k$ of $r$ and an on-directions function $r[k]\to p[i]$ for each $i\in p(\1)$ and $b\in q[f_\1(i)]$.
 So morphisms from $f$ to $q\:\tri\:!$ are equivalent to gadgets
 \[
@@ -3850,24 +3851,24 @@ So morphisms from $f$ to $q\:\tri\:!$ are equivalent to gadgets
     \node[poly, dom, "$p$" left] (p) {$a$\at$i$};
     \node[poly, cod, right=1.8 of p.south, yshift=-2.5ex, "$q$" below] (q) {$b$\at$f_\1(i)$};
     \node[poly, cod, above=.8 of q, "$r$" above] (r) {$c$\at$k$};
-    \draw (p_pos) to[first] node[below] {$f_\1$} (q_pos);
-    \draw (q_dir) to[climb] node[right] {$g^r$} (r_pos);
-    \draw (r_dir) to[last] node[above] {$g^\sharp$} (p_dir);
+    \draw (p_pos) to[first] node[below] {$f$} (q_pos);
+    \draw (q_dir) to[climb] node[right] {$\varphi^r$} (r_pos);
+    \draw (r_dir) to[last] node[above] {$\varphi^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
 with $f_\1$ fixed.
-But this, in turn, is equivalent to the following gadget (to visualize this equivalence, imagine leaving the polyboxes for $r$, the arrow $g^\sharp$, and the directions box for $p$ untouched, while dragging the polyboxes for $q$ leftward to the positions box for $p$, merging the data from $q$ and the predetermined arrow $f^\1$ into a single positions box and adapting the arrow $g^r$ into an on-positions arrow):
+But this, in turn, is equivalent to the following gadget (to visualize this equivalence, imagine leaving the polyboxes for $r$, the arrow $\varphi^\sharp$, and the directions box for $p$ untouched, while dragging the polyboxes for $q$ leftward to the positions box for $p$, merging the data from $q$ and the predetermined arrow $f$ into a single positions box and adapting the arrow $\varphi^r$ into an on-positions arrow):
 \[
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$p\rchom{f}q$" left] (h) {$a$\at$(i,b)$};
     \node[poly, cod, "$r$" right, right=of h] (r) {$c$\at$k$};
-    \draw (h_pos) -- node[below] {$g^r$} (r_pos);
-    \draw (r_dir) -- node[above] {$g^\sharp$} (h_dir);
+    \draw (h_pos) -- node[below] {$\varphi^r$} (r_pos);
+    \draw (r_dir) -- node[above] {$\varphi^\sharp$} (h_dir);
 \end{tikzpicture}
 \] % ** center??
-Here the user can provide both the $p$-position $i$ and the $q[f_\1(i)]$-direction $b$ right from the start, as they know what to expect from $f_\1$ ahead of time.
-Then the on-positions function encodes the behavior of $g^r$.
-So the polyboxes on the left represent a polynomial whose positions are pairs $(i,b)$ with $i\in p(\1)$ and $b\in q[f_\1(i)]$, and whose directions at $(i,b)$ are the directions of the original polynomial $p$ at $i$.
+Here the user can provide both the $p$-position $i$ and the $q[f(i)]$-direction $b$ right from the start, as they know what to expect from $f$ ahead of time.
+Then the on-positions function encodes the behavior of $\varphi^r$.
+So the polyboxes on the left represent a polynomial whose positions are pairs $(i,b)$ with $i\in p(\1)$ and $b\in q[f(i)]$, and whose directions at $(i,b)$ are the directions of the original polynomial $p$ at $i$.
 This is precisely the polynomial we defined in \eqref{eqn.rchom_def}, so the isomorphism holds.
 \end{proof}
 
@@ -3884,6 +3885,7 @@ As a lens $p\to q\tri\1$ can be identified with its on-positions function $p(\1)
     \begin{equation}
         \poly(p,q\tri r)\iso\sum_{f\colon p(\1)\to q(\1)}\poly\left(p\rchom{f}q,r\right).
     \end{equation}
+    Thus the functor $(q\tri-)\colon\poly\to\poly$ is said to have a \emph{left multiadjoint}.
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -4080,8 +4082,6 @@ making $(+,\tri)$ and $(\otimes,\tri)$ duoidal structures and $(\times,\tri)$ op
 \end{proposition}
 \begin{proof}
 For \eqref{eqn.plus_duoidal} we have inclusion maps $p\to p+q$ and $p'\to p'+q'$, inducing a map $p\tri p'\to(p+q)\tri(p'+q')$. Similarly we obtain a map $q\tri q'\to(p+q)\tri(p'+q')$, so we get the desired map from the universal property of coproducts. It is straightforward to check that this is duoidal. The result for \eqref{eqn.times_duoidal} is similar. 
-
-It remains to give a map \eqref{eqn.times_duoidal}.**
 \end{proof}
 
 %\begin{exercise}\label{exc.plus_duoidal}
@@ -4114,7 +4114,7 @@ It remains to give a map \eqref{eqn.times_duoidal}.**
 We conclude this section by examining how $\tri$ interacts with vertical and cartesian lenses, as defined in \cref{def.vert_cart}.
 
 \begin{proposition}[Preservation of cartesian lenses]\label{prop.comp_pres_cart}
-If $f\colon p\to p'$ and $g\colon q\to q'$ are cartesian lenses, then so is $f\tri g\colon p\tri q \to p'\tri q'$.
+If $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are cartesian lenses, then so is $\varphi\tri \psi\colon p\tri q \to p'\tri q'$.
 \end{proposition}
 \begin{proof}
 We use the third characterization of cartesian lenses given in \cref{prop.cart_as_nt}, as lenses whose naturality squares are pullbacks.
@@ -4125,27 +4125,31 @@ For any sets $A,B$ and function $h\colon A\to B$, consider the diagram
     p\tri q\tri B\ar[r] & p'\tri q\tri B\ar[r] & p'\tri q'\tri B.
 \end{tikzcd}
 \]
-The square on the left is a pullback because $f\colon p\to p'$ is cartesian.
-Meanwhile, the square on the right is a pullback because $g\colon q\to q'$ is cartesian and $\tri$ preserves pullbacks by \cref{thm.connected_limits}.
-Hence the outer rectangle is a pullback as well, implying that $f\tri g\colon p\tri q \to p'\tri q'$ is cartesian.
+The square on the left is a pullback because $\varphi\colon p\to p'$ is cartesian.
+Meanwhile, the square on the right is a pullback because $\psi\colon q\to q'$ is cartesian and $\tri$ preserves pullbacks by \cref{thm.connected_limits}.
+Hence the outer rectangle is a pullback as well, implying that $\varphi\tri \psi\colon p\tri q \to p'\tri q'$ is cartesian.
 \end{proof}
 
 \begin{exercise}
-Let $f\colon p\to p'$ and $g\colon q\to q'$ be lenses.
+Let $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ be lenses.
 \begin{enumerate}
-	\item Show that if $f$ is an isomorphism and $g$ is vertical, then $f\tri g$ is vertical.
-	\item Find a vertical lens $f$ and a polynomial $q$ for which $f\tri q\colon p\tri q\to p'\tri q$ is not vertical.
+	\item Show that if $\varphi$ is an isomorphism and $\psi$ is vertical, then $\varphi\tri \psi$ is vertical.
+	\item Find a vertical lens $\varphi$ and a polynomial $q$ for which $\varphi\tri q\colon p\tri q\to p'\tri q$ is not vertical.
 \qedhere
 \end{enumerate}
 \begin{solution}
-Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
+Here $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are lenses.
 \begin{enumerate}
-    \item If $f$ is an isomorphism and $g$ is vertical, then $g\tri\1\colon q\tri\1\to q'\tri\1$ is an isomorphism, so $f\tri g\tri\1\colon p\tri q\tri\1\to p'\tri q'\tri\1$ is an isomorphism as well.
-    Thus $f\tri g$ is vertical.
-    \item If $f$ is the unique lens $\yon\to\1$ and $q=\0$, then $f$ is vertical, but since $\yon\tri\0\iso\0$ and $\1\tri\0\iso\1$, the lens $f\tri\0\colon\0\to\1$ is not.
+    \item If $\varphi$ is an isomorphism and $\psi$ is vertical, then $\psi\tri\1\colon q\tri\1\to q'\tri\1$ is an isomorphism, so $\varphi\tri \psi\tri\1\colon p\tri q\tri\1\to p'\tri q'\tri\1$ is an isomorphism as well.
+    Thus $\varphi\tri \psi$ is vertical.
+    \item If $\varphi$ is the unique lens $\yon\to\1$ and $q=\0$, then $\varphi$ is vertical, but since $\yon\tri\0\iso\0$ and $\1\tri\0\iso\1$, the lens $\varphi\tri\0\colon\0\to\1$ is not.
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+%-------- Section --------%
+\section{Summary and further reading}
+
 
 %-------- Section --------%
 \section{Exercise solutions}
@@ -7456,6 +7460,9 @@ In the next chapter, we will delve deeper into the categorical structure and pro
 We'll encounter many more categories and cofunctors along the way.
 
 %-------- Section --------%
+\section{Summary and further reading}
+
+%-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
@@ -9653,6 +9660,8 @@ Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free
 
 
 
+%-------- Section --------%
+\section{Summary and further reading}
 
 
 %-------- Section --------%
