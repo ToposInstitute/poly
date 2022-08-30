@@ -3926,7 +3926,7 @@ In this chapter we explained the mathematics behind our main object of study in 
 	\item a picture: for each $i\in I$, a corolla with $p[i]$-many leaves;
 	\item a functor $\smset\to\smset$: for each $X:\smset$, a new set $\sum_{i\in I}X^{p[i]}$.
 \end{enumerate}
-The last of these ties anchors us to the rest of category theory, so that rather than needing to ask for morphisms between combinatorial objects or between pictures, we can ask for morphisms between functors $\smset\to\smset$, and that's well established territory. Once we said that maps $p\to q$ between polynomial functors should just be natural transformations, we translated that back to the combinatorial and pictorial settings and saw the ``on-positions, on-directions'' description.
+The last of these ties anchors us to the rest of category theory, so that rather than needing to ask for morphisms between combinatorial objects or between pictures, we can ask for morphisms between functors $\smset\to\smset$, and that's well established territory. Once we said that maps $p\to q$ between polynomial functors should just be natural transformations, we translated that back to the combinatorial and pictorial settings and saw the ``on-positions, on-directions'' description. We want to emphasize that we will be referring to each morphism (natural transformation) $p\to q$ between polynomials as a \emph{lens}.
 
 Once $\poly$ was defined, we considered various properties it has, e.g.\ that it has all products and coproducts, and that these distribute: $\prod\sum\to\sum\prod$.
 \begin{align*}
@@ -6601,7 +6601,7 @@ Which of the four classes above are closed under
 	\item the cocartesian monoidal structure $(\0,+)$ (i.e.\ addition)?
 	\item the cartesian monoidal structure $(\1,\times)$ (i.e.\ multiplication)?
 	\item the parallel monoidal structure $(\yon,\otimes)$ (i.e.\ taking the parallel product)?
-	\item composition of polynomials $p\circ q$?
+	\item composition of polynomials $p\circ q$? (We have not discussed this yet, so feel free to skip it.)
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6672,7 +6672,7 @@ $\poly$ has an adjoint quadruple with $\smset$:
 \end{equation}
 where the functors have been labeled by where they send $A\in\smset$ and $p\in \poly$. 
 
-Both rightward functors are fully faithful.
+Both rightward functors $\smset\to\poly$ are fully faithful.
 \end{theorem}
 \begin{proof}
 For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; by the Yoneda lemma, it is the functor $\poly(\yon^A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}, gives us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
@@ -6879,7 +6879,7 @@ Choose a finite nonempty set $\ord{k}$ for $1\leq k\in\nn$, e.g.\ $\ord{k}=\1\2$
 \[
 f \colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
 \]
-such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory \cref{ex.counting_trajectory} $\nn\yon^\nn\to\yon$.
+such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory $\nn\yon^\nn\to\yon$ from \cref{ex.counting_trajectory}.
 
 On positions, we have $f_\1(i)=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
 \end{example}
@@ -6959,7 +6959,7 @@ So $f$ would be an epimorphism.
 \end{exercise}
 
 \begin{exercise}
-Suppose a lens is both a monomorphism and an epimorphism; it is then an isomorphism? (That is, is $\poly$ \emph{balanced}?)
+Suppose a lens $f\colon p\to q$ is both a monomorphism and an epimorphism; it is then an isomorphism? (That is, is $\poly$ \emph{balanced}?)
 
 Hint: You may use the following facts.
 \begin{enumerate}
@@ -7919,7 +7919,8 @@ This follows from \cref{ex.pullbacks_in_poly}, since the pullback (resp.\ pushou
 \section{Monoidal $*$-bifibration over $\smset$}
 
 We will see that the functor $p\mapsto p(\1)$ has special properties making it what
-\cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that. 
+\cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}. This means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that.%
+\footnote{The material in this section is even more technical, and we won't use it again in the book, so the reader may wish to skip to \cref{part.comon}.}
 
 For example, suppose one has a set $A$ and a function $f\colon A\to p(\1)$, which we can also think of as a cartesian lens between constant polynomials.
 Then we get a new polynomial $f^*p$ with positions $A$, as follows.
@@ -8049,9 +8050,9 @@ Moreover $\otimes$ preserves the op-cartesian arrows, making this a monoidal $*$
 \begin{proof}
 Let $p$ be a polynomial with $p(\1)\cong A$. Then the formula for $f_!p$ and $f_*p$ are given as follows:
 \begin{equation}\label{eqn.f_!andf_*}
-f_!p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\prod\limits_{a\mapsto b}p[a]\big)}$}
+f_!p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\;\prod\limits_{a\mapsto b}p[a]}$}
 \qqand
-f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\big(\sum\limits_{a\mapsto b}p[a]\big)}$}
+f_*p\cong\scalebox{1.3}{$\displaystyle\sum_{b\in B}\yon^{\;\sum\limits_{a\mapsto b}p[a]}$}
 \end{equation}
 It may at first be counterintuitive that the left adjoint $f_!$ involves a product and the right adjoint $f_*$ involves a sum. The reason for this comes from the fact that $\poly$ is equivalent to the Grothendieck construction applied to the functor $\smset\op\to\smcat$ sending each set $A$ to the category $(\smset/A)\op$. The fact that functions $f\colon A\to B$ induces an adjoint triple between $\smset/A$ and $\smset/B$, and hence between $(\smset/A)\op$ and $(\smset/B)\op$ explains the variance in \eqref{eqn.f_!andf_*} and simultaneously establishes the adjoint triple \eqref{eqn.adjoint_triple_monoidal_fib}.
 
@@ -8072,9 +8073,10 @@ and the op-cartesian lenses are clearly preserved since projections in the secon
 %-------- Section --------%
 \section{Summary and further reading}
 
-...
+In this chapter we discussed several of the nice properties of the category $\poly$: it has various adjunctions to $\smset$ and $\smset\op$, is Cartesian closed, has limits and colimits, has an epi-mono factorization system, has a vertical-cartesian factorization system, and comes with a monoidal $*$-bifibration to $\smset$.
 
-See work by Gambino and Kock, Joyal, Paul Taylor, Michael Abbott and Neil Ghani (containers), ...
+The principal monomial functor $p\mapsto p(1)\yon^{\Gamma p}$ discussed in \cref{cor.principal_monomial} is in fact distributive monoidal, and this comes up in work on entropy \cite{spivak2022polynomial} and on noncooperative strategic games \cite{capucci2022diegetic}.
+
 
 %-------- Section --------%
 \section{Exercise solutions}
