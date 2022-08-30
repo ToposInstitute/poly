@@ -1243,10 +1243,12 @@ In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colo
 \end{solution}
 \end{exercise}
 
+We denote by $\smset^\smset$ the (very large) category whose objects are functors $\smset\to\smset$ and whose morphisms are the natural transformations between them.
+
 \begin{exercise} \label{exc.representable_nt_functorial}
 Show that the construction in \cref{prop.representable_nt} is functorial
 \begin{equation} \label{eqn.yoneda_embedding}
-\yon^-\colon\smset\op\to[\smset,\smset],
+\yon^-\colon\smset\op\to\smset^\smset,
 \end{equation}
 as follows.
 \begin{enumerate}
@@ -1286,7 +1288,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
 	\item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
 	\item Show that \eqref{eqn.yoneda} is natural in $F$.
 	\item Show that \eqref{eqn.yoneda} is natural in $S$.
-	\item As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to[\smset,\smset]$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
+	\item As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
 	For this reason, we call this functor the \emph{Yoneda embedding}.
 \qedhere
 \end{enumerate}
@@ -1324,7 +1326,7 @@ Whoever solves this exercise can say they've proved the Yoneda lemma.
     \end{equation}
     In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
     
-    \item Given functors $F, G \colon [\smset,\smset]$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
+    \item Given functors $F, G \colon \smset^\smset$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
     \[
     \begin{tikzcd}[ampersand replacement=\&]
     	\nat(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
@@ -1780,18 +1782,18 @@ Now that we have defined dependent sums and products of sets, we are ready to ta
 
 Remember: our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^\2$, $\yon$, and $\1$ are functors, we just need to interpret sums of functors $\smset\to\smset$.
 But we might as well examine products of functors at the same time, because they'll very much come in handy.
-And both these concepts generalize to limits and colimits in $[\smset,\smset]$.
+And both these concepts generalize to limits and colimits in $\smset^\smset$.
 
 \begin{proposition} \label{prop.presheaf_lim_ptwise}
-The category $[\smset,\smset]$ has all small limits and colimits, and they are computed pointwise.
-That is, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to[\smset,\smset]$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
+The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
+That is, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
 \[
     \left(\lim_{j\in\cat{J}} F(j)\right)(X) \iso \lim_{j\in\cat{J}} \left(F(j)(X)\right) \qqand \left(\colim_{j\in\cat{J}} F(j)\right)(X) \iso \colim_{j\in\cat{J}} \left(F(j)(X)\right)
 \]
 natural in $X$.
 \end{proposition}
 \begin{proof}
-This is a special case of a more general fact, where $[\smset,\smset]$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[pages 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
+This is a special case of a more general fact, where $\smset^\smset$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[pages 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
 \begin{example}[Dependent sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
@@ -1801,7 +1803,7 @@ For any two functors $F,G\colon\smset\to\smset$, let
   \qqand
   (F\times G)\colon\smset\to\smset
 \]
-respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of $F$ and $G$ in $[\smset,\smset]$.\footnote{We may also denote the product functor $F \times G$ by $FG$.}
+respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of $F$ and $G$ in $\smset^\smset$.\footnote{We may also denote the product functor $F \times G$ by $FG$.}
 Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
 \[
   (F+G)(X)\iso F(X)+G(X)
@@ -1824,14 +1826,14 @@ Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
 \]
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor that assigns $I$ to each $X\in\smset$.
 In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors that respectively assign $\0$ and $\1$ to each $X\in\smset$.
-As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset$, \cref{prop.presheaf_lim_ptwise} tells us that the constant functor $\0$ (resp.\ $\1$) is the is the initial (resp.\ terminal) object in $[\smset,\smset]$.
+As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset$, \cref{prop.presheaf_lim_ptwise} tells us that the constant functor $\0$ (resp.\ $\1$) is the is the initial (resp.\ terminal) object in $\smset^\smset$.
 \end{example}
 
 \begin{proposition}\label{prop.set_endofunc_distrib}
-The category $[\smset,\smset]$ is completely distributive.
+The category $\smset^\smset$ is completely distributive.
 \end{proposition}
 \begin{proof}
-This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $[\smset,\smset]$ are computed pointwise (\cref{prop.presheaf_lim_ptwise} and, in particular, \cref{ex.sum_prod_set_endofuncs}).
+This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise} and, in particular, \cref{ex.sum_prod_set_endofuncs}).
 \end{proof}
 
 \begin{exercise} \label{exc.repeated_sum_is_product}
@@ -1850,7 +1852,7 @@ This follows directly from the fact that $\smset$ itself is completely distribut
       \sum_{i\in I} F(X) \iso (IF)(X)
     \]
     natural in $X$.
-    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, since $[\smset,\smset]$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}.)
+    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}.)
     \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$.
 \end{enumerate}
 \end{solution}
@@ -2063,7 +2065,7 @@ So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
 \section{Morphisms between polynomial functors}
 \label{sec.poly.func_nat.morph}
 
-Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $[\smset,\smset]$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
+Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $\smset^\smset$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
 
 \begin{definition}[Polynomial morphism, $\poly$] \label{def.poly_cat}
@@ -2071,7 +2073,7 @@ Given polynomial functors $p$ and $q$, a \emph{morphism of polynomial functors} 
 Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are polynomial morphisms.
 \end{definition}
 
-In other words, $\poly$ is the full subcategory of $[\smset,\smset]$ spanned by the polynomial functors: we take the category $[\smset,\smset]$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
+In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
 
 %---- Subsection ----%
 \subsection{Coproducts of polynomials}
@@ -2080,11 +2082,11 @@ In other words, $\poly$ is the full subcategory of $[\smset,\smset]$ spanned by 
 Since polynomial functors are defined as arbitrary sums of representables, coproducts in $\poly$ are quite easy to understand.
 
 \begin{proposition} \label{prop.poly_coprods}
-The category $\poly$ has arbitrary coproducts, coinciding with coproducts in $[\smset,\smset]$ given by the operation $\sum_{i \in I}$.
+The category $\poly$ has arbitrary coproducts, coinciding with coproducts in $\smset^\smset$ given by the operation $\sum_{i \in I}$.
 \end{proposition}
 \begin{proof}
-By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary coproducts given by $\sum_{i \in I}$.
-The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
+By \cref{ex.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
+The full subcategory inclusion $\poly \to \smset^\smset$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
 \end{proof}
 
 Explicitly, given polynomials $(p_i)_{i \in I}$, their coproduct is
@@ -3105,17 +3107,17 @@ This monoidal structure will really come in handy when we apply $\poly$ to dynam
 The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
-The category $\poly$ has arbitrary products, coinciding with products in $[\smset,\smset]$ given by the operation $\prod_{i \in I}$.
+The category $\poly$ has arbitrary products, coinciding with products in $\smset^\smset$ given by the operation $\prod_{i \in I}$.
 \end{proposition}
 \begin{proof}
 Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
 
-By \cref{ex.sum_prod_set_endofuncs}, the category $[\smset,\smset]$ has arbitrary products given by $\prod_{i \in I}$.
-The full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these products.
+By \cref{ex.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
+The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
-By \cref{prop.set_endofunc_distrib}, $[\smset,\smset]$ is completely distributive.
-Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $[\smset,\smset]$ as
+By \cref{prop.set_endofunc_distrib}, $\smset^\smset$ is completely distributive.
+Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $\smset^\smset$ as
 \begin{equation} \label{eqn.poly_prod}
     \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
 \end{equation}
@@ -3131,7 +3133,7 @@ which, as a coproduct of representables, is in $\poly$.
 The category $\poly$ is completely distributive.
 \end{corollary}
 \begin{proof}
-This is a direct consequence of the fact that $\poly$ has arbitrary (co)products coinciding with (co)products in $[\smset,\smset]$ (\cref{prop.poly_coprods,prop.poly_prods}) and the fact that $[\smset,\smset]$ itself is completely distributive (\cref{prop.set_endofunc_distrib}).
+This is a direct consequence of the fact that $\poly$ has arbitrary (co)products coinciding with (co)products in $\smset^\smset$ (\cref{prop.poly_coprods,prop.poly_prods}) and the fact that $\smset^\smset$ itself is completely distributive (\cref{prop.set_endofunc_distrib}).
 \end{proof}
 
 The result above will allow us to apply \eqref{eqn.cat_completely_distributive}, or sometimes specifically \eqref{eqn.push_prod_sum_obj_indep}, to push $\prod$'s past $\sum$'s of polynomials whenever we so desire.
@@ -3852,7 +3854,7 @@ Moreover, $\odot$ distributes over coproducts.
 In the case of $(\0,+)$ and $(\1,\times)$, this procedure returns the $(\1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
 \end{proposition}
 \begin{proof}
-Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $[\smset,\smset]$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
+Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $\smset^\smset$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
 To prove that this monoidal structure restricts to $\poly$, it suffices to show that $\poly$ is closed under the Day convolution.
 
 Given polynomials $p\coloneqq\sum_{i \in p(\1)} \yon^{p[i]}$ and $q\coloneqq\sum_{j \in q(\1)} \yon^{q[j]}$, their Day convolution is given by the coend
@@ -7356,15 +7358,15 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{exercise}
 
 \begin{exercise} \label{exc.refl_limits}
-An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $[\smset,\smset]$ is still a polynomial functor---since the full subcategory inclusion $\poly \to [\smset,\smset]$ reflects these equalizers, it would follow that $\poly$ has equalizers.
+An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $\smset^\smset$ is still a polynomial functor---since the full subcategory inclusion $\poly \to \smset^\smset$ reflects these equalizers, it would follow that $\poly$ has equalizers.
 But we already know what polynomial the equalizer should be from the proof of \cref{thm.poly_limits}.
-So in this exercise, we will show that the equalizer of polynomials we found in $\poly$ is also the equalizer of those same functors in $[\smset,\smset]$.
+So in this exercise, we will show that the equalizer of polynomials we found in $\poly$ is also the equalizer of those same functors in $\smset^\smset$.
 
 Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$ between polynomial functors $p$ and $q$, and let $e\colon p'\to p$ be their equalizer in $\poly$ that we computed in the proof of \cref{thm.poly_limits}.
 \begin{enumerate}
     \item Given a set $X$, show that $e_X\colon p'(X)\to p(X)$ is the equalizer of the $X$-components $f_X,g_X\colon p(X)\tto q(X)$ in $\smset$.
-    \item Deduce that equalizers in $\poly$ coincide with equalizers in $[\smset,\smset]$.
-    \item Conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$. \qedhere
+    \item Deduce that equalizers in $\poly$ coincide with equalizers in $\smset^\smset$.
+    \item Conclude that limits in $\poly$ coincide with limits in $\smset^\smset$. \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -7377,11 +7379,11 @@ Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$
     
     The equalizer natural transformation $e'\colon p'\to p$ has the inclusion $e'_X\colon p'(X)\to p(X)$ as its $X$-component, so by \cref{cor.morph_func_to_arena}, it is the lens whose on-positions function is the canonical equalizer inclusion $e'_\1\colon p'(\1)\to p(\1)$, while its on-directions function at $i\in p'(\1)$ is the map $p[i]\to p'[i]$ corresponding to the identity on $p'[i]$ given by the universal property of the coequalizer---which is just the canonical coequalizer map $p[i]\to p'[i]$.
     But this is exactly the map $e\colon p'\to p$ constructed in the proof of \cref{prop.poly_prods}, as desired.
-    \item By \cref{prop.presheaf_lim_ptwise}, limits---including equalizers---in $[\smset,\smset]$ are computed pointwise.
+    \item By \cref{prop.presheaf_lim_ptwise}, limits---including equalizers---in $\smset^\smset$ are computed pointwise.
     So if $e_X\colon p'(X)\to p(X)$ is the equalizer of $f_X,g_X\colon p(X)\tto q(X)$ for every $X\in\smset$, then $e\colon p'\to p$ is the equalizer of $f,g\colon p(X)\tto q(X)$.
-    \item We have just shown that equalizers in $\poly$ coincide with equalizers in $[\smset,\smset]$.
-    We saw in the proof of \cref{prop.poly_prods} that products in $\poly$ also coincide with products in $[\smset,\smset]$.
-    Since every limit can be computed as an equalizer of products, we can conclude that limits in $\poly$ coincide with limits in $[\smset,\smset]$.
+    \item We have just shown that equalizers in $\poly$ coincide with equalizers in $\smset^\smset$.
+    We saw in the proof of \cref{prop.poly_prods} that products in $\poly$ also coincide with products in $\smset^\smset$.
+    Since every limit can be computed as an equalizer of products, we can conclude that limits in $\poly$ coincide with limits in $\smset^\smset$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -7468,11 +7470,11 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
 \end{exercise}
 
 \begin{example}
-Given a diagram in $\poly$, one could either take its (co)limit as a diagram of \emph{polynomial} functors (i.e.\ its (co)limit in $\poly)$ or its (co)limit simply as a diagram of functors (i.e.\ its (co)limit in $[\smset,\smset]$).
+Given a diagram in $\poly$, one could either take its (co)limit as a diagram of \emph{polynomial} functors (i.e.\ its (co)limit in $\poly)$ or its (co)limit simply as a diagram of functors (i.e.\ its (co)limit in $\smset^\smset$).
 We saw in \cref{exc.refl_limits} that in the case of limits, these yield the same result.
 So, too, in the case of coproducts, per \cref{prop.poly_coprods}.
 
-But in the case of general colimits, there are diagrams that yield different results: by the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $[\smset,\smset]$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
+But in the case of general colimits, there are diagrams that yield different results: by the co-Yoneda lemma, \emph{every} functor $\smset \to \smset$---even those that are not polynomials---can be written as the colimit of representable functors in $\smset^\smset$, yet the colimit of the same representables in $\poly$ can only be another polynomial.
 
 For a concrete example, consider the two distinct projections $\yon^\2\to\yon$, which form the diagram
 \begin{equation} \label{eqn.2_projs}
