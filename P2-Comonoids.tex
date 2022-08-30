@@ -4156,7 +4156,7 @@ Here $f\colon p\to p'$ and $g\colon q\to q'$ are lenses.
 \Opensolutionfile{solutions}[solution-file6]
 
 %------------ Chapter ------------%
-\chapter{Polynomial comonoids}\label{ch.comon.sharp}
+\chapter{Polynomial comonoids and cofunctors}\label{ch.comon.sharp}
 
 \slogan{Imagine a realm where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from the original position counts as a single move. What sort of realm is this?}
 
@@ -7464,11 +7464,12 @@ We'll encounter many more categories and cofunctors along the way.
 \Opensolutionfile{solutions}[solution-file7]
 
 %------------ Chapter ------------%
-\chapter{The category of categories and cofunctors} \label{ch.comon.cofree}
+\chapter{Categorical properties of polynomial comonoids} \label{ch.comon.cofree}
 
 While we defined the category $\smcat^\sharp$ of categories and cofunctors in the last chapter, we have only begun to scratch the surface of the properties it satisfies.
 As the cateogry of comonoids in $\poly$, equipped with a canonical forgetful functor $U\colon\smcat^\sharp\to\poly$ sending each polynomial to its carrier, $\smcat^\sharp$ inherits many of the categorical properties satisfied by $\poly$.
-Underpinning this inheritance is the fact that $U$ has a right adjoint, a cofree functor $\poly\to\smcat^\sharp$, which we will introduce in the first section of this chapter.
+Underpinning this inheritance is the fact that $U$ has a right adjoint, a cofree functor $\poly\to\smcat^\sharp$.
+We will introduce this adjunction in the first section of this chapter.
 Then we will discuss how many of the categorical properties of $\poly$, including much of what we covered in \cref{ch.poly.bonus}, play nicely with restriction to $\smcat^\sharp$.
 Finally, we will touch on other constructions we can make over the comonoids in $\poly$, such as their comodules and coalgebras.
 
@@ -8921,29 +8922,31 @@ Then the lens $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ for $n\in\nn$,
 models $n$ runs through the system $\varphi$.
 
 Meanwhile, as the limit of the diagram \eqref{eqn.cofree_diagram} with the row of polynomials of the form $p\tripow{n}$ across the top, the carrier $\car{t}_p$ of the cofree comonoid on $p$ comes equipped with a lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ for each $n\in\nn$.
-As the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\car{c}\to\car{t}_p$, we can obtain another lens $\car{c}\to\tripow{n}$ as the composite
+Since the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\car{c}\to\car{t}_p$, we can obtain another lens $\car{c}\to\tripow{n}$ as the composite
 \[
     \car{c}\To{f}\car{t}_p\To{\epsilon^{(n)}_p}p\tripow{n}.
 \]
 
-It turns out that these two composites are equal---that is, the following diagram commutes:
+It follows from our forgetful-cofree adjunction that these two composites are equal.
+
+\begin{proposition}
+With the definitions above, the following diagram commutes:
 \[
 \begin{tikzcd}
     \car{c} \ar[r,"f"] \ar[d, "\delta^{(n)}"'] & \car{t}_p \ar[d, "\epsilon^{(n)}_p"] \\
-    \car{c}\tripow{n} \ar[r, "\varphi\tripow{n}"'] & p\tripow{n}
+    \car{c}\tripow{n} \ar[r, "\varphi\tripow{n}"'] & p\tripow{n}.
 \end{tikzcd}
 \]
-We will prove this in \cref{**} once we have the tools to do so.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\car{t}_p$ equipped with lenses $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
 All together, $\car{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
 But to see all this explicitly, let's consider some examples.
 
 %we need to be clear on what the positions and directions of $\car{t}_p$ are and what category $\cofree{p}$ it carries, as well as how each lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ behaves.
-
-Recall from \cref{def.gen_moore} that a dependent system (or generalized Moore machine) is a map of polynomials $f\colon S\yon^S\to p$. Here $S$ is called the set of states and $p$ is the interface. 
-
-But now we know that $S\yon^S$ is secretly the underlying polynomial of a comonoid. This means that $f$ has a mate, i.e.\ a corresponding cofunctor $S\yon^S\cof\cofree{p}$ to the category of $p$-trees. How does that work?
 
 \begin{example}\label{ex.cofree_dyn_sys}
 Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.halt_dsa}, depicted here again for your convenience:
@@ -8957,6 +8960,8 @@ Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+
 The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each state $s\in S$, we need to associate a tree; which should it be? 
 **
 \end{example}
+
+% ** more examples?
 
 % ** figure out what this means
 
@@ -8993,44 +8998,7 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
 % \end{solution}
 % \end{exercise}
 
-% ** add examples...deterministic state automata
 
-\begin{theorem}\label{thm.cofree_coalgebras}
-Let $\cofree{p}$ be the cofree comonoid on $p\in\poly$. There is an equivalence of categories
-\[
-\sys(p)\cong\smcat(\cofree{p},\smset)
-\]
-between the category of dynamical systems on $p$ and that of functors $\cofree{p}\to\smset.$
-\end{theorem}
-\begin{proof}
-** (In general, coalgebras of comonoids are copresheaves on the corresponding category)
-\end{proof}
-A consequence of this is that $\sys(p)$ forms a topos, and hence has a ready-made type theory and internal logic. While we don't have space to do this justice, we will briefly discuss the sort of logical statement one can make about dynamical systems.
-
-
-%---- Subsection ----%
-\subsection{Decision trees}
-
-When you talk about your future, what exactly might you be talking about? In some sense you can make choices that change what will happen to you, but in another sense it's as though for each such choice there is something beyond your control that makes a new situation for you. You're constantly in the position of needing to make a choice, but its results are beyond your control.
-
-This is very much how positions $t\in\cofree{p}$ look. Such a position is a decision tree: at each stage (node), you have an element $i\in p(\1)$, which we've been calling a decision. It has $p[i]$-many options, each of which, say $d\in p[i]$ results in a new node $\cod(d)$ of the tree.
-
-So a position $t$ is like a future: it is a current decision, and for every option there, a new decision tree. It's all the decisions you could possibly make, and for each actual choice, it's a new future. A direction at $t$ is just a choice of finite path through the tree: a sequence of choices. 
-
-\begin{exercise}
-Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free category. 
-\begin{enumerate}
-	\item Construct a cofunctor $\Cat{Fr}(G)\cof\cofree{\1+\yon+\yon^\2+\yon^\3+\cdots}$.
-	\item Would you say it associates to each node in $G$ its ``future'' decision tree?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
 
 %---- Subsection ----%
 \subsection{Morphisms between cofree comonoids}
@@ -9055,7 +9023,7 @@ Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
 \end{solution}
 \end{exercise}
 
-The following exercise is useful when considering the (topos-theoretic) logic of dynamical systems. Namely, it will allow us to specify legal subtrees of height $n$. %** what does this mean?
+% The following exercise is useful when considering the (topos-theoretic) logic of dynamical systems. Namely, it will allow us to specify legal subtrees of height $n$. %** what does this mean?
 
 \begin{exercise}
 Let $p$ be a polynomial.
@@ -9147,6 +9115,9 @@ The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunct
 
 %-------- Section --------%
 \section{Other special comonoids and adjunctions}
+
+We now observe some further categorical properties of $\smcat^\sharp$.
+First we highlight a few other adjunctions involving $\smcat^\sharp$.
 
 \begin{proposition}
 Let $\smcat^\sharp_{\text{rep}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
@@ -9308,7 +9279,7 @@ The fact that a forgetful functor $\smcat^\sharp\iso\Cat{Comon}(\poly)\to\poly$ 
 So the result follows from \cref{thm.cofree}.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary} \label{cor.comon_cocomp}
 The category $\smcat^\sharp$ has all small colimits.
 They are created by the forgetful functor $\smcat^\sharp\to\poly$.
 \end{corollary}
@@ -9316,15 +9287,11 @@ They are created by the forgetful functor $\smcat^\sharp\to\poly$.
 A comonadic functor creates all colimits that exist in its codomain (see \cite{nlab:created-limit}), and by \cref{thm.poly_colimits}, the category $\poly$ has all small colimits.
 \end{proof}
 
-% ** turn below into example?
-\begin{proposition}[Coproducts in $\smcat^\sharp$]
-The coproduct of polynomial comonoids in $\smcat^\sharp$ agrees with the coproduct of categories in $\smcat$, and its carrier agrees with the coproduct of carriers in $\poly$.
-In particular, the unique comonoid carried by $\0$ is initial in $\smcat^\sharp$.
-\end{proposition}
-\begin{proof}
-We defer the proof of the claim about $\0$ to \cref{exc.0_initial_com}.
+\begin{example}[Coproducts in $\smcat^\sharp$]
+Probably the most familiar kind of colimit in $\smcat^\sharp$ is the coproduct, as \cref{cor.comon_cocomp} tells us that it agrees with the usual coproduct from $\smcat$.
+Here's why.
 
-Let $I$ be a set and $(\cat{C}_i)_{i\in I}$ be categories with carriers $(\car{c}_i)_{i\in I}$.
+For concreteness, let $I$ be a set and $(\cat{C}_i)_{i\in I}$ be categories with carriers $(\car{c}_i)_{i\in I}$.
 Then the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat$ is the category $\sum_{i\in I}\cat{C}_i$, whose objects are given by the disjoint union of the objects in each summand, so that
 \[
     \Ob\left(\sum_{i\in I}\cat{C}_i\right)\iso\sum_{i\in I}\Ob\cat{C}_i=\sum_{i\in I}\car{c}_i(\1)\iso\left(\sum_{i\in I}\car{c}_i\right)(\1),
@@ -9335,34 +9302,40 @@ and whose morphisms out of each $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$ a
 \]
 Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_{i\in I}\car{c}_i$.
 
+It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
+We already know from \cref{cor.comon_cocomp} that it has the right carrier: the coproduct of carriers $\sum_{i\in I}\car{c}_i$. **
+
 % ** give inclusions as cofunctors
 
-It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
-For each $j\in J$, we define an inclusion cofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as cofunctors first??
+% For each $j\in J$, we define an inclusion cofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as cofunctors first??
 
-Suppose we have a category $\cat{D}$ and cofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
-For every object $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$, we have an object $F_j c\in\Ob\cat{D}$, so we can set $Fc\coloneqq F_j c$.
-Then for every morphism $g\colon Fc\to\_$ in $\cat{D}$, we have a morphism $\left(F_j\right)^\sharp_c g\colon c\to\_$, so we can set $F^\sharp_c g\coloneqq\left(F_j\right)^\sharp_c g$.
-As each $F_j$ satisfies the cofunctor laws, so does $F$.
+% Suppose we have a category $\cat{D}$ and cofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
+% For every object $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$, we have an object $F_j c\in\Ob\cat{D}$, so we can set $Fc\coloneqq F_j c$.
+% Then for every morphism $g\colon Fc\to\_$ in $\cat{D}$, we have a morphism $\left(F_j\right)^\sharp_c g\colon c\to\_$, so we can set $F^\sharp_c g\coloneqq\left(F_j\right)^\sharp_c g$.
+% As each $F_j$ satisfies the cofunctor laws, so does $F$.
 
-% ** check cofunctor laws
-% ** check commutes
-% ** check uniqueness
+% % ** check cofunctor laws
+% % ** check commutes
+% % ** check uniqueness
 
 
-It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
-\end{proof}
+% % It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
+\end{example}
 
 \begin{exercise}\label{exc.0_initial_com}
 \begin{enumerate}
 	\item Show that $\0$ has a unique comonoid structure.
-	\item Show that $\0$ with its comonoid structure is initial in $\smcat^\sharp$.
+	\item Explain why $\0$ with its comonoid structure is initial in $\smcat^\sharp$ in two ways: by explicitly showing it has the required universal property, or by invoking \cref{cor.comon_cocomp}.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category (which we will also denote by $\0$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
-    \item For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
+    \item We show that $\0$ has the universal property of the initial object in $\smcat^\sharp$ as follows.
+    For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
+    
+    Alternatively, we know by \cref{cor.comon_cocomp} that $\smcat^\sharp$ has an initial object, and that the forgetful functor $\smcat^\sharp\to\poly$ sends it to the initial object in $\poly$, which is $\0$ (by \cref{prop.poly_coprods} and the following discussion).
+    So the initial object in $\smcat^\sharp$ must be the unique comonoid carried by $\0$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9378,7 +9351,7 @@ Given a comonoid $(\car{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is
 \begin{exercise}
 Let $\cat{C}$ be a category with carrier $\car{c}$.
 \begin{enumerate}
-	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\car{c}(\1)}\car{c}[i]\yon^{\car{c}[i]}$ and a cofunctor $\cat{D}\cof\cat{C}$.
+	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\car{c}(\1)}\car{c}[i]\yon^{\car{c}[i]}$, and give a cofunctor $\cat{D}\cof\cat{C}$.
 	\item Is the underlying lens $\sum_{i\in\car{c}(\1)}\car{c}[i]\yon^{\car{c}[i]}\cof\car{c}$ of this cofunctor an epimorphism?
 \qedhere
 \end{enumerate}
@@ -9417,9 +9390,7 @@ is strong monoidal with respect to $\otimes$.
 The parallel product of two categories is their product in $\smcat$.
 \end{proposition}
 \begin{proof}
-Given $(\car{c},\epsilon_{\car c},\delta_{\car c}),(\car{d},\epsilon_{\car d},\delta_{\car d})\in\smcat^\sharp$, 
-
-be categories corresponding to comonoids $(\car{c},\epsilon_{\car c},\delta_{\car c})$ and $(\car{d},\epsilon_{\car d},\delta_{\car d})$.
+Let $\cat{C},\cat{D}\in\smcat^\sharp$ be categories corresponding to comonoids $(\car{c},\epsilon_{\car c},\delta_{\car c})$ and $(\car{d},\epsilon_{\car d},\delta_{\car d})$.
 
 
 
@@ -9481,6 +9452,53 @@ By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\p
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+
+
+
+\section{??}
+
+
+\begin{theorem}\label{thm.cofree_coalgebras}
+Let $\cofree{p}$ be the cofree comonoid on $p\in\poly$. There is an equivalence of categories
+\[
+\sys(p)\cong\smcat(\cofree{p},\smset)
+\]
+between the category of dynamical systems on $p$ and that of functors $\cofree{p}\to\smset.$
+\end{theorem}
+\begin{proof}
+** (In general, coalgebras of comonoids are copresheaves on the corresponding category)
+\end{proof}
+A consequence of this is that $\sys(p)$ forms a topos, and hence has a ready-made type theory and internal logic. While we don't have space to do this justice, we will briefly discuss the sort of logical statement one can make about dynamical systems.
+
+%---- Subsection ----%
+\subsection{Decision trees}
+
+When you talk about your future, what exactly might you be talking about? In some sense you can make choices that change what will happen to you, but in another sense it's as though for each such choice there is something beyond your control that makes a new situation for you. You're constantly in the position of needing to make a choice, but its results are beyond your control.
+
+This is very much how positions $t\in\cofree{p}$ look. Such a position is a decision tree: at each stage (node), you have an element $i\in p(\1)$, which we've been calling a decision. It has $p[i]$-many options, each of which, say $d\in p[i]$ results in a new node $\cod(d)$ of the tree.
+
+So a position $t$ is like a future: it is a current decision, and for every option there, a new decision tree. It's all the decisions you could possibly make, and for each actual choice, it's a new future. A direction at $t$ is just a choice of finite path through the tree: a sequence of choices. 
+
+\begin{exercise}
+Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free category. 
+\begin{enumerate}
+	\item Construct a cofunctor $\Cat{Fr}(G)\cof\cofree{\1+\yon+\yon^\2+\yon^\3+\cdots}$.
+	\item Would you say it associates to each node in $G$ its ``future'' decision tree?
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+
+
+
+
 
 %-------- Section --------%
 \section{Exercise solutions}
