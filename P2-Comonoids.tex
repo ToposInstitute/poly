@@ -1854,26 +1854,7 @@ comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next sta
 In summary, at certain positions, $\varphi\tri\varphi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning output $o_0$, receiving input $i_1$, updating its state to $s_1$, returning output $o_1$, receiving input $i_2$, and preparing to update its state to $s_2$.
 Adding another layer, $\varphi\tri\varphi\tri\varphi\colon q\tri q\tri q\to p\tri p\tri p$ will tell us how the system behaves when we step through it three times; and in general, $\varphi\tripow{n}\colon q\tripow{n}\to p\tripow{n}$ will tell us how the system behaves when we step through it $n$ times.
 
-This is what we meant in the introduction when we said that the composition product has to do with time.
-It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
-Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
-The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
-
-\subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
-There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
-The first is a communication issue: as you probably sensed, our set-theoretic notation for $\varphi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
-We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{ex.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
-A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
-
-The second issue is more technical: to ensure that $\varphi\tri\varphi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
-But there are many other positions $(s_0,f)$ of $q\tri q$ that we could have specified, and each $f\colon S'\to S$ associates $q[s_0]$-directions to $q$-positions in a different way.
-So $\varphi\tri\varphi$ is carrying around a lot of extraneous---even misleading!---data about how our dynamical system behaves when the state system moves in the right direction but to the wrong state.
-Our isomorphism $e^{-1}$ is a temporary fix, but as we pointed out in \cref{ex.do_nothing}, it relies on the set-theoretic equality of the direction-sets of $q$---there's nothing inherent to the categorical structure of $q$ in $\poly$ that encodes how directions map to states, at least not yet.
-What are we missing?
-
-The key to resolving both these issues lies in the next section, where we will introduce a graphical notation to help us study lenses whose codomains are composite polynomials.
-
-\begin{example} \label{ex.comp_dyn_sys_tree}
+\begin{example}[Composition products of dynamical systems as trees] \label{ex.comp_dyn_sys_tree}
 Consider the dynamical system $\varphi\colon S\yon^S\to p$ with $p\coloneqq\yon^A+\1$, corresponding to the halting deterministic state automaton \eqref{eqn.halt_dsa} from \cref{exc.halt_dsa}, depicted again here for convenience:
 \[
 \begin{tikzcd}[column sep=small]
@@ -1935,9 +1916,9 @@ So the lens $\varphi\colon S\yon^S\to p$ capturing the dynamics of the automaton
     \end{tikzpicture}	
 	};	
 %
-	\node (p2) [right=1 of p1] {
+	\node [right=1 of p1] (p2) {
 	\begin{tikzpicture}[trees, sibling distance=4mm]
-        \node[blue] (1) {$\bullet$} 
+        \node[dyellow] (1) {$\bullet$} 
             child[blue]     {coordinate (11)}
             child[dyellow]  {coordinate (12)}
             child[red]      {coordinate (13)};
@@ -1947,35 +1928,187 @@ So the lens $\varphi\colon S\yon^S\to p$ capturing the dynamics of the automaton
         \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
         \begin{scope}[densely dotted, bend right]
           \draw[postaction={decorate}] (21) to (11);
-          \draw[postaction={decorate}] (22) to (12);
+          \draw[postaction={decorate}] (22) to (13);
         \end{scope}
     \end{tikzpicture}	
 	};	
 %
-	\node [right=1 of p2] (p3) {\raisebox{.3cm}{$g\colon q\to q'$}\qquad
-	\begin{tikzpicture}[trees, sibling distance=5mm]
-    \node[red!75!black, "\color{red!75!black} \tiny 1" below] (1) {$\bullet$} 
-      child[red!75!black] {coordinate (11)}
-      child[red!75!black] {coordinate (12)};
-    \node[right=1.5 of 1, red, "\color{red} \tiny 1" below] (2) {$\bullet$} 
-      child[red] {coordinate (21)};
-    \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
-    \begin{scope}[densely dotted, bend right]
-      \draw[postaction={decorate}] (21) to (12);
-    \end{scope}
-  \end{tikzpicture}	
-	};
+	\node [right=1 of p2, yshift=-5pt] (p3) {
+	\begin{tikzpicture}[trees, sibling distance=4mm]
+        \node[red] (1) {$\bullet$} 
+            child[blue]     {coordinate (11)}
+            child[dyellow]  {coordinate (12)}
+            child[red]      {coordinate (13)};
+        \node[right=1.5 of 1] (2) {$\diamond$};
+        \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \end{tikzpicture}	
+	};	
 \end{tikzpicture}
 \]
+The corolla picture tells us, for example, that from the yellow state, we can go in one of two directions: the green direction, which leads us to the blue state, or the orange direction, which leads us to the red state.
+This describes the dynamics of the automaton one step away from the yellow state.
+
+But what if we want to understand the dynamics of $\varphi$ \emph{two} steps away from the yellow state?
+Consider the following tree, corresponding to a position of the $2$-fold composite $S\yon^S\tri S\yon^S$:
+\begin{equation} \label{eqn.sys_tri2_good_tree}
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=7.5mm},
+  level 2/.style={sibling distance=2.5mm}]
+	\node[dyellow] (a) {$\bullet$}
+		child[blue] {node[blue] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		}
+		child[dyellow] {node[dyellow] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		}
+		child[red] {node[red] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		};
+\end{tikzpicture}
+\end{equation}
+We can follow the steps from \cref{ex.comp_prod_trees} to find that the composition product of lenses $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree as follows:
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=4mm}]
+    \node[dyellow] (1) {$\bullet$}
+		child[blue] {node[blue] (11) {$\bullet$}
+			child[blue] {coordinate (111)}
+			child[dyellow] {coordinate (112)}
+			child[red] {coordinate (113)}
+		}
+		child[dyellow] {node[dyellow] (12) {$\bullet$}
+			child[blue] {coordinate (121)}
+			child[dyellow] {coordinate (122)}
+			child[red] {coordinate (123)}
+		}
+		child[red] {node[red] (13) {$\bullet$}
+			child[blue] {coordinate (131)}
+			child[dyellow] {coordinate (132)}
+			child[red] {coordinate (133)}
+		};
+%
+    \node[right=5 of 1] (2) {$\circ$}
+        child[dgreen] {node[black, sibling distance=5mm] (21) {$\circ$}
+            child[dgreen] {coordinate (211)}
+            child[orange] {coordinate (212)}
+        }
+        child[orange] {node[black] (22) {$\diamond$}
+        };
+			
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right=10pt]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (13);
+    \end{scope}
+    \begin{scope}[densely dotted, bend right=25pt]
+      \draw[postaction={decorate}] (211) to (111);
+      \draw[postaction={decorate}] (212) to (112);
+    \end{scope}
+\end{tikzpicture}
+\]
+Read each tree the way you would read a decision tree, and you will find that this picture tells you exactly what the dynamics of the automaton are two steps away from the yellow state!
+Actually, it says that if we start from the yellow state (the root on the left, which is sent to the root on the right) and go in the orange direction (up from the root along the orange arrow to the right), the automaton will halt (as there are no more directions to follow).
+But if we instead go in the green direction (up from the root along the green arrow to the left), we could go in the green direction again (up the next green arrow) to arrive at a blue state (as indicated by the dashed arrow above), or instead in the orange direction to arrive at a yellow state (similarly).
 \end{example}
 
+This is what we meant in the introduction when we said that the composition product has to do with time.
+It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
+Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
+The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
 
-% \begin{exercise} \label{exc.comp_interface}
-% ** % composite interfaces...how to interpret them
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
+\subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
+There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
+The first is a communication issue: as you probably sensed, our set-theoretic notation for $\varphi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
+We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{ex.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
+A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
+
+The second issue is more technical: to ensure that $\varphi\tri\varphi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
+But there are many other positions $(s_0,f)$ of $q\tri q$ that we could have specified, and each $f\colon S'\to S$ associates $q[s_0]$-directions to $q$-positions in a different way.
+So $\varphi\tri\varphi$ is carrying around a lot of extraneous---even misleading!---data about how our dynamical system behaves when the state system moves in the right direction but to the wrong state.
+Our isomorphism $e^{-1}$ is a temporary fix, but as we pointed out in \cref{ex.do_nothing}, it relies on the set-theoretic equality of the direction-sets of $q$---there's nothing inherent to the categorical structure of $q$ in $\poly$ that encodes how directions map to states, at least not yet.
+What are we missing?
+
+\begin{example}[Composition products of dynamical systems can be misleading] \label{ex.comp_dyn_sys_mislead}
+In \cref{ex.comp_dyn_sys_mislead}, instead of \eqref{eqn.sys_tri2_good_tree}, we could have picked the following tree, corresponding to a different (yet entirely valid) position of $S\yon^S\tri S\yon^S$:
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=7.5mm},
+  level 2/.style={sibling distance=2.5mm}]
+	\node[dyellow] (a) {$\bullet$}
+		child[blue] {node[red] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		}
+		child[dyellow] {node[red] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		}
+		child[red] {node[dyellow] {$\bullet$}
+			child[blue]
+			child[dyellow]
+			child[red]
+		};
+\end{tikzpicture}
+\]
+The composition product $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree like so:
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=4mm}]
+    \node[dyellow] (1) {$\bullet$}
+		child[blue] {node[red] (11) {$\bullet$}
+			child[blue] {coordinate (111)}
+			child[dyellow] {coordinate (112)}
+			child[red] {coordinate (113)}
+		}
+		child[dyellow] {node[red] (12) {$\bullet$}
+			child[blue] {coordinate (121)}
+			child[dyellow] {coordinate (122)}
+			child[red] {coordinate (123)}
+		}
+		child[red] {node[dyellow] (13) {$\bullet$}
+			child[blue] {coordinate (131)}
+			child[dyellow] {coordinate (132)}
+			child[red] {coordinate (133)}
+		};
+%
+    \node[right=5 of 1] (2) {$\circ$}
+        child[dgreen] {node[black] (21) {$\diamond$}
+        }
+        child[orange] {node[black] (22) {$\circ$}
+            child[dgreen] {coordinate (221)}
+            child[orange] {coordinate (222)}
+        };
+			
+	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
+    \begin{scope}[densely dotted, bend right=10pt]
+      \draw[postaction={decorate}] (21) to (11);
+      \draw[postaction={decorate}] (22) to (13);
+    \end{scope}
+    \begin{scope}[densely dotted, bend right=25pt]
+      \draw[postaction={decorate}] (221) to (111);
+      \draw[postaction={decorate}] (222) to (113);
+    \end{scope}
+\end{tikzpicture}
+\]
+Now the picture tells us that, starting from the yellow state, it is the green arrow that will lead to a halting state, whereas we should somehow be able to follow the orange arrow twice!
+
+Of course, this is nonsense---stemming from the fact that we have glued the ``wrong'' corollas to each leaf when forming the position of $S\yon^S\tri S\yon^S$ on the left.
+It's important to note, however, that this is nevertheless part of the data of $\varphi\tri\varphi$, and we don't yet know how to tell $\poly$ to rule it out.
+\end{example}
+
+The key to resolving both these issues lies in the next section, where we will introduce a graphical notation to help us study lenses whose codomains are composite polynomials.
+
+
 
 %-------- Section --------%
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
@@ -2554,7 +2687,7 @@ To indicate this, we color the upper right box red and leave the arrow emerging 
 % Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
 % \end{exercise}
 
-\begin{example}[Dynamical systems with composite interfaces]
+\begin{example}[Dynamical systems with composite interfaces] \label{ex.dyn_sys_comp_inter}
 We explored dynamical systems with product interfaces in \cref{subsec.poly.dyn_sys.new.prod} and parallel product interfaces in \cref{subsec.poly.dyn_sys.new.par}.
 How about dynamical systems with composite interfaces?
 We now have all the tools we need to characterize them.
@@ -2830,49 +2963,64 @@ Let $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, and define $\varphi\colon S\yon^
 \begin{enumerate}
     \item Draw the polyboxes for $\varphi$ and describe its dynamics: what does $1$ run through the system look like?
     \item Let $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ be the transition lens of $S\yon^S$, and draw the polyboxes for the new system $\delta\then(\varphi\tri\varphi)\colon S\yon^S\to p\tri p$.
-    Describe its dynamics: how does it model $2$ runs through the system?
+    Describe its dynamics: how does it model $2$ runs through the system? \qedhere
 \end{enumerate}
 
-What is the induced lens $\text{Run}_n(\varphi)$?
-First of all, it is a dynamical system
-\[\text{Run}_n(\varphi)\colon S\yon^S\to\rr^n\yon,\]
-meaning that it has the same set of states as before, but it outputs $n$-many reals in every moment. 
-
-For $n=3$, here is one moment of output:
-\[
-\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, "$S\yon^S$" left] (S) {$k+3$\vphantom{!}\at$k$\vphantom{!}};
-		\node[poly, right=of S] (S2) {$k+2$\vphantom{!}\at$k+1\vphantom{!}$};
-		\node[poly, below=of S2] (S1) {$k+1$\vphantom{!}\at$k\vphantom{!}$};
-		\node[poly, above=of S2] (S3) {$k+3$\vphantom{!}\at$k+2\vphantom{!}$};
-		\node[poly, linear cod, right=of S1, "$\rr\yon$" right] (p1) {$!$\at$\hphantom{+}k\hphantom{+}$\vphantom{!}};
-		\node[poly, linear cod, right=of S2, "$\rr\yon$" right] (p2) {$!$\at$k+1$\vphantom{!}};
-		\node[poly, linear cod, right=of S3, "$\rr\yon$" right] (p3) {$!$\at$k+2$\vphantom{!}};
+\begin{solution}
+Given $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, we have a dynamical system $\varphi\colon S\yon^S\to p$ given by $\varphi_\1(k)\coloneqq k$ and $\varphi^\sharp_k(1)\coloneqq k+1$.
+\begin{enumerate}
+    \item Here is the polybox picture for $\varphi$ (recall that we shade the upper box of a linear polynomial gray, as there is only one option to place there):
+    \[
+    \begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, "$S\yon^S$" left] (S) {$k+1$\at$k$};
+		\node[poly, right=of S, linear, "$p$" right] (p) {$\vphantom{k}$\at$k$};
+%
+		\draw (S_pos) to[first] (p_pos);
+		\draw (p_dir) to[last ] (S_dir);
+    \end{tikzpicture}
+    \]
+    A single run through the system returns the current state $k\in\nn$, then increases that state by $1$.
+    \item Here is the polybox picture for $\delta\then(\varphi\tri\varphi)\colon S\yon^S\to p\tri p$:
+    \[
+    \begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, "$S\yon^S$" left] (S) {$k+2$\at$k$};
+		
+    	\node[poly, cod, right=1.8 of S.south, yshift=-2.5ex, "$S\yon^S$" below] (S1) {$k+1$\at$k$};
+    	\node[poly, cod, above=.8 of S1, "$S\yon^S$" above] (S2) {$k+2$\at$k+1$};
+    	
+		\node[poly, linear, right=of S1, "$p$" right] (p1) {$\vphantom{k}$\at$k$};
+		\node[poly, linear, right=of S2, "$p$" right] (p2) {$\vphantom{k}$\at$k+1$};
 %
 		\draw (S1_pos) to[first] (p1_pos);
 		\draw (p1_dir) to[last] (S1_dir);		
 		\draw (S2_pos) to[first] (p2_pos);
-		\draw (p2_dir) to[last]  (S2_dir);		
-		\draw (S3_pos) to[first] (p3_pos);
-		\draw (p3_dir) to[last]  (S3_dir);
+		\draw (p2_dir) to[last]  (S2_dir);	
+		
 		\draw (S_pos) to[first] (S1_pos);
 		\draw (S1_dir) to[climb] (S2_pos);
-		\draw (S2_dir) to[climb] (S3_pos);
-		\draw (S3_dir) to[last] (S_dir);
-\end{tikzpicture}
-\]
-So for example, starting at initial state $k=0$, we get the following output stream, e.g.\ for 4 steps:
-\[(0,1,2),(3,4,5),(6,7,8),(9,10,11).\]
+		\draw (S2_dir) to[last] (S_dir);
+    \end{tikzpicture}
+    \]
+    The new system has $p\tri p\iso\rr\yon\tri\rr\yon\iso\rr^\2\yon$ as its interface.
+    Indeed, we see that it returns two numbers at once: the current state $k$ (what the first run through $\varphi$ would return) as well as the increased state $k+1$ (what the second run through $\varphi$ would return).
+    We update the current state from $k$ to $k+1$ in one run, and from $k+1$ to $k+2$ in the next---thus increasing the current state by $2$ overall.
+\end{enumerate}
+\end{solution}
 \end{exercise}
-
-
-% ** stringing two dynamical systems together (maybe also an exercise?)
 
 \begin{exercise}
 As a lens whose domain is a state system, the transition lens $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ of a state system $S\yon^S$ can be interpreted as a standalone dynamical system. Describe the dynamics of this system.
 \begin{solution}
-We can interpret the transition lens $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ as a dynamical system as follows.
-**
+We give two reasonable (and of course equivalent) ways to interpret the transition lens $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$.
+
+One way is to first evaluate its interface as $S\yon^S\tri S\yon^S\iso S\!\left(S\yon^S\right)^S\iso\left(S\times S^S\right)\yon^{S\times S}$.
+Then we see that if the current state is $s_0\in S$, the system returns a position consisting of that current state $s_0$ along with a function $S\to S$, namely the identity function $s_1\mapsto s_1$.
+The system then takes in a pair $(s_1,s_2)\in S\times S$, discarding $s_1$ and setting its new state to be $s_2$.
+
+Alternatively, we can draw from \cref{ex.dyn_sys_comp_inter} to interpret $\delta$ as a dynamical system that behaves as follows.
+Each run through the system is a $2$-step process: first, the current state $s_0\in S$ is returned, and a new state $s_1\in S$ is received.
+Then this new state $s_1$ is immediately returned, and an ever newer state $s_2\in S$ is received.
+Then the current state is updated to the newer state $s_2$.
 \end{solution}
 \end{exercise}
 
