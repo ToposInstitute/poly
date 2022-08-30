@@ -15,7 +15,7 @@ In the previous part we saw that comonoids in $\poly$ are categories, but that m
 
 In this part we'll consider another kind of morphism between comonoids in $\poly$, i.e.\ categories, and one that is a bit more familiar than cofunctors. Namely, we'll consider the bimodules between comonoids. One might want to call them bi-co-modules, but this name is just a bit too long and the name bimodule is not ambiguous, so we'll go with it. So why do I say they're more familiar?
 
-It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, Richard Garner showed that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $[\cat{C},\smset]$ and $[\cat{D},\smset]$. Parametric right adjoints, or \emph{pra}'s come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
+It turns out that bimodules between comonoids in $\poly$ (categories) are also important objects of study in category theory. If $\cat{C}$ and $\cat{D}$ are categories, Richard Garner showed that a bimodule between them can be identified with what's known as a \emph{parametric right adjoint} between the associated copresheaf categories $\smset^{\cat{C}}$ and $\smset^{\cat{D}}$. Parametric right adjoints, or \emph{pra}'s come up in $\infty$-category theory, but they also have a much more practical usage: they are the so-called \emph{data migration functors}.
 
 Indeed, we'll make due on a claim we made in \cref{chapter.poly}, that there is a strong connection between the basic theory of databases and the theory of bimodules in $\poly$. Databases have two parts: they have a schema, a specification of various types and relationships between them, and an instance, which is actual data sorted into those types and having those relationships. As we'll see, one can formalize the schema as a category $\cat{C}$ and the instance as a functor $I\colon\cat{C}\to\smset$. Here's an example of a theorem we'll prove:
 
@@ -43,7 +43,7 @@ Let $\cat{C}$ be a small category. One of the most important constructions in ca
 \footnote{Many would say that presheaves on $\cat{C}$ are more fundamental, but since the notions are equivalent---just use $\cat{C}\op$ to switch between them---we will consider the difference moot. We will focus on copresheaves.}
 This is the category
 \[
-[\cat{C},\smset]\coloneqq\Cat{Fun}(\cat{C},\smset)
+\smset^{\cat{C}}\coloneqq\Cat{Fun}(\cat{C},\smset)
 \]
 whose objects are functors $\cat{C}\to\smset$ and whose morphisms are natural transformations between them.
 
@@ -283,7 +283,7 @@ Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ 
 	\item Show that this construction is functorial. We denote this functor by
 \end{enumerate}
 	\[
-	\elts^\cat{C}\colon[\cat{C},\smset]\to\Cat{dopf}(\cat{C})
+	\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})
 \qedhere	
 	\]
 \end{exercise}
@@ -295,19 +295,19 @@ Let $G$ be a graph, and let $\cat{G}$ be the free category on it. Show that for 
 \begin{proposition}\label{prop.tfae_dopf}
 Let $\cat{C}$ be a category. The following are equivalent:
 \begin{enumerate}
-	\item the category $[\cat{C},\smset]$ of functors $\cat{C}\to\smset$,
+	\item the category $\smset^{\cat{C}}$ of functors $\cat{C}\to\smset$,
 	\item the category of discrete opfibrations over $\cat{C}$,
 	\item the category of cartesian cofunctors into $\cat{C}$.
 \end{enumerate}
 In fact the latter two are isomorphic.
 \end{proposition}
 \begin{proof}
-By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon[\cat{C},\smset]\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
+By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
 \begin{align*}
 	(\partial\pi)(c)&\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}\\
 	(\partial\pi)(f)(s)&\coloneqq\bar{f}(s).
 \end{align*}
-On objects, the roundtrip $[\cat{C},\smset]\to[\cat{C},\smset]$ sends $I\colon\cat{C}\to\smset$ to the functor
+On objects, the roundtrip $\smset^{\cat{C}}\to\smset^{\cat{C}}$ sends $I\colon\cat{C}\to\smset$ to the functor
 \begin{align*}
 	c&
 	\mapsto\{s\in\elts^\cat{C}I\mid \pi(s)\\&
@@ -1050,7 +1050,7 @@ Recall that there is a unique $(\0,\cat{C})$-bimodule, namely $\0\bimodfrom[\0]\
 \section{Bimodules as data migration functors}
 
 \begin{proposition}\label{prop.prafunctor}
-Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon[\cat{C},\smset]\to[\cat{D},\smset]$ are equivalent.
+Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon\smset^{\cat{C}}\to\smset^{\cat{D}}$ are equivalent.
 \begin{enumerate}
 	\item $F$ is composition with a $(\cat{D},\cat{C})$-bimodule.
 	\item $F$ is a parametric right adjoint in the sense of \cite{}.
@@ -1063,7 +1063,7 @@ Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor
 \begin{warning}\label{warn.bridge}
 $\smcat$ is not locally cartesian closed, so our notion of $\Sigma\Pi\Delta$ is not the one in \cite{gambino2013polynomial}.
 
-Consider a category $\cat{C}$ and a bimodule $\cat{C}\bimodfrom[p]\cat{C}$ from it to itself. Since $[\cat{C},\smset]$ is locally cartesian closed, one could ask whether $p$ arises from the bridge diagram
+Consider a category $\cat{C}$ and a bimodule $\cat{C}\bimodfrom[p]\cat{C}$ from it to itself. Since $\smset^{\cat{C}}$ is locally cartesian closed, one could ask whether $p$ arises from the bridge diagram
 \[
 \begin{tikzcd}
 	&
@@ -1083,7 +1083,7 @@ Prove the counterexample from \cref{warn.bridge}.
 \end{exercise}
 
 \begin{definition}{Pra-functors}
-Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{pra-functor} (also called a \emph{parametric right adjoint functor}) $[\cat{C},\smset]\to[\cat{D},\smset]$ is one satisfying any of the conditions of \cref{prop.prafunctor}
+Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{pra-functor} (also called a \emph{parametric right adjoint functor}) $\smset^{\cat{C}}\to\smset^{\cat{D}}$ is one satisfying any of the conditions of \cref{prop.prafunctor}
 \end{definition}
 
 When a polynomial
@@ -1092,9 +1092,9 @@ m\coloneqq\sum_{i\in m(\1)}\yon^{m[i]}
 \]
 is given the structure of a $(\cat{D},\cat{C})$-bimodule, the symbols in that formula are given a hidden special meaning:
 \[
-  m(\1)\in[\cat{D},\smset]
+  m(\1)\in\smset^{\cat{D}}
   \qqand
-	m[i]\in[\cat{C},\smset]
+	m[i]\in\smset^{\cat{C}}
 \]
 Thus $m(1)$ is a database instance on $\cat{D}$; in particular, each position in $i\in m(\1)$ is a row in that instance. And each $m[i]$ is a database instance on $\cat{C}$; in particular, each direction $d\in m[i]$ is a row in that instance.
 
@@ -1104,7 +1104,7 @@ Before we knew about bimodule structures, what we called positions and direction
 The 2-functor $\Fun{Copsh}\colon\bimod{}{}\to\smcat$ given by $\cat{C}\mapsto\bimod{C}{\0}$ is fully faithful.
 \end{theorem}
 \begin{proof}
-The functor $\Fun{Copsh}$ sends $\cat{C}$ to the corresponding copresheaf category $[\cat{C},\smset]$ by \cref{thm.tfae_c_sets}.
+The functor $\Fun{Copsh}$ sends $\cat{C}$ to the corresponding copresheaf category $\smset^{\cat{C}}$ by \cref{thm.tfae_c_sets}.
 
 **Finish**
 \end{proof}
@@ -1495,7 +1495,7 @@ For arbitrary $\cat{C}$, we can think of $\smset[\cat{C}]$ as a polynomial rig w
 \end{example}
 
 \begin{proposition}
-For any category $\cat{C}$, the category $\smset[\cat{C}]$ is the free coproduct completion of $[\cat{C},\smset]\op$.
+For any category $\cat{C}$, the category $\smset[\cat{C}]$ is the free coproduct completion of $\left(\smset^{\cat{C}}\right)\op$.
 \end{proposition}
 \begin{proof}
 **
@@ -1516,9 +1516,9 @@ The functor $\eta_{\cat{C}} \colon \cat{C} \to \smset[\cat{C}]$ corresponding to
 \end{proposition}
 
 \begin{proposition}
-The functor $[\cat{C},\smset]\op \to \smset[\cat{C}]$ has a left adjoint, 
+The functor $\smset^{\cat{C}}\op \to \smset[\cat{C}]$ has a left adjoint, 
 \[
-\adjr{[\cat{C},\smset]\op}{\yon ^ {-}}{\Gamma}{\smset[\cat{C}]}.
+\adjr{\left(\smset^{\cat{C}}\right)\op}{\yon ^ {-}}{\Gamma}{\smset[\cat{C}]}.
 \]
 \end{proposition}
 \begin{proof}
@@ -1633,7 +1633,7 @@ Perhaps better would be to compose $T$ with the right adjoint prafunctor $\cat{C
 \end{example}
 
 \begin{proposition}
-A pra $[\cat{C},\smset]\to[\cat{D},\smset]$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
+A pra $\smset^{\cat{C}}\to\smset^{\cat{D}}$ is a left adjoint if it is of the form $\Sigma_G\circ\Delta_F$ for functors $\cat{C}\From{F}\cat{X}\To{G}\cat{D}$, where $G$ is a discrete opfibration.
 \end{proposition}
 \begin{proof}
 **
