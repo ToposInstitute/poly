@@ -2157,8 +2157,9 @@ Here is where we begin to see the advantages of viewing polynomials as arenas.
 As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
 We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
 
-When we wish to emphasize the arena perspective, we will call the data of $(f_\1, f^\sharp)$ a \emph{morphism of arenas}, an \emph{arena morphism}, or a \emph{lens} between $p$ and $q$ (see \cref{subsec.poly.func_nat.morph.bimorphic_lens}); but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
-In fact, in future chapters we will primarily refer to the morphisms of $\poly$ as lenses.
+When we wish to emphasize the arena perspective, we will call the data of $(f_\1, f^\sharp)$ an \emph{arena morphism}, a \emph{dependent lens}, or simply a \emph{lens} between $p$ and $q$ (see \cref{subsec.poly.func_nat.morph.bimorphic_lens}); but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
+In fact, in future chapters we will primarily refer to the morphisms of $\poly$ as \emph{lenses}.
+If you're familiar with lens terminology from a functional programming context, we'll see in \cref{subsec.poly.func_nat.morph.bimorphic_lens} how our notion of dependent lenses is related.
 
 Here is how you would implement such a morphism in Agda:
 \begin{agda}
@@ -2648,7 +2649,7 @@ Here $p, q \in \poly$.
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Arena morphisms as lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
+\subsection{Arena morphisms as dependent lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
 
 Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
 \[
@@ -2713,8 +2714,8 @@ The monomials in $\poly$ and the morphisms between them form a full subcategory 
 The idea is that each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
 
 So an arena morphism between two monomials is just a bimorphic lens.
-Then an arena morphism between any two arenas is a kind of generalized lens.
-In fact, henceforth we will refer to arena morphisms simply as \emph{lenses}.
+Then an arena morphism between any two arenas is a more generalized lens: a \emph{dependent lens}, where the direction-sets depend on the positions.
+This is why we will henceforth refer to arena morphisms simply as \emph{lenses}.
 
 \begin{example} \label{ex.lens_get_put}
 Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
@@ -3964,7 +3965,7 @@ But the notion of polynomial functors seems to have originated from Andr\'{e} Jo
 \Opensolutionfile{solutions}[solution-file3]
 
 %------------ Chapter ------------%
-\chapter{Dynamical systems as polynomial~morphisms} \label{ch.poly.dyn_sys}
+\chapter{Dynamical systems as dependent lenses} \label{ch.poly.dyn_sys}
 
 Let's start putting all this $\poly$ stuff to use. 
 
