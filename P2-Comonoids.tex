@@ -3542,7 +3542,7 @@ In particular, the left coclosure operation sends $q,p\in\poly$ to
     \lchom{q}{p}\coloneqq\sum_{i\in p(\1)}\yon^{q(p[i])}.
 \end{equation}
 \end{proposition}
-\begin{proof} % ** exercise to show that coclosure operation is actually functorial?
+\begin{proof} 
 We present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_left_coclosed_calc}.
 
 As in \cref{ex.map_to_comp}, a lens $\varphi\colon p\to r\tri q$ can be written as follows:
@@ -3646,11 +3646,10 @@ Let $A$ and $B$ be sets, and let $p$ and $q$ be polynomials.
     
     \item Prove that the following natural isomorphism holds:
     \begin{equation}\label{eqn.flip_reps_lins}
-        \poly\left(A\yon\tri p\tri \yon^B, q\right)\iso\poly\left(p,\yon^A\tri q\tri By\right). %**Natural in $A\in\smset\op$ and $B\in\smset$
+        \poly\left(A\yon\tri p\tri \yon^B, q\right)\iso\poly\left(p,\yon^A\tri q\tri By\right). 
     \end{equation}
     (Hint: Break the isomorphism down into two parts.
     You may find \eqref{eqn.two_var_adj} helpful.)
-    %**Something about polyboxes??
     \qedhere
 \end{enumerate}
 \begin{solution}
@@ -3731,7 +3730,6 @@ On the other hand, we have already seen that viewing dynamical systems as lenses
 Plus, our adjunction lets us switch to the coalgebraic perspective whenever we see fit: $\poly$ lets us talk about both.
 \end{example}
 
-%** Should we discuss morphisms of coalgebras vs. morphisms of dynamical systems?
 
 \begin{proposition}[Left preservation of limits] \label{prop.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
@@ -3881,7 +3879,7 @@ But this, in turn, is equivalent to the following gadget (to visualize this equi
     \draw (h_pos) -- node[below] {$\varphi^r$} (r_pos);
     \draw (r_dir) -- node[above] {$\varphi^\sharp$} (h_dir);
 \end{tikzpicture}
-\] % ** center??
+\]
 Here the user can provide both the $p$-position $i$ and the $q[f(i)]$-direction $b$ right from the start, as they know what to expect from $f$ ahead of time.
 Then the on-positions function encodes the behavior of $\varphi^r$.
 So the polyboxes on the left represent a polynomial whose positions are pairs $(i,b)$ with $i\in p(\1)$ and $b\in q[f(i)]$, and whose directions at $(i,b)$ are the directions of the original polynomial $p$ at $i$.
@@ -3896,7 +3894,6 @@ As a lens $p\to q\tri\1$ can be identified with its on-positions function $p(\1)
 \begin{exercise} \label{exc.comp_right_slice_coclosed_calc}
 \begin{enumerate}
     \item Translate the polyboxes proof of \cref{prop.comp_right_slice_coclosed} into standard mathematical notation.
-    
     \item Prove that the following natural isomorphism holds:
     \begin{equation}
         \poly(p,q\tri r)\iso\sum_{f\colon p(\1)\to q(\1)}\poly\left(p\rchom{f}q,r\right).
@@ -3905,15 +3902,18 @@ As a lens $p\to q\tri\1$ can be identified with its on-positions function $p(\1)
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We prove \cref{prop.comp_right_slice_coclosed} by observing that **
-    \begin{align*}
-        \poly(p,r\tri q)&\iso\prod_{i\in p(\1)}r(q(p[i])) \tag*{\eqref{eqn.main_formula}} \\
-        &\iso\poly\left(\sum_{i\in p(\1)}\yon^{q(p[i])}, r\right) \tag*{\eqref{eqn.main_formula}} \\
-        &\iso\poly\left(\lchom{q}{p}, r\right) \tag*{\eqref{eqn.lchom_def}}.
-    \end{align*}
-    
-    \item **
-\end{enumerate}
+	\item Note that $\poly(p,q\tri \1)\cong\smset(p(1),q(1))$. A lens $p\to q\tri r$ is an element of
+    \[
+    \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{k\in r(\1)}\prod_{c\in r[k]}p[i]\cong\sum_{f\colon p(\1)\to q(\1)}\prod{i\in p(1)}\prod_{b\in q[j]}\sum_{k\in r(\1)}\prod_{c\in r[k]}p[i]
+    \]
+    Fixing the function $f\colon p(\1)\to q(\1)$ as implicit in $p$, we get
+\begin{align*}
+	\poly/(q\tri\1)\left(p, q\tri r\right)&\cong
+	\prod{i\in p(1)}\prod_{b\in q[j]}\sum_{k\in r(\1)}\prod_{c\in r[k]}p[i]\\&\cong
+	\poly\left(p\rchom{f}q, r\right),
+\end{align*}
+	\item This follows from the first isomorphism above.
+ \end{enumerate}
 \end{solution}
 \end{exercise}
 
@@ -4083,10 +4083,6 @@ This can be used in the following way. Lenses $p\to q\tri r$ into composites are
 This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
 \end{example}
 
-%** Different notation for \otimes in polyboxes??
-
-%** Exposition on duoidality
-
 \begin{proposition}
 For any polynomials $p,p',q,q'$ there are natural maps
 \begin{align}\label{eqn.plus_duoidal}
@@ -4194,8 +4190,8 @@ Let's go through it.
 %-------- Section --------%
 \section{State systems, categorically}\label{sec.comon.sharp.state}
 
-Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters. %** compile all the refs?? or make this section stand on its own more?
-Let's take this moment to review what we know about these state systems so far. %** maybe more like...? comonoids will arise from state system story naturally as we review it?
+Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters. 
+Let's take this moment to review what we know about these state systems so far. 
 
 Our original definition of a state system was as a monomial $S\yon^S$ for some set $S$.
 But in \cref{ex.do_nothing}, we noted that this formulation requires us to discuss the positions and directions of a state system at the level of sets rather than in the language of $\poly$.
@@ -4658,7 +4654,7 @@ In fact, coassociativity guarantees that $\delta$ induces a canonical lens $\del
 \footnote{Perhaps this notation seems a little unnatural, but it helps to think of the original $\delta\colon\car{s}\to\car{s}\tri\car{s}$ as the $n=2$ case of a generalized transition lens modeling $n$ steps through the state system.}
 For concreteness, we could then define $\delta^{(n)}$ for $n>2$ inductively by $\delta^{(n)}\coloneqq\delta\then(\delta^{(n-1)}\tri\car{s})$, or just as well by $\delta^{(n)}\coloneqq\delta\then(\car{s}\tri\delta^{(n-1)})$ or even $\delta^{(n)}\coloneqq\delta\then(\delta^{(\ell)}\tri\delta^{(m)})$ for some pair of integers $\ell,m>1$ satisfying $\ell+m=n$.
 Regardless, the coassociativity of $\delta$ means that it doesn't matter how we build a lens $\car{s}\to\car{s}\tripow{(n+1)}$ out of $\delta,\then,\tri,$ and identity lenses: we'll always end up with the same lens.
-We will state this in more generality in \cref{prop.n_duplication}, but here's some practice with the $n=4$ case for a taste of what's to come. %**prove this in more generality?
+We will state this in more generality in \cref{prop.n_duplication}, but here's some practice with the $n=4$ case for a taste of what's to come. 
 
 \begin{exercise}
 \begin{enumerate}
@@ -4851,34 +4847,23 @@ The comonoid structure on a state system $\car{s}$ is what allows us to write ca
 We can then model $n$ steps through a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$ by composing this canonical lens with $\varphi\tripow{n}$ to obtain a ``sped-up'' dynamical system $\text{Run}_n(\varphi)$.
 This new system has the same state system $\car{s}$, but its interface is now $p\tripow{n}$.
 
-The canonicity of $\car{s}\to\car{s}\tripow{n}$ is due to the following standard result about comonoids, which can be proved inductively. %**remove this last part if you end up including the proof
+The canonicity of $\car{s}\to\car{s}\tripow{n}$ is due to the following standard result about comonoids, which can be proved inductively. 
 \end{example}
 
 \begin{proposition}[Defining $\delta^{(n)}$] \label{prop.n_duplication}
-Given a comonoid $(\car{c},\epsilon,\delta)$, let $\delta^{(0)}\coloneqq\epsilon$ and inductively define $\delta^{(n+1)}\coloneqq\delta\then\left(\delta^{(n)}\tri\car{c}\right)$ for all $n\in\nn$.
+Given a comonoid $(\car{c},\epsilon,\delta)$, let $\delta^{(n)}\colon\car{c}\to\car{c}\tripow{n}$ be given as follows. Let $\delta^{(0)}\coloneqq\epsilon$ and inductively define $\delta^{(n+1)}\coloneqq\delta\then\left(\delta^{(n)}\tri\car{c}\right)$ for all $n\in\nn$.
 Then we have the following:
 \begin{enumerate}[label=(\alph*)]
     \item $\delta^{(n)}$ is a morphism $\car{c}\to\car{c}\tripow{n}$ for all $n\in\nn$;
-    \item $\delta^{(1)}=\id_\car{c}$;
+    \item $\delta^{(1)}=\car{c}=\id_\car{c}$;
     \item $\delta^{(2)}=\delta$; and
     \item $\delta^{(n)}=\delta\then\left(\delta^{(k)}\tri\delta^{(n-k)}\right)$ for all $k,n\in\nn$ with $k\leq n$, so our choice of morphism $\car{c}\to\car{c}\tripow{(n+1)}$ is canonical. % More generally: $\delta^{(n)}=\delta^{(m)}\then\left(\delta^{(k_1)}\tri\cdots\tri\delta^{(k_m)}\right)$ for $m,n\in\nn$ and each $k_i\in\nn$ such that $k_1+\cdots+k_m=n$.
 \end{enumerate}
 \end{proposition}
-%** come back and fill this in
-% \begin{proof}
-% We leave parts (a), (b), and (c) for \cref{exc.n_duplication} and prove part (d).
+ \begin{proof}
+ We leave parts (a), (b), and (c) for \cref{exc.n_duplication}. Part (d) amounts to coassociativity.
+\end{proof}
 
-% When $n=k$, (d) follows from (b) and the construction of $\delta^{(n)}$.
-% We prove the rest of (d) by induction on $n\in\nn$.
-% For $n=0$, it remains to consider the $k=1$ case, which follows from (b) and the right erasure law from \eqref{eqn.erasure_law}:
-% \begin{align*}
-%     \delta\then\left(\delta^{(0)}\tri\delta^{-1}\right)&=\delta\then\left(\car{c}\tri\epsilon\right) \tag{b}\\
-%     &=\id_\car{c} \tag*{\eqref{eqn.erasure_law}}\\
-%     &=\delta^{(0)} \tag{b}.
-% \end{align*}
-
-% Then for $n>0$, **.
-% \end{proof}
 We'll continue to use the notation introduced here throughout for general comonoids.
 
 \begin{exercise} \label{exc.n_duplication}
@@ -4921,11 +4906,10 @@ State systems as we have defined them are just the polynomial comonoids that do 
 We consider this a feature, not a bug.
 After all, it is an abstraction to say that there is exactly one way to get from any one state in a system to another.
 It is perfectly plausible that the inner workings of a state system do not permit traveling between some states and differentiate ways of traveling between others.
-We won't formally introduce this idea into our theory of dependent dynamical systems, %**unless we do??
+We won't formally introduce this idea into our theory of dependent dynamical systems,
 but we will often think of polynomial comonoids as a sort of generalized state system throughout the rest of the book.
 \end{example}
 
-%** update w/o category language yet
 \begin{example}[A comonoid that is not a state system]\label{ex.walking_arrow_com}
 The polynomial $\yon^\2+\yon$ is not a state system: one of its direction-sets has one fewer element than its position-set.
 But it can still be given a comonoid structure.
@@ -5075,7 +5059,7 @@ Let's pick $t$ for the time being, so that on positions, $\delta$ looks like thi
 \]
 As in \cref{ex.trans_trees}, we can interpret this as telling us how to ``bend'' the arrows of $\car{a}$ so that they point to other positions:
 \begin{equation} \label{eqn.walking_arrow_bent_cor}
-\begin{tikzpicture}
+\begin{tikzpicture}[baseline=(b)]
     \node[circle,minimum size=2cm] (b) {};
     \foreach\x/\c in {1/red, 2/blue} {
         \node[minimum size=0.1cm,draw,circle,\c,fill=\c] (2-\x) at (b.{360/2*\x}){};
@@ -5089,7 +5073,7 @@ As in \cref{ex.trans_trees}, we can interpret this as telling us how to ``bend''
 Meanwhile, on directions, $\delta$ should tell us how to run two directions together into one.
 Fortunately, there's not much for us to do here---we know that if one of the two directions $\delta$ runs together is one of the double-barred directions that the eraser picked out, then $\delta$ should ignore that ``do-nothing'' direction and yield the other direction (again, the erasure laws ensure this).
 Here's what that looks like:
-\[
+\begin{equation}\label{eqn.my_comonoid_delta}
 \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
 	\node (1A) [red] {$\bullet$} 
   	child  {coordinate (1A1) \idchild}
@@ -5119,7 +5103,7 @@ Here's what that looks like:
 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1B) -- (2B);
 	\draw[densely dotted, postaction={decorate}] (2B1) to (1B1);
 \end{tikzpicture}
-\]
+\end{equation}
 And that's all we need to specify the triple $(\car{a},\epsilon,\delta)$.
 
 Here are $\epsilon\colon\car{a}\to\yon$ and $\delta\colon\car{a}\to\car{a}\tri\car{a}$ again, in terms of polyboxes.
@@ -5193,73 +5177,7 @@ We leave that for \cref{exc.walking_arrow_com}.
 \begin{exercise} \label{exc.walking_arrow_com}
 Verify that $(\car{a},\epsilon,\delta)$ as defined in \cref{ex.walking_arrow_com} obeys the erasure laws in \eqref{eqn.erasure_law} and the coassociative law in \eqref{eqn.coassoc_law}.
 \begin{solution}
-** % probably do it with polyboxes
-
-% We will check unitality only for $s$; it is easier for $B$.
-% \[
-% \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-% 	\node (1A) [red] {$\bullet$} 
-%   	child  {coordinate (1A1) \idchild}
-%     child {coordinate (1A2)};
-%   \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child  {coordinate (2A1) \idchild}
-%       	child {coordinate (2A2)}
-% 			\idchild
-% 			}
-%       child {node [blue] {$\bullet$} 
-%       	child  {coordinate (2A3) \idchild}
-% 			};
-% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-% 	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-% 	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-% 	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-% 	\node (3A) [right=1.5 of 2A, red] {$\bullet$}
-% 		child {
-% 			node {$\bullet$}
-% 			child {coordinate (3A1)}
-% 		\idchild
-% 		}
-% 		child {
-% 			node {$\bullet$}
-% 			child {coordinate (3A2)}
-% 		};
-% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-% 	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-% 	\draw[densely dotted, postaction={decorate}] (3A2) to (2A3);
-% \end{tikzpicture}
-% \hspace{1in}
-% \begin{tikzpicture}[trees, sibling distance=5mm,	bend right=60]
-% 	\node (1A) [red] {$\bullet$} 
-%   	child  {coordinate (1A1) \idchild}
-%     child {coordinate (1A2)};
-%   \node (2A) [right=1.5 of 1A, red] {$\bullet$} 
-%       child  {
-%         node [red] {$\bullet$} 
-%  		    child  {coordinate (2A1) \idchild}
-%       	child {coordinate (2A2)}
-% 			\idchild
-% 			}
-%       child {node [blue] {$\bullet$} 
-%       	child  {coordinate (2A3) \idchild}
-% 			};
-% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (1A) -- (2A);
-% 	\draw[densely dotted, postaction={decorate}] (2A1) to (1A1);
-% 	\draw[densely dotted, postaction={decorate}] (2A2) to (1A2);
-% 	\draw[densely dotted, postaction={decorate}] (2A3) to (1A2);
-% 	\node (3A) [right=1.5 of 2A] {$\bullet$}
-% 		child {
-%         node [red] {$\bullet$} 
-%  		    child  {coordinate (3A1) \idchild}
-%       	child {coordinate (3A2)}
-% 		};
-% 	\draw[|->, shorten <= 3pt, shorten >= 3pt] (2A) -- (3A);
-% 	\draw[densely dotted, postaction={decorate}] (3A1) to (2A1);
-% 	\draw[densely dotted, postaction={decorate}] (3A2) to (2A2);
-% \end{tikzpicture}
-% \]
-% In both pictures, one can see that the composite map is the identity. We would do associativity here, but because the category $\cat{WA}$ is so simple, associativity is guaranteed; this makes the pictures too trivial.
+We will eventually see that comonoids in $\poly$ are categories; this gives us intuition for what is going on here. In fact the category corresponding to the comonoid in this exercise is the walking arrow, depicted in \eqref{eqn.walking_arrow_bent_cor}. The erasure (counit) laws are verified by looking at the picture of $\delta$ in \eqref{eqn.my_comonoid_delta} and noting that it sends the double (do-nothing) lines (the identities) back to the double lines.
 \end{solution}
 \end{exercise}
 
@@ -5389,13 +5307,13 @@ What is the carrier of each of the following categories (up to isomorphism)?
 	    \sum_{m\in\nn}\yon^{\{n\in\nn\mid m\leq n\}}\iso\nn\yon^\nn,
 	\]
 	as $\{n\in\nn\mid m\leq n\}\iso\nn$ under the bijection $n\mapsto n-m$.
-	(This category is the poset $(\nn,\leq)$; see \cref{**} for the general case.)
+	(This category is the poset $(\nn,\leq)$.)
 	\item The category in question has $\nn$ as its set of objects, and for each $n\in\nn$, the morphisms out of $n$ are again determined by their codomains: there is exactly $1$ morphism $n\to m$ for every $m\in\nn$ satisfying $m\leq n$, and no other morphisms out of $n$.
 	So the carrier of the category is isomorphic to
 	\[
 	    \sum_{n\in\nn}\yon^{\{m\in\nn\mid m\leq n\}}\iso\sum_{n\in\nn}\yon^{\ord{n+1}}\iso\yon^\1+\yon^\2+\yon^\3+\cdots.
 	\]
-    (This category is the poset $(\nn,\geq)$; again, see \cref{**} for the general case.)
+    (This category is the poset $(\nn,\geq)$.)
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -5714,15 +5632,6 @@ In general, $\delta^{(n)}\colon\car{c}\to\car{c}\tripow{n}$ on directions tells 
 After all, we have already seen that $\delta^{(2)}=\delta$ performs binary composition, that $\delta^{(1)}=\id_\car{c}$ performs ``unary'' composition (the ``unary composite'' of a single morphism $f$ is just $f$ itself), and that $\delta^{(0)}=\epsilon$ performs ``nullary'' composition (the ``nullary composite'' at any object is just its identity).
 The directions of $\car{c}\tripow{n}$ at positions in the image of $\delta^{(n)}$ are exactly the sequences of composable morphisms of length $n$, and $\delta^{(n)}$ sends each sequence to the single direction that is its composite.
 
-% \begin{exercise}
-% Let $\cat{C}$ be a category, $\car{c}$ its carrier, and $i\in\Ob\cat{C}$ an object. This exercise is for people who know the definition of the coslice category $i/\cat{C}$ of objects under $i$. Is it true that there is an isomorphism
-% \[\Ob(c/\cat{C})i\cong^?\car{c}[i]\]
-% If so, describe it; if not, give a counterexample.
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
-
 %---- Subsection ----%
 \subsection{Examples of categories as comonoids}
 Now that we know that polynomial comonoids are just categories, let's review some simple examples of categories and see how they may be interpreted as comonoids.
@@ -5875,240 +5784,6 @@ The linear polynomial $B\yon$ corresponds to a category whose objects form the s
 \end{solution}
 \end{exercise}
 
-% ** Figure out what's up with all this stuff...
-%
-%\begin{exercise}\label{ex.fleece}
-%\begin{enumerate}
-%	\item Use \cref{ex.const_to_const} to show that for any polynomial comonoid $(c,\epsilon,\delta)$, the polynomial $c$ is divisible by $\yon$.
-%	\item Show that there exists a polynomial $\fl{c}$ and a vertical morphism $\varphi_c\colon c\to \fl{c}$ such that the induced map $(\varphi_c,\epsilon)\colon c\to \fl{c}\yon$ is an isomorphism, i.e.\ $\varphi_c$ is a product projection.
-%	\item Show that $\varphi_c$ is an epimorphism using \cref{prop.epis_in_poly}.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{definition}\label{def.fleece}
-%Suppose $\com{C}=(c,\epsilon,\delta)$ is a comonoid, and let $\varphi_c\colon c\to \fl{c}$ be as in \cref{ex.fleece}. We refer to the polynomial $\fl{c}$ as the \emph{fleece} of $c$ and $\varphi_c$ as the \emph{fleecing map}.
-%
-%If there exists a map $\fl{\delta}\colon \fl{c}\to \fl{c}\tri \fl{c}$ making the diagram
-%\[
-%\begin{tikzcd}
-%	c\ar[r, "\delta"]\ar[d, "\varphi_c"']&
-%	c\tri c\ar[d, "\varphi_c\tri\varphi_c"]\\
-%	\fl{c}\ar[r, "\fl{\delta}"']&
-%	\fl{c}\tri \fl{c}
-%\end{tikzcd}
-%\]
-%commute,%
-%\tablefootnote{Note that such a morphism $\fl{\delta}$ must be unique since $\varphi_c$ is an epimorphism.}
-%we say that $(\fl{c},\fl{\delta})$ is the \emph{fleece comagma} of $\com{C}$.
-%\end{definition}
-%
-%By using just the fleece, we can leave off identity arrows, making things just that much easier to draw. (We call it ``fleece'' because to some extent we're cheating the comonoid of its identities, and also because we're taking just its wool, leaving the identity behind.)
-%
-%\begin{example}[Associativity]\label{ex.associativity_pics}
-%Consider the non-category drawn here:
-%\[
-%\boxCD{examplecolor}{
-%\begin{tikzcd}[ampersand replacement=\&]
-%	A\ar[r, "f"]\ar[rrr, bend left, "i"]\ar[rrr, bend right, "j"]\&
-%	B\ar[r, "g"]\&
-%	C\ar[r, "h"]\&
-%	D
-%\end{tikzcd}
-%\leavevmode\\\bigskip
-%$(f\then g)\then h=i\qqand f\then(g\then h)=j$
-%}
-%\]
-%We can see represent this in a polynomial $p$ with a map $\delta\colon p\to p\tri p$, and see that it is not associative. To show this it suffices to consider the fleece comagma $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$; see \cref{def.fleece}, so that $\fl{p}\cong \yon^\4+\yon^\2+\yon+\1$. Let's rename $\fl{p}$ to an isomorphic polynomial with more names around:
-%\[
-%\fl{p}\coloneqq\{A\}\yon^{\{f,f\then g, i, j\}}+\{B\}\yon^{\{g,g\then h\}}+C\yon^{\{h\}}+\{D\}.
-%\]
-%Every symbol used there, excluding $\yon$, +, $\{$, and $\}$, but including ``$f$'' and ``$f\then g$'', etc., is just a variable name. Below is a picture of $\fl{p}$, where we use arrow lengths to help us remember which arrow is which: $f$, $g$, and $h$ are small, $f\then g$ and $g\then h$ are longer, and $i$ and $j$ are longest:
-%\[
-%\begin{tikzpicture}[rounded corners]
-%\node[draw, "$\fl{p}$" above] {
-%\begin{tikzpicture}[trees, sibling distance=1cm]
-%	\node["\tiny $A$" below, red] (A) {$\bullet$}
-%  	child[level distance=4mm] {coordinate (1)}
-%		child[level distance=8mm] {coordinate (2)}
-%		child[level distance=12mm] {coordinate (3)}
-%		child[level distance=12mm] {coordinate (4)};
-%%
-%	\node["\tiny $B$" below, blue, right=3 of A] (B) {$\bullet$}
-%		child[level distance=4mm] {coordinate (B1)}
-%		child[level distance=8mm] {coordinate (B2)};
-%%
-%	\node["\tiny $C$" below, dgreen, right=2 of B] (C) {$\bullet$}
-%		child[level distance=4mm] {coordinate (C1)};
-%%
-%	\node["\tiny $D$" below, right=1 of C] (D) {$\bullet$};
-%	\begin{scope}[font=\scriptsize]
-%  	\node[below left=1mm of 1] {$f$};
-%  	\node[below left=1mm of 2] {$f\then g$};
-%  	\node[below right=1mm of 3] {$i$};
-%  	\node[below right=1mm of 4] {$j$};
-%  	\node[below left=1mm of B1] {$g$};
-%  	\node[below right=1mm of B2] {$g\then h$};
-%  	\node[below left=1mm of C1] {$h$};
-%	\end{scope}
-%\end{tikzpicture}
-%};
-%\end{tikzpicture}
-%\]
-%Here's a picture of our map $\fl{\delta}\colon \fl{p}\to \fl{p}\tri \fl{p}$.
-%\begin{equation}\label{eqn.delta_misc33}
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%%
-%	\node [blue, right=1.5 of A2] (B1) {$\bullet$}
-%		child[level distance=4mm] {coordinate (B11)}
-%		child[level distance=8mm] {coordinate (B12)};
-%	\node [blue, right=1.5 of B1] (B2) {$\bullet$}
-%		child[level distance=4mm] {node[dgreen] {$\bullet$}
-%			child {coordinate (B21)}
-%		}
-%		child[level distance=8mm] {node {$\bullet$}};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (B1) -- (B2);
-%	\draw[densely dotted, postaction={decorate}] (B21) to (B12);
-%%
-%	\node [dgreen, right=1.5 of B2] (C1) {$\bullet$}
-%		child[level distance=4mm] {coordinate (C11)};
-%	\node[right=1 of C1, dgreen] (C2) {$\bullet$}
-%		child[level distance=4mm] {node {$\bullet$}
-%	};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (C1) -- (C2);
-%%
-%	\node [right=1 of C2] (D1) {$\bullet$};
-%	\node [right=1 of D1] (D2) {$\bullet$};
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (D1) -- (D2);	
-%\end{tikzpicture}
-%\end{equation}
-%One should check in the red position that $(f\then g)\then h$ is going to $i$ and that $f\then (g\then h)$ is going to $j$. This should cause a failure in the associativity of $\delta$ and hence of $\fl{\delta}$.%
-%\footnote{Note that if $\fl{\delta}$ is not associative, then $\delta$ cannot be associative either; see \cref{ex.fleece_assoc}.}
-%
-%Now we draw $\delta\then(\delta\tri \fl{p})$ and X$\delta\then(\fl{p}\tri\delta)$ and see that they disagree at the $A$ position. Here is $\delta\then(\delta\tri \fl{p})$ whose second map $\delta\tri \fl{p}$ does $\delta$ as in \eqref{eqn.delta_misc33} on the bottom layer and copies the top layer; to differentiate the intermediary $\delta$, which comes before the top layer, we use dashed lines:
-%\[
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%%
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen] (A23') {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node (A24') {$\bullet$}}
-%		child[level distance =12mm] {node (A25') {$\bullet$}};			
-%%
-%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {node [dgreen] (A31') {$\bullet$}
-%				child [level distance=4mm] {coordinate (A31)}}
-%			child[level distance=8mm] {node (A32') {$\bullet$}}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {node (A33') {$\bullet$}}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%	\draw[densely dotted, bend right=20, dashed] (A31') to (A23');
-%	\draw[densely dotted, bend right=20, dashed] (A32') to (A25');
-%	\draw[densely dotted, bend right=20, dashed] (A33') to (A24');
-%	\draw[densely dotted, postaction={decorate}] (A31) to (A23);
-%\end{tikzpicture}
-%\]
-%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $i$. Now we draw $\delta\then(\fl{p}\tri\delta)$. Its second map $\fl{p}\tri\delta$ copies the bottom layer and does $\delta$ as in \eqref{eqn.delta_misc33} on the top layer; we have no need for dashed lines.
-%\[
-%\begin{tikzpicture}[trees, bend right=60,
-%level 1/.style={sibling distance=5mm},
-%level 2/.style={sibling distance=2.5mm}]
-%	\node [red] (A1) {$\bullet$}
-%		child[level distance =4mm] {coordinate (A11)}
-%		child[level distance =8mm] {coordinate (A12)}
-%		child[level distance =12mm] {coordinate (A13)}
-%		child[level distance =12mm] {coordinate (A14)};
-%%
-%	\node [right=2.5 of A1, red] (A2) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {coordinate (A21)}
-%			child[level distance=8mm] {coordinate (A22)}
-%		}
-%		child[level distance =8mm] {node [dgreen]  {$\bullet$}
-%			child[level distance=4mm] {coordinate (A23)}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\node [right=3.5 of A2, red] (A3) {$\bullet$}
-%		child[level distance =4mm] {node [blue]{$\bullet$}
-%			child[level distance=4mm] {node [dgreen] {$\bullet$}
-%				child [level distance=4mm] {coordinate (A31)}}
-%			child[level distance=8mm] {node {$\bullet$}}
-%		}
-%		child[level distance =8mm] {node [dgreen] {$\bullet$}
-%			child[level distance=4mm] {node {$\bullet$}}
-%		}
-%		child[level distance =12mm] {node {$\bullet$}}
-%		child[level distance =12mm] {node {$\bullet$}};			
-%%
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A1) -- (A2);
-%	\draw[|->, shorten <= 3pt, shorten >= 3pt] (A2) -- (A3);
-%	\draw[densely dotted, postaction={decorate}] (A21) to (A12);
-%	\draw[densely dotted, postaction={decorate}] (A22) to (A14);
-%	\draw[densely dotted, postaction={decorate}] (A23) to (A13);
-%	\draw[densely dotted, postaction={decorate}] (A31) to (A22);
-%\end{tikzpicture}
-%\]
-%We can see that the unique leaf of $\fl{p}\tri \fl{p}\tri \fl{p}$ is mapping to $j$.
-%\end{example}
-%
-%\begin{exercise}\label{ex.fleece_assoc}
-%Let $p$, $\delta$, $\fl{p}$, and $\fl{\delta}$ be as in \cref{ex.associativity_pics}.
-%\begin{enumerate}
-%	\item Redraw \eqref{eqn.delta_misc33} using $\delta\colon p\to p\tri p$ in place of the fleeced version $\fl{\delta}\colon \fl p\to \fl p$ shown there.
-%	\item Use \cref{ex.fleece,def.fleece} to show that if $\delta$ is associative then $\fl{\delta}$ must be too.
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
-%
-%\begin{exercise}
-%In \cref{ex.associativity_pics} we have maps $\delta\then(\delta\tri c)$ and $\delta\then(c\tri\delta)$ $c\to c\tri c\tri c$. Which of these corresponds to composing from the left, e.g.\ $(f\then g)\then h$, and which corresponds to composing to the right, e.g.\ $f\then (g\then h)$?
-%\end{exercise}
-%
 
 \begin{example}[State systems as categories] \label{ex.state_cat}
 We know that every state system $\car{s}\iso S\yon^S$ with its do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ and its transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ is a comonoid, so what category $\cat{S}$ does $(\car{s},\epsilon,\delta)$ correspond to?
@@ -6150,7 +5825,7 @@ So state systems have been categories with exactly one morphism between every pa
 
 Other names for this category include the \emph{indiscrete preorder} and the \emph{codiscrete} or \emph{indiscrete category}.
 These names highlight the fact that every object of this category is isomorphic to every other object: in fact, every arrow $s\to t$ is an isomorphism with inverse $t\to s$, for these compose as $\id_s\colon s\to s$ in one direction and $\id_t\colon t\to t$ in the other.
-Thus this category is also a \emph{groupoid}, and it may be called the \emph{codiscrete}, \emph{indiscrete}, or \emph{contractible groupoid}\dots but we will call it the \emph{state category on} $S$, where $S$ is the set of positions of $\car{s}$ or objects of $\cat S$.%** Is this the best name? All categories are essentially state categories. Is there some universal property that this satisfies that we can name it after? 
+Thus this category is also a \emph{groupoid}, and it may be called the \emph{codiscrete}, \emph{indiscrete}, or \emph{contractible groupoid}\dots but we will call it the \emph{state category on} $S$, where $S$ is the set of positions of $\car{s}$ or objects of $\cat S$. 
 
 Here are the state categories on $\3$ and on $\1\5$, with all maps (even identities) drawn:
 \[
@@ -6250,7 +5925,7 @@ We can just as easily invert this construction, obtaining a monoid for every rep
 
 \begin{exercise}
 Verify \cref{ex.monoids} by showing that $(M,e,*)$ satisfies the unitality and associativity requirements of a monoid in $(\smset,\1,\times)$ if and only if $(\yon^M,\epsilon,\delta)$ satisfies the erasure and coassociativity requirements of a comonoid in $(\poly,\yon,\tri)$.
-\begin{solution} %** Do we want to write it out??
+\begin{solution} %
 The fact that monoids $(M,e,*)$ in $(\smset,\1,\times)$ are just comonoids $(\yon^M,\epsilon,\delta)$ in $(\poly,\yon,\tri)$, following the construction of \cref{ex.monoids}, is a direct consequence of the fully faithful Yoneda embedding $\smset\op\to\poly$ sending $A\mapsto\yon^A$ that maps $\1\mapsto\yon, A\times B\mapsto\yon^{A\times B}\iso\yon^A\tri\yon^B$ naturally, and $M\mapsto\yon^M$.
 
 We can also state the laws and the correspondences between them explicitly, keeping in mind that $e$ and $*$ are just the on-directions functinos of $\epsilon$ and $\delta$.
@@ -6298,7 +5973,7 @@ Its carrier is $\yon^{\zz/n\zz}$.
 
 As a polynomial functor, $\yon^{\zz/n\zz}$ sends each set $X$ to the set of length-$n$ tuples in $X$.
 But the comonoid structure lets us think of these tuples as \emph{cyclic lists}: once we reach the last element, we can loop back around to the first element.
-Indeed, as a natural transformation, $\epsilon\colon\yon^{\zz/n\zz}\to\yon$ picks out the ``current'' element via its $X$-component $\epsilon\tri X\colon\yon^{\zz/n\zz}\tri X\to\yon\tri X$, which is just a function $\epsilon_X\colon X^{\zz/n\zz}\to X$; and $\delta$ lets us move around the list.%**what does this mean? exercise??
+Indeed, as a natural transformation, $\epsilon\colon\yon^{\zz/n\zz}\to\yon$ picks out the ``current'' element via its $X$-component $\epsilon\tri X\colon\yon^{\zz/n\zz}\tri X\to\yon\tri X$, which is just a function $\epsilon_X\colon X^{\zz/n\zz}\to X$; and $\delta$ lets us move around the list.
 
 We will see later that comonoids are closed under coproducts, so $\sum_{n\in\nn}\yon^{\zz/n\zz}$ is also a comonoid.
 \end{example}
@@ -6365,7 +6040,7 @@ We also know that for each $s\in S$ and $m\in M$, there is a morphism $s\To{m} \
     \item The associated category $\cat{M\!A}$ is a category whose objects are the elements of the set $S$ being acted on, and whose morphisms $s\to t$ for each $s,t\in S$ are the elements of the monoid $m\in M$ that send $s$ to $t$, i.e.\ $\alpha(s,m)=t$.
     The identity morphism on each object is just the unit $e\in M$, while morphisms compose via the multiplication $*$.
     
-    \item ** % usually different, only same if multiplication is bijective
+    \item It is the same iff $M$ is a group, i.e.\ if every $m\in M$ has an inverse. Indeed, the comonoid structure on $M\yon^M$ from \cref{ex.state_cat} corresponds to a category in which every map is an isomorphism, so for each $m\in M$, the left-action $\alpha(m,-)\colon M\to M$ would need to be a bijection, and this is the case iff $M$ is a group. 
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6400,13 +6075,6 @@ The identity on $\ol{b}$ is given by $0\colon\ol{b}\to\ol{b}$; and the composite
 We will see this category again in \cref{ex.streams_cofree}.
 \end{example}
 
-% \begin{exercise}
-% Let $A\coloneqq\{0,1,2\}$ and consider the category of $A$-streams as defined in \cref{ex.streams_category}.
-% \begin{enumerate}
-%     \item % ** some practice problems ``classify/how many morphisms are between...?'' and the like
-% \end{enumerate}
-% \end{exercise}
-
 \begin{exercise}
 Let $\rr/\zz\iso[0,1)$ be the quotient of $\rr$ by the $\zz$-action sending $(r,n)\mapsto r+n$. 
 More concretely, it is the set of real numbers between 0 and 1, including 0 but not 1.
@@ -6417,8 +6085,8 @@ More concretely, it is the set of real numbers between 0 and 1, including 0 but 
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item Since $\rr$ acts on $\rr/\zz$ by addition modulo 1, (e.g.\ $\alpha(.7,5.4)=.1$), we obtain a comonoid structure on $(\rr/\zz)\yon^\rr$ by \cref{ex.monoid_action}. For example, the erasure $(\rr/\zz)\yon^\rr\to\yon$ sends everything to $0\in\rr$, because $0$ is the identity in $\rr$. 
+    \item Yes it is a groupoid because $\rr$ is a group: every element is invertible.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6734,23 +6402,6 @@ so in particular $c=\cod\id_c=\cod F^\sharp_{c'}\left(g^{-1}\right)$, and
 Hence $F^\sharp_c g$ and $F^\sharp_{c'}\left(g^{-1}\right)$ are inverses, and the result follows.
 \end{proof}
 
-% In cases where it does not matter whether we send morphisms forward or backward, functors and cofunctors effectively coincide.
-% The following exercise formalizes this idea.
-
-% \begin{exercise} %** this isn't actually true: needs to be stronger than fully faithful functor, actually a coproduct 
-% Let $F\colon\cat{C}\to\cat{D}$ be a fully faithful functor; that is, for every $c,c'\in\cat{C}$, the induced map of hom-sets $F\colon\cat{C}(c,c')\to\cat{D}(Fc,Fc')$ is a bijection.
-% Show that there exists a unique cofunctor $\Tilde{F}\colon\cat{C}\cof\cat{D}$ that agrees with $F$ on objects such that for all morphisms $f\colon c\to\_$ in $\cat{C}$ and $g\colon Fc\to\_$ in $\cat{D}$,
-% \[
-%     \Tilde{F}^\sharp_c(Ff)=f \qqand F\left(\Tilde{F}^\sharp_cg\right)=g.
-% \]
-% Then show that $F$ can be uniquely recovered from $\Tilde{F}$; further characterize all cofunctors $\Tilde{F}$ that arise from fully faithful functors $F$ in this way.
-% \begin{solution}
-% Given a fully faithful functor $F\colon\cat{C}\to\cat{D}$, we seek a cofunctor $\Tilde{F}\colon\cat{C}\cof\cat{D}$ that agrees with $F$ on objects and satisfies $\Tilde{F}^\sharp_c(Ff)=f$ and $F\left(\Tilde{F}^\sharp_cg\right)=g$ for all $f\colon c\to\_$ and $g\colon Fc\to\_$.
-
-% **
-% % , the fact that $\Tilde{F}\colon\cat{C}\cof\cat{D}$ agrees with $F$ on objects and satisfies $\Tilde{F}^\sharp_c(Ff)=f$ for all $f\colon c\to\_$ in $\cat{C}$ uniquely characterizes $\Tilde{F}$: as $F$ is full, every morphism $g\colon Fc\to\_$ in $\cat{D}$ is the image $Ff$ of some morphism $f\colon c\to\_$, 
-% \end{solution}
-% \end{exercise}
 
 Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\smcat^\sharp$.
 
@@ -6781,17 +6432,6 @@ Analogously, $G\then F$ is the identity functor on $\cat{D}$.
 Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
-
-% \begin{exercise}
-% Is it true that for any two categories $\cat{C},\cat{D}$, there is a bijection between the set of isomorphisms $\cat{C}\To{\iso}\cat{D}$ in $\smcat$ and the set of isomorphisms $\cat{C}\overset{\iso}{\cof}\cat{D}$ between them in $\smcat^\sharp$?
-% If so, prove it; if not, give a counterexample.
-% \begin{solution}
-% **
-% \end{solution}
-% \end{exercise}
-
-% ** justifies why there is not much ambiguity if we use id, could be id functor or id cofunctor....
-
 But while isomorphisms in $\smcat^\sharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
 We'll see this in the examples to come.
 
@@ -6882,10 +6522,11 @@ So the only way such a cofunctor could be defined is if there are no objects in 
 \qedhere
 \end{enumerate}
 \begin{solution}
+The star-shaped category has $n+1$ objects, one of which is ``central'' in the sense that it maps uniquely to every object; the other objects have only identity maps.
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
+    \item A cofunctor $\cat{C}\cof\yon^{\ord{n}+\1}+\ord{n}\yon$ comprises an assignment of a label to each object in $\cat{C}$: either it assigns ``center'' or it assigns an element of $\{1,2,\ldots,n\}$. If it assigns ``center'', the object is equipped with $n$-many morphisms, with the $i$th one having as its codomain an object labeled $i$. 
+    \item A cofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n$ to some object labeled $n+1$.
+    \item A cofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n+1$ to some object labeled $n$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6925,35 +6566,86 @@ Let $\cat{A}$ denote the walking arrow category, as in \cref{ex.cof_to_walking_a
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item Every object $c\in \cat{C\!S}$ in the commutative square must be labeled $s$ or $t$. If it's labeled $t$, there are no further requirements, since the only arrow emanating from $t$ is the identity. If it's labeled $s$ then we must choose an outgoing arrow $c\to ?$ where the label on $?$ is $t$. So the solutions are
+\[
+    \begin{tikzcd}[sep=5pt]
+    	t&t\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[r]&t\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[d]&t\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[dr]&t\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[d]&s\ar[d]\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[dr]&s\ar[d]\\
+			t&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[r]&t\\
+			s\ar[r]&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[dr]&t\\
+			s\ar[r]&t
+    \end{tikzcd}
+	\quad\;
+   \begin{tikzcd}[sep=5pt]
+    	s\ar[dr]&s\ar[d]\\
+			s\ar[r]&t
+    \end{tikzcd}
+\]
+    \item Each object in the walking arrow $\cat{A}$ must be labeled with an element of $\{w,x,y,z\}$. If it is labeled with $z$, there are no further requirements. If it is labeled with $x$ or $y$, it must have a map to an element labeled $z$; in particular this implies that it must be the source object. It cannot be labeled with $w$ because then it would need too many outgoing arrows. So the valid solutions are
+ \[
+    \begin{tikzcd}[sep=5pt]
+    	z&z
+    \end{tikzcd}   
+	\qquad\;
+    \begin{tikzcd}[sep=5pt]
+    	x\ar[r]&z
+    \end{tikzcd}   
+	\qquad\;	
+    \begin{tikzcd}[sep=5pt]
+    	y\ar[r]&z
+    \end{tikzcd}   
+	\qquad\;
+\]
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item Consider the chain poset $[n]\cong\sum_{i=1}^n\yon^i$.
-	How many cofunctors are there from $[m]\to[n]$ for all $m,n\in\{0,1,2,3\}$?
-	\item What does a cofunctor from $\yon$ to a poset represent? %**replace poset with preorder??
+	\item What does a cofunctor from $\yon$ to a poset represent?
+	\item Consider the chain poset $[n]\cong\sum_{i=0}^n\yon^{i+1}$.
+	How many cofunctors are there from $[m]\to[n]$ for all $m\leq n$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
+    \item Let $\cat{P}$ be a poset. A cofunctor $\yon\cof\cat{P}$ represents an maximal element $p\in\cat{P}$. Indeed, if there were some $p\leq p'$ with $p'\neq p$, then the cofunctor would have to send the map $p\to p'$ to some morphism in $\yon$ whose codomain is sent to $p'$; this is impossible. But if $p$ is maximal, then there is no obstruction to sending the unique object of $\yon$ to $p$.
+   \item Let $m=\fbox{$\bullet^0\to\cdots\to\bullet^{m-2}\to\bullet^{m-1}$}$. By the same reasoning as above, a map $[m]\to[n]$ must send the final object of $[m]$ to the final object of $[n]$. It can send the penultimate object $m-2$ to either the penultimate object $n-2$ or to the final object $n-1$ in $[n]$. Repeating in this way, we see that there $2^m$ many cofunctors. For example, the cofunctors $[2]\to[2]$ are those labeled by $(2,2,2)$, $(1,2,2)$, $(1,1,2)$, and $(0,1,2)$.
+ \end{enumerate}
 \end{solution}
 \end{exercise}
-
-\begin{example}[Cofunctors to state categories]
-Our familiar state category on $S$ is the category with objects in $S$ and exactly one morphism between every pair of objects; its carrier is $S\yon^S$.
-% ** use iso-pres
-% So a cofunctor $F\colon\cat C\cof S\yon^S$ 
-% is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
-% We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
-\end{example}
-
 
 \subsubsection{Cofunctors to monoids}
 
@@ -6963,7 +6655,6 @@ Like a joystick, $\yon^M$ stays in one ``place''---a single state---but has a nu
 As we string together a sequence of directions in $M$, we chart a course through the transitions of $\cat C$.
 We make this analogy concrete in the following examples.
 
-% ** Corepresentable?
 \begin{example}[Arrow fields]\label{ex.arrow_field}
 Consider the monoid $(\nn,0,+)$ viewed as a category $\yon^\nn$.
 Cofunctors $\cat{C}\cof\yon^\nn$ have been called \emph{admissible sections} \cite{aguiar1997internal}.
@@ -7030,8 +6721,8 @@ There are $2$ choices of morphisms emanating from the object on the left, and $1
 \end{solution}
 \end{exercise}
 
-% ** Show that arrow fields can be composed
-% ** maybe just bring all the arrow field stuff up here!
+% Show that arrow fields can be composed
+% maybe just bring all the arrow field stuff up here!
 
 We will see later in \cref{prop.traj_mon_poly} that the arrow fields on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
 
@@ -7044,7 +6735,7 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
+    \item A cofunctor $\cat{C}\cof\yon^\zz$ assigns to each object $c\in\cat{C}$ and integer $n\in\zz$ an emanating arrow $c.n\in\cat{C}$ to some other object, with the property that $c.0=c$ and $c.n.n'=c.(n+n')$. But this is overkill. Indeed, it is enough to assign the $c.1$ arrow and to check that for every object $c'$ there exists a unique object $c$ with $\cod(c.1)=c'$.
     \item We seek a canonical cofunctor $\yon^\zz\cof\yon^\nn$.
     The canonical inclusion $i\colon\nn\inj\zz$ gives rise to a lens $\iota$ from $\yon^\zz$ to $\yon^\nn$, whose sole on-directions function $\iota^\sharp\colon\nn\inj\zz$ coincides with $i$. 
     We verify that $\iota$ is a cofunctor: it preserves identities, as $\iota^\sharp0=0$; it automatically preserves codomains; and it preserves composites, given by addition in either monoid, as $\iota^\sharp(m+n)=m+n=\iota^\sharp(m)+\iota^\sharp(n)$.
@@ -7062,8 +6753,8 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item Cofunctors $\yon^M\to\yon^N$ are the same as monoid homomorphisms $N\to M$. See \cref{prop.monoids_ff}.
+    \item No! This is the weirdest thing about cofunctors. For example, there is a unique cofunctor $\yon\to\yon^\2+\yon$ from the walking object to the walking arrow, so if we reverse the arrows, there is no longer a cofunctor that acts the same on objects.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -7072,20 +6763,18 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 
 
 %** displaced content here
-\begin{exercise}[Monoid actions]
+\begin{exercise}[Monoid actions]\label{exc.monoid_action}
 Recall from \cref{ex.monoid_action} that every monoid action $\alpha\colon S\times M\to S$, where $S$ is a set and $(M,e,*)$ is a monoid, gives rise to a category carried by $S\yon^M$.
 Show that the projection $S\yon^M\to\yon^M$ is a cofunctor.
-%** Or: Show that there is a cofunctor $S\yon^M\cof\yon^M$.
 \begin{solution}
-We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$.
-**
+We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$. The category $S\yon^M$ has $e$ as the identity on each $s\in S$; the codomain of the map labeled $m$ emanating from $s$ is $\alpha(s,m)$, and composition is given by $*$. The projection $S\yon^M\to\yon^M$ sends the identity back to the identity, trivially preserves codomains, and also preserves composition, so it is a cofunctor.
 \end{solution}
 \end{exercise}
 
 
 
 \begin{example}\label{ex.BGEG}
-Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\to\yon^G$ given by
+Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\cof\yon^G$ given by
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom] (p) {$g_1*g_2$\at$g_1$};
@@ -7100,7 +6789,7 @@ To see this is a cofunctor, we check that identities, codomains, and composition
 \begin{exercise}\label{exc.BGEG}
 Does the idea of \cref{ex.BGEG} work when $G$ is merely a monoid, or does something go subtly wrong somehow?
 \begin{solution}
-**
+This works! 
 \end{solution}
 \end{exercise}
 
@@ -7127,11 +6816,10 @@ Suppose we say that a \emph{continuous arrow field} on $\cat{C}$ is a cofunctor 
 
 Describe continuous arrow fields in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
 \begin{solution}
-**
+A continuous arrow field on $\cat{C}$ assigns to each object $c\in\cat{C}$ and each real number $r\in\rr$ a morphism $c.r$ emanating from $c$. These have the property that $c.0$ is the identity on $c$ and that $(c.r).r'=c.(r+r')$. In other words, you can evolve $c$ forward or backward in time by any $r\in\rr$, and this works as expected.
 \end{solution}
 \end{exercise}
 
-%** make terminology/definition precise
 \begin{example}[Systems of ODEs]
 A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
 \begin{align*}
@@ -7184,11 +6872,6 @@ As a cofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S
 Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\tablefootnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonad}, which is a coalgebra for a functor with extra conditions that we will introduce later.}
 \end{example}
 
-
-
-% ** add intro about how we've worked with state categories, so...
-
-% ** coalgebras...discrete opfibrations...copresheaves
 
 \begin{example}[Cofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
 Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
@@ -7276,8 +6959,7 @@ So $\lensput(s,t)$ must be $\beta(t,u_s)$.
 
 \begin{exercise}\label{exc.well_behaved_boring}
 Let $S,T,U$ be sets for which we have a bijection $S\iso T\times U$.
-Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.**
-% Adjust the statement...more like each prod proj gives rise to unique...??
+Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.
 \begin{solution}
 Given a bijection of sets $S\iso T\times U$, we seek a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
 Such a cofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
@@ -7312,22 +6994,13 @@ So we are really only concerned with the second coordinates of either side (in $
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item There are 6 product projections $\3\to \3$, namely the three automorphisms, so the answer is 6.
+    \item There are 6 product projections $\4\to\2$, so the answer is 6.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Given a cofunctor $S\yon^S\cof T\yon^T$, let $\lensget\colon S\to T$ be its on-positions function and $\lensput\colon S\times T\to S$ be its on-directions function.
-Is it possible that $\lensput\colon S\times T\to S$ is itself a product projection sending $(s,t)\mapsto s$?
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{example} %**what name: [Canonical cofunctors from state categories]??
-%** fill out this example; check using polyboxes
+\begin{example}
 We have a state category $\car{c}(\1)\yon^{\car{c}(\1)}$ on the set of objects of $\cat{C}$.
 Define a lens $\car{c}(\1)\yon^{\car{c}(\1)}\to\car{c}$ by
 \[
@@ -7345,7 +7018,8 @@ Define a lens $\car{c}(\1)\yon^{\car{c}(\1)}\to\car{c}$ by
 \end{tikzpicture}
 \]
 sending each object $i\in\cat{C}$ to itself on positions and, at $i$, sending each morphism $f\colon i\to\_$ to its codomain $\cod f$ on directions.
-Is this lens a cofunctor $\car{c}(\1)\yon^{\car{c}(\1)}\cof\cat{C}$?
+
+This lens is a cofunctor $\car{c}(\1)\yon^{\car{c}(\1)}\cof\cat{C}$ because it sends identities back to identities, codomains forward to codomains, and preserves composition (trivially, since each morphism in $c(\1)\yon^{c(\1)}$ is determined by its domain and codomain.
 \end{example}
 
 \begin{exercise}
@@ -7369,7 +7043,7 @@ Define a lens $\car{c}[i]\yon^{\car{c}[i]}\to\car{c}$ by
 sending each morphism $f\colon i\to\_$ to its codomain on positions and, at $f$, sending each morphism $g\colon\cod f\to\_$ to the composite $f\then g\colon i\to\_$ on directions.
 Is this lens a cofunctor $\car{c}[i]\yon^{\car{c}[i]}\cof\cat{C}$?
 \begin{solution}
-**
+Yes, it is a cofunctor. One sees easily that it sends identities back to identities and composites back to composites. The codomain of $f\then g$ is simply $f\then g$ as an element of $\car{c}[i]$, and it is sent forward to $\cod(f\then g)$, so the map preserves codomains. 
 \end{solution}
 \end{exercise}
 
@@ -7382,63 +7056,47 @@ In the world of categories and the usual functors between them, the terminal cat
 
 Unfortunately, the same cannot be said for cofunctors: we'll see in \cref{exc.rep_objects} that there does not exist a fixed category $\cat{U}$ for which cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$ for every category $\cat{C}$.
 
-Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: because they must preserve codomains, they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. %** any more?
+Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: because they must preserve codomains, they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself. 
 \end{example}
 
 \begin{exercise}\label{exc.rep_objects}
 We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
 \begin{enumerate}
 	\item Show that for any category $\cat{U}$, cofunctors $\cat{U}\cof\2\yon$ are in bijection with the set $\2^{\Ob\cat{U}}$.
-	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
+	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if cofunctors $\cat{U}\cof\cat{C}$ are always in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
 	\item Now use a different category $\cat{D}$ to show that if cofunctors $\cat{U}\cof\cat{D}$ are in bijection with objects in $\cat{D}$, then $\cat{U}$ must have more than one object.
 	Conclude that objects are not reprsentable in $\smcat^\sharp$ the way they are in $\smcat$.
 	\item Is there a fixed category $\cat{V}$ for which cofunctors $\cat{E}\cof\cat{V}$ are in bijection with objects in $\cat{E}$ for every category $\cat{E}$?
-	If so, find it; if not, prove it.
+	If there is, find it; if there isn't, prove there isn't.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
+    \item Every object in $\cat{U}$ must be labeled with either 1 or 2, but there are no other requirements.
+    \item If cofunctors $\cat{U}\to\cat{C}$ are always in bijection with objects in $\cat{C}$, then with $\cat{C}=\2\yon$, we have a bijection $\2\cong\2^{\Ob(\cat{U})}$ by part 1, so $\cat{U}$ has one object.
+    \item Take $\cat{D}$ to be the walking arrow. Then if $\cat{U}$ has only one object, it cannot be sent to the source object of $\cat{D}$ because the emanating morphism would have nowhere to go. Hence the unique object of $\cat{U}$ must be sent to the target object of $\cat{D}$. But there is only one such cofunctor, whereas there are two objects in $\cat{D}$. We conclude that objects are not reprsentable in $\smcat^\sharp$ the way they are in $\smcat$.
+    \item No, there is no such $\cat{V}$. There is exactly one cofunctor $0\cof\cat{V}$, but there are no objects of $0$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 
-\begin{example}\label{ex.cof_to_rr} %**this is a cofunctor a monoid action... section for those??
+\begin{example}\label{ex.cof_to_rr} %this is a cofunctor a monoid action... section for those??
 Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x$ is $x+r$, identities are $0$, and composition is given by addition. What are cofunctors into $\rr\yon^\rr$?
 
 Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofunctor. It assigns to every object $c$ both a real number $|c|\in\rr$ and a choice of emanating morphism $|c|^\sharp(r)\colon c\to c_r$ such that $|c|+r=|c_r|$. This assignment satisfies some laws. Namely we have $c_0=c$ and, given reals $r,s\in\rr$, we have $(c_r)_s=c_{r+s}$. 
 \end{example}
 
-% ** Interpret above. Possible names: $(\rr,0,+)$-action on the objects of $\cat{C}$, filtration, valuation
+%  Interpret above. Possible names: $(\rr,0,+)$-action on the objects of $\cat{C}$, filtration, valuation
 
-\begin{exercise} %** label the arrows
+\begin{exercise} 
 How many cofunctors
 \[
     \fbox{$s\To{a}t$}\cof\fbox{$u\Tto{b}{c}v$}
 \]
 are there from the walking arrow category $\cat{A}$, drawn above on the left, to the walking parallel-arrows category $\cat{P\!A}$, drawn above on the right?
 \begin{solution}
-**
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-\begin{enumerate}
-	\item What is the finite set $\{\com{Q}_1,\ldots,\com{Q}_n\}$ of (isomorphism classes of) categories whose carrier is $\yon^\2+\yon$? %** did we do this already?
-	\item For each category $\com{Q}_i$, characterize a cofunctor $\cat{C}\cof\com{Q}_i$.
-	\item What cofunctors exist between the various $\com{Q}_i$?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-    \item **
-\end{enumerate}
+There are two: one of which sends $s\mapsto u$ and $t\mapsto v$ and the other of which sends both $s,t\mapsto v$.
 \end{solution}
 \end{exercise}
 
@@ -7448,15 +7106,13 @@ are there from the walking arrow category $\cat{A}$, drawn above on the left, to
 	\item For any category $\cat{C}$ with carrier $\car{c}$, find a category with carrier $\car{c}\yon$.
 	\item Show that your construction is functorial; i.e.\ assign each cofunctor $\cat{C}\cof\cat{D}$ a cofunctor $\car{c}\yon\cof\car{d}\yon$ in a way that preserves identities and composites.
 	\item Is your functor a monad on $\smcat^\sharp$, a comonad on $\smcat^\sharp$, both, or neither?
-	\item What category do you get by repeatedly applying this functor to $\yon$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
+    \item Take the category $\cat{C}'$ that has the same objects as $\cat{C}$ and almost the same arrows, except that it has one more arrow $i_c$ from each object $c\in\cat{C}'$ to itself. This new arrow is the identity. The composites of all the old arrows in $\cat{C}'$ are exactly as they are in $\cat{C}$. The old identity $\id_c^\tn{old}$ is no longer an identity because $\id_c^\tn{old}\then i=\id_c^\tn{old}\neq i$.
+    \item Given a cofunctor $\varphi\colon\car{c}\cof\car{d}$, we get a cofunctor $\car{c}\yon\cof\car{d}\yon$ that acts the same on objects and all the old arrows and sends the new identities back to the new identities. It preserves identities and composites going backward and codomains going forward, so it's a cofunctor.
+    \item It is a monad: there is an obvious unit map $\car{c}\to\car{c}\yon$ and a multiplication map $\car{c}\yon\yon\to\car{c}\yon$ that sends the new identity back to the newest identity.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9324,13 +8980,6 @@ It suffices to show that we can recover the $n^\text{th}$ component of $g$ from 
 \end{proof}
 
 % ** include examples
-
-\begin{exercise}
-Consider the walking arrow category $\cat{A}=\fbox{$\bullet\to\bullet$}$. Draw the cofunctor $\cat{A}\cof\cofree{\yon^\2+\yon}$.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
 
 
 %---- Subsection ----%
