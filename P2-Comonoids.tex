@@ -7900,7 +7900,9 @@ This means that plenty of $p$-trees cannot be drawn, even when all the position-
 
 \subsubsection{Pretrees on polynomials}
 
-\begin{example}[A few partial $p$-trees]
+Before we define pretrees, let's give some examples. 
+
+\begin{example}[A few example $p$-pretrees]
 Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\{\bul[dgreen]\}\yon+\{\bul[dyellow]\}$.
 Here are four partially constructed $p$-trees:
 \begin{equation}\label{eqn.some_trees_misc58}
@@ -7975,43 +7977,17 @@ The trees in \eqref{eqn.some_trees_misc58} can all be obtained by following just
 On the other hand, we know from \cref{subsec.comon.comp.def.corolla} that such a tree represents a position of $p\tripow3$, whose directions are its height-$3$ leaves---and this is true for any $n\in\nn$ in place of $3$.
 So these trees are still important to our theory; but since they are not always complete $p$-trees, we will call them something else.
 
-\begin{definition}[Pretree on a polynomial] \label{def.pretree}
-Let $p\in\poly$ be a polynomial and $n\in\nn$.
-A \emph{stage-$n$ pretree on $p$}, or a \emph{$p\tripow{n}$-pretree} for short, is a rooted tree of height at most $n$ whose every vertex $v$ of height strictly less than $n$ is assigned a $p$-position $i$ and a bijection from the children of $v$ to $p[i]$.
 
-The \emph{stage-$n$ pretree} or the \emph{$p\tripow{n}$-pretree} of a $p$-tree (or a $p\tripow{m}$-pretree with $m\geq n$) is the pretree obtained by removing all vertices of height strictly greater than $n$ from the $p$-tree (or $p\tripow{m}$-pretree).
+\begin{definition} \label{def.tripow_pretree}
+Given $p\in\poly$, a \emph{stage-$n$ pretree} (or \emph{$p\tripow{n}$-pretree}) is defined to be an element of $p\tripow{n}(\1)$. For each $i\in p\tripow{n}(\1)$ the \emph{height-$n$ leaves} of $i$ is defined to be the set $p\tripow{n}[i]$.
 \end{definition}
 
-\begin{remark}
-Technically, our abbreviated terminology for pretrees is ambiguous: after all, a $p\tripow{mn}$-pretree could be a stage-$mn$ pretree on $p$, a stage-$m$ pretree on $p\tripow{n}$, a stage-$n$ pretree on $p\tripow{m}$, or even a stage-$1$ pretree on $p\tripow{mn}$.
-So we should really be thinking of the exponent $\tri\:n$ as a formal symbol, rather than telling us to actually evaluate the $n$-fold composite $p\tripow{n}$ in $\poly$.
-On the other hand, we know from our discussion in \cref{subsec.comon.comp.def.corolla} that these are essentially all the same trees drawn differently, so this is not a terrible abuse of notation.
-Nevertheless, we do want to refer to a stage-$n$ pretree on $p$ as having up to $n$ levels of edges, rather than flattening it into, say, a corolla; so we will adopt the convention that if we write a polynomial out as $p\tripow{n}$ in ``$p\tripow{n}$-pretree,'' we mean a stage-$n$ pretree on $p$ unless otherwise noted.
-\end{remark}
-
 \begin{remark} \label{rmk.stage}
-In \cref{def.pretree}, we use \emph{stage} instead of \emph{height} to allow for the fact that a $p\tripow{n}$-pretree may not reach its maximum height $n$ if all of its branches terminate early.
+In \cref{def.tripow_pretree}, we use \emph{stage} instead of \emph{height} to allow for the fact that a $p\tripow{n}$-pretree may not reach its maximum height $n$ if all of its branches terminate early.
 For example, the yellow dot in \eqref{eqn.some_trees_misc58} is a $p\tripow1$-pretree, but it is also a $p\tripow2$-pretree, a $p\tripow{50}$-pretree, and indeed a $p$-tree.
-On the other hand, even though it has height $0$, it is \emph{not} a $p\tripow0$-pretree, as we did assign its height-$0$ vertex a position of $p$, so it is not the case that we only assigned $p$-positions to vertices of height strictly less than $0$.
-A similar statement can be made for all $p$-trees of finite height, and indeed only to $p$-trees of finite height.
 
-In fact, there is exactly one stage-$0$ pretree on $p$ for any $p\in\poly$, and it is the stage-$0$ pretree of every possible $p$-tree.
-It is the rooted tree with no vertices other than the root---which is therefore also the only leaf---and no position assigned to that root.
-This does follow from the definition, or you could accept it as a convention.
-Note that the stage-$0$ pretree is \emph{not} itself a $p$-tree for any $p\in\poly$, as a $p$-tree requires at least a $p$-position $i$ as a label for its root.
-More generally, any pretree on $p$ with unlabeled vertices is not yet a tree on $p$.
-These unlabeled vertices are the leaves we have been representing with arrows this whole time.
+Note that for any polynomial $p\in\poly$ there is exactly one stage-$0$ pretree on $p$ for any $p\in\poly$, because $p\tripow0(\1)=\yon(\1)=\1$.
 \end{remark}
-
-The following result summarizes our observations from \cref{subsec.comon.comp.def.corolla}.
-
-\begin{proposition} \label{prop.tripow_pretree}
-For $p\in\poly$, the $p\tripow{n}$-pretrees are in bijection with $p\tripow{n}(\1)$, and for each $i\in p\tripow{n}(\1)$ the height-$n$ leaves of the pretree corresponding to $i$ are in bijection with $p\tripow{n}[i]$.
-\end{proposition}
-In particular, $p\tripow0\iso\yon$, coinciding with our observation from \cref{rmk.stage} that there is exactly one $p\tripow0$-pretree, with a single height-$0$ leaf.
-
-Hence we can \emph{identify} the polynomial $p\tripow{n}$ with a forest of $p\tripow{n}$-pretrees, so that each $p\tripow{n}$-pretree is a $p\tripow{n}$-position whose directions are its height-$n$ leaves.
-This subsumes our corolla language in the case of $n=1$.
 
 \begin{example}[Trimming pretrees] \label{ex.trim}
 Since $p\tripow1(\1)\iso p(\1)$ and $p\tripow0(\1)\iso\yon(\1)\iso\1$, the unique function $!\colon p(\1)\to\1$ can be thought of as a function from $p\tripow1$-positions to $p\tripow0$-positions, or equivalently a function from stage-$1$ pretrees (i.e.\ corollas) to stage-$0$ pretrees on $p$.
@@ -8118,8 +8094,8 @@ For each of the following polynomials $p$, characterize the set of trees $\tr_{p
 \end{solution}
 \end{exercise}
 
-From here, a natural question to ask is how the set of $p$-trees $\tr_p$ is related to the set of $p\tripow{n}$-pretrees $p\tripow{n}(\1)$ for each $n\in\nn$.
-A look back at \cref{def.pretree} gives a clue: every $p$-tree has a stage-$n$ pretree obtained by removing all vertices of height greater than $n$, yielding a function $\tr_p\to p\tripow{n}(\1)$ that we will denote by $\pi^{(n)}$.
+From here, a natural question to ask is how the set $\tr_p$ of $p$-trees is related to the set of $p\tripow{n}$-pretrees $p\tripow{n}(\1)$ for each $n\in\nn$.
+A look back at \cref{def.tripow_pretree} gives a clue: every $p$-tree has a stage-$n$ pretree obtained by removing all vertices of height greater than $n$, yielding a function $\tr_p\to p\tripow{n}(\1)$ that we will denote by $\pi^{(n)}$.
 
 Moreover, since the stage-$n$ pretree of a given $p$-tree agrees with the stage-$n$ pretree of any stage-$(n+k)$ pretree of the $p$-tree, the functions $\pi^{(n)}$ should commute with our tree-trimming functions $p\tripow{(n+k)}(\1)\to p\tripow{n}(\1)$ from \eqref{eqn.trim} in \cref{ex.trim}.
 In particular, the following diagram commutes for all $n\in\nn$:
@@ -8177,14 +8153,6 @@ You may use the fact that \eqref{eqn.cofree_pos_with_lim} commutes.
 \end{solution}
 \end{exercise}
 
-\subsubsection{Positions of the cofree comonoid, diagrammatically}
-
-Now recall from \cref{ex.compute_limits} that in $\poly$, the positions of a limit are the limit of the positions.
-Moreover, in \eqref{eqn.cofree_diagram}, every vertical map $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
-So \eqref{eqn.cofree_diagram} on positions collapses down to its bottom row, viewed as a diagram in $\smset$.
-Yet this is precisely the diagram from \eqref{eqn.cofree_pos_diagram}, whose limit is $\tr_p$.
-So $\tr_p$ is the position-set of the limit $\car{t}_p$ of \eqref{eqn.cofree_diagram}: we write $\car{t}_p(\1)\iso\tr_p$.
-
 If you know about coalgebras for functors, as mentioned in \cref{ex.coalgebras}, then you might know the limit $\car{t}_p(\1)$ of \eqref{eqn.cofree_pos_diagram} by a different name: it is the \emph{terminal coalgebra for the functor} $p$, or the \emph{terminal $p$-coalgebra}, because it is terminal in the category of $p$-coalgebras, as the following exercise shows.
 
 \begin{exercise}
@@ -8202,7 +8170,16 @@ Then show that the function $\tr_p\to p(\tr_p)$ you chose is a bijection.
 **
 \end{solution}
 \end{exercise}
-But we prefer to think of $\car{t}_p(\1)$ as the set of $p$-trees, for it gives us a concrete way to realize the limit and its projections, as well as a natural interpretation of the directions of $\car{t}_p$ at each position.
+
+\subsubsection{Positions of the cofree comonoid}
+
+Now recall from \cref{ex.compute_limits} that in $\poly$, the positions of a limit are the limit of the positions.
+Moreover, in \eqref{eqn.cofree_diagram}, every vertical map $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
+So \eqref{eqn.cofree_diagram} on positions collapses down to its bottom row, viewed as a diagram in $\smset$.
+Yet this is precisely the diagram from \eqref{eqn.cofree_pos_diagram}, whose limit is $\tr_p$.
+So $\tr_p$ is the position-set of the limit $\car{t}_p$ of \eqref{eqn.cofree_diagram}: we write $\car{t}_p(\1)\iso\tr_p$.
+
+So, as we said above, $\car{t}_p(\1)$ is the set carrying the terminal coalgebra of $p$, but  we prefer to think of it as the set of $p$-trees, for it gives us a concrete way to realize the limit and its projections, as well as a natural interpretation of the directions of $\car{t}_p$ at each position.
 
 \subsubsection{The directions of the cofree comonoid}
 
@@ -8214,7 +8191,7 @@ More precisely, given a $p$-tree $T\in\tr_p$ whose stage-$n$ pretree for $n\in\n
 \[
     \car{t}_p[T]\coloneqq\sum_{n\in\nn}p\tripow{n}[\pi^{(n)}T].
 \]
-But by \cref{prop.tripow_pretree}, each $p\tripow{n}[\pi^{(n)}T]$ is the set of height-$n$ leaves of the $p\tripow{n}$-pretree $\pi^{(n)}T$, which in turn is the stage-$n$ pretree of $T$.
+But by \cref{def.tripow_pretree}, each $p\tripow{n}[\pi^{(n)}T]$ is the set of height-$n$ leaves of the $p\tripow{n}$-pretree $\pi^{(n)}T$, which in turn is the stage-$n$ pretree of $T$.
 So its height-$n$ leaves coincide with the height-$n$ vertices of $T$.
 Therefore, we can identify $p\tripow{n}[\pi^{(n)}T]$ with the set of height-$n$ vertices of $T$; we denote this set by $\vtx_n(T)$.
 
@@ -8228,9 +8205,9 @@ sending height-$n$ leaves of $\pi^{(n)}T$ to height-$n$ vertices of $T$.
 Here is alternative way to think about the directions of $\car{t}_p$ and each $p\tripow{n}$ that will be helpful.
 A defining feature of a rooted tree is that its vertices are in bijection with its finite rooted paths: each vertex gives rise to a unique path to that vertex from the root, and every finite rooted path arises this way.
 So the directions of $p\tripow{n}$ at a given $p\tripow{n}$-pretree correspond in turn to the rooted paths of that pretree leading to its height-$n$ leaves; indeed, each such direction is comprised of a sequence of $n$ directions of $p$, which together specify a length-$n$ rooted path up the pretree.
-Then for $T\in\tr_p$, the direction-set $\car{t}_p[T]$ consists of every finite rooted path of $T$.
+Then for $T\in\tr_p$, the direction-set $\car{t}_p[T]$ consists of every finite rooted path of $T$. 
 
-Since only finite rooted paths correspond to vertices, all our paths will be assumed to be finite from here on out.
+Since only finite rooted paths correspond to vertices, all our paths will be assumed to be finite from here on out. This is our preferred way to think about directions in $\car{t}_p$.
 When we wish to refer to what one might call an infinite (rooted) ``path,'' we will instead call it a (rooted) \emph{ray}.
 
 \begin{exercise}\label{exc.p_tree_polys}
@@ -8278,18 +8255,18 @@ For the given values of $p$, we have already characterized the position-set $\ca
 \end{exercise}
 
 We summarize the results of this section in the following proposition, thus concretely characterizing the carrier $\car{t}_p$ of the cofree comonoid on $p$ in terms of $p$-trees.
-For reasons that will become clear shortly, we will denote each projection from the limit of \eqref{eqn.cofree_diagram} by $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$.
+For reasons that will become clear shortly, we will denote each projection from the limit of \eqref{eqn.cofree_diagram} by $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$. We denote $\epsilon$ simply by $\epsilon$.
 
 \begin{proposition} \label{prop.cofree_carrier_lim}
 For $p\in\poly$, let
 \[
     \car{t}_p\coloneqq\sum_{T\in\tr_p}\yon^{\vtx(T)}
 \]
-be the polynomial whose positions are $p$-trees and whose directions at each $p$-tree are the $p$-tree's vertices.
+be the polynomial whose positions are $p$-trees and whose directions at each $p$-tree are the rooted paths.
 Then $\car{t}_p$ is the limit of the diagram \eqref{eqn.cofree_diagram}, with projections $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ for every $n\in\nn$ making the following diagram commute:
 \begin{equation} \label{eqn.cofree_with_lim}
 \begin{tikzcd}[sep=large]
-    \car{t}_p \ar[dd,"\epsilon^{(0)}_p"'] \ar[ddr,"\epsilon^{(1)}_p"',outer sep=-2pt] \ar[ddrr,"\epsilon^{(2)}_p"',outer sep=-1.5pt] \ar[ddrrrr,"\epsilon^{(3)}_p"',outer sep=-1.5pt]\\
+    \car{t}_p \ar[dd,"\epsilon_p"'] \ar[ddr,"\epsilon^{(1)}_p"',outer sep=-2pt] \ar[ddrr,"\epsilon^{(2)}_p"',outer sep=-1.5pt] \ar[ddrrrr,"\epsilon^{(3)}_p"',outer sep=-1.5pt]\\
     &&&\cdots\\
     \yon \ar[d] &
 	p \ar[d] &
@@ -8305,7 +8282,7 @@ Then $\car{t}_p$ is the limit of the diagram \eqref{eqn.cofree_diagram}, with pr
 	\cdots.\ar[l]
 \end{tikzcd}
 \end{equation}
-The lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ sends each $p$-tree $T\in\tr_p$ to its stage-$n$ pretree $\pi^{(n)}T$ on positions and each height-$n$ leaf of $\pi^{(n)}T$ to the corresponding height-$n$ vertex of $T$ on directions.
+The lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ sends each $p$-tree $T\in\tr_p$ to its stage-$n$ pretree $\pi^{(n)}T$ on positions and each height-$n$ leaf of $\pi^{(n)}T$ to the corresponding height-$n$ rooted path of $T$ on directions.
 \end{proposition}
 
 \begin{example}[Drawing $\epsilon^{(n)}_p$ in polyboxes] \label{ex.eps_n_polybox}
@@ -8333,10 +8310,10 @@ On the right hand side, $v$ is a height-$n$ leaf of $\pi^{(n)}T$; on the left, $
 This isn't the only way we can write this lens in polyboxes, however; polyboxes have special notation for lenses to composites, allowing us to write, say, the $n=4$ case like so:
 \begin{equation} \label{eqn.eps_1_1_1_1_polybox}
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$\car{t}_p$" left] (p) {$v$\at$T$};
+	\node[poly, dom, "$\car{t}_p$" left] (p) {$a_1\leadsto a_2\leadsto a_3\leadsto a_4$\at$T$};
 	\foreach \i/\j in {1/0,2/1,3/2,4/3}
 	{
-  	\node[poly, cod, "$p$" right] (q\i) at (3,1.3*\i-3.25) {$a_\i$\at$i_\j$};
+  	\node[poly, cod, "$p$" right] (q\i) at (4,1.3*\i-3.25) {$a_\i$\at$i_\j$};
 	};
 	\draw (p_pos) to[first] node[below] {} (q1_pos.west);
 	\foreach \i/\j in {1/2,2/3,3/4}
@@ -8353,16 +8330,11 @@ This isn't the only way we can write this lens in polyboxes, however; polyboxes 
 Here we are unpacking the construction of the first $4$ levels of $T$, according to our nested instructions for building $p$-trees.
 The $p$-position $i_0$ is the label on the root of $T$, while the $p[i_0]$-direction $a_1$ specifies one of the edges coming out of it---leading to a height-$1$ vertex of $T$ labeled $i_1$, and so on.
 
-While expressed differently, the direction $v$ on the codomain side of \eqref{eqn.eps_n_polybox} in the case of $n=4$ carries the same data as the direction $(a_1,a_2,a_3,a_4)$ on the codomain side of \eqref{eqn.eps_1_1_1_1_polybox}.
-The former is a single height-$4$ leaf of $\pi^{(4)}T$, equivalently a height-$4$ vertex of $T$.
-Meanwhile, the latter is a sequence of $4$ directions that we can follow, starting from the root labeled $i_0$ and traveling up the edges labeled with each $a_j$ in sequence.
-This is just a length-$4$ rooted path of $T$; and we know that height-$n$ vertices correspond to length-$n$ rooted paths.
-
-Similarly, the contents of the position-boxes and the arrows going up on the codomain side carry all the data of the bottom $4$ levels of $T$: namely the label $i_0$ of the root, the label $i_1$ of the vertex at the end of every direction $a_1$ out of the root, and so on until $i_3$.
+The contents of the position-boxes and the arrows going up on the codomain side carry all the data of the bottom $4$ levels of $T$: namely the label $i_0$ of the root, the label $i_1$ of the vertex at the end of every direction $a_1$ out of the root, and so on until $i_3$.
 All this specifies a unique $p\tripow4$-position, a $p\tripow4$-pretree, which is the same as the $p\tripow4$-pretree $T$.
 Indeed, we can think of $\pi^{(4)}T$ as a shorthand for the gadget comprised of the $4$ polyboxes on the right hand side of \eqref{eqn.eps_1_1_1_1_polybox} when their blue boxes are yet to be filled.
 So the position and direction depicted on the codomain side of \eqref{eqn.eps_1_1_1_1_polybox} is equivalent to the position and direction depicted on the codomain side of \eqref{eqn.eps_n_polybox}.
-This generalizes to all values of $n$.
+This generalizes to all values of $n$. The direction $a_4$ emanating from $i_3$, together with all the data below it, corresponds to the rooted path we've denoted $a_1\leadsto a_2\leadsto a_3\leadsto a_4$ in $T$.
 
 There are even more ways to express $\epsilon^{(4)}_p\colon\car{t}_p\to p\tripow4$ in polyboxes, however.
 After all, $p\tripow4\iso p\tripow2\tri p\tripow2$.
@@ -8517,13 +8489,13 @@ We could go ahead and describe this category right now, but as category theorist
 \subsubsection{The eraser of the cofree comonoid}
 
 The eraser for a comonoid $\cofree{p}$ carried by $\car{t}_p$ should be a lens of the form $\car{t}_p\to\yon$.
-Conveniently, since $\yon$ appears in \eqref{eqn.cofree_diagram}, its limit $\car{t}_p$ is already equipped with a canonical lens $\epsilon^{(0)}_p\colon\car{t}_p\to\yon$, as seen in \eqref{eqn.cofree_with_lim}.
+Conveniently, since $\yon$ appears in \eqref{eqn.cofree_diagram}, its limit $\car{t}_p$ is already equipped with a canonical lens $\epsilon_p\colon\car{t}_p\to\yon$, as seen in \eqref{eqn.cofree_with_lim}.
 This lens will turn out to be the eraser of the cofree comonoid on $p$.
 
 The eraser picks out a direction at each position of the carrier to be the identity morphism on that object.
-As each $\car{t}_p$-position is a tree $T\in\tr_p$, and each $\car{t}_p[T]$-direction is a vertex of $T$, the eraser $\epsilon^{(0)}_p$ should pick out a single vertex of every $p$-tree.
+As each $\car{t}_p$-position is a tree $T\in\tr_p$, and each $\car{t}_p[T]$-direction is a vertex of $T$, the eraser $\epsilon_p$ should pick out a single vertex of every $p$-tree.
 Even without looking at \eqref{eqn.cofree_with_lim}, you may already have your suspicions as to which vertex this will turn out to be, as there is, after all, only one sensible way to choose a canonical vertex that every $p$-tree is guaranteed to have: choose its root.
-Indeed, \cref{prop.cofree_carrier_lim} tells us that $\epsilon^{(0)}_p\colon\car{t}_p\to\yon$ sends each $p$-tree $T\in\tr_p$ to its stage-$0$ pretree on positions, stripping away everything except for the single unlabeled root of $T$; then on-directions, $\epsilon^{(0)}_p$ picks out the unique height-$0$ vertex of $T$ in $\vtx_0(T)\ss\vtx(T)$, which is just its root.
+Indeed, \cref{prop.cofree_carrier_lim} tells us that $\epsilon_p\colon\car{t}_p\to\yon$ sends each $p$-tree $T\in\tr_p$ to its stage-$0$ pretree on positions, stripping away everything except for the single unlabeled root of $T$; then on-directions, $\epsilon_p$ picks out the unique height-$0$ vertex of $T$ in $\vtx_0(T)\ss\vtx(T)$, which is just its root.
 
 So in the category $\cofree{p}$, where morphisms out of objects are vertices of trees, the identity morphism on a tree is its root---in fact, we will henceforth denote the root of a $p$-tree by $\id_T$ (so that $\vtx_0(T)=\{\id_T\}$).
 Equivalently, we can identify $\id_T$ with the unique length-$0$ rooted path of $T$: the \emph{empty rooted path}, which starts and ends at the root.
@@ -8718,55 +8690,42 @@ Then for this equality to hold over all $\ell,m\in\nn$, we want $\cod v\coloneqq
 
 Putting together our constructions of the carrier, the eraser, and the duplicator of the $\cofree{p}$ yields the following result.
 \begin{proposition} \label{prop.cofree_as_cat}
-As defined above, $\left(\car{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ is a polynomial comonoid corresponding to a category $\cofree{p}$ characterized as follows.
+As defined above, $\left(\car{t}_p,\epsilon_p,\delta_p\right)$ is a polynomial comonoid corresponding to a category $\cofree{p}$ characterized as follows.
 \begin{itemize}
-    \item Objects are \textit{$p$-trees} in $\tr_p$.
-    \item Morphisms are \textit{vertices} or \textit{rooted paths} of $p$-trees:%
-    \tablefootnote{Both the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives are helpful for interpreting the category $\cofree{p}$, so we include both; as we have seen, it is not terribly difficult to translate between them.}
-    \begin{itemize}
-        \item Given a $p$-tree $T\in\tr_p$, each \textit{vertex} $v\in\vtx(T)$ gives rise to a corresponding morphism $v\colon T\to\_$ whose codomain $\cod v\in\tr_p$ is the $p$-subtree of $T$ rooted at $v$.
-        \item Equivalently, a morphism is a \textit{rooted path} in its domain whose codomain is the $p$-subtree rooted at the end of the path.
-    \end{itemize}
-    \item Identity morphisms are \textit{roots} or \textit{empty rooted paths}:
-    \begin{itemize}
-        \item The identity morphism $\id_T\in\vtx(T)$ on $T\in\tr_p$ is the \textit{root vertex} of $T$.
-        \item Equivalently, identity morphisms are \textit{empty rooted paths}---paths that start and end at the root.
-    \end{itemize}
-    \item Composition is given as follows:
-    \begin{itemize}
-        \item Given $T\in\tr_p$ and vertices $v\in\vtx(T)$ and $w\in\vtx(\cod T)$, the composite morphism $v\then w\in\vtx(T)$ is the descendent of $v$ in $T$ that coincides with $w$ when $\cod v$ is identified with the subtree of $T$ rooted at $v$.
-        \item Equivalently, rooted paths $v$ and $w$ compose via \textit{concatentation}---given a rooted path $v$ in $T$ and a rooted path $w$ in $\cod v$, the $p$-subtree rooted at the end of $v$, we identify $w$ with the corresponding path in $T$ that starts where $v$ ends, then concatenate the two paths in $T$ to obtain the composite morphism $v\then w$, another rooted path in $T$.
-    \end{itemize}
+    \item An object in $\cofree{p}$ is a \textit{$p$-tree} in $T\in\tr_p$.
+    \item A morphism emanating from $T$ is a \textit{rooted path} in $T$; its codomain is the $p$-subtree rooted at the end of the path.
+    \item The identity morphism on $T$ is its empty empty rooted path:
+    \item Composition is given by concatenating rooted paths: given a rooted path $v$ in $T$ and a rooted path $w$ in $\cod v$, the $p$-subtree rooted at the end of $v$, we identify $w$ with the corresponding path in $T$ that starts where $v$ ends, then concatenate the two paths in $T$ to obtain the composite morphism $v\then w$, another rooted path in $T$.
 \end{itemize}
 \end{proposition}
 \begin{proof}
 We have already shown how to construct the given carrier, eraser, and duplicator purely diagrammatically, and we have given them concrete interpretations in terms of $p$-trees, their vertices, and their $p$-subtrees.
-So it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\car{t}_p,\epsilon^{(0)}_p,\delta_p\right)$.
+So it remains to verify that the category laws hold for $\cofree{p}$, or equivalently that the comonoid laws hold for $\left(\car{t}_p,\epsilon_p,\delta_p\right)$.
 Again, our argument will be purely formal, although it is not too hard to see that our concrete characterization above in terms of $p$-trees satisfies the laws for a category.
 
 First, we verify the left erasure law: that
 \[
 \begin{tikzcd}
     \yon\tri\car{t}_p & \car{t}_p \ar[l,equals] \ar[d, "\delta_p"] \\
-    & \car{t}_p\tri\car{t}_p \ar[ul, "\epsilon^{(0)}_p\:\tri\:\car{t}_p"]
+    & \car{t}_p\tri\car{t}_p \ar[ul, "\epsilon_p\:\tri\:\car{t}_p"]
 \end{tikzcd}
 \]
 commutes.
-We know the lens $\epsilon^{(0)}_p\tri\car{t}_p\colon\car{t}_p\tri\car{t}_p\to\yon\tri\car{t}_p$ is characterized by its components $\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\colon\car{t}_p\tri\car{t}_p\to p\tripow0\tri p\tripow{n}$, a projection out of the limit $\car{t}_p\tri\car{t}_p$, for all $n\in\nn$.
-Then by our construction of $\delta_p$, each composite $\delta_p\then\left(\epsilon^{(0)}_p\tri\epsilon^{(n)}_p\right)\colon\car{t}_p\to p\tripow0\tri p\tripow{n}$ is the component of $\delta_p$ equal to $\epsilon^{(n)}_p=\epsilon^{(0+n)}_p\colon\car{t}_p\to p\tripow0\tri p\tripow{n}\iso p\tripow{n}$ (this is just the commutativity of \eqref{eqn.delta_p_tri_epsilons} in the case of $(\ell,m)=(0,n)$).
-Together, these characterize the composite lens $\delta_p\then\left(\epsilon^{(0)}_p\tri\car{t}_p\right)\colon\car{t}_p\to\yon\tri\car{t}_p\iso\car{t}_p$ as the lens whose components are the projections $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ from the limit.
-It follows from the universal property of $\car{t}_p$ that $\delta_p\then\left(\epsilon^{(0)}_p\tri\car{t}_p\right)$ can only be the identity lens on $\car{t}_p$.
+We know the lens $\epsilon_p\tri\car{t}_p\colon\car{t}_p\tri\car{t}_p\to\yon\tri\car{t}_p$ is characterized by its components $\epsilon_p\tri\epsilon^{(n)}_p\colon\car{t}_p\tri\car{t}_p\to p\tripow0\tri p\tripow{n}$, a projection out of the limit $\car{t}_p\tri\car{t}_p$, for all $n\in\nn$.
+Then by our construction of $\delta_p$, each composite $\delta_p\then\left(\epsilon_p\tri\epsilon^{(n)}_p\right)\colon\car{t}_p\to p\tripow0\tri p\tripow{n}$ is the component of $\delta_p$ equal to $\epsilon^{(n)}_p=\epsilon^{(0+n)}_p\colon\car{t}_p\to p\tripow0\tri p\tripow{n}\iso p\tripow{n}$ (this is just the commutativity of \eqref{eqn.delta_p_tri_epsilons} in the case of $(\ell,m)=(0,n)$).
+Together, these characterize the composite lens $\delta_p\then\left(\epsilon_p\tri\car{t}_p\right)\colon\car{t}_p\to\yon\tri\car{t}_p\iso\car{t}_p$ as the lens whose components are the projections $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ from the limit.
+It follows from the universal property of $\car{t}_p$ that $\delta_p\then\left(\epsilon_p\tri\car{t}_p\right)$ can only be the identity lens on $\car{t}_p$.
 Hence the left erasure law holds.
 
 The right erasure law, that
 \[
 \begin{tikzcd}
     \car{t}_p \ar[r,equals] \ar[d, "\delta_p"'] & \car{t}_p\tri\yon \\
-    \car{t}_p\tri\car{t}_p \ar[ur, "\car{t}_p\:\tri\:\epsilon^{(0)}_p"']
+    \car{t}_p\tri\car{t}_p \ar[ur, "\car{t}_p\:\tri\:\epsilon_p"']
 \end{tikzcd}
 \]
-commutes, follows similarly: the composite $\delta_p\then\left(\car{t}_p\tri\epsilon^{(0)}_p\right)$ is characterized by its components over $n\in\nn$ of the form $\delta_p\then\left(\epsilon^{(n)}_p\tri\epsilon^{(0)}_p\right)\colon\car{t}_p\to p\tripow{n}\tri p\tripow0$, which we know by \eqref{eqn.delta_p_tri_epsilons} is equal to $\epsilon^{(n+0)}_p=\epsilon^{(n)}_p$, the projection out of the limit $\car{t}_p$.
-It follows from the universal property of this limit that $\delta_p\then\left(\car{t}_p\tri\epsilon^{(0)}_p\right)$ must be the identity lens on $\car{t}_p$.
+commutes, follows similarly: the composite $\delta_p\then\left(\car{t}_p\tri\epsilon_p\right)$ is characterized by its components over $n\in\nn$ of the form $\delta_p\then\left(\epsilon^{(n)}_p\tri\epsilon_p\right)\colon\car{t}_p\to p\tripow{n}\tri p\tripow0$, which we know by \eqref{eqn.delta_p_tri_epsilons} is equal to $\epsilon^{(n+0)}_p=\epsilon^{(n)}_p$, the projection out of the limit $\car{t}_p$.
+It follows from the universal property of this limit that $\delta_p\then\left(\car{t}_p\tri\epsilon_p\right)$ must be the identity lens on $\car{t}_p$.
 
 Finally, we check the coassociative law: that
 \[
@@ -8798,7 +8757,7 @@ for all $i,j,k\in\nn$.
 So by the universal property of $\car{t}_p\tri\car{t}_p\tri\car{t}_p$, coassociativity holds.
 \end{proof}
 
-We call the category $\cofree{p}$ corresponding to the comonoid $\left(\car{t}_p,\epsilon^{(0)}_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
+We call the category $\cofree{p}$ corresponding to the comonoid $\left(\car{t}_p,\epsilon_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
 
 \begin{example}[The category of $p$-trees: states and transitions for (co)free]
 Let's step back and think about how $p$-tree categories relate to the original polynomial $p$ from the perspective of the states and transitions of dynamical systems.
@@ -10401,7 +10360,7 @@ Explain why \eqref{eqn.starting_color_v} models an initialization, i.e.\ a way t
 \begin{theorem}\label{thm.cofree_coalgebras}
 Let $\cofree{p}$ be the cofree comonoid on $p\in\poly$. There is an equivalence of categories
 \[
-\sys(p)\cong\smcat(\cofree{p},\smset)
+\sys(p)\cong\smset^\cofree{p}
 \]
 between the category of dynamical systems on $p$ and that of functors $\cofree{p}\to\smset.$
 \end{theorem}
@@ -10422,7 +10381,7 @@ So a position $t$ is like a future: it is a current decision, and for every opti
 \begin{exercise}
 Let $G$ be a finite directed graph, and let $\Cat{Fr}(G)$ be the associated free category. 
 \begin{enumerate}
-	\item Construct a cofunctor $\Cat{Fr}(G)\cof\cofree{\1+\yon+\yon^\2+\yon^\3+\cdots}$.
+	\item Construct a cartesian cofunctor $\Cat{Fr}(G)\cof\cofree{\1+\yon+\yon^\2+\yon^\3+\cdots}$.
 	\item Would you say it associates to each node in $G$ its ``future'' decision tree?
 \qedhere
 \end{enumerate}
