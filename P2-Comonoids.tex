@@ -4544,7 +4544,7 @@ If we write out the two composite lenses in polyboxes, with $\delta\then(\delta\
 \begin{equation}\label{eqn.trans_lens_coassoc_polybox}
 \begin{tikzpicture}
     \node (p1) {
-        \begin{tikzpicture}[polybox, tos, font=\tiny]
+        \begin{tikzpicture}[polybox, mapstos, font=\tiny]
             \node[poly, dom, "$\car{s}$" left] (m') {$s_0\to s_3$\at$s_0$};
             \node[poly, right= of m'.south, yshift=-1ex, "$\car{s}$" below] (mm') {$s_0\to s_2$\at$s_0$};
             \node[poly, above=of mm', "$\car{s}$" above] (C') {$s_2\to s_3$\at$s_2$};
@@ -4564,7 +4564,7 @@ If we write out the two composite lenses in polyboxes, with $\delta\then(\delta\
 	};
 %
 	\node (p2) [right=of p1] {
-	    \begin{tikzpicture}[polybox, tos, font=\tiny]
+	    \begin{tikzpicture}[polybox, mapstos, font=\tiny]
             \node[poly, dom, "$\car{s}$" left] (m) {$s_0\to s_3$\at$s_0$};
             \node[poly, right= of m.south, yshift=-1ex, "$\car{s}$" below] (D) {$s_0\to s_1$\at$s_0$};
             \node[poly, above=of D, "$\car{s}$" above] (mm) {$s_1\to s_3$\at$s_1$};
@@ -7260,7 +7260,7 @@ From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would sta
 	\node (id1) {
 	\begin{tikzpicture}[polybox, mapstos]
 		\node[poly, dom, blue, "$S\yon^S$" left] (p) {$s$\at$s$};
-		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+		\draw[blue,double,-] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
 	\end{tikzpicture}	
 	};
 	\node[right=of id1] (id2) {
@@ -7282,13 +7282,13 @@ Meanwhile, the commutative triangle on the left of \eqref{eqn.coalg_laws} can be
 	\begin{tikzpicture}[polybox, mapstos]
     	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
     	\node[poly, constant, "$S$" right, blue, right=1 of p] (q) {\at$s$};
-		\draw[double,-] (p_pos) to[first] node[below] {} (q_pos);
+		\draw[double,blue,-] (p_pos) to[first] node[below] {} (q_pos);
 	\end{tikzpicture}	
 	};
 	\node[right=of id1, yshift=-1.25ex] (id2) {
 	\begin{tikzpicture}[polybox, mapstos]
     	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
-    	\node[poly, cod, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" below, red] (r) {};
+    	\node[poly, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" below, red] (r) {};
     	\node[poly, above=of r, "$S$" right, constant, blue] (q) {};
     	
       	\draw (p_pos) to[first] node[below] {$\Phi_\1$} (r_pos);
@@ -7343,10 +7343,10 @@ Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can b
 \[
 \begin{tikzpicture}
     \node (p1) {
-	    \begin{tikzpicture}[polybox, tos, font=\tiny]
+	    \begin{tikzpicture}[polybox, mapstos]
             \node[poly, constant dom, "$S\yon^S$" left, blue] (m) {\at$s$};
             
-            \node[poly, right= of m.south, yshift=-1ex, "$\car{c}$" below, red] (D) {};
+            \node[poly, right= of m.south, yshift=-1ex, "$\car{c}$" below, red] (D) {$g$\at};
             \node[poly, constant, above=of D, "$S\yon^S$" above, blue] (mm) {};
             
             \node[poly, cod, right= of D.south, yshift=-1ex, "$\car{c}$" right, red] (DD) {$g$};
@@ -7365,12 +7365,14 @@ Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can b
 	};
 %
 	\node (p2) [right=of p1] {
-        \begin{tikzpicture}[polybox, tos, font=\tiny]
+        \begin{tikzpicture}[polybox, mapstos]%, font=\tiny]
             \node[poly, constant dom, "$S\yon^S$" left, blue] (m') {\at$s$};
-            \node[poly, right= of m'.south, yshift=-1ex, "$\car{c}$" below, red] (mm') {\at};
+            
+            \node[poly, right= of m'.south, yshift=-1ex, "$\car{c}$" below, red] (mm') {};
             \node[poly, constant, above=of mm', "$S\yon^S$" above, blue] (C') {};
-            \node[poly, cod, right= of mm'.south, yshift=-1ex, "$\car{c}$" right, red] (D') {};
-            \node[poly, cod, above=of D', "$\car{c}$" right, red] (mmm') {};
+            
+            \node[poly, cod, right= of mm'.south, yshift=-1ex, "$\car{c}$" right, red] (D') {$g$};
+            \node[poly, cod, above=of D', "$\car{c}$" right, red] (mmm') {$h$};
             \node[poly, constant, above=of mmm', "$S\yon^S$" right, blue] (CC') {};
             %
             \draw (m'_pos) to[first] node[below] {$\Phi_\1$} (mm'_pos);
