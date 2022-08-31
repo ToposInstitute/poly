@@ -7505,16 +7505,16 @@ A \emph{$\cat{C}$-coalgebra} $(S,\alpha)$ is
 such that the following diagrams, collectively known as the \emph{coalgebra laws}, commute:
 \begin{equation} \label{eqn.coalg_laws}
 \begin{tikzcd}
-	\car{c}\tri S\ar[d, "\epsilon\:\tri\:S"']&
-	S\ar[l, "\alpha"']\ar[dl, equal, bend left]\\
-	S
+    S \ar[r, "\alpha"] \ar[dr, equal] &
+    \car{c}\tri S \ar[d, "\epsilon\:\tri\:S"] \\
+    & S
 \end{tikzcd}
 \hspace{.6in}
 \begin{tikzcd}
-	\car{c}\tri S\ar[d, "\delta\:\tri\:S"']&
-	S\ar[l, "\alpha"']\ar[d, "\alpha"]\\
-	\car{c}\tri\car{c}\tri S&
-	\car{c}\tri S.\ar[l, "\car{c}\:\tri\:\alpha"]
+    S \ar[d, "\alpha"] \ar[r, "\alpha"] &
+    \car{c}\tri S \ar[d, "\delta\:\tri\:S"] \\
+    \car{c}\tri S \ar[r, "\car{c}\:\tri\:\alpha"'] & 
+	\car{c}\tri\car{c}\tri S.
 \end{tikzcd}
 \end{equation}
 
@@ -7529,25 +7529,173 @@ A \emph{morphism} of $\cat{C}$-coalgebras $(S,\alpha)\to(T,\beta)$ is a function
 \]
 \end{definition}
 
-% ** discuss how state category arises formally??
+% Before we show the correspondence between cofunctors out of state categories and coalgebras, we first discuss how state categories arise formally from the theory of the composition product.
+
+% \begin{example}[State categories, formally]
+% Fix  $S\in\smset$.
+% In \cref{prop.comp_left_coclosed}, we saw that $\tri$ has a left coclosure operation given by $\lchom{-}{-}$, which by \eqref{eqn.lchom_def} satisfies
+% \[
+%     \lchom{S}{S}\iso S\yon^S.
+% \]
+% So by \eqref{eqn.lchom_adj_iso}, we have an isomorphism
+% \[
+%     \poly(S,p\tri S)\iso\poly(S\yon^S,p)
+% \]
+% natural in $p$.
+% The proof of \cref{prop.comp_left_coclosed} tells us how to characterize this isomorphism using polyboxes: a lens $\varphi\colon S\to p\tri S$, really just a function, can be written as follows (recall that we color a box red when it is impossible to fill, as it must take an element of the empty set):
+% \[
+% \begin{tikzpicture}[polybox, mapstos]
+% 	\node[poly, dom, "$S$" left, constant] (p) {\at$s$};
+% 	\node[poly, cod, right=1.5cm of p.south, yshift=-1ex, "$p$" right] (r) {$a$\at$i$};
+% 	\node[poly, cod, above=of r, "$S$" right, constant] (q) {\at$t$};
+%   	\draw (p_pos) to[first] node[below] {$\varphi^p$} (r_pos);
+%   	\draw (r_dir) to[climb] node[right] {$\varphi^S$} (q_pos);
+% \end{tikzpicture}
+% \]
+% Meanwhile, the corresponding lens $\Phi\colon S\yon^S\to p$ can be written as
+% \[
+% \begin{tikzpicture}[polybox, mapstos]
+%     \node[poly, dom, "$S\yon^S$" left] (l) {$j$\at$s$};
+%     \node[poly, cod, "$p$" right, right=of l, yshift=-0.5ex] (r) {$a$\at$i$};
+%     \draw (l_pos) -- node[below] {$\varphi^r$} (r_pos);
+%     \draw (r_dir) -- node[above] {} (l_dir);
+% \end{tikzpicture}
+% \]
+
+
+
+
+
+% In particular, the identity lens $\id_S\colon S\to S\iso\yon\tri S$ naturally corresponds to a lens $\epsilon_S\colon S\yon^S\to\yon$
+% \end{example}
 
 \begin{proposition}
-Cofunctors $S\yon^S\cof\cat{C}$ can be identified with $\cat{C}$-coalgebras carried by $S$ (up to isomorphism).
+Cofunctors $S\yon^S\cof\cat{C}$ can be identified (up to isomorphism) with $\cat{C}$-coalgebras carried by $S$.
 \end{proposition}
 \begin{proof}
-In \cref{ex.coalgebras}, we showed that \eqref{eqn.monomials_and_comp} gives a natural isomorphism between lenses $\Phi\colon S\yon^S\to\cat{C}$ and functions $\varphi\colon S\to\cat{C}\tri S$.
-So it suffices to show that given a lens $\Phi\colon S\yon^S\to\cat{C}$ and a corresponding function $\varphi\colon S\to\cat{C}\tri S$, we have that $\Phi$ satisfies the cofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.
-
-Unraveling the correspondence between $\Phi$ and $\varphi$, we find that we can write $\varphi$ in terms of $\Phi$ as
+Let $\car{c}$ be the carrier of $\cat{C}$.
+In \cref{ex.coalgebras}, we showed that \eqref{eqn.monomials_and_comp} gives a natural correspondence between lenses $\Phi\colon S\yon^S\to\car{c}$ and functions $\varphi\colon S\to\car{c}\tri S$.
+We can unravel this correspondence via the proof of \cref{prop.comp_left_coclosed} as follows.
+A lens $\Phi\colon S\yon^S\to\car{c}$ can be drawn like so (we will adopt our former convention of identifying each morphism $s\to t$ from $S\yon^S$ with its codomain $t$):
 \[
-    \varphi(s)=\left(\Phi_\1 s, t\right),
+\begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$S\yon^S$" left, blue] (l) {$t\vphantom{f}$\at$s\vphantom{i}$};
+    \node[poly, cod, "$\car{c}$" right, right=of l, red] (r) {$f$\at$i$};
+    \draw (l_pos) -- node[below] {$\Phi_\1$} (r_pos);
+    \draw (r_dir) -- node[above] {$\Phi^\sharp$} (l_dir);
+\end{tikzpicture}
 \]
-where $t\colon\cat{C}[\Phi_\1 s]\to S$ is the function sending $f\colon\Phi_\1(s)\to\_$ to $\cod\Phi^\sharp_s f$.
-So if $\Phi$ is a cofunctor, then
-**
+Meanwhile, the corresponding function $\varphi\colon S\to\car{c}\tri S$, equivalently a lens between constants, can be drawn thusly (recall that we color a box red when it is impossible to fill, i.e.\ when it can only be filled by an element of the empty set):
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
+	\node[poly, cod, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" right, red] (r) {$f$\at$i$};
+	\node[poly, above=of r, "$S$" right, constant, blue] (q) {\at$t$};
+  	\draw (p_pos) to[first] node[below] {$\Phi_\1$} (r_pos);
+  	\draw (r_dir) to[climb] node[right] {$\Phi^\sharp$} (q_pos);
+\end{tikzpicture}
+\]
+
+Then it suffices to show that $\Phi$ satisfies the cofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.
+We can verify this using polyboxes.
+From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state that
+\[
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (p) {$s$\at$s$};
+		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+	\end{tikzpicture}	
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$S\yon^S$" left] (p) {\at$\vphantom{F}s$};
+		\node[poly, red, right=1 of p, "$\car{c}$" above] (q) {$\id_{\Phi_\1 s}$\at$\Phi_\1 s$};
+		\draw (p_pos) to[first] node[below] {$\Phi_\1$} (q_pos);
+		\draw (q_dir) to[last] node[above] {$\Phi^\sharp$} (p_dir);
+		\draw[red] (q_pos) to[climb'] node[right] {$\idy$} (q_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(id1.east)!.3!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\]
+Meanwhile, the commutative triangle on the left of \eqref{eqn.coalg_laws} can be written as follows:
+\[
+\begin{tikzpicture}
+	\node (id1) {
+	\begin{tikzpicture}[polybox, mapstos]
+    	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
+    	\node[poly, constant, "$S$" left, blue, right=1 of p] (q) {\at$s$};
+		\draw[double] (p_pos) to[first] node[below] {$\Phi_\1$} (q_pos);
+		\draw[double] (q_dir) to[last] node[above] {$\Phi^\sharp$} (p_dir);
+	\end{tikzpicture}	
+	};
+	\node[right=of id1] (id2) {
+	\begin{tikzpicture}[polybox, mapstos]
+    	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
+    	\node[poly, cod, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" below, red] (r) {$f$\at$i$};
+    	\node[poly, above=of r, "$S$" right, constant, blue] (q) {\at$t$};
+    	
+      	\draw (p_pos) to[first] node[below] {$\Phi_\1$} (r_pos);
+      	\draw (r_dir) to[climb] node[right] {$\Phi^\sharp$} (q_pos);
+      	
+		\draw[red] (r_pos) to[climb'] node[right] {$\idy$} (r_dir);
+    \end{tikzpicture}
+	};
+	\node at ($(id1.east)!.3!(id2.west)-(0,6pt)$) {$=$};
+\end{tikzpicture}
+\]
+But these are entirely equivalent.
+
+Then from \eqref{eqn.pres_dup_draw}, the duplicator preservation law for $\Phi$ would state that
+\[
+\begin{tikzpicture}
+	\node (sp1) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\car{c}$" above] (c) {\at$c$};
+		\node[poly, blue, right=2 of c.south, yshift=-1ex, "$\car{c}$" below] (c1) {};
+		\node[poly, blue, above=of c1, "$\car{c}$" above] (c2) {};
+		\node[poly, cod, red, right=1 of c1, "$\car{c'}$" below] (c'1) {$g$};
+		\node[poly, cod, red, right=1 of c2, "$\car{c'}$" above] (c'2) {$h$};
+		\node at ($(c1.east)!.5!(c'1.west)$) {$F$};
+		\node at ($(c2.east)!.5!(c'2.west)$) {$F$};
+	%
+		\draw[blue,double] (c_pos) to[first] (c1_pos);
+		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
+		\draw[blue] (c2_dir) to[last] node[above] {$\then$} (c_dir);
+		\draw (c1_pos) to[first] (c'1_pos);
+		\draw (c'1_dir) to[last] (c1_dir);
+		\draw (c2_pos) to[first] (c'2_pos);
+		\draw (c'2_dir) to[last] (c2_dir);
+    \end{tikzpicture}	
+	};
+	\node[right=of sp1] (sp2) {
+	\begin{tikzpicture}[polybox, mapstos]
+		\node[poly, dom, blue, "$\car{c}$" above] (c) {\at$c$};
+		\node[poly, red, right=1 of c, "$\car{c'}$" above] (c') {};
+		\node[poly, cod, red, right=2 of c'.south, yshift=-1ex, "$\car{c'}$" below] (c'1) {$g$};
+		\node[poly, cod, red, above=of c'1, "$\car{c'}$" above] (c'2) {$h$};
+		\node at ($(c.east)!.3!(c'.west)$) {$F$};
+	%
+		\draw (c_pos) to[first] (c'_pos);
+		\draw (c'_dir) to[last] (c_dir);
+		\draw[red,double] (c'_pos) to[first] (c'1_pos);
+		\draw[red] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
+		\draw[red] (c'2_dir) to[last] node[above] {$\then$} (c'_dir);
+	\end{tikzpicture}
+	};
+	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
+\end{tikzpicture}
+\]
+Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can be written as follows:
+
+
+But these are equivalent as well.
+
+Hence the cofunctor laws for $\Phi$ are equivalent to the coalgebra laws for $\varphi$.
 \end{proof}
 
-So a cofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
+Hence a cofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
 The equivalences don't stop there, however.
 
 \subsubsection{As discrete opfibrations}
