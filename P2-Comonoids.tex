@@ -7535,7 +7535,7 @@ A \emph{morphism} of $\cat{C}$-coalgebras $(S,\alpha)\to(T,\beta)$ is a function
 % ** discuss how state category arises formally??
 
 \begin{proposition}
-Up to isomorphism, cofunctors $S\yon^S\cof\cat{C}$ can be identified with $\cat{C}$-coalgebras carried by $S$.
+Cofunctors $S\yon^S\cof\cat{C}$ can be identified with $\cat{C}$-coalgebras carried by $S$ (up to isomorphism).
 \end{proposition}
 \begin{proof}
 In \cref{ex.coalgebras}, we showed that \eqref{eqn.monomials_and_comp} gives a natural isomorphism between lenses $\Phi\colon S\yon^S\to\cat{C}$ and functions $\varphi\colon S\to\cat{C}\tri S$.
@@ -7555,6 +7555,139 @@ The equivalences don't stop there, however.
 
 \subsubsection{As discrete opfibrations}
 
+**
+
+\begin{definition}[Discrete opfibration]\label{def.dopf}
+Let $\cat{C}$ be a category. A pair $(\cat{S},\pi)$, where $\cat{S}$ is a category and $\pi\colon\cat{S}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
+\begin{itemize}
+	\item for every object $s\in\cat{S}$, object $c'\in\cat{C}$, and morphism $f\colon \pi(s)\to c'$ there exists a unique object $s'\in\cat{S}$ and morphism $\bar{f}\colon s\to s'$ such that $\pi(s')=c'$ and $\pi(\bar{f})=f$.
+\end{itemize}
+\[
+\begin{tikzcd}
+  s\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
+  s'\ar[d, |->, "\pi"]\\
+  \pi(s)\ar[r, "f"']&
+  c'
+\end{tikzcd}
+\]
+A \emph{morphism} $(\cat{S},\pi)\to(\cat{S}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{S}\to\cat{S}'$ making the following triangle commute:
+\begin{equation}\label{eqn.dopf_triangle}
+\begin{tikzcd}[column sep=small]
+	\cat{S}\ar[dr, "\pi"']\ar[rr, "F"]&&
+	\cat{S}'\ar[dl, "\pi'"]\\&
+	\cat{C}
+\end{tikzcd}
+\end{equation}
+We denote the category of discrete opfibrations into $\cat{C}$ by $\Cat{dopf}(\cat{C})$.
+\end{definition}
+
+\begin{exercise}
+Show that if $F\colon \cat{S}\to\cat{S}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, then $F$ is also a discrete opfibration.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.dopf_cof}
+Suppose $\pi\colon\cat{S}\to\cat{C}$ is a discrete opfibration and $i\in\cat{S}
+$ is an object. With notation as in \cref{def.dopf}, show the following:
+\begin{enumerate}
+	\item Show that the lift $\bar{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
+	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\bar{f}\then\bar{g}=\bar{f\then g}$.
+	\item Show that $\pi$ is a cofunctor.
+\qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{definition}[Category of elements $\elts^\cat{C}I$]\label{def.cat_elements}
+Given a functor $I\colon\cat{C}\to\smset$, its category of elements $\elts^\cat{C}I$ is defined to have objects
+\[
+\Ob(\elts^\cat{C}I)\coloneqq\{(c,x)\mid c\in\Ob(\cat{C}), x\in I(c)\}
+\]
+and given two objects $(c,x)$ and $(c',x')$, the hom-set is given by
+\[
+\Hom((c,x),(c',x'))\coloneqq\{f\colon c\to c'\mid I(f)(x)=x'\}.
+\]
+Identities and composites in $(\elts^\cat{C}I)$ are inherited from $\cat{C}$.
+
+There is a functor $\pi\colon(\elts^\cat{C}I)\to\cat{C}$ sending $\pi(c,x)\coloneqq c$ and $\pi(f)\coloneqq f$.
+\end{definition}
+
+\begin{exercise}
+Show that if $I\colon\cat{C}\to\smset$ is a functor then the functor $\pi\colon(\elts^\cat{C}I)\to\cat{C}$ defined in \cref{def.cat_elements} is a discrete opfibration, as in \cref{def.dopf}.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.elts_functor}
+Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
+\begin{enumerate}
+	\item Show that $\alpha$ induces a functor $(\elts^\cat{C}I)\to(\elts^\cat{C}J)$.
+	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
+	\item Show that this construction is functorial. We denote this functor by
+\end{enumerate}
+	\[
+	\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})
+\qedhere	
+	\]
+\begin{solution}
+\begin{enumerate}
+    \item **
+    \item **
+    \item **
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}\label{exc.elts_free_grph}
+Let $G$ be a graph, and let $\cat{G}$ be the free category on it. Show that for any functor $S\colon\cat{G}\to\smset$, the category $\elts^\cat{G} S$ of elements is again free on a graph.
+\begin{solution}
+**
+\end{solution}
+\end{exercise}
+
+\begin{proposition}\label{prop.tfae_dopf}
+Let $\cat{C}$ be a category. The following are equivalent:
+\begin{enumerate}
+	\item the category $\smset^{\cat{C}}$ of functors $\cat{C}\to\smset$,
+	\item the category of discrete opfibrations over $\cat{C}$,
+	\item the category of cartesian cofunctors into $\cat{C}$.
+\end{enumerate}
+In fact the latter two are isomorphic.
+\end{proposition}
+\begin{proof}
+By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
+\begin{align*}
+	(\partial\pi)(c)&\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}\\
+	(\partial\pi)(f)(s)&\coloneqq\bar{f}(s).
+\end{align*}
+On objects, the roundtrip $\smset^{\cat{C}}\to\smset^{\cat{C}}$ sends $I\colon\cat{C}\to\smset$ to the functor
+\begin{align*}
+	c&
+	\mapsto\{s\in\elts^\cat{C}I\mid \pi(s)\\&
+	=\{(c,x)\mid x\in I(c)\}&=I(c).
+\end{align*}
+The roundtrip $\Cat{dopf}(\cat{C})\to\Cat{dopf}(\cat{C})$ sends $\pi\colon\cat{S}\to\cat{C}$ to the discrete opfibration whose object set is $\{(c,s)\in\Ob(\cat{C})\times\Ob(\cat{S})\mid\pi(s)=c\}$ and this set is clearly in bijection with $\Ob(\cat{S})$. Proceeding similarly, one defines an isomorphism of categories $\cat{S}\cong\elts^\cat{C}\partial\pi$.
+
+The above correspondence is well-known; it remains to address the relationship between (2) and (3). A cartesian cofunctor $(\varphi_1,\varphi^\sharp)\colon\cat{S}\cof\cat{C}$ gives a function $\varphi\colon\Ob(\cat{S})\to\Ob(\cat{C})$ and for each $s\in\cat{S}$ an isomorphism
+\[
+  \varphi_s^\sharp\colon\cat{C}[\varphi_1(s)]\To{\cong}\cat{S}[s]
+\]
+between the set of $\cat{S}$-morphisms emanating from $s$ and the set of $\cat{C}$-morphisms emanating from $\varphi_1(s)$. This isomorphism respects identities, codomains, and composites. As such we can define a functor that acts as $\varphi_1$ on objects and $(\varphi^\sharp)\inv$ on morphisms, and it is easily checked to be a discrete opfibration.
+
+Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\varphi_1\coloneqq\Ob(\pi)$ to be its on-objects part, and for any $s\in\Ob(\cat{S})$ and emanating morphism $f\in\cat{C}[\varphi_1(s)]$, we define $\varphi^\sharp_s(f)\coloneqq\bar{f}$ to be the lift guaranteed by \cref{def.dopf}. The conversions between discrete opfibrations and cartesian cofunctors are easily seen to be functorial and the roundtrips are identities.
+\end{proof}
+
+
+
 
 
 \subsubsection{As copresheaves}
@@ -7568,11 +7701,11 @@ Here we review what is needed to understand this equivalence.
 To summarize, we have four equivalent notions:
 \begin{enumerate}[label=(\arabic*)]
     \item cofunctors $F\colon S\yon^S\cof\cat{C}$;
-    \item 
+    \item $\cat{C}$-coalgebras $(S,\alpha)$, with $\alpha\colon S\to\car{c}\tri S$;
     \item discrete opfibrations $\pi\colon \cat{S}\to\cat{C}$, with $\Ob\cat{S}=S$;
-    \item copresheaves $I\colon\cat{C}\to\smset$, with 
+    \item copresheaves $I\colon\cat{C}\to\smset$, with $\Ob\int^{\cat{C}}I=S$.
 \end{enumerate}
-Moreover, (2) and (3) form isomorphic categories, while (3) and (4) form categories that are merely equivalent.
+Moreover, (2), (3), and (4) form equivalent categories.
 Translating between these notions yields different perspectives on familiar categorical concepts.
 In the next chapter, we will discover even more characterizations of the same data within $\poly$ (see \cref{thm.**}).
 
@@ -9336,13 +9469,16 @@ We will complete the proof of \cref{prop.factor_cofunctor}, using the same notat
 \end{solution}
 \end{exercise}
 
-
-\begin{proposition}
-The wide subcategory of cartesian maps in $\smcat^\sharp$ is isomorphic to the category of wide subcategory of discrete opfibrations in $\smcat$.
+\begin{proposition} \label{prop.cart_dopf}
+The wide%
+\footnote{A subcategory $\Cat{D}$ of a category $\Cat{C}$ is \emph{wide} if every object of $\Cat{C}$ is in $\Cat{D}$.}%
+subcategory of cartesian cofunctors in $\smcat^\sharp$ is isomorphic to the wide subcategory of discrete opfibrations in $\smcat$.
 \end{proposition}
 \begin{proof}
 Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
 \end{proof}
+
+% ** connect the above to earlier discrete opfibration stuff
 
 \begin{proposition}\label{prop.com_vert_cat_boo}
 The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
@@ -9685,6 +9821,13 @@ Here the top and bottom morphisms are the right coactions of $m$ and $n$.
 **
 \end{solution}
 \end{exercise}
+
+We can characterize left comodules as something far more familiar.
+
+\begin{proposition}
+
+\end{proposition}
+
 
 \subsection{Bicomodules}
 
