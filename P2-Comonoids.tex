@@ -6248,7 +6248,7 @@ If we specify \cref{def.morphism_comonoids} to the case of $(\poly,\yon,\tri)$, 
 	\node (id1) {
 	\begin{tikzpicture}[polybox, mapstos]
 		\node[poly, dom, blue, "$\car{c}\vphantom{\car{c'}}$" above] (p) {\at$c$};
-		\draw[blue] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
+		\draw[blue,double,-] (p_pos) to[climb'] node[right] {$\idy$} (p_dir);
 	\end{tikzpicture}	
 	};
 	\node[right=of id1] (id2) {
@@ -6277,7 +6277,7 @@ and the duplicator preservation law \eqref{eqn.pres_dup} in polyboxes as
 		\node at ($(c1.east)!.5!(c'1.west)$) {$F$};
 		\node at ($(c2.east)!.5!(c'2.west)$) {$F$};
 	%
-		\draw[blue,double] (c_pos) to[first] (c1_pos);
+		\draw[blue,double,-] (c_pos) to[first] (c1_pos);
 		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
 		\draw[blue] (c2_dir) to[last] node[above] {$\then$} (c_dir);
 		\draw (c1_pos) to[first] (c'1_pos);
@@ -6296,7 +6296,7 @@ and the duplicator preservation law \eqref{eqn.pres_dup} in polyboxes as
 	%
 		\draw (c_pos) to[first] (c'_pos);
 		\draw (c'_dir) to[last] (c_dir);
-		\draw[red,double] (c'_pos) to[first] (c'1_pos);
+		\draw[red,double,-] (c'_pos) to[first] (c'1_pos);
 		\draw[red] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
 		\draw[red] (c'2_dir) to[last] node[above] {$\then$} (c'_dir);
 	\end{tikzpicture}
@@ -7254,7 +7254,7 @@ Meanwhile, the corresponding function $\varphi\colon S\to\car{c}\tri S$, equival
 
 Then it suffices to show that $\Phi$ satisfies the cofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.
 We can verify this using polyboxes.
-From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state that
+From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state the following (remember that the arrow in the eraser for the state category $S\yon^S$ is just an equality):
 \[
 \begin{tikzpicture}
 	\node (id1) {
@@ -7265,14 +7265,14 @@ From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would sta
 	};
 	\node[right=of id1] (id2) {
 	\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, blue, "$S\yon^S$" left] (p) {\at$\vphantom{F}s$};
-		\node[poly, red, right=1 of p, "$\car{c}$" above] (q) {$\id_{\Phi_\1 s}$\at$\Phi_\1 s$};
+		\node[poly, dom, blue, "$S\yon^S$" left] (p) {$\vphantom{s}$\at$s$};
+		\node[poly, red, right=1 of p, "$\car{c}$" below] (q) {};
 		\draw (p_pos) to[first] node[below] {$\Phi_\1$} (q_pos);
 		\draw (q_dir) to[last] node[above] {$\Phi^\sharp$} (p_dir);
 		\draw[red] (q_pos) to[climb'] node[right] {$\idy$} (q_dir);
 	\end{tikzpicture}
 	};
-	\node at ($(id1.east)!.3!(id2.west)-(0,6pt)$) {$=$};
+	\node at ($(id1.east)!.3!(id2.west)$) {$=$}; % -(0,6pt)
 \end{tikzpicture}
 \]
 Meanwhile, the commutative triangle on the left of \eqref{eqn.coalg_laws} can be written as follows:
@@ -7281,16 +7281,15 @@ Meanwhile, the commutative triangle on the left of \eqref{eqn.coalg_laws} can be
 	\node (id1) {
 	\begin{tikzpicture}[polybox, mapstos]
     	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
-    	\node[poly, constant, "$S$" left, blue, right=1 of p] (q) {\at$s$};
-		\draw[double] (p_pos) to[first] node[below] {$\Phi_\1$} (q_pos);
-		\draw[double] (q_dir) to[last] node[above] {$\Phi^\sharp$} (p_dir);
+    	\node[poly, constant, "$S$" right, blue, right=1 of p] (q) {\at$s$};
+		\draw[double,-] (p_pos) to[first] node[below] {} (q_pos);
 	\end{tikzpicture}	
 	};
-	\node[right=of id1] (id2) {
+	\node[right=of id1, yshift=-1.25ex] (id2) {
 	\begin{tikzpicture}[polybox, mapstos]
     	\node[poly, constant dom, "$S$" left, blue] (p) {\at$s$};
-    	\node[poly, cod, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" below, red] (r) {$f$\at$i$};
-    	\node[poly, above=of r, "$S$" right, constant, blue] (q) {\at$t$};
+    	\node[poly, cod, right=1.5cm of p.south, yshift=-1.25ex, "$\car{c}$" below, red] (r) {};
+    	\node[poly, above=of r, "$S$" right, constant, blue] (q) {};
     	
       	\draw (p_pos) to[first] node[below] {$\Phi_\1$} (r_pos);
       	\draw (r_dir) to[climb] node[right] {$\Phi^\sharp$} (q_pos);
@@ -7298,44 +7297,41 @@ Meanwhile, the commutative triangle on the left of \eqref{eqn.coalg_laws} can be
 		\draw[red] (r_pos) to[climb'] node[right] {$\idy$} (r_dir);
     \end{tikzpicture}
 	};
-	\node at ($(id1.east)!.3!(id2.west)-(0,6pt)$) {$=$};
+	\node at ($(id1.east)!.3!(id2.west)$) {$=$};
 \end{tikzpicture}
 \]
-But these are entirely equivalent.
+But these polybox equations are entirely equivalent.
 
-Then from \eqref{eqn.pres_dup_draw}, the duplicator preservation law for $\Phi$ would state that
+Then from \eqref{eqn.pres_dup_draw}, the duplicator preservation law for $\Phi$ would state the following (remember that the three arrows in the duplicator for the state category $S\yon^S$ are all equalities)
 \[
 \begin{tikzpicture}
 	\node (sp1) {
 	\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, blue, "$\car{c}$" above] (c) {\at$c$};
-		\node[poly, blue, right=2 of c.south, yshift=-1ex, "$\car{c}$" below] (c1) {};
-		\node[poly, blue, above=of c1, "$\car{c}$" above] (c2) {};
-		\node[poly, cod, red, right=1 of c1, "$\car{c'}$" below] (c'1) {$g$};
-		\node[poly, cod, red, right=1 of c2, "$\car{c'}$" above] (c'2) {$h$};
-		\node at ($(c1.east)!.5!(c'1.west)$) {$F$};
-		\node at ($(c2.east)!.5!(c'2.west)$) {$F$};
+		\node[poly, dom, blue, "$S\yon^S$" left] (c) {\at$s$};
+		\node[poly, blue, right=2 of c.south, yshift=-2.75ex, "$S\yon^S$" below] (c1) {$\vphantom{g}$\at$s$};
+		\node[poly, blue, above=1 of c1, "$S\yon^S$" above] (c2) {$\vphantom{h}$};
+		\node[poly, cod, red, right=1 of c1, "$\car{c}$" below] (c'1) {$g$};
+		\node[poly, cod, red, right=1 of c2, "$\car{c}$" above] (c'2) {$h$};
 	%
-		\draw[blue,double] (c_pos) to[first] (c1_pos);
-		\draw[blue] (c1_dir) to[climb] node[right] {$\cod$} (c2_pos);
-		\draw[blue] (c2_dir) to[last] node[above] {$\then$} (c_dir);
-		\draw (c1_pos) to[first] (c'1_pos);
-		\draw (c'1_dir) to[last] (c1_dir);
-		\draw (c2_pos) to[first] (c'2_pos);
-		\draw (c'2_dir) to[last] (c2_dir);
+		\draw[blue,double,-] (c_pos) to[first] (c1_pos);
+		\draw[blue,double,-] (c1_dir) to[climb] node[right] {tgt} (c2_pos);
+		\draw[blue,double,-] (c2_dir) to[last] node[above,sloped] {run} (c_dir);
+		\draw (c1_pos) to[first] node[below] {$\Phi_\1$} (c'1_pos);
+		\draw (c'1_dir) to[last] node[above] {$\Phi^\sharp$} (c1_dir);
+		\draw (c2_pos) to[first] node[below] {$\Phi_\1$} (c'2_pos);
+		\draw (c'2_dir) to[last] node[above] {$\Phi^\sharp$} (c2_dir);
     \end{tikzpicture}	
 	};
 	\node[right=of sp1] (sp2) {
 	\begin{tikzpicture}[polybox, mapstos]
-		\node[poly, dom, blue, "$\car{c}$" above] (c) {\at$c$};
-		\node[poly, red, right=1 of c, "$\car{c'}$" above] (c') {};
-		\node[poly, cod, red, right=2 of c'.south, yshift=-1ex, "$\car{c'}$" below] (c'1) {$g$};
-		\node[poly, cod, red, above=of c'1, "$\car{c'}$" above] (c'2) {$h$};
-		\node at ($(c.east)!.3!(c'.west)$) {$F$};
+		\node[poly, dom, blue, "$S\yon^S$" left] (c) {\at$s$};
+		\node[poly, red, right=1 of c, "$\car{c}$" above] (c') {};
+		\node[poly, cod, red, right=2 of c'.south, yshift=-1ex, "$\car{c}$" below] (c'1) {$g$};
+		\node[poly, cod, red, above=of c'1, "$\car{c}$" above] (c'2) {$h$};
 	%
-		\draw (c_pos) to[first] (c'_pos);
-		\draw (c'_dir) to[last] (c_dir);
-		\draw[red,double] (c'_pos) to[first] (c'1_pos);
+		\draw (c_pos) to[first] node[below] {$\Phi_\1$} (c'_pos);
+		\draw (c'_dir) to[last] node[above] {$\Phi^\sharp$} (c_dir);
+		\draw[red,double,-] (c'_pos) to[first] (c'1_pos);
 		\draw[red] (c'1_dir) to[climb] node[right] {$\cod$} (c'2_pos);
 		\draw[red] (c'2_dir) to[last] node[above] {$\then$} (c'_dir);
 	\end{tikzpicture}
@@ -7344,19 +7340,62 @@ Then from \eqref{eqn.pres_dup_draw}, the duplicator preservation law for $\Phi$ 
 \end{tikzpicture}
 \]
 Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can be written as follows:
-
-
-But these are equivalent as well.
-
+\[
+\begin{tikzpicture}
+    \node (p1) {
+	    \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, constant dom, "$S\yon^S$" left, blue] (m) {\at$s$};
+            
+            \node[poly, right= of m.south, yshift=-1ex, "$\car{c}$" below, red] (D) {};
+            \node[poly, constant, above=of D, "$S\yon^S$" above, blue] (mm) {};
+            
+            \node[poly, cod, right= of D.south, yshift=-1ex, "$\car{c}$" right, red] (DD) {$g$};
+            \node[poly, cod, above=of DD, "$\car{c}$" right, red] (mmm) {$h$};
+            \node[poly, constant, above=of mmm, "$S\yon^S$" right, blue] (C) {};
+            %
+            \draw (m_pos) to[first] node[below] {$\Phi_\1$} (D_pos);
+            \draw (D_dir) to[climb] node[right] {$\Phi^\sharp$} (mm_pos);
+            
+            \draw[red,double,-] (D_pos) to[first] (DD_pos);
+            \draw[red,double,-] (DD_dir) to[last] (D_dir);
+            
+            \draw (mm_pos) to[first] node[below] {$\Phi_\1$} (mmm_pos);
+            \draw (mmm_dir) to[climb] node[right] {$\Phi^\sharp$} (C_pos);
+        \end{tikzpicture}
+	};
+%
+	\node (p2) [right=of p1] {
+        \begin{tikzpicture}[polybox, tos, font=\tiny]
+            \node[poly, constant dom, "$S\yon^S$" left, blue] (m') {\at$s$};
+            \node[poly, right= of m'.south, yshift=-1ex, "$\car{c}$" below, red] (mm') {\at};
+            \node[poly, constant, above=of mm', "$S\yon^S$" above, blue] (C') {};
+            \node[poly, cod, right= of mm'.south, yshift=-1ex, "$\car{c}$" right, red] (D') {};
+            \node[poly, cod, above=of D', "$\car{c}$" right, red] (mmm') {};
+            \node[poly, constant, above=of mmm', "$S\yon^S$" right, blue] (CC') {};
+            %
+            \draw (m'_pos) to[first] node[below] {$\Phi_\1$} (mm'_pos);
+            \draw (mm'_dir) to[climb] node[right] {$\Phi^\sharp$} (C'_pos);
+            
+            \draw[red,double,-] (mm'_pos) to[first] (D'_pos);
+            \draw[red] (D'_dir) to[climb] node[right] {cod} (mmm'_pos);
+            \draw[red] (mmm'_dir) to[last] node[above] {$\then$} (mm'_dir);
+            
+            \draw[blue,double, -] (C'_pos) to[first] (CC'_pos);
+        \end{tikzpicture}
+    };	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+But these polybox equations are equivalent as well.
 Hence the cofunctor laws for $\Phi$ are equivalent to the coalgebra laws for $\varphi$.
 \end{proof}
 
-Hence a cofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
+So a cofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
 The equivalences don't stop there, however.
 
 \subsubsection{As discrete opfibrations}
 
-**
+The concept of a $\cat{C}$-coalgebra is in turn equivalent to another categorical construction on $\cat{C}$, which we introduce here.
 
 \begin{definition}[Discrete opfibration]\label{def.dopf}
 Let $\cat{C}$ be a category. A pair $(\cat{S},\pi)$, where $\cat{S}$ is a category and $\pi\colon\cat{S}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
