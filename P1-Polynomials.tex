@@ -225,37 +225,40 @@ The category of polynomials is a jackpot. Its beauty flows without bound}
 but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
 
 %-------- Section --------%
-\section{Decisions \& interaction} \label{sec.poly.intro.dec}
-We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly_example} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves:
+\section{Decisions and interaction in series} \label{sec.poly.intro.dec}
+We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly_example} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves (this time, we've colored the roots to distinguish them):
 \begin{equation} \label{eqn.forest2110}
 \begin{tikzpicture}[trees]
-  \node (1) {$\bullet$} 
+  \node[dgreen] (1) {$\bullet$} 
     child {}
     child {};
-  \node[right=.5 of 1] (2) {$\bullet$} 
+  \node[right=.5 of 1,blue] (2) {$\bullet$} 
     child {};
-  \node[right=.5 of 2] (3) {$\bullet$} 
+  \node[right=.5 of 2,dyellow] (3) {$\bullet$} 
     child {};
-  \node[right=.5 of 3] (4) {$\bullet$};
+  \node[right=.5 of 3,red] (4) {$\bullet$};
 \end{tikzpicture}
 \end{equation}
-As in our arena language, we will often call the corollas in the forest for $p$ the $p$-corollas, whose roots are $p$-roots and whose leaves at each root $i$ are the $p[i]$-leaves.
+As in our arena language, we will call the corollas in the forest for $p$ the $p$-corollas, whose roots are $p$-roots and whose leaves at each root $i$ are the $p[i]$-leaves.
 Since each corolla can be identified with its root, we will often use the same name $i$ for both the $p$-corolla and its $p$-root.
 
 Concretely, we might think of each position as representing a \emph{menu}.
 Associated to every menu is a set of \emph{options} (directions).
 The four menus we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options.
-Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's Information Theory.
-Having one option is also familiar theoretically and in life: ``sorry, ya just gotta go through it.''
+Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's information theory.
+Having one option is also familiar both theoretically and in life: ``sorry, ya just gotta go through it.''
 Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.''
 We refer to the menus and options represented by the arena as a whole as the \emph{scenario}. %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
 
-This decision-making perspective will prove insightful in \cref{sec.poly.func_nat.morph}, when we start to discuss the \emph{morphisms} between two polynomials.
-As a sneak peek, it turns out that a morphism is just a way of \emph{delegating} decisions from one scenario to another.
+This decision-making perspective will prove insightful when we start to discuss the \emph{morphisms} between two polynomials.
+A morphism will model how two different agents, each in their own scenario, may interact.
+If we think of our lives as series of decisions we make, we interact with others by letting our own decisions depend on the decisions of others.
+In some sense, any interaction between two agents is a way of \emph{delegating} decisions from one scenario to another.
 We'll cover this in more detail in \cref{sec.poly.func_nat.morph}.
 
-Now consider the following three trees.
-The first two are infinite, but that's hard to draw, so we've included just the first five levels:
+For now, let's hone in on that ``in series'' part a bit.
+Life is not a single decision---it is a series of decisions, each dependent on the last.
+A game theorist might model such a series with a \emph{decision tree}, like the ones below (the first two are infinite, but that’s hard to draw, so we’ve included just the first five levels):
 \[
 \begin{tikzpicture}[trees]
 \begin{scope}[
@@ -274,25 +277,22 @@ The first two are infinite, but that's hard to draw, so we've included just the 
     			}
   				child {node[dyellow] {$\bullet$}
     				child {}
-    				child {}
     			}
   			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
+    		child {node[blue] {$\bullet$}
+				child {node[dgreen] {$\bullet$}
+          			child {}
+          			child {}
      			}
-    			child  {node[red] {$\bullet$}}
   			}
     	}
-    	child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
     		child {node[dgreen] {$\bullet$}
   				child {node[dgreen] {$\bullet$}
     				child {}
     				child {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
+  				child {node[blue] {$\bullet$}
     				child {}
     			}
   			}
@@ -306,20 +306,13 @@ The first two are infinite, but that's hard to draw, so we've included just the 
     				child {}
     				child {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
+  				child {node[blue] {$\bullet$}
     				child {}
     			}
   			}
     		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
-     			}
-    			child  {node[red] {$\bullet$}}
+				child  {node[red] {$\bullet$}}
   			}
-  		}
-  		child {node[red] {$\bullet$}
   		}
   	}
   ;
@@ -330,7 +323,7 @@ The first two are infinite, but that's hard to draw, so we've included just the 
   level 3/.style={sibling distance=5mm},
   level 4/.style={sibling distance=2.5mm},
   level 5/.style={sibling distance=1.25mm}]
-\node (b) [right=4 of a, dyellow] {$\bullet$}
+\node (b) [right=4 of a, blue] {$\bullet$}
   child {node[dgreen] {$\bullet$}
   	child {node[dgreen] {$\bullet$}
   		child {node[dgreen] {$\bullet$}
@@ -338,147 +331,58 @@ The first two are infinite, but that's hard to draw, so we've included just the 
     			child {}
     			child {}
    			}
- 				child {node[dyellow] {$\bullet$}
-   				child {}
-   				child {}
+ 				child {node[blue] {$\bullet$}
+   				    child {}
    			}
 			}
     		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
+				child {node[dgreen] {$\bullet$}
+          			child {}
+          			child {}
      			}
-    			child  {node[red] {$\bullet$}}
   			}
 		}
-  	child {node[dyellow] {$\bullet$}
+  	child {node[dgreen] {$\bullet$}
+  		child  {node[red] {$\bullet$}}
   		child {node[dgreen] {$\bullet$}
-  			child {node[dgreen] {$\bullet$}
-    			child {}
+  			child {node[blue] {$\bullet$}
     			child {}
    			}
  				child {node[dyellow] {$\bullet$}
    				child {}
-   				child {}
    			}
 			}
-  		child  {node[red] {$\bullet$}}
   	}
 	}
-	child {node[red] {$\bullet$}}	
 ;
 \end{scope}
 \node (c) [red, right=2 of b] {$\bullet$};
 \end{tikzpicture}
 \]
-These are patterned examples---and we'll understand what this pattern is more clearly in \cref{**}---of what we will call \emph{decision streams}.
-% Decision streams form the objects in a category that also includes the following level-3 abbreviations of binary decision streams (the third of which is a level-3 abbreviation of a finite stream):
-% \[
-% \begin{tikzpicture}[trees]
-% \begin{scope}[
-%   level 1/.style={sibling distance=20mm},
-%   level 2/.style={sibling distance=10mm},
-%   level 3/.style={sibling distance=5mm},
-%   level 4/.style={sibling distance=2.5mm}]
-%   \node (a) {$\bullet$}
-%     child {node {$\bullet$}
-%     	child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   			}
-%     		child {node {$\bullet$}
-%   				child 
-%   				child
-%   			}
-%     	}
-%     	child {node {$\bullet$}
-%   			}
-%     }
-%     child {node {$\bullet$}
-%     	child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   				child
-%   				child
-%   			}
-%     		child {node {$\bullet$}
-%   				child
-%   				child
-%   			}
-%   		}
-%   		child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   			}
-%     		child {node {$\bullet$}
-%   			}
-%   		}
-%   	}
-%   ;
-% \end{scope}
-% \begin{scope}[
-%   level 1/.style={sibling distance=13mm},
-%   level 2/.style={sibling distance=10mm},
-%   level 3/.style={sibling distance=5mm},
-%   level 4/.style={sibling distance=2.5mm}]
-%   \node (b) [right=4 of a] {$\bullet$}
-%     child {node {$\bullet$}
-%     }
-%     child {node {$\bullet$}
-%     	child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   			}
-%     		child {node {$\bullet$}
-%   				child
-%   				child
-%   			}
-%   		}
-%   		child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   				child
-%   				child
-%   			}
-%     		child {node {$\bullet$}
-%   				child
-%   				child
-%   			}
-%   		}
-%   	}
-%   ;
-% \end{scope}
-% \begin{scope}[
-%   level 1/.style={sibling distance=13mm},
-%   level 2/.style={sibling distance=8mm},
-%   level 3/.style={sibling distance=5mm},
-%   level 4/.style={sibling distance=2.5mm}]
-%   \node (c) [right=4 of b] {$\bullet$}
-%     child {node {$\bullet$}
-%     	child {node {$\bullet$}
-%   		}
-%   		child {node {$\bullet$}
-%     		child {node {$\bullet$}
-%   			}
-%     		child {node {$\bullet$}
-%   			}
-%   		}
-%     }
-%     child {node {$\bullet$}
-%   	}
-%   ;
-% \end{scope}
-% \end{tikzpicture}
-% \]
-Decision streams form the objects of a category with very nice properties (it's a topos), which we call $\sys(\yon^\2+\1)$. The idea is that these trees are built up of smaller corollas, each of which has either two options, corresponding to $\yon^\2$, or no options, corresponding to $\1\iso\yon^\0$.
-We say that each such decision stream has type $\yon^\2+\yon^\0$.
+Each tree models a series of decisions that may be presented to us.
+We start at the bottom---the root---and climb up the tree, making a choice of which arrow to follow at each step.
+Sometimes we are presented with two options; sometimes just one; and sometimes no option at all.
+Eventually, our choices trace out a path up the tree.
+
+But squint at these trees, and you'll see that they are made up of something quite familiar---every tree is built out of several smaller corollas, of exactly the form we drew in \eqref{eqn.forest2110}!
+It makes sense now why we interpret our polynomials both as roots and leaves of corollas and as menus and options of decisions---when we arrange these corollas and decisions in series, we get a decision tree.
+We call each tree that we can build out of the corollas of $\yon^\2+\2\yon+\1$, like the three trees drawn above, a \emph{$(\yon^\2+\2\yon+\1)$-tree}.
+Similarly, we could define and construct a $p$-tree for any polynomial $p$.
+
+What's amazing is that this is not just an arbitrarily imposed reading of our polynomials---it is directly from the categorical structure of $\poly$ that such trees arise.
+But we will have to wait before we have all the machinery we need to discuss what's happening here---we'll revisit these trees in \cref{sec.comon.cofree.cons}.
 
 \begin{exercise}\label{exc.decision_streams}
 \begin{enumerate}
-	\item Draw the first three levels of a decision stream of type $\yon^\2+\yon^\0$.
-	\item Draw the first four levels of a decision stream of type $\yon$.
-	\item Draw a the first three levels of a decision stream of type $\nn\yon^\2$ by labeling every node with a natural number.
+	\item Draw the first three levels of a $(\yon^\2+\yon^\0)$-tree.
+	\item Draw the first four levels of a $\yon$-tree.
+	\item Draw a the first three levels of a $\nn\yon^\2$-tree by labeling every node with a natural number.
 	\qedhere
 \end{enumerate}
 
 \begin{solution}
 \begin{enumerate}
-	\item Here are the first three levels of a decision stream of type $\yon^\2+\yon^\0$.
+	\item Here are the first three levels of a $(\yon^\2+\yon^\0)$-tree.
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=20mm},
@@ -502,7 +406,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
   ;
 \end{tikzpicture}
 \]
-	\item Here are the first four levels of a decision stream of type $\yon$.
+	\item Here are the first four levels of a $\yon$-tree.
 \[
 \begin{tikzpicture}[trees]
 	\node (a) {$\bullet$}
@@ -513,7 +417,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
 			}}};
 \end{tikzpicture}
 \]
-	\item Here are the first three levels of a decision stream of type $\nn\yon^\2$ where we indicate the position of each node by labeling it with a natural number.
+	\item Here are the first three levels of a $\nn\yon^\2$-tree, where we indicate the position of each node by labeling it with a natural number.
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=20mm},
@@ -548,60 +452,7 @@ We say that each such decision stream has type $\yon^\2+\yon^\0$.
 \end{solution}
 \end{exercise}
 
-But decisions aren't just about choosing; they're also about trying to accomplish something. The logic of accomplishment is exceptionally rich in this setting. We will concentrate on what we call a \emph{win condition}, which is an induced subgraph of the decision stream with the property that if $n$ is a winning node, then any child of $n$ is also a winning node. 
-\[\begin{tikzpicture}[trees,
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (root) {$\bullet$}
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child {node {$\bullet$}
-  			}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-    	}
-    	child {node {$\bullet$}
-  			}
-    }
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-  		}
-  		child {node {$\bullet$}
-    		child {node {$\bullet$}
-  				child
-  				child
-  			}
-    		child {node {$\bullet$}
-  			}
-  		}
-  	}
-  ;
- \begin{scope}[every node/.style={circle, inner sep=3pt, blue, draw}]
-  \node at (root-1-2)     {};
-  \node at (root-2-1-1-1) {};
-  \node at (root-2-1-1-2) {};
-  \node at (root-2-1-2-1) {};
-	\node at (root-2-2) 		{};
-  \node at (root-2-2-1) 	{};
-  \node at (root-2-2-2) 	{};
-  \node at (root-2-2-1-1) {};
-  \node at (root-2-2-1-2) {};
- \end{scope}
-\end{tikzpicture}
-\]
-More formally, these are called \emph{sieves}. They form the elements of a logical system called a Heyting algebra: you can take any two sieves and form the intersection or union (which correspond to AND and OR), or even things like implication, negation, and existential and universal quantification. This will give us a calculus of win-conditions for any type $p$ decision stream.
+
 
 %-------- Section --------%
 \section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
@@ -2064,14 +1915,6 @@ We can see that our characterization of a polynomial morphism can be written ent
 When we wish to emphasize the arena perspective, we will call the data of $(f_\1, f^\sharp)$ an \emph{arena morphism}, a \emph{dependent lens}, or simply a \emph{lens} between $p$ and $q$ (see \cref{subsec.poly.func_nat.morph.bimorphic_lens}); but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
 In fact, in future chapters we will primarily refer to the morphisms of $\poly$ as \emph{lenses}.
 If you're familiar with lens terminology from a functional programming context, we'll see in \cref{subsec.poly.func_nat.morph.bimorphic_lens} how our notion of dependent lenses is related.
-
-Here is how you would implement such a morphism in Agda:
-\begin{agda}
-record Lens (p : Arena) (q : Arena) : Set where
-   field
-     onPos : (pos p) -> (pos q)
-     onDir : (i : pos p) -> dir q (onPos i) -> dir p i
-\end{agda}
 
 This forward on-positions/backward on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
 Recall from \cref{sec.poly.intro.dec} that we may view an arena as a scenario, each position of an arena as a menu, and the directions at that position as the options available on that menu.
