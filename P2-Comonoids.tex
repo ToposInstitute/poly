@@ -7397,22 +7397,24 @@ The equivalences don't stop there, however.
 
 \subsubsection{As discrete opfibrations}
 
-The concept of a $\cat{C}$-coalgebra is in turn equivalent to another categorical construction on $\cat{C}$, which we introduce here.
+The concept of a $\cat{C}$-coalgebra is in turn equivalent to a better known categorical construction on $\cat{C}$, which we introduce here.
 
 \begin{definition}[Discrete opfibration]\label{def.dopf}
-Let $\cat{C}$ be a category. A pair $(\cat{S},\pi)$, where $\cat{S}$ is a category and $\pi\colon\cat{S}\to\cat{C}$ is a functor, is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition.
+Let $\cat{C}$ be a category.
+A functor $\pi\colon\cat{S}\to\cat{C}$ from some other category $\cat{S}$ to $\cat{C}$ is called a \emph{discrete opfibration over $\cat{C}$} if it satisfies the following condition:
 \begin{itemize}
-	\item for every object $s\in\cat{S}$, object $c'\in\cat{C}$, and morphism $f\colon \pi(s)\to c'$ there exists a unique object $s'\in\cat{S}$ and morphism $\bar{f}\colon s\to s'$ such that $\pi(s')=c'$ and $\pi(\bar{f})=f$.
+	\item given an object $s\in\cat{S}$, for every morphism $f\colon\pi(s)\to\_$ in $\cat{C}$, there exists a unique morphism $\ol{f}\colon s\to\_$ such that $\pi(\ol{f})=f$ (in particular, $\pi$ must send $\cod\ol{f}$ to $\cod f$).
 \end{itemize}
 \[
 \begin{tikzcd}
   s\ar[r, dashed, "\bar{f}"]\ar[d, |->, "\pi"']&
-  s'\ar[d, |->, "\pi"]\\
+  \_\ar[d, |->, "\pi"]\\
   \pi(s)\ar[r, "f"']&
-  c'
+  \_\vphantom{()}
 \end{tikzcd}
 \]
-A \emph{morphism} $(\cat{S},\pi)\to(\cat{S}',\pi')$ between discrete opfibrations over $\cat{C}$ is a functor $F\colon\cat{S}\to\cat{S}'$ making the following triangle commute:
+
+A \emph{morphism} of discrete opfibrations $(\cat{S},\pi)\to(\cat{S}',\pi')$ over $\cat{C}$ is a functor $F\colon\cat{S}\to\cat{S}'$ making the following triangle commute:
 \begin{equation}\label{eqn.dopf_triangle}
 \begin{tikzcd}[column sep=small]
 	\cat{S}\ar[dr, "\pi"']\ar[rr, "F"]&&
@@ -7420,15 +7422,15 @@ A \emph{morphism} $(\cat{S},\pi)\to(\cat{S}',\pi')$ between discrete opfibration
 	\cat{C}
 \end{tikzcd}
 \end{equation}
-We denote the category of discrete opfibrations into $\cat{C}$ by $\Cat{dopf}(\cat{C})$.
+We denote the category of discrete opfibrations over $\cat{C}$ by $\Cat{dopf}(\cat{C})$.
 \end{definition}
 
 \begin{exercise}
-Show that if $F\colon \cat{S}\to\cat{S}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, where both $\pi$ and $\pi'$ are discrete obfibrations, then $F$ is also a discrete opfibration.
+Show that if $F\colon \cat{S}\to\cat{S}'$ is a functor making the triangle \eqref{eqn.dopf_triangle} commute, where both $\pi$ and $\pi'$ are discrete opfibrations, then $F$ is also a discrete opfibration.
 \begin{solution}
-In general, a functor $F\colon\cat{C}\to\cat{D}$ is a discrete opfibration iff, for every object $c\in\cat{C}$, the induced map $F[c]\colon\cat{C}[c]\to\cat{D}[Fc]$ is a bijection. 
+In general, a functor $F\colon\cat{C}\to\cat{D}$ is a discrete opfibration iff, for every object $c\in\cat{C}$, the induced map $F[c]\colon\cat{C}[c]\to\cat{D}[Fc]$ is a bijection.
 
-In our case, if $\pi$ and $\pi'$ are discrete obfibrations then for any $s\in\cat{S}$ we have that both the second map and the composite in $\cat{S}[s]\To{F[s]}\cat{S}'[Fs]\To{\pi'[Fs]}\cat{C}[\pi s]$ are bijections, so the first map is too.
+In our case, if $\pi$ and $\pi'$ are discrete opfibrations then for any $s\in\cat{S}$ we have that both the second map and the composite in $\cat{S}[s]\To{F[s]}\cat{S}'[Fs]\To{\pi'[Fs]}\cat{C}[\pi s]$ are bijections, so the first map is too.
 \end{solution}
 \end{exercise}
 
@@ -7436,9 +7438,9 @@ In our case, if $\pi$ and $\pi'$ are discrete obfibrations then for any $s\in\ca
 Suppose $\pi\colon\cat{S}\to\cat{C}$ is a discrete opfibration and $i\in\cat{S}
 $ is an object. With notation as in \cref{def.dopf}, show the following:
 \begin{enumerate}
-	\item Show that the lift $\bar{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
-	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\bar{f}\then\bar{g}=\bar{f\then g}$.
-	\item Show that $\pi$ is a cofunctor.
+	\item Show that the lift $\ol{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
+	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\ol{f}\then\ol{g}=\ol{f\then g}$.
+	\item Show how $\pi$ could instead be interpreted as a cofunctor. (We will characterize exactly which cofunctors can arise in this way in \cref{**}.)
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -7450,8 +7452,14 @@ $ is an object. With notation as in \cref{def.dopf}, show the following:
 \end{solution}
 \end{exercise}
 
+As it turns out, not only do $\cat{C}$-coalgebras carry the same data as discrete opfibrations over $\cat{C}$, they in fact comprise isomorphic categories.
 
-
+\begin{proposition}
+The category of $\cat{C}$-coalgebras is isomorphic to the category $\Cat{dopf}(\cat{C})$ of discrete opfibrations over $\cat{C}$.
+\end{proposition}
+\begin{proof}
+**
+\end{proof}
 
 
 \subsubsection{As copresheaves}
@@ -7497,7 +7505,7 @@ In fact, the assignment of a discrete opfibration to every copresheaf given abov
 \begin{exercise}\label{exc.elts_functor}
 Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
 \begin{enumerate}
-	\item Show that $\alpha$ induces a functor $(\elts^\cat{C}I)\to(\elts^\cat{C}J)$.
+	\item Show that $\alpha$ induces a functor $\elts^\cat{C}I\to\elts^\cat{C}J$.
 	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
 	\item Show that this construction is functorial. We denote this functor by
 \end{enumerate}
