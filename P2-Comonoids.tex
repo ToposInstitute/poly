@@ -5391,8 +5391,8 @@ Keeping our label $\idy$ for the arrow in $\epsilon$, the right erasure law $\de
         \begin{tikzpicture}[polybox, mapstos]
           	\node[poly, dom, "$\car{c}$" left] (c) {\at$i$};
           	\node[poly, cod, right=of c, "$\car{c}$" right] (c') {\at$i$};
-          	\draw[double] (c_pos) -- (c'_pos);
-          	\draw[double] (c'_dir) -- (c_dir);
+          	\draw[double,-] (c_pos) -- (c'_pos);
+          	\draw[double,-] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
 	};
 	\node at ($(1.east)!.5!(2.west)$) (3) {=};
@@ -5455,8 +5455,8 @@ As with the right erasure law, we can partially fill in the polyboxes for the le
         \begin{tikzpicture}[polybox, mapstos]
           	\node[poly, dom, "$\car{c}$" left] (c) {\at$i$};
           	\node[poly, cod, right=of c, "$\car{c}$" right] (c') {\at$i$};
-          	\draw[double] (c_pos) -- (c'_pos);
-          	\draw[double] (c'_dir) -- (c_dir);
+          	\draw[double,-] (c_pos) -- (c'_pos);
+          	\draw[double,-] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
 	};
 	\node at ($(1.east)!.5!(2.west)$) (3) {=};
@@ -5487,8 +5487,8 @@ In the picture below, the left equality depicts the left erasure law (to conserv
         \begin{tikzpicture}[polybox, mapstos]
           	\node[poly, dom, "$\car{c}$" left] (c) {$f$\at$i$};
           	\node[poly, cod, right=of c, "$\car{c}$" right] (c') {$f$\at$i$};
-          	\draw[double] (c_pos) -- (c'_pos);
-          	\draw[double] (c'_dir) -- (c_dir);
+          	\draw[double,-] (c_pos) -- (c'_pos);
+          	\draw[double,-] (c'_dir) -- (c_dir);
 	    \end{tikzpicture}
 	};
 	\node[right=.25 of 2] (3) {
@@ -9851,9 +9851,9 @@ By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\p
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
+    \item The carrier of $\cofree{\yon}$ is $\car{t}_\yon\coloneqq\yon^\nn$.
+    \item The map $\yon\to\car{t}\yon$ is the unique map.
+    \item Given a $p$-tree $T$ and a $q$-tree $U$, we get a $(p\otimes q)$-tree by having its root be labeled by the pair of root labels for $T$ and $U$, and for each child there---the set of which is the set of pairs consisting of a child in $T$ and a child in $U$---recursively using the above formula to combine these two children.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9956,7 +9956,141 @@ Here the top and bottom morphisms are the right coactions of $m$ and $n$.
 \qedhere
 \end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+	\item Here is the first equation in terms of polyboxes:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom, "$m$" left] (l) {$x$\at$i\vphantom{i}$};
+  \node[poly, cod, "$m$" right, right=of l] (r) {$x$\at$i$};
+  \draw[double,-] (l_pos) -- (r_pos);
+  \draw[double,-] (r_dir) -- (l_dir);
+%
+	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$x'$\at$i$};
+	\node[poly, right=1.5cm of p.south, yshift=-1.25ex] (r') {$\id_{|i|}$\at$|i|$};
+	\node[poly, cod, above=of r', "$m$" right] (q) {$x$\at$i.\id_{|i|}$};
+  	\draw (p_pos) to[first] (r'_pos);
+  	\draw (r'_dir) to[climb] node[left] {$\lambda$} (q_pos);
+		\draw (q_dir) to[last] (p_dir);
+		\draw (r'_pos) to[climb'] node[right] {$\epsilon_\car{c}$} (r'_dir);
+	\node at ($(r)!.5!(p)$) {$=$};
+\end{tikzpicture}
+\]
+The equation says that for any $i\in m(1)$ we have $i=i.\id_{|i|}\coloneqq\lambda(i,\id_{|i|})$ and that for any $x\in m[i]$ we have $x=x'\coloneqq\lambda^\sharp_i(\id_{|i|},x)$.
+
+Here is the second equation in terms of polyboxes:
+\[
+\begin{tikzpicture}
+    \node (p1) {
+        \begin{tikzpicture}[polybox, mapstos]
+            \node[poly, dom, "$m$" left] (m') {$\lambda^\sharp_i((f\then f'),x)$\at$i$};
+            \node[poly, right=2.3 of m'.south, yshift=-1ex, "$\car{c}$" below] (mm') {$f\then f'$\at$|i|$};
+            \node[poly, above=of mm', "$m$" above] (C') {$x$\at$i.(f\then f')$};
+            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$\car{c}$" right] (D') {$f$\at$|i|$};
+            \node[poly, cod, above=of D', "$\car{c}$" right] (mmm') {$f'$\at$\cod f$};
+            \node[poly, cod, above=of mmm', "$m$" right] (CC') {$x$\at$i.(f\then f')$};
+            %
+            \draw (m'_pos) to[first] (mm'_pos);
+            \draw (mm'_dir) to[climb] node[left] {$\lambda$} (C'_pos);
+            \draw (C'_dir) to[last]  (m'_dir);
+            \draw[double,-] (mm'_pos) to[first] (D'_pos);
+            \draw (D'_dir) to[climb] node[left] {$\delta$} (mmm'_pos);
+            \draw (mmm'_dir) to[last] (mm'_dir);
+            \draw[double,-] (C'_pos) to[first] (CC'_pos);
+            \draw[double,-] (CC'_dir) to[last] (C'_dir);
+        \end{tikzpicture}
+	};
+%
+	\node (p2) [below=1 of p1] {
+	    \begin{tikzpicture}[polybox, tos]
+            \node[poly, dom, "$m$" left] (m) {$\lambda^\sharp_i(f,\lambda^\sharp_{i.f}(f',x))$\at$i$};
+            \node[poly, right=3 of m.south, yshift=-1ex, "$\car{c}$" below] (D) {$f$\at$|i|$};
+            \node[poly, above=of D, "$m$" above] (mm) {$\lambda^\sharp_{i.f}(f',x)$\at$i.f$};
+            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$\car{c}$" right] (DD) {$f$\at$|i|$};
+            \node[poly, cod, above=of DD, "$\car{c}$" right] (mmm) {$f'$\at$|i.f|$};
+            \node[poly, cod, above=of mmm, "$m$" right] (C) {$x$\at$(i.f).f'$};
+            %
+            \draw (m_pos) to[first] (D_pos);
+            \draw (D_dir) to[climb] node[left] {$\lambda$} (mm_pos);
+            \draw (mm_dir) to[last] (m_dir);
+            \draw[double,-] (D_pos) to[first] (DD_pos);
+            \draw[double,-] (DD_dir) to[last] (D_dir);
+            \draw (mm_pos) to[first] (mmm_pos);
+            \draw (mmm_dir) to[climb] node[left] {$\lambda$} (C_pos);
+            \draw (C_dir) to[last] (mm_dir);
+        \end{tikzpicture}
+    };	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+These say that $\cod(f)=|i.f|$, that $i.(f\then f')=(i.f).f'$, and that $\lambda^\sharp_i((f\then f'),x)=\lambda^\sharp_i(f,\lambda^\sharp_{i.f}(f',x))$.
+	\item
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom, "$m$" left] (l) {$f$\at$i\vphantom{i}$};
+  \node[poly, cod, "$m$" right, right=of l] (r) {$f$\at$i$};
+  \draw[double,-] (l_pos) -- (r_pos);
+  \draw[double,-] (r_dir) -- (l_dir);
+%
+	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$\rho^\sharp_i(f,\id_{|i'.f|})$\at$i$};
+	\node[poly, cod, right=2.5cm of p.south, yshift=-1.25ex, "$m$" right] (r') {$f$\at$i'$};
+	\node[poly, above=of r'] (q) {$\id_{|i'.f|}$\at$|i'.f|$};
+  	\draw (p_pos) to[first] (r'_pos);
+  	\draw (r'_dir) to[climb] node[left] {$\rho$} (q_pos);
+		\draw (q_dir) to[last] (p_dir);
+		\draw (q_pos) to[climb'] node[right] {$\epsilon_\car{d}$} (q_dir);
+	\node at ($(r.west)!.5!(p.east)$) {$=$};
+\end{tikzpicture}
+\]
+The equation says that for any $i\in m(1)$ we have $i=i'\coloneqq\rho_1(i)$ and that for any $f\in m[i]$ we have $f=\rho^\sharp_i(f,\id_{|i'.f|})$.
+
+
+Here is the second equation in terms of polyboxes:
+\[
+\begin{tikzpicture}
+    \node (p1) {
+        \begin{tikzpicture}[polybox, mapstos]
+            \node[poly, dom, "$m$" left] (m') {$\rho^\sharp_i(\rho_i^\sharp(x,g),g')$\at$i$};
+            \node[poly, right=2.7 of m'.south, yshift=-1ex, "$m$" below] (mm') {$\rho^\sharp_i(x,g)$\at$i$};
+            \node[poly, above=of mm', "$\car{d}$" above] (C') {$g'$\at$|i.\rho^\sharp_i(x,g)|$};
+            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$m$" right] (D') {$x$\at$i$};
+            \node[poly, cod, above=of D', "$\car{d}$" right] (mmm') {$g$\at$|i.x|$};
+            \node[poly, cod, above=of mmm', "$\car{d}$" right] (CC') {$g'$\at$|i.\rho^\sharp_i(x,g)|$};
+            %
+            \draw[double,-] (m'_pos) to[first] (mm'_pos);
+            \draw (mm'_dir) to[climb] node[left] {$\rho$}  (C'_pos);
+            \draw (C'_dir) to[last]  (m'_dir);
+            \draw[double,-] (mm'_pos) to[first] (D'_pos);
+            \draw (D'_dir) to[climb] node[left] {$\rho$} (mmm'_pos);
+            \draw (mmm'_dir) to[last] (mm'_dir);
+            \draw[double,-] (C'_pos) to[first] (CC'_pos);
+            \draw[double,-] (CC'_dir) to[last] (C'_dir);
+        \end{tikzpicture}
+	};
+%
+	\node (p2) [below=1 of p1] {
+	    \begin{tikzpicture}[polybox, tos]
+            \node[poly, dom, "$m$" left] (m) {$\rho^\sharp_i(x,(g\then g'))$\at$i$};
+            \node[poly, right=2.5 of m.south, yshift=-1ex, "$m$" below] (D) {$x$\at$i$};
+            \node[poly, above=of D, "$\car{d}$" above] (mm) {$g\then g'$\at$|i.x|$};
+            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$m$" right] (DD) {$x$\at$i$};
+            \node[poly, cod, above=of DD, "$\car{d}$" right] (mmm) {$g$\at$|i.x|$};
+            \node[poly, cod, above=of mmm, "$\car{d}$" right] (C) {$g'$\at$\cod g$};
+            %
+            \draw[double,-] (m_pos) to[first] (D_pos);
+            \draw (D_dir) to[climb]  node[left] {$\rho$} (mm_pos);
+            \draw (mm_dir) to[last] (m_dir);
+            \draw[double,-] (D_pos) to[first] (DD_pos);
+            \draw[double,-] (DD_dir) to[last] (D_dir);
+            \draw[double,-] (mm_pos) to[first] (mmm_pos);
+            \draw (mmm_dir) to[climb]  node[left] {$\delta$} (C_pos);
+            \draw (C_dir) to[last] (mm_dir);
+        \end{tikzpicture}
+    };	
+	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
+\end{tikzpicture}
+\]
+These equations say that $\cod(g)=|i.\rho^\sharp_i(x,g)$ and that $\rho_i^\sharp(\rho_i^\sharp(x,g),g')=\rho^\sharp_i(x,(g\then g'))$.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
@@ -10095,9 +10229,9 @@ We draw the commutativity of \eqref{eqn.bimod_coherence} using polyboxes.
 		\draw (m_pos) to[first] (D_pos);
 		\draw (D_dir) to[climb] (mm_pos);
 		\draw (mm_dir) to[last] (m_dir);
-		\draw[double] (D_pos) to[first] (DD_pos);
-		\draw[double] (DD_dir) to[last] (D_dir);
-		\draw[double] (mm_pos) to[first] (mmm_pos);
+		\draw[double,-] (D_pos) to[first] (DD_pos);
+		\draw[double,-] (DD_dir) to[last] (D_dir);
+		\draw[double,-] (mm_pos) to[first] (mmm_pos);
 		\draw (mmm_dir) to[climb] (C_pos);
 		\draw (C_dir) to[last] (mm_dir);
 	\end{tikzpicture}
@@ -10112,14 +10246,14 @@ We draw the commutativity of \eqref{eqn.bimod_coherence} using polyboxes.
   	\node[poly, cod, above=of D', "$m$" right] (mmm') {};
   	\node[poly, cod, above=of mmm, "$\car{d}$" right] (CC') {};
 %
-		\draw[double] (m'_pos) to[first] (mm'_pos);
+		\draw[double,-] (m'_pos) to[first] (mm'_pos);
 		\draw (mm'_dir) to[climb] (C'_pos);
 		\draw (C'_dir) to[last] (m'_dir);
 		\draw (mm'_pos) to[first] (D'_pos);
 		\draw (D'_dir) to[climb] (mmm'_pos);
 		\draw (mmm'_dir) to[last] (mm'_dir);
-		\draw[double] (C'_pos) to[first] (CC'_pos);
-		\draw[double] (CC'_dir) to[last] (C'_dir);
+		\draw[double,-] (C'_pos) to[first] (CC'_pos);
+		\draw[double,-] (CC'_dir) to[last] (C'_dir);
 	\end{tikzpicture}
 	};	
 	\node at ($(p1.east)!.5!(p2.west)$) {$=$};
@@ -10214,7 +10348,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
   	\node[poly, dom, "$\car{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
   	\node[poly, cod, right=of c, "$\car{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
   	\draw (c_pos) -- node[below] {$\alpha_1$} (c'_pos);
-  	\draw[double] (c'_dir) -- (c_dir);
+  	\draw[double,-] (c'_dir) -- (c_dir);
 		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\car{c}$} (c'_dir);
 	\end{tikzpicture}
 	\]
@@ -10224,7 +10358,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
   	\node[poly, dom, "$\car{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
   	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\car{s}$" right] (p) {$f$\nodepart{two}$s$};
   	\node[poly, cod, above=of p, "$\car{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
-  	\draw[double] (yX_pos) to[first] (p_pos);
+  	\draw[double,-] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
   \end{tikzpicture}	
