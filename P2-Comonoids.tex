@@ -7472,7 +7472,7 @@ We begin by giving a standard construction on any copresheaf.
 \begin{definition}[Category of elements]\label{def.cat_elements}
 Given a copresheaf on $\cat{C}$, i.e.\ a functor $I\colon\cat{C}\to\smset$, its \emph{category of elements} $\elts^\cat{C}I$ is defined to have objects
 \[
-    \Ob\elts^\cat{C}I\coloneqq\{(c,x)\mid c\in\Ob\cat{C}, x\in Ic\}
+    \Ob\elts^\cat{C}I\coloneqq\{(c,x)\mid c\in\cat{C}, x\in Ic\}
 \]
 and a morphism $f\colon(c,x)\to(c',x')$ for every morphism $f\colon c\to c'$ from $\cat{C}$ satisfying
 \[
@@ -7486,7 +7486,7 @@ Each morphism $f\colon c\to\_$ in $\cat{C}$ then becomes as many morphisms in $\
 
 The next exercise shows how this construction turns every copresheaf into a discrete opfibration.
 
-\begin{exercise}
+\begin{exercise} \label{exc.copre_to_dopf}
 Let $I\colon\cat{C}\to\smset$ be a functor.
 \begin{enumerate}
     \item Show that there is a functor $\pi\colon\elts^\cat{C}I\to\cat{C}$ sending objects $(c,x)\mapsto c$ and morphisms $f\colon(c,x)\to(c',x')$ to $f\colon c\to c'$.
@@ -7506,11 +7506,12 @@ In fact, the assignment of a discrete opfibration to every copresheaf given abov
 Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ is a natural transformation. 
 \begin{enumerate}
 	\item Show that $\alpha$ induces a functor $\elts^\cat{C}I\to\elts^\cat{C}J$.
-	\item Show that it is a morphism of discrete opfibrations in the sense of \cref{def.dopf}.
+	\item Consider the discrete opfibrations $\elts^\cat{C}I\to\cat{C}$ and $\elts^\cat{C}J\to\cat{C}$ guaranteed by \cref{exc.copre_to_dopf}.
+	Show that $\alpha$ is a morphism of these discrete opfibrations, in the sense of \cref{def.dopf}.
 	\item Show that this construction is functorial. We denote this functor by
 \end{enumerate}
 	\[
-	\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})
+	\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C}).
 \qedhere	
 	\]
 \begin{solution}
@@ -7522,26 +7523,20 @@ Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ 
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{exc.elts_free_grph}
-Let $G$ be a graph, and let $\cat{G}$ be the free category on it. Show that for any functor $S\colon\cat{G}\to\smset$, the category $\elts^\cat{G} S$ of elements is again free on a graph.
-\begin{solution}
-**
-\end{solution}
-\end{exercise}
-
 \begin{proposition}\label{prop.tfae_dopf}
-Let $\cat{C}$ be a category. The following are equivalent:
-\begin{enumerate}
-	\item the category $\smset^{\cat{C}}$ of functors $\cat{C}\to\smset$.
-	\item the category of discrete opfibrations over $\cat{C}$.
-\end{enumerate}
+The category $\smset^{\cat{C}}$ of copresheaves on $\cat{C}$ is equivalent to the category of discrete opfibrations over $\cat{C}$.
 \end{proposition}
 \begin{proof}
-By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $(\partial\pi)\colon\cat{C}\to\smset$ on $c\in\Ob(\cat{C})$ and $f\colon c\to c'$ by 
-\begin{align*}
-	(\partial\pi)(c)&\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}\\
-	(\partial\pi)(f)(s)&\coloneqq\bar{f}(s).
-\end{align*}
+By \cref{exc.elts_functor} we have a functor $\elts^\cat{C}\colon\smset^{\cat{C}}\to\Cat{dopf}(\cat{C})$. There is a functor going back: given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define a functor $\partial\pi\colon\cat{C}\to\smset$ on objects by sending each $c\in\cat{C}$ to the set of objects in $\cat{S}$ that $\pi$ maps to $c$; that is,
+\[
+    (\partial\pi)(c)\coloneqq\{s\in\cat{S}\mid\pi(s)=c\}.
+\]
+Then on morphisms, for each $f\colon c\to\_$ in $\cat{C}$ and $s\in(\partial\pi)(c)$ we have $\pi(s)=c$, so by \cref{def.dopf} there exists a unique morphism $\ol{f}\colon s\to\_$ for which $\pi(\ol{f})=f$.
+As $\pi(\cod\ol{f})=\cod f$, we have $\cod\ol{f}\in(\partial\pi)(\cod f)$, so we can define
+\[
+    (\partial\pi)(f)(s)\coloneqq\cod\ol{f}.
+\]
+
 On objects, the roundtrip $\smset^{\cat{C}}\to\smset^{\cat{C}}$ sends $I\colon\cat{C}\to\smset$ to the functor
 \begin{align*}
 	c&
@@ -7549,6 +7544,7 @@ On objects, the roundtrip $\smset^{\cat{C}}\to\smset^{\cat{C}}$ sends $I\colon\c
 	=\{(c,x)\mid x\in I(c)\}&=I(c).
 \end{align*}
 The roundtrip $\Cat{dopf}(\cat{C})\to\Cat{dopf}(\cat{C})$ sends $\pi\colon\cat{S}\to\cat{C}$ to the discrete opfibration whose object set is $\{(c,s)\in\Ob(\cat{C})\times\Ob(\cat{S})\mid\pi(s)=c\}$ and this set is clearly in bijection with $\Ob(\cat{S})$. Proceeding similarly, one defines an isomorphism of categories $\cat{S}\cong\elts^\cat{C}\partial\pi$.
+**
 \end{proof}
 
 % ** ??
