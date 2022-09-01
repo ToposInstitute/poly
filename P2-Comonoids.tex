@@ -7997,7 +7997,7 @@ So $\tr_p$ with the functions $\pi^{(n)}$ forms a cone over the the bottom row--
 Intuitively, this is because a $p$-tree carries exactly the information that a compatible sequence of $p\tripow{n}$-pretrees does: no more, no less.
 But we can prove it formally as well.
 
-\begin{exercise}
+\begin{exercise}\label{exc.tree_as_limit}
 Prove that $\tr_p$ with the functions $\pi^{(n)}\colon\tr_p\to p\tripow{n}(\1)$ is the limit of the diagram
 \begin{equation} \label{eqn.cofree_pos_diagram}
 \begin{tikzcd}
@@ -8011,7 +8011,22 @@ Prove that $\tr_p$ with the functions $\pi^{(n)}\colon\tr_p\to p\tripow{n}(\1)$ 
 \end{equation}
 You may use the fact that \eqref{eqn.cofree_pos_with_lim} commutes.
 \begin{solution}
-We defined $\tr_p$ in \cref{def.poly_tree}
+We defined $\tr_p$ in \cref{def.poly_tree} as a rooted tree $T$ where every vertex $v$ is labeled with an element of $p(1)$, together with a choice of bijection between the set of $v$'s children and the set $p[i]$. We need to translate between that description and the description as the set-theoretic limit
+\[
+1\from p(1)\from p(p(1))\from\cdots
+\]
+An element of this set consists of an element of $1$, which is determined, an element $i\in p(1)$, an element $(i_1,i_2)\in\sum_{i\in p(1)}\prod_{d\in p[i]}p(1)$ that ``agrees'' with $i$, an element of $\sum_{i_1\in p(1)}\prod_{d_1\in p[i_1]}\sum_{i_2\in p(1)}\prod_{d_2\in p[i_2]}p(1)$ that agrees, etc. But all this agreement is easy to simplify: we need elements
+\begin{align*}
+	 i_1&\in p(1),\\
+	 i_2&\in\prod_{d_1\in p[i_1]}p(1),\\
+	 i_3&\in \prod_{d_1\in p[i_1]}\prod_{d_2\in p[i_2 d_1]}p(1),\\
+	 i_4&\in\prod_{d_1\in p[i_1]}\prod_{d_2\in p[i_2 d_1]}\prod_{d_3\in p[i_3 d_1 d_2]}p(1)\\
+	 &\vdots
+\end{align*}
+
+To go from the former description to the latter, take such a rooted tree $T$ and let $i_1$ be the label on the root vertex. Since by assumption there is a bijection between the set children of that vertex and the set $p[i_1]$, take $i_2\colon p[i_1]\to p(1)$ to assign to each $d_1\in p[i_1]$ the label on the associated child vertex. Repeat this indefinitely. 
+
+To go from the latter description to the former, simply invert the description in the previous paragraph.
 \end{solution}
 \end{exercise}
 
@@ -8026,10 +8041,19 @@ A \emph{$p$-coalgebra morphism} between $p$-coalgebras $\varphi\colon S\to p(S)$
 \end{tikzcd}
 \]
 commutes.
-Show that $\tr_p$ equipped with some function $\tr_p\to p(\tr_p)$ is the terminal object in the category of $p$-coalgebras and the morphisms between them.
-Then show that the function $\tr_p\to p(\tr_p)$ you chose is a bijection.
+\begin{enumerate}
+	\item Choose what you think is a good function $\tr_p\to p(\tr_p)$.
+	\item Show that $\tr_p$ equipped with your function $\tr_p\to p(\tr_p)$ is the terminal object in the category of $p$-coalgebras and the morphisms between them.
+	\item Show that the function $\tr_p\to p(\tr_p)$ you chose is a bijection.
+\end{enumerate}
 \begin{solution}
-**
+\begin{enumerate}
+	\item To give a function $t\colon\tr_p\to p(\tr_p)$ we need to choose, for each tree $T\in \tr_p$, an element $i\in p(1)$ and a function $T.-\colon p[i]\to\tr_p$. Choose $i$ to be the label on the root of $T$, and choose $T.d$ to be the tree obtained by following the branch labeled $d$ for any $d\in p[i]$.
+	\item Given an arbitrary coalgebra $(S,f)$, where $S\in\smset$ and $f\colon S\to p\tri S$, we need to show that there is a unique function $u\colon S\to\tr_p$ that commutes with $f$ and $t$, i.e.\ with $t\circ u=p(f)$. 
+	
+	For each $n$, we have a function $f_n\colon S\to p\tripow{n}\tri S$ by induction: for $n=0$ use the identity function $S\to S$ and given $S\to p\tripow{n}\tri S$ we compose with $p\tripow{n}\tri f$ to get $S\to p\tripow{n}\tri p\tri S$. Let $f_n'\colon S\to p\tripow{n}(1)$ be given by $f_n'\coloneqq f_n\then(p\tripow{n}\tri!$. We know by \cref{exc.tree_as_limit} that $\tr_p$ is the limit of $p\tripow{n}(1)$, so we get a unique map $(f_n')_{n\in\nn}\colon S\to\tr_p$. It commutes with $f$ and $t$ by construction, and the fact that it is constructed using the universal property of limits implies that it is appropriately unique. 
+		\item The function $\tr_p\to p\tri\tr_p$ from the first part is invertible. Indeed, given $i\in p(1)$ and $T'\colon p[i]\to\tr_p$, we construct an element of $\tr_p$ by taking its root to be labeled with $i$, its set of children to be $p[i]$, and for each $d\in p[i]$ taking the remaining tree to be $T'(d)$.
+\end{enumerate}
 \end{solution}
 \end{exercise}
 
@@ -8748,21 +8772,6 @@ We can characterize $\cofree\yon$ in terms of $\yon$-trees as follows.
 Hence $\cofree{\yon}$ is the monoid $(\nn,0,+)$ viewed as a $1$-object category.
 \end{example}
 
-% \begin{exercise}[Category of trees on linear polynomials]
-% Let $B$ be a set, so that $B\yon$ is a linear polynomial.
-% \begin{enumerate}
-% 	\item What is the polynomial $\car{t}_{B\yon}$? 
-% 	\item Characterize the $B\yon$-tree category $\cofree{B\yon}$.
-% \qedhere
-% \end{enumerate}
-% \begin{solution}
-% \begin{enumerate}
-%     \item **
-%     \item **
-% \end{enumerate}
-% \end{solution}
-% \end{exercise}
-
 
 \begin{example}[$B\yon$-trees are $B$-streams]\label{ex.streams_cofree}
 Let $B$ be a set, and consider $p\coloneqq B\yon$.
@@ -8871,18 +8880,18 @@ We characterize $\cofree{\yon+\1}$ as follows.
 \end{exercise}
 
 \begin{exercise}
-Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\1$.
+Let $p\coloneqq \{a,b,c,\ldots,z,\text{\textvisiblespace}\}\yon+\{\bullet\}$.
 \begin{enumerate}
 	\item Describe the objects of the cofree category $\cofree{p}$, and draw one.
-	\item For a given such object, describe the emanating morphisms.
+	\item For a given such object, describe the set of emanating morphisms.
 	\item Describe how to take the codomain of a morphism.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
+    \item An object in $\cofree{p}$ is a stream of letters $a,b,\ldots,z$ and spaces $\text{\textvisiblespace}$, that may go on forever or may end with a gigantic period, ``$\bullet$''. So an example is the infinite stream $aaaaa\cdots$. Another example is $hello\text{\textvisiblespace}world\bullet$.
+    \item The object $aaaaa\cdots$ has $\nn$ as its set of emanating morphisms. The object $hello\text{\textvisiblespace}world\bullet$ has $\{0,\ldots,11\}$ as its set of emanating morphisms.
+    \item The codomain of any morphism out of $aaaaa\cdots$ is again $aaaaa\cdots$. The codomain of any morphism $0\leq i\leq 11$ out of $hello\text{\textvisiblespace}world\bullet$ is the string one obtains by removing the first $i$ letters of $hello\text{\textvisiblespace}world\bullet$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -8900,12 +8909,118 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\{\bul[dgreen]\}\yon+\{\bul[dyell
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
+    \item 
+\[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node {$\bul[red]$}
+		child {node {$\bul[blue]$}
+			child {node {$\bul[dgreen]$}
+				child {node {$\bul[red]$}
+					child
+					child
+				}
+			}
+			child {node {$\bul[dyellow]$}
+			}
+		}
+		child {node {$\bul[dgreen]$}
+			child {node {$\bul[blue]$}
+				child {node {$\bul[dyellow]$}
+				}
+				child {node {$\bul[blue]$}
+					child
+					child
+				}
+			}
+		};
+\end{tikzpicture}
+\]
+    \item The identity morphism at $t$ is the trivial path starting at the root node.
+    \item We indicate a morphism $f$ using thick arrows:
+    \[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node {$\bul[red]$}
+		child[thin] {node {$\bul[blue]$}
+			child {node {$\bul[dgreen]$}
+				child {node {$\bul[red]$}
+					child
+					child
+				}
+			}
+			child {node {$\bul[dyellow]$}
+			}
+		}
+		child[very thick] {node {$\bul[dgreen]$}
+			child {node {$\bul[blue]$}
+				child[thin] {node {$\bul[dyellow]$}
+				}
+				child[thin] {node {$\bul[blue]$}
+					child
+					child
+				}
+			}
+		};
+\end{tikzpicture}
+\]
+    \item The codomain of $f$ is the tree rooted at the target of the path, namely
+   \[
+\begin{tikzpicture}[trees,sibling distance=2.5mm]
+	\node {$\bul[blue]$}
+				child[thin] {node {$\bul[dyellow]$}
+				}
+				child[thin] {node {$\bul[blue]$}
+					child
+					child
+				};
+\end{tikzpicture}
+\]  
+    \item Here's a morphism emanating from the codomain of $f$:
+   \[
+\begin{tikzpicture}[trees,sibling distance=2.5mm]
+	\node {$\bul[blue]$}
+				child[very thick] {node {$\bul[dyellow]$}
+				}
+				child[thin] {node {$\bul[blue]$}
+					child
+					child
+				};
+\end{tikzpicture}
+\]  
+    \item The composite morphism on the original tree is:
+    \[
+\begin{tikzpicture}[trees,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm},
+  level 3/.style={sibling distance=2.5mm}]
+	\node {$\bul[red]$}
+		child[thin] {node {$\bul[blue]$}
+			child {node {$\bul[dgreen]$}
+				child {node {$\bul[red]$}
+					child
+					child
+				}
+			}
+			child {node {$\bul[dyellow]$}
+			}
+		}
+		child[very thick] {node {$\bul[dgreen]$}
+			child {node {$\bul[blue]$}
+				child[very thick] {node {$\bul[dyellow]$}
+				}
+				child[thin] {node {$\bul[blue]$}
+					child
+					child
+				}
+			}
+		};
+\end{tikzpicture}
+\]
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9076,9 +9191,9 @@ With the definitions above, the following diagram commutes:
 \end{tikzcd}
 \]
 \end{proposition}
-\begin{proof}
-**
-\end{proof}
+%\begin{proof}
+%**
+%\end{proof}
 
 Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\cofree{p}$ captures all the information that the lenses $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ encode: the category $\cofree{p}$ is carried by a polynomial $\car{t}_p$ equipped with lenses $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, each of which exposes a part of the category as the $n$-fold interface $p\tripow{n}$.
 All together, $\car{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
@@ -9090,13 +9205,130 @@ But to see all this explicitly, let's consider some examples.
 Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.halt_dsa}, depicted here again for your convenience:
 \[
 \begin{tikzcd}[column sep=small]
-	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
-	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
+	\bul[dgreen]\ar[rr, bend left]\ar[loop left]&&
+	\bul[dyellow]\ar[dl, bend left]\ar[ll, bend left]\\&
 	\bul[red]
 \end{tikzcd}
 \]
-The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each state $s\in S$, we need to associate a tree; which should it be? 
-**
+The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each of the three states $S=\{\bul[dgreen],\bul[dyellow],\bul[red]\}$, we need to associate a tree; they are shown here:
+\[
+\begin{tikzpicture}[trees, scale=1.5,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{tikzpicture}
+\hspace{.5in}
+\begin{tikzpicture}[trees, scale=1.5,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dyellow] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[red] {$\bullet$}
+  	}
+  ;
+\end{tikzpicture}
+\hspace{.5in}
+\begin{tikzpicture}
+	\node[red] {$\bullet$};
+\end{tikzpicture}
+\]
 \end{example}
 
 % ** more examples?
@@ -9145,18 +9377,49 @@ Given a morphism of polynomials $\varphi \colon p \to q$, the cofree functor giv
 An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $b \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (b)$.
 
 \begin{exercise}
-Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
+Let $p \coloneqq \{\bul[dgreen]\}\yon ^\2 + \{\bul[red]\}$ and $q \coloneqq \{\bul[dgreen],\bul[dyellow]\} \yon + \{\bul[red],\bul[black]\}$.
 \begin{enumerate}
     \item Choose a map $\varphi\colon p\to q$, and write it out.
-    \item Choose a tree $T\in\tr_p$ with at least height $2$.
+    \item Choose a tree $T\in\tr_p$ with at least height $3$.
     \item What is $\cofree{\varphi}(T)$?
     \qedhere
 \end{enumerate}
 \begin{solution}
+Recall that $p \coloneqq \{\bul[dgreen]\}\yon ^\2 + \{\bul[red]\}$ and $q \coloneqq \{\bul[dgreen],\bul[dyellow]\} \yon + \{\bul[red],\bul[black]\}$.
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
+    \item Have $\varphi\colon p\to q$ send forward $\bul[dgreen]\mapsto\bul[dgreen]$, with the unique element of $q[\bul[dgreen]]$ sent back to the left branch of $p[\bul[dgreen]]$, and send forward $\bul[red]\mapsto\bul[red]$.
+    \item Here is a sample $T\in\tr_p$.
+  \[
+\begin{tikzpicture}[trees, scale=1.5,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[red] {$\bullet$}
+			}
+			child{node[dgreen] {$\bullet$}
+				child
+				child
+			}
+		}
+    child {node[red] {$\bullet$}
+    }
+  ;
+\end{tikzpicture}
+\]
+    \item Here is $\cofree{\varphi}(T)$:
+  \[
+\begin{tikzpicture}[trees, scale=1.5,
+  level 1/.style={sibling distance=10mm},
+  level 2/.style={sibling distance=5mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[red] {$\bullet$}
+			}
+		}
+  ;
+\end{tikzpicture}
+\]
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9167,12 +9430,14 @@ Let $p \coloneqq \yon ^\2 + \1$ and $q \coloneqq \2 \yon + \2$.
 Let $p$ be a polynomial.
 \begin{enumerate}
     \item Show there is an induced cofunctor $\cofree{p} \to \cofree{p\tripow{n}}$ for all $n\in\nn$.
-    \item Show that when $n\geq1$, the induced cofunctor is an isomorphism. \qedhere
+    \item When $n\geq1$, is the induced cofunctor is an isomorphism? \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item By the adjunction from \cref{thm.cofree}, cofunctors $\cofree{p} \to \cofree{p\tripow{n}}$ are in bijection with polynomial maps $\car{t}_{p}\to p\tripow{n}$, where $\car{t}_{p}=U\cofree{p}$ is the carrier. 
+    
+    From \cref{prop.n_duplication} we have a map $\delta^{(n)}\colon\cofree{p}\to\cofree{p}\tripow{n}$, and we also have the counit of the cofree adjunction which we'll temporarily call $r\colon\cofree{p}\to p$. Then the desired map is $(\delta^{(n)}\then r\tripow{n})\colon\car{t}_{p}\to p\tripow{n}$.
+    \item When $n=1$ the induced cofunctor is an isomorphism, but for $n\geq 2$ it is not. However, we should start by saying that the function on objects $\tr_p\to\tr_{p\tripow{n}}$ is a bijection. It sends a $p$-tree to the $p\tripow{n}$ tree that simply compresses every height-$n$ segment into a single vertex, labeled by that height-$n$ segment. To go back, just decompress the segments. But this is not a bijection on maps, because every rooted path on $\tr_{p\tripow{n}}$ would correspond to a rooted path on $\tr_p$ whose length is a multiple of $n$. When $n=2$ and $p=\yon+1$, some rooted paths in $\tr_p$ have odd lengths. 
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9186,7 +9451,7 @@ For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. T
 \begin{proof}
 For vertices, we let $V_p$ denote the set of $p$-trees,
 \[V_p\coloneqq\tr_p(\1).\]
-For arrows we use the map $\pi\colon\tr_p\to p$ from \cref{**} to define
+For arrows we use the counit map $\pi\colon\tr_p\to p$ from \cref{thm.cofree} to define
 \[
 A_p\coloneqq\sum_{t\in\tr_p(\1)}p[\pi_1(t)]
 \]
@@ -9281,7 +9546,7 @@ Show that there is an isomorphism of categories
 \qedhere
 \]
 \begin{solution}
-**
+A category $S\yon$ with linear carrier is a discrete category on $S$, so we need to show that a cofunctor between the discrete category on $S$ and the discrete category on $T$ is the same thing as a function $S\to T$. But this is clear: a cofunctor $S\yon\to T\yon$ is a function $S\to T$ on objects and a function backwards on morphisms, and the latter is unique because each object in $S\yon$ has a unique outgoing morphism. 
 \end{solution}
 \end{exercise}
 
@@ -9335,11 +9600,11 @@ We will complete the proof of \cref{prop.factor_cofunctor}, using the same notat
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
-    \item **
+    \item Given an object $i\in\car{c'}(1)=\car{c}(1)$, the set of emanating morphisms is $\car{c'}[i]\coloneqq\car{d}[fi]$, and they compose according to the structure of $\car{d}$. Since morphisms in $\car{d}$ compose associatively and unitaly, so do morphisms in $\car{c'}$.
+    \item Given $i\in\car{c}(1)$ and $m\in \car{c'}[i]=\car{d}[fi]$, we have $g(\cod(g^\sharp_i(m)))=\cod(g^\sharp_i(m))=\cod(f^\sharp_i(m))=\cod(m)$ by definition.
+    \item For any $i\in\car{c'}(1)$, the lens $g^\sharp_i$ preserves compositions of morphisms in $\car{c'}[i]=\car{d}[fi]$ because it agrees with $f^\sharp_i$, which preserves compositions. 
+    \item Given $i\in\car{c'}(1)$ and $m\in\car{d}[hi]$, we have $h(\cod(h^\sharp_i(m)))=f(\cod(f^\sharp_i(m)))=m$.
+    \item The map $h^\sharp_i$ was chosen to be the identity for each $i$, so it certainly preserves compositions.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9377,9 +9642,9 @@ The construction of a vertical cofunctor from a bijective-on-objects functor is 
 \end{proof}
 
 \begin{exercise}
-Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\to\cat{C}$ can be identified with categories whose set of objects is $S$.
+Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\cof\cat{C}$ can be identified with categories whose set of objects has been identified with $S$.
 \begin{solution}
-**
+The category corresponding to $S\yon^S$ is the contractible groupoid $K_s$ on $S$. A vertical cofunctor $K_S\cof\cat{C}$ includes a bijection on objects, so we can assume that $\Ob(\cat{C})=S$. But the rest of the cofunctor assigns to each map $s_1\to s_2$ in $\cat{C}$ some choice of morphism $s_1\to s_2$ in $K_S$, and there is exactly one. Thus the cofunctor includes no additional data.
 \end{solution}
 \end{exercise}
 
@@ -9391,9 +9656,10 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \qedhere
 \end{enumerate}
 \begin{solution}
+Let's take the two nonidentity arrows in $\cat{C}$ to be labeled $s,t$ and the unique nonidentity arrow in $\cat{D}$ to be labeled $f$. Then the carrier of $\cat{C}$ is $\car{c}\coloneqq\yon^{\{\id_1,s,t\}}+\yon^{\{\id_2\}}$ and that of $\cat{D}$ is $\car{d}\coloneqq\yon^{\{\id_1,f\}}+\yon^{\{\id_2\}}$.
 \begin{enumerate}
-    \item **
-    \item **
+    \item The boo functor $F\colon\cat{C}\to\cat{D}$ can be identified with a vertical cofunctor $\car{d}\to\car{c}$ that sends back $\id_1\mapsto\id_1$ and $s\mapsto f$ and $t\mapsto f$ and $\id_2\mapsto\id_2$.
+    \item For $G_1\colon\cat{D}\to\cat{C}$, which we take to send $f\mapsto s$, the corresponding vertical cofunctor $\car{c}\to\car{d}$ sends back $\id_1\mapsto\id_1$ and $f\mapsto s$ and $\id_2\mapsto\id_2$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9401,14 +9667,14 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 We record the following proposition here; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
 
 \begin{proposition}
-If $f\colon p\to q$ is a cartesian lens, then $\cofree{f}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
+If $\varphi\colon p\to q$ is a cartesian lens, then $\cofree{\varphi}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
 \[
-    \left(\cofree{f}\right)^\sharp_t\colon\cofree{q}[\cofree{f}t]\To{\iso}\cofree{p}[t]
+    \left(\cofree{\varphi}\right)^\sharp_t\colon\cofree{q}[\cofree{\varphi}t]\To{\iso}\cofree{p}[t]
 \]
 is a bijection.
 \end{proposition}
 \begin{proof}
-**
+Given $\varphi\colon p\to q$ cartesian, each tree $T\in\tr_p$ is sent to a tree in $\tr_q$ with the same branching profile. A morphism emanating from it is just a finite rooted path, and the set of these is completely determined by the branching profile. Thus we have the desired bijection.
 \end{proof}
 
 %-------- Section --------%
@@ -9455,7 +9721,7 @@ and whose morphisms out of each $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$ a
 Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_{i\in I}\car{c}_i$.
 
 It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
-We already know from \cref{cor.comon_cocomp} that it has the right carrier: the coproduct of carriers $\sum_{i\in I}\car{c}_i$. **
+We already know from \cref{cor.comon_cocomp} that it has the right carrier: the coproduct of carriers $\sum_{i\in I}\car{c}_i$. It also has the right morphisms, for any object $(i,x)$ with $x\in\car{c}_i(1)$, the set of emanating morphisms is---and should be---$\car{c}_i[x]$.
 
 % ** give inclusions as cofunctors
 
@@ -9495,25 +9761,10 @@ We already know from \cref{cor.comon_cocomp} that it has the right carrier: the 
 \begin{exercise}
 Given a comonoid $(\car{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is an induced comonoid structure on the polynomial $\2\car{c}$.
 \begin{solution}
-** % sum with itself
+The coproduct of $\car{c}$ with itself is again a comonoid (as a category it is the disjoint union of $\car{c}$ with itself) and it has the right carrier polynomial, since the carrier functor $U\colon\smcat^\sharp\to\poly$ is a left adjoint. 
 \end{solution}
 \end{exercise}
 
-% ** refer back to relevant cofunctor example
-\begin{exercise}
-Let $\cat{C}$ be a category with carrier $\car{c}$.
-\begin{enumerate}
-	\item Give a category $\cat{D}$ carried by the polynomial $\sum_{i\in\car{c}(\1)}\car{c}[i]\yon^{\car{c}[i]}$, and give a cofunctor $\cat{D}\cof\cat{C}$.
-	\item Is the underlying lens $\sum_{i\in\car{c}(\1)}\car{c}[i]\yon^{\car{c}[i]}\cof\car{c}$ of this cofunctor an epimorphism?
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item **
-    \item **
-\end{enumerate}
-\end{solution}
-\end{exercise}
 
 \subsubsection{Limits in $\smcat^\sharp$}
 
@@ -9570,8 +9821,10 @@ We complete the proof of \cref{prop.parallel_on_catsharp}.
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
+    \item The highbrow way to check that $\car{c}\otimes\car{d}$ forms a comonoid is to say that
+    \[\otimes\colon(\poly,\yon,\tri)\times(\poly,\yon,\tri)\too(\poly,\yon,\tri)\]
+     is a colax monoidal functor, so it sends comonoids to comonoids. A lowbrow way to check it is to see that the category corresponding to $\car{c}\otimes\car{d}$ is just the usual cartesian product $\cat{C}\times\cat{D}$ in $\smcat$. This is a category, hence a comonoid in $\poly$.
+    \item Because $\otimes$ is symmetric, it suffices to show that for any cofunctor $\varphi\colon\cat{C}\cof\cat{C}'$, there is an induced cofunctor $\varphi\otimes\cat{D}\colon\cat{C}\otimes\cat{D}\cof\cat{C}'\otimes\cat{D}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
