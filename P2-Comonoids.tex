@@ -3952,7 +3952,6 @@ So up to isomorphism, this limit is just a wide pullback in $\poly$ over $q\tri 
 So $\tri$ preserves wide pullbacks on the right.
 \end{proof}
 
-
 \begin{exercise}\label{ex.connected_limits_and_tri}
 Use \cref{thm.connected_limits} in the following.
 \begin{enumerate}
@@ -4040,12 +4039,12 @@ Every on-directions function of every lens we found in this exercise are isomorp
 
 \begin{example}[Lenses from $\otimes$ to $\tri$]
 For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
-Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair):
+Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair; we drop the parentheses around the ordered pair for readability):
 \[
 \begin{tikzpicture}[polybox, mapstos]
-	\node[poly, dom, "$p\otimes q$" left] (p) {$(a,b)$\nodepart{two}$(i,j)$};
-	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$a$\nodepart{two}$i$};
-	\node[poly, cod, "$q$" right, above=of q] (r) {$b$\nodepart{two}$j$};
+	\node[poly, dom, "$p\otimes q$" left] (p) {$a,b$\at$i,j$};
+	\node[poly, cod, "$p$" right, right= 1.5cm of p.south, yshift=-1ex] (q) {$a$\at$i$};
+	\node[poly, cod, "$q$" right, above=of q] (r) {$b$\at$j$};
   	\draw (p_pos) to[first] (q_pos);
   	\draw (q_dir) to[climb] (r_pos);
   	\draw (r_dir) to[last] (p_dir);
@@ -4065,43 +4064,44 @@ This can be used in the following way. Lenses $p\to q\tri r$ into composites are
 This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
 \end{example}
 
-\begin{proposition}
-For any polynomials $p,p',q,q'$ there are natural maps
-\begin{align}\label{eqn.plus_duoidal}
-	(p\tri p')+(q\tri q')&\to (p+q)\tri(p'+q')\\\label{eqn.otimes_duoidal}
-	(p\tri p')\otimes(q\tri q')&\to(p\otimes q)\tri(p'\otimes q')\\\label{eqn.times_duoidal}
-	(p\tri p')\times (q\tri q')&\from(p\times q)\tri(p'\times q')
-\end{align}
-making $(+,\tri)$ and $(\otimes,\tri)$ duoidal structures and $(\times,\tri)$ op-duoidal.
-\end{proposition}
-\begin{proof}
-For \eqref{eqn.plus_duoidal} we have inclusion maps $p\to p+q$ and $p'\to p'+q'$, inducing a map $p\tri p'\to(p+q)\tri(p'+q')$. Similarly we obtain a map $q\tri q'\to(p+q)\tri(p'+q')$, so we get the desired map from the universal property of coproducts. It is straightforward to check that this is duoidal. The result for \eqref{eqn.times_duoidal} is similar. 
-\end{proof}
+It turns out that the monoidal structures $\otimes$ and $\tri$ together satisfy an interesting property known as \emph{duoidality}.
+We won't give the entire definition of what it means for two monoidal structures to be duoidal here---there are a few commutative diagrams to verify for technical reasons---but the key condition is that there is a natural map
+\begin{equation} \label{eqn.duoidal}
+    (p\tri p')\otimes(q\tri q')\to(p\otimes q)\tri(p'\otimes q').
+\end{equation}
 
-%\begin{exercise}\label{exc.plus_duoidal}
-%\begin{enumerate}
-%	\item Give maps $0\to 0+0$, $\yon\to\yon\tri\yon$, and $0\to\yon$.
-%	\item Check that the following diagrams commute:
-%\[ 
-%\begin{tikzcd}
-%	(p\tri p')+0\ar[r]&
-%	(p\tri p)+(0\tri 0)\ar[d]\\
-%	p\tri p'&
-%	(p+0)\tri (p'+0)\ar[l]
-%\end{tikzcd}
-%\hspace{1in}
-%\begin{tikzcd}
-%	((p\tri p')+(q\tri q'))+(r\tri r')\ar[r]\ar[d]&
-%	(p\tri p')+((q\tri q')+(r\tri r'))\ar[r]&
-%	(p\tri p')+((q+r)\tri(q'+r'))\ar[d]\\
-%	((p+ q)\tri(p'+ q'))+(r\tri r')\ar[r]&
-%	((p+q)+r)\tri((p'+q')+r')\ar[r]&
-%	(p+(q+r))\tri(p'+(q'+r'))
-%\end{tikzcd}
-%\]
-%\qedhere
-%\end{enumerate}
-%\end{exercise}
+\begin{proposition}
+The monoidal structures $(\yon,\otimes)$ and $(\yon,\tri)$ together comprise a duoidal structure on $\poly$.
+\end{proposition}
+\begin{proof}[Idea of proof]
+The key is to give the natural lens from \eqref{eqn.duoidal}, as follows.
+A position of $p\tri p'$ is a pair $(i,\ol{i'})$ with $i\in p(\1)$ and $\ol{i'}\colon p[i]\to p'(\1)$; similarly, a position $q\tri q'$ is a pair $(j,\ol{j'})$ with $j\in q(\1)$ and $\ol{j'}\colon q[j]\to q'(\1)$.
+So we can define the first two parts of the lens using polyboxes, like so (again we drop parentheses around some ordered pairs for readability):
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$(p\tri p')\otimes(q\tri q')$" left] (p) {\at$(i,\ol{i'}),(j,\ol{j'})$};
+	\node[poly, cod, "$p\otimes q$" right, right=2.5 of p.south, yshift=-1ex] (q) {$a,b$\at$i,j$};
+	\node[poly, cod, "$p'\otimes q'$" right, above=of q] (r) {$a',b'$\at$\ol{i'}(a),\ol{j'}(b)$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+\end{tikzpicture}
+\]
+Here $(a,b)$ is a direction of $p\otimes q$ at $(i,j)$, with $a\in p[i]$ and $b\in q[j]$.
+
+Then to fill in the remaining empty box, we need a direction of $p\tri p'$ at $(i,\ol{i'})$, which can be given by the $p[i]$-direction $a$ followed by a $p'[\ol{i'}(a)]$-direction, namely $a'$.
+We also need a direction of $q\tri q'$, which can be obtained analogously:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+	\node[poly, dom, "$(p\tri p')\otimes(q\tri q')$" left] (p) {$(a,a'),(b,b')$\at$(i,\ol{i'}),(j,\ol{j'})$};
+	\node[poly, cod, "$p\otimes q$" right, right=2.5 of p.south, yshift=-1ex] (q) {$a,b$\at$i,j$};
+	\node[poly, cod, "$p'\otimes q'$" right, above=of q] (r) {$a',b'$\at$\ol{i'}(a),\ol{j'}(b)$};
+  	\draw (p_pos) to[first] (q_pos);
+  	\draw (q_dir) to[climb] (r_pos);
+  	\draw (r_dir) to[last] (p_dir);
+\end{tikzpicture}
+\]
+\end{proof}
 
 \subsection{Interaction with vertical and cartesian lenses} \label{subsec.comon.comp.prop.cart}
 
@@ -10355,9 +10355,9 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
 	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\car{c}$-coalgebra structure $\alpha\colon S\to\car{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
 	\[
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\nodepart{two}$s$};
-  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\car{c}$" right] (p) {$f$\nodepart{two}$\pi_1(s)$};
-  	\node[poly, above=of p, "$S$" right] (p') {$\varnothing$\nodepart{two}$\cod\pi^\sharp_s(f)$};
+  	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\at$s$};
+  	\node[poly, cod, right=1.8 of yX.south, yshift=-1ex, "$\car{c}$" right] (p) {$f$\at$\pi_1(s)$};
+  	\node[poly, above=of p, "$S$" right] (p') {$\varnothing$\at$\cod\pi^\sharp_s(f)$};
   	\draw (yX_pos) to[first] node[below] {$\alpha_1$}(p_pos);
   	\draw (p_dir) to[climb] node[right] {$\alpha_2$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$!$} (yX_dir);
@@ -10380,8 +10380,8 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
 	Going backward, if we're given a coalgebra $\alpha\colon S\to\car{c}\tri S$, we obtain a function $\alpha_1\colon S\to\car{c}\tri\1$ and we define $\car{s}\coloneqq \alpha_1^*\car{c}$ and the cartesian map $\varphi\coloneqq(\alpha_1,\id)\colon\car{s}\to\car{c}$ to be the base change from \cref{prop.basechange}. We need to show $\car{s}$ has a comonoid structure $(\car{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the eraser $\epsilon\colon\car{s}\to\yon$ using $\alpha_1$ and the eraser on $\car{c}$:
 	\[
 	\begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\car{s}$" below] (c) {$\id_{\alpha_1(s)}$\nodepart{two}$s\vphantom{s_1}$};
-  	\node[poly, cod, right=of c, "$\car{c}$" below] (c') {$\id_{\alpha_1{s}}$\nodepart{two}$\alpha_1(s)$};
+  	\node[poly, dom, "$\car{s}$" below] (c) {$\id_{\alpha_1(s)}$\at$s\vphantom{s_1}$};
+  	\node[poly, cod, right=of c, "$\car{c}$" below] (c') {$\id_{\alpha_1{s}}$\at$\alpha_1(s)$};
   	\draw (c_pos) -- node[below] {$\alpha_1$} (c'_pos);
   	\draw[double,-] (c'_dir) -- (c_dir);
 		\draw (c'_pos) to[climb'] node[right] {$\epsilon_\car{c}$} (c'_dir);
@@ -10390,9 +10390,9 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
  We give the duplicator $\delta\colon\car{s}\to\car{s}\tri\car{s}$ using $\alpha_2$ for the codomain, and using the composite $\then$ from $\car{c}$:
 	\[
   \begin{tikzpicture}[polybox, mapstos]
-  	\node[poly, dom, "$\car{s}$" left] (yX) {$f\then g$\nodepart{two}$s$};
-  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\car{s}$" right] (p) {$f$\nodepart{two}$s$};
-  	\node[poly, cod, above=of p, "$\car{s}$" right] (p') {$g$\nodepart{two}$\alpha_2(s,f)$};
+  	\node[poly, dom, "$\car{s}$" left] (yX) {$f\then g$\at$s$};
+  	\node[poly, cod, right=2.5 of yX.south, yshift=-1ex, "$\car{s}$" right] (p) {$f$\at$s$};
+  	\node[poly, cod, above=of p, "$\car{s}$" right] (p') {$g$\at$\alpha_2(s,f)$};
   	\draw[double,-] (yX_pos) to[first] (p_pos);
   	\draw (p_dir) to[climb] node[right] {$\cod$} (p'_pos);
   	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
