@@ -7575,7 +7575,8 @@ In \cref{ex.cofree_dyn_sys} we had a dynamical system with $S\coloneqq\{\bul[dgr
 	\bul[red]
 \end{tikzcd}
 \end{equation}
-The polynomial map $\varphi$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a copresheaf on the category $\cofree{p}$ itself.
+Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
+We can now see this as a copresheaf on the category $\cofree{p}$ itself.
 
 The cofree category $\cofree{t}$ is actually the free category on a graph, as we saw in \cref{prop.cofree_free_on_graph}, and so the schema is easy. There is one table for each tree (object in $\cofree{p}$), e.g.\ we have a table associated to this tree:
 \[
@@ -8822,7 +8823,7 @@ We can characterize the category $\cofree{\nn\yon^\2}$ as follows.
 \end{itemize}
 \end{example}
 
-\begin{exercise}[The category of $B$-labeled $A$-ary trees]
+\begin{exercise}[The category of $B$-labeled $A$-ary trees] \label{exc.b-lab_a-ary_trees}
 Characterize the $B\yon^A$-tree category $\cofree{B\yon^A}$.
 \begin{solution}
 We characterize $\cofree{B\yon^A}$, following \cref{ex.nn_labeled_binary_trees}.
@@ -9180,18 +9181,18 @@ Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\
 All together, $\car{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
 But to see all this explicitly, let's consider some examples.
 
-%we need to be clear on what the positions and directions of $\car{t}_p$ are and what category $\cofree{p}$ it carries, as well as how each lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ behaves.
-
 \begin{example}\label{ex.cofree_dyn_sys}
-Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $f\colon S\yon^S\to p$ from \cref{exc.halt_dsa}, depicted here again for your convenience:
+Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $\varphi\colon S\yon^S\to p$ modeling the halting deterministic state automaton from \cref{exc.halt_dsa}, depicted here again for your convenience:
 \[
 \begin{tikzcd}[column sep=small]
-	\bul[dgreen]\ar[rr, bend left]\ar[loop left]&&
-	\bul[dyellow]\ar[dl, bend left]\ar[ll, bend left]\\&
+	\bul[blue]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
+	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
 	\bul[red]
 \end{tikzcd}
 \]
-The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. Thus to each of the three states $S=\{\bul[dgreen],\bul[dyellow],\bul[red]\}$, we need to associate a tree; they are shown here:
+Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
+The cofunctor sends each state in $S=\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ to a $p$-tree; these $p$-trees are drawn below (the first two are infinite).
+Then the vertices of each $p$-tree are sent back to a morphism in the state category; the color of each vertex indicates the codomain of the morphism to which that vertex is sent.
 \[
 \begin{tikzpicture}[trees, scale=1.5,
   level 1/.style={sibling distance=20mm},
@@ -9199,62 +9200,62 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
   level 3/.style={sibling distance=5mm},
   level 4/.style={sibling distance=2.5mm},
   level 5/.style={sibling distance=1.25mm}]
-  \node[dgreen] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
+  \node[blue] (a) {$\bullet$}
+    child[dgreen] {node[blue] {$\bullet$}
+    	child[dgreen] {node[blue] {$\bullet$}
+    		child[dgreen] {node[blue] {$\bullet$}
+  				child[dgreen] {node[blue] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
+  				child[orange] {node[dyellow] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
   			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
+    		child[orange] {node[dyellow] {$\bullet$}
+				child[dgreen] {node[blue] {$\bullet$}
+      			    child[dgreen] {}
+      			    child[orange] {}
      			}
-    			child  {node[red] {$\bullet$}}
+    			child[orange]  {node[red] {$\bullet$}}
   			}
     	}
-    	child {node[dyellow] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
+    	child[orange] {node[dyellow] {$\bullet$}
+    		child[dgreen] {node[blue] {$\bullet$}
+  				child[dgreen] {node[blue] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
+  				child[orange] {node[dyellow] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
   			}
-    		child  {node[red] {$\bullet$}}
+    		child[orange]  {node[red] {$\bullet$}}
     	}
     }
-    child {node[dyellow] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
+    child[orange] {node[dyellow] {$\bullet$}
+    	child[dgreen] {node[blue] {$\bullet$}
+    		child[dgreen] {node[blue] {$\bullet$}
+  				child[dgreen] {node[blue] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
+  				child[orange] {node[dyellow] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
   			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
+    		child[orange] {node[dyellow] {$\bullet$}
+				child[dgreen] {node[blue] {$\bullet$}
+          			child[dgreen] {}
+          			child[orange] {}
      			}
-    			child  {node[red] {$\bullet$}}
+    			child[orange] {node[red] {$\bullet$}}
   			}
   		}
-  		child {node[red] {$\bullet$}
+  		child[orange] {node[red] {$\bullet$}
   		}
   	}
   ;
@@ -9267,41 +9268,41 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
   level 4/.style={sibling distance=2.5mm},
   level 5/.style={sibling distance=1.25mm}]
   \node[dyellow] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
+    child[dgreen] {node[blue] {$\bullet$}
+    	child[dgreen] {node[blue] {$\bullet$}
+    		child[dgreen] {node[blue] {$\bullet$}
+  				child[dgreen] {node[blue] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
+  				child[orange] {node[dyellow] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
   			}
-    		child {node[dyellow] {$\bullet$}
-					child {node[dgreen] {$\bullet$}
-      			child {}
-      			child {}
+    		child[orange] {node[dyellow] {$\bullet$}
+					child[dgreen] {node[blue] {$\bullet$}
+      			child[dgreen] {}
+      			child[orange] {}
      			}
-    			child  {node[red] {$\bullet$}}
+    			child[orange]  {node[red] {$\bullet$}}
   			}
     	}
-    	child {node[dyellow] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
+    	child[orange] {node[dyellow] {$\bullet$}
+    		child[dgreen] {node[blue] {$\bullet$}
+  				child[dgreen] {node[blue] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    				child {}
+  				child[orange] {node[dyellow] {$\bullet$}
+    				child[dgreen] {}
+    				child[orange] {}
     			}
   			}
-    		child  {node[red] {$\bullet$}}
+    		child[orange]  {node[red] {$\bullet$}}
     	}
     }
-    child {node[red] {$\bullet$}
+    child[orange] {node[red] {$\bullet$}
   	}
   ;
 \end{tikzpicture}
@@ -9310,46 +9311,29 @@ The polynomial map $f$ is supposed to induce a cofunctor $F\colon S\yon^S\cof\co
 	\node[red] {$\bullet$};
 \end{tikzpicture}
 \]
+Each $p$-tree above, with its vertices colored, thus encodes all the ways to navigate the automaton.
+In particular, the finite rooted paths of these trees trace out all the ways in which the automaton can halt.
+Notice, too, that every $p$-subtree of any one of these $p$-trees is another one of these three $p$-trees---do you see why?
+
+In general the 
 \end{example}
 
-% ** more examples?
+\begin{example}[Languages recognized by automata] \label{ex.dsa_lang_recog}
+Recall from \cref{prop.dsa} that a deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a lens $\yon\to S\yon^S$, indicating the initial state $s_0\in S$, and a lens $\varphi\colon S\yon^S\to\2\yon^A$, indicating the subset of accept states $F\coloneqq\varphi_1^{-1}(2)\ss S$ and the update function $u\colon S\times A\to S$ via $u(s,a)=\varphi^\sharp_s(a)$.
 
-% ** figure out what this means
+Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{\2\yon^A}$.
+By \cref{exc.b-lab_a-ary_trees}, $\cofree{\2\yon^A}$ is the category of $\2$-labeled $A$-ary trees.
+So $F(s_0)$ is an element of $\tr_{\2\yon^A}\iso\2^{\lst(A)}$: an $A$-ary tree where each rooted path corresponds to a list of elements of $A$ and bears one of the elements of $\2$, indicating whether the course through the automaton corresponding to that rooted path ends at an accept state or not.
+Equivalently, an element of $\2^{\lst(A)}$ is a subset of $\lst(A)$; in the case of $F(s_0)$, it is the subset containing exactly the words in $\lst(A)$ accepted by the automaton.
+So on objects, $F$ sends each possible start state $s_0\in S$ of the automaton to the subset of words that the automaton would then accept!
+Backward on morphisms, $F^\sharp_{s_0}$ sends every possible word to the state the automaton would reach if it followed that word starting from $s_0$.
+\end{example}
 
-% %---- Subsection ----%
-% \subsection{Dynamical systems and graph fibrations}
-
-% In \cref{ex.cofree_dyn_sys}, there's a certain relationship we can see between the graph we associate to the dynamical system $S\yon^S\to p$, namely 
-% \[
-% \begin{tikzcd}[column sep=small]
-% 	\bul[dgreen]\ar[rr, bend left, orange]\ar[loop left, dgreen]&&
-% 	\bul[dyellow]\ar[dl, bend left, orange]\ar[ll, dgreen, bend left]\\&
-% 	\bul[red]
-% \end{tikzcd}
-% \]
-% and the trees (which are also graphs) that its mate $S\yon^S\to\cofree{p}$ associates to each element of $S$, e.g.\ for the green dot:
-% \[
-% \treepic
-% \]
-% Indeed, there is a map of graphs from the latter to the former, which sends all the green dots in the tree to the green dot in the dynamical system, etc. This map of graphs is a kind of \emph{fibration}, or maybe we should say op-fibration, in the sense that the set of arrows emanating from every dot in the tree is in bijection with the set of arrows emanating from its image in the dynamical system graph.
-
-% \begin{exercise}
-% \begin{enumerate}
-% 	\item Draw the other two trees associated to the dynamical system in \cref{ex.cofree_dyn_sys}.
-% 	\item Do they also have an op-fibration down to the dynamical system graph?
-% 	\item Are these op-fibrations special in any way? That is, are they unique, or have any universal property?
-% \qedhere
-% \end{enumerate}
-% \begin{solution}
-% \begin{enumerate}
-%     \item **
-%     \item **
-%     \item **
-% \end{enumerate}
-% \end{solution}
-% \end{exercise}
+\begin{example}[Moore machines send ]
 
 
+{ex.dsa_lang_recog}
+\end{example}
 
 %---- Subsection ----%
 \subsection{Morphisms between cofree comonoids}
