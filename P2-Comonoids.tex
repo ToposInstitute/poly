@@ -7542,16 +7542,16 @@ Suppose that $I,J\colon\cat{C}\to\smset$ are functors and $\alpha\colon I\to J$ 
 \begin{exercise}\label{exc.elts_free_grph}
 Let $G$ be a graph, and let $\cat{G}$ be the free category on it. Show that for any functor $S\colon\cat{G}\to\smset$, the category $\elts^\cat{G} S$ of elements is again free on a graph.
 \begin{solution}
-Given a graph $G\coloneqq(\fun{src},\fun{tgt}\colon E\tto V)$ and functor $S\colon\cat{G}\to\smset$, define a new graph $H$ as the following diagram of sets:
+Given a graph $G\coloneqq(\fun{src},\fun{tgt}\colon A\tto V)$ and functor $S\colon\cat{G}\to\smset$, define a new graph $H$ as the following diagram of sets:
 \[
 \begin{tikzcd}[column sep=50pt]
-	\sum_{e\in E} S(\fun{src}(e))\ar[r, shift left, "{(\fun{src},\id)}"]\ar[r, shift right, "{(\fun{\tgt},S(e))}"']&
+	\sum_{a\in A} S(\fun{src}(a))\ar[r, shift left, "{(\fun{src},\id)}"]\ar[r, shift right, "{(\fun{\tgt},S(a))}"']&
 	\sum_{v\in V} S(v)
 \end{tikzcd}
 \]
-In other words, it is a graph for which a vertex is a pair $(v,s)$ with $v\in V$ a $G$-vertex and $s\in S(v)$, and for which an edge is a pair $(e, s)$ with $e\in E$ a $G$-edge, say $e\colon v\to v'$, and $s\in S(v)$ is an element over the source of that edge. With this notation, the edge $(e,s)$ has as source vertex $(v,s)$ and has as target vertex $(v',S(e)(s))$ where $S(e)\colon S(v)\to S(v')$ is the function given by the functor $S\colon\cat{G}\to\smset$.
+In other words, it is a graph for which a vertex is a pair $(v,s)$ with $v\in V$ a $G$-vertex and $s\in S(v)$, and for which an arrow is a pair $(a, s)$ with $a\in A$ a $G$-arrow, say $a\colon v\to v'$, and $s\in S(v)$ is an element over the source of that arrow. With this notation, the arrow $(a,s)$ has as source vertex $(v,s)$ and has as target vertex $(v',S(a)(s))$ where $S(a)\colon S(v)\to S(v')$ is the function given by the functor $S\colon\cat{G}\to\smset$.
 
-It remains to see that the free category on $H$ is isomorphic to $\int^{\cat{G}}S$. We first note that it has the same set of objects, namely $\sum_{v\in V}S(v)$. A morphism in $\int^\cat{G}S$ can be identified with an object $(v,s)$ together with a morphism $f\colon v\to v'$ in $\cat{G}$, but this is just a length-$n$ sequence $(e_1,\ldots,e_n)$ of edges, with $v=\fun{src}(e_1)$, $\fun{tgt}(e_{i})=\fun{src}(e_{i+1})$ for $1\leq i<n$, and $\fun{tgt}(e_n)=v'$. This is the same data as a morphism in the free category on $H$.
+It remains to see that the free category on $H$ is isomorphic to $\int^{\cat{G}}S$. We first note that it has the same set of objects, namely $\sum_{v\in V}S(v)$. A morphism in $\int^\cat{G}S$ can be identified with an object $(v,s)$ together with a morphism $f\colon v\to v'$ in $\cat{G}$, but this is just a length-$n$ sequence $(a_1,\ldots,a_n)$ of arrows, with $v=\fun{src}(a_1)$, $\fun{tgt}(a_{i})=\fun{src}(a_{i+1})$ for $1\leq i<n$, and $\fun{tgt}(a_n)=v'$. This is the same data as a morphism in the free category on $H$.
 \end{solution}
 \end{exercise}
 
@@ -10107,6 +10107,22 @@ These equations say that $\cod(g)=|a.\rho^\sharp_a(x,g)|$ and that $\rho_a^\shar
 \end{solution}
 \end{exercise}
 
+
+\begin{exercise}\label{exc.unique_yon_comodule}
+Recall from \cref{exc.yon_comonoid} that $\yon$ has a unique category structure. 
+\begin{enumerate}
+	\item Show that the category of left $\yon$-comodules is isomorphic to $\poly$.
+	\item Show that the category of right $\yon$-comodules is isomorphic to $\poly$. If it is similar, just say ``similar''; if not, explain.
+\end{enumerate}
+\begin{solution}
+The comonoid structure on $\yon$ has $\epsilon\colon\yon\to\yon$ and $\delta\colon\yon\to\yon\tri\yon=\yon$ the unique maps.
+\begin{enumerate}
+	\item We first show that for any polynomial $m$, there is a unique $\yon$-comodule structure on $m$. By \eqref{eqn.left_comod_laws}, a $\yon$-comodule structure is a map $\lambda\colon m\to\yon\tri m=m$ such that $\lambda\then(!\tri m)=\id_m$, but $!\tri m=\id_m$, so $\lambda=\id_m$ is forced. A morphism $(m,\id)\to(n,\id_n)$ of $\yon$-comodules is also easily seen to be just a polynomial map $m\to n$.
+	\item Similar.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
 We can characterize left comodules as something far more familiar.
 
 \begin{proposition}
@@ -10122,6 +10138,7 @@ The polynomial $p^m_i\in\poly$ is easily seen to be functorial in the comodule $
 
 We leave the proof that this construction has an inverse to the reader.
 \end{proof}
+
 
 Similarly, a right comodule is not an altogether foreign concept.
 
@@ -10191,7 +10208,7 @@ We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends t
 Let $\car{c}$ be a comonoid. For any set $I$ and right $\car{c}$-comodules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-comodule structure. Moreover, each representable summand in the carrier $m$ of a right $\car{c}$-comodule is itself a right-$\car{c}$ comodule and $m$ is their sum.
 \end{proposition}
 \begin{proof}[Sketch of proof]
-This follows from the fact in \cref{prop.left_dist_prod} that $-\tri\car{c}$ commutes with $+$.
+This follows from the fact in \cref{prop.left_dist_prod} that $-\tri\car{c}$ commutes with coproduct, i.e.\ $\left(\sum_{i\in I}m_i\right)\tri\car{c}\cong\sum_{i\in I}(m_i\tri\car{c})$.
 \end{proof}
 
 \begin{proposition}
@@ -10304,10 +10321,10 @@ Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{exc.yon
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
-    \item **
+    \item By \cref{exc.unique_yon_comodule}, it suffices to check that the diagram \eqref{eqn.bimod_coherence} commutes vacuously when $\car{d}=\yon$. 
+    \item By \cref{exc.unique_yon_comodule}, it suffices to check that the diagram \eqref{eqn.bimod_coherence} commutes vacuously when $\car{c}=\yon$. 
+    \item This follows from \cref{exc.unique_yon_comodule}.
+    \item This follows from \cref{exc.unique_yon_comodule}.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -10547,10 +10564,15 @@ Let $\src,\tgt\colon A\tto V$ and $g$ and $T$ be as in \cref{ex.cellular_bimod}.
 \qedhere
 \end{enumerate}
 \begin{solution}
+For each $v\in V$, let $A_v\coloneqq\fun{src}\inv(v)$, the set of arrows emanating from $v$.
 \begin{enumerate}
-    \item **
-    \item **
-    \item **
+    \item We need a map $\sum_{v\in V}\yon^{A_v}\to V\sum_{v\in V}\yon^{A_v}$, and we use the obvious ``diagonal'' map, which on directions sends $v\mapsto (v,v)$ and on directions is the identity.
+    \item We need a map $\sum_{v\in V}\yon^{A_v}\to\sum_{v\in V}\prod_{a\in A_v}\sum_{v\in V}\yon$, which is the same as an element of
+    \[
+    \prod_{v\in V}\sum_{v'\in V}\prod_{a\in A_{v'}}\sum_{v''\in V}A_v
+    \]
+    and we use $v\mapsto (v, a\mapsto\fun{tgt}(a), a)$. Most of this is forced on us, and the only interesting part is the function $A_v\to V$, which we can take to be anything, the choice being exactly the choice of ``target map'' that defines our graph.
+    \item Let $T=\2V$ and take the map $\2V\to V\times \2V$ to be $(i,v)\mapsto(v,i,v)$ for any $i\in \2$ and $v\in V$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -10568,19 +10590,21 @@ To run the cellular automaton, one simply chooses a starting color in each verte
 \begin{equation}\label{eqn.starting_color_v}
 \begin{tikzcd}
 	V\yon
-		\ar[r, bimr-biml, bend left, "V\yon"]
+		\ar[r, bimr-biml, bend left, "V"]
 		\ar[r, bimr-biml, bend right, "T"']\ar[r, phantom, "\hphantom{\scriptstyle\sigma}\Downarrow\scriptstyle\sigma"]&
-	V\yon
+	0\hphantom{\yon}
 \end{tikzcd}
 \end{equation}
+
+Note that $g$ is a profunctor, i.e.\ for each $v\in V$ the summand $g_v=\yon^{\fun{src}\inv(v)}$ is representable, so it preserves the terminal object. In other words $g\tri_{V\yon}V\cong V$.
 
 Now to run the cellular automaton on that initialization for $k\in\nn$ steps is given by the composite
 \[
 \begin{tikzcd}
-	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]\ar[rrrr, bend left, "V"]&
-	\cdots\ar[r, bimr-biml, "g"]&
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]\ar[rrrr, bimr-biml, bend left, "V", ""' name=V']&
+	\cdots\ar[r, bimr-biml, "g"]&|[alias=VV]|
 	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
-	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&
+	V\yon\ar[d, equal]\ar[r, bimr-biml, "V"]&
 	\0\ar[d, equal]\ar[dl, phantom, "\Downarrow\scriptstyle\sigma"]\\
 	V\yon\ar[d, equal]\ar[r, bimr-biml, "g"]&	
 	\cdots\ar[r, bimr-biml, "g"]&
@@ -10594,6 +10618,7 @@ Now to run the cellular automaton on that initialization for $k\in\nn$ steps is 
 	V\yon\ar[rrrr, bimr-biml, "T"', "" name=T]&&&&
 	\0
 	\ar[from=V, to=V|-T, Rightarrow, "\alpha\circ\cdots\circ\alpha"]
+	\ar[from=V', to=VV, equal]
 \end{tikzcd}
 \]
 \end{example}
@@ -10601,7 +10626,7 @@ Now to run the cellular automaton on that initialization for $k\in\nn$ steps is 
 \begin{exercise}
 Explain why \eqref{eqn.starting_color_v} models an initialization, i.e.\ a way to choose a starting color in each vertex.
 \begin{solution}
-**
+Recall that the $(V\yon,0)$-bicomodule $T$ assigns to each vertex $v\in V$ some set $T_v$ of ``colors'', whereas the $(V\yon,0)$-bicomodule $V$ assigns each vertex a singleton set. A map $V\to T$ between them chooses one color for each vertex, which we're calling the ``starting color''.
 \end{solution}
 \end{exercise}
 
