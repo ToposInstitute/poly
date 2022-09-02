@@ -9329,10 +9329,22 @@ So on objects, $F$ sends each possible start state $s_0\in S$ of the automaton t
 Backward on morphisms, $F^\sharp_{s_0}$ sends every possible word to the state the automaton would reach if it followed that word starting from $s_0$.
 \end{example}
 
-\begin{example}[Moore machines send ]
+\begin{example}[Input sequences to output sequences] \label{ex.input_output}
+We interpret our dynamical systems as converting sequences of input to sequences of output.
+The forgetful-cofree adjunction allows us to express this conversion formally in the language of $\poly$.
+For convenience, we'll focus on the example of an $(A,B)$-Moore machine $\varphi\colon S\yon^S\to B\yon^A$, although of course we can generalize this beyond monomial interfaces.
 
+The lens $\varphi$ corresponds to a cofunctor $F\colon S\yon^S\cof\cofree{B\yon^A}$.
+By \cref{exc.b-lab_a-ary_trees}, $\cofree{B\yon^A}$ is the category of $B$-labeled $A$-ary trees; in paticular, its carrier is $\car{t}_{B\yon^A}\iso B^{\lst(A)}\yon^{\lst(A)}$.
 
-% {ex.dsa_lang_recog}
+Then for every initial state $s_0\in S$, the $B$-labeled $A$-ary tree $F(s_0)$ can be interpreted as a decision tree of all the possible sequences of inputs that the system may receive.
+The label in $B$ corresponding to the vertex (or rooted path) specified by each sequence in $\lst(A)$ tells us the final output that the system returns when that sequence is fed in as input.
+Put another way, $F(s_0)\in B^{\lst(A)}$ can be interpreted as a function $\lst(A)\to B$.
+So if the input sequence is $(a_1,\ldots,a_n)\in A^n\ss\lst(A)$, then the corresponding output sequence $(b_0,\ldots,b_n)\in B^{n+1}$ is given (non-recursively!) by
+\[
+    b_i\coloneqq F(s_0)(a_1,\ldots,a_i).
+\]
+Finally, $F^\sharp_{s_0}(a_1,\ldots,a_i)\in S$ then corresponds to the system's state after that sequence of inputs is given.
 \end{example}
 
 %---- Subsection ----%
