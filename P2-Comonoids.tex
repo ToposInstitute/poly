@@ -13,23 +13,6 @@
 %------------ Chapter ------------%
 \chapter{The composition product}\label{ch.comon.comp}
 
-
-% In this chapter we will discuss a monoidal structure on $\poly$ that is quite easy from the mathematical point of view---it is simply composition---but which is again remarkable both in terms of its semantics and the phenomena that emerge mathematically, as we will see in later chapters. 
-
-% In particular, we will see that the comonoids for the composition monoidal structure on $\poly$ are precisely categories. However, the morphisms are different---they are often called \emph{cofunctors}---and so we get a second category $\smcat^\sharp$ of categories and cofunctors. But the core groupoids of each---the groupoid of small categories and all functor isomorphisms between them, as well as the groupoid of small categories and all cofunctor isomorphisms between them---are isomorphic as groupoids. In other words, the following slogan is justified:
-% \slogan{Polynomial comonads are precisely categories.}
-
-% Cofunctors are not too familiar, but we will explain how to think of them in a variety of ways. We will see that whereas a functor $\cat{C}\to\cat{D}$ gives a kind of ``picture'' of $\cat{C}$ inside $\cat{D}$, a cofunctor $\cat{C}\cof\cat{D}$ gives a kind of $\cat{D}$-shaped ``crystallization'' of $\cat{C}$, one that is intuitively more geometric, more like creating neighborhoods. We will see in \cref{chapter.bimod} that there is another kind of morphism between comonoids, namely the bicomodules, that are perhaps more familiar: they are the so-called \emph{parametric right adjoints}, or in perhaps more friendly terms, \emph{data migration functors} between copresheaf categories.
-
-% The plan for this part is to first introduce what is perhaps the most interesting monoidal structure on $\poly$, namely the composition product; we do so in this chapter. We'll give a bunch of examples and ways to think about it in terms that relate to dynamical systems and our work so far. Then in \cref{sec.comonoids_in_poly} we'll discuss comonoids in $\poly$ and explain why they are categories in down-to-earth, set-theoretic terms. We will also discuss the morphisms between them.
-
-% Finally in \cref{sec.cofree} we will discuss the cofree comonoid construction that takes any polynomial and returns a category. We will show how it relates to decision trees, as one may see in combinatorial game theory.
-
-%%%%% ** old preamble above
-
-
-
-
 We have seen that the category $\poly$ of polynomial functors has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
 But we touched upon one thing---what in some sense is the most interesting part of the story---only briefly. That thing is quite simple to state, and yet has profound consequences. Namely, polynomials can be composed:
@@ -46,7 +29,6 @@ We'll continue that story in \cref{subsec.comon.comp.def.dyn_sys}.
 The composition product has many surprises up its sleeve, as we'll see in the following chapters.
 We've given you a glimpse of some of them already in \cref{sec.poly.intro.math_theory}.
 We won't amass all the rest here; instead, we'll take you through the story step by step.
-But as a preview, $\circ$ will get us into decision trees, databases, and more dynamics, as well as the interactions between these.
 
 %-------- Section --------%
 \section{Defining the composition product}\label{sec.comon.comp.def}
@@ -7561,7 +7543,6 @@ On objects, the roundtrip $\smset^{\cat{C}}\to\smset^{\cat{C}}$ sends $I\colon\c
 The roundtrip $\Cat{dopf}(\cat{C})\to\Cat{dopf}(\cat{C})$ sends $\pi\colon\cat{S}\to\cat{C}$ to the discrete opfibration whose object set is $\{(c,s)\in\Ob(\cat{C})\times\Ob(\cat{S})\mid\pi(s)=c\}$ and this set is clearly in bijection with $\Ob(\cat{S})$. Proceeding similarly, one defines an isomorphism of categories $\cat{S}\cong\elts^\cat{C}\partial\pi$.
 \end{proof}
 
-% ** ??
 
 \begin{proposition}\label{prop.ds_dopf}
 Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with dynamical systems on $\cat{C}$.
@@ -7583,6 +7564,8 @@ With notation as in \cref{prop.ds_dopf}, complete the proof as follows.
 \end{enumerate}
 \end{exercise}
 
+% **
+
 \begin{example}
 In \cref{ex.cofree_dyn_sys} we had a dynamical system with $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and  $f\colon S\yon^S\to p$ from \cref{exc.halt_dsa}, depicted here again for your convenience:
 \begin{equation}\label{eqn.dyn_sys_misc573}
@@ -7592,7 +7575,7 @@ In \cref{ex.cofree_dyn_sys} we had a dynamical system with $S\coloneqq\{\bul[dgr
 	\bul[red]
 \end{tikzcd}
 \end{equation}
-The polynomial map $f$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a database instance on $\cofree{p}$, considered as a database schema. 
+The polynomial map $f$ induces a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees. We can now see this as a copresheaf on the category $\cofree{p}$ itself.
 
 The cofree category $\cofree{t}$ is actually the free category on a graph, as we saw in \cref{prop.cofree_free_on_graph}, and so the schema is easy. There is one table for each tree (object in $\cofree{p}$), e.g.\ we have a table associated to this tree:
 \[
@@ -7607,20 +7590,17 @@ Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\co
 
 
 \begin{exercise}
-Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding database instance has a table with at least two rows.
-% ** translate to not databases
+Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding copresheaf has in its image a set with at least two elements.
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 \begin{exercise}
-% ** translate to cofunctors & not databases
-A dynamical system with interface $\yon$ is a map $S\yon^S\to\yon$.
-\begin{enumerate}
-	\item What is the corresponding database schema?
-	\item Explain what the corresponding database instance looks like.
-	\item In particular, how many total rows does it have?
-	\item Give an example with $|S|=7$, displayed both as a dynamical system (with states and transitions) and as a database instance.	
-\qedhere
-\end{enumerate}
+Given a cofunctor $F\colon S\yon^S\cof\yon$, what does the corresponding copresheaf look like?
+\begin{solution}
+**
+\end{solution}
 \end{exercise}
 
 To summarize, we have four equivalent notions:
@@ -10453,12 +10433,13 @@ We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\c
 There is an equivalent characterization of bicomodules over a pair of polynomial comonoids due to Richard Garner.
 
 \begin{proposition}[Garner]\label{prop.prafunctor}
-Let $\cat{C}$ and $\cat{D}$ be categories; the following conditions on a functor $F\colon\smset^{\cat{C}}\to\smset^{\cat{D}}$ are equivalent.
+Let $\cat{C}$ and $\cat{D}$ be categories.
+Then the following can be identified, up to isomorphism:
 \begin{enumerate}
-	\item $F$ is composition with a $(\cat{D},\cat{C})$-bicomodule.
-	\item $F$ is a prafunctor.
-	\item $F$ profunctor + discrete opfibration
-	\item $F$ preserves connected limits.
+	\item a $(\cat{C},\cat{D})$-bicomodule.
+% 	\item a profunctor + discrete opfibration
+	\item a parametric right adjoint $\smset^{\cat{D}}\to\smset^{\cat{C}}$.
+	\item a connected limit-preserving functor $\smset^{\cat{D}}\to\smset^{\cat{C}}$.
 \end{enumerate}
 \end{proposition}
 
@@ -10472,7 +10453,7 @@ is given the structure of a $(\cat{D},\cat{C})$-bicomodule, the symbols in that 
   \qqand
 	m[i]\in\smset^{\cat{C}}
 \]
-Thus $m(1)$ is a database instance on $\cat{D}$; in particular, each position in $i\in m(\1)$ is a row in that instance. And each $m[i]$ is a database instance on $\cat{C}$; in particular, each direction $d\in m[i]$ is a row in that instance.
+Thus $m(1)$ is a copresheaf on $\cat{D}$; in particular, each position in $i\in m(\1)$ is **. And each $m[i]$ is a database instance on $\cat{C}$; in particular, each direction $d\in m[i]$ is a row in that instance.
 
 Before we knew about bicomodule structures, what we called positions and directions---and what we often think of as outputs and inputs of a system---were understood as each forming an ordinary set. In the presence of a bicomodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
 
