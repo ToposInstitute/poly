@@ -4697,13 +4697,13 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
 Given a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\varphi)$, with the same state system $\car{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\varphi)\coloneqq\delta^{(n)}\then\varphi\tripow{n}$.
 Visually, we define $\text{Run}_n(\varphi)$ so that the following diagram commutes:
-\begin{equation}\label{eqn.speedup}
+\begin{equation*}%\label{eqn.run}
 \begin{tikzcd}
 	\car{s}\ar[r, "\delta^{(n)}"]\ar[rr, bend right, "{\text{Run}_n(\varphi)}"']&
 	\car{s}\tripow{n}\ar[r, "\varphi\tripow{n}"]&
 	p\tripow n
 \end{tikzcd}
-\end{equation}
+\end{equation*}
 One way to think of this is that $\text{Run}_n(\varphi)$ is a sped-up version of $\varphi$: one step through $\text{Run}_n(\varphi)$ is equivalent to $n$ steps through $\varphi$.
 But this is just because a single interaction with the interface $p\tripow{n}$ models a sequence of $n$ interactions with the interface $p$, as detailed in \cref{subsec.comon.comp.def.dyn_sys,ex.dyn_sys_comp_polyboxes}.
 So $\text{Run}_n(\varphi)$ repackages $n$ cycles through $\varphi$ into a single step.
@@ -4762,6 +4762,40 @@ We have $\text{Run}_n(\varphi)=\delta^{(n)}\then\varphi\tripow{n}$ for all $n\in
 Then $\text{Run}_0(\varphi)=\epsilon\then\varphi\tripow0=\epsilon\then\id_\yon=\epsilon$ and $\text{Run}_1(\varphi)=\id_\car{s}\then\varphi\tripow1=\varphi\tripow1=\varphi$.
 \end{solution}
 \end{exercise}
+
+\begin{example}[Returning every other output] \label{ex.long_div_skip}
+In \cref{exc.long_div}, we built a dynamical system $\varphi\colon S\yon^S\to\nn\yon$ that outputs natural numbers---specifically digits, alternating between $0$'s and the base-$10$ digits of $1/7$ after the decimal point like so:
+\[
+\begin{tikzpicture}[oriented WD]
+	\node[bb={1}{2}, fill=blue!10] (inner) {};
+	\node[bb={0}{0}, inner xsep=1cm, inner ysep=1cm] (outer) {};
+	\coordinate (outer_out1) at (outer.east|-inner_out1);
+	\draw[shorten >=-3pt] (inner_out1) -- (outer_out1);
+	\draw 
+		let \p1=(inner.south east), \p2=(inner.south west), \n1=\bbportlen, \n2=\bby in
+		(inner_out2) to[in=0] (\x1+\n1,\y1-\n2) -- (\x2-\n1,\y1-\n2) to[out=180] (inner_in1);
+		\node[right, font=\footnotesize] at (outer_out1) {$0,1,0,4,0,2,0,8,0,5,0,7,0,1,0,4,0,2,0,8,0,5,0,7,0,1,0,4,0,2,0,8,0,5,0,7,\ldots$};
+\end{tikzpicture}
+\]
+Say we only wanted the system to return the digits of $1/7$ after the decimal point; we'd like to do away with all these $0$'s.
+In other words, we want a new system $S\yon^S\to\nn\yon$ that acts like $\varphi$, except that it only returns every other output that $\varphi$ returns.
+
+We could build such a system from scratch---or we can simply start from $\varphi$ and apply $\text{Run}_2$, yielding a system $\text{Run}_2(\varphi)\colon S\yon^S\to\nn\yon\tri\nn\yon\iso\nn^\2\yon$ that returns the outputs of $\varphi$ two at a time:
+\[
+    (0,1),(0,4),(0,2),(0,8),(0,5),(0,7),(0,1),(0,4),(0,2),(0,8),(0,5),(0,7),\ldots
+\]
+Then we just need to compose $\text{Run}_2(\varphi)$ with a lens $\pi_2\colon\nn^\2\yon\to\nn\yon$ equal to the second coordinate projection on positions (and the identity on directions) to extract the outputs we want.
+The new system $S\yon^S\to\nn\yon$ that skips over every output of $\varphi$ is therefore the following composite:
+\[
+\begin{tikzcd}
+	S\yon^S\ar[r, "\delta^{(2)}"]\ar[rr, bend right, "{\text{Run}_2(\varphi)}"']&
+    S\yon^S\tri S\yon^S\ar[r, "\varphi\tripow2"]&
+	\nn\yon\tri\nn\yon\iso\nn^\2\yon\ar[r,"\pi_2"]&
+	\nn\yon.
+\end{tikzcd}
+\]
+We can apply this technique in general to skip (or otherwise act on) the outputs of a dynamical system at regular intervals.
+\end{example}
 
 One drawback of the $\text{Run}_n(-)$ operation is that we need to keep track of a separate morphism $S\yon^S\to p\tripow{n}$ for every $n\in\nn$, as well as various ways to relate these morphisms for different values of $n$.
 Is there a way to package all this information into a single morphism that can model arbitrarily long runs through the system?
