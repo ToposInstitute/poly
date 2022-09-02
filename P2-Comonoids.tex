@@ -6446,7 +6446,7 @@ So a cofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavio
 We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\label{exc.yon_comonoid}
 \begin{enumerate}
 	\item Show that $\yon$ has a unique comonoid structure.
 	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
@@ -9914,7 +9914,7 @@ A \emph{morphism} of right $\cat{D}$-comodules $m$ and $n$ is a morphism $\alpha
 Here the top and bottom morphisms are the right coactions of $m$ and $n$.
 \end{definition}
 
-\begin{exercise}
+\begin{exercise}\label{exc.left_right_comodules}
 \begin{enumerate}
 	\item Draw the equations of \eqref{eqn.left_comod_laws} using polyboxes.
 	\item Draw the equations of \eqref{eqn.right_comod_laws} using polyboxes.
@@ -9925,34 +9925,34 @@ Here the top and bottom morphisms are the right coactions of $m$ and $n$.
 	\item Here is the first equation in terms of polyboxes:
 \[
 \begin{tikzpicture}[polybox, mapstos]
-  \node[poly, dom, "$m$" left] (l) {$x$\at$i\vphantom{i}$};
-  \node[poly, cod, "$m$" right, right=of l] (r) {$x$\at$i$};
+  \node[poly, dom, "$m$" left] (l) {$x$\at$a\vphantom{a}$};
+  \node[poly, cod, "$m$" right, right=of l] (r) {$x$\at$a$};
   \draw[double,-] (l_pos) -- (r_pos);
   \draw[double,-] (r_dir) -- (l_dir);
 %
-	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$x'$\at$i$};
-	\node[poly, right=1.5cm of p.south, yshift=-1.25ex] (r') {$\id_{|i|}$\at$|i|$};
-	\node[poly, cod, above=of r', "$m$" right] (q) {$x$\at$i.\id_{|i|}$};
+	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$\lambda^\sharp_a(\id_{|a|},x)$\at$a$};
+	\node[poly, right=2.2cm of p.south, yshift=-1.25ex] (r') {$\id_{|a|}$\at$|a|$};
+	\node[poly, cod, above=of r', "$m$" right] (q) {$x$\at$a.\id_{|a|}$};
   	\draw (p_pos) to[first] (r'_pos);
   	\draw (r'_dir) to[climb] node[left] {$\lambda$} (q_pos);
 		\draw (q_dir) to[last] (p_dir);
 		\draw (r'_pos) to[climb'] node[right] {$\epsilon_\car{c}$} (r'_dir);
-	\node at ($(r)!.5!(p)$) {$=$};
+	\node at ($(r.east)!.5!(p.west)$) {$=$};
 \end{tikzpicture}
 \]
-The equation says that for any $i\in m(1)$ we have $i=i.\id_{|i|}\coloneqq\lambda(i,\id_{|i|})$ and that for any $x\in m[i]$ we have $x=x'\coloneqq\lambda^\sharp_i(\id_{|i|},x)$.
+The equation says that for any $a\in m(1)$ we have $a=a.\id_{|a|}\coloneqq\lambda(a,\id_{|a|})$ and that for any $x\in m[a]$ we have $x=x'\coloneqq\lambda^\sharp_a(\id_{|a|},x)$.
 
 Here is the second equation in terms of polyboxes:
 \[
 \begin{tikzpicture}
     \node (p1) {
         \begin{tikzpicture}[polybox, mapstos]
-            \node[poly, dom, "$m$" left] (m') {$\lambda^\sharp_i((f\then f'),x)$\at$i$};
-            \node[poly, right=2.3 of m'.south, yshift=-1ex, "$\car{c}$" below] (mm') {$f\then f'$\at$|i|$};
-            \node[poly, above=of mm', "$m$" above] (C') {$x$\at$i.(f\then f')$};
-            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$\car{c}$" right] (D') {$f$\at$|i|$};
+            \node[poly, dom, "$m$" left] (m') {$\lambda^\sharp_a((f\then f'),x)$\at$a$};
+            \node[poly, right=2.3 of m'.south, yshift=-1ex, "$\car{c}$" below] (mm') {$f\then f'$\at$|a|$};
+            \node[poly, above=of mm', "$m$" above] (C') {$x$\at$a.(f\then f')$};
+            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$\car{c}$" right] (D') {$f$\at$|a|$};
             \node[poly, cod, above=of D', "$\car{c}$" right] (mmm') {$f'$\at$\cod f$};
-            \node[poly, cod, above=of mmm', "$m$" right] (CC') {$x$\at$i.(f\then f')$};
+            \node[poly, cod, above=of mmm', "$m$" right] (CC') {$x$\at$a.(f\then f')$};
             %
             \draw (m'_pos) to[first] (mm'_pos);
             \draw (mm'_dir) to[climb] node[left] {$\lambda$} (C'_pos);
@@ -9967,12 +9967,12 @@ Here is the second equation in terms of polyboxes:
 %
 	\node (p2) [below=1 of p1] {
 	    \begin{tikzpicture}[polybox, tos]
-            \node[poly, dom, "$m$" left] (m) {$\lambda^\sharp_i(f,\lambda^\sharp_{i.f}(f',x))$\at$i$};
-            \node[poly, right=3 of m.south, yshift=-1ex, "$\car{c}$" below] (D) {$f$\at$|i|$};
-            \node[poly, above=of D, "$m$" above] (mm) {$\lambda^\sharp_{i.f}(f',x)$\at$i.f$};
-            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$\car{c}$" right] (DD) {$f$\at$|i|$};
-            \node[poly, cod, above=of DD, "$\car{c}$" right] (mmm) {$f'$\at$|i.f|$};
-            \node[poly, cod, above=of mmm, "$m$" right] (C) {$x$\at$(i.f).f'$};
+            \node[poly, dom, "$m$" left] (m) {$\lambda^\sharp_a(f,\lambda^\sharp_{a.f}(f',x))$\at$a$};
+            \node[poly, right=3 of m.south, yshift=-1ex, "$\car{c}$" below] (D) {$f$\at$|a|$};
+            \node[poly, above=of D, "$m$" above] (mm) {$\lambda^\sharp_{a.f}(f',x)$\at$a.f$};
+            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$\car{c}$" right] (DD) {$f$\at$|a|$};
+            \node[poly, cod, above=of DD, "$\car{c}$" right] (mmm) {$f'$\at$|a.f|$};
+            \node[poly, cod, above=of mmm, "$m$" right] (C) {$x$\at$(a.f).f'$};
             %
             \draw (m_pos) to[first] (D_pos);
             \draw (D_dir) to[climb] node[left] {$\lambda$} (mm_pos);
@@ -9987,26 +9987,28 @@ Here is the second equation in terms of polyboxes:
 	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
-These say that $\cod(f)=|i.f|$, that $i.(f\then f')=(i.f).f'$, and that $\lambda^\sharp_i((f\then f'),x)=\lambda^\sharp_i(f,\lambda^\sharp_{i.f}(f',x))$.
+These say that $\cod(f)=|a.f|$, that $a.(f\then f')=(a.f).f'$, and that $\lambda^\sharp_a((f\then f'),x)=\lambda^\sharp_a(f,\lambda^\sharp_{a.f}(f',x))$.
+%
+%
 	\item
 \[
 \begin{tikzpicture}[polybox, mapstos]
-  \node[poly, dom, "$m$" left] (l) {$f$\at$i\vphantom{i}$};
-  \node[poly, cod, "$m$" right, right=of l] (r) {$f$\at$i$};
+  \node[poly, dom, "$m$" left] (l) {$x$\at$a\vphantom{a}$};
+  \node[poly, cod, "$m$" right, right=of l] (r) {$x$\at$a$};
   \draw[double,-] (l_pos) -- (r_pos);
   \draw[double,-] (r_dir) -- (l_dir);
 %
-	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$\rho^\sharp_i(f,\id_{|i'.f|})$\at$i$};
-	\node[poly, cod, right=2.5cm of p.south, yshift=-1.25ex, "$m$" right] (r') {$f$\at$i'$};
-	\node[poly, above=of r'] (q) {$\id_{|i'.f|}$\at$|i'.f|$};
+	\node[poly, dom, right=2.5 of r, "$m$" left] (p) {$\rho^\sharp_a(x,\id_{|a'.x|})$\at$a$};
+	\node[poly, cod, right=2.5cm of p.south, yshift=-1.25ex, "$m$" right] (r') {$x$\at$a'$};
+	\node[poly, above=of r'] (q) {$\id_{|a'.x|}$\at$|a'.x|$};
   	\draw (p_pos) to[first] (r'_pos);
   	\draw (r'_dir) to[climb] node[left] {$\rho$} (q_pos);
 		\draw (q_dir) to[last] (p_dir);
 		\draw (q_pos) to[climb'] node[right] {$\epsilon_\car{d}$} (q_dir);
-	\node at ($(r.west)!.5!(p.east)$) {$=$};
+	\node at ($(r.east)!.5!(p.west)$) {$=$};
 \end{tikzpicture}
 \]
-The equation says that for any $i\in m(1)$ we have $i=i'\coloneqq\rho_1(i)$ and that for any $f\in m[i]$ we have $f=\rho^\sharp_i(f,\id_{|i'.f|})$.
+The equation says that for any $a\in m(1)$ we have $a=a'\coloneqq\rho_1(i)$ and that for any $f\in m[a]$ we have $x=\rho^\sharp_a(x,\id_{|a'.x|})$.
 
 
 Here is the second equation in terms of polyboxes:
@@ -10014,12 +10016,12 @@ Here is the second equation in terms of polyboxes:
 \begin{tikzpicture}
     \node (p1) {
         \begin{tikzpicture}[polybox, mapstos]
-            \node[poly, dom, "$m$" left] (m') {$\rho^\sharp_i(\rho_i^\sharp(x,g),g')$\at$i$};
-            \node[poly, right=2.7 of m'.south, yshift=-1ex, "$m$" below] (mm') {$\rho^\sharp_i(x,g)$\at$i$};
-            \node[poly, above=of mm', "$\car{d}$" above] (C') {$g'$\at$|i.\rho^\sharp_i(x,g)|$};
-            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$m$" right] (D') {$x$\at$i$};
-            \node[poly, cod, above=of D', "$\car{d}$" right] (mmm') {$g$\at$|i.x|$};
-            \node[poly, cod, above=of mmm', "$\car{d}$" right] (CC') {$g'$\at$|i.\rho^\sharp_i(x,g)|$};
+            \node[poly, dom, "$m$" left] (m') {$\rho^\sharp_a(\rho_a^\sharp(x,g),g')$\at$a$};
+            \node[poly, right=2.7 of m'.south, yshift=-1ex, "$m$" below] (mm') {$\rho^\sharp_i(x,g)$\at$a$};
+            \node[poly, above=of mm', "$\car{d}$" above] (C') {$g'$\at$|a.\rho^\sharp_a(x,g)|$};
+            \node[poly, cod, right=2 of mm'.south, yshift=-1ex, "$m$" right] (D') {$x$\at$a$};
+            \node[poly, cod, above=of D', "$\car{d}$" right] (mmm') {$g$\at$|a.x|$};
+            \node[poly, cod, above=of mmm', "$\car{d}$" right] (CC') {$g'$\at$|a.\rho^\sharp_a(x,g)|$};
             %
             \draw[double,-] (m'_pos) to[first] (mm'_pos);
             \draw (mm'_dir) to[climb] node[left] {$\rho$}  (C'_pos);
@@ -10034,11 +10036,11 @@ Here is the second equation in terms of polyboxes:
 %
 	\node (p2) [below=1 of p1] {
 	    \begin{tikzpicture}[polybox, tos]
-            \node[poly, dom, "$m$" left] (m) {$\rho^\sharp_i(x,(g\then g'))$\at$i$};
-            \node[poly, right=2.5 of m.south, yshift=-1ex, "$m$" below] (D) {$x$\at$i$};
-            \node[poly, above=of D, "$\car{d}$" above] (mm) {$g\then g'$\at$|i.x|$};
-            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$m$" right] (DD) {$x$\at$i$};
-            \node[poly, cod, above=of DD, "$\car{d}$" right] (mmm) {$g$\at$|i.x|$};
+            \node[poly, dom, "$m$" left] (m) {$\rho^\sharp_a(x,(g\then g'))$\at$a$};
+            \node[poly, right=2.5 of m.south, yshift=-1ex, "$m$" below] (D) {$x$\at$a$};
+            \node[poly, above=of D, "$\car{d}$" above] (mm) {$g\then g'$\at$|a.x|$};
+            \node[poly, cod, right=2 of D.south, yshift=-1ex, "$m$" right] (DD) {$x$\at$a$};
+            \node[poly, cod, above=of DD, "$\car{d}$" right] (mmm) {$g$\at$|a.x|$};
             \node[poly, cod, above=of mmm, "$\car{d}$" right] (C) {$g'$\at$\cod g$};
             %
             \draw[double,-] (m_pos) to[first] (D_pos);
@@ -10054,7 +10056,7 @@ Here is the second equation in terms of polyboxes:
 	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
-These equations say that $\cod(g)=|i.\rho^\sharp_i(x,g)$ and that $\rho_i^\sharp(\rho_i^\sharp(x,g),g')=\rho^\sharp_i(x,(g\then g'))$.
+These equations say that $\cod(g)=|a.\rho^\sharp_a(x,g)|$ and that $\rho_a^\sharp(\rho_a^\sharp(x,g),g')=\rho^\sharp_a(x,(g\then g'))$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -10063,20 +10065,29 @@ We can characterize left comodules as something far more familiar.
 
 \begin{proposition}
 Let $\cat{C}$ be a category.
-A left $\cat{C}$-comodule can be identified (up to isomorphism) with a functor $\cat{C}\to\poly$.
+The category of left $\cat{C}$-comodules is equivalent to the category of functors $\cat{C}\to\poly$.
 \end{proposition}
-\begin{proof}
-**
+\begin{proof}[Sketch of proof]
+Let $\car{c}$ be the carrier of $\cat{C}$. Given a left $\cat{C}$-comodule $m\to \car{c}\tri m$, we saw in \cref{exc.left_right_comodules} that there is an induced function $|-|\colon m(1)\to\car{c}(\1)$, so to each object $i\in\Ob(\cat{C})$ we can associate a set $P^m_i\coloneqq\{a\in m(\1)\mid |a|=i\}$. We also have for each $a\in P_i\ss m(\1)$ a set $m[a]$, and so we can consider the polynomial
+\[
+p^m_i\coloneqq\sum_{a\in P^m_i}\yon^{m[a]}.
+\]
+The polynomial $p^m_i\in\poly$ is easily seen to be functorial in the comodule $m$. Moreover, given a morphism $f\colon i\to i'$ in $\cat{C}$, we have for each $a\in p^m_i(1)$ an element $a.f\in m(1)$, with $|a.f|=i'$, i.e.\ $a.f\in  P^m_{i'}=p^m_{i'}(\1)$. Similarly for each $x\in m[a.f]=p^m_{i'}[a.f]$ we have $\lambda_a^\sharp(f,x)\in m[a]=p^m_i[a]$, and thus we have a map of polynomials $p^m_i\to p^m_{i'}$. In this way we have obtained we obtain a functor $p^m_-\colon\cat{C}\to\poly$, and this functor is itself functorial in $m$.
+
+We leave the proof that this construction has an inverse to the reader.
 \end{proof}
 
-Similarly, a right comodule is not a foreign concept.
+Similarly, a right comodule is not an altogether foreign concept.
 
 \begin{proposition}
 Let $\cat{D}$ be a category.
-A right $\cat{D}$-comodule $m$ can be identified (up to isomorphism) with a functor $\cat{D}\to\smset^{I\yon}$ for some discrete category $I\yon$, such that $m(\1)\iso I$.
+A right $\cat{D}$-comodule $m$ can be identified (up to isomorphism) with a functor $\cat{D}\to\smset^{m(\1)}$.
 \end{proposition}
-\begin{proof}
-**
+\begin{proof}[Sketch of proof]
+Let $\car{d}$ be the carrier of $\cat{D}$. Given a right $\cat{D}$-comodule $m\to m\tri\car{d}$ we need a functor $F\colon\cat{D}\times m(1)\to\smset$. We again rely heavily on \cref{exc.left_right_comodules}. 
+Given $j\in\cat{D}$ and $a\in m(1)$, define
+\[F(j,d)\coloneqq\{x\in m[a]\mid|a.f|=j\}.\] 
+Given $g\colon j\to j'$ we get $\rho_a^\sharp(x,g)\in m[a]$ with $|a.\rho_a^\sharp(x,g)|=j'$, and thus $g$ induces a function $F(g,d)\colon F(j,d)\to F(j',d)$. Again by laws from \cref{exc.left_right_comodules} these are functorial in $g$, completing the proof sketch.
 \end{proof}
 
 
@@ -10131,10 +10142,10 @@ We can extend this to a functor $\cat{C} \to \bimod{\yon}{\cat{C}}$ that sends t
 \end{exercise}
 
 \begin{proposition}\label{prop.break_up_right_mods}
-Let $\com{C}$ be a comonoid. For any set $I$ and right $\com{C}$-comodules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-comodule structure. Moreover, each representable summand in the carrier $m$ of a right $\com{C}$-comodule is itself a right-$\com{C}$ comodule and $m$ is their sum.
+Let $\car{c}$ be a comonoid. For any set $I$ and right $\car{c}$-comodules $(m_i)_{i\in I}$, the coproduct $m\coloneqq \sum_{i\in I}m_i$ has a natural right-comodule structure. Moreover, each representable summand in the carrier $m$ of a right $\car{c}$-comodule is itself a right-$\car{c}$ comodule and $m$ is their sum.
 \end{proposition}
-\begin{proof}
-**
+\begin{proof}[Sketch of proof]
+This follows from the fact in \cref{prop.left_dist_prod} that $-\tri\car{c}$ commutes with $+$.
 \end{proof}
 
 \begin{proposition}
@@ -10145,11 +10156,6 @@ It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is repr
 
 Thus if $\yon^M$ is both a right-$\com{C}$ comodule and a right-$\com{D}$ comodule, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ comodule on $\yon^M$.
 \end{proof}
-
-
-
-
-
 
 \subsection{Bicomodules}
 
@@ -10174,7 +10180,8 @@ such that the following diagram, known as the \emph{coherence law}, commutes:
 \end{equation}
 We may denote such a bicomodule by $\cat{C}\bimodfrom[m]\cat{D}$ when its left and right coactions have yet to be specified or may be inferred from context---or even by $\car{c}\bimodfrom[m]\car{d}$ when the comonoid structures on $\car{c}$ and $\car{d}$ can be inferred from context as well.%
 \footnote{The notation $\car{c}\bimodfrom\car{d}$ has a mnemonic advantage, as each $\tri$ goes in the correct direction: $\car{c}\tri m\from m$ and $m\to m\tri\car{d}$.
-But it also looks like an arrow going backward from $\car{d}$ to $\car{c}$, which will turn out to have a semantic advantage as well; see \cref{**}.}
+But it also looks like an arrow going backward from $\car{d}$ to $\car{c}$, which will turn out to have a semantic advantage as well%; see \cref{**}.
+}
 
 A \emph{morphism} of $(\cat{C},\cat{D})$-bicomodules is one that is a morphism of left $\cat{C}$-comodules and a morphism of right $\cat{D}$-comodules.
 \end{definition}
@@ -10241,7 +10248,7 @@ This polybox equation implies that we can unambiguously write
 for any bicomodule $\car{c}\bimodfrom[m]\car{d}$.
 
 \begin{exercise}
-Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{**} that $\yon$ has a unique category structure.
+Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{exc.yon_comonoid} that $\yon$ has a unique category structure.
 \begin{enumerate}
 	\item Show that a left $\cat{C}$-module is the same thing as a $(\cat{C},\yon)$-bimodule.
 	\item Show that a right $\cat{C}$-module is the same thing as a $(\yon,\cat{C})$-bimodule.
