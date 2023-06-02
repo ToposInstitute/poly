@@ -48,7 +48,7 @@ Such polynomials will form the objects of $\poly$. All our polynomials will invo
 \end{align}
 More technically, we will call each mini-tree---a rooted tree whose \emph{leaves} (the arrows) are all children of the \emph{root} (the solid dot)---a \emph{corolla}.
 A union of trees is called a \emph{forest}, so our polynomials can be viewed as forests of corollas, which we will call \emph{corolla forests}.
-Each corolla in \eqref{eqn.forest_example} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.poly_example}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas with $1$ leaf each correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^0$.
+Each corolla in \eqref{eqn.forest_example} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.poly_example}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas with $1$ leaf each correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^\0$.
 
 We can label the roots and leaves of our forest, like so:
 \[
@@ -996,23 +996,23 @@ In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colo
 \end{solution}
 \end{exercise}
 
-We denote by $\smset^\smset$ the (very large) category whose objects are functors $\smset\to\smset$ and whose morphisms are the natural transformations between them.
+These representable functors and natural transformations live in the larger category $\smset^\smset$, whose objects are functors $\smset\to\smset$ and whose morphisms are the natural transformations between them.
 
 \begin{exercise} \label{exc.representable_nt_functorial}
-Show that the construction in \cref{prop.representable_nt} is functorial
+Show that the construction $f\mapsto\yon^f$ from \cref{prop.representable_nt} defines a functor
 \begin{equation} \label{eqn.yoneda_embedding}
-\yon^-\colon\smset\op\to\smset^\smset,
+\yon^-\colon\smset\op\to\smset^\smset
 \end{equation}
-as follows.
+by verifying functoriality, as follows.
 \begin{enumerate}
-    \item Show that for any set $S$, we have that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
-    \item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
+    \item Show that for any set $S$, the natural transformation $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
+    \item Show that for functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$. \qedhere
 \end{enumerate}
 
 \begin{solution}
 \begin{enumerate}
     \item The fact that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity is just a generalization of \cref{exc.representable_nt_components} \cref{exc.representable_nt_components.id}.
-    For any set $X$, the $X$-component $X^{\id_S} \colon X^S \to X^S$ of $\yon^{\id_S}$ sends each $h \colon S \to X$ to $\id_S \then h = h$, so $X^{\id_S}$ is the identity on $X^S$.
+    For any set $X$, the $X$-component $X^{\id_S} \colon X^S \to X^S$ of $\yon^{\id_S}$ sends each $h \colon S \to X$ to $\id_S \then h = h$, so $X^{\id_S}$ is the identity natural transformation on $X^S$.
     Hence $\yon^{\id_S}$ is the identity on $\yon^S$.
     \item Fix $f \colon R \to S$ and $g \colon S \to T$; we wish to show that $\yon^g \then \yon^f = \yon^{f \then g}$.
     It suffices to show componentwise that $X^g \then X^f = X^{f \then g}$ for every set $X$.
@@ -1021,6 +1021,8 @@ as follows.
 \end{solution}
 \end{exercise}
 
+We now have all the ingredients we need to state and prove the Yoneda lemma on the category of sets.
+
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
 Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
 \begin{equation}\label{eqn.yoneda}
@@ -1028,14 +1030,15 @@ F(S)\iso\nat(\yon^S,F)
 \end{equation}
 where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
 \end{lemma}
-\begin{proof}[Sketch of proof]
+\begin{proof}[Proof]
 For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
 
-Conversely, for any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$. In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$, and that these two constructions, $m\mapsto m_S$ and $a\mapsto m^a$, are mutually inverse.
+Conversely, for any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$.
+In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$, and that these two constructions, $m\mapsto m_S$ and $a\mapsto m^a$, are mutually inverse.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
-Whoever solves this exercise can say they've proved the Yoneda lemma.
+In this exercise, we fill in the details of the preceding proof.
 \begin{enumerate}
     \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in the proof sketch of \cref{lemma.yoneda} are natural in $X$.
     \item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
