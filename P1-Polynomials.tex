@@ -860,17 +860,17 @@ We'll highlight how these functors are closely related to what is arguably the f
 %-------- Section --------%
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
 
-Representable functors form the basis of the category $\poly$.
-Much of the following theory is applicable for general functors to $\smset$; but for now, we are only interested in functors $\smset\to\smset$.
+Representable functors---special functors to the category of sets---provide the foundation for the category $\poly$.
+While much of the following theory applies to representable functors from any category, we will focus on representable functors $\smset\to\smset$.
 
 \begin{definition}[Representable functor] \label{def.representable}
-Given any set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends any set $X$ to the set $X^S=\smset(S,X)$, and sends any function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$, the one that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, in any category, given objects $A, B, C$ and morphisms $f \colon A \to B$ and $g \colon B \to C$, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, depending on which is more natural to think about.}
+For a set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends each set $X$ to the set $X^S=\smset(S,X)$ and each function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$ that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, given morphisms $f \colon A \to B$ and $g \colon B \to C$ in a category, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, whichever is more convenient.}
 
-We refer to functors of this form as \emph{representable functors}, or simply as \emph{representables}.
+We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
 In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set} of $\yon^S$.
 \end{definition}
 
-The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.yoneda}. For now, here are some pictures for your eyes to gaze at; they are the polynomials corresponding to various representables, namely the pure powers:
+The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}. For now, here are some pictures for your eyes to gaze at; they are the polynomials corresponding to various representables, namely the pure powers:
 \begin{equation}\label{eqn.trees_for_gazing}
 \begin{tikzpicture}[trees, sibling distance=2mm]
   \node["$\yon^{\5}$" below] (1) {$\bullet$} 
@@ -904,97 +904,94 @@ The symbol $\yon$ stands for Yoneda, for reasons we will get to in \cref{lemma.y
 \end{equation}
 
 \begin{example}
-The functor that sends every set $X$ to $X\times X$, and sends $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$, is representable. After all, $X \times X \iso X^\2$, so this functor is just a pure power we are already familiar with: $\yon^\2$.
+The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
+After all, $X\times X \iso X^\2$, so this functor is the pure power $\yon^\2$.
 \end{example}
 
 \begin{exercise}\label{exc.representable_fun}
-For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, say what the representing set is.
+For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, give the set that represents it.
 \begin{enumerate}
-	\item The identity functor $X\mapsto X$, which sends each function to itself.
-	\item The constant functor $X\mapsto\2$, which sends every function to the identity on $\2$.
-	\item The constant functor $X\mapsto\1$, which sends every function to the identity on $\1$.
-	\item The constant functor $X\mapsto\0$, which sends every function to the identity on $\0$.
-	\item A functor $X\mapsto X^\nn$.
-	If it were representable, where would it send each function?
-	\item A functor $X\mapsto 2^X$.
-	If it were representable, where would it send each function?
-\qedhere
+    \item The identity functor $X\mapsto X$, which sends each function to itself.
+    \item The constant functor $X\mapsto\2$, which sends every function to the identity on $\2$.
+    \item The constant functor $X\mapsto\1$, which sends every function to the identity on $\1$.
+    \item The constant functor $X\mapsto\0$, which sends every function to the identity on $\0$.
+    \item A functor $X\mapsto X^\nn$.
+    If it could be representable, where should it send each function?
+    \item A functor $X\mapsto \2^X$.
+    If it could be representable, where should it send each function? \qedhere
 \end{enumerate}
 
 \begin{solution}
-Our goal is to say whether various functors are representable and, for those that are, what the representing set is.
 \begin{enumerate}
-	\item The identity functor $X\mapsto X$ is represented by $S=\1$: a function $\1 \to X$ is just an element of $X$, so $\smset(\1,X) \iso X$.
-	Alternatively, note that $X^1 \iso X$.
-	\item \label{sol.representable_fun.2} The constant functor $X\mapsto\2$ is not representable: the functor sends $\1$ to $\2$, but $\1^S \iso \1 \not\iso \2$ for any set $S$.
-	\item The constant functor $X\mapsto\1$ is representable by $S=\0$: there is exactly one function $\0 \to X$, so $\smset(\0,X) \iso \1$.
-	Alternatively, note that $X^0 \iso \1$.
-	\item The constant functor $X\mapsto\0$ is not representable, for the same reason as in \cref{sol.representable_fun.2}.
-	\item The functor $\yon^\nn$ that sends $X\mapsto X^\nn$ is represented by $S=\nn$, by definition.
-	It sends each function $h \colon X \to Y$ to the function $h^\nn \colon X^\nn \to Y^\nn$ that sends each $g \colon \nn \to X$ to $g \then h \colon \nn \to Y$.
-	\item No $\smset \to \smset$ functor $X\mapsto \2^X$ is representable, for the same reason as in \cref{sol.representable_fun.2}.
-	(There \emph{is}, however, a functor $\smset\op \to \smset$ sending $X \mapsto 2^X$ that is understood to be representable in a more general sense.)
+    \item The identity functor $X\mapsto X$ is represented by the set $\1$: a function $\1 \to X$ can be identified with an element of $X$, so $\smset(\1,X)\iso X$.
+    Alternatively, note that $X^\1 \iso X$.
+    \item \label{sol.representable_fun.2} The constant functor $X\mapsto\2$ is not representable: it sends $\1$ to $\2$, but $\1^S \iso \1 \not\iso \2$ for any set $S$.
+    \item The constant functor $X\mapsto\1$ is represented by $S=\0$: there is exactly one function $\0 \to X$, so $\smset(\0,X) \iso \1$.
+    Alternatively, note that $X^0 \iso \1$.
+    \item The constant functor $X\mapsto\0$ is not representable for the same reason as in \cref{sol.representable_fun.2}.
+    \item The functor $\yon^\nn$ that sends $X\mapsto X^\nn$ is represented by $\nn$, by definition.
+    It should send each function $h \colon X \to Y$ to the function $h^\nn \colon X^\nn \to Y^\nn$ that sends each $g \colon \nn \to X$ to $g \then h \colon \nn \to Y$.
+    \item No $\smset \to \smset$ functor $X\mapsto \2^X$ is representable, for the same reason as in \cref{sol.representable_fun.2}.
+    (There \emph{is}, however, a functor $\smset\op \to \smset$ sending $X \mapsto 2^X$ that is understood to be representable in a more general sense.)
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
+Now that we have introduced representable functors, we study the maps between them.
+As representables are functors, the maps between them are natural transformations.
+
 \begin{proposition}\label{prop.representable_nt}
-For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ the $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
+For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ its $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
 \end{proposition}
 
+\begin{proof}
+See \cref{exc.representable_nt}.
+\end{proof}
+
 \begin{exercise} \label{exc.representable_nt}
-Prove that for any function $f\colon R\to S$, what we said was a natural transformation in \cref{prop.representable_nt} really is natural. That is, for any function $h\colon X\to Y$, show that the following diagram commutes:
-\[
-\begin{tikzcd}[bottom base]
+To prove \cref{prop.representable_nt}, show that for any function $f\colon R\to S$, the given construction $\yon^f\colon\yon^S\to\yon^R$ really is a natural transformation.
+That is, for any function $h\colon X\to Y$, show that the following naturality square commutes:
+\begin{equation} \label{diag.yon_embed_nat}
+\begin{tikzcd}%[bottom base]
 	X^S\ar[r, "h^S"]\ar[d, "X^f"']&
 	Y^S\ar[d, "Y^f"]\\
 	X^R\ar[r, "h^R"']&
 	Y^R\ar[ul, phantom, "?"]
 \end{tikzcd}
+\end{equation}
 \qedhere
-\]
 
 \begin{solution}
-To show that
-\[
-\begin{tikzcd}[ampersand replacement=\&]
-	X^S\ar[r, "h^S"]\ar[d, "X^f"']\&
-	Y^S\ar[d, "Y^f"]\\
-	X^R\ar[r, "h^R"']\&
-	Y^R\ar[ul, phantom, "?"]\&
-	\qedhere
-\end{tikzcd}
-\]
-commutes, we note that by \cref{prop.representable_nt}, both vertical maps compose functions from $S$ with $f \colon R \to S$ from the left, and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
-So by the associativity of composition, the diagram commutes.
+To show that \eqref{diag.yon_embed_nat} commutes, we note that by the construction of the components of $\yon^f$ in the statement of \cref{prop.representable_nt}, both vertical maps in the diagram compose functions from $S$ with $f \colon R \to S$ on the left; and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
+So by the associativity of composition, the diagram commutes: $(f\then g)\then h=f\then(g\then h)$ for all $g\colon S\to X$.
 \end{solution}
 \end{exercise}
 
 \begin{exercise} \label{exc.representable_nt_components}
-Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component of, i.e.\ the function $X^S\to X^R$ coming from, the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
+Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component $X^f\colon X^S\to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
 \begin{enumerate}
-	\item \label{exc.representable_nt_components.id} $R=\5$, $S=\5$, $f=\id$.  (Here you're supposed to give a function called $X^{\id_\5}\colon X^\5\to X^\5$.)
-	\item $R=\2$, $S=\1$, $f$ is the unique function.
-	\item $R=\1$, $S=\2$, $f(1)=1$.
-	\item $R=\1$, $S=\2$, $f(1)=2$.
-	\item $R=\0$, $S=\5$, $f$ is the unique function.
-	\item $R=\nn$, $S=\nn$, $f(n)=n+1$.
+    \item \label{exc.representable_nt_components.id} $R=\5$, $S=\5$, $f=\id_\5$. (You should describe the function $X^{\id_\5}\colon X^\5\to X^\5$.)
+    \item $R=\2$, $S=\1$, $f$ is the unique function.
+    \item $R=\1$, $S=\2$, $f(1)=1$.
+    \item $R=\1$, $S=\2$, $f(1)=2$.
+    \item $R=\0$, $S=\5$, $f$ is the unique function.
+    \item $R=\nn$, $S=\nn$, $f(n)=n+1$.
 \qedhere
 \end{enumerate}
 
 \begin{solution}
 In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colon X^S \to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$ by applying \cref{prop.representable_nt}, which says that $X^f$ sends each $g \colon S \to X$ to $f \then g \colon R \to X$.
 \begin{enumerate}
-    \item If $R=\5$, $S=\5$, and $f=\id$, then $X^f$ is the identity function on $X^\5$.
-    \item If $R=\2$, $S=\1$, and $f$ is the unique function, then $X^f$ sends each $g \in X$ (i.e.\ function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
+    \item Here $X^{\id_5}\colon X^\5\to X^\5$ is the identity function.
+    \item If $f\colon\2\to\1$ is the unique function, then $X^f\colon X^\1\to X^\2$ sends each $g \in X$ (i.e.\ function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
     We can think of $X^f$ as the diagonal $X \to X \times X$.
-	\item If $R=\1$, $S=\2$, and $f(1)=1$, then $X^f$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
-	We can think of $X^f$ as the left projection $X \times X \to X$.
-	\item If $R=\1$, $S=\2$, and $f(1)=2$, then $X^f$ sends each $g \colon \2 \to X$ to $g(2)$, viewed as a function $\1 \to X$.
-	We can think of $X^f$ as the right projection $X \times X \to X$.
-	\item If $R=\0$, $S=\5$, and $f$ is the unique function, then $X^f$ is the unique function $X^\5 \to X^\0 \iso \1$.
-	\item If $R=\nn$, $S=\nn$, and $f(n)=n+1$, then $X^f$ sends each $g \colon \nn \to X$ to the function $h \colon \nn \to X$ satisfying $h(n) = g(n+1)$ for all $n \in \nn$.
-	We can think of $X^f$ as removing the first term of an infinite sequence of elements of $X$.
+    \item If $f\colon\1\to\2$ sends $1\mapsto1$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
+    We can think of $X^f$ as the left projection $X \times X \to X$.
+    \item If $f\colon\1\to\2$ sends $1\mapsto2$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(2)$, viewed as a function $\1 \to X$.
+    We can think of $X^f$ as the right projection $X \times X \to X$.
+    \item Here $X^f\colon X^\5\to X^\0\iso\1$ is the unique function.
+    \item If $f\colon\nn\to\nn$ sends $n\mapsto n+1$, then $X^f\colon X^\nn\to X^\nn$ sends each $g \colon \nn \to X$ to the function $h \colon \nn \to X$ defined by $h(n)\coloneqq g(n+1)$ for all $n \in \nn$.
+    We can think of $X^f$ as removing the first term of an infinite sequence of elements $(g(0),g(1),g(2),\ldots)$ of $X$ to obtain a new sequence $(g(1),g(2),g(3),\ldots)$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -1008,8 +1005,8 @@ Show that the construction in \cref{prop.representable_nt} is functorial
 \end{equation}
 as follows.
 \begin{enumerate}
-	\item Show that for any set $S$, we have that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
-	\item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
+    \item Show that for any set $S$, we have that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
+    \item Show that for any functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$.
 \end{enumerate}
 
 \begin{solution}
@@ -1040,12 +1037,12 @@ Conversely, for any element $a\in F(S)$, there is a natural transformation $m^a\
 \begin{exercise}\label{exc.finish_proof_yoneda}
 Whoever solves this exercise can say they've proved the Yoneda lemma.
 \begin{enumerate}
-	\item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in the proof sketch of \cref{lemma.yoneda} are natural in $X$.
-	\item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
-	\item Show that \eqref{eqn.yoneda} is natural in $F$.
-	\item Show that \eqref{eqn.yoneda} is natural in $S$.
-	\item As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
-	For this reason, we call this functor the \emph{Yoneda embedding}.
+    \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in the proof sketch of \cref{lemma.yoneda} are natural in $X$.
+    \item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
+    \item Show that \eqref{eqn.yoneda} is natural in $F$.
+    \item Show that \eqref{eqn.yoneda} is natural in $S$.
+    \item \label{exc.finish_proof_yoneda.embed} As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
+    For this reason, we call this functor the \emph{Yoneda embedding}.
 \qedhere
 \end{enumerate}
 
