@@ -871,7 +871,7 @@ In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we ca
 As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.
 \end{definition}
 
-The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}. For now, here are some pictures for your eyes to gaze at; they are the polynomials corresponding to various representables, namely the pure powers:
+The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}. For now, here are some pictures corresponding to various representables or pure powers:
 \begin{equation}\label{eqn.trees_for_gazing}
 \begin{tikzpicture}[trees, sibling distance=2mm]
   \node["$\yon^{\5}$" below] (1) {$\bullet$} 
@@ -1121,28 +1121,29 @@ In this exercise, we fill in the details of the preceding proof.
 %-------- Section --------%
 \section{Polynomials: sums of representables} \label{sec.poly.func_nat.repr_sum}
 
-Now that we have introduced representable functors 
-
-So far, we have used the symbol $\yon^A$ to denote the functor $\smset\to\smset$ represented by a set $A$, namely the functor $X\mapsto X^A$.
-More generally, we may add these representable functors together to form polynomials.
-In some sense, the name ``polynomial'' doesn't quite fit: in algebra, polynomials are generally finite sums, whereas we allow infinite sums.
-However, we are not the first by far to use the term ``polynomial'' this way, and the name stuck.
+In algebra, a polynomial is just a sum of pure powers.
+So we will define a \emph{polynomial functor} $\smset\to\smset$ to be a sum of pure power functors---that is, the representable functors $\yon^A$ for each set $A$ we just introduced.%
+\footnote{This analogy isn't perfect: in algebra, polynomials are generally finite sums of pure powers, whereas our polynomial functors may be infinite sums of representables.
+However, we are not the first to use the term ``polynomial'' this way, and the name stuck.}
 
 All of our polynomials will be in one variable, $\yon$.
 Every other letter or number that shows up in our notation for a polynomial will denote a set.
 For example, in the following bizarre polynomial
-\begin{equation}\label{eqn.biz_poly}
-p\coloneqq\rr\yon^\zz+\3\yon^{\3}+A\yon+\sum_{i\in I}Q_i\yon^{R_i+Q_i^\2},
+\begin{equation} \label{eqn.biz_poly}
+\rr\yon^\zz+\3\yon^{\3}+\yon^A+\sum_{i\in I}\yon^{R_i+Q_i^\2},
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\2$ and $\3$ respectively denote the sets $\{1,2\}$ and $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote arbitrary sets.
 
-The polynomials we have already introduced are the pure powers $\yon^A$ for all sets $A$: they are representable functors $\yon^A\colon\smset\to\smset.$
-So to define general polynomials like $p$, we just need to introduce what the sums of functors are. It will be useful to discuss products of functors at the same time.
+To make sense of these polynomials, we need to define functor addition, both in the binary case (i.e.\ what is $\yon^A+\yon^B$?) and more generally over arbitrary sets (i.e.\ what is $\sum_{i\in I}\yon^{A_i}$?).
+This will allow us to interpret polynomials like \eqref{eqn.biz_poly}.
+In particular, just as $3y^3=y^3+y^3+y^3$ in algebra, the summand $\3\yon^\3$ of \eqref{eqn.biz_poly} denotes the sum of representables $\yon^\3+\yon^\3+\yon^\3$, while the summand $\rr\yon^\zz$ denotes the sum over $\rr$ of copies of $\yon^\zz$.
 
-To understand the sums and products of set-valued functors, we will first need to understand the sums and products of sets.
+While polynomial functors will be defined as sums, products of polynomials will turn out to be polynomials as well, again mimicking polynomials in algebra.
+To make sense of these products, we will define functor multiplication as well.
+The construction of sums and products of functors $\smset\to\smset$ will rely on the construction of sets and products of sets themselves.
 
 %---- Subsection ----%
-\subsection{Dependent sums and products of sets} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_set}
+\subsection{Sums and products of sets} \label{subsec.poly.func_nat.repr_sum.sum_prod_set}
 
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
 \emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more classically as $(X_i)_{i\in I}$.
