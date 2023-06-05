@@ -64,7 +64,7 @@ We can label the roots and leaves of our forest, like so:
   \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
 \end{tikzpicture}
 \]
-This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as a \emph{dependent set}\footnote{Perhaps better known as an \emph{indexed collection} (or \emph{family}) \emph{of sets}. But we refer to these as \emph{dependent sets} to compare them to the usual sets we are familiar with from set theory, the same way dependent types compare to the usual types that are familiar from type theory.} $(p[i])_{i \in I}$.
+This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as a \emph{dependent set}\footnote{Perhaps better known as an \emph{indexed family of sets}. But we refer to these as \emph{dependent sets} to compare them to the usual sets we are familiar with from set theory, the same way dependent types compare to the usual types that are familiar from type theory.} $(p[i])_{i \in I}$.
 Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
 In standard font, 4 represents the usual natural number. In sans serif font, \4 represents the set $\4=\{1,2,3,4\}$ with 4 elements.
 }, the set of roots, and
@@ -1145,30 +1145,42 @@ The construction of sums and products of functors $\smset\to\smset$ will rely on
 %---- Subsection ----%
 \subsection{Sums and products of sets} \label{subsec.poly.func_nat.repr_sum.sum_prod_set}
 
-Let $I$ be a set, and let $X_i$ be a set for each $i\in I$. We denote this
-\emph{$I$-indexed collection of sets} --- a \emph{dependent set} --- in the form of a functor as $X\colon I\to\smset$ (where we view the set $I$ as a discrete category) or more classically as $(X_i)_{i\in I}$.
-Indeed, when a functor $X \colon I \to \smset$ is understood to be a dependent set, we will denote $X(i)$ as $X_i$ for $i \in I$.
-A single element from one set in the collection would be denoted $(i,x)$ where $x\in X_i$. Choosing an element from
-every set in the collection would give us a function $i \mapsto x_i$, where each
-$x_i\in X_i$. This is a sort of function we haven't seen before, at least in
-this form --- its codomain \emph{depends} on the element we are applying it to.
-Think of a vector field $v$: to each point $p$ it assignes a tangent vector
-$v_p$ in the tangent space \emph{at $p$}. We can write the signature of such a
-function as
-\[f \colon (i \in I) \to X_i.\]
-We call this a \emph{dependent function}, since its codomain depends on the element of its domain that we are applying it to.
+Let $I$ be a set, and let $X_i$ be a set for each $i\in I$.
+Classically, we may denote this \emph{$I$-indexed family of sets} by $(X_i)_{i\in I}$.
+Categorically, we may view this data as a specific kind of functor: if we identify the set $I$ with the \emph{discrete category} on $I$, whose objects are the elements of $I$ and whose morphisms are all identities, then $(X_i)_{i\in I}$ can be identified with a functor $X\colon I\to\smset$ with $X(i)\coloneqq X_i$.
+To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ for a set $I$ viewed as a discrete category, but denote the set obtained by evaluating $X$ at each $i\in I$ by $X_i$ rather than $X(i)$.
 
-\begin{definition}[Dependent sum and product of sets] \label{def.dep_sums_prods_sets}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. The \emph{(dependent) sum} $\sum_{i\in I}X_i$ and \emph{(dependent) product} $\prod_{i\in I}X_i$ of this collection are the sets
+To pick out an element of one of the sets in the indexed family $X\colon I\to\smset$, we need to specify both an index $i\in I$ and an element $x\in X_i$.
+We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as below.
+
+\begin{definition}[Sum of sets] \label{def.dep_sums_sets}
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
+The \emph{sum} $\sum_{i\in I}X_i$ of this indexed family is the set
 \[
-\sum_{i\in I}X_i:=\{(i,x)\mid i\in I\text{ and }x\in X_i\}
-\qqand
-\prod_{i\in I}X_i:=\{f \colon (i \in I) \to X_i\}.
+    \sum_{i\in I}X_i\coloneqq\{(i,x)\mid i\in I\text{ and }x\in X_i\}
+\]
+\end{definition}
+
+Say instead we pick an element from \emph{every} set in the indexed family: that is, we construct an assignment $i\mapsto x_i$, where each $x_i\in X_i$.
+If every $X_i$ were the same set $X$, then this would just be a function $I\to X$.
+More generally, this assignment is what we call a \emph{dependent function}: its codomain $X_i$ \emph{depends} on its input $i$.
+We write the signature of such a function as
+\[
+    f \colon (i \in I) \to X_i.
+\]
+Note that the indexed family of sets completely determines this signature.
+The set of all dependent functions whose signature is determined by a given indexed family of sets is the \textit{product} of that indexed family, as below.
+
+\begin{definition}[Product of sets] \label{def.dep_prods_sets}
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
+The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of dependent functions
+\[
+    \prod_{i\in I}X_i\coloneqq\{f \colon (i \in I) \to X_i\}.
 \]
 \end{definition}
 
 \begin{example}\label{ex.two_sums_and_prods}
-If $I=\2=\{1,2\}$ then a collection $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. Their sum is the disjoint union
+If $I=\2=\{1,2\}$ then a family $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. Their sum is the disjoint union
 \[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
 Its cardinality (i.e.\ the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
 
@@ -1183,7 +1195,7 @@ Let $I$ be a set and let $X_i\coloneqq\1$ be a one-element set for each $i\in I$
 	\item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
 	\item \label{exc.on_sums_prods_sets.prod} Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
 \end{enumerate}
-As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty collection of sets.
+As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty family of sets.
 \begin{enumerate}[resume]
 	\item Is it true that $X_i=\1$ for each $i\in I$?
 	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$, to justify the statement ``the empty sum is $\0$.''
@@ -1204,7 +1216,7 @@ We are given a set $I$ and a dependent set $(X_i)_{i \in I}$ for which $X_i \col
     This uniquely characterizes $f$, so there is only one such dependent function.
     
 \end{enumerate}
-Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty collection of sets.
+Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty family of sets.
 \begin{enumerate}[resume]
     \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
     So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds. 
@@ -1217,10 +1229,10 @@ Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the uniqu
 \end{solution}
 \end{exercise}
 
-We'll assume you're already familiar with the following fact, which justifies why we call the constructions in \cref{def.dep_sums_prods_sets} sums and products.
+We'll assume you're already familiar with the following fact, which justifies why we call the constructions in \cref{def.dep_sums_sets,def.dep_prods_sets} sums and products.
 
 \begin{proposition}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed collection of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$).
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$).
 \end{proposition}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
@@ -3682,7 +3694,7 @@ We leave discussion of them to future work, so as not to distract us from our ma
 
 In this chapter we explained the mathematics behind our main object of study in this book, the category $\poly$ of polynomial functors. A polynomial $p=\sum_{i\in I}\yon^{p[i]}$ can be considered as 
 \begin{enumerate}
-	\item combinatorial data: a collection of sets $(p[i])_{i\in I}$;
+	\item combinatorial data: a family of sets $(p[i])_{i\in I}$;
 	\item a picture: for each $i\in I$, a corolla with $p[i]$-many leaves;
 	\item a functor $\smset\to\smset$: for each $X:\smset$, a new set $\sum_{i\in I}X^{p[i]}$.
 \end{enumerate}
