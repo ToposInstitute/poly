@@ -1026,32 +1026,34 @@ We now have all the ingredients we need to state and prove the Yoneda lemma on t
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
 Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
 \begin{equation}\label{eqn.yoneda}
-F(S)\iso\nat(\yon^S,F)
+F(S)\iso\smset^\smset(\yon^S,F)
 \end{equation}
-where $\nat$ denotes the set of natural transformations. Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
+where the right hand side is the set of natural transformations $\yon^S\to F$.
+Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
 \end{lemma}
 \begin{proof}[Proof]
-For any natural transformation $m\colon\yon^S\to F$, consider the component $m_S\colon S^S\to F(S)$. Applying it to the identity on $S$ as an element of $S^S$, we get an element $m_S(\id_S)\in F(S)$.
+Given a natural transformation $m\colon\yon^S\to F$, consider its $S$-component $m_S\colon S^S\to F(S)$.
+Applying this function to $\id_S\in S^S$ yields an element $m_S(\id_S)\in F(S)$.
 
-Conversely, for any element $a\in F(S)$, there is a natural transformation $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ given by sending $g\colon S\to X$ to $F(g)(a)$.
-In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$, and that these two constructions, $m\mapsto m_S$ and $a\mapsto m^a$, are mutually inverse.
+Conversely, given an element $a\in F(S)$, there is a natural transformation we denote by $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ that sends $g\colon S\to X$ to $F(g)(a)$.
+In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$; that these two constructions, $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$, are mutually inverse; and that the resulting isomorphism is natural.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
 In this exercise, we fill in the details of the preceding proof.
 \begin{enumerate}
-    \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ given as in the proof sketch of \cref{lemma.yoneda} are natural in $X$.
-    \item Show that the two mappings from the proof sketch of \cref{lemma.yoneda} are mutually inverse.
-    \item Show that \eqref{eqn.yoneda} is natural in $F$.
-    \item Show that \eqref{eqn.yoneda} is natural in $S$.
-    \item \label{exc.finish_proof_yoneda.embed} As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, that there is an isomorphism $S^T\iso \nat(\yon^S,\yon^T)$.
-    For this reason, we call this functor the \emph{Yoneda embedding}.
+    \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ defined in the proof of \cref{lemma.yoneda} are natural in $X$.
+    \item Show that the two mappings given in the proof of \cref{lemma.yoneda} are mutually inverse, thus defining the isomorphism \eqref{eqn.yoneda}.
+    \item Show that \eqref{eqn.yoneda} as defined is natural in $F$.
+    \item Show that \eqref{eqn.yoneda} as defined is natural in $S$.
+    \item \label{exc.finish_proof_yoneda.embed} As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, there is an isomorphism $S^T\iso \smset^\smset(\yon^S,\yon^T)$ for sets $S,T$.
+    For this reason, we call $\yon^-$ the \emph{Yoneda embedding}.
 \qedhere
 \end{enumerate}
 
 \begin{solution}
 \begin{enumerate}
-    \item Given $a \in F(S)$, naturality of the maps $X^S \to F(X)$ that send $g \colon S \to X$ to $F(g)(a)$ amounts to the commutativity of
+    \item To check that $X^S \to F(X)$ is natural in $X$, we verify that the naturality square
     \[
     \begin{tikzcd}[ampersand replacement=\&]
     	X^S\ar[r, "h^S"]\ar[d, "F(-)(a)"']\&
@@ -1060,12 +1062,13 @@ In this exercise, we fill in the details of the preceding proof.
     	F(Y)
     \end{tikzcd}
     \]
-    for all $h \colon X \to Y$.
-    The top map $h^S$ sends any $g \colon X \to S$ to $g \then h$ (\cref{def.representable}), which is then sent to $F(g \then h)(a)$ by the right map.
+    commutes for all $h \colon X \to Y$.
+    The top map $h^S$ sends any $g \colon S \to X$ to $g \then h$ (\cref{def.representable}), which is then sent to $F(g \then h)(a)$ by the right map.
     Meanwhile, the left map sends $g$ to $F(g)(a)$, which is then sent to $F(h)(F(g)(a))$ by the bottom map.
     So by the functoriality of $F$, the square commutes.
     
-    \item We seek to show that the two maps from the proof sketch of \cref{lemma.yoneda} are mutually inverse. First, we show that for any natural transformation $m \colon \yon^S \to F$, we have that $m^{m_S(\id_S)} = m$.
+    \item We show that the maps $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$ defined in the proof of \cref{lemma.yoneda} are mutually inverse.
+    First, we show that for any natural transformation $m \colon \yon^S \to F$, we have $m^{m_S(\id_S)} = m$.
     Given a set $X$, the $X$-component of $m^{m_S(\id_S)}$ sends each $g \colon S \to X$ to $F(g)(m_S(\id_S))$; it suffices to show that this is also where the $X$-component of $m$ sends $g$.
     Indeed, by the naturality of $m$, the square
     \[
@@ -1076,18 +1079,18 @@ In this exercise, we fill in the details of the preceding proof.
     	F(X)
     \end{tikzcd}
     \]
-    commutes, so in particular
+    commutes, so in particular, following $\id_S\in S^S$ around this diagram, we have
     \begin{equation} \label{eqn.finish_proof_yoneda}
         F(g)(m_S(\id_S)) = m_X(g^S(\id_S)) = m_X(\id_S \then g) = m_X(g).
     \end{equation}
     In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
     
-    \item Given functors $F, G \colon \smset^\smset$ and a natural transformation $\alpha \colon F \to G$, we wish to show that the naturality square
+    \item It suffices to show that given functors $F, G\colon\smset\to\smset$ and a natural transformation $\alpha \colon F \to G$, the naturality square
     \[
     \begin{tikzcd}[ampersand replacement=\&]
-    	\nat(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
+    	\smset^\smset(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
     	F(S)\ar[d, "\alpha_S"]\\
-    	\nat(\yon^S,G)\ar[r, "\sim"]\&
+    	\smset^\smset(\yon^S,G)\ar[r, "\sim"]\&
     	G(S)
     \end{tikzcd}
     \]
@@ -1095,21 +1098,21 @@ In this exercise, we fill in the details of the preceding proof.
     The top map sends any $m \colon \yon^S \to F$ to $m_S(\id_S)$, which in turn is sent by the right map to $\alpha_S(m_S(\id_S)) = (m \then \alpha)_S(\id_S)$.
     This is also where the bottom map sends $m \then \alpha$, so the square commutes.
     
-    \item Given a function $g \colon S \to X$, we wish to show that the naturality square on the left side of the diagram
+    \item It suffices to show that given a function $g \colon S \to X$, the naturality square
     \[
     \begin{tikzcd}[ampersand replacement=\&]
-    	\nat(\yon^S,F)\ar[d, "\yon^g \then -"']\ar[r, "\sim"]\&
-    	F(S)\ar[d, "F(f)"]\\
-    	\nat(\yon^X,F)\ar[r, "\sim"]\&
+    	\smset^\smset(\yon^S,F)\ar[d, "\yon^g \then -"']\ar[r, "\sim"]\&
+    	F(S)\ar[d, "F(g)"]\\
+    	\smset^\smset(\yon^X,F)\ar[r, "\sim"]\&
     	F(X)
     \end{tikzcd}
     \]
     commutes.
-    The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(f \then \id_X) = m_X(g)$.
+    The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(g \then \id_X) = m_X(g)$.
     Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
     So the square commutes by \eqref{eqn.finish_proof_yoneda}.
     
-    \item To show that $\nat(\yon^S, \yon^T) \iso S^T$, just take $F = \yon^T$ in \cref{lemma.yoneda}.
+    \item To show that $\smset^\smset(\yon^S, \yon^T) \iso S^T$, just take $F\coloneqq\yon^T$ in \cref{lemma.yoneda} so that $F(S)\iso S^T$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -1117,9 +1120,12 @@ In this exercise, we fill in the details of the preceding proof.
 %-------- Section --------%
 \section{Polynomials: sums of representables} \label{sec.poly.func_nat.repr_sum}
 
-We've seen that for any set $A$, the symbol $\yon^A$ denotes a functor $\smset\to\smset$. We will generalize this by adding representable functors together to form polynomials. In some sense, the name ``polynomial'' doesn't quite fit: in algebra, polynomials are generally taken to be finite sums, whereas we will use sums that may be infinite. However, we are not the first by far to use the term ``polynomial'' in this way.
+So far, we have used the symbol $\yon^A$ to denote the functor $\smset\to\smset$ represented by a set $A$, namely the functor $X\mapsto X^A$.
+More generally, we may add these representable functors together to form polynomials.
+In some sense, the name ``polynomial'' doesn't quite fit: in algebra, polynomials are generally finite sums, whereas we allow infinite sums.
+However, we are not the first by far to use the term ``polynomial'' this way, and the name stuck.
 
-So here's the deal. All of our polynomials will be polynomials in one variable, namely $\yon$.
+All of our polynomials will be polynomials in one variable, namely $\yon$.
 Every other letter or number that shows up will represent a set.
 For example, in the following bizarre polynomial
 \begin{equation}\label{eqn.biz_poly}
