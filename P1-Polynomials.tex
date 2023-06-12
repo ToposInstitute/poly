@@ -1157,82 +1157,92 @@ We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as 
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
 The \emph{sum} $\sum_{i\in I}X_i$ of this indexed family is the set
 \[
-    \sum_{i\in I}X_i\coloneqq\{(i,x)\mid i\in I\text{ and }x\in X_i\}
+  \sum_{i\in I}X_i\coloneqq\{(i,x)\mid i\in I\text{ and }x\in X_i\}.
+\]
+When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this sum as
+\[
+  X_{i_1}+\cdots+X_{i_n}.
 \]
 \end{definition}
 
 Say instead we pick an element from \emph{every} set in the indexed family: that is, we construct an assignment $i\mapsto x_i$, where each $x_i\in X_i$.
 If every $X_i$ were the same set $X$, then this would just be a function $I\to X$.
 More generally, this assignment is what we call a \emph{dependent function}: its codomain $X_i$ \emph{depends} on its input $i$.
-We write the signature of such a function as
+We write the signature of such a dependent function as
 \[
-    f \colon (i \in I) \to X_i.
+  f \colon (i \in I) \to X_i.
 \]
-Note that the indexed family of sets completely determines this signature.
+Note that the indexed family of sets $X\colon I\to\smset$ completely determines this signature.
 The set of all dependent functions whose signature is determined by a given indexed family of sets is the \textit{product} of that indexed family, as below.
 
 \begin{definition}[Product of sets] \label{def.dep_prods_sets}
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
 The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of dependent functions
 \[
-    \prod_{i\in I}X_i\coloneqq\{f \colon (i \in I) \to X_i\}.
+  \prod_{i\in I}X_i\coloneqq\{f \colon (i \in I) \to X_i\}.
+\]
+When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this product as
+\[
+  X_{i_1}\times\cdots\times X_{i_n}.
 \]
 \end{definition}
 
+For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to each $i\in I$ by $f(i), fi,$ or $f_i$.
+When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-tuple $(f(i_1),\ldots,f(i_n))$; similarly, when $I\coloneqq\nn$, we may identify $f$ with the infinite sequence $(f_0,f_1,f_2,\ldots)$.
+
 \begin{example}\label{ex.two_sums_and_prods}
-If $I=\2=\{1,2\}$ then a family $X\colon I\to \smset$ is just two sets, say $X_1=\{a,b,c\}$ and $X_2=\{c,d\}$. Their sum is the disjoint union
-\[\sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.\]
-Its cardinality (i.e.\ the number of elements it contains) will always be the sum of the cardinalities of $X_1$ and $X_2$.
+If $I\coloneqq\2=\{1,2\}$, then an $I$-indexed family $X\colon I\to \smset$ consists of two sets---say $X_1\coloneqq\{a,b,c\}$ and $X_2\coloneqq\{c,d\}$.
+Their sum is then the disjoint union
+\[
+  \sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.
+\]
+The cardinality\footnote{The \emph{cardinality} of a set is the number of elements it contains, at least when the set is finite; with care the notion can be extended to infinite sets as well.} of $X_1+X_2$ will always be the sum of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``sum.''
 
 Meanwhile, their product is the usual cartesian product
 \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
-Its cardinality will always be the product of the cardinalities of $X_1$ and $X_2$.
+The cardinality of $X_1\times X_2$ will always be the product of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``product.''
 \end{example}
 
 \begin{exercise}\label{exc.on_sums_prods_sets}
-Let $I$ be a set and let $X_i\coloneqq\1$ be a one-element set for each $i\in I$.
+Let $I$ be a set.
 \begin{enumerate}
 	\item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\cong\sum_{i\in I}\1$.
 	\item \label{exc.on_sums_prods_sets.prod} Show that there is an isomorphism of sets $\1\cong\prod_{i\in I}\1$.
 \end{enumerate}
-As a special case, suppose $I\coloneqq\varnothing$ and $X\colon \varnothing\to\smset$ is the unique empty family of sets.
+As a special case, suppose that $I\coloneqq\0=\varnothing$ and that $X\colon \varnothing\to\smset$ is the unique empty indexed family of sets.
 \begin{enumerate}[resume]
 	\item Is it true that $X_i=\1$ for each $i\in I$?
-	\item Show that there is an isomorphism of sets $\0\cong\sum_{i\in\varnothing}X_i$, to justify the statement ``the empty sum is $\0$.''
-	\item Show that there is an isomorphism of sets $\1\cong\prod_{i\in\varnothing}X_i$, to justify the statement ``the empty product is $\1$.''
+	\item Justify the statement ``the empty sum is $\0$'' by showing that there is an isomorphism of sets $\sum_{i\in\varnothing}X_i\iso\0$.
+	\item Justify the statement ``the empty product is $\1$'' by showing that there is an isomorphism of sets $\prod_{i\in\varnothing}X_i\iso\1$.
 \qedhere
 \end{enumerate}
 
 \begin{solution}
-We are given a set $I$ and a dependent set $(X_i)_{i \in I}$ for which $X_i \coloneqq \1$ for every $i \in I$.
 \begin{enumerate}
     \item \label{sol.on_sums_prods_sets.sum}
-    To show that $I \iso \sum_{i \in I} \1$, we note that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \mid i \in I\}$.
-    Then function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
+    To show that $I\iso\sum_{i \in I}\1$, observe that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \mid i \in I\}$.
+    Then the function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
 
     \item \label{sol.on_sums_prods_sets.prod}
-    To show that $\1 \iso \prod_{i \in I} \1$, it suffices to demonstrate that there is a unique dependent function $f \colon (i \in I) \to \1$.
+    To show that $\1 \iso \prod_{i \in I} \1$, it suffices to show that there is a unique dependent function $f \colon (i \in I) \to \1$.
     As $\1 = \{1\}$, such a function $f$ must always send $i \in I$ to $1$.
-    This uniquely characterizes $f$, so there is only one such dependent function.
+    This uniquely characterizes $f$, so there is indeed only one such dependent function.
 
-\end{enumerate}
-Now $I \coloneqq \varnothing$ and $X \colon \varnothing \to \smset$ is the unique empty family of sets.
-\begin{enumerate}[resume]
     \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
     So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds.
     We say that this sort of statement is ``vacuously true.''
 
-    \item As $I = \varnothing = \0$, we have $\0 = I \iso \sum_{i \in I} \1 = \sum_{i \in \varnothing} X_i$, where the middle isomorphism follows from \cref{sol.on_sums_prods_sets.sum} and the last equation follows from \cref{sol.on_sums_prods_sets.vac}.
+    \item As $I = \0 = \varnothing$, we have $\sum_{i\in\varnothing}X_i = \sum_{i\in I}\1 \iso I = \0$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism in the middle follows from \cref{sol.on_sums_prods_sets.sum}.
 
-    \item As $I = \varnothing = \0$, we have $\1 \iso \prod_{i \in I} \1 = \prod_{i \in \varnothing} X_i$, where the isomorphism on the left follows from \cref{sol.on_sums_prods_sets.prod} and the equation on the right follows from \cref{sol.on_sums_prods_sets.vac}.
+    \item As $I = \varnothing$, we have $\prod_{i\in\varnothing}X_i = \prod_{i\in I}\1 \iso \1$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism on the right follows from \cref{sol.on_sums_prods_sets.prod}.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-We'll assume you're already familiar with the following fact, which justifies why we call the constructions in \cref{def.dep_sums_sets,def.dep_prods_sets} sums and products.
+We'll assume you're already familiar with the following fact, which further justifies why we call the constructions in \cref{def.dep_sums_sets,def.dep_prods_sets} sums and products.
 
 \begin{proposition}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$).
+Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
 \end{proposition}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
@@ -3693,7 +3703,7 @@ We leave discussion of them to future work, so as not to distract us from our ma
 
 In this chapter we explained the mathematics behind our main object of study in this book, the category $\poly$ of polynomial functors. A polynomial $p=\sum_{i\in I}\yon^{p[i]}$ can be considered as
 \begin{enumerate}
-	\item combinatorial data: a family of sets $(p[i])_{i\in I}$;
+	\item combinatorial data: an indexed family of sets $(p[i])_{i\in I}$;
 	\item a picture: for each $i\in I$, a corolla with $p[i]$-many leaves;
 	\item a functor $\smset\to\smset$: for each $X:\smset$, a new set $\sum_{i\in I}X^{p[i]}$.
 \end{enumerate}
