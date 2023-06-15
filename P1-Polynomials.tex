@@ -1183,7 +1183,7 @@ The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of depe
 \]
 When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this product as
 \[
-  X_{i_1}\times\cdots\times X_{i_n}.
+  X_{i_1}\times\cdots\times X_{i_n} \qqor X_{i_1}\cdots X_{i_n}.
 \]
 \end{definition}
 
@@ -1464,24 +1464,25 @@ Meanwhile, an element $f$ of the left hand set is sent by one map and then the o
 As $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, the dependent function above is precisely $f$.
 \end{proof}
 
-When $J(i)=J$ does not depend on $i\in I$, the formula in \eqref{eqn.set_completely_distributive} becomes much easier.
+When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref{eqn.set_completely_distributive}.
 
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
-For any set $I$, set $J$, and sets $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
+For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
 \begin{equation} \label{eqn.push_prod_sum_set_indep}
-    \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
+    \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)),
 \end{equation}
+where $\bar{j}$ ranges over all (standard, non-dependent) functions $I\to J$.
 \end{corollary}
 \begin{proof}
-Just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive}.
-Note that dependent functions $\bar{j}$ in $\prod_{i \in I} J(i)$ then become standard functions $\bar{j} \colon I \to J$.
+Take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive}.
+Then the set $\prod_{i\in I}J(i)$ becomes $\prod_{i\in I}J$ (which we may denote in exponential form by $J^I$); its elements, dependent functions $\bar{j}\colon(i\in I)\to J(i)=J$, become standard functions $\bar{j}\colon I\to J$.
 \end{proof}
 
 It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
 In general, we refer to a category having this property as follows.
 
 \begin{definition}[Completely distributive category]
-A category $\cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\cat{C}$, we have a natural isomorphism
+A category $\Cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\Cat{C}$, we have a natural isomorphism
 \begin{equation}\label{eqn.cat_completely_distributive}
 \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
 \iso
@@ -1490,50 +1491,51 @@ A category $\cat{C}$ with all small products and coproducts is \emph{completely 
 \end{definition}
 
 So \cref{prop.push_prod_sum_set} states that $\smset$ is completely distributive.
-We'll see shortly that $\poly$ is, too.
-Of course, \cref{cor.push_prod_sum_set_indep} generalizes to all completely distributive categories as well.
+Once we define the category of polynomial functors, we will see that it, too, is completely distributive.
+
+\cref{cor.push_prod_sum_set_indep} generalizes to all completely distributive categories as well; we state this formally below.
 
 \begin{corollary} \label{cor.push_prod_sum_obj_indep}
-Let $\cat{C}$ be a completely distributive category.
-For any set $I$, set $J$, and objects $(X(i, j))_{i \in I, j \in J}$ from $\cat{C}$, we have a natural isomorphism
+Let $\Cat{C}$ be a completely distributive category.
+For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism
 \begin{equation} \label{eqn.push_prod_sum_obj_indep}
     \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
 \end{equation}
 \end{corollary}
 \begin{proof}
-Again, just take $J(i) = J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
+Again, take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
 \end{proof}
 
 \begin{exercise}
-Let $\cat{C}$ be a completely distributive category.
-How is the usual distributive law,
+Let $\Cat{C}$ be a completely distributive category.
+How is the usual distributive law
 \[
-    X(Y+Z)\iso XY+XZ
+    X\times(Y+Z)\iso X\times Y+X\times Z
 \]
-for $X,Y,Z\in\cat{C}$, a special case of \eqref{eqn.cat_completely_distributive}?
+for $X,Y,Z\in\cat{C}$ a special case of \eqref{eqn.cat_completely_distributive}?
 \begin{solution}
-Given objects $X,Y,Z$ in a completely distributive category $\cat{C}$, we wish to show that $X(Y+Z)\iso XY+XZ$ using \eqref{eqn.cat_completely_distributive}.
+We wish to show that $X\times (Y+Z)\iso X\times Y+X\times Z$ using \eqref{eqn.cat_completely_distributive}.
 On the left hand side, we are taking a $2$-fold product: a single object times a $2$-fold sum.
-So we should let $I\coloneqq\2$ and let $J(1)\coloneqq\1$, with $X(1,1)\coloneqq X$, and $J(2)\coloneqq\2$, with $X(2,1)\coloneqq Y$ and $X(2,2)\coloneqq Z$.
-Then \eqref{eqn.cat_completely_distributive} says that
+So we should let $I\coloneqq\2$ and let $J(1)\coloneqq\1$, with $X(1,1)\coloneqq X$; and $J(2)\coloneqq\2$, with $X(2,1)\coloneqq Y$ and $X(2,2)\coloneqq Z$.
+Then
 \[
-    X(Y+Z) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}\;\prod_{i\in \2}X(i,\bar{j}(i)) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}X(1,\bar{j}(1))\times X(2,\bar{j}(2)).
+    X\times(Y+Z)\iso \prod_{i\in\2}\sum_{j\in J(i)}X(i,j) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}\;\prod_{i\in \2}X(i,\bar{j}(i)) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}X(1,\bar{j}(1))\times X(2,\bar{j}(2)),
 \]
+where the middle isomorphism follows from \eqref{eqn.cat_completely_distributive}.
 The set $\prod_{i\in\2}J(i)$ contains two functions: $(1\mapsto1,2\mapsto1)$ and $(1\mapsto1,2\mapsto2)$.
 So we can rewrite the right hand side as
 \[
-    X(1,1)\times X(2,1)+X(1,1)\times X(2,2)\iso XY+XZ,
+    X(1,1)\times X(2,1)+X(1,1)\times X(2,2)\iso X\times Y+X\times Z.
 \]
-as desired.
 \end{solution}
 \end{exercise}
 
-Throughout this book, e.g.\ in \cref{exc.practice_sum_prod}, you'll often see an expression consisting of alternating products and sums.
-Using \eqref{eqn.cat_completely_distributive}, you can always write such an expression as a sum of products, in which every $\sum$ appears before every $\prod$ (i.e.\ in ``disjunctive normal form'').
+Throughout this book, such as in the exercise below, you will see expressions consisting of alternating products and sums.
+Using \eqref{eqn.cat_completely_distributive}, you can always rewrite such an expression as a sum of products, in which every $\sum$ appears before every $\prod$.\footnote{When an expression is written so that every $\sum$ appears before every $\prod$, it is said to be in \emph{disjunctive normal form}.}
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
 
 \begin{exercise} \label{exc.push_prod_sum_set}
-Let $I, (J(i))_{i\in I}, (K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
+Let $I, (J(i))_{i\in I},$ and $(K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
 \begin{enumerate}
     \item Rewrite
     \[
