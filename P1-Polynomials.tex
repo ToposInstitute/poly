@@ -1268,32 +1268,32 @@ These satisfy the universal properties for categorical coproducts and products, 
 \end{exercise}
 
 \begin{exercise}\label{exc.dependent_product_as_sections}
-  Let $X \colon I \to \smset$ be a set depending on an $i \in I$. There is a
+  Let $I$ be a set and $X \colon I \to \smset$ be an indexed family.
+  There is a
   projection function
   $\pi_1 \colon \sum_{i \in I} X_i \to I$
-  defined by $\pi_1(i, x) = i$.
+  defined by $\pi_1(i, x) \coloneqq i$.
   \begin{enumerate}
-    \item What is the signature of the second projection $\pi_2(i, x) = x$?
+    \item What is the signature of the second projection $\pi_2(i, x) \coloneqq x$?
     (Hint: it's a dependent function.)
     \item A \emph{section} of a function $r \colon A \to B$ is a function $s \colon B \to A$ such that $s \then r = \id_B$.
-    Show that the dependent product is isomorphic to the set of sections of $\pi_1$:
+    Show that the product of the indexed family is isomorphic to the set of sections of $\pi_1$:
     \[\prod_{i \in I} X_i \cong \left\{s \colon I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.\]
     \qedhere
   \end{enumerate}
 \begin{solution}
-We have a dependent set $X \colon I \to \smset$ and a projection function $\pi_1 \colon \sum_{i \in I} X_i \to I$ defined by $\pi_1(i, x) = i$.
 \begin{enumerate}
-    \item The second projection $\pi_2(i, x) = x$ sends each pair $p = (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
+    \item The second projection $\pi_2(i, x) = x$ sends each pair $p \coloneqq (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
     Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
     This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
 
     \item Let $S := \{s \colon I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
-    For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have that $f(i) \in X_i$ for all $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends each $i \in I$ to $(i, f(i))$.
-    Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is indeed a section of $\pi_1$.
+    For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have $f(i) \in X_i$ for $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends $i\mapsto(i, f(i))$.
+    Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is a section of $\pi_1$.
     Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to S$.
 
-    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_1(s(i)) = i$ for all $i \in I$, so we can write $s(i)$ as an ordered pair $(i, \pi_2(s(i)))$ with $\pi_2(s(i)) \in X_i$.
-    It follows that we can define a function $f_s \colon (i \in I) \to X_i$ that sends each $i \in I$ to  $\pi_2(s(i))$.
+    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_1(s(i)) = i$ for $i \in I$, so we can write $s(i)$ as an ordered pair $(i, \pi_2(s(i)))$ with $\pi_2(s(i)) \in X_i$.
+    Hence we can define a dependent function $f_s \colon (i \in I) \to X_i$ sending $i\mapsto\pi_2(s(i))$.
     Then $s \mapsto f_s$ is a map $S \to \prod_{i \in I} X_i$.
     By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
 \end{enumerate}
