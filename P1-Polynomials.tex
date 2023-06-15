@@ -64,7 +64,7 @@ We can label the roots and leaves of our forest, like so:
   \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
 \end{tikzpicture}
 \]
-This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as a \emph{dependent set}\footnote{Perhaps better known as an \emph{indexed family of sets}. But we refer to these as \emph{dependent sets} to compare them to the usual sets we are familiar with from set theory, the same way dependent types compare to the usual types that are familiar from type theory.} $(p[i])_{i \in I}$.
+This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as an \emph{indexed family of sets} $(p[i])_{i \in I}$.
 Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
 In standard font, 4 represents the usual natural number. In sans serif font, \4 represents the set $\4=\{1,2,3,4\}$ with 4 elements.
 }, the set of roots, and
@@ -72,7 +72,7 @@ In standard font, 4 represents the usual natural number. In sans serif font, \4 
 p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
 \end{align}
 so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
-We call the entire dependent set $(p[i])_{i \in I}$ an \emph{arena}.
+We call the entire indexed family $(p[i])_{i \in I}$ an \emph{arena}.
 Each element $i \in I$ is a \emph{position} in the arena, and each element $a \in p[i]$ is a \emph{direction} at position $i$.
 So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
 We call the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $a \in p[i]$ as a \emph{$p[i]$-direction}.
@@ -80,7 +80,7 @@ We call the index set $I$ as the \emph{position-set} of $p$, each element $i \in
 Throughout this book, we will see several other perspectives from which we can view polynomials.
 Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
 The first row shows the algebraic notation, as in \eqref{eqn.poly_example};
-the second row shows the dependent set terminology, as in \eqref{eqn.arena_example};
+the second row shows the indexed family terminology, as in \eqref{eqn.arena_example};
 the third shows the pictorial terminology of trees, as in \eqref{eqn.forest_example}; the fourth shows decision-making terminology, giving our polynomials semantics that we will introduce in \cref{sec.poly.intro.dec}; and the fifth row shows dynamical systems terminology, which we will explore in \cref{ch.poly.dyn_sys}.
 
 \begin{equation}%\label{eqn.table_terminology}
@@ -88,7 +88,7 @@ the third shows the pictorial terminology of trees, as in \eqref{eqn.forest_exam
 \begin{tabular}{l|l|l|l}
 \multicolumn{4}{c}{\normalsize Polynomial Terminology}\\[3pt]
 \textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $a \in p[i]$ \\
-\textbf{dependent sets} & arena & position & direction \\
+\textbf{indexed families} & arena & position & direction \\
 \textbf{tree pictures} & corolla forest & root $\bullet$ & leaf $\uparrow$ \\
 \textbf{decisions} & scenario & menu & option \\
 \textbf{dynamics} & interface & output & input
@@ -96,7 +96,7 @@ the third shows the pictorial terminology of trees, as in \eqref{eqn.forest_exam
 \end{equation}
 
 We will freely switch between these equivalent terms depending on context.
-For instance, though a polynomial will turn out to be a \emph{functor}, while an arena is a \emph{dependent set}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are two different syntaxes for the same object.
+For instance, though a polynomial will turn out to be a \emph{functor}, while an arena is an \emph{indexed family}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are two different syntaxes for the same object.
 In particular, we will directly refer to the positions and directions of a polynomial when we mean the positions and directions of its associated arena.
 
 \begin{exercise}%\label{exc.forest}
@@ -1153,7 +1153,7 @@ To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ 
 To pick out an element of one of the sets in the indexed family $X\colon I\to\smset$, we need to specify both an index $i\in I$ and an element $x\in X_i$.
 We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as below.
 
-\begin{definition}[Sum of sets] \label{def.dep_sums_sets}
+\begin{definition}[Sum of sets] \label{def.sum_sets}
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
 The \emph{sum} $\sum_{i\in I}X_i$ of this indexed family is the set
 \[
@@ -1175,7 +1175,7 @@ We write the signature of such a dependent function as
 Note that the indexed family of sets $X\colon I\to\smset$ completely determines this signature.
 The set of all dependent functions whose signature is determined by a given indexed family of sets is the \textit{product} of that indexed family, as below.
 
-\begin{definition}[Product of sets] \label{def.dep_prods_sets}
+\begin{definition}[Product of sets] \label{def.prod_sets}
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
 The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of dependent functions
 \[
@@ -1239,7 +1239,7 @@ As a special case, suppose that $I\coloneqq\0=\varnothing$ and that $X\colon \va
 \end{solution}
 \end{exercise}
 
-The following standard fact describes the constructions from \cref{def.dep_sums_sets,def.dep_prods_sets} categorically and further justifies why we call them sums and products.
+The following standard fact describes the constructions from \cref{def.sum_sets,def.prod_sets} categorically and further justifies why we call them sums and products.
 
 \begin{proposition} \label{prop.set_prod_coprod}
 Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
@@ -1267,7 +1267,7 @@ These satisfy the universal properties for categorical coproducts and products, 
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{exc.dependent_product_as_sections}
+\begin{exercise}\label{exc.product_as_sections}
   Let $I$ be a set and $X \colon I \to \smset$ be an indexed family.
   There is a
   projection function
@@ -1313,7 +1313,7 @@ To choose an element of $\sum_{i \in I} X_i$:
 \end{enumerate}
 \end{quote}
 
-Then the projection $\pi_1$ from \cref{exc.dependent_product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
+Then the projection $\pi_1$ from \cref{exc.product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
 
 Next, we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
 
@@ -1580,10 +1580,10 @@ Our goal is to rewrite each expression so that every $\sum$ appears before every
 \end{solution}
 \end{exercise}
 
-Now that we have defined dependent sums and products of sets, we are ready to tackle dependent sums and products of set-valued functors.
+Now that we have defined sums and products of sets, we are ready to tackle sums and products of set-valued functors.
 
 %---- Subsection ----%
-\subsection{Dependent sums and products of functors $\smset\to\smset$} \label{subsec.poly.func_nat.repr_sum.dep_sum_prod_func}
+\subsection{Sums and products of functors $\smset\to\smset$} \label{subsec.poly.func_nat.repr_sum.sum_prod_func}
 
 Remember: our goal is to define polynomial functors, e.g.\ $\yon^\2+\2\yon+\1$, and the maps between them. Since $\yon^\2$, $\yon$, and $\1$ are functors, we just need to interpret sums of functors $\smset\to\smset$.
 But we might as well examine products of functors at the same time, because they'll very much come in handy.
@@ -1601,7 +1601,7 @@ natural in $X$.
 This is a special case of a more general fact, where $\smset^\smset$ is replaced by an arbitrary functor category $[\cat{D},\cat{C}]$, where $\cat{C}$ is a category that (like $\smset$) has limits and colimits; see \cite[pages 22 -- 23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
-\begin{example}[Dependent sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
+\begin{example}[Sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
 For any two functors $F,G\colon\smset\to\smset$, let
 \[
   (F+G)\colon\smset\to\smset
@@ -4885,12 +4885,12 @@ We'll develop the machinery to answer these questions over the course of the thr
 
 \begin{exercise}
 The notation $\Gamma(p)$ for the set of situations for a polynomial $p$ comes from the common mathematical concept of a ``global section.''
-Show that situations $\gamma\colon p\to\yon$ are precisely \emph{sections} (as defined in \cref{exc.dependent_product_as_sections}) of the canonical function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
+Show that situations $\gamma\colon p\to\yon$ are precisely \emph{sections} (as defined in \cref{exc.product_as_sections}) of the canonical function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
 \begin{solution}
 Given a polynomial $p$, we wish to show that situations for $p$ are precisely sections of the function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
 That function sends every direction of $p$ to the position at which it is located.
 So a section $\gamma\colon p(\1)\to\dot{p}(\1)$ of $\pi_p$ would send each $p$-position to a direction of $p$ at that position, which is also exactly what a situation for $p$ does.
-Alternatively, we can directly apply \cref{exc.dependent_product_as_sections} to deduce that the dependent product $\Gamma(p)\iso\prod_{i \in p(\1)}p[i]$ is isomorphic to the set of sections of the projection $\sum_{i\in p(\1)}p[i]\to p(\1)$ defined by $(i,x)\mapsto i$, which is exactly $\pi_p$.
+Alternatively, we can directly apply \cref{exc.product_as_sections} to deduce that the dependent product $\Gamma(p)\iso\prod_{i \in p(\1)}p[i]$ is isomorphic to the set of sections of the projection $\sum_{i\in p(\1)}p[i]\to p(\1)$ defined by $(i,x)\mapsto i$, which is exactly $\pi_p$.
 \end{solution}
 \end{exercise}
 
