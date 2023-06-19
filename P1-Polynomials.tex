@@ -1148,7 +1148,7 @@ The construction of sums and products of functors $\smset\to\smset$ will rely on
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$.
 Classically, we may denote this \emph{$I$-indexed family of sets} by $(X_i)_{i\in I}$.
 Categorically, we may view this data as a specific kind of functor: if we identify the set $I$ with the \emph{discrete category} on $I$, whose objects are the elements of $I$ and whose morphisms are all identities, then $(X_i)_{i\in I}$ can be identified with a functor $X\colon I\to\smset$ with $X(i)\coloneqq X_i$.
-To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ for a set $I$ viewed as a discrete category, but denote the set obtained by evaluating $X$ at each $i\in I$ by $X_i$ rather than $X(i)$.
+To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ for a set $I$ viewed as a discrete category (although we will occasionally use the classical notation when convenient), but denote the set obtained by evaluating $X$ at each $i\in I$ by $X_i$ rather than $X(i)$.
 
 To pick out an element of one of the sets in the indexed family $X\colon I\to\smset$, we need to specify both an index $i\in I$ and an element $x\in X_i$.
 We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as below.
@@ -1611,66 +1611,81 @@ natural in $X$.
 This is a special case of a more general fact when $\smset^\smset$ is replaced by an arbitrary functor category $\Cat{D}^\Cat{C}$, where $\Cat{D}$ is a category that (like $\smset$) has all small limits and colimits; see \cite[pages 22--23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
-% TODO: the following should not be just an example
-\begin{example}[Sums and products of functors $\smset\to\smset$]\label{ex.sum_prod_set_endofuncs}
-For any two functors $F,G\colon\smset\to\smset$, let
-\[
-  (F+G)\colon\smset\to\smset
-  \qqand
-  (F\times G)\colon\smset\to\smset
-\]
-respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of $F$ and $G$ in $\smset^\smset$.\footnote{We may also denote the product functor $F \times G$ by $FG$.}
-Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
-\[
-  (F+G)(X)\iso F(X)+G(X)
-  \qqand
-	(F\times G)(X)\iso F(X)\times G(X).
-\]
+Focusing on the case of coproducts and products, the following corollary is immediate.
 
-More generally, for any set $I$ and functors $(F_i)_{i\in I}$, let
+\begin{corollary}[Sums and products of functors $\smset\to\smset$] \label{cor.sum_prod_set_endofuncs}
+Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for all $X\in\smset$ by
 \[
-\sum_{i\in I}F_i\colon\smset\to\smset
-\qqand
-\prod_{i\in I}F_i\colon\smset\to\smset
+	(F+G)(X)\coloneqq F(X)+G(X);
 \]
-respectively denote the categorical \emph{sum} (i.e.\ \emph{coproduct}) and \emph{product} of the functors $(F_i)_{i\in I}$.
-Then by \cref{prop.presheaf_lim_ptwise}, for each $X\in\smset$,
+while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$, is the functor $\smset\to\smset$ defined for all $X\in\smset$ by
 \[
-	\left(\sum_{i\in I}F_i\right)(X)\iso\sum_{i\in I} F_i(X)
+	(F\times G)(X)\coloneqq F(X)\times G(X).
+\]
+More generally, given functors $(F_i)_{i\in I}$ indexed over a set $I$, their categorical coproduct or sum and categorical product in $\smset^\smset$, respectively denoted
+\[
+	\sum_{i\in I}F_i\colon\smset\to\smset 
 	\qqand
-	\left(\prod_{i\in I}F_i\right)(X)\iso\prod_{i\in I} F_i(X).
+	\prod_{i\in I}F_i\colon\smset\to\smset,
 \]
-Given a set $I\in\smset$, we will also use $I$ to denote the constant functor that assigns $I$ to each $X\in\smset$.
-In particular, we denote by $\0,\1\colon\smset\to\smset$ the constant functors that respectively assign $\0$ and $\1$ to each $X\in\smset$.
-As the set $\0$ (resp.\ $\1$) is the initial (resp.\ terminal) object in $\smset$, \cref{prop.presheaf_lim_ptwise} tells us that the constant functor $\0$ (resp.\ $\1$) is the is the initial (resp.\ terminal) object in $\smset^\smset$.
-\end{example}
+are respectively defined for all $X\in\smset$ by
+\[
+	\left(\sum_{i\in I}F_i\right)(X)\coloneqq\sum_{i\in I} F_i(X)
+	\qqand
+	\left(\prod_{i\in I}F_i\right)(X)\coloneqq\prod_{i\in I} F_i(X).
+\]
+\end{corollary}
+
+We also note the special case of initial and terminal objects.
+Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that assigns every set to $I$.
+
+\begin{corollary}[Initial and terminal functors $\smset\to\smset$]
+The constant functor $\0\colon\smset\to\smset$ is initial in $\smset^\smset$, while the constant functor $\1\colon\smset\to\smset$ is terminal in $\smset^\smset$.
+\end{corollary}
+\begin{proof}
+	As the set $\0$ is initial in $\smset$ (for every set $X$ there is a unique map $\0\to X$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\0$ is initial in $\smset^\smset$.
+	Similarly, as the set $\1$ is terminal in $\smset$ (for every set $X$ there is a unique map $X\to\1$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\1$ is terminal in $\smset^\smset$.
+\end{proof}
+
+Finally, we note that $\smset^\smset$ inherits the distributivity of $\smset$.
 
 \begin{proposition}\label{prop.set_endofunc_distrib}
 The category $\smset^\smset$ is completely distributive.
 \end{proposition}
 \begin{proof}
-This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{prop.presheaf_lim_ptwise} and, in particular, \cref{ex.sum_prod_set_endofuncs}).
+This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{cor.sum_prod_set_endofuncs}).
 \end{proof}
 
+% TODO: make this make sense
+The following exercises justify some notational shortcuts we will use when denoting polynomial functors.
+First, for any set $A$ and functor $F\colon\smset\to\smset$, we may write an $A$-indexed sum of copies of $F$ as $AF$, the product of $F$ and the constant functor $A$; for instance, $\yon+\yon\iso\2\yon$.
+
 \begin{exercise} \label{exc.repeated_sum_is_product}
-\begin{enumerate}
-	\item Show that for a set $I \in \smset$ and a functor $F \colon \smset \to \smset$, the sum of $I$ copies of $F$ is isomorphic to the product of the constant functor $I$ and $F$:
+Show that for a set $A\in\smset$ and a functor $F\colon\smset\to\smset$, an $A$-indexed sum of copies of $F$ is isomorphic to the product of the constant functor $A$ and $F$:
     \[
-        \sum_{i \in I}F\iso IF.
+        \sum_{a \in A}F\iso AF.
     \]
-    (This is analogous to the fact from basic arithmetic that adding up $n \in \nn$ copies of number is equal to multiplying that same number by $n$.)
-	\item So does $\2\yon$ denote $\2\times\yon$ or $\yon+\yon$, or does it not matter for some reason?\qedhere
-	\end{enumerate}
+(This is analogous to the fact that adding up $n$ copies of number is equal to multiplying that same number by $n$.)
 \begin{solution}
-\begin{enumerate}
-	\item It suffices to show that for all $X\in\smset$, there is an isomorphism
-    \[
-      \sum_{i\in I} F(X) \iso (IF)(X)
-    \]
+It suffices to show that for all $X\in\smset$, there is an isomorphism
+\[
+	\sum_{a\in A}F(X)\iso(AF)(X)
+\]
     natural in $X$.
-    The left hand side is naturally isomorphic to the set $\{(i,s)\mid i\in I\text{ and }s\in F(X)\} \iso I \times F(X)$, while the right hand side is also naturally isomorphic to the set $I(X) \times F(X) \iso I \times F(X)$. (Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}.)
-    \item It doesn't matter: $\2\yon$ can denote either one. Indeed, taking $I\coloneqq\2$, the above says that there is an isomorphism $\2\times\yon\cong\yon+\yon$.
-\end{enumerate}
+The left hand side is the set $\{(a,s)\mid a\in A\text{ and }s\in F(X)\} \iso A \times F(X)$, while the right hand side is also naturally isomorphic to the set $A(X)\times F(X)\iso A\times F(X)$.
+
+Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}, with $I\coloneqq\2, J(1)\coloneqq A, J(2)\coloneqq\1, X(1,a)\coloneqq\1$ (the constant functor) for $a\in A$, and $X(2,1)\coloneqq F$:
+\[
+	AF \iso
+	\left(\sum_{a\in A}\1\right)F \iso
+	\prod_{i\in\2}\sum_{j\in J(i)}X(i,j)
+		\iso
+	\sum_{\ol{j}\in\prod_{i\in\2}J(i)}\prod_{i\in\2}X(i,\ol{j}(i))
+		\iso
+	\sum_{a\in A}\1\times F
+		\iso
+	\sum_{a\in A}F.
+\]
 \end{solution}
 \end{exercise}
 
@@ -1680,7 +1695,7 @@ This follows directly from the fact that $\smset$ itself is completely distribut
 	\[
 	    \prod_{i\in I}\yon\iso\yon^I.
 	\]
-	(This is analogous to the fact from basic arithmetic that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
+	(This is analogous to the fact that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
 	\item Show that the product of $I$ copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
 	\[
 	    \prod_{i\in I}\yon^A\iso\yon^{IA}.
@@ -1715,7 +1730,7 @@ The exercise above shows that this notation does not conflict with the way we wr
 The exercise also shows how the power of a representable functor can be simplified to a single representable functor.
 \end{remark}
 
-We've finally arrived: we can define polynomial functors!
+We are finally ready to define what a polynomial functor is.
 
 %---- Subsection ----%
 \subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
