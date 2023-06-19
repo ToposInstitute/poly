@@ -1624,7 +1624,7 @@ while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$,
 \]
 More generally, given functors $(F_i)_{i\in I}$ indexed over a set $I$, their categorical coproduct or sum and categorical product in $\smset^\smset$, respectively denoted
 \[
-	\sum_{i\in I}F_i\colon\smset\to\smset 
+	\sum_{i\in I}F_i\colon\smset\to\smset
 	\qqand
 	\prod_{i\in I}F_i\colon\smset\to\smset,
 \]
@@ -1656,24 +1656,22 @@ The category $\smset^\smset$ is completely distributive.
 This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{cor.sum_prod_set_endofuncs}).
 \end{proof}
 
-% TODO: make this make sense
 The following exercises justify some notational shortcuts we will use when denoting polynomial functors.
 First, for any set $A$ and functor $F\colon\smset\to\smset$, we may write an $A$-indexed sum of copies of $F$ as $AF$, the product of $F$ and the constant functor $A$; for instance, $\yon+\yon\iso\2\yon$.
 
 \begin{exercise} \label{exc.repeated_sum_is_product}
 Show that for a set $A\in\smset$ and a functor $F\colon\smset\to\smset$, an $A$-indexed sum of copies of $F$ is isomorphic to the product of the constant functor $A$ and $F$:
-    \[
-        \sum_{a \in A}F\iso AF.
-    \]
+\[
+  \sum_{a \in A}F\iso AF.
+\]
 (This is analogous to the fact that adding up $n$ copies of number is equal to multiplying that same number by $n$.)
 \begin{solution}
 It suffices to show that for all $X\in\smset$, there is an isomorphism
 \[
 	\sum_{a\in A}F(X)\iso(AF)(X)
 \]
-    natural in $X$.
+natural in $X$.
 The left hand side is the set $\{(a,s)\mid a\in A\text{ and }s\in F(X)\} \iso A \times F(X)$, while the right hand side is also naturally isomorphic to the set $A(X)\times F(X)\iso A\times F(X)$.
-
 Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}, with $I\coloneqq\2, J(1)\coloneqq A, J(2)\coloneqq\1, X(1,a)\coloneqq\1$ (the constant functor) for $a\in A$, and $X(2,1)\coloneqq F$:
 \[
 	AF \iso
@@ -1689,17 +1687,26 @@ Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.se
 \end{solution}
 \end{exercise}
 
+Similarly, we may wish to write an $A$-indexed product of copies of $F$ in exponential form as $F^A$.
+But since we have already introduced exponential notation for representable functors, this yields two possible interpretations for the functor $\smset\to\smset$ denoted by $\yon^A$: as the functor represented by $A$, or as the $A$-indexed product of copies of the identity functor $\yon\colon\smset\to\smset$.
+In fact, the following exercise shows that there is no ambiguity, as the two interpretations are isomorphic.
+
 \begin{exercise}
 \begin{enumerate}
-    \item Show that for a set $I\in\smset$, the product of $I$ copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
+  \item Show that for a set $I\in\smset$, an $I$-indexed product of copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
 	\[
 	    \prod_{i\in I}\yon\iso\yon^I.
 	\]
 	(This is analogous to the fact that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
-	\item Show that the product of $I$ copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
+	\item Show that the $I$-indexed product of copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
 	\[
 	    \prod_{i\in I}\yon^A\iso\yon^{IA}.
 	\]
+  (Hint: You may use the fact that following natural isomorphism holds between sets of functions:
+  \[
+    \{ f \colon I\times A\to X \} \iso \{ g \colon I\to X^A \}.
+  \]
+  The process of converting a function $f$ in the left hand set to the corresponding function $i\mapsto(a\mapsto f(i,a))$ in the right is known as \emph{currying}.) \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
@@ -1710,27 +1717,26 @@ Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.se
     natural in $X$.
     We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
     So both sides are naturally isomorphic to the set of functions $I\to X$.
+
     \item It suffices to show that for all $X\in\smset$, there is an isomorphism
     \[
         \prod_{i\in I} \yon^A(X) \iso \yon^{IA}(X).
     \]
     natural in $X$.
-    We have that $\yon^A(X)\iso X^A$ and that $\yon^{IA}(X)\iso X^{IA}$.
+    We have that $\yon^A(X)\iso X^A$, so $\prod_{i\in I}\yon^A(X)\iso(X^A)^I$, and that $\yon^{IA}(X)\iso X^{IA}$.
     By currying, both sides are naturally isomorphic to the set of functions $I\times A\to X$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{remark}
-From here on out, given $I\in\smset$ and a functor $F\colon\smset\to\smset$, we define
+Henceforth, given $A\in\smset$ and a functor $F\colon\smset\to\smset$, we define
 \[
-    F^I\coloneqq\prod_{i\in I}F.
+    F^A\coloneqq\prod_{a\in A}F.
 \]
 The exercise above shows that this notation does not conflict with the way we write representable functors as powers of the identity functor $\yon$.
-The exercise also shows how the power of a representable functor can be simplified to a single representable functor.
-\end{remark}
+The exercise also shows how a power of a representable functor can be simplified to a single representable functor.
 
-We are finally ready to define what a polynomial functor is.
+With these ingredients, we are finally ready to define what a polynomial functor is.
 
 %---- Subsection ----%
 \subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
