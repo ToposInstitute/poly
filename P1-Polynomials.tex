@@ -1187,7 +1187,7 @@ When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this 
 \]
 \end{definition}
 
-For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to each $i\in I$ by $f(i), fi,$ or $f_i$.
+For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to $i\in I$ by $f(i), fi,$ or $f_i$.
 When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-tuple $(f(i_1),\ldots,f(i_n))$; similarly, when $I\coloneqq\nn$, we may identify $f$ with the infinite sequence $(f_0,f_1,f_2,\ldots)$.
 
 \begin{example}\label{ex.two_sums_and_prods}
@@ -1637,7 +1637,7 @@ are respectively defined for all $X\in\smset$ by
 \end{corollary}
 
 We also note the special case of initial and terminal objects.
-Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that assigns every set to $I$.
+Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that sends every set to $I$.
 
 \begin{corollary}[Initial and terminal functors $\smset\to\smset$]
 The constant functor $\0\colon\smset\to\smset$ is initial in $\smset^\smset$, while the constant functor $\1\colon\smset\to\smset$ is terminal in $\smset^\smset$.
@@ -1742,12 +1742,14 @@ With these ingredients, we are finally ready to define what a polynomial functor
 \subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
 
 \begin{definition}[Polynomial functor]
-A \emph{polynomial functor} (or simply a \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, sets $(p[i])_{i\in I}$, and an isomorphism
-\[p\cong\sum_{i\in I}\yon^{p[i]}\]
-to a sum of representables.
+A \emph{polynomial functor} (or simply \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, an $I$-indexed family of sets $(p[i])_{i\in I}$, and an isomorphism
+\[
+  p\iso\sum_{i\in I}\yon^{p[i]}
+\]
+to the corresponding $I$-indexed sum of representables.
 \end{definition}
 
-So (up to isomorphism), a polynomial functor is just a sum of representables.
+So, up to isomorphism, a polynomial functor is just a sum of representables.
 
 \begin{remark}
 Given sets $I, A \in \smset$, it follows from \cref{exc.repeated_sum_is_product} that we have an isomorphism of polynomials
@@ -1759,32 +1761,39 @@ In particular, the constant functor $\1$ is a representable functor ($\1 \iso \y
 \end{remark}
 
 \begin{example}\label{ex.verbose_poly_eval}
-Consider the polynomial $p \coloneqq \yon^\2+\2\yon+\1$. It denotes a functor $\smset\to\smset$; what does this functor do to the set $X\coloneqq\{a,b\}$?
-To be very precise and verbose, let's say
+Consider the polynomial $p\coloneqq\yon^\2+\2\yon+\1$.
+It denotes a functor $\smset\to\smset$; where does this functor send the set $X\coloneqq\{a,b\}$?
+To be precise, we will rather verbosely say that $I\coloneqq\4$ and
 \[
-I\coloneqq\4\qqand
   p[1]\coloneqq\2,\quad
   p[2]\coloneqq\1,\quad
-  p[3]\coloneqq\1,\quad
+  p[3]\coloneqq\1,\qqand
   p[4]\coloneqq\0\
 \]
 so that $p\cong\sum_{i\in I}\yon^{p[i]}$. Now we have
+\begin{align*}
+  p(X) &\iso
+  \sum_{i\in\4}\{a,b\}^{p[i]} \\ &=
+  \{a,b\}^\2 + \{a,b\}^\1 + \{a,b\}^\1 + \{a,b\}^\0 \\ &\iso
+  \{(1,(a,a)),(1,(a,b)),(1,(b,a)),(1,(b,b)),(2,(a)),(2,(b)),(3,(a)),(3,(b)),(4,())\}.
+\end{align*}
+Above, we denote each function $f\colon p[i]\to\{a,b\}$ in the set $\{a,b\}^{p[i]}$ by the $n$-tuple $(f(1),\ldots,f(n))$ whenever $p[i]\coloneqq\ord{n}$.
+For ease of reading, we may drop the parentheses around these $n$-tuples to obtain the equivalent set
 \[
-p(X)\cong
-\{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
+  p(X) \iso
+  \{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
 \]
-It has $(2^2+2+2+1)$-many, i.e.\ $9$, elements. The representable summand $\yon^A$ throws in all $A$-tuples from $X$, but it's indexed by the name of the summand. In particular if $A=\0$ then it just records the empty tuple at that summand.
+As we might expect, the set $p(X)$ contains $2^2+2+2+1=9$ elements, equal to the value obtained when we plug $|X|=2$ into the original polynomial $p$ when we interpret its coefficients and exponents as numbers instead of sets.
 \end{example}
 
-In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $X$, expanded as
+In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $X$ expands to
 \[
-    \sum_{i\in I}X^{p[i]},
+    \sum_{i\in I}X^{p[i]}
 \]
-can be thought of as the set of all pairs comprised of an element of $I$ and a $p[i]$-tuple of elements of $X$.
-Alternatively, we can think of each pair as an element of $I$ and a function $p[i]\to X$.
+and can be thought of as the set of all pairs comprised of an element of $I$ and a function $p[i]\to X$ or, equivalently, a $p[i]$-tuple of elements of $X$.
 
 \begin{exercise}
-In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows:
+In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows (if there are infinitely many, denote the set $p(X)$ some other way):
 \begin{enumerate}
 	\item $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}.$
 	\item $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$.
@@ -1794,20 +1803,19 @@ In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements 
 \qedhere
 \end{enumerate}
 \begin{solution}
-Our goal is to write out the elements of $p(X)$ for each polynomial $p$ and set $X$ that we are given.
 \begin{enumerate}
-    \item If $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}$, then let $I \coloneqq \1$ and $p[1] \coloneqq \3$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
-    So
-    \[
-        p(X) \iso \{(1, 4, 4, 4), (1, 4, 4, 9), (1, 4, 9, 4), (1, 4, 9, 9), (1, 9, 4, 4), (1, 9, 4, 9), (1, 9, 9, 4), (1, 9, 9, 9)\}.
-    \]
+  \item Let $I\coloneqq\1$ and $p[1]\coloneqq\3$ so that $p\coloneqq\yon^\3\iso\sum_{i \in I}\yon^{p[i]}$.
+  Then
+  \[
+    p(X) \iso \{(1, 4, 4, 4), (1, 4, 4, 9), (1, 4, 9, 4), (1, 4, 9, 9), (1, 9, 4, 4), (1, 9, 4, 9), (1, 9, 9, 4), (1, 9, 9, 9)\}.
+  \]
 
-    \item If $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$, then let $I \coloneqq \4$, $p[1] \coloneqq p[2] \coloneqq p[3] \coloneqq \2$, and $p[4] \coloneqq \1$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
-    So $p(X) \iso \{(1, a, a), (2, a, a), (3, a, a), (4)\}$.
+  \item Let $I \coloneqq \4$, $p[1] \coloneqq p[2] \coloneqq p[3] \coloneqq \2$, and $p[4] \coloneqq \1$, so that $p\coloneqq\3\yon^\2+\1 \iso \sum_{i \in I} \yon^{p[i]}$.
+  Then $p(X) \iso \{(1, a, a), (2, a, a), (3, a, a), (4)\}$.
 
-	\item If $p\coloneqq\0$ and $X\coloneqq\nn$, then let $I \coloneqq \0$ so that $p \iso \sum_{i \in I} \yon^{p[i]}$.
-	So $p(X) \iso \0$.
-	Alternatively, we note that $\0$ is the constant functor that assigns $\0$ to every set.
+	\item Let $I \coloneqq \0$ so that $p\coloneqq\0 \iso \sum_{i \in I} \yon^{p[i]}$.
+	Then $p(X) \iso \0$.
+	Alternatively, note that $\0$ is the constant functor that sends every set to $\0$.
 
 	\item If $p\coloneqq\4$ and $X\coloneqq\nn$, then let $I \coloneqq \4$ and $p[i] \coloneqq \0$ for every $i \in I$.
 	So $p(X) \iso \{(1), (2), (3), (4)\} \iso \4$.
@@ -4847,7 +4855,7 @@ By \eqref{eqn.main_formula}, we have that
 \begin{equation} \label{eqn.gamma_prod}
     \Gamma(p) \iso \prod_{i \in p(\1)} p[i],
 \end{equation}
-so in terms of arenas, a map $\gamma\in\Gamma(p)$ can be thought of as a dependent function that assigns each $p$-position $i$ to a direction $\gamma(i)$ of $p$ at $i$.
+so in terms of arenas, a map $\gamma\in\Gamma(p)$ can be thought of as a dependent function that sends each $p$-position $i$ to a direction $\gamma(i)$ of $p$ at $i$.
 So we call an element of $\Gamma(p)$ a \emph{situation} for $p$.
 The idea is that the situation you're in gives you a direction to go along at any position you may take.
 
@@ -4869,7 +4877,7 @@ Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{solution}
 \begin{enumerate}
 	\item No, it represents a function $B\to A$!
-	An enclosure assigns each output $b\in B$ to an input $a\in A$.
+	An enclosure sends each output $b\in B$ to an input $a\in A$.
 	\item As a wrapper around an interface $B\yon^A$, an enclosure $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
 	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with an enclosure $\gamma$ yields a Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
 	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the enclosure $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
@@ -4891,8 +4899,8 @@ Nothing inherent in the language of $\poly$ makes these associations between sta
 Put another way, the monomials $\{4,6\}\yon^{\{4,6\}},\{4,6\}\yon^{\{4,8\}},$ and $\{3,5\}\yon^{\{6,7\}}$ are all isomorphic in $\poly$, but the first can be a state system while the other two cannot!
 
 To address this issue, we need a way to connect the positions of a polynomial to its own directions in the language of $\poly$.
-Here's where situations save the day: a lens $S\yon^S\to\yon$ is just a way of assigning each position in $S$ to a direction in $S$.
-So we can define $\epsilon\colon S\yon^S\to\yon$ to be the situation that assigns each position $s\in S$ to the direction $s$ at $s$ corresponding to the same state.
+Here's where situations save the day: a lens $S\yon^S\to\yon$ is just a way of assigning to each position in $S$ a direction in $S$.
+So we can define $\epsilon\colon S\yon^S\to\yon$ to be the situation that sends each position $s\in S$ to the direction $s$ at $s$ corresponding to the same state.
 Note that $\epsilon$ can be identified with the identity function on $S$ (see \cref{exc.enclosures_as_functions}).
 Now $\poly$ knows which direction is associated with the same state as the position it is at.
 
@@ -5862,7 +5870,7 @@ We can put this all together by providing an enclosure for all the vertices,
 \begin{equation}\label{eqn.polymap_misc9237}
     \bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{n}(v)}}\too\yon.
 \end{equation}
-Specifying such an enclosure amounts to specifying a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{n}(v)}$ that assigns each possible state configuration $S\in\2^V$ of all the vertices in $V$ to a function $g(S)\colon\sum_{v\in V}\ord{n}(v)\to\2$ specifying the states every vertex hears.
+Specifying such an enclosure amounts to specifying a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{n}(v)}$ that sends each possible state configuration $S\in\2^V$ of all the vertices in $V$ to a function $g(S)\colon\sum_{v\in V}\ord{n}(v)\to\2$ specifying the states every vertex hears.
 But we already have a neighbor function assigned to $S$ that respects $\ord{n}$, namely $N'_S$, for which $N'_S(v)\iso\ord{n}(v)$ for all $v\in V$.
 So we can think of $g(S)$ equivalently as a function $g(S)\colon\sum_{v\in V}N'_S(v)\to\2$ that says for each $v\in V$ what signal in $\2$ it should receive from its neighbor $w\in N'_S(v)$.
 But we can just have it receive the current state of its neighbor, as given by $S$:
