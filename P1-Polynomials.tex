@@ -1230,7 +1230,7 @@ As a special case, suppose that $I\coloneqq\0=\varnothing$ and that $X\colon \va
 
     \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
     So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds.
-    We say that this sort of statement is ``vacuously true.''
+    We say that this sort of statement is \emph{vacuously true}.
 
     \item As $I = \0 = \varnothing$, we have $\sum_{i\in\varnothing}X_i = \sum_{i\in I}\1 \iso I = \0$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism in the middle follows from \cref{sol.on_sums_prods_sets.sum}.
 
@@ -1267,7 +1267,70 @@ These satisfy the universal properties for categorical coproducts and products, 
 \end{solution}
 \end{exercise}
 
-Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard category-theoretic fact that $\smset$ is complete (has all small limits) and cocomplete (has all small coliimits). % TODO: add ref for this??
+Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard category-theoretic fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
+
+We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
+
+\begin{definition}[Categorical sums and products of functions]
+  Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
+  Given a natural transformation $f\colon X\to Y$, i.e.\ an $I$-indexed family of functions $(f_i\colon X_i\to Y_i)_{i\in I}$, its \emph{categorical sum} (or \emph{coproduct}) is the function
+  \[
+    \sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i
+  \]
+  that, given $i\in I$ and $x\in X_i$, sends $(i,x)\mapsto(i,f_i(x))$; while its \emph{categorical product} is the function
+  \[
+    \prod_{i\in I}f_i\colon\prod_{i\in I}X_i\to\prod_{i\in I}Y_i
+  \]
+  that sends each $g\colon(i\in I)\to X_i$ to the \emph{composite dependent function} $(i\in I)\to Y_i$, denoted $g\then f$ or $f\circ g$, which sends $i\in I$ to $f_i(g(i))$.
+
+  When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this categorical sum and product of functions respectively as\footnote{We will take care to highlight when this notation may clash with a sum (resp.\ product) of functions with common domain and codomain whose codomain has an additive (resp.\ multiplicative) structure.}
+  \[
+    f_{i_1}+\cdots+f_{i_n} \qqand f_{i_1}\times\cdots\times f_{i_n}.
+  \]
+\end{definition}
+
+\begin{exercise}
+\begin{enumerate}
+  \item Show that the categorical sum of functions is the one induced by the universal property of the categorical sum of sets.
+  That is, given a set $I$, two $I$-indexed families of sets $X,Y\colon I\to\smset$, and a natural transformation $f\colon X\to Y$, the function $\sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i$ that we called the categorical sum is induced by the following composite maps for $j\in J$:
+  \[
+    X_j\To{f_j}Y_j\To{\iota'_j}\sum_{i\in I}Y_i.
+  \]
+  It then follows by a standard categorical argument that the sum is functorial, i.e.\ that the sum of identities is an identity and that the sum of composites is the composite of sums.
+
+  \item Similarly, show that the categorical product of functions is the one induced by the universal property of the categorical product of sets.
+  That is, given the same setup as the previous part, the function $\prod_{i\in I}f_i\colon\prod_{i\in I}X_i\to\prod_{i\in I}Y_i$ that we called the categorical product is induced by the following composite maps for $j\in J$:
+  \[
+    \prod_{i\in I}X_i\To{\pi_j}X_j\To{f_j}Y_j.
+  \]
+  Again, this implies that the product is functorial. \qedhere
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+  \item It suffices to show that the following square commutes for all $j\in I$:
+  \[
+  \begin{tikzcd}[column sep=large]
+    X_j \ar[d, "\iota_j"] \ar[r, "f_j"] & Y_j \ar[d, "\iota'_j"] \\
+    \sum_{i\in I}X_i \ar[r, "\sum_{i\in I}f_i"] & \sum_{i\in I}Y_i
+  \end{tikzcd}
+  \]
+  Given $x\in X_j$, the left inclusion map sends $x$ to $(j,x)$, which the bottom sum of maps sends to $(j,f_j(x))$.
+  Meanwhile, the top map sends $x$ to $f_j(x)$, which the right inclusion map again sends to $(j,f_j(x))$.
+
+  \item It suffices to show that the following square commutes for all $j\in I$:
+  \[
+  \begin{tikzcd}[column sep=large]
+    \prod_{i\in I}X_i \ar[d, "\pi_j"] \ar[r, "\prod_{i\in I}f_i"] & \prod_{i\in I}Y_i \ar[d, "\pi'_j"] \\
+    X_j \ar[r, "f_j"] & Y_j
+  \end{tikzcd}
+  \]
+  Given $g\colon(i\in I)\to X_i$ in $\prod_{i\in I}X_i$, the top product of maps sends $g$ to $f\circ g$, which the right projection map sends to $f_j(g(j))$.
+  Meanwhile, the left projection map sends $g$ to $g(j)$, which the bottom map again sends to $f_j(g(j))$.
+\end{enumerate}
+\end{solution}
+\end{exercise}
+
+We now highlight some tools and techniques to help us work with sum and product sets.
 
 \begin{exercise}\label{exc.product_as_sections}
   Let $I$ be a set and $X \colon I \to \smset$ be an indexed family.
@@ -1601,7 +1664,7 @@ Both these concepts generalize to limits and colimits in $\smset^\smset$.
 
 \begin{proposition} \label{prop.presheaf_lim_ptwise}
 The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
-That is, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
+In particular, on objects, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
 \[
     \left(\lim_{j\in\cat{J}} F(j)\right)(X) \iso \lim_{j\in\cat{J}} \left(F(j)(X)\right) \qqand \left(\colim_{j\in\cat{J}} F(j)\right)(X) \iso \colim_{j\in\cat{J}} \left(F(j)(X)\right)
 \]
@@ -1614,27 +1677,36 @@ This is a special case of a more general fact when $\smset^\smset$ is replaced b
 Focusing on the case of coproducts and products, the following corollary is immediate.
 
 \begin{corollary}[Sums and products of functors $\smset\to\smset$] \label{cor.sum_prod_set_endofuncs}
-Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for all $X\in\smset$ by
+Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
 \[
-	(F+G)(X)\coloneqq F(X)+G(X);
+	(F+G)(X)\coloneqq F(X)+G(X) \qqand (F+G)(f)\coloneqq F(f)+G(f);
 \]
-while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$, is the functor $\smset\to\smset$ defined for all $X\in\smset$ by
+while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
 \[
-	(F\times G)(X)\coloneqq F(X)\times G(X).
+	(F\times G)(X)\coloneqq F(X)\times G(X) \qqand (F\times G)(f)\coloneqq F(f)\times G(f).
 \]
+
 More generally, given functors $(F_i)_{i\in I}$ indexed over a set $I$, their categorical coproduct or sum and categorical product in $\smset^\smset$, respectively denoted
 \[
 	\sum_{i\in I}F_i\colon\smset\to\smset
 	\qqand
 	\prod_{i\in I}F_i\colon\smset\to\smset,
 \]
-are respectively defined for all $X\in\smset$ by
+are respectively defined for $X\in\smset$ by
 \[
 	\left(\sum_{i\in I}F_i\right)(X)\coloneqq\sum_{i\in I} F_i(X)
 	\qqand
 	\left(\prod_{i\in I}F_i\right)(X)\coloneqq\prod_{i\in I} F_i(X).
 \]
+and for functions $f\colon X\to Y$ by
+\[
+  \left(\sum_{i\in I}F_i\right)(f)\coloneqq\sum_{i\in I} F_i(f)
+  \qqand
+  \left(\prod_{i\in I}F_i\right)(f)\coloneqq\prod_{i\in I} F_i(f).
+\]
 \end{corollary}
+
+% TODO: where does a sum or product send a function? sum and products of nat trans? functoriality?
 
 We also note the special case of initial and terminal objects.
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that sends every set to $I$.
@@ -1846,19 +1918,18 @@ We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a po
 The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
 
 \begin{exercise}\label{exc.apply0}
-We saw in \cref{prop.apply1} that for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, the set $p(\1)$ gives back the set of summands, in this case $\8$.
-
-What does $p(\0)$ give you?
+We saw in \cref{prop.apply1} how to interpret the set $p(\1)$ for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of the original polynomial $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
+How might you interpret $p(\0)$?
 \begin{solution}
 We consider $p(\0)$ for arbitrary polynomials $p$.
-A representable functor $\yon^S$ for some $S \in \smset$ sends $\0 \mapsto \0$ if $S \neq \0$ (as there are then no functions $S \to \0$), but sends $\0 \mapsto \1$ if $S = \0$ (as there is a unique function $\0 \to \0$).
+A representable functor $\yon^S$ for $S\in\smset$ sends $\0\mapsto\0$ if $S\neq\0$ (as there are then no functions $S\to\0$), but sends $\0\mapsto\1$ if $S=\0$ (as there is a unique function $\0\to\0$).
 So
 \[
-    p(\0) \iso \sum_{i \in p(\1)} (\yon^{p[i]})(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
+    p(\0) \iso \sum_{i \in p(\1)} \left(\yon^{p[i]}\right)(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
 \]
-In other words, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
+That is, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
 For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0) = \4$.
-In the language of high school algebra, we might call $p(\0)$ the ``constant term'' of $p$.
+In the language of high school algebra, we might call $p(\0)$ the \emph{constant term} of $p$.
 \end{solution}
 \end{exercise}
 
@@ -1866,12 +1937,12 @@ As a functor $\smset\to\smset$, a polynomial should be able to act not only on s
 Below, we explain how.
 
 \begin{proposition} \label{prop.poly_on_functions}
-Let $p$ be an arbitrary polynomial functor, which our notation allows us to write it as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
+Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\coloneqq\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
 Then $p(f)\colon p(X)\to p(Y)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
 \end{proposition}
 \begin{proof}
-For each $i\in p(\1)$, by \cref{def.representable}, the functor $\yon^{p[i]}$ sends $f$ to the function $f^{p[i]}\colon X^{p[i]}\to Y^{p[i]}$, the one that sends every $g\colon p[i]\to X$ to $g\then f\colon p[i]\to Y$.
-So the sum of these functors over $i\in p(\1)$ sends each $(i, g)\in p(X)$ to $(i, f^{p[i]}(g)) = (i, g\then f)\in p(Y)$.
+For each $i\in p(\1)$, by \cref{def.representable}, the functor $\yon^{p[i]}$ sends $f$ to the function $X^{p[i]}\to Y^{p[i]}$ mapping each $g\colon p[i]\to X$ to $g\then f\colon p[i]\to Y$.
+So the sum of these functors over $i\in p(\1)$ sends each $(i, g)\in p(X)$ to $(i, g\then f)\in p(Y)$.
 \end{proof}
 
 \begin{example}
