@@ -1706,7 +1706,7 @@ and for functions $f\colon X\to Y$ by
 \]
 \end{corollary}
 
-% TODO: where does a sum or product send a function? sum and products of nat trans? functoriality?
+% TODO: sum and products of nat trans & functoriality?
 
 We also note the special case of initial and terminal objects.
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that sends every set to $I$.
@@ -1933,7 +1933,7 @@ In the language of high school algebra, we might call $p(\0)$ the \emph{constant
 \end{solution}
 \end{exercise}
 
-As a functor $\smset\to\smset$, a polynomial should be able to act not only on sets but also on functions.
+As a functor $\smset\to\smset$, a polynomial should act on functions as well as on sets.
 Below, we explain how.
 
 \begin{proposition} \label{prop.poly_on_functions}
@@ -1972,13 +1972,12 @@ Suppose $p\coloneqq\yon^\2+\2\yon+1$. Let $X\coloneqq\{a_1,a_2,b_1\}$ and $Y\col
 \begin{exercise}
 Let $p\coloneqq\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
 \begin{solution}
-Given $p\coloneqq\yon^\2+\yon$, we seek the induced function $p(f)\colon p(\1)\to p(\2)$ for a function $f\colon\1\to\2$ of our choice.
-We will choose $1 \mapsto 2$.
-We can evaluate
+We have
 \[
-    p(\1) \iso \{(1, 1, 1), (2, 1)\} \text{ and } p(\2) \iso \{(1, 1, 1), (1, 1, 2), (1, 2, 1), (1, 2, 2), (2, 1), (2, 2)\}.
+    p(\1) \iso \{(1, 1, 1), (2, 1)\} \qqand p(\2) \iso \{(1, 1, 1), (1, 1, 2), (1, 2, 1), (1, 2, 2), (2, 1), (2, 2)\}.
 \]
-So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
+Say we choose the function $f\colon\1\to\2$ that sends $1 \mapsto 2$.
+Then $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
 (If we had instead picked $1 \mapsto 1$ as our function $f$, then $p(f)$ would send $(1, 1, 1) \mapsto (1, 1, 1)$ and $(2, 1) \mapsto (2, 1)$.)
 \end{solution}
 \end{exercise}
@@ -1988,15 +1987,16 @@ So $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
 \section{Morphisms between polynomial functors}
 \label{sec.poly.func_nat.morph}
 
-Before we define the category $\poly$ of polynomial functors, we notice that polynomial functors already live inside a category, namely the category $\smset^\smset$ of functors $\smset \to \smset$, whose morphisms are natural transformations.
+Before we define the category $\poly$ of polynomial functors, we note that polynomial functors live inside a category already: the category $\smset^\smset$ of functors $\smset\to\smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
+For reasons we will explain later, we call such a morphism a \emph{dependent lens}, or a \emph{lens} for short.
 
-\begin{definition}[Polynomial morphism, $\poly$] \label{def.poly_cat}
-Given polynomial functors $p$ and $q$, a \emph{morphism of polynomial functors} (or a \emph{polynomial morphism}) is a natural transformation $p\to q$.
-Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are polynomial morphisms.
+\begin{definition}[Dependent lens, $\poly$] \label{def.poly_cat}
+Given polynomial functors $p$ and $q$, a \emph{dependent lens} (or simply \emph{lens}) is a natural transformation $p\to q$.
+Then $\poly$ is the category whose objects are polynomial functors and whose morphisms are dependent lenses.
 \end{definition}
 
-In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not polynomials, but keep all the same morphisms between any two polynomial functors.
+In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not (isomorphic to) polynomials, but keep all the same morphisms between any two polynomial functors.
 
 %---- Subsection ----%
 \subsection{Coproducts of polynomials}
@@ -2008,7 +2008,7 @@ Since polynomial functors are defined as arbitrary sums of representables, copro
 The category $\poly$ has arbitrary coproducts, coinciding with coproducts in $\smset^\smset$ given by the operation $\sum_{i \in I}$.
 \end{proposition}
 \begin{proof}
-By \cref{ex.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
+By \cref{cor.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary coproducts given by $\sum_{i \in I}$.
 The full subcategory inclusion $\poly \to \smset^\smset$ reflects these coproducts, and by definition $\poly$ is closed under the operation $\sum_{i \in I}$.
 \end{proof}
 
@@ -2016,7 +2016,7 @@ Explicitly, given polynomials $(p_i)_{i \in I}$, their coproduct is
 \begin{equation} \label{eqn.poly_coprod}
     \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]},
 \end{equation}
-which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{ex.sum_prod_set_endofuncs}.
+which coincides with our notion of sums of functors $\smset \to \smset$ from \cref{cor.sum_prod_set_endofuncs}.
 Of course, it also coincides with our notion of polynomial addition from high school algebra---just add all the terms together!
 Binary coproducts are given by binary sums of functors, appropriately denoted by $+$, while the initial object of $\poly$ is the constant polynomial $\0$.
 
@@ -3027,7 +3027,7 @@ The category $\poly$ has arbitrary products, coinciding with products in $\smset
 \begin{proof}
 Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
 
-By \cref{ex.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
+By \cref{cor.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
 The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
 It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
 
