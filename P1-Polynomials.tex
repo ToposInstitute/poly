@@ -2025,28 +2025,30 @@ The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
 At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the $p[i]$-directions; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the $q[j]$-directions.
 
 %---- Subsection ----%
-\subsection{Polynomial morphisms, concretely} \label{subsec.poly.func_nat.morph.concrete}
+\subsection{Dependent lenses, concretely} \label{subsec.poly.func_nat.morph.concrete}
 
-A natural transformation between polynomials $p \to q$ consists of a function $p(X) \to q(X)$ for every set $X \in \smset$ such that the naturality squares commute.
+A dependent lens (i.e.\ natural transformation) between polynomial functors $p \to q$ consists of a function $p(X) \to q(X)$ for each set $X \in \smset$ such that the naturality squares commute.
 That's a lot of data to keep track of!
-Fortunately, there is a much simpler way to think about these polynomial morphisms, which we will discover with some help from our old friend, the Yoneda lemma.
+Fortunately, there is a much simpler way to think about these lenses, which we will discover with some help from our old friend, the Yoneda lemma.
 
 \begin{exercise} \label{exc.poly_morph_yoneda}
-Given a set $S$ and a polynomial $q$, show that a polynomial morphism $\yon^S \to q$ can be identified with an element of the set $q(S)$.
-That is, there is an isomorphism
+Given a set $S$ and a polynomial $q$, show that a lens $\yon^S \to q$ can be identified with an element of the set $q(S)$.
+That is, show that there is an isomorphism
 \[
     \poly(\yon^S, q) \iso q(S).
 \]
 Moreover, show that this isomorphism is natural in both $S$ and $q$.
 Hint: Use the Yoneda lemma (\cref{lemma.yoneda}).
 \begin{solution}
-As $\poly(\yon^S, q)$ is defined to be $\nat(\yon^S, q)$\, the natural isomorphism $\poly(\yon^S, q) \iso q(S)$ follows directly from the Yoneda lemma (\cref{lemma.yoneda}) with $F = q$.
+Recall that $\poly$ is the full subcategory of $\smset^\smset$ spanned by polynomial functors, including $\yon^S$ and $q$.
+So $\poly(\yon^S, q)=\smset^\smset(\yon^S, q)$.
+Hence the natural isomorphism $\poly(\yon^S, q)\iso q(S)$ follows directly from the Yoneda lemma (\cref{lemma.yoneda}) with $F\coloneqq q$.
 \end{solution}
 \end{exercise}
 
-Before we present our alternative characterization of polynomial morphisms, recall that every polynomial $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ is uniquely associated to an indexed family of sets, $(p[i])_{i \in p(\1)}$, which we call its \emph{arena}, as in \eqref{eqn.arena_example}.
-Alternatively, we could write such an indexed family as a functor $p[-] \colon p(\1) \to \smset$, where we view the set $p(\1)$ as a discrete category.
-Below, we make use of this functor notation to express the arenas of polynomials.
+Before we present our alternative characterization of dependent lenses, note that every polynomial $p\coloneqq \sum_{i \in p(\1)}\yon^{p[i]}$ is uniquely associated to an indexed family of sets $(p[i])_{i \in p(\1)}$.
+Alternatively, we could write such an indexed family as a functor $p[-]\colon p(\1)\to\smset$, where we view the set $p(\1)$ as a discrete category.
+Below, we make use of this functor notation to express the indexed families associated with polynomials.
 
 \begin{proposition}\label{prop.poly_maps_prod_sum}
 Let $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ be polynomials.
@@ -2063,7 +2065,7 @@ In other words, a morphism $p\to q$ can be identified with a pair $(f_\1,f^\shar
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-where $f_\1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: for each $i\in p(\1)$ with $j\coloneqq f_\1(i)$, there is a function $f^\sharp_i\colon q[j]\to p[i]$.
+where $f_\1 \colon p(\1) \to q(\1)$ is a function (or functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: for each $i\in p(\1)$, there is a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$.
 \end{proposition}
 \begin{proof}
 By the universal property of the coproduct, we have a natural isomorphism
@@ -2072,11 +2074,11 @@ By the universal property of the coproduct, we have a natural isomorphism
 \]
 so applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and unraveling the definitions of $p$ and $q$ yields \eqref{eqn.main_formula}.
 
-The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f \colon (i \in p(\1)) \to \sum_{j \in q(\1)} p[i]^{q[j]}$, each of which is uniquely determined by its components: $\pi_1 \circ f$, which sends $i \in p(\1)$ to $\pi_1(f(i)) \in q(\1)$, and $\pi_2 \circ f$, which sends $i \in p(\1)$ with $j \coloneqq \pi_1(f(i))$ to an element of $p[i]^{q[j]}$, i.e.\ a function $q[j] \to p[i]$.
-These can be identified respectively with a (non-dependent) function $f_\1 \coloneqq \pi_1 \circ f$ from $p(\1) \to q(\1)$ and a natural transformation $f^\sharp \colon q[f_\1(-)] \to p[-]$.
+The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f\colon(i\in p(\1))\to\sum_{j\in q(\1)}p[i]^{q[j]}$, each of which is uniquely determined by its two projections, $(\pi_1\circ f)\colon(i\in p(\1))\to q(\1)$ and $(\pi_2\circ f)\colon(i\in p(\1))\to p[i]^{q[j]}$ with $j\coloneqq\pi_1(f(i))$.
+These can be identified respectively with a (non-dependent) function $f_\1\coloneqq\pi_1\circ f$ with signature $p(\1)\to q(\1)$ and a natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$.
 \end{proof}
 
-We have now greatly simplified our characterization of polynomial morphisms $f \colon p \to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they can be specified simply as a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$, without any additional restrictions.
+We have now greatly simplified our characterization of dependent lenses $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
 
 Here is where we begin to see the advantages of viewing polynomials as arenas.
 As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
