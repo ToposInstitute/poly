@@ -849,7 +849,7 @@ We'll begin in the next chapter.
 %------------ Chapter ------------%
 \chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
 
-In this chapter, we will set down the basic category-theoretic story of $\poly$, so that we can have a firm foundation from which to speak about interactive systems.
+In this chapter, we will set down the basic categorical story of $\poly$, so that we can have a firm foundation from which to speak about interactive systems.
 We will formally introduce the objects of $\poly$: polynomial functors.
 We will also study the natural transformations between these functors, which are $\poly$'s morphisms.
 Finally, we'll present some of $\poly$'s most versatile categorical properties.
@@ -1267,7 +1267,7 @@ These satisfy the universal properties for categorical coproducts and products, 
 \end{solution}
 \end{exercise}
 
-Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard category-theoretic fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
+Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard categorical fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
 
 We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
 
@@ -2507,7 +2507,7 @@ Thus we get a canonical lens $\dot{p}\yon\to p$, because we have an isomorphism
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride2001derivative} and \cite{abbott2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted as something like an arena morphism from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
+A morphism $f\colon p\to \dot{q}$ can be interpreted as something like a lens from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
 \end{example}
 
 \begin{exercise} \label{exc.deriv_directions}
@@ -2523,7 +2523,7 @@ Then $\pi_p \colon \dot{p}(\1) \to p(\1)$ is the canonical projection, sending e
 \end{exercise}
 
 \begin{exercise}
-The derivative is not very well-behaved category-theoretically.
+The derivative is not very well-behaved categorically.
 However, it is intriguing.
 Below $p, q \in \poly$.
 \begin{enumerate}
@@ -2567,18 +2567,19 @@ Here $p, q \in \poly$.
 	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $a \in p[i]$ to $(i, a) \in p(\1) \times p[i]$.
 
 	\item We wish to describe a lens $p\yon \to q$ in terms of ``unassigned to directions.''
-	Observe that as an arena, $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
+	Observe that $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
 	We denote this extra direction at each position $i \in p(\1)$ of $p\yon$ by $\ast_i$.
 	So a lens $f \colon p\yon\to q$ sends each position $i$ of $p$ to a position $j$ of $q$, but every $q[j]$-direction could either be sent back to a $p[i]$-direction or the extra direction $\ast_i$.
-	We can say that an arena morphism $f \colon p\yon \to q$ is like an arena morphism $p \to q$, except that any of the directions of $q$ may remain unassigned---i.e.\ we may have partial on-directions functions.
+	We can say that a lens $f \colon p\yon \to q$ is like a lens $p \to q$, except that any of the directions of $q$ may remain unassigned---i.e.\ we may have partial on-directions functions.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Arena morphisms as dependent lenses}\label{subsec.poly.func_nat.morph.bimorphic_lens}
+\subsection{Relation to lenses from functional programming}\label{subsec.poly.func_nat.morph.bimorphic_lens}
 
-Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. Here's a picture of $\5\yon^{\1\2}$:
+Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
+Here's a picture of $\5\yon^{\1\2}$:
 \[
 \begin{tikzpicture}
 \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
@@ -2631,21 +2632,24 @@ It says that to give a morphism from one monomial to another, you just need to g
 Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
 But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
 
-The monomials in $\poly$ and the morphisms between them form a full subcategory of $\poly$, and it has been called \emph{the category of bimorphic lenses} \cite{hedges2018limits}. It comes up in functional programming. The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
+The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
+This category arises in functional programming.
+The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
 \begin{equation}\label{eqn.bimorphic_lens}
 \begin{aligned}
 	\lensget\coloneqq f_\1 &\colon B_1\to B_2\\
 	\lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
 \end{aligned}
 \end{equation}
-The idea is that each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
+Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
 
-So an arena morphism between two monomials is just a bimorphic lens.
-Then an arena morphism between any two arenas is a more generalized lens: a \emph{dependent lens}, where the direction-sets depend on the positions.
-This is why we will henceforth refer to arena morphisms simply as \emph{lenses}.
+So a morphism between two monomials in $\poly$ is just a bimorphic lens.
+Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
+This is why we refer to these morphisms as \emph{lenses}.
 
 \begin{example} \label{ex.lens_get_put}
-Consider the monomial $S\yon^S$. As an arena, its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
+Consider the monomial $S\yon^S$.
+Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
 In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
 Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
 We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
@@ -2686,10 +2690,10 @@ But we will see these conditions emerge from more general theory in \cref{ex.ver
 We now know that we can specify a morphism of polynomials $p \to q$ in two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
-    \item in the language of arenas, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
+    \item in the language of indexed families of sets, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
 \end{itemize}
 But what is the relationship between these two formulations?
-If you told me a lens between arenas, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
+If you told me a lens between indexed families of sets, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
 We want to be able to translate between these two languages.
 
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
