@@ -2092,17 +2092,19 @@ These can be identified respectively with a (non-dependent) function $f_\1\colon
 
 We have now greatly simplified our characterization of dependent lenses $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
 
-Observe that our characterization of a lens can be expressed entirely in the language of positions and directions: a morphism $f\colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
+Observe that our characterization of a dependent lens can be expressed entirely in the language of positions and directions: a lens $f\colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
+
+% TODO: Give intuition via decisions, corollas, etc. each their own section
 
 This forward on-positions/backward on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
-Recall from \cref{sec.poly.intro.dec} that we may view an polynomial as a scenario, each position of a polynomial as a menu, and the directions at that position as the options available on that menu.
+Recall from \cref{sec.poly.intro.dec} that we may view a polynomial as a scenario, each position of a polynomial as a menu, and the directions at that position as the options available on that menu.
 Every time we select an option off a menu, we are making a decision.
-Then the morphisms $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisions to $q$.
+Then the lenses $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisions to $q$.
 
 You should think of this as an agent Pat in scenario $p$ needing to make a decision, so they ask a second agent Quinn in scenario $q$ to make another decision that will then inform the decision that Pat will make.
 Each one of Pat's menus in scenario $p$, say $i\in p(\1)$, is passed forward (``delegated'') to a menu in scenario $q$, say $j\in q(\1)$, for Quinn to choose an option from.
 Then each option $b\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $a\in p[i]$ on $p$'s original menu $i$.
-The morphism tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
+The lens tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
 Henceforth, we will often conflate the agent making a decision with the scenario that they are in, writing statements like ``$p$ chooses an option from its menu.''
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
@@ -2140,7 +2142,7 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they ar
   };
 \end{tikzpicture}
 \]
-To give a map of polynomials $p\to q$, one sends each position $i\in p(\1)$ of $p$ to a position $j\in q(\1)$ of $q$, then sends each direction in $q[j]$ back to one in $p[i]$.
+To give a lens $p\to q$, one sends each $p$-position $i\in p(\1)$ to a $q$-position $j\in q(\1)$, then sends each direction in $q[j]$ back to one in $p[i]$.
 
 How many ways are there to do this? Before answering this, let's just pick one.
 \[
@@ -2196,14 +2198,14 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	};
 \end{tikzpicture}
 \]
-This represents one morphism $p\to q$.
+This represents one lens $p\to q$.
 
-So how many different morphisms are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate the remaining ways to handle the first $p$-position, then add them up: there are $3^4+3^2+3^0+3^0=92$ ways total.
+So how many different lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate the remaining ways to handle the first $p$-position, then add them up: there are $3^4+3^2+3^0+3^0=92$ ways total.
 
 The second $p$-position can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
 Similarly there are four ways to send the third $p$-position to a $q$-position and send back directions.
 
-In total, there are $92 \cdot 4 \cdot 4=1472$ morphisms $p\to q$.
+In total, there are $92 \cdot 4 \cdot 4=1472$ lenses $p\to q$.
 
 Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
 \begin{align*}
@@ -2217,9 +2219,9 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
 \begin{exercise}\label{exc.practice_poly_maps}
 \begin{enumerate}
 	\item Draw the corolla forests associated to $p\coloneqq\yon^\3+\yon+\1$, $q\coloneqq \yon^\2+\yon^\2+\2$, and $r\coloneqq\yon^\3$.
-	\item Give an example of a morphism $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
-	\item Explain your morphism intuitively as a delegation of decisions.
-	\item Explain in those terms why there can't be any morphisms $p\to r$.
+	\item Give an example of a dependent lens $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
+	\item Explain your lens intuitively as a delegation of decisions.
+	\item Explain in those terms why there can't be any lenses $p\to r$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2262,7 +2264,7 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
       };
     \end{tikzpicture}
     \]
-	\item Here is one possible morphism $p \to q$ (you may have drawn others).
+	\item Here is one possible lens $p\to q$ (you may have drawn others).
 	\[
     \begin{tikzpicture}
     	\node (p1) {
@@ -2300,10 +2302,10 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
     	};
     \end{tikzpicture}
     \]
-    \item As depicted, our morphism delegates the first menu of $p$ to the second menu of $q$, whose first and second options are passed back to the third and first options, respectively, of the first menu of $p$.
+    \item As depicted, our lens delegates the first menu of $p$ to the second menu of $q$, whose first and second options are passed back to the third and first options, respectively, of the first menu of $p$.
     Then the second menu of $p$ is delegated to the fourth menu of $q$, which has no options; effectively, the decision associated with the second menu of $p$ has been canceled.
     Finally, the third menu of $p$ is delegated to the third menu of $q$, neither of which has any options.
-    \item There cannot be a morphism $p \to r$ for the following reason: if we delegate the third menu of $p$, which has no options, to the sole menu of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options on the third menu of $p$, as there are no such options.
+    \item There cannot be a lens $p \to r$ for the following reason: if we delegate the third menu of $p$, which has no options, to the sole menu of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options on the third menu of $p$, as there are no such options.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2312,8 +2314,8 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
 For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
 \begin{enumerate}
 	\item Choose a polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
-	\item Count all the maps $\yon^\2\to p$. How many are there?
-	\item Is the previous answer equal to $p(\2)$?
+	\item Count all the lenses $\yon^\2\to p$. How many are there?
+	\item Is the previous answer equal to (the cardinality of) $p(\2)$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2340,12 +2342,12 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
         };
     \end{tikzpicture}
     \]
-    \item We count all the maps from $\yon^\2$ to $p$.
+    \item We count all the lenses from $\yon^\2$ to $p$.
     The unique position of $\yon^\2$ can be sent to either $p$-position.
-    If it is sent to the first $p$-position, then there are $2$ directions of $\yon^\2$ for each of the $3$ directions in $p[1]$ to be sent to, for a total of $2^3 = 8$ maps.
+    If it is sent to the first $p$-position, then there are $2$ directions of $\yon^\2$ for each of the $3$ directions in $p[1]$ to be sent to, for a total of $2^3 = 8$ lenses.
     Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position---at which there are no directions, so there is exactly $1$ way to do this.
-    So we have $8 + 1 = 9$ maps from $\yon^\2$ to $p$.
-    \item Yes, the previous answer is equal to $p(\2) = 2^3 + 1 = 9$.
+    So we have $8 + 1 = 9$ lenses from $\yon^\2$ to $p$.
+    \item Yes, the previous answer is equal to the cardinality of $p(\2)\iso\2^\3+\1\iso\9$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2498,7 +2500,7 @@ For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then
 Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
 Unsurprisingly, this coincides with the familiar notion of derivatives of polynomials from calculus.
 
-Thus we get a canonical map $\dot{p}\yon\to p$, because we have an isomorphism
+Thus we get a canonical lens $\dot{p}\yon\to p$, because we have an isomorphism
 \[
 \dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]}.
 \]
@@ -2525,49 +2527,49 @@ The derivative is not very well-behaved category-theoretically.
 However, it is intriguing.
 Below $p, q \in \poly$.
 \begin{enumerate}
-	\item Explain the canonical map $\dot{p}\yon\to p$ from \cref{ex.derivatives} in more detail.
-	\item Is there always a canonical map $p\to \dot{p}$?
-	\item Is there always a canonical map $\dot{p}\to p$?
-	\item If given a map $p\to q$, does one get a map $\dot{p}\to\dot{q}$?
+	\item Explain the canonical lens $\dot{p}\yon\to p$ from \cref{ex.derivatives} in more detail.
+	\item Is there always a canonical lens $p\to \dot{p}$?
+	\item Is there always a canonical lens $\dot{p}\to p$?
+	\item If given a lens $p\to q$, does one get a lens $\dot{p}\to\dot{q}$?
 	\item We will define the binary operations $\otimes$ and $\ihom{-,-}$ on $\poly$ later on in \eqref{eqn.parallel_def} and \eqref{eqn.par_hom}, and in \cref{exc.dir_hom_p_yon_dir_p}, you will be able to use \cref{exc.par_hom_sum} to deduce that
 	\begin{equation} \label{eqn.dir_hom_p_yon_dir_p}
 	    \ihom{p, \yon} \otimes p \iso \sum_{f \in \prod_{i \in p(\1)} p[i]} \; \sum_{i \in p(\1)} \yon^{p(\1) \times p[i]},
 	\end{equation}
-% 	Using this, find a formula for a map $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
-	Is there always a canonical map $\ihom{p,\yon}\otimes p\to \dot{p}$?
-	\item When talking to someone who explains maps $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a map $p\yon\to q$?
+% 	Using this, find a formula for a lens $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
+	Is there always a canonical lens $\ihom{p,\yon}\otimes p\to \dot{p}$?
+	\item When talking to someone who explains lenses $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a lens $p\yon\to q$?
 	\qedhere
 \end{enumerate}
 \begin{solution}
 Here $p, q \in \poly$.
 \begin{enumerate}
-	\item Our goal is to characterize the canonical map $\dot{p}\yon\to p$.
-	If we unravel the definitions, this is a map
+	\item Our goal is to characterize the canonical lens $\dot{p}\yon\to p$.
+	If we unravel the definitions, this is a lens
 	\[
 	    \sum_{i \in p(\1)} \sum_{a \in p[i]} \yon^{p[i]} \to \sum_{i \in p(\1)} \yon^{p[i]}.
 	\]
-	We observe that there is always such a map sending every position $(i, a) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
-	This is the canonical map.
+	We observe that there is always such a lens sending every position $(i, a) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
+	This is the canonical lens.
 
-	\item There cannot always be a canonical map $p\to \dot{p}$, for if $p \coloneqq \1$, then $\dot{p} \coloneqq \0$, and there is no map $\1 \to \0$.
+	\item There cannot always be a canonical lens $p\to \dot{p}$, for if $p \coloneqq \1$, then $\dot{p} \coloneqq \0$, and there is no lens $\1 \to \0$.
 
-	\item We show that there cannot always be a canonical map $\dot{p}\to p$.
+	\item We show that there cannot always be a canonical lens $\dot{p}\to p$.
 	Take $p \coloneqq \yon$, so $\dot{p} \coloneqq \1$.
-	A map $\1 \to \yon$ must have an on-directions function $\1 \to \0$, but such a function does not exist.
+	A lens $\1 \to \yon$ must have an on-directions function $\1 \to \0$, but such a function does not exist.
 
-	\item We show that even when there is a map $p \to q$, there is not necessarily a map $\dot{p}\to\dot{q}$.
+	\item We show that even when there is a lens $p \to q$, there is not necessarily a lens $\dot{p}\to\dot{q}$.
 	Take $p \coloneqq \yon$ and $q \coloneqq \1$.
-	Then there is a map $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
-	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no map $\1 \to \0$.
+	Then there is a lens $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
+	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no lens $\1 \to \0$.
 
-	\item We show that there is a canonical map $g \colon \ihom{p,\yon} \otimes p \to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}.
+	\item We show that there is a canonical lens $g \colon \ihom{p,\yon} \otimes p \to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}.
 	The on-positions function $g_\1$ takes $f \in \prod_{i \in p(\1)} p[i]$ and $i \in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i \in p(\1)$ and $f(i) \in p[i]$.
 	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $a \in p[i]$ to $(i, a) \in p(\1) \times p[i]$.
 
-	\item We wish to describe a map $p\yon \to q$ in terms of ``unassigned to directions.''
+	\item We wish to describe a lens $p\yon \to q$ in terms of ``unassigned to directions.''
 	Observe that as an arena, $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
 	We denote this extra direction at each position $i \in p(\1)$ of $p\yon$ by $\ast_i$.
-	So a map $f \colon p\yon\to q$ sends each position $i$ of $p$ to a position $j$ of $q$, but every $q[j]$-direction could either be sent back to a $p[i]$-direction or the extra direction $\ast_i$.
+	So a lens $f \colon p\yon\to q$ sends each position $i$ of $p$ to a position $j$ of $q$, but every $q[j]$-direction could either be sent back to a $p[i]$-direction or the extra direction $\ast_i$.
 	We can say that an arena morphism $f \colon p\yon \to q$ is like an arena morphism $p \to q$, except that any of the directions of $q$ may remain unassigned---i.e.\ we may have partial on-directions functions.
 \end{enumerate}
 \end{solution}
@@ -2928,7 +2930,7 @@ Hint: Use \cref{ex.comm_poly} to determine whether a diagram commutes.
 We provide $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$ as follows.
 On positions, they are the canonical inclusions $\iota_\1 \colon p(\1) \to p(\1)+q(\1)$ and $\kappa_\1 \colon q(\1) \to p(\1)+q(\1)$; on directions, they are identities.
 We wish to show that, for $p, q \in \poly$, the polynomial $p+q$ along with $\iota$ and $\kappa$ satisfy the universal property of the coproduct.
-That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to p+q$ for which the diagram \eqref{eqn.coprod_univ_prop} commutes.
+That is, we must show that for any $r \in \poly$ and lenses $f \colon r \to p$ and $g \colon r \to q$, there exists a unique lens $h \colon r \to p+q$ for which the diagram \eqref{eqn.coprod_univ_prop} commutes.
 % \begin{equation} \label{eqn.coprod_univ_prop}
 % \begin{tikzcd}
 % 	r & q \ar[l, "g"'] \ar[d, "\kappa"] \\
@@ -2969,7 +2971,7 @@ As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eq
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
 	\item Suppose that $X$ is a topological space. Organize its points and their neighborhoods into a polynomial $p_X$.
-	\item Give a formula by which any continuous map $X\to Y$ induces a map of polynomials $p_X\to p_Y$.
+	\item Give a formula by which any continuous map $X\to Y$ induces a lens $p_X\to p_Y$.
 	\item Show that your formula defines a functor.
 	\item Is it full? Faithful?
 \qedhere
@@ -3268,10 +3270,10 @@ In practice, we can multiply polynomial functors the same way we would multiply 
 As lenses, the canonical projections $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
 
 \begin{exercise} \label{exc.poly_prod}
-Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the maps $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
+Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
 \begin{solution}
-We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the maps $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ as described in the text satisfy the universal property of the product.
-That is, we must show that for any $r \in \poly$ and maps $f \colon r \to p$ and $g \colon r \to q$, there exists a unique map $h \colon r \to pq$ for which the following diagram commutes:
+We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ as described in the text satisfy the universal property of the product.
+That is, we must show that for any $r \in \poly$ and lenses $f \colon r \to p$ and $g \colon r \to q$, there exists a unique lens $h \colon r \to pq$ for which the following diagram commutes:
 \begin{equation} \label{eqn.prod_univ_prop}
 \begin{tikzcd}
 	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
@@ -3668,7 +3670,7 @@ In \cref{exc.prepare_poly_smc}, we have gone most of the way to proving that $(\
 The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $\otimes$ is the parallel product from \cref{def.parallel}.
 \end{proposition}
 \begin{proof}[Sketch of proof]
-Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a map $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
+Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a lens $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
 (f\otimes g)_\1(i,j)\coloneqq \big(f_\1(i),g_\1(j)\big)
 \]
@@ -3851,7 +3853,7 @@ In this chapter we explained the mathematics behind our main object of study in 
 	\item a picture: for each $i\in I$, a corolla with $p[i]$-many leaves;
 	\item a functor $\smset\to\smset$: for each $X:\smset$, a new set $\sum_{i\in I}X^{p[i]}$.
 \end{enumerate}
-The last of these ties anchors us to the rest of category theory, so that rather than needing to ask for morphisms between combinatorial objects or between pictures, we can ask for morphisms between functors $\smset\to\smset$, and that's well established territory. Once we said that maps $p\to q$ between polynomial functors should just be natural transformations, we translated that back to the combinatorial and pictorial settings and saw the ``on-positions, on-directions'' description. We want to emphasize that we will be referring to each morphism (natural transformation) $p\to q$ between polynomials as a \emph{lens}.
+The last of these ties anchors us to the rest of category theory, so that rather than needing to ask for morphisms between combinatorial objects or between pictures, we can ask for morphisms between functors $\smset\to\smset$, and that's well established territory. Once we said that morphisms $p\to q$ between polynomial functors should just be natural transformations, we translated that back to the combinatorial and pictorial settings and saw the ``on-positions, on-directions'' description. We want to emphasize that we will be referring to each morphism (natural transformation) $p\to q$ between polynomials as a \emph{lens}.
 
 Once $\poly$ was defined, we considered various properties it has, e.g.\ that it has all products and coproducts, and that these distribute: $\prod\sum\to\sum\prod$.
 \begin{align*}
@@ -4006,7 +4008,7 @@ Here's a(n infinite) Moore machine with states $\rr^\2$:
 \[
 \rr^\2\yon^{\rr^\2}\to\rr^\2\yon^{[0,1]\times[0,2\pi)}%]
 \]
-Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we can think of as a command to move a certain distance in a certain direction. The map itself is given by the lens
+Its output type is $\rr^\2$, which we might think of as a location in the 2-dimensional plane, and its input type is $[0,1]\times[0,2\pi)$, which we can think of as a command to move a certain distance in a certain direction. The lens itself is given by
 \begin{align*}
   \rr^\2&\To{\text{return}}\rr^\2&
   \rr^\2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^\2
@@ -4034,7 +4036,7 @@ But if we give the machine input of the form $(r, \theta)$ for some distance $r 
 \begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
 For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in an element of $A$ and returns the element of $B$ obtained by applying $f$.
 
-It is given by the map $(\id_B, \pi_A\then f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi_A}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
+It is given by the lens $(\id_B, \pi_A\then f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi_A}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
 
 If the machine begins in state $b_0$ and is given a sequence $(a_1,a_2,\ldots)$ of elements in $A$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
 \end{example}
@@ -4232,14 +4234,14 @@ Better yet, we'll find that this alternative formulation arises naturally from t
 \end{remark}
 
 \begin{proposition} \label{prop.dsa}
-A deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of maps
+A deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of lenses
 \[
 \yon\to S\yon^S\to \2\yon^A.
 \]
 \end{proposition}
 \begin{proof}
-A map $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
-A map $S\yon^S\to\2\yon^A$ consists of a function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
+A lens $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
+A lens $S\yon^S\to\2\yon^A$ consists of a function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
 \end{proof}
 
 But what if we wanted to make a version of this automaton where, whenver the machine hits an accept state, it stops---no longer taking in any inputs? Again, to do this requires a machine whose set of possible inputs is dependent on the output the current state returns.
@@ -4302,11 +4304,11 @@ To start, let's finish up the example from the end of the last section.
 \begin{example}\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
 Say we want such an automaton to halt after reaching an accept state and no longer take input.
-For that, rather than use a map $S\yon^S\to \2\yon^A$, we could use a map
+For that, rather than use a lens $S\yon^S\to \2\yon^A$, we could use a lens
 \[
 \varphi\colon S\yon^S\to \yon^A+\1.
 \]
-To give such a map, we provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
+To give such a lens, we provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
 A function $\varphi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
 
 If we reach an accept state, we want the machine to halt.
@@ -4317,7 +4319,7 @@ On the other hand, $\varphi^\sharp_s$ is not trivial on those elements $s\in S$ 
 Instead, these update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
 This is in line with the way the automaton's update function behaves.
 
-When equipped with an initial state $s_0\in S$ specified by a map $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
+When equipped with an initial state $s_0\in S$ specified by a lens $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
 Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ in $\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\varphi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\varphi_\1(s_k)=1$ and
 \[
     s_{k+1}=\varphi^\sharp_{s_k}(a_{k+1}).
@@ -4673,7 +4675,7 @@ This latter interface also does not need to distinguish between its outputs; it 
 So the second interface we want acting on $S\yon^S$ is $\yon$.
 
 If $\yon$ were the only interface acting on the system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
-Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\varphi'\colon S\yon^S \to p'$ is the unique map induced by $\varphi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
+Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\varphi'\colon S\yon^S \to p'$ is the unique lens induced by $\varphi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
 In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\varphi'$ consists of a return function $\varphi'_\1\colon S \to p(\1)$ that is the same as the return function of $\varphi$ and, for each state $s\in S$, an update function $\varphi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\varphi$ at $s$ when the input is from $p[i]$ (sending $a\in p[i]$ to $\varphi^\sharp_s(a)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
 
 This construction is actually universal; it is known as \emph{copointing}.
@@ -5103,7 +5105,7 @@ To do so, we need to wrap an interface $A\yon$ around $\varphi\otimes\iota$ by c
 \]
 the interaction pattern between the interfaces $A\yon+\yon$ and $A\yon^A$, which we must define.
 
-Since $\otimes$ distributes over $+$, it suffices to give maps
+Since $\otimes$ distributes over $+$, it suffices to give lenses
 \[
     g\colon A\yon\otimes A\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\to A\yon.
 \]
@@ -5335,15 +5337,15 @@ If your hand is not at the height of the chalk, the chalk receives no pressure.
 Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
 Furthermore, if the chalk is in your possession, it also receives your hand's height.
 
-To provide a map $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$, we use the fact that $\const{Chalk}$ is a sum and that $\otimes$ distributes over $+$.
-Thus we need to give two maps
+To provide a lens $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$, we use the fact that $\const{Chalk}$ is a sum and that $\otimes$ distributes over $+$.
+Thus we need to give two lenses
 \[
 	\alpha\colon HP\yon^H\otimes H\yon^P\to\yon
 	\qqand
 	\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon
 \]
-The map $\beta$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\alpha$ is more semantically interesting: it is given by the map
+The lens $\beta$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
+$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\alpha$ is more semantically interesting: it is given by
 \[
   (h_\const{You},p_\const{You},h_\const{Chalk})\mapsto
   \begin{cases}
@@ -5902,7 +5904,7 @@ We can use \cref{ex.graph_interaction} to model Conway's Game of Life as a close
 	\item What is the appropriate assignment of sets $\tau\colon V\to\smset$?
 	\item What are the polynomials $p_v$ from \cref{ex.graph_interaction}?
 	\item What is the appropriate state set $S_v$ for each interface $p_v$?
-	\item What is the appropriate dynamical system map $S_v\yon^{S_v}\to p_v$?
+	\item What is the appropriate dynamical system lens $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -5916,7 +5918,7 @@ We seek to model Conway's Game of Life as a closed dynamical system using \cref{
     \]
     Every vertex returns as output whether it is live or dead and receives as input whether each of its eight neighbors is alive or dead.
     \item Each vertex $v\in V$ only needs to record whether it is live or dead, so $S_v\coloneqq\{\text{live},\text{dead}\}$.
-    \item The appropriate dynamical system map $S_v\yon^S_v\to p_v$ for each vertex $v\in V$ should have the identity function on $\{\text{live},\text{dead}\}$ as its return function, while its update function should be a map
+    \item The appropriate dynamical system lens $S_v\yon^S_v\to p_v$ for each vertex $v\in V$ should have the identity function on $\{\text{live},\text{dead}\}$ as its return function, while its update function should be a map
     \[
         \{\text{live},\text{dead}\}\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\text{live},\text{dead}\})\to\{\text{live},\text{dead}\}
     \]
@@ -6029,7 +6031,7 @@ That is, we need to give a lens
 \[
     \kappa\colon (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\otimes (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\to\yon^{FF}.
 \]
-By the distributivity of $\otimes$ over $+$, it suffices to give four maps:
+By the distributivity of $\otimes$ over $+$, it suffices to give four lenses:
 \begin{equation}\label{eqn.snapped_maps}
 \arraycolsep=1.4pt
 \begin{array}{lll}
@@ -6039,9 +6041,9 @@ By the distributivity of $\otimes$ over $+$, it suffices to give four maps:
 	\kappa_{22}\colon&~ \{\text{`snapped'}\}\{\text{`snapped'}\}\yon^{FF}&\to\yon^{FF}
 \end{array}
 \end{equation}
-The middle two maps $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary.
-We take the last map $\kappa_{22}$ to be the obvious isomorphism, passing the forces from outside to the two internal interfaces.
-The first map $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
+The middle two lenses $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary.
+We take the last lens $\kappa_{22}$ to be the obvious isomorphism, passing the forces from outside to the two internal interfaces.
+The first lens $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
 While the multiple $F$'s may be a little hard to keep track of, what this map says is that if $\varphi_1$ returns the force $f_1$ on $\varphi_2$ as output and $\varphi_2$ returns the force $f_2$ on $\varphi_1$ as output, then $\varphi_1$ receives the force $f_2$ from the right as input and $\varphi_2$ receives the force $f_1$ from the left as input; and in the meantime the left external force $f_L$ is given to $\varphi_1$ on the left, while the right external force is given to $\varphi_2$ on the right.
 
 Now that we have the interfaces wrapped together, it remains to specify each dynamical system.
@@ -6049,11 +6051,11 @@ The states in the two cases will be identical, namely $S\coloneqq F+\{`snapped'\
 The dynamical systems themselves will be identical as well, up to a symmetry swapping left and right; let's just define the left system for now.
 It is given by a lens
 \[\varphi_1\colon (F+\{\text{`snapped'}\})\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF}+\{\text{`snapped'}\}\yon^F\]
-which we write as the sum of two maps
+which we write as the sum of two lenses
 \[F\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF} \qqand \{\text{`snapped'}\}\yon^{F+\{\text{`snapped'}\}}\to\{\text{`snapped'}\}\yon^F.\]
-Both maps are the identity on positions, directly returning their current state.
-The second map corresponds to when the connection is broken, after which the connection should remain broken, so its on-directions function is constant, sending any input to `snapped.'
-Meanwhile, the first map corresponds to the case where the systems are still connected; this system receives two input forces and must update its state---the force it applies---accordingly.
+Both lenses are the identity on positions, directly returning their current state.
+The second lens corresponds to when the connection is broken, after which the connection should remain broken, so its on-directions function is constant, sending any input to `snapped.'
+Meanwhile, the first lens corresponds to the case where the systems are still connected; this system receives two input forces and must update its state---the force it applies---accordingly.
 We let the on-directions function $F(FF)\to F+\{\text{`snapped'}\}$ send
 \[
 (f_1,(f_L,f_2))\mapsto
@@ -6354,11 +6356,11 @@ Since $p \iso \yon \otimes p$, we have that
 \end{solution}
 \end{exercise}
 
-The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} map
+The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} lens
 \begin{equation}\label{eqn.eval_parallel}
   \fun{eval}\colon \ihom{p,q}\otimes p\too q.
 \end{equation}
-As in any closed monoidal category, such an evaluation map has the universal property that for any $r\in\poly$ and map $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
+As in any closed monoidal category, such an evaluation lens has the universal property that for any $r\in\poly$ and lens $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
 \[
     \begin{tikzcd}
     	p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
@@ -6368,14 +6370,14 @@ As in any closed monoidal category, such an evaluation map has the universal pro
 \]
 
 \begin{exercise} \label{exc.eval_parallel}
-Obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_parallel}.
+Obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_parallel}.
 \begin{solution}
-To obtain the evaluation map $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
+To obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
 \[
     \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
 \]
-Then the evaluation map is the map corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
-To recover this map, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
+Then the evaluation lens is the lens corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
+To recover this lens, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
 To start, \cref{exc.par_hom_sum} implies that
 \begin{align*}
     \poly(\ihom{p,q}, \ihom{p,q})
@@ -6390,21 +6392,21 @@ In particular, under this isomorphism, the identity lens on $\ihom{p,q}$ corresp
     \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
 \]
 of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1(i)$.
-On positions, this map picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the map is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
+On positions, this lens picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the lens is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
 
-We can reinterpret each of these maps as a map
+We can reinterpret each of these lenses as a lens
 \[
     \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
 \]
 that, on positions, picks out the position $f_\1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ and the inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
-Then by the universal property of coproducts, this collection of maps induces a single map $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding map described previously.
+Then by the universal property of coproducts, this collection of lenses induces a single lens $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding lens described previously.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item For any set $S$, obtain the map $S\yon^S\to\yon$ whose on-directions map is the identity on $S$ using eval and \cref{ex.parallel_dual}.
-	\item Show that four maps in \eqref{eqn.snapped_maps} from \cref{ex.bonds_break}, written equivalently as
+	\item For any set $S$, obtain the lens $S\yon^S\to\yon$ whose on-directions  is the identity on $S$ using eval and \cref{ex.parallel_dual}.
+	\item Show that four lenses in \eqref{eqn.snapped_maps} from \cref{ex.bonds_break}, written equivalently as
 	\begin{equation} \label{eqn.snapped_maps2}
 	\arraycolsep=1.4pt
     \begin{array}{lll}
@@ -6414,28 +6416,28 @@ Then by the universal property of coproducts, this collection of maps induces a 
     	\kappa_{22}\colon&~ \yon^F\otimes\yon^F&\to\yon^F\otimes\yon^F,
     \end{array}
 	\end{equation}
-	can be obtained by taking the parallel product of identity maps and evaluation maps.
+	can be obtained by taking the parallel product of identity lenses and evaluation lenses.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a set $S$, we wish to obtain the map $S\yon^S \to \yon$ whose on-directions map is the identity by using eval and \cref{ex.parallel_dual}.
+    \item Given a set $S$, we wish to obtain the lens $S\yon^S \to \yon$ whose on-directions function is the identity by using eval and \cref{ex.parallel_dual}.
     The example shows that
     \[
         \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
     \]
-    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_parallel}, we obtain an evaluation map $\fun{eval} \colon S\yon^S \to \yon$.
-    By the solution to \cref{exc.eval_parallel}, given a position $s \in S$ of $S\yon^S$, the evaluation map on directions is the map $\1 \to S$ that picks out $s$.
+    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_parallel}, we obtain an evaluation lens $\fun{eval} \colon S\yon^S \to \yon$.
+    By the solution to \cref{exc.eval_parallel}, given a position $s \in S$ of $S\yon^S$, the evaluation lens on directions is the map $\1 \to S$ that picks out $s$.
     In other words, it is indeed the identity on directions.
-    \item We wish to write the four maps in \eqref{eqn.snapped_maps2} from \cref{ex.bonds_break} as the parallel product of identity maps and eval maps.
-    By the solution to \cref{exc.eval_parallel}, the eval map $\ihom{F,\yon^F}\otimes F\to\yon^F$
-    is a map from
+    \item We wish to write the four lenses in \eqref{eqn.snapped_maps2} from \cref{ex.bonds_break} as the parallel product of identity lenses and evaluation lenses.
+    By the solution to \cref{exc.eval_parallel}, the evaluation lens $\ihom{F,\yon^F}\otimes F\to\yon^F$
+    is a lens from
     \[
         \ihom{F,\yon^F}\otimes F\iso F\left(\sum_{f\colon F\to\yon^F}\prod_{i\in F}\yon^F\right)\iso F\yon^{FF}
     \]
     to $\yon^F$ that is unique on positions and has the on-directions function $FF\to FF$ given by the identity.
-    Then we can verify that $\kappa_{11}$ is equivalent to the parallel product of this eval map with itself.
-    We can define $\kappa_{12}$ and $\kappa_{21}$ to be the parallel product of this eval map with the identity on $\yon^F$, while $\kappa_{22}$ is the parallel product of the identity on $\yon^F$ with itself.
+    Then we can verify that $\kappa_{11}$ is equivalent to the parallel product of this evaluation lens with itself.
+    We can define $\kappa_{12}$ and $\kappa_{21}$ to be the parallel product of this evaluation lens with the identity on $\yon^F$, while $\kappa_{22}$ is the parallel product of the identity on $\yon^F$ with itself.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6451,7 +6453,7 @@ In other words, $\ihom{p,r}$ holds within it all of the possible ways $p$ can in
 For example, in the case of $r\coloneqq\yon$, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$.
 That is, for each $p$-position it produces a direction there, which is just what $p$ needs as input in a closed system.
 
-Now suppose we were to populate the interface $p$ with dynamics, a map $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
+Now suppose we were to populate the interface $p$ with dynamics, a lens $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
 \end{example}
 
 \begin{example}[Chu $\&$]
@@ -6479,9 +6481,9 @@ Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\ti
 %-------- Section --------%
 \section{Summary and further reading}
 
-In this chapter we explained how discrete dynamical systems can be expressed as certain maps of polynomial functors. For example, a Moore machine has an input set $A$, an output set $B$, a set of states $S$, a return function $S\to B$, and an update function $A\times S\to S$. All this is captured in a map of polynomials
+In this chapter we explained how discrete dynamical systems can be expressed as certain lenses between polynomial functors. For example, a Moore machine has an input set $A$, an output set $B$, a set of states $S$, a return function $S\to B$, and an update function $A\times S\to S$. All this is captured in a depedent lens
 \[S\yon^S\to B\yon^A.\]
-We discussed a generalization $S\yon^S\to p$, where the output is an arbitrary polynomial $p\in\poly$. We also talked about how to wire machines in parallel by using the parallel product $\otimes$ and how to add wrapper interfaces by composing with maps $p\to q$.
+We discussed a generalization $S\yon^S\to p$, where the output is an arbitrary polynomial $p\in\poly$. We also talked about how to wire machines in parallel by using the parallel product $\otimes$ and how to add wrapper interfaces by composing with lenses $p\to q$.
 
 Throughout the chapter we gave quite a few different examples. For example, we discussed how every function $A\to B$ counts as a memoryless dynamical system. In fact, it was shown in \cite{beurier2019memoryless} that every dynamical system can be obtained by wiring together memoryless ones. We discussed examples such as file readers, moving robots, colliding particles, companies that change their suppliers, materials that break when too much force is applied, etc.
 
@@ -6564,14 +6566,14 @@ Here $A, B, A', B' \in \smset$.
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and, for each $a\in A$, a function $\0\to\0$. There is only one function $\0\to\0$, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and, for each $a\in A$, a function $\0\to\0$. There is only one function $\0\to\0$, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{proposition}\label{prop.ff_lin_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a map $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
 
 \begin{theorem}\label{thm.adjoint_quadruple}
@@ -6804,7 +6806,7 @@ On positions, we have $f_\1(i)=i$ for all $i \in \ord{k}$. On directions, for an
 \end{example}
 
 \begin{exercise}
-In \cref{ex.clock_in_N}, we gave a map $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This allows us to turn any dynamical system with $\nn$-many states into a dynamical system with 12 states, while keeping the same interface---say, $p$.
+In \cref{ex.clock_in_N}, we gave a lens $\1\2\yon^{\1\2}\to\nn\yon^\nn$. This allows us to turn any dynamical system with $\nn$-many states into a dynamical system with 12 states, while keeping the same interface---say, $p$.
 
 Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen to relate to the behavior of the old system $\nn\yon^\nn\to p$.
 \begin{solution}
@@ -6851,9 +6853,9 @@ are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
 % Insert exercise exploring the difference between the epi proposition and the one about monos
 
 \begin{exercise}
-Show that the only way for a map $p\to\yon$ to \emph{not} be an epimorphism is when $p=0$.
+Show that the only way for a lens $p\to\yon$ to \emph{not} be an epimorphism is when $p=0$.
 \begin{solution}
-Given $p \in \poly$ and a map $f \colon p \to \yon$, we will use \cref{prop.epis_in_poly} to show that either $f$ is an epimorphism or $p = \0$.
+Given $p \in \poly$ and a lens $f \colon p \to \yon$, we will use \cref{prop.epis_in_poly} to show that either $f$ is an epimorphism or $p = \0$.
 First, note that $f_\1 \colon p(\1) \to \1$ must be an epimorphism unless $p(\1) \iso \0$, in which case $p = \0$.
 Next, note that the induced function
 \[
@@ -7055,7 +7057,7 @@ We have the following chain of natural isomorphisms:
 \end{proof}
 
 \begin{exercise}
-Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is a canonical evaluation map
+Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is a canonical evaluation lens
 \begin{equation*}%\label{eqn.eval_times}
 	\text{eval}\colon p^q \times q \to p.
 \end{equation*}
@@ -7064,8 +7066,8 @@ By \cref{thm.poly_cart_closed}, there is a natural isomorphism
 \[
     \poly(p^q, p^q) \iso \poly(p^q \times q, p).
 \]
-Under this isomorphism, there exists a map $\text{eval} \colon p^q \times q \to p$ corresponding to the identity map on $p^q$.
-The map $\text{eval}$ is the canonical evaluation map.
+Under this isomorphism, there exists a lens $\text{eval} \colon p^q \times q \to p$ corresponding to the identity lens on $p^q$.
+The lens $\text{eval}$ is the canonical evaluation lens.
 \end{solution}
 \end{exercise}
 
@@ -7084,7 +7086,7 @@ A category has all small limits if and only if it has products and equalizers, s
 
 We claim that equalizers in $\poly$ are simply equalizers on positions and coequalizers on directions.
 More precisely, let $f,g \colon p \tto q$ be two lenses.
-We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a map, but we will use the term to refer to either just the object or just the map when the context is clear.}
+We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a morphism, but we will use the term to refer to either just the object or just the morphism when the context is clear.}
 We define its position-set $p'(\1)$ to be the equalizer of $f_\1,g_\1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
 \[
     p'(\1) \coloneqq \{i \in p(\1) \mid f_\1(i) = g_\1(i)\}.
@@ -7113,7 +7115,7 @@ Complete the proof of \cref{thm.poly_limits} as follows:
     On positions, $e_\1$ is defined to be the equalizer of $f_\1$ and $g_\1$, so $e_\1 \then f_\1 = e_\1 \then g_\1$.
     Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i$ is defined to be the coequalizer of $f^\sharp_i$ and $g^\sharp_i$, so $f^\sharp_i \then e^\sharp_i = g^\sharp_i \then e^\sharp_i$.
 
-    \item To show that $e$ is the equalizer of $f$ and $g$, it suffices to show that for any $r \in \poly$ and map $a \colon r \to p$ satisfying $a \then f = a \then g$, there exists a unique map $h \colon r \to p'$ for which $a = h \then e$, so that the following diagram commutes.
+    \item To show that $e$ is the equalizer of $f$ and $g$, it suffices to show that for any $r \in \poly$ and lens $a \colon r \to p$ satisfying $a \then f = a \then g$, there exists a unique lens $h \colon r \to p'$ for which $a = h \then e$, so that the following diagram commutes.
     \begin{equation*} %\label{eqn.eq_univ_prop}
     \begin{tikzcd}
         p' \ar[r, "e"] & p \ar[r, "f", shift left] \ar[r, "g"', shift right] & q \\
@@ -7203,7 +7205,7 @@ Let $p$ be any polynomial.
 	p(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 	\end{tikzcd}
 	\]
-	What is $p_i$? What are the maps $f \colon p_i \to \1$ and $g \colon p_i \to p$? \qedhere
+	What is $p_i$? What are the lenses $f \colon p_i \to \1$ and $g \colon p_i \to p$? \qedhere
 \end{enumerate}
 \begin{solution}
 Here $p \in \poly$.
@@ -7294,7 +7296,7 @@ Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$
     So $p'(X)$ is indeed the equalizer of $f_X$ and $g_X$.
 
     The equalizer natural transformation $e'\colon p'\to p$ has the inclusion $e'_X\colon p'(X)\to p(X)$ as its $X$-component, so by \cref{cor.morph_func_to_arena}, it is the lens whose on-positions function is the canonical equalizer inclusion $e'_\1\colon p'(\1)\to p(\1)$, while its on-directions function at $i\in p'(\1)$ is the map $p[i]\to p'[i]$ corresponding to the identity on $p'[i]$ given by the universal property of the coequalizer---which is just the canonical coequalizer map $p[i]\to p'[i]$.
-    But this is exactly the map $e\colon p'\to p$ constructed in the proof of \cref{prop.poly_prods}, as desired.
+    But this is exactly the lens $e\colon p'\to p$ constructed in the proof of \cref{prop.poly_prods}, as desired.
     \item By \cref{prop.presheaf_lim_ptwise}, limits---including equalizers---in $\smset^\smset$ are computed pointwise.
     So if $e_X\colon p'(X)\to p(X)$ is the equalizer of $f_X,g_X\colon p(X)\tto q(X)$ for every $X\in\smset$, then $e\colon p'\to p$ is the equalizer of $f,g\colon p(X)\tto q(X)$.
     \item We have just shown that equalizers in $\poly$ coincide with equalizers in $\smset^\smset$.
@@ -7330,14 +7332,14 @@ We claim that $q'\coloneqq\sum_{c\in C}\yon^{q'[c]}$ is the coequalizer of $s$ a
 \begin{exercise}\label{exc.poly_colimits}
 Complete the proof of \cref{thm.poly_colimits} as follows:
 \begin{enumerate}
-	\item Provide a map $g \colon q \to q'$.
+	\item Provide a lens $g \colon q \to q'$.
 	\item Show that $s \then g = t \then g$.
 	\item Show that $g$ is a coequalizer of the pair $s, t$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We define a map $g \colon q \to q'$ as follows.
+    \item We define a lens $g \colon q \to q'$ as follows.
     The on-positions function $g_\1 \colon q(\1) \to q'(\1)$ is the coequalizer of $s_\1, t_\1 \colon p(\1) \tto q(\1)$.
     In particular, $g_\1$ sends each vertex in $q(\1)$ to its corresponding connected component in $q'(\1) = C$.
     Then for each $v \in q(\1)$, if we let its corresponding connected component be $c \coloneqq g_\1(v)$, we can define the on-directions function $g^\sharp_v \colon q'[c] \to q[v]$ to be the projection from the limit $q'[c]$ to its component $q[v]$.
@@ -7354,7 +7356,7 @@ Complete the proof of \cref{thm.poly_colimits} as follows:
     \]
     But this is automatically true by the definition of $q'[c]$ as a limit---specifically the limit of a functor with $s^\sharp_e$ and $t^\sharp_e$ in its image---and the definitions of $g^\sharp_{s_\1(e)}$ and $g^\sharp_{t_\1(e)}$ as projections from this limit.
 
-    \item To show that $g$ is the coequalizer of $s$ and $t$, it suffices to show that for any $r \in \poly$ and map $f \colon q \to r$ satisfying $s \then f = t \then f$, there exists a unique map $h \colon q' \to r$ for which $f = g \then h$, so that the following diagram commutes.
+    \item To show that $g$ is the coequalizer of $s$ and $t$, it suffices to show that for any $r \in \poly$ and lens $f \colon q \to r$ satisfying $s \then f = t \then f$, there exists a unique lens $h \colon q' \to r$ for which $f = g \then h$, so that the following diagram commutes.
     \begin{equation*} %\label{eqn.eq_univ_prop}
     \begin{tikzcd}
         p \ar[r, "s", shift left] \ar[r, "t"', shift right] & q \ar[r, "g"] \ar[dr, "f"'] & q' \ar[d, "h", dashed] \\
@@ -7410,15 +7412,15 @@ But as functors, by \cref{prop.presheaf_lim_ptwise}, the colimit of \eqref{eqn.2
 \end{example}
 
 \begin{exercise}
-By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical maps
+By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical lenses
 \[
 	\epsilon \colon p(\1)\yon\to p
 	\qqand
 	\eta \colon p\to \yon^{\Gamma(p)}.
 \]
 \begin{enumerate}
-	\item Characterize the behavior of the canonical map $\epsilon \colon p(\1)\yon\to p$.
-	\item Characterize the behavior of the canonical map $\eta \colon p\to \yon^{\Gamma(p)}$.
+	\item Characterize the behavior of the canonical lens $\epsilon \colon p(\1)\yon\to p$.
+	\item Characterize the behavior of the canonical lens $\eta \colon p\to \yon^{\Gamma(p)}$.
 	\item Show that the following is a pushout in $\poly$:
     \begin{equation} \label{eqn.pushout_adjoint}
     \begin{tikzcd}
@@ -7431,11 +7433,11 @@ By \cref{prop.adjoint_quadruple}, for any polynomial $p$, there are canonical ma
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We characterize the map $\epsilon \colon p(\1)\yon \to p$ as follows.
+    \item We characterize the lens $\epsilon \colon p(\1)\yon \to p$ as follows.
     On positions, it is the identity on $p(\1)$.
     Then for each $i \in p(\1)$, on directions, it is the unique map $p[i] \to \1$.
 
-    \item We characterize the map $\eta \colon p \to \yon^{\Gamma(p)}$ as follows.
+    \item We characterize the lens $\eta \colon p \to \yon^{\Gamma(p)}$ as follows.
     On positions, it is the unique map $p(\1) \to \1$.
     Then for each $i \in p(\1)$, on directions, it is the canonical projection $\Gamma(p) \iso \prod_{i' \in p(\1)} p[i'] \to p[i]$.
 
@@ -7475,7 +7477,7 @@ For polynomials $p,q$, the following is a pushout:
 \]
 \end{proposition}
 \begin{proof}
-All the maps shown are identities on positions, so the displayed diagram is the coproduct over all $(i,j)\in p(\1)\times q(\1)$ of the diagram shown left
+All the lenses shown are identities on positions, so the displayed diagram is the coproduct over all $(i,j)\in p(\1)\times q(\1)$ of the diagram shown left
 \[
 \begin{tikzcd}
 	\yon\ar[r]\ar[d]&
@@ -7493,7 +7495,7 @@ All the maps shown are identities on positions, so the displayed diagram is the 
 where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image under the Yoneda embedding of the diagram of sets shown right, which is clearly a pullback. The result follows by \cref{prop.yoneda_left_adjoint}.
 \end{proof}
 
-This means that to give a map $\varphi\colon p\otimes q\to r$, it suffices to give two maps $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The map $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the map $\varphi_q$ says how information about $p$'s position is transferred to $q$.
+This means that to give a lens $\varphi\colon p\otimes q\to r$, it suffices to give two lenses $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The lens $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the lens $\varphi_q$ says how information about $p$'s position is transferred to $q$.
 
 \begin{corollary}\label{cor.tensor_as_pushout}
 Suppose we have polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
@@ -7567,9 +7569,9 @@ Since $g^\sharp_{f_\1(i)}$ is an isomorphism, it follows that every $h^\sharp_i$
 \end{proof}
 
 \begin{exercise}
-Give an example of polynomials $p,q,r$ and maps $p\To{f}q\To{g}r$ such that $f$ and $f \then g$ are cartesian but $g$ is not.
+Give an example of polynomials $p,q,r$ and lenses $p\To{f}q\To{g}r$ such that $f$ and $f \then g$ are cartesian but $g$ is not.
 \begin{solution}
-Consider the maps $\yon \To{f} \yon^\2 + \yon \To{g} \yon$ where $f$ is the canonical inclusion and $g$ is uniquely determined on positions and picks out $1 \in \2$ and $1 \in \1$ on directions.
+Consider the lenses $\yon \To{f} \yon^\2 + \yon \To{g} \yon$ where $f$ is the canonical inclusion and $g$ is uniquely determined on positions and picks out $1 \in \2$ and $1 \in \1$ on directions.
 Then the only on-directions function of $f$ is a function $\1 \to \1$, an isomorphism, so $f$ is cartesian.
 Meanwhile, one of the on-directions functions of $g$ is a function $\1 \to \2$, which is not an isomorphism, so $g$ is not cartesian.
 Finally, $f \then g$ can only be the unique lens $\yon \to \yon$, namely the identity, which is cartesian.
@@ -7615,11 +7617,11 @@ Hence $f$ is cartesian if and only if $f^\sharp$ is an isomorphism, as desired.
 \end{exercise}
 
 \begin{exercise}
-Is the pushout of a cartesian map always cartesian?
+Is the pushout of a cartesian lens always cartesian?
 \begin{solution}
-The pushout of a cartesian map is \emph{not} necessarily cartesian.
+The pushout of a cartesian lens is \emph{not} necessarily cartesian.
 Take the pushout square \eqref{eqn.pushout_adjoint}.
-The map $!\colon p(\1)\yon\to\yon$ has $\1\to\1$ as every on-directions function, so it is cartesian, but its pushout $\eta\colon p\to\yon^{\Gamma(p)}$ is not going to be cartesian as long as there is some $i\in p(\1)$ for which $\Gamma(p)\not\iso p[i]$.
+The lens $!\colon p(\1)\yon\to\yon$ has $\1\to\1$ as every on-directions function, so it is cartesian, but its pushout $\eta\colon p\to\yon^{\Gamma(p)}$ is not going to be cartesian as long as there is some $i\in p(\1)$ for which $\Gamma(p)\not\iso p[i]$.
 For instance, when $p\coloneqq\yon+\1$, we have that $\Gamma(p)\iso\0\not\iso\1\iso p[1]$, so $\eta$ is not cartesian.
 \end{solution}
 \end{exercise}
@@ -7777,7 +7779,7 @@ From $f$, we can obtain a new polynomial $f^*p$ with position-set $A$ via a pull
 \end{equation}
 Here $\eta_p$ is the unit of the adjunction $\adjr{\smset}{A}{p(\1)}{\poly}$; it is a vertical lens.
 We could evaluate this pullback using \cref{ex.pullbacks_in_poly}.
-Alternatively, we can use \cref{prop.pullback_vert_cart} to deduce that the top map $f^*p\to p$ (which we presciently labeled $\fun{cart}$) is cartesian like $f$ and that the left map $f^*p\to A$ is vertical like $\eta_p$. Furthermore, $\fun{cart}_1 = f$.
+Alternatively, we can use \cref{prop.pullback_vert_cart} to deduce that the top lens $f^*p\to p$ (which we presciently labeled $\fun{cart}$) is cartesian like $f$ and that the left lens $f^*p\to A$ is vertical like $\eta_p$. Furthermore, $\fun{cart}_1 = f$.
 Hence
 \[
     f^*p \iso \sum_{a \in A} \yon^{p[f(a)]}.
@@ -7854,7 +7856,7 @@ Then in sum we have
 \end{example}
 
 \begin{exercise}
-Prove that the unique map $f\colon\yon\to\1$ is exponentiable.
+Prove that the unique lens $f\colon\yon\to\1$ is exponentiable.
 \begin{solution}
 Choose $p\in\poly$ and $q'\in\poly/\yon$. Then there is $q\in\poly$ such that $q'\cong q\yon$, equipped with the projection $q\yon\to\yon$. The pushforward is given by the exponential
 \[f_*(q\yon)\coloneqq q^\yon\]
@@ -7900,7 +7902,7 @@ It may at first be counterintuitive that the left adjoint $f_!$ involves a produ
 
 The functor $p\mapsto p(\1)$ is strong monoidal with respect to $\otimes$ and strict monoidal if we choose the lens construction as our model of $\poly$. By \cref{prop.monoidal_pres_vert_cart}, the monoidal product $\otimes$ preserves cartesian lenses; thus we will have established the desired monoidal $*$-bifibration in the sense of \cite[Definition 12.1]{shulman2008framed} as soon as we know that $\otimes$ preserves op-cartesian lenses.
 
-Given $f$ and $p$ as above, the op-cartesian lens is the lens $p\to f_!p$ obtained as the composite $p\to f^*f_!p\to f_!p$ where the first map is the unit of the $(f_!,f^*)$ adjunction and the second is the cartesian lens for $f_!p$. On positions $p\to f_!p$ acts as $f$, and on directions it is given by projection.
+Given $f$ and $p$ as above, the op-cartesian lens is the lens $p\to f_!p$ obtained as the composite $p\to f^*f_!p\to f_!p$ where the first lens is the unit of the $(f_!,f^*)$ adjunction and the second is the cartesian lens for $f_!p$. On positions $p\to f_!p$ acts as $f$, and on directions it is given by projection.
 
 If $f\colon p(\1)\to B$ and $f'\colon p'(\1)\to B'$ are functions then we have
 \begin{align*}
