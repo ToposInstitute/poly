@@ -1915,20 +1915,29 @@ In \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}, we showed th
 Indeed, $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for each $p[i]$.
 \end{proof}
 We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a polynomial $p$ from high school algebra, which yields the sum of the coefficients of $p$.
-The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on.
+The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on, and we will use the following terms to denote the sets $p(\1)$ and $p[i]$ for $i\in p(\1)$ on which a polynomial $p$ depends.
+
+\begin{definition}
+Given a polynomial functor
+\[
+	p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]},
+\]
+we call an element $i\in p(\1)$ a \emph{position} of $p$ or a \emph{$p$-position}, and we call an element $a\in p[i]$ a \emph{direction} of $p$ at $i$ or a \emph{$p[i]$-direction}.
+We call $p(\1)$ the \emph{position-set} of $p$ and $p[i]$ the \emph{direction-set} of $p$ at $i$.
+\end{definition}
 
 \begin{exercise}\label{exc.apply0}
-We saw in \cref{prop.apply1} how to interpret the set $p(\1)$ for any polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of the original polynomial $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
+We saw in \cref{prop.apply1} how to interpret the position-set $p(\1)$ of a polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
 How might you interpret $p(\0)$?
 \begin{solution}
 We consider $p(\0)$ for arbitrary polynomials $p$.
 A representable functor $\yon^S$ for $S\in\smset$ sends $\0\mapsto\0$ if $S\neq\0$ (as there are then no functions $S\to\0$), but sends $\0\mapsto\1$ if $S=\0$ (as there is a unique function $\0\to\0$).
 So
 \[
-    p(\0) \iso \sum_{i \in p(\1)} \left(\yon^{p[i]}\right)(\0) \iso \sum_{\substack{i \in p(\1), \\ p[i] \neq \0}} \0 + \sum_{\substack{i \in p(\1), \\ p[i] = \0}} \1 \iso \{i \in p(\1) \mid p[i] = \0\}.
+    p(\0)\iso\sum_{i\in p(\1)}\left(\yon^{p[i]}\right)(\0)\iso\sum_{\substack{i\in p(\1),\\ p[i]\neq\0}}\0+\sum_{\substack{i\in p(\1),\\ p[i]=\0}}\1\iso\{i\in p(\1)\mid p[i]=\0\}.
 \]
-That is, $p(\0)$ is the set of \emph{constant} representable summands of $p$.
-For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0) = \4$.
+That is, $p(\0)$ is the set of \emph{constant} positions of $p$.
+For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0)=\4$.
 In the language of high school algebra, we might call $p(\0)$ the \emph{constant term} of $p$.
 \end{solution}
 \end{exercise}
@@ -2082,9 +2091,7 @@ These can be identified respectively with a (non-dependent) function $f_\1\colon
 
 We have now greatly simplified our characterization of dependent lenses $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
 
-Here is where we begin to see the advantages of viewing polynomials as arenas.
-As a reminder, from the arena perspective, we call the elements of $p(\1)$ the \emph{positions} of $p$, and for each position $i \in p(\1)$, we call the elements of $p[i]$ the \emph{directions} of $p$ at $i$.
-We can see that our characterization of a polynomial morphism can be written entirely in the language of positions and directions: when polynomials $p$ and $q$ are viewed as arenas, a morphism $f \colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
+Observe that our characterization of a lens can be expressed entirely in the language of positions and directions: a morphism $f\colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
 
 When we wish to emphasize the arena perspective, we will call the data of $(f_\1, f^\sharp)$ an \emph{arena morphism}, a \emph{dependent lens}, or simply a \emph{lens} between $p$ and $q$ (see \cref{subsec.poly.func_nat.morph.bimorphic_lens}); but since \cref{prop.poly_maps_prod_sum} tells us that polynomial morphisms and arena morphisms carry the same data, we may use these terms interchangeably.
 In fact, in future chapters we will primarily refer to the morphisms of $\poly$ as \emph{lenses}.
