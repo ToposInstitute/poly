@@ -233,11 +233,11 @@ If they don't, we must be taking their monoidal product.
 \end{remark}
 
 The composition product of polynomials and lenses will be extremely important in the story that follows.
-However, we only sometimes think of it as the composition of functors and the horizontal composition of natural transformations; more often we think of it as certain operations on arenas or corolla forests.
+However, we only sometimes think of it as the composition of functors and the horizontal composition of natural transformations; more often we think of it as certain operations on positions and directions or on corolla forests.
 
-\subsection{Composite arenas}\label{subsec.comon.comp.def.arena}
+\subsection{Composite positions and directions}\label{subsec.comon.comp.def.arena}
 
-Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of what it says about the positions and directions of the corresponding arenas.
+Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of positions and directions.
 The position-set of $p \tri q$ is
 \begin{equation} \label{eqn.comp_pos}
     (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\ol{j} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
@@ -250,8 +250,8 @@ Given such a position $(i, \ol{j})$ of $p \tri q$, the direction-set of $p \tri 
 \end{equation}
 So a direction of $p \tri q$ at $(i, \ol{j})$ consists of a $p[i]$-direction $a$ and a $q[\ol{j}(a)]$-direction.
 
-While this description completely characterizes $p \tri q$ as an arena, it may be a bit tricky to wrap your head around.
-Here is an alternative perspective that can help us get a better intuition for what's going on with composite arenas.
+While this description completely characterizes $p \tri q$, it may be a bit tricky to wrap your head around.
+Here is an alternative perspective that can help us get a better intuition for what's going on with composite polynomials.
 
 Back in \cref{subsec.poly.func_nat.repr_sum.sum_prod_set}, we saw how to write the instructions for choosing an element of a sum or product of sets.
 For instance, given a polynomial $p$ and a set $X$, the instructions for choosing an element of
@@ -271,7 +271,7 @@ To choose an element of $p(X)$:
 \end{quote}
 But say we hadn't picked a set $X$ yet; in fact, say we might replace $X$ with a general polynomial instead.
 We'll replace ``an element of $X$'' with a placeholder---the words ``a future''---that indicates that we don't yet know what will go there.
-Furthermore, to highlight that these instructions are associated with some polynomial $p$, we will use our familiar arena terminology of positions and directions.
+Furthermore, to highlight that these instructions are associated with some polynomial $p$, we will use our familiar positions and directions terminology.
 \begin{quote}
 The instructions associated with a polynomial $p$ are:
 \begin{enumerate}
@@ -312,7 +312,7 @@ The instructions associated with a polynomial $p\tri q$ are:
     \end{enumerate}
 \end{enumerate}
 \end{quote}
-We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have a very natural interpretation when we translate from arenas to corolla forests.
+We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have a very natural interpretation when we depict these polynomials as corolla forests.
 
 \begin{exercise}
 \begin{enumerate}
@@ -354,7 +354,7 @@ We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have
 \end{solution}
 \end{exercise}
 
-But how does the composition product act on lenses between arenas?
+But how does the composition product act on lenses?
 Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we can translate them to natural transformations, take their horizontal composite, then translate this back to a lens.
 The following exercise guides us through this process.
 
@@ -365,7 +365,7 @@ We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\t
     \item\label{exc.comp_prod_lens.1} Use \cref{prop.morph_arena_to_func} to compute the $q(X)$-component of $f$ as a natural transformation.
     \item\label{exc.comp_prod_lens.2} Use \cref{prop.poly_on_functions,prop.morph_arena_to_func} to compute $p'$ applied to the $X$-component of $g$ as a natural transformation.
     \item\label{exc.comp_prod_lens.3} Combine \cref{exc.comp_prod_lens.1} and \cref{exc.comp_prod_lens.2} using \cref{def.horiz_comp_nat_trans} to compute the horizontal composite $f\tri g$ of $f$ and $g$ as natural transformations.
-    \item Use \cref{cor.morph_func_to_arena} to translate the natural transformation $f\tri g$ obtained in \cref{exc.comp_prod_lens.3} to a lens between arenas $p\tri q\to p'\tri q'$.
+    \item Use \cref{cor.morph_func_to_arena} to translate the natural transformation $f\tri g$ obtained in \cref{exc.comp_prod_lens.3} to a lens $p\tri q\to p'\tri q'$.
     Verify that for each $(i,\ol{j}_i)$ in $(p\tri q)(\1)$ (see \eqref{eqn.comp_pos}), its on-positions function sends
     \begin{equation} \label{eqn.comp_lens_pos}
         (i,\ol{j}_i)\Mapsto{(f\:\tri\:g)_\1}\left(f_\1(i), f^\sharp_i\then\ol{j}_i\then g_\1\right);
@@ -4849,7 +4849,7 @@ Still, it can be helpful to think of comonoids as having a \emph{coassociative} 
 \begin{remark}
 Comonoids in a functor category with respect to the composition product are generally known as \emph{comonads}.
 So it would be a little more precise and familiar to refer to our polynomial comonoids as \emph{polynomial comonads}.
-But since we think of our polynomials more often as arenas than as functors, we’ll favor the term comonoid over comonad.
+But since we think of our polynomials more often in terms of positions and directions than as functors, we’ll favor the term comonoid over comonad.
 \end{remark}
 
 \begin{example}[State systems are polynomial comonoids]
@@ -5904,7 +5904,7 @@ Another important point is that we can view any category as a \emph{generalized 
 The polynomial comonoid perspective is particularly suited for thinking about categories in this way: each object is a position that we could be in, and each morphism out of that object is a direction that we might take.
 What is special about a comonoid is that each direction will always have another position at the end of it, making it reasonable to think of these directions as transitions between different states; and any sequence of transitions that we can follow is itself a transition.
 
-Comparing these ideas, we see that they say the same thing: the first from the perspective of trees and graphs, the second from the perspective of arenas and dynamics.
+Comparing these ideas, we see that they say the same thing: the first from the perspective of trees and graphs, the second from the perspective of dynamics.
 We might say that
 \slogan{
     a comonoid structure on a corolla forest turns\\
@@ -5913,7 +5913,7 @@ We might say that
 }
 or that
 \slogan{
-    a comonoid structure on an arena turns\\
+    a comonoid structure on an polynomial turns\\
     positions into states and\\
     directions into composable transitions between states.
 }
@@ -8684,7 +8684,7 @@ We call the category $\cofree{p}$ corresponding to the comonoid $\left(\car{t}_p
 
 \begin{example}[The category of $p$-trees: states and transitions for (co)free]
 Let's step back and think about how $p$-tree categories relate to the original polynomial $p$ from the perspective of the states and transitions of dynamical systems.
-Before we build any trees or categories out of it, a polynomial $p$ is just an arena of positions and directions.
+Before we build any trees or categories out of it, a polynomial $p$ is just a family of sets of directions indexed over a set of positions.
 The directions emerge from positions, but don't point to anywhere in particular.
 If we want to interpret the positions of $p$ as states and the directions of $p$ as composable transitions, first we would need to point the directions to other positions by assigning them codomains.
 There are many ways to do this, but we would like to do so ``freely,'' without having to make any choices along the way that would bias us one way or another, so as to give a canonical way to interpret $p$ as a category.
