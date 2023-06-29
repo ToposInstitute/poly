@@ -1926,6 +1926,8 @@ we call an element $i\in p(\1)$ a \emph{position} of $p$ or a \emph{$p$-position
 We call $p(\1)$ the \emph{position-set} of $p$ and $p[i]$ the \emph{direction-set} of $p$ at $i$.
 \end{definition}
 
+Note that the position-set $p(\1)$ and the $p(\1)$-indexed family of direction-sets $p[-]\colon p(\1)\to\smset$ uniquely characterize a polynomial $p$ up to isomorphism.
+
 \begin{exercise}\label{exc.apply0}
 We saw in \cref{prop.apply1} how to interpret the position-set $p(\1)$ of a polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
 How might you interpret $p(\0)$?
@@ -2093,6 +2095,9 @@ These can be identified respectively with a (non-dependent) function $f_\1\colon
 We have now greatly simplified our characterization of dependent lenses $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
 
 Observe that our characterization of a dependent lens can be expressed entirely in the language of positions and directions: a lens $f\colon p \to q$ consists of a ``forward'' \emph{on-positions} function $f_\1$ from the position-set of $p$ to the position-set of $q$, along with, for every position $i$ of $p$, a ``backward'' \emph{on-directions} function $f^\sharp_i$ from the direction-set of $q$ at $f_\1(i)$ to the direction-set of $p$ at $i$.
+We will refer to a morphism between polynomial functors as a ``lens'' rather than as a ``natural transformation'' when we wish to emphasize this concrete on-positions and on-directions interpretation.
+
+% TODO: make the above a def? also maybe incorporate on-directions map as nat trans
 
 % TODO: Give intuition via decisions, corollas, etc. each their own section
 
@@ -2687,46 +2692,48 @@ But we will see these conditions emerge from more general theory in \cref{ex.ver
 
 %---- Subsection ----%
 \subsection{Translating between natural transformations and lenses} \label{subsec.poly.func_nat.morph.translate}
-We now know that we can specify a morphism of polynomials $p \to q$ in two ways:
+We now know that we can specify a morphism $p\to q$ from $\poly$ in two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
-    \item in the language of indexed families of sets, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
+    \item in the language of positions and directions, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
 \end{itemize}
-But what is the relationship between these two formulations?
-If you told me a lens between indexed families of sets, and I told you a natural transformation between polynomial functors, how could we tell if we were talking about the same morphism or not?
+But how are these two formulations related?
+Given the data of a lens and that of a natural transformation between polynomials, how could we tell if they correspond to the same morphism?
 We want to be able to translate between these two languages.
 
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
-The lemma itself forms the crux of the proof of \cref{prop.poly_maps_prod_sum}, that these two formulations of polynomial morphisms are equivalent; so unraveling this proof reveals the translation we seek.
+The lemma itself is the crux of the proof of \cref{prop.poly_maps_prod_sum}, that these two formulations of morphisms between polynomials are equivalent; so unraveling this proof reveals the translation we seek.
 
 \begin{proposition} \label{prop.morph_arena_to_func}
-Let $p$ and $q$ be polynomial functors, and let $(f_\1, f^\sharp)$ be a morphism between their associated arenas.
-Then the isomorphism in \eqref{eqn.main_formula} sends $(f_\1, f^\sharp)$ to the natural transformation $f \colon p \to q$ whose $X$-component $f_X \colon p(X) \to q(X)$ for each $X \in \smset$ sends every
+Let $p$ and $q$ be polynomial functors, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (i.e.\ an on-positions function), and let $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose every component is a function between their direction-sets (i.e.\ an on-directions function).
+Then the isomorphism in \eqref{eqn.main_formula} sends $(f_\1, f^\sharp)$ to the natural transformation $f\colon p \to q$ whose $X$-component $f_X\colon p(X)\to q(X)$ for $X\in\smset$ sends each
 \[
-    (i, g) \in \sum_{i \in p(\1)} X^{p[i]} \iso p(X),
+    (i,g)\in\sum_{i'\in p(\1)} X^{p[i']}\iso p(X)
 \]
-with $i \in p(\1)$ and $g \colon p[i] \to X$, to
+with $i\in p(\1)$ and $g\colon p[i]\to X$ to
 \[
-    (f_\1(i), f^\sharp_i \then g) \in \sum_{j \in q(\1)} X^{q[j]} \iso q(X).
+    (f_\1(i),f^\sharp_i\then g)\in\sum_{j\in q(\1)}X^{q[j]}\iso q(X).
 \]
 \end{proposition}
 \begin{proof}
-As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1, f^\sharp)$ can equivalently be thought of as multiple pairs $((f_\1(i), f^\sharp_i))_{i \in I}$.
-Fixing $i \in I$, the pair $(f_\1(i), f^\sharp_i)$ is an element of
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ can equivalently be thought of as an $I$-indexed family of pairs $((f_\1(i),f^\sharp_i))_{i\in I}$, where each pair $(f_\1(i),f^\sharp_i)$ is an element of
 \[
-    \sum_{j \in q(\1)} p[i]^{q[j]} = q(p[i])
+    \sum_{j\in q(\1)}p[i]^{q[j]}\iso q(p[i]).
 \]
-(so $f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$).
 By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso \poly(\yon^{p[i]}, q)$, and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1(i), f^\sharp_i)$ to the natural transformation $f^i \colon \yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X \colon X^{p[i]} \to q(X)$ given by sending $g \colon p[i] \to X$ to
 \[
     q(g)(f_\1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1(i), f^\sharp_i) = \left(f_\1(i), g^{q[f_\1(i)]}(f^\sharp_i)\right) = (f_\1(i), f^\sharp_i \then g).
 \]
-Taken together, the natural transformations $(f^i)_{i \in I}$ form an element of $\prod_{i \in I} \poly(\yon^{p[i]}, q)$.
-Applying the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}, we find that $(f^i)_{i \in I}$ corresponds to the natural transformation $f \colon p \to q$ we desire.
+Then the $p(\1)$-indexed family of natural transformations $(f^i)_{i\in p(\1)}$ is an element of
+\[
+  \prod_{i\in p(\1)}\poly(\yon^{p[i]}, q)\iso\poly\left(\sum_{i\in p(\1)}\yon^{p[i]},q\right),
+\]
+where the isomorphism follows from the universal property of coproducts, as in the proof of \cref{prop.poly_maps_prod_sum}.
+Unwinding this isomorphism, we find that $(f^i)_{i\in I}$ corresponds to the natural transformation $f$ from $\sum_{i\in p(\1)}\yon^{p[i]}\iso p$ to $q$ that we desire.
 \end{proof}
 
 \begin{example}
-Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the morphism $f \colon p \to q$ depicted below:
+Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the lens $f \colon p \to q$ depicted below:
 \[
 \begin{tikzpicture}
 	\node (p1) {
@@ -2781,11 +2788,11 @@ Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq
 \end{tikzpicture}
 \]
 Fix a set $X \coloneqq \{a,b,c,d,e\}$.
-When viewed as a natural transformation, the morphism $f$ has as its $X$-component a function $f_X \colon p(X) \to q(X)$.
-In other words, for any element of $p(X)$, the morphism $f$ should be able to give us an element of $q(X)$.
+When viewed as a natural transformation, $f$ has as its $X$-component a function $f_X \colon p(X) \to q(X)$.
+In other words, for any element of $p(X)$, the lens $f$ should be able to give us an element of $q(X)$.
 
 What does an element of $p(X)$ look like?
-Well, to specify such an element, we would need to choose a position $i$ of $p$ and a function $p[i] \to X$.
+To specify such an element, we would need to choose a position $i$ of $p$ and a function $p[i] \to X$.
 We can depict this by selecting a $p$-corolla and labeling each leaf of that corolla with an element of $X$.
 For example, here we depict an element $(1, g)$ of $p(X)$, where $g \colon p[1] \to X$ is given by $1 \mapsto c, 2 \mapsto e,$ and $3 \mapsto a$:
 \[
@@ -2836,60 +2843,63 @@ So $f_X(1, g)$ looks like
 
 \cref{prop.morph_arena_to_func} lets us translate from lenses to natural transformations.
 The following corollary tells us how to go in the other direction.
-In particular, it justifies the notation $f_\1$ for the on-positions function of $f$.
+In particular, it justifies the notation $f_\1$ for the on-positions function of $f$: it is the $\1$-component of $f$ as a natural transformation.
 
 \begin{corollary} \label{cor.morph_func_to_arena}
 Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
-Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens $(f_\1, f^\sharp)$ for which $f_\1 \colon p(\1) \to q(\1)$ is the $\1$-component of $f$ and, for each $i \in p(\1)$, we have
+Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens with on-positions function $f_\1\colon p(\1)\to q(\1)$ and on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$, such that $f_\1$ is the $\1$-component of $f$ and, for each $i\in p(\1)$,
 \[
     (f_\1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
 \]
 \end{corollary}
 \begin{proof}
 By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\1)\to q(\1)$ sending every $i \in p(\1)$ to $f_\1(i) \in q(\1)$, so the on-positions function $f_\1$ is indeed equal to the $\1$-component of $f$.
-Also, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ sends every $(i, \id_{p[i]}) \in p(p[i])$, with $i \in p(\1)$, to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
+Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ of $f$ sends $(i,\id_{p[i]})\in p(p[i])$ to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
 \end{proof}
 
 %---- Subsection ----%
 \subsection{Identity and composition of lenses} \label{subsec.poly.func_nat.morph.id_comp}
 
-Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of arenas and lenses.
+Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of indexed families of sets and lenses.
 But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how these lenses compose.
 To do so, we can leverage our ability to translate back and forth between lenses and natural transformations.
 
-For instance, given a polynomial $p$, the identity morphism of its associated arena should correspond to the identity natural transformation of $p$ as a functor.
+For instance, given a polynomial $p$, its identity lens should correspond to the identity natural transformation of $p$ as a functor.
 
 \begin{exercise}[Identity lenses] \label{exc.arena_morph_id}
-Let $p$ be a polynomial and let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X \colon p(X) \to p(X)$ for each $X \in \smset$ is the identity function on $p(X)$; that is, $(\id_p)_X = \id_{p(X)}$.
+For $p\in\poly$, let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X\colon p(X)\to p(X)$ for $X\in\smset$ is the identity function on $p(X)$; that is, $(\id_p)_X=\id_{p(X)}$.
 
-Use \cref{cor.morph_func_to_arena} to show that the lens $((\id_p)_\1, (\id_p)^\sharp)$ associated to $\id_p$ is such that $(\id_p)_\1 \colon p(\1) \to p(\1)$ and $(\id_p)^\sharp_i \colon p[(\id_p)_\1(i)] \to p[i]$ for $i \in p(\1)$ are all identity functions.
+Use \cref{cor.morph_func_to_arena} to show that the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ and the on-directions functions $(\id_p)^\sharp_i\colon p[(\id_p)_\1(i)]\to p[i]$ for $i\in p(\1)$ of $\id_p$ are all identity functions.
 \begin{solution}
-We wish to show that the lens $((\id_p)_\1, (\id_p)^\sharp)$ associated to the identity natural transformation $\id_p$ of a polynomial $p$ is such that $(\id_p)_\1$ and every $(\id_p)^\sharp_i$ are all identity functions.
-Indeed, by \cref{cor.morph_func_to_arena}, for each $i \in p(\1)$, we have
+Fix $i\in p(\1)$.
+Since the $p[i]$-component $(\id_p)_{p[i]}$ of $\id_p$ is the identity function on $p(p[i])$, by \cref{cor.morph_func_to_arena},
 \[
-    ((\id_p)_\1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i, \id_{p[i]}) = (i, \id_{p[i]}),
+    ((\id_p)_\1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i,\id_{p[i]}) = (i,\id_{p[i]}).
 \]
-as $(\id_p)_{p[i]}$ is the identity function on $p(p[i])$.
+Hence the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ maps every $i\in p(\1)$ to itself, so it is an identity function; and each on-directions function $(\id_p)^\sharp_i\colon p[i]\to p[i]$ is equal to $\id_{p[i]}$.
 \end{solution}
 \end{exercise}
 
 Similarly, we should be able to deduce how two lenses compose by translating them to natural transformations, composing those, then translating back to lenses.
 
 \begin{exercise}[Composing lenses] \label{exc.arena_morph_comp}
-Let $p,q,$ and $r$ be polynomials, let $f \colon p \to q$ and $g \colon q \to r$ be natural transformations, and let $h \coloneqq f \then g$ be their composite, whose $X$-component $h_X \colon p(X) \to r(X)$ for each $X \in \smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X = f_X \then g_X$.
+For $p,q,r\in\poly$, let $f\colon p\to q$ and $g\colon q\to r$ be natural transformations, and let $h\coloneqq f\then g$ be their composite, whose $X$-component $h_X\colon p(X)\to r(X)$ for $X\in\smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X=f_X\then g_X$.
 
-Use \cref{cor.morph_func_to_arena} to show that the lens $(h_\1, h^\sharp)$ associated to $h$ satisfies $h_\1 = f_\1 \then g_\1$ and $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
+Use \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1(i)}\then f^\sharp_i$.
 \begin{solution}
-Given polynomial morphisms $f \colon p \to q, g \colon q \to r,$ and their composite $h \coloneqq f \then g$, we wish to show that the lens $(h_\1, h^\sharp)$ associated to $h$ satisfies $h_\1 = f_\1 \then g_\1$ and $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$ for all $i \in p(\1)$.
-Indeed, by \cref{cor.morph_func_to_arena} and \cref{prop.morph_arena_to_func}, for each $i \in p(\1)$, we have
+Fix $i\in p(\1)$.
+By \cref{cor.morph_func_to_arena} and \cref{prop.morph_arena_to_func},
 \begin{align*}
-    (h_\1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \\
+    (h_\1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \tag{\cref{cor.morph_func_to_arena}} \\
     &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
     &= g_{p[i]}(f_\1(i), f^\sharp_i) \tag{\cref{cor.morph_func_to_arena}} \\
     &= (g_\1(f_\1(i)), g^\sharp_{f_\1(i)} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
 \end{align*}
 \end{solution}
 \end{exercise}
+
+% TODO: turn following to prop?
+% The following corollary about interpreting commutative diagrams in $\poly$ is immediate from the preceding exercise.
 
 \begin{example}[Commutative diagrams in $\poly$] \label{ex.comm_poly}
 The above exercise tells us how to interpret commutative diagrams in $\poly$ as commutative diagrams in the more familiar setting of $\smset$.
@@ -2919,8 +2929,8 @@ We can use this fact to determine whether a given diagram in $\poly$ commutes.
 \end{example}
 
 \begin{exercise}
-Verify that, for $p, q \in \poly$, the polynomial $p+q$ given by the binary sum of $p$ and $q$ satisfies the universal property of the coproduct of $p$ and $q$.
-That is, provide morphisms $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$, then show that for any other polynomial $r$ with morphisms $f \colon p \to r$ and $g \colon q \to r$, there exists a unique morphism $h \colon p+q \to r$---shown dashed---making the following diagram commute:
+Using \cref{ex.comm_poly}, verify explicitly that, for $p, q \in \poly$, the polynomial $p+q$ given by the binary sum of $p$ and $q$ satisfies the universal property of the coproduct of $p$ and $q$.
+That is, provide lenses $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$, then show that for any other polynomial $r$ equipped with lenses $f \colon p \to r$ and $g \colon q \to r$, there exists a unique lens $h\colon p+q\to r$---shown dashed---making the following diagram commute:
 \begin{equation} \label{eqn.coprod_univ_prop}
 \begin{tikzcd}
 	p \ar[r, "\iota"] \ar[dr, "f"'] &
@@ -2929,20 +2939,10 @@ That is, provide morphisms $\iota \colon p \to p + q$ and $\kappa \colon q \to p
 	& r
 \end{tikzcd}
 \end{equation}
-Hint: Use \cref{ex.comm_poly} to determine whether a diagram commutes.
 \begin{solution}
-We provide $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$ as follows.
-On positions, they are the canonical inclusions $\iota_\1 \colon p(\1) \to p(\1)+q(\1)$ and $\kappa_\1 \colon q(\1) \to p(\1)+q(\1)$; on directions, they are identities.
-We wish to show that, for $p, q \in \poly$, the polynomial $p+q$ along with $\iota$ and $\kappa$ satisfy the universal property of the coproduct.
-That is, we must show that for any $r \in \poly$ and lenses $f \colon r \to p$ and $g \colon r \to q$, there exists a unique lens $h \colon r \to p+q$ for which the diagram \eqref{eqn.coprod_univ_prop} commutes.
-% \begin{equation} \label{eqn.coprod_univ_prop}
-% \begin{tikzcd}
-% 	r & q \ar[l, "g"'] \ar[d, "\kappa"] \\
-% 	p \ar[u, "f"] \ar[r, "\iota"'] & p+q \ar[ul, "h", dashed].
-% \end{tikzcd}
-% \end{equation}
-
-We apply \cref{ex.comm_poly}.
+We provide lenses $\iota\colon p\to p+q$ and $\kappa\colon q\to p+q$ as follows.
+On positions, they are the canonical inclusions $\iota_\1\colon p(\1)\to p(\1)+q(\1)$ and $\kappa_\1\colon q(\1)\to p(\1)+q(\1)$; on directions, they are identities.
+To show that $p+q$ equipped with $\iota$ and $\kappa$ satisfies the universal property of the coproduct, we apply \cref{ex.comm_poly}.
 In order for \eqref{eqn.coprod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
 \begin{equation} \label{eqn.coprod_univ_prop_pos}
 \begin{tikzcd}
@@ -2956,7 +2956,7 @@ But since $p(1)+q(\1)$ along with the inclusions $\iota_\1$ and $\kappa_\1$ form
 Hence $h$ is uniquely characterized on positions.
 In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_\1(i)$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_\1(j)$.
 
-Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $i \in p(\1)$ and $j \in q(\1)$, the following diagrams of sets must commute:
+Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $i\in p(\1)$ and $j \in q(\1)$, the following diagrams of sets must commute:
 \begin{equation} \label{eqn.coprod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
 	p[i] & (p+q)[(1,i)] \ar[l, "\iota^\sharp_i"'] & (p+q)[(2,j)] \ar[r, "\kappa^\sharp_j"] & q[j] \\
@@ -2974,43 +2974,42 @@ As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eq
 \begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
-	\item Suppose that $X$ is a topological space. Organize its points and their neighborhoods into a polynomial $p_X$.
-	\item Give a formula by which any continuous map $X\to Y$ induces a lens $p_X\to p_Y$.
+	\item Given a topological space $X$, define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x\in X$ are the open neighborhoods of $x$.
+  That is,
+  \[
+    p_X\coloneqq\sum_{x \in X}\yon^{\{ U\ss X \mid x\in U, \, U\text{ open} \}}.
+  \]
+  Give a formula by which any continuous map $X\to Y$ induces a lens $p_X\to p_Y$.
 	\item Show that your formula defines a functor.
 	\item Is it full? Faithful?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-	\item Given a topological space $X$, we can define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x \in X$ are the open neighborhoods of $x$.
-	In other words,
-	\[
-	    p_X \coloneqq \sum_{x \in X} \yon^{\{ U \ss X \mid x \in U, \, U \text{ open} \}}.
-	\]
 	\item \label{exc.top_poly_func.morphs} For every continuous map $f \colon X \to Y$, we give a lens $p_f \colon p_X \to p_Y$.
-	The on-positions function is just $f$, while for each position $x \in X$ of $p_X$, the on-directions function $(p_f)^\sharp_x \colon p_Y[f(x)] \to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to the open neighborhood $f\inv(U)$ of $x$.
+	The on-positions function is just $f$; then for each $p_X$-position $x\in X$, the on-directions function $(p_f)^\sharp_x\colon p_Y[f(x)]\to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to $f\inv(U)$, which we know is an open neighborhood of $x$ because $f$ is continuous.
 
-	\item To show that $p_X$ is functorial in $X$, it suffices to show that sending continuous maps $f \colon X \to Y$ to their induced lenses $p_f \colon p_X \to p_Y$ preserves identities and composition.
-	First, we show that for any topological space $X$, the lens $p_{\id_X}$, where $\id_X$ is the identity map on $X$, is an identity morphism.
-	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x \in X$ the on-directions function $(p_f)^\sharp_x \colon p_X[x] \to p_X[x]$ sends $U \in p_X[x]$ to $(\id_X)\inv(U) = U$.
-	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is an identity morphism.
+	\item To show that $p_X$ is functorial in $X$, it suffices to show that sending continuous maps $f\colon X\to Y$ to their induced lenses $p_f\colon p_X\to p_Y$ preserves identities and composition.
+	First, we show that for any topological space $X$, the lens $p_{\id_X}$, where $\id_X$ is the identity map on $X$, is the identity lens.
+	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x\in X$ the on-directions function $(p_f)^\sharp_x\colon p_X[x]\to p_X[x]$ sends $U\in p_X[x]$ to $(\id_X)\inv(U) = U$.
+	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is the identity lens.
 
-	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f \colon X \to Y$ and $g \colon Y \to Z$, we have $p_f \then p_g = p_{f \then g}$.
-	By \cref{exc.top_poly_func.morphs} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f \then g$, so it suffices to show that for all $x \in X$,
+	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f\colon X\to Y$ and $g\colon Y\to Z$, we have $p_f\then p_g = p_{f\then g}$.
+	By \cref{exc.top_poly_func.morphs} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f\then g$, so it suffices to show for each $x\in X$ that
 	\[
 	    (p_{f \then g})^\sharp_x = (p_g)^\sharp_{f(x)} \then (p_f)^\sharp_x.
 	\]
-	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U \in p_Z[g(f(x))]$ to $(f \then g)\inv(U)$, while the right hand side sends $U$ to $f\inv(g\inv(U))$, but by elementary set theory, these sets are equal.
+	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U\in p_Z[g(f(x))]$ to $(f \then g)\inv(U)$, while the right hand side sends $U$ to $f\inv(g\inv(U))$; by elementary set theory, these sets are equal.
 
 	\item The functor is not full.
-	Consider the spaces $X = \2$ with the indiscrete topology (i.e.\ the only open sets are the empty set and $X$) and $Y = \2$ with the discrete topology (i.e.\ all subsets are open).
-	Then $p_X \iso \2\yon$ and $p_Y \iso \2\yon^\2$, so our functor induces a function from the set of continuous functions $X \to Y$ to the set of lenses $\2\yon \to \2\yon^\2$.
-	We claim that this function is not surjective: in particular, consider the lens $h \colon \2\yon \to \2\yon^\2$ that is the identity on positions (and uniquely defined on directions).
-	Then a continuous function $f \colon X \to Y$ that our functor sends to $h$ must also be the identity on the underlying sets of $X$ and $Y$.
-	But such a function cannot be continuous, as the preimage under $f$ of a singleton set of $Y$, which is open, would be a singleton set of $X$, which would not be open.
-	So our functor sends no continuous function $X \to Y$ to $h$, and therefore is not full.
+	Consider the spaces $X\coloneqq\2$ with the indiscrete topology (i.e.\ the only open sets are the empty set and $X$) and $Y\coloneqq\2$ with the discrete topology (i.e.\ all subsets are open).
+	Then $p_X\iso\2\yon$ (each point in $X$ has one open neighborhood: the entire space $X$) and $p_Y\iso\2\yon^\2$ (each point in $Y$ has two open neighborhoods: a singleton set and $Y$ itself), so our functor induces a map from the set of continuous functions $X\to Y$ to the set of lenses $\2\yon\to\2\yon^\2$.
+	We claim this map is not surjective: in particular, consider the lens $h\colon\2\yon\to\2\yon^\2$ that is the identity on positions (and uniquely defined on directions).
+	Then a continuous function $f\colon X\to Y$ that our functor sends to $h$ must also be the identity on the underlying sets of $X$ and $Y$.
+	But such a function cannot be continuous: a singleton subset of $Y$ is open, but its preimage under $f$ is a singleton subset of $X$ and therefore not open.
+	So our functor sends no continuous function $X\to Y$ to $h$ and therefore is not full.
 
-	The functor is, however, faithful: for any spaces $X$ and $Y$ and continuous function $f \colon X \to Y$, we can uniquely recover $f$ from $p_f$ by taking the on-positions function $(p_f)_\1$.
+	The functor is, however, faithful: given spaces $X$ and $Y$ and continuous function $f\colon X\to Y$, we can uniquely recover $f$ from $p_f$ by taking its on-positions function $(p_f)_\1$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
