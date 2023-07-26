@@ -8,1114 +8,245 @@
 %---------------- Part ----------------%
 \part{The category of polynomial functors}\label{part.poly}
 
+% TODO: intro
+
 \Opensolutionfile{solutions}[solution-file1]
 
 %------------ Chapter ------------%
-\chapter{Introduction}\label{ch.poly.intro}
-
-\begin{quote}
-It is a treasury box!\\
-Full of unexpected connections!\\
-It is fascinating!\\
-I will think about it.\\
-\mbox{}\hfill ---Andr\'e Joyal, Summer 2020,\\
-\mbox{}\hfill personal communication.
-\end{quote}
-
-%-------- Section --------%
-\section{Perspectives on polynomials}
-
-In this book we will investigate a remarkable category called $\poly$ and its intimate relationships with interactive and dynamic processes.
-But our story begins with something quite humble---high school algebra:
-\begin{align}\label{eqn.poly_example}
-\yon^\2+\2\yon+\1 \quad&\quad
-\textit{polynomial}
-\intertext{
-Such polynomials will form the objects of $\poly$. All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be drawn as a forest of mini-trees:
-}
-\label{eqn.forest_example}
-\begin{tikzpicture}[trees]
-  \node (1) {$\bullet$}
-    child {}
-    child {};
-  \node[right=.5 of 1] (2) {$\bullet$}
-    child {};
-  \node[right=.5 of 2] (3) {$\bullet$}
-    child {};
-  \node[right=.5 of 3] (4) {$\bullet$};
-\end{tikzpicture}
-\quad&\quad\textit{forest}
-\end{align}
-More technically, we will call each mini-tree---a rooted tree whose \emph{leaves} (the arrows) are all children of the \emph{root} (the solid dot)---a \emph{corolla}.
-A union of trees is called a \emph{forest}, so our polynomials can be viewed as forests of corollas, which we will call \emph{corolla forests}.
-Each corolla in \eqref{eqn.forest_example} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.poly_example}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas with $1$ leaf each correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^\0$.
-
-We can label the roots and leaves of our forest, like so:
-\[
-%\label{eqn.labeled_forest}
-\begin{tikzpicture}[trees]
-  \node["$1$" below] (1) {$\bullet$}
-    child {node {$1$}}
-    child {node {$2$}};
-  \node["$2$" below, right=.5 of 1] (2) {$\bullet$}
-    child {node {$1$}};
-  \node["$3$" below, right=.5 of 2] (3) {$\bullet$}
-    child {node {$1$}};
-  \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
-\end{tikzpicture}
-\]
-This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as an \emph{indexed family of sets} $(p[i])_{i \in I}$.
-Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
-In standard font, 4 represents the usual natural number. In sans serif font, \4 represents the set $\4=\{1,2,3,4\}$ with 4 elements.
-}, the set of roots, and
-\begin{align} \label{eqn.arena_example}
-p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
-\end{align}
-so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
-We call the entire indexed family $(p[i])_{i \in I}$ an \emph{arena}.
-Each element $i \in I$ is a \emph{position} in the arena, and each element $a \in p[i]$ is a \emph{direction} at position $i$.
-So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
-We call the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $a \in p[i]$ as a \emph{$p[i]$-direction}.
-
-Throughout this book, we will see several other perspectives from which we can view polynomials.
-Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
-The first row shows the algebraic notation, as in \eqref{eqn.poly_example};
-the second row shows the indexed family terminology, as in \eqref{eqn.arena_example};
-the third shows the pictorial terminology of trees, as in \eqref{eqn.forest_example}; the fourth shows decision-making terminology, giving our polynomials semantics that we will introduce in \cref{sec.poly.intro.dec}; and the fifth row shows dynamical systems terminology, which we will explore in \cref{ch.poly.dyn_sys}.
-
-\begin{equation}%\label{eqn.table_terminology}
-\footnotesize
-\begin{tabular}{l|l|l|l}
-\multicolumn{4}{c}{\normalsize Polynomial Terminology}\\[3pt]
-\textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $a \in p[i]$ \\
-\textbf{indexed families} & arena & position & direction \\
-\textbf{tree pictures} & corolla forest & root $\bullet$ & leaf $\uparrow$ \\
-\textbf{decisions} & scenario & menu & option \\
-\textbf{dynamics} & interface & output & input
-\end{tabular}
-\end{equation}
-
-We will freely switch between these equivalent terms depending on context.
-For instance, though a polynomial will turn out to be a \emph{functor}, while an arena is an \emph{indexed family}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are two different syntaxes for the same object.
-In particular, we will directly refer to the positions and directions of a polynomial when we mean the positions and directions of its associated arena.
-
-\begin{exercise}%\label{exc.forest}
-Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
-\begin{enumerate}
-	\item Draw the polynomial $p$ as a corolla forest.
-	\item How many roots does this forest have?
-	\item How many positions in the arena does this represent?
-	\item For each corolla in the forest, say how many leaves it has.
-	\item For each position in the arena, how many directions does it have? \qedhere
-\end{enumerate}
-\begin{solution}
-We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
-\begin{enumerate}
-	\item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
-	\[
-	\begin{tikzpicture}[trees, sibling distance=3mm]
-    \node (1) {$\bullet$}
-      child {}
-      child {}
-      child {};
-    \node[right=.7 of 1] (2) {$\bullet$}
-      child {}
-      child {}
-      child {};
-    \node[right=.5 of 2] (3) {$\bullet$}
-      child {};
-    \node[right=.3 of 3] (4) {$\bullet$}
-      child {};
-    \node[right=.3 of 4] (5) {$\bullet$};
-  \end{tikzpicture}
-  \]
-	\item It has five (5) roots.
-	\item It represents five positions, one per root.
-	\item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
-	\item The direction-set at each position is the same as the set of leaves of each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-\begin{exercise}
-Consider the polynomial $q\coloneqq\yon^\8+\4\yon$.
-\begin{enumerate}
-	\item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
-	\item Does the polynomial $q$ have a pure-power summand $\yon$?
-	\item Does the polynomial $q$ have a pure-power summand $\4\yon$?
-	\qedhere
-\end{enumerate}
-\begin{solution}
-We refer to the polynomial $q\coloneqq\yon^\8+4\yon$.
-\begin{enumerate}
-	\item No, $q$ does not have $\yon^\2$ as a pure-power summand.
-	\item Yes, $q$ does have $\yon$ as a pure-power summand.
-	\item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-One feature that sets our polynomials apart from the polynomials we are familiar with from high school algebra is that the coefficients and exponents are not, strictly speaking, numbers; rather, they are sets, like $\1 = \{1\}$ and $\2 = \{1, 2\}$.
-In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + \2^\rr\yon^\rr$, leading to an infinite number of roots or leaves per root.
-Any finite or infinite sum of pure-power summands, each with a finite or infinite set as an exponent, is still a polynomial.
-Of course, this makes their forests rather unwieldy to draw, but they can be approximated.
-We sketch the polynomial $\yon^\3 + \nn\yon^{[0,1]}$ as a forest below.
-\[%\label{eqn.represented_interval}
-\begin{tikzpicture}[trees, sibling distance=0.0625mm]
-  \node (1) {$\bullet$}
-    child[sibling distance=3mm] foreach \i in {1,2,3}
-    ;
-  \node[right=1 of 1] (2) {$\bullet$}
-    child foreach \i in {1,...,160}
-    ;
-  \node[right=1 of 2] (3) {$\bullet$}
-    child foreach \i in {1,...,160}
-    ;
-  \node[right=1 of 3] (4) {$\bullet$}
-    child foreach \i in {1,...,160}
-    ;
-  \node[right=.7 of 4] (5) {$\cdots$};
-\end{tikzpicture}
-\]
-
-\begin{exercise}%\label{exc.suitor_love}
-If you were a suitor choosing the corolla forest you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
-\begin{enumerate}
-	\item $\yon^\2+\yon+\1$
-	\item $\yon^\2+\3\yon^\2+\3\yon+\1$
-	\item $\yon^\2$
-	\item $\yon+\1$
-	\item $(\nn\yon)^\nn$
-	\item $S\yon^S$
-	\item $\yon^{\1\0\0}+\yon^\2+\3\yon$
-	\item $\yon + \2\yon^\4 + \3\yon^\9 + \4\yon^{\1\6} + \cdots$
-	\item Your polynomial's name $p$ here.
-\end{enumerate}
-Any reason for your choice? Draw a sketch of your forest.
-\begin{solution}
-Aesthetically speaking, here's the associated polynomial of a beautiful corolla forest:
-\[
-\yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
-\]
-It's reminiscent (and formally related) to the notion of lists: if $A$ is any set, then $A^\0+A^\1+A^\2+\cdots$ is the set $\lst(A)$ of lists (i.e.\ finite ordered sequences) with entries in $A$.
-
-Here's a picture of this lovely forest:
-\[
-	\begin{tikzpicture}[trees, sibling distance=3mm]
-    \node (1) {$\bullet$};
-    \node[right=.3 of 1] (2) {$\bullet$}
-      child {};
-    \node[right=.4 of 2] (3) {$\bullet$}
-      child {}
-      child {};
-    \node[right=.6 of 3] (4) {$\bullet$}
-      child {}
-      child {}
-      child {};
-    \node[right=.6 of 4] {$\cdots$};
-  \end{tikzpicture}
-\]
-\end{solution}
-\end{exercise}
-
-Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to modeling general interaction, and $\poly$ as a category has an abundance of structure that we can draw on.
-We speak superlatively of $\poly$:
-\slogan{
-The category of polynomials is a jackpot. Its beauty flows without bound}
-but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
-
-%-------- Section --------%
-\section{Decisions and interaction in series} \label{sec.poly.intro.dec}
-We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly_example} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves (this time, we've colored the roots to distinguish them):
-\begin{equation} \label{eqn.forest2110}
-\begin{tikzpicture}[trees]
-  \node[dgreen] (1) {$\bullet$}
-    child {}
-    child {};
-  \node[right=.5 of 1,blue] (2) {$\bullet$}
-    child {};
-  \node[right=.5 of 2,dyellow] (3) {$\bullet$}
-    child {};
-  \node[right=.5 of 3,red] (4) {$\bullet$};
-\end{tikzpicture}
-\end{equation}
-As in our arena language, we will call the corollas in the forest for $p$ the $p$-corollas, whose roots are $p$-roots and whose leaves at each root $i$ are the $p[i]$-leaves.
-Since each corolla can be identified with its root, we will often use the same name $i$ for both the $p$-corolla and its $p$-root.
-
-Concretely, we might think of each position as representing a \emph{menu}.
-Associated to every menu is a set of \emph{options} (directions).
-The four menus we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options.
-Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's information theory.
-Having one option is also familiar both theoretically and in life: ``sorry, ya just gotta go through it.''
-Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.''
-We refer to the menus and options represented by the arena as a whole as the \emph{scenario}. %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
-
-This decision-making perspective will prove insightful when we start to discuss the \emph{morphisms} between two polynomials.
-A morphism will model how two different agents, each in their own scenario, may interact.
-If we think of our lives as series of decisions we make, we interact with others by letting our own decisions depend on the decisions of others.
-In some sense, any interaction between two agents is a way of \emph{delegating} decisions from one scenario to another.
-We'll cover this in more detail in \cref{sec.poly.func_nat.morph}.
-
-For now, let's hone in on that ``in series'' part a bit.
-Life is not a single decision---it is a series of decisions, each dependent on the last.
-A game theorist might model such a series with a \emph{decision tree}, like the ones below (the first two are infinite, but that’s hard to draw, so we’ve included just the first five levels):
-\[
-\begin{tikzpicture}[trees]
-\begin{scope}[
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm},
-  level 5/.style={sibling distance=1.25mm}]
-  \node[dgreen] (a) {$\bullet$}
-    child {node[dgreen] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[dyellow] {$\bullet$}
-    				child {}
-    			}
-  			}
-    		child {node[blue] {$\bullet$}
-				child {node[dgreen] {$\bullet$}
-          			child {}
-          			child {}
-     			}
-  			}
-    	}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[blue] {$\bullet$}
-    				child {}
-    			}
-  			}
-    		child  {node[red] {$\bullet$}}
-    	}
-    }
-    child {node[dyellow] {$\bullet$}
-    	child {node[dgreen] {$\bullet$}
-    		child {node[dgreen] {$\bullet$}
-  				child {node[dgreen] {$\bullet$}
-    				child {}
-    				child {}
-    			}
-  				child {node[blue] {$\bullet$}
-    				child {}
-    			}
-  			}
-    		child {node[dyellow] {$\bullet$}
-				child  {node[red] {$\bullet$}}
-  			}
-  		}
-  	}
-  ;
-\end{scope}
-\begin{scope}[
-  level 1/.style={sibling distance=13mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm},
-  level 5/.style={sibling distance=1.25mm}]
-\node (b) [right=4 of a, blue] {$\bullet$}
-  child {node[dgreen] {$\bullet$}
-  	child {node[dgreen] {$\bullet$}
-  		child {node[dgreen] {$\bullet$}
-  			child {node[dgreen] {$\bullet$}
-    			child {}
-    			child {}
-   			}
- 				child {node[blue] {$\bullet$}
-   				    child {}
-   			}
-			}
-    		child {node[dyellow] {$\bullet$}
-				child {node[dgreen] {$\bullet$}
-          			child {}
-          			child {}
-     			}
-  			}
-		}
-  	child {node[dgreen] {$\bullet$}
-  		child  {node[red] {$\bullet$}}
-  		child {node[dgreen] {$\bullet$}
-  			child {node[blue] {$\bullet$}
-    			child {}
-   			}
- 				child {node[dyellow] {$\bullet$}
-   				child {}
-   			}
-			}
-  	}
-	}
-;
-\end{scope}
-\node (c) [red, right=2 of b] {$\bullet$};
-\end{tikzpicture}
-\]
-Each tree models a series of decisions that may be presented to us.
-We start at the bottom---the root---and climb up the tree, making a choice of which arrow to follow at each step.
-Sometimes we are presented with two options; sometimes just one; and sometimes no option at all.
-Eventually, our choices trace out a path up the tree.
-
-But squint at these trees, and you'll see that they are made up of something quite familiar---every tree is built out of several smaller corollas, of exactly the form we drew in \eqref{eqn.forest2110}!
-It makes sense now why we interpret our polynomials both as roots and leaves of corollas and as menus and options of decisions---when we arrange these corollas and decisions in series, we get a decision tree.
-We call each tree that we can build out of the corollas of $\yon^\2+\2\yon+\1$, like the three trees drawn above, a \emph{$(\yon^\2+\2\yon+\1)$-tree}.
-Similarly, we could define and construct a $p$-tree for any polynomial $p$.
-
-What's amazing is that this is not just an arbitrarily imposed reading of our polynomials---it is directly from the categorical structure of $\poly$ that such trees arise.
-But we will have to wait before we have all the machinery we need to discuss what's happening here---we'll revisit these trees in \cref{sec.comon.cofree.cons}.
-
-\begin{exercise}\label{exc.decision_streams}
-\begin{enumerate}
-	\item Draw the first three levels of a $(\yon^\2+\yon^\0)$-tree.
-	\item Draw the first four levels of a $\yon$-tree.
-	\item Draw a the first three levels of a $\nn\yon^\2$-tree by labeling every node with a natural number.
-	\qedhere
-\end{enumerate}
-
-\begin{solution}
-\begin{enumerate}
-	\item Here are the first three levels of a $(\yon^\2+\yon^\0)$-tree.
-\[
-\begin{tikzpicture}[trees,
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (a) {$\bullet$}
-    child {node {$\bullet$}
-    	child {node {$\bullet$}
-    		child
-    		child
-    	}
-    	child {node {$\bullet$}
-  			}
-    }
-    child {node {$\bullet$}
-    	child {node {$\bullet$}}
-    	child {node {$\bullet$}
-  		}
-  	}
-  ;
-\end{tikzpicture}
-\]
-	\item Here are the first four levels of a $\yon$-tree.
-\[
-\begin{tikzpicture}[trees]
-	\node (a) {$\bullet$}
-		child {node {$\bullet$}
-			child {node {$\bullet$}
-				child {node {$\bullet$}
-  				child
-			}}};
-\end{tikzpicture}
-\]
-	\item Here are the first three levels of a $\nn\yon^\2$-tree, where we indicate the position of each node by labeling it with a natural number.
-\[
-\begin{tikzpicture}[trees,
-  level 1/.style={sibling distance=20mm},
-  level 2/.style={sibling distance=10mm},
-  level 3/.style={sibling distance=5mm},
-  level 4/.style={sibling distance=2.5mm}]
-  \node (a) {$27$}
-    child {node {$5040$}
-    	child {node {$192$}
-    		child
-    		child
-			}
-    	child {node {$0$}
-    		child
-    		child
-  			}
-    }
-    child {node {$314159$}
-    	child {node {$1000$}
-  				child
-  				child
-  		}
-			child {node {$1296$}
-				child
-				child
-			}
-  	}
-  ;
-\end{tikzpicture}
-\]
-\end{enumerate}
-\end{solution}
-\end{exercise}
-
-
-
-%-------- Section --------%
-\section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
-
-When we say ``dynamical system,'' we are referring to a concept that may be familiar: a machine that stores an internal state.
-The machine may return output according to its current state, while it may also receive input that updates this state.
-
-For example, the internal state of a digital clock may consist of the time and the display format (``12-hour'' vs. ``24-hour'').
-If the time is six minutes past noon and the display format is ``12-hour,'' the clock will display ``12:06pm'' as its output.
-If the time is twenty minutes till midnight and the display format is ``24-hour,'' the clock will instead display ``23:40.''
-
-Meanwhile, the clock may receive input via one button that increments its current time by one minute and another button that toggles between the two display formats.
-At the press of a button, the internal state will change depending on which button was pressed and what the previous internal state was.
-
-So our digital clock is a very simple dynamical system.
-We can think of its input buttons and its output display as the way in which the clock interacts with the outside world---its \emph{interface}.
-
-Here's one way the clock might interact with the outside world: my finger is on the minute button, while your finger is on the format button, and the clock is facing you so that only you can read its display.
-In fact, we could think of ourselves as a couple of (particularly complex) dynamical systems as well, with each of our interfaces connected with the interface of the clock.
-We could model this situation with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular interaction pattern:
-\begin{equation*}
-\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
-	\node[bb={3}{3}, green!25!black] (X12) {\tiny me};
-	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
-	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
-	\draw (X21_out1) to (X22_in1);
-	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
-          (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
-	\draw (X12_out2) to (X21_in2);
-\end{tikzpicture}
-\end{equation*}
-
-Of course, there is a lot going on in the world around us that we haven't drawn.
-We each have some input ports: our eyes, our ears, etc., and some output ports: our speech, our gestures, etc. We can connect with other systems: our family, our colleagues, etc. And we can think of all of these systems as subsystems of one larger system interacting with the world.
-\begin{equation} \label{eqn.wired_forever}
-\begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
-	\node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
-	\node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny me};
-	\node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
-	\node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
-	\node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
-  \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X11) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
-	\draw (X21_out1) to (X22_in1);
-	\draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
-          (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
-	\draw (X11_out1) to (X13_in1);
-	\draw (X11_out2) to (X12_in1);
-	\draw (X12_out1) to (X13_in2);
-	\draw (Z_in1'|-X11_in2) to (X11_in2);
-	\draw (Z_in2'|-X12_in2) to (X12_in2);
-	\draw (X12_out2) to (X21_in2);
-% 	\draw (X21_out2) to (Z_out2'|-X21_out2);
-	 \draw let \p1=(X12.south east), \p2=(X12.south west), \n1={\y1-\bby}, \n2=\bbportlen in
-	  (X12_out3) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X12_in3);
-	\draw let \p1=(X22.north east), \p2=(X11.north west), \n1={\y2+\bby}, \n2=\bbportlen in
-          (X22_out2) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X11_in1);
-	\draw (X13_out1) to (Z_out1'|-X13_out1);
-\end{tikzpicture}
-\end{equation}
-
-We wrote a little question for you at the top of the diagram.
-Isn't there something a little funny about the way we've connected these systems?
-Maybe for very simple machines, you would wire things together once and they'd stay like that for the life of the machine.
-But you could turn your eyes away from the clock to look at Bob, Alice drops her connection to me for weeks at a time, and I would really like to be able to lift my finger off of the clock to do something else.
-So
-\slogan{the way systems connect can change over time.}
-In fact, $\poly$ will let us express this.
-
-% In this book, we'll be looking at dynamical systems with a lot of interesting new options:
-% \begin{enumerate}
-% 	\item The interface of the system---the way in which it can be interacted with---can change shape through time.
-% 	\item The wiring diagram connecting a bunch of systems can change through time.
-% % 	\item One can speed up the dynamics of a system.
-% % 	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
-% % 	\item The dynamical systems on any interface form a topos.
-% \end{enumerate}
-% To give some intuition for the first two, imagine yourself as a system, wired up to other systems.
-
-
-\begin{example}\label{ex.changing_wiring_bonds_supplier_assemble}
-Here are some familiar circumstances where we see interaction patterns changing over time.
-\begin{enumerate}[itemsep=0pt]
-%	\item Airplanes only communicate when they get near enough;
-%	\item A person can choose when to open (receive input through) their eyes and when to speak (produce output);\goodbreak
-	\item When too much force is applied to a material, bonds can break:
-\end{enumerate}
-\[
-\begin{tikzpicture}[oriented WD, bb small, bb port length=0]
-	\foreach \i in {0,...,4} {
-		\node[bb={1}{1}, fill=blue!10] at (1.7*\i,0) (X\i) {};
-	}
-%	\node[bb={1}{1}, fit=(X0) (X4)] (X) {};
-	\foreach \i in {0,...,3} {
-		\draw[thick] (X\i_out1) -- (X\the\numexpr\i+1\relax_in1);
-	};
-	\draw[thick, ->] (X0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0);
-	\draw[thick, ->] (X4_out1) -- node[above, font=\tiny] {Force} +(2.5,0) node (R) {};
-%
-\def\x{21};
-	\foreach \i in {0,...,2} {
-		\node[bb={1}{1}, fill=blue!10] at (\x+1.7*\i,0) (Y\i) {};
-	}
-	\foreach \i in {3,...,4} {
-		\node[bb={1}{1}, fill=blue!10] at (\x+1.3+1.7*\i,0) (Y\i) {};
-	}
-%	\node[bb={1}{1}, fit=(Y0) (Y4)] (Y) {};
-	\foreach \i in {0,1,3} {
-		\draw[thick] (Y\i_out1) -- (Y\the\numexpr\i+1\relax_in1);
-	};
-	\draw[thick, ->] (Y0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0) node (L) {};
-	\draw[thick, ->] (Y4_out1) -- node[above, font=\tiny] {Force} +(2.5,0);
-	\node[starburst, draw, minimum width=2cm, minimum height=1.5cm,red,fill=orange,line width=1.5pt] at ($(L)!.5!(R)$)
-{Snap!};
-\end{tikzpicture}
-\]
-\begin{quote}
-In materials science, the Young's modulus accounts for how much force can be transferred across a material as its endpoints are pulled apart. When the material breaks, the two sides can no longer feel evidence of each other. Thinking of pulling as sending a signal (a signal of force), we might say that the ability of internal entities to send signals to each other---the connectivity of the wiring diagram---is being measured by the Young's modulus. It will also be visible within $\poly$.
-\end{quote}
-\begin{enumerate}[resume]
-	\item A company may change its supplier at any time:
-\end{enumerate}
-\begin{equation*}%\label{eqn.supplier}
-\begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
-	\node[bb={0}{1}] (s1) {Supplier 1};
-	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
-	\coordinate (helper) at ($(s1)!.5!(s2)$);
-	\node[bb={1}{0}, right=1.5 of helper] (c) {Company};
-	\draw (s1_out1) to (c_in1);
-	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
-\begin{scope}[xshift=3.5in]
-	\node[bb={0}{1}] (s1') {Supplier 1};
-	\node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
-	\coordinate (helper') at ($(s1')!.5!(s2')$);
-	\node[bb={1}{0}, right=1.5 of helper'] (c') {Company};
-	\draw (s2'_out1) to (c'_in1);
-	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
-\end{scope}
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small, fill=white, line width=1.5pt] at ($(c)!.5!(helper')$)
-{Change\\supplier!};
-\end{tikzpicture}
-\end{equation*}
-\begin{quote}
-The company can get widgets either from supplier 1 or supplier 2; we could imagine this choice is completely up to the company. The company can decide based on the quality of widgets it has received in the past: when the company gets a bad widget, it updates an internal variable, and sometimes that variable passes a threshold making the company switch states. Whatever its strategy for deciding, we should be able to encode it in $\poly$.
-\end{quote}
-\begin{enumerate}[resume]
-	\item When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
-\end{enumerate}
-\begin{equation*}%\label{eqn.someone}
-\begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
-	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
-	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
-	\coordinate (helper) at ($(A)!.5!(B)$);
-	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
-	\draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
-	\draw (A_out1) -- +(10pt,0);
-	\draw (B_in1) -- +(-10pt,0);
-%
-\begin{scope}[xshift=3.5in]
-	\node[bb port sep=.5, bb={0}{1}] (A') {unit A};
-	\node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
-	\coordinate (helper') at ($(A')!.5!(B')$);
-	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
-	\draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
-	\draw (A'_out1) -- (B'_in1);
-\end{scope}
-%
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
-{Attach!};
-\end{tikzpicture}
-\end{equation*}
-\begin{quote}
-Have you ever assembled something? Your internal states dictate the interaction pattern of some other things. We can say this in $\poly$.
-\end{quote}
-
-All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory (\cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}).
-\end{example}
-
-\begin{exercise}%\label{exc.changing_types}
-Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different interaction patterns in your setting.
-\begin{solution}
-When I am carrying my phone in my house, my phone will connect to my Wi-Fi router. But my phone may send me a reminder that tells me to leave my house.
-Once I carry my phone far enough away, it will disconnect from my router and connect to a cellular network instead.
-While I am outside, I might then press a button on my phone to disconnect it from the cellular network to reduce my data usage, so that it is no longer connectd to any network.
-\end{solution}
-\end{exercise}
-
-But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes, and you need to use your words. Sometimes I'm in a tunnel and my car can't receive a radio signal. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. So
-\slogan{a system's interface itself can change over time.} % with the setting?
-We will be able to say all this using $\poly$ as well.
-
-And there's even more that's wrong with the above description.
-Namely, when I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves.
-The display of an analog clock is literally the positions of its hands.
-So
-\slogan{the output of a system is essentially the position it takes.}
-Moreover, when I move my eyes, that's something you can actually see---you can tell if I'm looking at you.
-When I turn around, I see different things, and \emph{you can notice I'm turned around}!
-In other words,
-\slogan{the range of inputs a system can receive depends on the position it currently outputs.}
-This is integral to our model of dynamical systems in $\poly$, and why we say that outputs correspond to positions and inputs to directions---with an entire interface represented by a polynomial.
-
-\begin{example}\label{ex.pond_eyeballs}
-Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
-
-Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which consists of two positions: an ``open'' position with $n$-many possible inputs it may perceive, and a ``closed'' position with only one. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
-
-The point, however, is that any other eyeball may be capable of noticing if $e$ is open or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
-
-Talk about real-world applications!
-\end{example}
-
-\begin{exercise}
-Give another example of a system where the range of possible inputs the system can receive is dependent on what output the system is currently providing.
-\begin{solution}
-Consider a computer application whose output is an image displayed on the screen.
-This image consists of buttons I can click, and each button-click is a possible input that the application can receive.
-Clicking a button will alter the display, including which buttons are now available to be clicked.
-For example, when I click the ``File'' button, the ``File'' menu will appear, allowing me to click other buttons like the ``New Window'' button.
-So the set of inputs I can send to the system (i.e.\ buttons I can click) is directly dependent on the output the system sends to me (i.e.\ the image displayed on the screen).
-\end{solution}
-\end{exercise}
-
-Hopefully you now have an idea of what we call \emph{mode-dependence}: interfaces and interaction patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and interaction patterns in this sense.
-
-\begin{remark}
-We ended \cref{ex.pond_eyeballs} by joking about ``real-world applications,'' because a pond of eyeballs is about the most bizarre thing one can imagine. But recall Nobel physicist Frank Wilczek's quote from the preface:
-\begin{quote}
-For me, though, it is difficult to resist the idea that space-time is not essentially different from matter, which we understand more deeply. If so, it will consist of vast numbers of identical units---``particles of space''---each in contact with a few neighbors, exchanging messages, joining and breaking apart, giving birth and passing away.
-\end{quote}
-Suppose the world was made out of a vast number of identical units, each with its own behavior, able to connect and disconnect with neighbors, and even disappear from the world of cause and effect. We may not even be interested in what our world is actually made of---just what these units are able to do. Is there such an elementary unit that could produce all other dynamical systems? The $\yon^\2+\yon$ eyeballs give a sense of a very simple interface---open and perceiving a single distinction about the world, or closed and making no distinctions---that we could imagine building an entire world from.
-\end{remark}
-
-%-------- Section --------%
-
-\section{A note on implementation} \label{sec.poly.intro.code}
-
-In theory, everything we will discuss could be rigorously implemented and verified on a computer---as long as you have access to a functional programming language that supports dependent types, such as Agda or Idris.
-One implementation of $\poly$ that uses Cubical Agda can be found at \cite{1lab-poly}.
-But even in languages that are not strictly functional, the theory of $\poly$ may still guide programming paradigms for the design and execution of interactive systems.
-In this book, we'll focus on the math, but we encourage you to explore the field of computational implementations if that is where your interests lie.
-
-If you do decide to embark on a computational journey, a word of warning: what we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science (and particularly functional programming) literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of \emph{positions} in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a direction.
-
-%-------- Section --------%
-\section{Mathematical theory} \label{sec.poly.intro.math_theory}
-
-The applications of $\poly$ are quite diverse and interesting, encapsulating decision-based interactions and dynamical systems.
-However it is how the mathematics of $\poly$ supports these applications that is so fantastic.
-For reference, we list some of the major results about $\poly$ that we will cover in this book; note that this list is by no means comprehensive.
-
-\begin{proposition}
-$\poly$ has all products and coproducts and is completely distributive.
-$\poly$ also has exponential objects, making it a bicartesian closed category.
-It therefore supports the simply typed lambda calculus.
-\end{proposition}
-\begin{proof}
-We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{prop.poly_completely_distributive}, and that it has exponential objects in \cref{thm.poly_cart_closed}.
-\end{proof}
-
-\begin{proposition}
-Beyond the cocartesian and cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
-\end{proposition}
-\begin{proof}
-We will define $\otimes$ in \cref{def.parallel} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.parallel_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
-Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{prop.duoidal}.
-
-In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
-Then in \cref{prop.parallel_closure}, we will prove that $\otimes$ is closed.
-In \cref{prop.comp_left_coclosed}, we will show that $\circ$ is left coclosed, and in \cref{thm.connected_limits}, we will show that $\circ$ preserves connected limits.
-\end{proof}
-
-\begin{proposition}\label{prop.adjoint_quadruple}
-$\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
-\begin{equation*}%\label{eqn.adjoints_galore}
-\begin{tikzcd}[column sep=60pt,background color=definitioncolor]
-  \smset
-  	\ar[r, shift left=7pt, "A" description]
-		\ar[r, shift left=-21pt, "A\yon"']&
-  \poly
-  	\ar[l, shift right=21pt, "p(\0)"']
-  	\ar[l, shift right=-7pt, "p(\1)" description]
-	\ar[l, phantom, "\scriptstyle\Leftarrow"]
-	\ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
-	\ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
-\end{tikzcd}
-\hspace{.6in}
-\adjr[50pt]{\smset\op}{\yon^A}{\Gamma(p)}{\poly}.\footnote{
-	We use the notation
-	$\begin{tikzcd}[ampersand replacement=\&]
-		\cat{C}\ar[r, shift left=4pt, "L"]\&
-		\cat{D}\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
-	\end{tikzcd}$
-	to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $\cat{C}\Rightarrow R \circ L$ and the counit $L \circ R\Rightarrow \cat{D}$ of the adjunction.
-}
-\end{equation*}
-Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$; in particular, $\Gamma(p) \coloneqq \poly(p, \yon)$.
-\end{proposition}
-\begin{proof}
-We will prove that $\poly$ has an adjoint quadruple with $\smset$ in \cref{thm.adjoint_quadruple}, and that it has an adjoint pair with $\smset\op$ in \cref{prop.yoneda_left_adjoint}.
-\end{proof}
-
-\begin{proposition}
-$\poly$ has all limits and colimits.
-\end{proposition}
-\begin{proof}
-See \cref{thm.poly_limits} for a proof that $\poly$ has all limits, and \cref{thm.poly_colimits} for a proof that $\poly$ has all colimits.
-\end{proof}
-
-There's a lot we're leaving out of this summary, just so we can hit the highlights.
-But here's where things get really interesting.
-
-\begin{proposition}[Ahman-Uustalu]\label{prop.ahman_uustalu1}
-There is a one-to-one isomorphism-preserving correspondence between comonoids in $(\poly,\yon,\circ)$ and small categories.
-\end{proposition}
-\begin{proof}
-See \cref{thm.ahman_uustalu}.
-\end{proof}
-
-\begin{proposition}
-The forgetful functor $U\colon\comon(\poly)\to\poly$ has a right adjoint
-\[
-\adjr{\poly}{\cofree{-}}{U}{\comon(\poly)}
-\]
-called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
-\end{proposition}
-\begin{proof}
-See \cref{thm.cofree}; lax monoidality is proven in \cref{prop.cofree_lax_monoidal}.
-\end{proof}
-
-\begin{proposition}
-The category $\comon(\poly)$ of comonoids in $(\poly,\yon,\circ)$ has all limits and colimits.
-In particular, coproducts in $\comon(\poly)$ agree with those in $\smcat$.
-\end{proposition}
-\begin{proof}
-See \cref{cor.comon_compl} for a proof that $\comon(\poly)$ has all small limits and \cref{cor.comon_cocomp} for a proof that $\comon(\poly)$ has all small colimits.
-We explain why coproducts in $\comon(\poly)$ agree with those in $\smcat$ in \cref{ex.comon_coprod}.
-\end{proof}
-
-\begin{proposition}
-The category $\comon(\poly)$ has a symmetric monoidal structure $(\yon,\otimes)$ making the forgetful functor $U\colon(\comon(\poly),\yon,\otimes)\to(\poly,\yon,\otimes)$ strong monoidal.
-The monoidal product of comonoids in $\comon(\poly)$ with respect to $\otimes$ coincides with the product of categories in $\smcat$.
-\end{proposition}
-\begin{proof}
-See \cref{prop.parallel_on_catsharp}.
-\end{proof}
-
-For the following results, let $\com{C}$ be the comonoid in $(\poly,\yon,\circ)$ that corresponds to a category $\cat{C}$ under \cref{prop.ahman_uustalu1}, and similarly for $\com{D}$ and $\cat{D}$.
-
-% \begin{proposition}
-% There is an equivalence of categories
-% \[
-% \Cat{Bimod}(\com{C},0)\cong[\cat{C},\smset]
-% \]
-% between $(\com{C},0)$-bicomodules and $\cat{C}$-copresheaves.
-% \end{proposition}
-% \begin{proof}
-%
-% \end{proof}
-
-\begin{proposition}
-The category of left $\cat{C}$-comodules is equivalent to the category of functors $\cat{C}\to\poly$.
-Meanwhile, a right $\cat{D}$-comodule with polynomial carrier $m$ can be identified (up to isomorphism) with a functor $\cat{D}\to\smset^{m(\1)}$.
-\end{proposition}
-\begin{proof}
-See \cref{prop.left_comod} for the result about left $\cat{C}$-comodules and \cref{prop.right_comod} for the result about right $\cat{D}$-comodules.
-\end{proof}
-
-\begin{proposition}[Garner]
-There is an equivalence
-\[
-\Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}([\cat{D},\smset],[\cat{C},\smset])
-\]
-between the category of bicomodules over comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
-\end{proposition}
-\begin{proof}
-See \cref{prop.prafunctor}.
-\end{proof}
-
-If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will cover each of the above results in detail over the course of this book. As you read, we encourage you to periodically check back to see how many more of these results you undesrtand.
-
-There are many avenues for study, but we need to push forward.
-We'll begin in the next chapter.
-
-%-------- Section --------%
-\section{Exercise solutions}
-\Closesolutionfile{solutions}
-{\footnotesize
-\input{solution-file1}}
-
-\Opensolutionfile{solutions}[solution-file2]
-
-%------------ Chapter ------------%
-\chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
-
-In this chapter, we will set down the basic categorical story of $\poly$, so that we can have a firm foundation from which to speak about interactive systems.
-We will formally introduce the objects of $\poly$: polynomial functors.
-We will also study the natural transformations between these functors, which are $\poly$'s morphisms.
-Finally, we'll present some of $\poly$'s most versatile categorical properties.
-
-But we'll begin by examining a specific kind of polynomial functor that you may already be familiar with---representable functors on the category $\smset$ of sets and functions.
-We'll highlight how these functors are closely related to what is arguably the fundamental theorem of category theory, the Yoneda lemma.
+\chapter{Representable functors from the~category of sets} \label{ch.poly.rep-sets}
+
+In this chapter, we lay the categorical groundwork needed to define our category of interest, the category of polynomial functors.
+We begin by examining a special kind of polynomial functor that you may already be familiar with---representable functors from the category $\smset$ of sets and functions.
+We highlight the role these representable functors play in what is arguably the fundamental theorem of category theory, the Yoneda lemma.
+We will also discuss sums and products of sets and of set-valued functors, which we will need to construct our polynomial functors.
 
 %-------- Section --------%
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.func_nat.yon}
 
 Representable functors---special functors to the category of sets---provide the foundation for the category $\poly$.
-While much of the following theory applies to representable functors from any category, we will focus on representable functors $\smset\to\smset$.
+While much of the following theory applies to representable functors from any category, we need only focus on representable functors $\smset\to\smset$.
 
 \begin{definition}[Representable functor] \label{def.representable}
-For a set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends each set $X$ to the set $X^S=\smset(S,X)$ and each function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$ that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, given morphisms $f \colon A \to B$ and $g \colon B \to C$ in a category, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, whichever is more convenient.}
+    For a set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends each set $X$ to the set $X^S=\smset(S,X)$ and each function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$ that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, given morphisms $f \colon A \to B$ and $g \colon B \to C$ in a category, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, whichever is more convenient.}
 
-We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
-In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set} of $\yon^S$.
-As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.
+    We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
+    In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set} of $\yon^S$.
+    As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.
 \end{definition}
 
-The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}. For now, here are some pictures corresponding to various representables or pure powers:
-\begin{equation}\label{eqn.trees_for_gazing}
-\begin{tikzpicture}[trees, sibling distance=2mm]
-  \node["$\yon^{\5}$" below] (1) {$\bullet$}
-    child foreach \i in {1,...,5}
-    ;
-\end{tikzpicture}
-\qquad
-\begin{tikzpicture}[trees, sibling distance=1mm]
-  \node["$\yon^{\1\0}$" below] (1) {$\bullet$}
-    child foreach \i in {1,...,10}
-    ;
-\end{tikzpicture}
-\qquad
-\begin{tikzpicture}[trees, sibling distance=0.5mm]
-  \node["$\yon^{\2\0}$" below] (1) {$\bullet$}
-    child foreach \i in {1,...,20}
-    ;
-\end{tikzpicture}
-\qquad
-\begin{tikzpicture}[trees, sibling distance=0.25mm]
-  \node["$\yon^{\4\0}$" below] (1) {$\bullet$}
-    child foreach \i in {1,...,40}
-    ;
-\end{tikzpicture}
-\qquad
-\begin{tikzpicture}[trees, sibling distance=0.0625mm]
-  \node["$\yon^{[0,1]}$" below] (1) {$\bullet$}
-    child foreach \i in {1,...,160}
-    ;
-\end{tikzpicture}
-\end{equation}
-
+The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}.
 \begin{example}
-The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
-After all, $X\times X \iso X^\2$, so this functor is the pure power $\yon^\2$.
+    The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
+    After all, $X\times X \iso X^\2$, so this functor is the pure power $\yon^\2$.
 \end{example}
 
 \begin{exercise}\label{exc.representable_fun}
-For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, give the set that represents it.
-\begin{enumerate}
-    \item The identity functor $X\mapsto X$, which sends each function to itself.
-    \item The constant functor $X\mapsto\2$, which sends every function to the identity on $\2$.
-    \item The constant functor $X\mapsto\1$, which sends every function to the identity on $\1$.
-    \item The constant functor $X\mapsto\0$, which sends every function to the identity on $\0$.
-    \item A functor $X\mapsto X^\nn$.
-    If it could be representable, where should it send each function?
-    \item A functor $X\mapsto \2^X$.
-    If it could be representable, where should it send each function? \qedhere
-\end{enumerate}
+    For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, give the set that represents it.
+    \begin{enumerate}
+        \item The identity functor $X\mapsto X$, which sends each function to itself.
+        \item The constant functor $X\mapsto\2$, which sends every function to the identity on $\2$.
+        \item The constant functor $X\mapsto\1$, which sends every function to the identity on $\1$.
+        \item The constant functor $X\mapsto\0$, which sends every function to the identity on $\0$.
+        \item A functor $X\mapsto X^\nn$.
+        If it could be representable, where should it send each function?
+        \item A functor $X\mapsto \2^X$.
+        If it could be representable, where should it send each function? \qedhere
+    \end{enumerate}
 
-\begin{solution}
-\begin{enumerate}
-    \item The identity functor $X\mapsto X$ is represented by the set $\1$: a function $\1 \to X$ can be identified with an element of $X$, so $\smset(\1,X)\iso X$.
-    Alternatively, note that $X^\1 \iso X$.
-    \item \label{sol.representable_fun.2} The constant functor $X\mapsto\2$ is not representable: it sends $\1$ to $\2$, but $\1^S \iso \1 \not\iso \2$ for any set $S$.
-    \item The constant functor $X\mapsto\1$ is represented by $S=\0$: there is exactly one function $\0 \to X$, so $\smset(\0,X) \iso \1$.
-    Alternatively, note that $X^0 \iso \1$.
-    \item The constant functor $X\mapsto\0$ is not representable for the same reason as in \cref{sol.representable_fun.2}.
-    \item The functor $\yon^\nn$ that sends $X\mapsto X^\nn$ is represented by $\nn$, by definition.
-    It should send each function $h \colon X \to Y$ to the function $h^\nn \colon X^\nn \to Y^\nn$ that sends each $g \colon \nn \to X$ to $g \then h \colon \nn \to Y$.
-    \item No $\smset \to \smset$ functor $X\mapsto \2^X$ is representable, for the same reason as in \cref{sol.representable_fun.2}.
-    (There \emph{is}, however, a functor $\smset\op \to \smset$ sending $X \mapsto 2^X$ that is understood to be representable in a more general sense.)
-\end{enumerate}
-\end{solution}
+    \begin{solution}
+        \begin{enumerate}
+            \item The identity functor $X\mapsto X$ is represented by the set $\1$: a function $\1 \to X$ can be identified with an element of $X$, so $\smset(\1,X)\iso X$.
+            Alternatively, note that $X^\1 \iso X$.
+            \item \label{sol.representable_fun.2} The constant functor $X\mapsto\2$ is not representable: it sends $\1$ to $\2$, but $\1^S \iso \1 \not\iso \2$ for any set $S$.
+            \item The constant functor $X\mapsto\1$ is represented by $S=\0$: there is exactly one function $\0 \to X$, so $\smset(\0,X) \iso \1$.
+            Alternatively, note that $X^0 \iso \1$.
+            \item The constant functor $X\mapsto\0$ is not representable for the same reason as in \cref{sol.representable_fun.2}.
+            \item The functor $\yon^\nn$ that sends $X\mapsto X^\nn$ is represented by $\nn$, by definition.
+            It should send each function $h \colon X \to Y$ to the function $h^\nn \colon X^\nn \to Y^\nn$ that sends each $g \colon \nn \to X$ to $g \then h \colon \nn \to Y$.
+            \item No $\smset \to \smset$ functor $X\mapsto \2^X$ is representable, for the same reason as in \cref{sol.representable_fun.2}.
+            (There \emph{is}, however, a functor $\smset\op \to \smset$ sending $X \mapsto 2^X$ that is understood to be representable in a more general sense.)
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 Now that we have introduced representable functors, we study the maps between them.
 As representables are functors, the maps between them are natural transformations.
 
 \begin{proposition}\label{prop.representable_nt}
-For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ its $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
+    For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ its $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
 \end{proposition}
 
 \begin{proof}
-See \cref{exc.representable_nt}.
+    See \cref{exc.representable_nt}.
 \end{proof}
 
 \begin{exercise} \label{exc.representable_nt}
-To prove \cref{prop.representable_nt}, show that for any function $f\colon R\to S$, the given construction $\yon^f\colon\yon^S\to\yon^R$ really is a natural transformation.
-That is, for any function $h\colon X\to Y$, show that the following naturality square commutes:
-\begin{equation} \label{diag.yon_embed_nat}
-\begin{tikzcd}%[bottom base]
-	X^S\ar[r, "h^S"]\ar[d, "X^f"']&
-	Y^S\ar[d, "Y^f"]\\
-	X^R\ar[r, "h^R"']&
-	Y^R\ar[ul, phantom, "?"]
-\end{tikzcd}
-\end{equation}
-\qedhere
+    To prove \cref{prop.representable_nt}, show that for any function $f\colon R\to S$, the given construction $\yon^f\colon\yon^S\to\yon^R$ really is a natural transformation.
+    That is, for any function $h\colon X\to Y$, show that the following naturality square commutes:
+    \begin{equation} \label{diag.yon_embed_nat}
+        \begin{tikzcd}%[bottom base]
+            X^S\ar[r, "h^S"]\ar[d, "X^f"']&
+            Y^S\ar[d, "Y^f"]\\
+            X^R\ar[r, "h^R"']&
+            Y^R\ar[ul, phantom, "?"]
+        \end{tikzcd}
+    \end{equation}
+    \qedhere
 
-\begin{solution}
-To show that \eqref{diag.yon_embed_nat} commutes, we note that by the construction of the components of $\yon^f$ in the statement of \cref{prop.representable_nt}, both vertical maps in the diagram compose functions from $S$ with $f \colon R \to S$ on the left; and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
-So by the associativity of composition, the diagram commutes: $(f\then g)\then h=f\then(g\then h)$ for all $g\colon S\to X$.
-\end{solution}
+    \begin{solution}
+        To show that \eqref{diag.yon_embed_nat} commutes, we note that by the construction of the components of $\yon^f$ in the statement of \cref{prop.representable_nt}, both vertical maps in the diagram compose functions from $S$ with $f \colon R \to S$ on the left; and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
+        So by the associativity of composition, the diagram commutes: $(f\then g)\then h=f\then(g\then h)$ for all $g\colon S\to X$.
+    \end{solution}
 \end{exercise}
 
 \begin{exercise} \label{exc.representable_nt_components}
-Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component $X^f\colon X^S\to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
-\begin{enumerate}
-    \item \label{exc.representable_nt_components.id} $R=\5$, $S=\5$, $f=\id_\5$. (You should describe the function $X^{\id_\5}\colon X^\5\to X^\5$.)
-    \item $R=\2$, $S=\1$, $f$ is the unique function.
-    \item $R=\1$, $S=\2$, $f(1)=1$.
-    \item $R=\1$, $S=\2$, $f(1)=2$.
-    \item $R=\0$, $S=\5$, $f$ is the unique function.
-    \item $R=\nn$, $S=\nn$, $f(n)=n+1$.
-\qedhere
-\end{enumerate}
+    Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component $X^f\colon X^S\to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
+    \begin{enumerate}
+        \item \label{exc.representable_nt_components.id} $R=\5$, $S=\5$, $f=\id_\5$. (You should describe the function $X^{\id_\5}\colon X^\5\to X^\5$.)
+        \item $R=\2$, $S=\1$, $f$ is the unique function.
+        \item $R=\1$, $S=\2$, $f(1)=1$.
+        \item $R=\1$, $S=\2$, $f(1)=2$.
+        \item $R=\0$, $S=\5$, $f$ is the unique function.
+        \item $R=\nn$, $S=\nn$, $f(n)=n+1$.
+        \qedhere
+    \end{enumerate}
 
-\begin{solution}
-In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colon X^S \to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$ by applying \cref{prop.representable_nt}, which says that $X^f$ sends each $g \colon S \to X$ to $f \then g \colon R \to X$.
-\begin{enumerate}
-    \item Here $X^{\id_5}\colon X^\5\to X^\5$ is the identity function.
-    \item If $f\colon\2\to\1$ is the unique function, then $X^f\colon X^\1\to X^\2$ sends each $g \in X$ (i.e.\ function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
-    We can think of $X^f$ as the diagonal $X \to X \times X$.
-    \item If $f\colon\1\to\2$ sends $1\mapsto1$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
-    We can think of $X^f$ as the left projection $X \times X \to X$.
-    \item If $f\colon\1\to\2$ sends $1\mapsto2$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(2)$, viewed as a function $\1 \to X$.
-    We can think of $X^f$ as the right projection $X \times X \to X$.
-    \item Here $X^f\colon X^\5\to X^\0\iso\1$ is the unique function.
-    \item If $f\colon\nn\to\nn$ sends $n\mapsto n+1$, then $X^f\colon X^\nn\to X^\nn$ sends each $g \colon \nn \to X$ to the function $h \colon \nn \to X$ defined by $h(n)\coloneqq g(n+1)$ for all $n \in \nn$.
-    We can think of $X^f$ as removing the first term of an infinite sequence of elements $(g(0),g(1),g(2),\ldots)$ of $X$ to obtain a new sequence $(g(1),g(2),g(3),\ldots)$.
-\end{enumerate}
-\end{solution}
+    \begin{solution}
+        In each case, given $f \colon R \to S$, we can find the $X$-component $X^f \colon X^S \to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$ by applying \cref{prop.representable_nt}, which says that $X^f$ sends each $g \colon S \to X$ to $f \then g \colon R \to X$.
+        \begin{enumerate}
+            \item Here $X^{\id_5}\colon X^\5\to X^\5$ is the identity function.
+            \item If $f\colon\2\to\1$ is the unique function, then $X^f\colon X^\1\to X^\2$ sends each $g \in X$ (i.e.\ function $g \colon \1 \to X$) to the function that maps both elements of $\2$ to $g$.
+            We can think of $X^f$ as the diagonal $X \to X \times X$.
+            \item If $f\colon\1\to\2$ sends $1\mapsto1$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(1)$, viewed as a function $\1 \to X$.
+            We can think of $X^f$ as the left projection $X \times X \to X$.
+            \item If $f\colon\1\to\2$ sends $1\mapsto2$, then $X^f\colon X^\2\to X^\1$ sends each $g \colon \2 \to X$ to $g(2)$, viewed as a function $\1 \to X$.
+            We can think of $X^f$ as the right projection $X \times X \to X$.
+            \item Here $X^f\colon X^\5\to X^\0\iso\1$ is the unique function.
+            \item If $f\colon\nn\to\nn$ sends $n\mapsto n+1$, then $X^f\colon X^\nn\to X^\nn$ sends each $g \colon \nn \to X$ to the function $h \colon \nn \to X$ defined by $h(n)\coloneqq g(n+1)$ for all $n \in \nn$.
+            We can think of $X^f$ as removing the first term of an infinite sequence of elements $(g(0),g(1),g(2),\ldots)$ of $X$ to obtain a new sequence $(g(1),g(2),g(3),\ldots)$.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 These representable functors and natural transformations live in the larger category $\smset^\smset$, whose objects are functors $\smset\to\smset$ and whose morphisms are the natural transformations between them.
 
 \begin{exercise} \label{exc.representable_nt_functorial}
-Show that the construction $f\mapsto\yon^f$ from \cref{prop.representable_nt} defines a functor
-\begin{equation} \label{eqn.yoneda_embedding}
-\yon^-\colon\smset\op\to\smset^\smset
-\end{equation}
-by verifying functoriality, as follows.
-\begin{enumerate}
-    \item Show that for any set $S$, the natural transformation $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
-    \item Show that for functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$. \qedhere
-\end{enumerate}
+    Show that the construction $f\mapsto\yon^f$ from \cref{prop.representable_nt} defines a functor
+    \begin{equation} \label{eqn.yoneda_embedding}
+        \yon^-\colon\smset\op\to\smset^\smset
+    \end{equation}
+    by verifying functoriality, as follows.
+    \begin{enumerate}
+        \item Show that for any set $S$, the natural transformation $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity.
+        \item Show that for functions $f\colon R\to S$ and $g\colon S\to T$, we have $\yon^g\then\yon^f=\yon^{f\then g}$. \qedhere
+    \end{enumerate}
 
-\begin{solution}
-\begin{enumerate}
-    \item The fact that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity is just a generalization of \cref{exc.representable_nt_components} \cref{exc.representable_nt_components.id}.
-    For any set $X$, the $X$-component $X^{\id_S} \colon X^S \to X^S$ of $\yon^{\id_S}$ sends each $h \colon S \to X$ to $\id_S \then h = h$, so $X^{\id_S}$ is the identity natural transformation on $X^S$.
-    Hence $\yon^{\id_S}$ is the identity on $\yon^S$.
-    \item Fix $f \colon R \to S$ and $g \colon S \to T$; we wish to show that $\yon^g \then \yon^f = \yon^{f \then g}$.
-    It suffices to show componentwise that $X^g \then X^f = X^{f \then g}$ for every set $X$.
-    Indeed, $X^g$ sends each $h \colon T \to X$ to $g \then h$; then $X^f$ sends $g \then h$ to $f \then g \then h = X^{f \then g}(h)$.
-\end{enumerate}
-\end{solution}
+    \begin{solution}
+        \begin{enumerate}
+            \item The fact that $\yon^{\id_S}\colon\yon^S\to\yon^S$ is the identity is just a generalization of \cref{exc.representable_nt_components} \cref{exc.representable_nt_components.id}.
+            For any set $X$, the $X$-component $X^{\id_S} \colon X^S \to X^S$ of $\yon^{\id_S}$ sends each $h \colon S \to X$ to $\id_S \then h = h$, so $X^{\id_S}$ is the identity natural transformation on $X^S$.
+            Hence $\yon^{\id_S}$ is the identity on $\yon^S$.
+            \item Fix $f \colon R \to S$ and $g \colon S \to T$; we wish to show that $\yon^g \then \yon^f = \yon^{f \then g}$.
+            It suffices to show componentwise that $X^g \then X^f = X^{f \then g}$ for every set $X$.
+            Indeed, $X^g$ sends each $h \colon T \to X$ to $g \then h$; then $X^f$ sends $g \then h$ to $f \then g \then h = X^{f \then g}(h)$.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 We now have all the ingredients we need to state and prove the Yoneda lemma on the category of sets.
 
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
-Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
-\begin{equation}\label{eqn.yoneda}
-F(S)\iso\smset^\smset(\yon^S,F)
-\end{equation}
-where the right hand side is the set of natural transformations $\yon^S\to F$.
-Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
+    Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
+    \begin{equation}\label{eqn.yoneda}
+        F(S)\iso\smset^\smset(\yon^S,F)
+    \end{equation}
+    where the right hand side is the set of natural transformations $\yon^S\to F$.
+    Moreover, \eqref{eqn.yoneda} is natural in both $S$ and $F$.
 \end{lemma}
 \begin{proof}[Proof]
-Given a natural transformation $m\colon\yon^S\to F$, consider its $S$-component $m_S\colon S^S\to F(S)$.
-Applying this function to $\id_S\in S^S$ yields an element $m_S(\id_S)\in F(S)$.
+    Given a natural transformation $m\colon\yon^S\to F$, consider its $S$-component $m_S\colon S^S\to F(S)$.
+    Applying this function to $\id_S\in S^S$ yields an element $m_S(\id_S)\in F(S)$.
 
-Conversely, given an element $a\in F(S)$, there is a natural transformation we denote by $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ that sends $g\colon S\to X$ to $F(g)(a)$.
-In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$; that these two constructions, $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$, are mutually inverse; and that the resulting isomorphism is natural.
+    Conversely, given an element $a\in F(S)$, there is a natural transformation we denote by $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ that sends $g\colon S\to X$ to $F(g)(a)$.
+    In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$; that these two constructions, $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$, are mutually inverse; and that the resulting isomorphism is natural.
 \end{proof}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
-In this exercise, we fill in the details of the preceding proof.
-\begin{enumerate}
-    \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ defined in the proof of \cref{lemma.yoneda} are natural in $X$.
-    \item Show that the two mappings given in the proof of \cref{lemma.yoneda} are mutually inverse, thus defining the isomorphism \eqref{eqn.yoneda}.
-    \item Show that \eqref{eqn.yoneda} as defined is natural in $F$.
-    \item Show that \eqref{eqn.yoneda} as defined is natural in $S$.
-    \item \label{exc.finish_proof_yoneda.embed} As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, there is an isomorphism $S^T\iso \smset^\smset(\yon^S,\yon^T)$ for sets $S,T$.
-    For this reason, we call $\yon^-$ the \emph{Yoneda embedding}.
-\qedhere
-\end{enumerate}
+    In this exercise, we fill in the details of the preceding proof.
+    \begin{enumerate}
+        \item Show that for any $a\in F(S)$, the maps $X^S\to F(X)$ defined in the proof of \cref{lemma.yoneda} are natural in $X$.
+        \item Show that the two mappings given in the proof of \cref{lemma.yoneda} are mutually inverse, thus defining the isomorphism \eqref{eqn.yoneda}.
+        \item Show that \eqref{eqn.yoneda} as defined is natural in $F$.
+        \item Show that \eqref{eqn.yoneda} as defined is natural in $S$.
+        \item \label{exc.finish_proof_yoneda.embed} As a corollary of \cref{lemma.yoneda}, show that the functor $\yon^-\colon\smset\op\to\smset^\smset$ from \eqref{eqn.yoneda_embedding} is fully faithful---in particular, there is an isomorphism $S^T\iso \smset^\smset(\yon^S,\yon^T)$ for sets $S,T$.
+        For this reason, we call $\yon^-$ the \emph{Yoneda embedding}.
+        \qedhere
+    \end{enumerate}
 
-\begin{solution}
-\begin{enumerate}
-    \item To check that $X^S \to F(X)$ is natural in $X$, we verify that the naturality square
-    \[
-    \begin{tikzcd}[ampersand replacement=\&]
-    	X^S\ar[r, "h^S"]\ar[d, "F(-)(a)"']\&
-    	Y^S\ar[d, "F(-)(a)"]\\
-    	F(X)\ar[r, "F(h)"']\&
-    	F(Y)
-    \end{tikzcd}
-    \]
-    commutes for all $h \colon X \to Y$.
-    The top map $h^S$ sends any $g \colon S \to X$ to $g \then h$ (\cref{def.representable}), which is then sent to $F(g \then h)(a)$ by the right map.
-    Meanwhile, the left map sends $g$ to $F(g)(a)$, which is then sent to $F(h)(F(g)(a))$ by the bottom map.
-    So by the functoriality of $F$, the square commutes.
+    \begin{solution}
+        \begin{enumerate}
+            \item To check that $X^S \to F(X)$ is natural in $X$, we verify that the naturality square
+            \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                X^S\ar[r, "h^S"]\ar[d, "F(-)(a)"']\&
+                Y^S\ar[d, "F(-)(a)"]\\
+                F(X)\ar[r, "F(h)"']\&
+                F(Y)
+            \end{tikzcd}
+            \]
+            commutes for all $h \colon X \to Y$.
+            The top map $h^S$ sends any $g \colon S \to X$ to $g \then h$ (\cref{def.representable}), which is then sent to $F(g \then h)(a)$ by the right map.
+            Meanwhile, the left map sends $g$ to $F(g)(a)$, which is then sent to $F(h)(F(g)(a))$ by the bottom map.
+            So by the functoriality of $F$, the square commutes.
 
-    \item We show that the maps $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$ defined in the proof of \cref{lemma.yoneda} are mutually inverse.
-    First, we show that for any natural transformation $m \colon \yon^S \to F$, we have $m^{m_S(\id_S)} = m$.
-    Given a set $X$, the $X$-component of $m^{m_S(\id_S)}$ sends each $g \colon S \to X$ to $F(g)(m_S(\id_S))$; it suffices to show that this is also where the $X$-component of $m$ sends $g$.
-    Indeed, by the naturality of $m$, the square
-    \[
-    \begin{tikzcd}[ampersand replacement=\&]
-    	S^S\ar[r, "g^S"]\ar[d, "m_S"']\&
-    	X^S\ar[d, "m_X"]\\
-    	F(S)\ar[r, "F(g)"']\&
-    	F(X)
-    \end{tikzcd}
-    \]
-    commutes, so in particular, following $\id_S\in S^S$ around this diagram, we have
-    \begin{equation} \label{eqn.finish_proof_yoneda}
-        F(g)(m_S(\id_S)) = m_X(g^S(\id_S)) = m_X(\id_S \then g) = m_X(g).
-    \end{equation}
-    In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
+            \item We show that the maps $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$ defined in the proof of \cref{lemma.yoneda} are mutually inverse.
+            First, we show that for any natural transformation $m \colon \yon^S \to F$, we have $m^{m_S(\id_S)} = m$.
+            Given a set $X$, the $X$-component of $m^{m_S(\id_S)}$ sends each $g \colon S \to X$ to $F(g)(m_S(\id_S))$; it suffices to show that this is also where the $X$-component of $m$ sends $g$.
+            Indeed, by the naturality of $m$, the square
+            \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                S^S\ar[r, "g^S"]\ar[d, "m_S"']\&
+                X^S\ar[d, "m_X"]\\
+                F(S)\ar[r, "F(g)"']\&
+                F(X)
+            \end{tikzcd}
+            \]
+            commutes, so in particular, following $\id_S\in S^S$ around this diagram, we have
+            \begin{equation} \label{eqn.finish_proof_yoneda}
+                F(g)(m_S(\id_S)) = m_X(g^S(\id_S)) = m_X(\id_S \then g) = m_X(g).
+            \end{equation}
+            In the other direction, we show that for any $a \in F(S)$, we have $m^a_S(\id_S) = a$: by construction, $m^a_S \colon S^S \to F(S)$ sends $\id_S$ to $F(\id_S)(a) = a$.
 
-    \item It suffices to show that given functors $F, G\colon\smset\to\smset$ and a natural transformation $\alpha \colon F \to G$, the naturality square
-    \[
-    \begin{tikzcd}[ampersand replacement=\&]
-    	\smset^\smset(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
-    	F(S)\ar[d, "\alpha_S"]\\
-    	\smset^\smset(\yon^S,G)\ar[r, "\sim"]\&
-    	G(S)
-    \end{tikzcd}
-    \]
-    commutes.
-    The top map sends any $m \colon \yon^S \to F$ to $m_S(\id_S)$, which in turn is sent by the right map to $\alpha_S(m_S(\id_S)) = (m \then \alpha)_S(\id_S)$.
-    This is also where the bottom map sends $m \then \alpha$, so the square commutes.
+            \item It suffices to show that given functors $F, G\colon\smset\to\smset$ and a natural transformation $\alpha \colon F \to G$, the naturality square
+            \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \smset^\smset(\yon^S,F)\ar[d, "- \then \alpha"']\ar[r, "\sim"]\&
+                F(S)\ar[d, "\alpha_S"]\\
+                \smset^\smset(\yon^S,G)\ar[r, "\sim"]\&
+                G(S)
+            \end{tikzcd}
+            \]
+            commutes.
+            The top map sends any $m \colon \yon^S \to F$ to $m_S(\id_S)$, which in turn is sent by the right map to $\alpha_S(m_S(\id_S)) = (m \then \alpha)_S(\id_S)$.
+            This is also where the bottom map sends $m \then \alpha$, so the square commutes.
 
-    \item It suffices to show that given a function $g \colon S \to X$, the naturality square
-    \[
-    \begin{tikzcd}[ampersand replacement=\&]
-    	\smset^\smset(\yon^S,F)\ar[d, "\yon^g \then -"']\ar[r, "\sim"]\&
-    	F(S)\ar[d, "F(g)"]\\
-    	\smset^\smset(\yon^X,F)\ar[r, "\sim"]\&
-    	F(X)
-    \end{tikzcd}
-    \]
-    commutes.
-    The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(g \then \id_X) = m_X(g)$.
-    Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
-    So the square commutes by \eqref{eqn.finish_proof_yoneda}.
+            \item It suffices to show that given a function $g \colon S \to X$, the naturality square
+            \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \smset^\smset(\yon^S,F)\ar[d, "\yon^g \then -"']\ar[r, "\sim"]\&
+                F(S)\ar[d, "F(g)"]\\
+                \smset^\smset(\yon^X,F)\ar[r, "\sim"]\&
+                F(X)
+            \end{tikzcd}
+            \]
+            commutes.
+            The left map sends any $m \colon \yon^S \to F$ to $\yon^g \then m$, which is sent by the bottom map to $(\yon^g \then m)_X(\id_X) = m_X(X^g(\id_X)) = m_X(g \then \id_X) = m_X(g)$.
+            Meanwhile, the top map sends $m$ to $m_S(\id_S)$, which is sent by the right map to $F(g)(m_S(\id_S))$.
+            So the square commutes by \eqref{eqn.finish_proof_yoneda}.
 
-    \item To show that $\smset^\smset(\yon^S, \yon^T) \iso S^T$, just take $F\coloneqq\yon^T$ in \cref{lemma.yoneda} so that $F(S)\iso S^T$.
-\end{enumerate}
-\end{solution}
+            \item To show that $\smset^\smset(\yon^S, \yon^T) \iso S^T$, just take $F\coloneqq\yon^T$ in \cref{lemma.yoneda} so that $F(S)\iso S^T$.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 %-------- Section --------%
@@ -1124,13 +255,13 @@ In this exercise, we fill in the details of the preceding proof.
 In algebra, a polynomial is just a sum of pure powers.
 So we will define a \emph{polynomial functor} $\smset\to\smset$ to be a sum of pure power functors---that is, the representable functors $\yon^A$ for each set $A$ we just introduced.%
 \footnote{This analogy isn't perfect: in algebra, polynomials are generally finite sums of pure powers, whereas our polynomial functors may be infinite sums of representables.
-However, we are not the first to use the term ``polynomial'' this way, and the name stuck.}
+    However, we are not the first to use the term ``polynomial'' this way, and the name stuck.}
 
 All of our polynomials will be in one variable, $\yon$.
 Every other letter or number that shows up in our notation for a polynomial will denote a set.
 For example, in the following bizarre polynomial
 \begin{equation} \label{eqn.biz_poly}
-\rr\yon^\zz+\3\yon^{\3}+\yon^A+\sum_{i\in I}\yon^{R_i+Q_i^\2},
+    \rr\yon^\zz+\3\yon^{\3}+\yon^A+\sum_{i\in I}\yon^{R_i+Q_i^\2},
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\2$ and $\3$ respectively denote the sets $\{1,2\}$ and $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote arbitrary sets.
 
@@ -1154,15 +285,15 @@ To pick out an element of one of the sets in the indexed family $X\colon I\to\sm
 We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as below.
 
 \begin{definition}[Sum of sets] \label{def.sum_sets}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
-The \emph{sum} $\sum_{i\in I}X_i$ of this indexed family is the set
-\[
-  \sum_{i\in I}X_i\coloneqq\{(i,x)\mid i\in I\text{ and }x\in X_i\}.
-\]
-When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this sum as
-\[
-  X_{i_1}+\cdots+X_{i_n}.
-\]
+    Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
+    The \emph{sum} $\sum_{i\in I}X_i$ of this indexed family is the set
+    \[
+    \sum_{i\in I}X_i\coloneqq\{(i,x)\mid i\in I\text{ and }x\in X_i\}.
+    \]
+    When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this sum as
+    \[
+    X_{i_1}+\cdots+X_{i_n}.
+    \]
 \end{definition}
 
 Say instead we pick an element from \emph{every} set in the indexed family: that is, we construct an assignment $i\mapsto x_i$, where each $x_i\in X_i$.
@@ -1170,101 +301,101 @@ If every $X_i$ were the same set $X$, then this would just be a function $I\to X
 More generally, this assignment is what we call a \emph{dependent function}: its codomain $X_i$ \emph{depends} on its input $i$.
 We write the signature of such a dependent function as
 \[
-  f \colon (i \in I) \to X_i.
+f \colon (i \in I) \to X_i.
 \]
 Note that the indexed family of sets $X\colon I\to\smset$ completely determines this signature.
 The set of all dependent functions whose signature is determined by a given indexed family of sets is the \textit{product} of that indexed family, as below.
 
 \begin{definition}[Product of sets] \label{def.prod_sets}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
-The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of dependent functions
-\[
-  \prod_{i\in I}X_i\coloneqq\{f \colon (i \in I) \to X_i\}.
-\]
-When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this product as
-\[
-  X_{i_1}\times\cdots\times X_{i_n} \qqor X_{i_1}\cdots X_{i_n}.
-\]
+    Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
+    The \emph{product} $\prod_{i\in I}X_i$ of this indexed family is the set of dependent functions
+    \[
+    \prod_{i\in I}X_i\coloneqq\{f \colon (i \in I) \to X_i\}.
+    \]
+    When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this product as
+    \[
+    X_{i_1}\times\cdots\times X_{i_n} \qqor X_{i_1}\cdots X_{i_n}.
+    \]
 \end{definition}
 
 For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to $i\in I$ by $f(i), fi,$ or $f_i$.
 When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-tuple $(f(i_1),\ldots,f(i_n))$; similarly, when $I\coloneqq\nn$, we may identify $f$ with the infinite sequence $(f_0,f_1,f_2,\ldots)$.
 
 \begin{example}\label{ex.two_sums_and_prods}
-If $I\coloneqq\2=\{1,2\}$, then an $I$-indexed family $X\colon I\to \smset$ consists of two sets---say $X_1\coloneqq\{a,b,c\}$ and $X_2\coloneqq\{c,d\}$.
-Their sum is then the disjoint union
-\[
-  \sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.
-\]
-The cardinality\footnote{The \emph{cardinality} of a set is the number of elements it contains, at least when the set is finite; with care the notion can be extended to infinite sets as well.} of $X_1+X_2$ will always be the sum of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``sum.''
+    If $I\coloneqq\2=\{1,2\}$, then an $I$-indexed family $X\colon I\to \smset$ consists of two sets---say $X_1\coloneqq\{a,b,c\}$ and $X_2\coloneqq\{c,d\}$.
+    Their sum is then the disjoint union
+    \[
+    \sum_{i\in \2}X_i=X_1+X_2=\{(1,a),(1,b),(1,c),(2,c),(2,d)\}.
+    \]
+    The cardinality\footnote{The \emph{cardinality} of a set is the number of elements it contains, at least when the set is finite; with care the notion can be extended to infinite sets as well.} of $X_1+X_2$ will always be the sum of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``sum.''
 
-Meanwhile, their product is the usual cartesian product
-\[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
-The cardinality of $X_1\times X_2$ will always be the product of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``product.''
+    Meanwhile, their product is the usual cartesian product
+    \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
+    The cardinality of $X_1\times X_2$ will always be the product of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``product.''
 \end{example}
 
 \begin{exercise}\label{exc.on_sums_prods_sets}
-Let $I$ be a set.
-\begin{enumerate}
-	\item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\iso\sum_{i\in I}\1$.
-	\item \label{exc.on_sums_prods_sets.prod} Show that there is an isomorphism of sets $\1\iso\prod_{i\in I}\1$.
-\end{enumerate}
-As a special case, suppose that $I\coloneqq\0=\varnothing$ and that $X\colon \varnothing\to\smset$ is the unique empty indexed family of sets.
-\begin{enumerate}[resume]
-	\item Is it true that $X_i=\1$ for each $i\in I$?
-	\item Justify the statement ``the empty sum is $\0$'' by showing that there is an isomorphism of sets $\sum_{i\in\varnothing}X_i\iso\0$.
-	\item Justify the statement ``the empty product is $\1$'' by showing that there is an isomorphism of sets $\prod_{i\in\varnothing}X_i\iso\1$.
-\qedhere
-\end{enumerate}
+    Let $I$ be a set.
+    \begin{enumerate}
+        \item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\iso\sum_{i\in I}\1$.
+        \item \label{exc.on_sums_prods_sets.prod} Show that there is an isomorphism of sets $\1\iso\prod_{i\in I}\1$.
+    \end{enumerate}
+    As a special case, suppose that $I\coloneqq\0=\varnothing$ and that $X\colon \varnothing\to\smset$ is the unique empty indexed family of sets.
+    \begin{enumerate}[resume]
+        \item Is it true that $X_i=\1$ for each $i\in I$?
+        \item Justify the statement ``the empty sum is $\0$'' by showing that there is an isomorphism of sets $\sum_{i\in\varnothing}X_i\iso\0$.
+        \item Justify the statement ``the empty product is $\1$'' by showing that there is an isomorphism of sets $\prod_{i\in\varnothing}X_i\iso\1$.
+        \qedhere
+    \end{enumerate}
 
-\begin{solution}
-\begin{enumerate}
-    \item \label{sol.on_sums_prods_sets.sum}
-    To show that $I\iso\sum_{i \in I}\1$, observe that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \mid i \in I\}$.
-    Then the function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
+    \begin{solution}
+        \begin{enumerate}
+            \item \label{sol.on_sums_prods_sets.sum}
+            To show that $I\iso\sum_{i \in I}\1$, observe that $x \in \1 = \{1\}$ if and only if $x = 1$, so $\sum_{i \in I} \1 = \{(i, 1) \mid i \in I\}$.
+            Then the function $I \to \sum_{i \in I} \1$ that sends each $i \in I$ to $(i, 1)$ is clearly an isomorphism.
 
-    \item \label{sol.on_sums_prods_sets.prod}
-    To show that $\1 \iso \prod_{i \in I} \1$, it suffices to show that there is a unique dependent function $f \colon (i \in I) \to \1$.
-    As $\1 = \{1\}$, such a function $f$ must always send $i \in I$ to $1$.
-    This uniquely characterizes $f$, so there is indeed only one such dependent function.
+            \item \label{sol.on_sums_prods_sets.prod}
+            To show that $\1 \iso \prod_{i \in I} \1$, it suffices to show that there is a unique dependent function $f \colon (i \in I) \to \1$.
+            As $\1 = \{1\}$, such a function $f$ must always send $i \in I$ to $1$.
+            This uniquely characterizes $f$, so there is indeed only one such dependent function.
 
-    \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
-    So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds.
-    We say that this sort of statement is \emph{vacuously true}.
+            \item \label{sol.on_sums_prods_sets.vac} Yes: since $I$ is empty, there are no $i \in I$.
+            So it is true that $X_i = 1$ holds whenever $i \in I$ holds, because $i \in I$ never holds.
+            We say that this sort of statement is \emph{vacuously true}.
 
-    \item As $I = \0 = \varnothing$, we have $\sum_{i\in\varnothing}X_i = \sum_{i\in I}\1 \iso I = \0$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism in the middle follows from \cref{sol.on_sums_prods_sets.sum}.
+            \item As $I = \0 = \varnothing$, we have $\sum_{i\in\varnothing}X_i = \sum_{i\in I}\1 \iso I = \0$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism in the middle follows from \cref{sol.on_sums_prods_sets.sum}.
 
-    \item As $I = \varnothing$, we have $\prod_{i\in\varnothing}X_i = \prod_{i\in I}\1 \iso \1$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism on the right follows from \cref{sol.on_sums_prods_sets.prod}.
-\end{enumerate}
-\end{solution}
+            \item As $I = \varnothing$, we have $\prod_{i\in\varnothing}X_i = \prod_{i\in I}\1 \iso \1$, where the equation on the left follows from \cref{sol.on_sums_prods_sets.vac} and the isomorphism on the right follows from \cref{sol.on_sums_prods_sets.prod}.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 The following standard fact describes the constructions from \cref{def.sum_sets,def.prod_sets} categorically and further justifies why we call them sums and products.
 
 \begin{proposition} \label{prop.set_prod_coprod}
-Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
+    Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
 \end{proposition}
 
 \begin{proof}
-The sum $\sum_{i\in I}X_i$ comes equipped with an inclusion $\iota_j\colon X_j\to\sum_{i\in I}X_i$ for each $j\in I$ given by $x\mapsto(j,x)$.
-The product $\prod_{i\in I}X_i$ comes equipped with a projection $\pi_j\colon\prod_{i\in I}X_i\to X_j$ for each $j\in I$ sending each $f\colon(i\in I)\to X_i$ to $f(j)$.
-These satisfy the universal properties for categorical coproducts and products, respectively; see \cref{exc.set_prod_coprod}.
+    The sum $\sum_{i\in I}X_i$ comes equipped with an inclusion $\iota_j\colon X_j\to\sum_{i\in I}X_i$ for each $j\in I$ given by $x\mapsto(j,x)$.
+    The product $\prod_{i\in I}X_i$ comes equipped with a projection $\pi_j\colon\prod_{i\in I}X_i\to X_j$ for each $j\in I$ sending each $f\colon(i\in I)\to X_i$ to $f(j)$.
+    These satisfy the universal properties for categorical coproducts and products, respectively; see \cref{exc.set_prod_coprod}.
 \end{proof}
 
 \begin{exercise} \label{exc.set_prod_coprod}
-\begin{enumerate}
-  \item Show that $\sum_{i\in I}X_i$ along with the inclusions $\iota_j\colon X_j\to\sum_{i\in I}X_i$ described in the proof of \cref{prop.set_prod_coprod} satisfy the universal property of a categorical coproduct: for any set $Y$ with functions $g_j\colon X_j\to Y$ for each $j\in I$, there exists a unique function $h\colon\sum_{i\in I}X_i\to Y$ for which $\iota_j\then h=g_j$ for all $j\in I$.
-  \item Show that $\prod_{i\in I}X_i$ along with the projections $\pi_j\colon\prod_{i\in I}X_i\to X_j$ described in the proof of \cref{prop.set_prod_coprod} satisfy the universal property of a categorical product: for any set $Y$ with functions $g_j\colon Y\to X_j$ for each $j\in I$, there exists a unique function $h\colon Y\to\prod_{i\in I}X_i$ for which $h\then\pi_j=g_j$ for all $j\in I$. \qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-  \item Any function $h\colon\sum_{i\in I}X_i\to Y$ for which $\iota_j\then h=g_j$ for all $j\in I$ must satisfy $h(j,x)=h(\iota_j(x))=g_j(x)$ for all $j\in I$ and $x\in X_j$.
-  This uniquely characterizes $h$, so if we define $h(j,x)\coloneqq g_j(x)$ we are done.
+    \begin{enumerate}
+        \item Show that $\sum_{i\in I}X_i$ along with the inclusions $\iota_j\colon X_j\to\sum_{i\in I}X_i$ described in the proof of \cref{prop.set_prod_coprod} satisfy the universal property of a categorical coproduct: for any set $Y$ with functions $g_j\colon X_j\to Y$ for each $j\in I$, there exists a unique function $h\colon\sum_{i\in I}X_i\to Y$ for which $\iota_j\then h=g_j$ for all $j\in I$.
+        \item Show that $\prod_{i\in I}X_i$ along with the projections $\pi_j\colon\prod_{i\in I}X_i\to X_j$ described in the proof of \cref{prop.set_prod_coprod} satisfy the universal property of a categorical product: for any set $Y$ with functions $g_j\colon Y\to X_j$ for each $j\in I$, there exists a unique function $h\colon Y\to\prod_{i\in I}X_i$ for which $h\then\pi_j=g_j$ for all $j\in I$. \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item Any function $h\colon\sum_{i\in I}X_i\to Y$ for which $\iota_j\then h=g_j$ for all $j\in I$ must satisfy $h(j,x)=h(\iota_j(x))=g_j(x)$ for all $j\in I$ and $x\in X_j$.
+            This uniquely characterizes $h$, so if we define $h(j,x)\coloneqq g_j(x)$ we are done.
 
-  \item Any function $h\colon Y\to\prod_{i\in I}X_i$ for which $h\then\pi_j=g_j$ for all $j\in I$ must satisfy $h(y)_j=\pi_j(h(y))=g_j(y)$ for all $y\in Y$ and $j\in I$.
-  This uniquely characterizes $h(y)$ and thus $h$, so if we define $h(y)\colon(i\in I)\to X_i$ to be the dependent function given by $i\mapsto g_i(y)$ we are done.
-\end{enumerate}
-\end{solution}
+            \item Any function $h\colon Y\to\prod_{i\in I}X_i$ for which $h\then\pi_j=g_j$ for all $j\in I$ must satisfy $h(y)_j=\pi_j(h(y))=g_j(y)$ for all $y\in Y$ and $j\in I$.
+            This uniquely characterizes $h(y)$ and thus $h$, so if we define $h(y)\colon(i\in I)\to X_i$ to be the dependent function given by $i\mapsto g_i(y)$ we are done.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard categorical fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
@@ -1272,97 +403,97 @@ Though we proved above explicitly that $\smset$ has all small products and copro
 We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
 
 \begin{definition}[Categorical sums and products of functions]
-  Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
-  Given a natural transformation $f\colon X\to Y$, i.e.\ an $I$-indexed family of functions $(f_i\colon X_i\to Y_i)_{i\in I}$, its \emph{categorical sum} (or \emph{coproduct}) is the function
-  \[
+    Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
+    Given a natural transformation $f\colon X\to Y$, i.e.\ an $I$-indexed family of functions $(f_i\colon X_i\to Y_i)_{i\in I}$, its \emph{categorical sum} (or \emph{coproduct}) is the function
+    \[
     \sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i
-  \]
-  that, given $i\in I$ and $x\in X_i$, sends $(i,x)\mapsto(i,f_i(x))$; while its \emph{categorical product} is the function
-  \[
+    \]
+    that, given $i\in I$ and $x\in X_i$, sends $(i,x)\mapsto(i,f_i(x))$; while its \emph{categorical product} is the function
+    \[
     \prod_{i\in I}f_i\colon\prod_{i\in I}X_i\to\prod_{i\in I}Y_i
-  \]
-  that sends each $g\colon(i\in I)\to X_i$ to the \emph{composite dependent function} $(i\in I)\to Y_i$, denoted $g\then f$ or $f\circ g$, which sends $i\in I$ to $f_i(g(i))$.
+    \]
+    that sends each $g\colon(i\in I)\to X_i$ to the \emph{composite dependent function} $(i\in I)\to Y_i$, denoted $g\then f$ or $f\circ g$, which sends $i\in I$ to $f_i(g(i))$.
 
-  When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this categorical sum and product of functions respectively as\footnote{We will take care to highlight when this notation may clash with a sum (resp.\ product) of functions with common domain and codomain whose codomain has an additive (resp.\ multiplicative) structure.}
-  \[
+    When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may alternatively denote this categorical sum and product of functions respectively as\footnote{We will take care to highlight when this notation may clash with a sum (resp.\ product) of functions with common domain and codomain whose codomain has an additive (resp.\ multiplicative) structure.}
+    \[
     f_{i_1}+\cdots+f_{i_n} \qqand f_{i_1}\times\cdots\times f_{i_n}.
-  \]
+    \]
 \end{definition}
 
 \begin{exercise}
-\begin{enumerate}
-  \item Show that the categorical sum of functions is the one induced by the universal property of the categorical sum of sets.
-  That is, given a set $I$, two $I$-indexed families of sets $X,Y\colon I\to\smset$, and a natural transformation $f\colon X\to Y$, the function $\sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i$ that we called the categorical sum is induced by the following composite maps for $j\in J$:
-  \[
-    X_j\To{f_j}Y_j\To{\iota'_j}\sum_{i\in I}Y_i.
-  \]
-  It then follows by a standard categorical argument that the sum is functorial, i.e.\ that the sum of identities is an identity and that the sum of composites is the composite of sums.
+    \begin{enumerate}
+        \item Show that the categorical sum of functions is the one induced by the universal property of the categorical sum of sets.
+        That is, given a set $I$, two $I$-indexed families of sets $X,Y\colon I\to\smset$, and a natural transformation $f\colon X\to Y$, the function $\sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i$ that we called the categorical sum is induced by the following composite maps for $j\in J$:
+        \[
+        X_j\To{f_j}Y_j\To{\iota'_j}\sum_{i\in I}Y_i.
+        \]
+        It then follows by a standard categorical argument that the sum is functorial, i.e.\ that the sum of identities is an identity and that the sum of composites is the composite of sums.
 
-  \item Similarly, show that the categorical product of functions is the one induced by the universal property of the categorical product of sets.
-  That is, given the same setup as the previous part, the function $\prod_{i\in I}f_i\colon\prod_{i\in I}X_i\to\prod_{i\in I}Y_i$ that we called the categorical product is induced by the following composite maps for $j\in J$:
-  \[
-    \prod_{i\in I}X_i\To{\pi_j}X_j\To{f_j}Y_j.
-  \]
-  Again, this implies that the product is functorial. \qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-  \item It suffices to show that the following square commutes for all $j\in I$:
-  \[
-  \begin{tikzcd}[column sep=large]
-    X_j \ar[d, "\iota_j"] \ar[r, "f_j"] & Y_j \ar[d, "\iota'_j"] \\
-    \sum_{i\in I}X_i \ar[r, "\sum_{i\in I}f_i"] & \sum_{i\in I}Y_i
-  \end{tikzcd}
-  \]
-  Given $x\in X_j$, the left inclusion map sends $x$ to $(j,x)$, which the bottom sum of maps sends to $(j,f_j(x))$.
-  Meanwhile, the top map sends $x$ to $f_j(x)$, which the right inclusion map again sends to $(j,f_j(x))$.
+        \item Similarly, show that the categorical product of functions is the one induced by the universal property of the categorical product of sets.
+        That is, given the same setup as the previous part, the function $\prod_{i\in I}f_i\colon\prod_{i\in I}X_i\to\prod_{i\in I}Y_i$ that we called the categorical product is induced by the following composite maps for $j\in J$:
+        \[
+        \prod_{i\in I}X_i\To{\pi_j}X_j\To{f_j}Y_j.
+        \]
+        Again, this implies that the product is functorial. \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item It suffices to show that the following square commutes for all $j\in I$:
+            \[
+            \begin{tikzcd}[column sep=large]
+                X_j \ar[d, "\iota_j"] \ar[r, "f_j"] & Y_j \ar[d, "\iota'_j"] \\
+                \sum_{i\in I}X_i \ar[r, "\sum_{i\in I}f_i"] & \sum_{i\in I}Y_i
+            \end{tikzcd}
+            \]
+            Given $x\in X_j$, the left inclusion map sends $x$ to $(j,x)$, which the bottom sum of maps sends to $(j,f_j(x))$.
+            Meanwhile, the top map sends $x$ to $f_j(x)$, which the right inclusion map again sends to $(j,f_j(x))$.
 
-  \item It suffices to show that the following square commutes for all $j\in I$:
-  \[
-  \begin{tikzcd}[column sep=large]
-    \prod_{i\in I}X_i \ar[d, "\pi_j"] \ar[r, "\prod_{i\in I}f_i"] & \prod_{i\in I}Y_i \ar[d, "\pi'_j"] \\
-    X_j \ar[r, "f_j"] & Y_j
-  \end{tikzcd}
-  \]
-  Given $g\colon(i\in I)\to X_i$ in $\prod_{i\in I}X_i$, the top product of maps sends $g$ to $f\circ g$, which the right projection map sends to $f_j(g(j))$.
-  Meanwhile, the left projection map sends $g$ to $g(j)$, which the bottom map again sends to $f_j(g(j))$.
-\end{enumerate}
-\end{solution}
+            \item It suffices to show that the following square commutes for all $j\in I$:
+            \[
+            \begin{tikzcd}[column sep=large]
+                \prod_{i\in I}X_i \ar[d, "\pi_j"] \ar[r, "\prod_{i\in I}f_i"] & \prod_{i\in I}Y_i \ar[d, "\pi'_j"] \\
+                X_j \ar[r, "f_j"] & Y_j
+            \end{tikzcd}
+            \]
+            Given $g\colon(i\in I)\to X_i$ in $\prod_{i\in I}X_i$, the top product of maps sends $g$ to $f\circ g$, which the right projection map sends to $f_j(g(j))$.
+            Meanwhile, the left projection map sends $g$ to $g(j)$, which the bottom map again sends to $f_j(g(j))$.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 We now highlight some tools and techniques to help us work with sum and product sets.
 
 \begin{exercise}\label{exc.product_as_sections}
-  Let $I$ be a set and $X \colon I \to \smset$ be an indexed family.
-  There is a
-  projection function
-  $\pi_1 \colon \sum_{i \in I} X_i \to I$
-  defined by $\pi_1(i, x) \coloneqq i$.
-  \begin{enumerate}
-    \item What is the signature of the second projection $\pi_2(i, x) \coloneqq x$?
-    (Hint: it's a dependent function.)
-    \item A \emph{section} of a function $r \colon A \to B$ is a function $s \colon B \to A$ such that $s \then r = \id_B$.
-    Show that the product of the indexed family is isomorphic to the set of sections of $\pi_1$:
-    \[\prod_{i \in I} X_i \cong \left\{s \colon I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.\]
-    \qedhere
-  \end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item The second projection $\pi_2(i, x) = x$ sends each pair $p \coloneqq (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
-    Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
-    This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
+    Let $I$ be a set and $X \colon I \to \smset$ be an indexed family.
+    There is a
+    projection function
+    $\pi_1 \colon \sum_{i \in I} X_i \to I$
+    defined by $\pi_1(i, x) \coloneqq i$.
+    \begin{enumerate}
+        \item What is the signature of the second projection $\pi_2(i, x) \coloneqq x$?
+        (Hint: it's a dependent function.)
+        \item A \emph{section} of a function $r \colon A \to B$ is a function $s \colon B \to A$ such that $s \then r = \id_B$.
+        Show that the product of the indexed family is isomorphic to the set of sections of $\pi_1$:
+        \[\prod_{i \in I} X_i \cong \left\{s \colon I \to \sum_{i \in I} X_i \,\middle|\, s \then \pi_1 = \id_I\right\}.\]
+        \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item The second projection $\pi_2(i, x) = x$ sends each pair $p \coloneqq (i, x) \in \sum_{i \in I} X_i$ to $x$, an element of $X_i$.
+            Note that we can write $i$ in terms of $p$ as $\pi_1(p)$.
+            This allows us to write the signature of $\pi_2$ as $\pi_2 \colon (p \in \sum_{i \in I} X_i) \to X_{\pi_1(p)}$.
 
-    \item Let $S := \{s \colon I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
-    For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have $f(i) \in X_i$ for $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends $i\mapsto(i, f(i))$.
-    Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is a section of $\pi_1$.
-    Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to S$.
+            \item Let $S := \{s \colon I \to \sum_{i \in I} X_i \mid s \then \pi_1 = \id_I\}$ be the set of sections of $\pi_1$. To show that $\prod_{i \in I} X_i \cong S$, we will exhibit maps in either direction and show that they are mutually inverse.
+            For each $f \colon (i \in I) \to X_i$ in $\prod_{i \in I} X_i$, we have $f(i) \in X_i$ for $i \in I$, so we can define a function $s_f \colon I \to \sum_{i \in I} X_i$ that sends $i\mapsto(i, f(i))$.
+            Then $\pi_1(s_f(i)) = \pi_1(i, f(i)) = i$, so $s_f$ is a section of $\pi_1$.
+            Hence $f \mapsto s_f$ is a map $\prod_{i \in I} X_i \to S$.
 
-    In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_1(s(i)) = i$ for $i \in I$, so we can write $s(i)$ as an ordered pair $(i, \pi_2(s(i)))$ with $\pi_2(s(i)) \in X_i$.
-    Hence we can define a dependent function $f_s \colon (i \in I) \to X_i$ sending $i\mapsto\pi_2(s(i))$.
-    Then $s \mapsto f_s$ is a map $S \to \prod_{i \in I} X_i$.
-    By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
-\end{enumerate}
-\end{solution}
+            In the other direction, for each section $s \colon I \to \sum_{i \in I} X_i$ we have $\pi_1(s(i)) = i$ for $i \in I$, so we can write $s(i)$ as an ordered pair $(i, \pi_2(s(i)))$ with $\pi_2(s(i)) \in X_i$.
+            Hence we can define a dependent function $f_s \colon (i \in I) \to X_i$ sending $i\mapsto\pi_2(s(i))$.
+            Then $s \mapsto f_s$ is a map $S \to \prod_{i \in I} X_i$.
+            By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 A helpful way to think about sum or product sets is to consider what choices must be made to specify an element of such a set.
@@ -1371,11 +502,11 @@ In the following examples, say that we have a set $I$ and an $I$-indexed family 
 Below, we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
 
 \begin{quote}
-To choose an element of $\sum_{i \in I} X_i$:
-\begin{enumerate}
-    \item choose an element $i \in I$;
-    \item choose an element of $X_i$.
-\end{enumerate}
+    To choose an element of $\sum_{i \in I} X_i$:
+    \begin{enumerate}
+        \item choose an element $i \in I$;
+        \item choose an element of $X_i$.
+    \end{enumerate}
 \end{quote}
 
 Then the projection $\pi_1$ from \cref{exc.product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
@@ -1383,31 +514,31 @@ Then the projection $\pi_1$ from \cref{exc.product_as_sections} sends each eleme
 Next, we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
 
 \begin{quote}
-To choose an element of $\prod_{i \in I} X_i$:
-\begin{enumerate}
-    \item for each element $i \in I$:
-    \begin{enumerate}[label*=\arabic*.]
-        \item choose an element of $X_i$.
+    To choose an element of $\prod_{i \in I} X_i$:
+    \begin{enumerate}
+        \item for each element $i \in I$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose an element of $X_i$.
+        \end{enumerate}
     \end{enumerate}
-\end{enumerate}
 \end{quote}
 
 Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s such as
 \begin{equation}\label{eqn.sum_prod_sum}
-A \coloneqq \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
+    A \coloneqq \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k).
 \end{equation}
 The instructions for choosing an element of $A$ form a nested list, as follows.
 
 \begin{quote}
-To choose an element of $A$:
-\begin{enumerate}
-    \item choose an element $i \in I$;
-    \item for each element $j \in J(i)$:
-    \begin{enumerate}[label*=\arabic*.]
-        \item choose an element $k \in K(i,j)$;
-        \item choose an element of $X(i,j,k)$.
+    To choose an element of $A$:
+    \begin{enumerate}
+        \item choose an element $i \in I$;
+        \item for each element $j \in J(i)$:
+        \begin{enumerate}[label*=\arabic*.]
+            \item choose an element $k \in K(i,j)$;
+            \item choose an element of $X(i,j,k)$.
+        \end{enumerate}
     \end{enumerate}
-\end{enumerate}
 \end{quote}
 
 Here the choice of $k\in K(i,j)$ may depend on $i$ and $j$: different values of $i$ and $j$ may lead to different sets $K(i,j)$.
@@ -1416,72 +547,72 @@ By describing $A$ like this, we see that each $a \in A$ can be projected to an e
 This dependent function in turn sends each $j \in J(i)$ to a pair that can be projected to an element $k\coloneqq\pi_1(\pi_2(a)(j)) \in K(i, j)$ chosen in step 2.1 and an element $\pi_2(\pi_2(a)(j)) \in X(i,j,k)$ chosen in step 2.2.
 
 \begin{example}%[Notation for $\sum\prod$ stuff]
-\label{ex.notation_sum_prod}
-% Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.sum_prod_sum}.
+    \label{ex.notation_sum_prod}
+    % Here we give notation for the elements of a set involving $\sum$'s and $\prod$'s such as that in \eqref{eqn.sum_prod_sum}.
 
-Let $I\coloneqq\{1,2\}$; let $J(1)\coloneqq\{j\}$ and $J(2)\coloneqq\{j,j'\}$; let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$; and let $X(i,j,k)\coloneqq\{x,y\}$ for all $i,j,k$. Now the formula
-\[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
-from \eqref{eqn.sum_prod_sum} specifies a fixed set. Here is a list of all eight of its elements:
-\[
-\left\{
-\begin{gathered}
-	\big(1, j\mapsto(k_1,x)\big),\qquad
-	\big(1, j\mapsto(k_1,y)\big),\qquad
-	\big(1, j\mapsto(k_2,x)\big),\qquad
-	\big(1, j\mapsto(k_2,y)\big),\\
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k',x)\big),\qquad
-	\big(2, j\mapsto(k_1,x), j'\mapsto(k',y)\big),\\
-	\big(2, j\mapsto(k_1,y), j'\mapsto(k',x)\big),\qquad
-	\big(2, j\mapsto(k_1,y), j'\mapsto(k',y)\big)
-\end{gathered}
-\right\}
-\]
-In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $j\in J(i)$ we chose an element $k\in K(i,j)$ and an element of $X(i,j,k)$.
+    Let $I\coloneqq\{1,2\}$; let $J(1)\coloneqq\{j\}$ and $J(2)\coloneqq\{j,j'\}$; let $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, and $K(2,j')\coloneqq\{k'\}$; and let $X(i,j,k)\coloneqq\{x,y\}$ for all $i,j,k$. Now the formula
+    \[\sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)\]
+    from \eqref{eqn.sum_prod_sum} specifies a fixed set. Here is a list of all eight of its elements:
+    \[
+    \left\{
+    \begin{gathered}
+        \big(1, j\mapsto(k_1,x)\big),\qquad
+        \big(1, j\mapsto(k_1,y)\big),\qquad
+        \big(1, j\mapsto(k_2,x)\big),\qquad
+        \big(1, j\mapsto(k_2,y)\big),\\
+        \big(2, j\mapsto(k_1,x), j'\mapsto(k',x)\big),\qquad
+        \big(2, j\mapsto(k_1,x), j'\mapsto(k',y)\big),\\
+        \big(2, j\mapsto(k_1,y), j'\mapsto(k',x)\big),\qquad
+        \big(2, j\mapsto(k_1,y), j'\mapsto(k',y)\big)
+    \end{gathered}
+    \right\}
+    \]
+    In each case, we first chose an element $i\in I$, either 1 or 2. Then for each $j\in J(i)$ we chose an element $k\in K(i,j)$ and an element of $X(i,j,k)$.
 \end{example}
 
 \begin{exercise}
-Consider the set
-\begin{equation}\label{eqn.prod_sum_prod}B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\end{equation}
-\begin{enumerate}
-	\item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \eqref{eqn.sum_prod_sum}.
-	\item With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, how many elements are in $B$?
-	\item Write out three of these elements in the style of \cref{ex.notation_sum_prod}.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-	\item Here are the instructions for choosing an element of $B$ as a nested list.
-	\begin{quote}
-	    To choose an element of $B$:
-	    \begin{enumerate}[label=\arabic*.]
-	        \item for each element $i \in I$:
-	        \begin{enumerate}[label*=\arabic*.]
-	            \item choose an element $j \in J(i)$;
-	            \item for each element $k \in K(i, j)$:
-	            \begin{enumerate}[label*=\arabic*.]
-	                \item choose an element of $X(i,j,k)$.
-	            \end{enumerate}
-	        \end{enumerate}
-	    \end{enumerate}
-	\end{quote}
-	\item Given $I\coloneqq\{1,2\}$, $J(1)\coloneqq\{j\}$, $J(2)\coloneqq\{j,j'\}$, $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, $K(2,j')\coloneqq\{k'\}$, and $X(i,j,k)\coloneqq\{x,y\}$ for all $i,j,k$, our goal is to count the number of elements in $B$.
-	To compute the cardinality of $B$, we can use the fact that the cardinality of a sum (resp.\ product) is the sum (resp.\ product) of the cardinalities of the summands (resp.\ factors).
-	So
-	\begin{align*}
-	    |B| &= \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}|X(i,j,k)| \\
-	    &= \prod_{i\in \{1,2\}}\sum_{j\in J(i)}\prod_{k\in K(i,j)}2 \\
-	    &= \left(\sum_{j\in J(1)} 2^{|K(1,j)|}\right)\left(\sum_{j\in J(2)} 2^{|K(2,j)|}\right) \\
-	    &= \left(2^2\right)\left(2^1 + 2^1\right) = 16.
-	\end{align*}
-	\item Here are three of the elements of $B$ (you may have written down others):
-	\begin{itemize}
-	    \item $(1 \mapsto (j, k_1 \mapsto x, k_2 \mapsto y), 2 \mapsto (j', k' \mapsto x))$
-	    \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto y), 2 \mapsto (j, k_1 \mapsto y))$
-	    \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto x), 2 \mapsto (j', k' \mapsto y))$
-	\end{itemize}
-\qedhere
-\end{enumerate}
-\end{solution}
+    Consider the set
+    \begin{equation}\label{eqn.prod_sum_prod}B \coloneqq \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k).\end{equation}
+    \begin{enumerate}
+        \item Give the instructions for choosing an element of $B$ as a nested list, like we did for $A$ just below \eqref{eqn.sum_prod_sum}.
+        \item With $I$, $J$, $K$, and $X$ as in \cref{ex.notation_sum_prod}, how many elements are in $B$?
+        \item Write out three of these elements in the style of \cref{ex.notation_sum_prod}.
+        \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item Here are the instructions for choosing an element of $B$ as a nested list.
+            \begin{quote}
+                To choose an element of $B$:
+                \begin{enumerate}[label=\arabic*.]
+                    \item for each element $i \in I$:
+                    \begin{enumerate}[label*=\arabic*.]
+                        \item choose an element $j \in J(i)$;
+                        \item for each element $k \in K(i, j)$:
+                        \begin{enumerate}[label*=\arabic*.]
+                            \item choose an element of $X(i,j,k)$.
+                        \end{enumerate}
+                    \end{enumerate}
+                \end{enumerate}
+            \end{quote}
+            \item Given $I\coloneqq\{1,2\}$, $J(1)\coloneqq\{j\}$, $J(2)\coloneqq\{j,j'\}$, $K(1,j)\coloneqq\{k_1,k_2\}$, $K(2,j)\coloneqq\{k_1\}$, $K(2,j')\coloneqq\{k'\}$, and $X(i,j,k)\coloneqq\{x,y\}$ for all $i,j,k$, our goal is to count the number of elements in $B$.
+            To compute the cardinality of $B$, we can use the fact that the cardinality of a sum (resp.\ product) is the sum (resp.\ product) of the cardinalities of the summands (resp.\ factors).
+            So
+            \begin{align*}
+                |B| &= \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}|X(i,j,k)| \\
+                &= \prod_{i\in \{1,2\}}\sum_{j\in J(i)}\prod_{k\in K(i,j)}2 \\
+                &= \left(\sum_{j\in J(1)} 2^{|K(1,j)|}\right)\left(\sum_{j\in J(2)} 2^{|K(2,j)|}\right) \\
+                &= \left(2^2\right)\left(2^1 + 2^1\right) = 16.
+            \end{align*}
+            \item Here are three of the elements of $B$ (you may have written down others):
+            \begin{itemize}
+                \item $(1 \mapsto (j, k_1 \mapsto x, k_2 \mapsto y), 2 \mapsto (j', k' \mapsto x))$
+                \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto y), 2 \mapsto (j, k_1 \mapsto y))$
+                \item $(1 \mapsto (j, k_1 \mapsto y, k_2 \mapsto x), 2 \mapsto (j', k' \mapsto y))$
+            \end{itemize}
+            \qedhere
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 %Henceforth, we will omit the full sequence of nested instructions corresponding to every sum or product of sets; we will assume you can read them for yourself.
@@ -1494,65 +625,65 @@ The following proposition helps us work with these; it is sometimes called the \
 While the identity may look foreign, it captures for sets the same process that you would use to multiply multi-digit numbers from grade school arithmetic or polynomials from high school algebra.
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
-For any sets $I,(J(i))_{i\in I},$ and $(X(i,j))_{i\in I, j\in J(i)}$, we have a natural isomorphism
-\begin{equation}\label{eqn.set_completely_distributive}
-\prod_{i\in I}\sum_{j\in J(i)}X(i,j)
-\iso
-\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).\footnote{We draw a bar over $j$ in $\bar{j}$ to remind ourselves that $\bar{j}$ is no longer just an index but a (dependent) function.}
-\end{equation}
+    For any sets $I,(J(i))_{i\in I},$ and $(X(i,j))_{i\in I, j\in J(i)}$, we have a natural isomorphism
+    \begin{equation}\label{eqn.set_completely_distributive}
+        \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
+        \iso
+        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).\footnote{We draw a bar over $j$ in $\bar{j}$ to remind ourselves that $\bar{j}$ is no longer just an index but a (dependent) function.}
+    \end{equation}
 \end{proposition}
 \begin{proof}
-First, we construct a map from the left hand set to the right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, \pi_1(f(i)))$ for every $i \in I$.
-We can then form the following pair:
-\[
+    First, we construct a map from the left hand set to the right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, \pi_1(f(i)))$ for every $i \in I$.
+    We can then form the following pair:
+    \[
     (i \mapsto \pi_1(f(i)), i \mapsto \pi_2(f(i))).
-\]
-This is an element of the right hand set, because $i \mapsto \pi_1(f(i))$ is a dependent function in $\prod_{i\in I}J(i)$ and $i \mapsto \pi_2(f(i))$ is a dependent function in $\prod_{i\in I}X(i,\pi_1(f(i)))$.
+    \]
+    This is an element of the right hand set, because $i \mapsto \pi_1(f(i))$ is a dependent function in $\prod_{i\in I}J(i)$ and $i \mapsto \pi_2(f(i))$ is a dependent function in $\prod_{i\in I}X(i,\pi_1(f(i)))$.
 
-Now we go from right to left.
-An element of the right hand set is a pair of dependent functions, $\bar{j} \colon (i \in I) \to J(i)$ and $g \colon
-(i \in I) \to X(i, \bar{j}(i))$.
-We map this pair to the following element of the left hand set, a dependent function $(i\in I)\to\sum_{j\in J(i)}X(i,j)$:
-\[
-  i \mapsto (\bar{j}(i), g(i)).
-\]
+    Now we go from right to left.
+    An element of the right hand set is a pair of dependent functions, $\bar{j} \colon (i \in I) \to J(i)$ and $g \colon
+    (i \in I) \to X(i, \bar{j}(i))$.
+    We map this pair to the following element of the left hand set, a dependent function $(i\in I)\to\sum_{j\in J(i)}X(i,j)$:
+    \[
+    i \mapsto (\bar{j}(i), g(i)).
+    \]
 
-Finally, we verify that the maps are mutually inverse.
-An element $(\bar{j}, g)$ of the right hand set is sent by one map and then the other to the pair
-\[
-  (i \mapsto \pi_1(\bar{j}(i), g(i)), i \mapsto \pi_2(\bar{j}(i), g(i)))=(i \mapsto \bar{j}(i), i \mapsto g(i))=(\bar{j},g)
-\]
-Meanwhile, an element $f$ of the left hand set is sent by one map and then the other to the dependent function
-\[
-  i \mapsto (\pi_1(f(i)), \pi_2(f(i))).
-\]
-As $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, the dependent function above is precisely $f$.
+    Finally, we verify that the maps are mutually inverse.
+    An element $(\bar{j}, g)$ of the right hand set is sent by one map and then the other to the pair
+    \[
+    (i \mapsto \pi_1(\bar{j}(i), g(i)), i \mapsto \pi_2(\bar{j}(i), g(i)))=(i \mapsto \bar{j}(i), i \mapsto g(i))=(\bar{j},g)
+    \]
+    Meanwhile, an element $f$ of the left hand set is sent by one map and then the other to the dependent function
+    \[
+    i \mapsto (\pi_1(f(i)), \pi_2(f(i))).
+    \]
+    As $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, the dependent function above is precisely $f$.
 \end{proof}
 
 When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref{eqn.set_completely_distributive}.
 
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
-For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
-\begin{equation} \label{eqn.push_prod_sum_set_indep}
-    \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)),
-\end{equation}
-where $\bar{j}$ ranges over all (standard, non-dependent) functions $I\to J$.
+    For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
+    \begin{equation} \label{eqn.push_prod_sum_set_indep}
+        \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)),
+    \end{equation}
+    where $\bar{j}$ ranges over all (standard, non-dependent) functions $I\to J$.
 \end{corollary}
 \begin{proof}
-Take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive}.
-Then the set $\prod_{i\in I}J(i)$ becomes $\prod_{i\in I}J$ (which we may denote in exponential form by $J^I$); its elements, dependent functions $\bar{j}\colon(i\in I)\to J(i)=J$, become standard functions $\bar{j}\colon I\to J$.
+    Take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.set_completely_distributive}.
+    Then the set $\prod_{i\in I}J(i)$ becomes $\prod_{i\in I}J$ (which we may denote in exponential form by $J^I$); its elements, dependent functions $\bar{j}\colon(i\in I)\to J(i)=J$, become standard functions $\bar{j}\colon I\to J$.
 \end{proof}
 
 It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
 In general, we refer to a category having this property as follows.
 
 \begin{definition}[Completely distributive category]
-A category $\Cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\Cat{C}$, we have a natural isomorphism
-\begin{equation}\label{eqn.cat_completely_distributive}
-\prod_{i\in I}\sum_{j\in J(i)}X(i,j)
-\iso
-\sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
-\end{equation}
+    A category $\Cat{C}$ with all small products and coproducts is \emph{completely distributive} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\Cat{C}$, we have a natural isomorphism
+    \begin{equation}\label{eqn.cat_completely_distributive}
+        \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
+        \iso
+        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
+    \end{equation}
 \end{definition}
 
 So \cref{prop.push_prod_sum_set} states that $\smset$ is completely distributive.
@@ -1561,38 +692,38 @@ Once we define the category of polynomial functors, we will see that it, too, is
 \cref{cor.push_prod_sum_set_indep} generalizes to all completely distributive categories as well; we state this formally below.
 
 \begin{corollary} \label{cor.push_prod_sum_obj_indep}
-Let $\Cat{C}$ be a completely distributive category.
-For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism
-\begin{equation} \label{eqn.push_prod_sum_obj_indep}
-  \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
-\end{equation}
+    Let $\Cat{C}$ be a completely distributive category.
+    For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism
+    \begin{equation} \label{eqn.push_prod_sum_obj_indep}
+        \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
+    \end{equation}
 \end{corollary}
 \begin{proof}
-Again, take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
+    Again, take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
 \end{proof}
 
 \begin{exercise}
-Let $\Cat{C}$ be a completely distributive category.
-How is the usual distributive law
-\[
+    Let $\Cat{C}$ be a completely distributive category.
+    How is the usual distributive law
+    \[
     X\times(Y+Z)\iso X\times Y+X\times Z
-\]
-for $X,Y,Z\in\cat{C}$ a special case of \eqref{eqn.cat_completely_distributive}?
-\begin{solution}
-We wish to show that $X\times (Y+Z)\iso X\times Y+X\times Z$ using \eqref{eqn.cat_completely_distributive}.
-On the left hand side, we are taking a $2$-fold product: a single object times a $2$-fold sum.
-So we should let $I\coloneqq\2$ and let $J(1)\coloneqq\1$, with $X(1,1)\coloneqq X$; and $J(2)\coloneqq\2$, with $X(2,1)\coloneqq Y$ and $X(2,2)\coloneqq Z$.
-Then
-\[
-    X\times(Y+Z)\iso \prod_{i\in\2}\sum_{j\in J(i)}X(i,j) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}\;\prod_{i\in \2}X(i,\bar{j}(i)) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}X(1,\bar{j}(1))\times X(2,\bar{j}(2)),
-\]
-where the middle isomorphism follows from \eqref{eqn.cat_completely_distributive}.
-The set $\prod_{i\in\2}J(i)$ contains two functions: $(1\mapsto1,2\mapsto1)$ and $(1\mapsto1,2\mapsto2)$.
-So we can rewrite the right hand side as
-\[
-    X(1,1)\times X(2,1)+X(1,1)\times X(2,2)\iso X\times Y+X\times Z.
-\]
-\end{solution}
+    \]
+    for $X,Y,Z\in\cat{C}$ a special case of \eqref{eqn.cat_completely_distributive}?
+    \begin{solution}
+        We wish to show that $X\times (Y+Z)\iso X\times Y+X\times Z$ using \eqref{eqn.cat_completely_distributive}.
+        On the left hand side, we are taking a $2$-fold product: a single object times a $2$-fold sum.
+        So we should let $I\coloneqq\2$ and let $J(1)\coloneqq\1$, with $X(1,1)\coloneqq X$; and $J(2)\coloneqq\2$, with $X(2,1)\coloneqq Y$ and $X(2,2)\coloneqq Z$.
+        Then
+        \[
+        X\times(Y+Z)\iso \prod_{i\in\2}\sum_{j\in J(i)}X(i,j) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}\;\prod_{i\in \2}X(i,\bar{j}(i)) \iso \sum_{\bar{j}\in\prod_{i\in\2}J(i)}X(1,\bar{j}(1))\times X(2,\bar{j}(2)),
+        \]
+        where the middle isomorphism follows from \eqref{eqn.cat_completely_distributive}.
+        The set $\prod_{i\in\2}J(i)$ contains two functions: $(1\mapsto1,2\mapsto1)$ and $(1\mapsto1,2\mapsto2)$.
+        So we can rewrite the right hand side as
+        \[
+        X(1,1)\times X(2,1)+X(1,1)\times X(2,2)\iso X\times Y+X\times Z.
+        \]
+    \end{solution}
 \end{exercise}
 
 Throughout this book, such as in the exercise below, you will see expressions consisting of alternating products and sums.
@@ -1600,56 +731,56 @@ Using \eqref{eqn.cat_completely_distributive}, you can always rewrite such an ex
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
 
 \begin{exercise} \label{exc.push_prod_sum_set}
-Let $I, (J(i))_{i\in I},$ and $(K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
-\begin{enumerate}
-    \item Rewrite
-    \[
+    Let $I, (J(i))_{i\in I},$ and $(K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
+    \begin{enumerate}
+        \item Rewrite
+        \[
         \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-    \]
-    so that every $\sum$ appears before every $\prod$.
-    \item Rewrite
-    \[
+        \]
+        so that every $\sum$ appears before every $\prod$.
+        \item Rewrite
+        \[
         \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
-    \]
-    so that every $\sum$ appears before every $\prod$.
-    \item Rewrite
-    \[
+        \]
+        so that every $\sum$ appears before every $\prod$.
+        \item Rewrite
+        \[
         \prod_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-    \]
-    so that every $\sum$ appears before every $\prod$.\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
-    \[
-        \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-    \]
-    as
-    \[
-        \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
-    \]
-    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
-    \[
-        \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
-    \]
-    as
-    \[
-        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
-    \]
-    \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
-    \[
-        \prod_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
-    \]
-    once as
-    \[
-        \prod_{i\in I}\sum_{\bar{k}\in\prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j))
-    \]
-    and then again as
-    \[
-        \sum_{\bar{\bar{k}}\in\prod_{i\in I}\prod_{j\in J}K(i,j)}\prod_{i\in I}\prod_{j\in J(i)}X(i,j,\bar{\bar{k}}(i,j)).
-    \]
-\end{enumerate}
-\end{solution}
+        \]
+        so that every $\sum$ appears before every $\prod$.\qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+            \[
+            \sum_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+            \]
+            as
+            \[
+            \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
+            \]
+            \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+            \[
+            \prod_{i\in I}\sum_{j\in J(i)}\prod_{k\in K(i,j)}X(i,j,k)
+            \]
+            as
+            \[
+            \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
+            \]
+            \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
+            \[
+            \prod_{i\in I}\prod_{j\in J(i)}\sum_{k\in K(i,j)}X(i,j,k)
+            \]
+            once as
+            \[
+            \prod_{i\in I}\sum_{\bar{k}\in\prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j))
+            \]
+            and then again as
+            \[
+            \sum_{\bar{\bar{k}}\in\prod_{i\in I}\prod_{j\in J}K(i,j)}\prod_{i\in I}\prod_{j\in J(i)}X(i,j,\bar{\bar{k}}(i,j)).
+            \]
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 Now that we understand sums and products of sets, we are ready to explore sums and products of set-valued functors.
@@ -1663,47 +794,47 @@ But we might as well introduce products of functors at the same time, because th
 Both these concepts generalize to limits and colimits in $\smset^\smset$.
 
 \begin{proposition} \label{prop.presheaf_lim_ptwise}
-The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
-In particular, on objects, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
-\[
+    The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
+    In particular, on objects, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
+    \[
     \left(\lim_{j\in\cat{J}} F(j)\right)(X) \iso \lim_{j\in\cat{J}} \left(F(j)(X)\right) \qqand \left(\colim_{j\in\cat{J}} F(j)\right)(X) \iso \colim_{j\in\cat{J}} \left(F(j)(X)\right)
-\]
-natural in $X$.
+    \]
+    natural in $X$.
 \end{proposition}
 \begin{proof}
-This is a special case of a more general fact when $\smset^\smset$ is replaced by an arbitrary functor category $\Cat{D}^\Cat{C}$, where $\Cat{D}$ is a category that (like $\smset$) has all small limits and colimits; see \cite[pages 22--23, displays (24) and (25)]{macLane1992sheaves}.
+    This is a special case of a more general fact when $\smset^\smset$ is replaced by an arbitrary functor category $\Cat{D}^\Cat{C}$, where $\Cat{D}$ is a category that (like $\smset$) has all small limits and colimits; see \cite[pages 22--23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
 Focusing on the case of coproducts and products, the following corollary is immediate.
 
 \begin{corollary}[Sums and products of functors $\smset\to\smset$] \label{cor.sum_prod_set_endofuncs}
-Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
-\[
-	(F+G)(X)\coloneqq F(X)+G(X) \qqand (F+G)(f)\coloneqq F(f)+G(f);
-\]
-while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
-\[
-	(F\times G)(X)\coloneqq F(X)\times G(X) \qqand (F\times G)(f)\coloneqq F(f)\times G(f).
-\]
+    Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
+    \[
+    (F+G)(X)\coloneqq F(X)+G(X) \qqand (F+G)(f)\coloneqq F(f)+G(f);
+    \]
+    while their categorical product in $\smset^\smset$, denoted $F\times G$ or $FG$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
+    \[
+    (F\times G)(X)\coloneqq F(X)\times G(X) \qqand (F\times G)(f)\coloneqq F(f)\times G(f).
+    \]
 
-More generally, given functors $(F_i)_{i\in I}$ indexed over a set $I$, their categorical coproduct or sum and categorical product in $\smset^\smset$, respectively denoted
-\[
-	\sum_{i\in I}F_i\colon\smset\to\smset
-	\qqand
-	\prod_{i\in I}F_i\colon\smset\to\smset,
-\]
-are respectively defined for $X\in\smset$ by
-\[
-	\left(\sum_{i\in I}F_i\right)(X)\coloneqq\sum_{i\in I} F_i(X)
-	\qqand
-	\left(\prod_{i\in I}F_i\right)(X)\coloneqq\prod_{i\in I} F_i(X).
-\]
-and for functions $f\colon X\to Y$ by
-\[
-  \left(\sum_{i\in I}F_i\right)(f)\coloneqq\sum_{i\in I} F_i(f)
-  \qqand
-  \left(\prod_{i\in I}F_i\right)(f)\coloneqq\prod_{i\in I} F_i(f).
-\]
+    More generally, given functors $(F_i)_{i\in I}$ indexed over a set $I$, their categorical coproduct or sum and categorical product in $\smset^\smset$, respectively denoted
+    \[
+    \sum_{i\in I}F_i\colon\smset\to\smset
+    \qqand
+    \prod_{i\in I}F_i\colon\smset\to\smset,
+    \]
+    are respectively defined for $X\in\smset$ by
+    \[
+    \left(\sum_{i\in I}F_i\right)(X)\coloneqq\sum_{i\in I} F_i(X)
+    \qqand
+    \left(\prod_{i\in I}F_i\right)(X)\coloneqq\prod_{i\in I} F_i(X).
+    \]
+    and for functions $f\colon X\to Y$ by
+    \[
+    \left(\sum_{i\in I}F_i\right)(f)\coloneqq\sum_{i\in I} F_i(f)
+    \qqand
+    \left(\prod_{i\in I}F_i\right)(f)\coloneqq\prod_{i\in I} F_i(f).
+    \]
 \end{corollary}
 
 % TODO: sum and products of nat trans & functoriality?
@@ -1712,52 +843,52 @@ We also note the special case of initial and terminal objects.
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that sends every set to $I$.
 
 \begin{corollary}[Initial and terminal functors $\smset\to\smset$]
-The constant functor $\0\colon\smset\to\smset$ is initial in $\smset^\smset$, while the constant functor $\1\colon\smset\to\smset$ is terminal in $\smset^\smset$.
+    The constant functor $\0\colon\smset\to\smset$ is initial in $\smset^\smset$, while the constant functor $\1\colon\smset\to\smset$ is terminal in $\smset^\smset$.
 \end{corollary}
 \begin{proof}
-	As the set $\0$ is initial in $\smset$ (for every set $X$ there is a unique map $\0\to X$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\0$ is initial in $\smset^\smset$.
-	Similarly, as the set $\1$ is terminal in $\smset$ (for every set $X$ there is a unique map $X\to\1$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\1$ is terminal in $\smset^\smset$.
+    As the set $\0$ is initial in $\smset$ (for every set $X$ there is a unique map $\0\to X$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\0$ is initial in $\smset^\smset$.
+    Similarly, as the set $\1$ is terminal in $\smset$ (for every set $X$ there is a unique map $X\to\1$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\1$ is terminal in $\smset^\smset$.
 \end{proof}
 
 Finally, we note that $\smset^\smset$ inherits the distributivity of $\smset$.
 
 \begin{proposition}\label{prop.set_endofunc_distrib}
-The category $\smset^\smset$ is completely distributive.
+    The category $\smset^\smset$ is completely distributive.
 \end{proposition}
 \begin{proof}
-This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{cor.sum_prod_set_endofuncs}).
+    This follows directly from the fact that $\smset$ itself is completely distributive (\cref{prop.push_prod_sum_set}) and the fact that sums and products in $\smset^\smset$ are computed pointwise (\cref{cor.sum_prod_set_endofuncs}).
 \end{proof}
 
 The following exercises justify some notational shortcuts we will use when denoting polynomial functors.
 First, for any set $A$ and functor $F\colon\smset\to\smset$, we may write an $A$-indexed sum of copies of $F$ as $AF$, the product of $F$ and the constant functor $A$; for instance, $\yon+\yon\iso\2\yon$.
 
 \begin{exercise} \label{exc.repeated_sum_is_product}
-Show that for a set $A\in\smset$ and a functor $F\colon\smset\to\smset$, an $A$-indexed sum of copies of $F$ is isomorphic to the product of the constant functor $A$ and $F$:
-\[
-  \sum_{a \in A}F\iso AF.
-\]
-(This is analogous to the fact that adding up $n$ copies of number is equal to multiplying that same number by $n$.)
-\begin{solution}
-It suffices to show that for all $X\in\smset$, there is an isomorphism
-\[
-	\sum_{a\in A}F(X)\iso(AF)(X)
-\]
-natural in $X$.
-The left hand side is the set $\{(a,s)\mid a\in A\text{ and }s\in F(X)\} \iso A \times F(X)$, while the right hand side is also naturally isomorphic to the set $A(X)\times F(X)\iso A\times F(X)$.
-Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}, with $I\coloneqq\2, J(1)\coloneqq A, J(2)\coloneqq\1, X(1,a)\coloneqq\1$ (the constant functor) for $a\in A$, and $X(2,1)\coloneqq F$:
-\[
-	AF \iso
-	\left(\sum_{a\in A}\1\right)F \iso
-	\prod_{i\in\2}\sum_{j\in J(i)}X(i,j)
-		\iso
-	\sum_{\ol{j}\in\prod_{i\in\2}J(i)}\prod_{i\in\2}X(i,\ol{j}(i))
-		\iso
-	\sum_{a\in A}\1\times F
-		\iso
-	\sum_{a\in A}F.
-\]
-Here we used the fact that $A\iso\sum_{a\in A}\1$ from \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum} (there we proved the statement for sets, but the same statement for the corresponding constant set-valued functors follows immediately).
-\end{solution}
+    Show that for a set $A\in\smset$ and a functor $F\colon\smset\to\smset$, an $A$-indexed sum of copies of $F$ is isomorphic to the product of the constant functor $A$ and $F$:
+    \[
+    \sum_{a \in A}F\iso AF.
+    \]
+    (This is analogous to the fact that adding up $n$ copies of number is equal to multiplying that same number by $n$.)
+    \begin{solution}
+        It suffices to show that for all $X\in\smset$, there is an isomorphism
+        \[
+        \sum_{a\in A}F(X)\iso(AF)(X)
+        \]
+        natural in $X$.
+        The left hand side is the set $\{(a,s)\mid a\in A\text{ and }s\in F(X)\} \iso A \times F(X)$, while the right hand side is also naturally isomorphic to the set $A(X)\times F(X)\iso A\times F(X)$.
+        Alternatively, since $\smset^\smset$ is completely distributive by \cref{prop.set_endofunc_distrib}, the result also follows from \eqref{eqn.cat_completely_distributive}, with $I\coloneqq\2, J(1)\coloneqq A, J(2)\coloneqq\1, X(1,a)\coloneqq\1$ (the constant functor) for $a\in A$, and $X(2,1)\coloneqq F$:
+        \[
+        AF \iso
+        \left(\sum_{a\in A}\1\right)F \iso
+        \prod_{i\in\2}\sum_{j\in J(i)}X(i,j)
+        \iso
+        \sum_{\ol{j}\in\prod_{i\in\2}J(i)}\prod_{i\in\2}X(i,\ol{j}(i))
+        \iso
+        \sum_{a\in A}\1\times F
+        \iso
+        \sum_{a\in A}F.
+        \]
+        Here we used the fact that $A\iso\sum_{a\in A}\1$ from \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum} (there we proved the statement for sets, but the same statement for the corresponding constant set-valued functors follows immediately).
+    \end{solution}
 \end{exercise}
 
 Similarly, we may wish to write an $A$-indexed product of copies of $F$ in exponential form as $F^A$.
@@ -1765,46 +896,46 @@ But since we have already introduced exponential notation for representable func
 In fact, the following exercise shows that there is no ambiguity, as the two interpretations are isomorphic.
 
 \begin{exercise}
-\begin{enumerate}
-  \item Show that for a set $I\in\smset$, an $I$-indexed product of copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
-	\[
-	    \prod_{i\in I}\yon\iso\yon^I.
-	\]
-	(This is analogous to the fact that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
-	\item Show that the $I$-indexed product of copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
-	\[
-	    \prod_{i\in I}\yon^A\iso\yon^{IA}.
-	\]
-  (Hint: You may use the fact that following natural isomorphism holds between sets of functions:
-  \[
-    \{ f \colon I\times A\to X \} \iso \{ g \colon I\to X^A \}.
-  \]
-  The process of converting a function $f$ in the left hand set to the corresponding function $i\mapsto(a\mapsto f(i,a))$ in the right is known as \emph{currying}.) \qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item It suffices to show that for all $X\in\smset$, there is an isomorphism
-    \[
-        \prod_{i\in I} \yon(X) \iso \yon^I(X).
-    \]
-    natural in $X$.
-    We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
-    So both sides are naturally isomorphic to the set of functions $I\to X$.
+    \begin{enumerate}
+        \item Show that for a set $I\in\smset$, an $I$-indexed product of copies of the identity functor $\yon\colon\smset\to\smset$ is isomorphic to the functor $\yon^I\colon\smset\to\smset$ represented by $I$:
+        \[
+        \prod_{i\in I}\yon\iso\yon^I.
+        \]
+        (This is analogous to the fact that multiplying $n$ copies of a number together is equal to raising that same number to the power of $n$.)
+        \item Show that the $I$-indexed product of copies of a representable functor $\yon^A\colon\smset\to\smset$ for some $A\in\smset$ is isomorphic to the functor $\yon^{IA}\colon\smset\to\smset$ represented by the product set $IA$:
+        \[
+        \prod_{i\in I}\yon^A\iso\yon^{IA}.
+        \]
+        (Hint: You may use the fact that following natural isomorphism holds between sets of functions:
+        \[
+        \{ f \colon I\times A\to X \} \iso \{ g \colon I\to X^A \}.
+        \]
+        The process of converting a function $f$ in the left hand set to the corresponding function $i\mapsto(a\mapsto f(i,a))$ in the right is known as \emph{currying}.) \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item It suffices to show that for all $X\in\smset$, there is an isomorphism
+            \[
+            \prod_{i\in I} \yon(X) \iso \yon^I(X).
+            \]
+            natural in $X$.
+            We have that $\yon(X)\iso X$ and that $\yon^I(X)\iso X^I$.
+            So both sides are naturally isomorphic to the set of functions $I\to X$.
 
-    \item It suffices to show that for all $X\in\smset$, there is an isomorphism
-    \[
-        \prod_{i\in I} \yon^A(X) \iso \yon^{IA}(X).
-    \]
-    natural in $X$.
-    We have that $\yon^A(X)\iso X^A$, so $\prod_{i\in I}\yon^A(X)\iso(X^A)^I$, and that $\yon^{IA}(X)\iso X^{IA}$.
-    By currying, both sides are naturally isomorphic to the set of functions $I\times A\to X$.
-\end{enumerate}
-\end{solution}
+            \item It suffices to show that for all $X\in\smset$, there is an isomorphism
+            \[
+            \prod_{i\in I} \yon^A(X) \iso \yon^{IA}(X).
+            \]
+            natural in $X$.
+            We have that $\yon^A(X)\iso X^A$, so $\prod_{i\in I}\yon^A(X)\iso(X^A)^I$, and that $\yon^{IA}(X)\iso X^{IA}$.
+            By currying, both sides are naturally isomorphic to the set of functions $I\times A\to X$.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 Henceforth, given $A\in\smset$ and a functor $F\colon\smset\to\smset$, we define
 \[
-    F^A\coloneqq\prod_{a\in A}F.
+F^A\coloneqq\prod_{a\in A}F.
 \]
 The exercise above shows that this notation does not conflict with the way we write representable functors as powers of the identity functor $\yon$.
 The exercise also shows how a power of a representable functor can be simplified to a single representable functor.
@@ -1815,133 +946,133 @@ With these ingredients, we are finally ready to define what a polynomial functor
 \subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.repr_sum.what}
 
 \begin{definition}[Polynomial functor]
-A \emph{polynomial functor} (or simply \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, an $I$-indexed family of sets $(p[i])_{i\in I}$, and an isomorphism
-\[
-  p\iso\sum_{i\in I}\yon^{p[i]}
-\]
-to the corresponding $I$-indexed sum of representables.
+    A \emph{polynomial functor} (or simply \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, an $I$-indexed family of sets $(p[i])_{i\in I}$, and an isomorphism
+    \[
+    p\iso\sum_{i\in I}\yon^{p[i]}
+    \]
+    to the corresponding $I$-indexed sum of representables.
 \end{definition}
 
 So, up to isomorphism, a polynomial functor is just a sum of representables.
 
 \begin{remark}
-Given sets $I, A \in \smset$, it follows from \cref{exc.repeated_sum_is_product} that we have an isomorphism of polynomials
-\[
+    Given sets $I, A \in \smset$, it follows from \cref{exc.repeated_sum_is_product} that we have an isomorphism of polynomials
+    \[
     \sum_{i \in I} \yon^A \iso I\yon^A.
-\]
-So when we write down a polynomial, we will often combine identical representable summands $\yon^A$ by writing them in the form $I\yon^A$.
-In particular, the constant functor $\1$ is a representable functor ($\1 \iso \yon^\0$), so every constant functor $I$ is a polynomial functor: $I \iso \sum_{i \in I} \1$.
+    \]
+    So when we write down a polynomial, we will often combine identical representable summands $\yon^A$ by writing them in the form $I\yon^A$.
+    In particular, the constant functor $\1$ is a representable functor ($\1 \iso \yon^\0$), so every constant functor $I$ is a polynomial functor: $I \iso \sum_{i \in I} \1$.
 \end{remark}
 
 \begin{example}\label{ex.verbose_poly_eval}
-Consider the polynomial $p\coloneqq\yon^\2+\2\yon+\1$.
-It denotes a functor $\smset\to\smset$; where does this functor send the set $X\coloneqq\{a,b\}$?
-To be precise, we will rather verbosely say that $I\coloneqq\4$ and
-\[
-  p[1]\coloneqq\2,\quad
-  p[2]\coloneqq\1,\quad
-  p[3]\coloneqq\1,\qqand
-  p[4]\coloneqq\0\
-\]
-so that $p\cong\sum_{i\in I}\yon^{p[i]}$. Now we have
-\begin{align*}
-  p(X) &\iso
-  \sum_{i\in\4}\{a,b\}^{p[i]} \\ &=
-  \{a,b\}^\2 + \{a,b\}^\1 + \{a,b\}^\1 + \{a,b\}^\0 \\ &\iso
-  \{(1,(a,a)),(1,(a,b)),(1,(b,a)),(1,(b,b)),(2,(a)),(2,(b)),(3,(a)),(3,(b)),(4,())\}.
-\end{align*}
-Above, we denote each function $f\colon p[i]\to\{a,b\}$ in the set $\{a,b\}^{p[i]}$ by the $n$-tuple $(f(1),\ldots,f(n))$ whenever $p[i]\coloneqq\ord{n}$.
-For ease of reading, we may drop the parentheses around these $n$-tuples to obtain the equivalent set
-\[
-  p(X) \iso
-  \{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
-\]
-As we might expect, the set $p(X)$ contains $2^2+2+2+1=9$ elements, equal to the value obtained when we plug $|X|=2$ into the original polynomial $p$ when we interpret its coefficients and exponents as numbers instead of sets.
+    Consider the polynomial $p\coloneqq\yon^\2+\2\yon+\1$.
+    It denotes a functor $\smset\to\smset$; where does this functor send the set $X\coloneqq\{a,b\}$?
+    To be precise, we will rather verbosely say that $I\coloneqq\4$ and
+    \[
+    p[1]\coloneqq\2,\quad
+    p[2]\coloneqq\1,\quad
+    p[3]\coloneqq\1,\qqand
+    p[4]\coloneqq\0\
+    \]
+    so that $p\cong\sum_{i\in I}\yon^{p[i]}$. Now we have
+    \begin{align*}
+        p(X) &\iso
+        \sum_{i\in\4}\{a,b\}^{p[i]} \\ &=
+        \{a,b\}^\2 + \{a,b\}^\1 + \{a,b\}^\1 + \{a,b\}^\0 \\ &\iso
+        \{(1,(a,a)),(1,(a,b)),(1,(b,a)),(1,(b,b)),(2,(a)),(2,(b)),(3,(a)),(3,(b)),(4,())\}.
+    \end{align*}
+    Above, we denote each function $f\colon p[i]\to\{a,b\}$ in the set $\{a,b\}^{p[i]}$ by the $n$-tuple $(f(1),\ldots,f(n))$ whenever $p[i]\coloneqq\ord{n}$.
+    For ease of reading, we may drop the parentheses around these $n$-tuples to obtain the equivalent set
+    \[
+    p(X) \iso
+    \{(1,a,a),(1,a,b),(1,b,a),(1,b,b),(2,a),(2,b),(3,a),(3,b),(4)\}.
+    \]
+    As we might expect, the set $p(X)$ contains $2^2+2+2+1=9$ elements, equal to the value obtained when we plug $|X|=2$ into the original polynomial $p$ when we interpret its coefficients and exponents as numbers instead of sets.
 \end{example}
 
 In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $X$ expands to
 \[
-    \sum_{i\in I}X^{p[i]}
+\sum_{i\in I}X^{p[i]}
 \]
 and can be thought of as the set of all pairs comprised of an element of $I$ and a function $p[i]\to X$ or, equivalently, a $p[i]$-tuple of elements of $X$.
 
 \begin{exercise}
-In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows (if there are infinitely many, denote the set $p(X)$ some other way):
-\begin{enumerate}
-	\item $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}.$
-	\item $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$.
-	\item $p\coloneqq\0$ and $X\coloneqq\nn$.
-	\item $p\coloneqq\4$ and $X\coloneqq\nn$.
-	\item $p\coloneqq\yon$ and $X\coloneqq\nn$.
-\qedhere
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-  \item Let $I\coloneqq\1$ and $p[1]\coloneqq\3$ so that $p\coloneqq\yon^\3\iso\sum_{i\in I}\yon^{p[i]}$.
-  Then
-  \[
-    p(X)\iso\{(1, 4, 4, 4), (1, 4, 4, 9), (1, 4, 9, 4), (1, 4, 9, 9), (1, 9, 4, 4), (1, 9, 4, 9), (1, 9, 9, 4), (1, 9, 9, 9)\}.
-  \]
+    In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows (if there are infinitely many, denote the set $p(X)$ some other way):
+    \begin{enumerate}
+        \item $p\coloneqq\yon^\3$ and $X\coloneqq\{4,9\}.$
+        \item $p\coloneqq\3\yon^\2+\1$ and $X\coloneqq\{a\}$.
+        \item $p\coloneqq\0$ and $X\coloneqq\nn$.
+        \item $p\coloneqq\4$ and $X\coloneqq\nn$.
+        \item $p\coloneqq\yon$ and $X\coloneqq\nn$.
+        \qedhere
+    \end{enumerate}
+    \begin{solution}
+        \begin{enumerate}
+            \item Let $I\coloneqq\1$ and $p[1]\coloneqq\3$ so that $p\coloneqq\yon^\3\iso\sum_{i\in I}\yon^{p[i]}$.
+            Then
+            \[
+            p(X)\iso\{(1, 4, 4, 4), (1, 4, 4, 9), (1, 4, 9, 4), (1, 4, 9, 9), (1, 9, 4, 4), (1, 9, 4, 9), (1, 9, 9, 4), (1, 9, 9, 9)\}.
+            \]
 
-  \item Let $I\coloneqq\4$, $p[1]\coloneqq p[2]\coloneqq p[3]\coloneqq\2$, and $p[4]\coloneqq\1$, so that $p\coloneqq\3\yon^\2+\1\iso\sum_{i\in I}\yon^{p[i]}$.
-  Then $p(X)\iso\{(1,a,a),(2,a,a),(3,a,a),(4)\}$.
+            \item Let $I\coloneqq\4$, $p[1]\coloneqq p[2]\coloneqq p[3]\coloneqq\2$, and $p[4]\coloneqq\1$, so that $p\coloneqq\3\yon^\2+\1\iso\sum_{i\in I}\yon^{p[i]}$.
+            Then $p(X)\iso\{(1,a,a),(2,a,a),(3,a,a),(4)\}$.
 
-	\item Let $I\coloneqq\0$ so that $p\coloneqq\0\iso\sum_{i\in I}\yon^{p[i]}$.
-	Then $p(X)\iso\0$.
-	Alternatively, note that $\0$ is the constant functor that sends every set to $\0$.
+            \item Let $I\coloneqq\0$ so that $p\coloneqq\0\iso\sum_{i\in I}\yon^{p[i]}$.
+            Then $p(X)\iso\0$.
+            Alternatively, note that $\0$ is the constant functor that sends every set to $\0$.
 
-	\item Let $I\coloneqq\4$ and $p[i]\coloneqq\0$ for every $i\in I$ so that $p\coloneqq\4\iso\sum_{i\in I}\yon^{p[i]}$.
-	Then $p(X)\iso\{(1), (2), (3), (4)\}\iso\4$.
-  Alternatively, note that $\4$ is the constant functor that sends every set to $\4$.
+            \item Let $I\coloneqq\4$ and $p[i]\coloneqq\0$ for every $i\in I$ so that $p\coloneqq\4\iso\sum_{i\in I}\yon^{p[i]}$.
+            Then $p(X)\iso\{(1), (2), (3), (4)\}\iso\4$.
+            Alternatively, note that $\4$ is the constant functor that sends every set to $\4$.
 
-	\item Let $I \coloneqq \1$ and $p[1] \coloneqq \1$ so that $p\coloneqq\yon\iso\sum_{i\in I}\yon^{p[i]}$.
-  So $p(X)\iso\{(1,n)\mid n\in\nn\}\iso\nn$.
-  Alternatively, note that $\yon$ is the identity functor, so it sends $\nn$ to itself.
-\end{enumerate}
-\end{solution}
+            \item Let $I \coloneqq \1$ and $p[1] \coloneqq \1$ so that $p\coloneqq\yon\iso\sum_{i\in I}\yon^{p[i]}$.
+            So $p(X)\iso\{(1,n)\mid n\in\nn\}\iso\nn$.
+            Alternatively, note that $\yon$ is the identity functor, so it sends $\nn$ to itself.
+        \end{enumerate}
+    \end{solution}
 \end{exercise}
 
 The following proposition shows how the polynomial functor $p$ itself determines the set $I$ over which we sum up representables to obtain $p$.
 
 \begin{proposition}\label{prop.apply1}
-Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
-\begin{equation}\label{eqn.sum_p1}
-p\iso\sum_{i\in p(\1)}\yon^{p[i]}.
-\end{equation}
+    Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
+    \begin{equation}\label{eqn.sum_p1}
+        p\iso\sum_{i\in p(\1)}\yon^{p[i]}.
+    \end{equation}
 \end{proposition}
 \begin{proof}
-We need to show that $I\iso p(\1)$; the latter claim follows directly.
-In \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}, we showed that $I\iso\sum_{i\in I}\1$, so it suffices to show that $(\yon^{p[i]})(\1)\iso\1$ for all $i \in I$.
-Indeed, $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for each $p[i]$.
+    We need to show that $I\iso p(\1)$; the latter claim follows directly.
+    In \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum}, we showed that $I\iso\sum_{i\in I}\1$, so it suffices to show that $(\yon^{p[i]})(\1)\iso\1$ for all $i \in I$.
+    Indeed, $\1^{p[i]}\iso \1$ because there is a unique function $p[i]\to \1$ for each $p[i]$.
 \end{proof}
 We can draw an analogy between \cref{prop.apply1} and evaluating $p(1)$ for a polynomial $p$ from high school algebra, which yields the sum of the coefficients of $p$.
 The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials from now on, and we will use the following terms to denote the sets $p(\1)$ and $p[i]$ for $i\in p(\1)$ on which a polynomial $p$ depends.
 
 \begin{definition}
-Given a polynomial functor
-\[
-	p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]},
-\]
-we call an element $i\in p(\1)$ a \emph{position} of $p$ or a \emph{$p$-position}, and we call an element $a\in p[i]$ a \emph{direction} of $p$ at $i$ or a \emph{$p[i]$-direction}.
-We call $p(\1)$ the \emph{position-set} of $p$ and $p[i]$ the \emph{direction-set} of $p$ at $i$.
+    Given a polynomial functor
+    \[
+    p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]},
+    \]
+    we call an element $i\in p(\1)$ a \emph{position} of $p$ or a \emph{$p$-position}, and we call an element $a\in p[i]$ a \emph{direction} of $p$ at $i$ or a \emph{$p[i]$-direction}.
+    We call $p(\1)$ the \emph{position-set} of $p$ and $p[i]$ the \emph{direction-set} of $p$ at $i$.
 \end{definition}
 
 Note that the position-set $p(\1)$ and the $p(\1)$-indexed family of direction-sets $p[-]\colon p(\1)\to\smset$ uniquely characterize a polynomial $p$ up to isomorphism.
 
 \begin{exercise}\label{exc.apply0}
-We saw in \cref{prop.apply1} how to interpret the position-set $p(\1)$ of a polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
-How might you interpret $p(\0)$?
-\begin{solution}
-We consider $p(\0)$ for arbitrary polynomials $p$.
-A representable functor $\yon^S$ for $S\in\smset$ sends $\0\mapsto\0$ if $S\neq\0$ (as there are then no functions $S\to\0$), but sends $\0\mapsto\1$ if $S=\0$ (as there is a unique function $\0\to\0$).
-So
-\[
-    p(\0)\iso\sum_{i\in p(\1)}\left(\yon^{p[i]}\right)(\0)\iso\sum_{\substack{i\in p(\1),\\ p[i]\neq\0}}\0+\sum_{\substack{i\in p(\1),\\ p[i]=\0}}\1\iso\{i\in p(\1)\mid p[i]=\0\}.
-\]
-That is, $p(\0)$ is the set of \emph{constant} positions of $p$.
-For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0)=\4$.
-In the language of high school algebra, we might call $p(\0)$ the \emph{constant term} of $p$.
-\end{solution}
+    We saw in \cref{prop.apply1} how to interpret the position-set $p(\1)$ of a polynomial $p$, e.g.\ $p\coloneqq\yon^\3+\3\yon^\2+\4$, as the sum of the coefficients of $p$: here $p(\1)\iso\1+\3+\4\iso\8$.
+    How might you interpret $p(\0)$?
+    \begin{solution}
+        We consider $p(\0)$ for arbitrary polynomials $p$.
+        A representable functor $\yon^S$ for $S\in\smset$ sends $\0\mapsto\0$ if $S\neq\0$ (as there are then no functions $S\to\0$), but sends $\0\mapsto\1$ if $S=\0$ (as there is a unique function $\0\to\0$).
+        So
+        \[
+        p(\0)\iso\sum_{i\in p(\1)}\left(\yon^{p[i]}\right)(\0)\iso\sum_{\substack{i\in p(\1),\\ p[i]\neq\0}}\0+\sum_{\substack{i\in p(\1),\\ p[i]=\0}}\1\iso\{i\in p(\1)\mid p[i]=\0\}.
+        \]
+        That is, $p(\0)$ is the set of \emph{constant} positions of $p$.
+        For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0)=\4$.
+        In the language of high school algebra, we might call $p(\0)$ the \emph{constant term} of $p$.
+    \end{solution}
 \end{exercise}
 
 % TODO: define positions & directions
@@ -1950,50 +1081,82 @@ As a functor $\smset\to\smset$, a polynomial should act on functions as well as 
 Below, we explain how.
 
 \begin{proposition} \label{prop.poly_on_functions}
-Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\coloneqq\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
-Then $p(f)\colon p(X)\to p(Y)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
+    Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\coloneqq\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
+    Then $p(f)\colon p(X)\to p(Y)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
 \end{proposition}
 \begin{proof}
-For each $i\in p(\1)$, by \cref{def.representable}, the functor $\yon^{p[i]}$ sends $f$ to the function $X^{p[i]}\to Y^{p[i]}$ mapping each $g\colon p[i]\to X$ to $g\then f\colon p[i]\to Y$.
-So the sum of these functors over $i\in p(\1)$ sends each $(i, g)\in p(X)$ to $(i, g\then f)\in p(Y)$.
+    For each $i\in p(\1)$, by \cref{def.representable}, the functor $\yon^{p[i]}$ sends $f$ to the function $X^{p[i]}\to Y^{p[i]}$ mapping each $g\colon p[i]\to X$ to $g\then f\colon p[i]\to Y$.
+    So the sum of these functors over $i\in p(\1)$ sends each $(i, g)\in p(X)$ to $(i, g\then f)\in p(Y)$.
 \end{proof}
 
 \begin{example}
-Suppose $p\coloneqq\yon^\2+\2\yon+1$. Let $X\coloneqq\{a_1,a_2,b_1\}$ and $Y\coloneqq\{a,b,c\}$, and let $f\colon X\to Y$ be the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$, according to \cref{prop.poly_on_functions}, is shown below:
-\[
-\begin{tikzcd}[row sep=2pt, column sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
-\LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
-\LMO{(1,a,a)}&\LMO{(1,a,b)}&\LMO{(1,a,c)}&&
-\\
-\LMO{(1,a_2,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,a_2,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,a_2,b_1)}\ar[rrru, blue, bend left=10pt]&&
-\LMO{(1,b,a)}&\LMO{(1,b,b)}&\LMO{(1,b,c)}&&
-\\
-\LMO{(1,b_1,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,b_1,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,b_1,b_1)}\ar[rrru, blue, bend left=10pt]&&
-\LMO{(1,c,a)}&\LMO{(1,c,b)}&\LMO{(1,c,c)}&&
-\\
-\LMO{(2,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(2,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(2,b_1)}\ar[rrr, blue, bend left=25pt]&&
-\LMO{(2,a)}&\LMO{(2,b)}&\LMO{(2,c)}&&
-\\
-\LMO{(3,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(3,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(3,b_1)}\ar[rrr, blue, bend left=25pt]&&
-\LMO{(3,a)}&\LMO{(3,b)}&\LMO{(3,c)}&&
-\\&
-\LMO{(4)}\ar[rrrr, blue]&&&&\LMO{(4)}
-\end{tikzcd}
-\]
+    Suppose $p\coloneqq\yon^\2+\2\yon+1$. Let $X\coloneqq\{a_1,a_2,b_1\}$ and $Y\coloneqq\{a,b,c\}$, and let $f\colon X\to Y$ be the function sending $a_1,a_2\mapsto a$ and $b_1\mapsto b$. The induced function $p(f)\colon p(X)\to p(Y)$, according to \cref{prop.poly_on_functions}, is shown below:
+    \[
+    \begin{tikzcd}[row sep=2pt, column sep=3pt, shorten <=-5pt, shorten >=-5pt, dashed]
+        \LMO{(1,a_1,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(1,a_1,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(1,a_1,b_1)}\ar[rrr, blue, bend left=25pt]&[30pt]&
+        \LMO{(1,a,a)}&\LMO{(1,a,b)}&\LMO{(1,a,c)}&&
+        \\
+        \LMO{(1,a_2,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,a_2,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,a_2,b_1)}\ar[rrru, blue, bend left=10pt]&&
+        \LMO{(1,b,a)}&\LMO{(1,b,b)}&\LMO{(1,b,c)}&&
+        \\
+        \LMO{(1,b_1,a_1)}\ar[rrrru, blue, bend left=10pt]&\LMO{(1,b_1,a_2)}\ar[rrru, blue, bend left=10pt]&\LMO{(1,b_1,b_1)}\ar[rrru, blue, bend left=10pt]&&
+        \LMO{(1,c,a)}&\LMO{(1,c,b)}&\LMO{(1,c,c)}&&
+        \\
+        \LMO{(2,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(2,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(2,b_1)}\ar[rrr, blue, bend left=25pt]&&
+        \LMO{(2,a)}&\LMO{(2,b)}&\LMO{(2,c)}&&
+        \\
+        \LMO{(3,a_1)}\ar[rrrr, blue, bend left=25pt]&\LMO{(3,a_2)}\ar[rrr, blue, bend left=25pt]&\LMO{(3,b_1)}\ar[rrr, blue, bend left=25pt]&&
+        \LMO{(3,a)}&\LMO{(3,b)}&\LMO{(3,c)}&&
+        \\&
+        \LMO{(4)}\ar[rrrr, blue]&&&&\LMO{(4)}
+    \end{tikzcd}
+    \]
 \end{example}
 
 \begin{exercise}
-Let $p\coloneqq\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
-\begin{solution}
-We have
-\[
-    p(\1) \iso \{(1, 1, 1), (2, 1)\} \qqand p(\2) \iso \{(1, 1, 1), (1, 1, 2), (1, 2, 1), (1, 2, 2), (2, 1), (2, 2)\}.
-\]
-Say we choose the function $f\colon\1\to\2$ that sends $1 \mapsto 2$.
-Then $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
-(If we had instead picked $1 \mapsto 1$ as our function $f$, then $p(f)$ would send $(1, 1, 1) \mapsto (1, 1, 1)$ and $(2, 1) \mapsto (2, 1)$.)
-\end{solution}
+    Let $p\coloneqq\yon^\2+\yon$. Choose a function $f\colon\1\to\2$ and write out the induced function $p(f)\colon p(\1)\to p(\2)$.
+    \begin{solution}
+        We have
+        \[
+        p(\1) \iso \{(1, 1, 1), (2, 1)\} \qqand p(\2) \iso \{(1, 1, 1), (1, 1, 2), (1, 2, 1), (1, 2, 2), (2, 1), (2, 2)\}.
+        \]
+        Say we choose the function $f\colon\1\to\2$ that sends $1 \mapsto 2$.
+        Then $p(f)$ sends $(1, 1, 1) \mapsto (1, 2, 2)$ and $(2, 1) \mapsto (2, 2)$.
+        (If we had instead picked $1 \mapsto 1$ as our function $f$, then $p(f)$ would send $(1, 1, 1) \mapsto (1, 1, 1)$ and $(2, 1) \mapsto (2, 1)$.)
+    \end{solution}
 \end{exercise}
+
+
+
+
+
+
+
+%-------- Section --------%
+\section{Summary and further reading}
+
+% TODO: fill in summary
+
+%-------- Section --------%
+\section{Exercise solutions}
+\Closesolutionfile{solutions}
+{\footnotesize
+    \input{solution-file1}}
+
+\Opensolutionfile{solutions}[solution-file2]
+
+%------------ Chapter ------------%
+\chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
+
+In this chapter, we will set down the basic categorical story of $\poly$, so that we can have a firm foundation from which to speak about interactive systems.
+We will formally introduce the objects of $\poly$: polynomial functors.
+We will also study the natural transformations between these functors, which are $\poly$'s morphisms.
+Finally, we'll present some of $\poly$'s most versatile categorical properties.
+
+
+%-------- Section --------%
+\section{Introducing polynomial functors}
+\label{sec.poly.func_nat.func}
 
 
 %-------- Section --------%

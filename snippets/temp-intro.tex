@@ -1,0 +1,837 @@
+\Opensolutionfile{solutions}[solution-file1]
+
+%------------ Chapter ------------%
+\chapter{Introduction}\label{ch.poly.intro}
+
+\begin{quote}
+    It is a treasury box!\\
+    Full of unexpected connections!\\
+    It is fascinating!\\
+    I will think about it.\\
+    \mbox{}\hfill ---Andr\'e Joyal, Summer 2020,\\
+    \mbox{}\hfill personal communication.
+\end{quote}
+
+%-------- Section --------%
+\section{Perspectives on polynomials}
+
+In this book we will investigate a remarkable category called $\poly$ and its intimate relationships with interactive and dynamic processes.
+But our story begins with something quite humble---high school algebra:
+\begin{align}\label{eqn.poly_example}
+    \yon^\2+\2\yon+\1 \quad&\quad
+    \textit{polynomial}
+    \intertext{
+        Such polynomials will form the objects of $\poly$. All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be drawn as a forest of mini-trees:
+    }
+    \label{eqn.forest_example}
+    \begin{tikzpicture}[trees]
+        \node (1) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.5 of 1] (2) {$\bullet$}
+        child {};
+        \node[right=.5 of 2] (3) {$\bullet$}
+        child {};
+        \node[right=.5 of 3] (4) {$\bullet$};
+    \end{tikzpicture}
+    \quad&\quad\textit{forest}
+\end{align}
+More technically, we will call each mini-tree---a rooted tree whose \emph{leaves} (the arrows) are all children of the \emph{root} (the solid dot)---a \emph{corolla}.
+A union of trees is called a \emph{forest}, so our polynomials can be viewed as forests of corollas, which we will call \emph{corolla forests}.
+Each corolla in \eqref{eqn.forest_example} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.poly_example}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas with $1$ leaf each correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^\0$.
+
+We can label the roots and leaves of our forest, like so:
+\[
+%\label{eqn.labeled_forest}
+\begin{tikzpicture}[trees]
+    \node["$1$" below] (1) {$\bullet$}
+    child {node {$1$}}
+    child {node {$2$}};
+    \node["$2$" below, right=.5 of 1] (2) {$\bullet$}
+    child {node {$1$}};
+    \node["$3$" below, right=.5 of 2] (3) {$\bullet$}
+    child {node {$1$}};
+    \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
+\end{tikzpicture}
+\]
+This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as an \emph{indexed family of sets} $(p[i])_{i \in I}$.
+Here $I = \4 = \{1, 2, 3, 4\}$\footnote{
+    In standard font, 4 represents the usual natural number. In sans serif font, \4 represents the set $\4=\{1,2,3,4\}$ with 4 elements.
+}, the set of roots, and
+\begin{align} \label{eqn.arena_example}
+    p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
+\end{align}
+so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
+We call the entire indexed family $(p[i])_{i \in I}$ an \emph{arena}.
+Each element $i \in I$ is a \emph{position} in the arena, and each element $a \in p[i]$ is a \emph{direction} at position $i$.
+So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
+We call the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $a \in p[i]$ as a \emph{$p[i]$-direction}.
+
+Throughout this book, we will see several other perspectives from which we can view polynomials.
+Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
+The first row shows the algebraic notation, as in \eqref{eqn.poly_example};
+the second row shows the indexed family terminology, as in \eqref{eqn.arena_example};
+the third shows the pictorial terminology of trees, as in \eqref{eqn.forest_example}; the fourth shows decision-making terminology, giving our polynomials semantics that we will introduce in \cref{sec.poly.intro.dec}; and the fifth row shows dynamical systems terminology, which we will explore in \cref{ch.poly.dyn_sys}.
+
+\begin{equation}%\label{eqn.table_terminology}
+    \footnotesize
+    \begin{tabular}{l|l|l|l}
+        \multicolumn{4}{c}{\normalsize Polynomial Terminology}\\[3pt]
+        \textbf{algebra} & $p \coloneqq \sum_{i \in p(\1)} \yon^{p[i]}$ & $i \in p(\1)$ & $a \in p[i]$ \\
+        \textbf{indexed families} & arena & position & direction \\
+        \textbf{tree pictures} & corolla forest & root $\bullet$ & leaf $\uparrow$ \\
+        \textbf{decisions} & scenario & menu & option \\
+        \textbf{dynamics} & interface & output & input
+    \end{tabular}
+\end{equation}
+
+We will freely switch between these equivalent terms depending on context.
+For instance, though a polynomial will turn out to be a \emph{functor}, while an arena is an \emph{indexed family}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are two different syntaxes for the same object.
+In particular, we will directly refer to the positions and directions of a polynomial when we mean the positions and directions of its associated arena.
+
+\begin{exercise}%\label{exc.forest}
+    Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
+    \begin{enumerate}
+        \item Draw the polynomial $p$ as a corolla forest.
+        \item How many roots does this forest have?
+        \item How many positions in the arena does this represent?
+        \item For each corolla in the forest, say how many leaves it has.
+        \item For each position in the arena, how many directions does it have? \qedhere
+    \end{enumerate}
+    \begin{solution}
+        We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
+        \begin{enumerate}
+            \item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
+            \[
+            \begin{tikzpicture}[trees, sibling distance=3mm]
+                \node (1) {$\bullet$}
+                child {}
+                child {}
+                child {};
+                \node[right=.7 of 1] (2) {$\bullet$}
+                child {}
+                child {}
+                child {};
+                \node[right=.5 of 2] (3) {$\bullet$}
+                child {};
+                \node[right=.3 of 3] (4) {$\bullet$}
+                child {};
+                \node[right=.3 of 4] (5) {$\bullet$};
+            \end{tikzpicture}
+            \]
+            \item It has five (5) roots.
+            \item It represents five positions, one per root.
+            \item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
+            \item The direction-set at each position is the same as the set of leaves of each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
+        \end{enumerate}
+    \end{solution}
+\end{exercise}
+
+\begin{exercise}
+    Consider the polynomial $q\coloneqq\yon^\8+\4\yon$.
+    \begin{enumerate}
+        \item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
+        \item Does the polynomial $q$ have a pure-power summand $\yon$?
+        \item Does the polynomial $q$ have a pure-power summand $\4\yon$?
+        \qedhere
+    \end{enumerate}
+    \begin{solution}
+        We refer to the polynomial $q\coloneqq\yon^\8+4\yon$.
+        \begin{enumerate}
+            \item No, $q$ does not have $\yon^\2$ as a pure-power summand.
+            \item Yes, $q$ does have $\yon$ as a pure-power summand.
+            \item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
+        \end{enumerate}
+    \end{solution}
+\end{exercise}
+
+One feature that sets our polynomials apart from the polynomials we are familiar with from high school algebra is that the coefficients and exponents are not, strictly speaking, numbers; rather, they are sets, like $\1 = \{1\}$ and $\2 = \{1, 2\}$.
+In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + \2^\rr\yon^\rr$, leading to an infinite number of roots or leaves per root.
+Any finite or infinite sum of pure-power summands, each with a finite or infinite set as an exponent, is still a polynomial.
+Of course, this makes their forests rather unwieldy to draw, but they can be approximated.
+We sketch the polynomial $\yon^\3 + \nn\yon^{[0,1]}$ as a forest below.
+\[%\label{eqn.represented_interval}
+\begin{tikzpicture}[trees, sibling distance=0.0625mm]
+    \node (1) {$\bullet$}
+    child[sibling distance=3mm] foreach \i in {1,2,3}
+    ;
+    \node[right=1 of 1] (2) {$\bullet$}
+    child foreach \i in {1,...,160}
+    ;
+    \node[right=1 of 2] (3) {$\bullet$}
+    child foreach \i in {1,...,160}
+    ;
+    \node[right=1 of 3] (4) {$\bullet$}
+    child foreach \i in {1,...,160}
+    ;
+    \node[right=.7 of 4] (5) {$\cdots$};
+\end{tikzpicture}
+\]
+
+\begin{exercise}%\label{exc.suitor_love}
+    If you were a suitor choosing the corolla forest you love, aesthetically speaking, which would strike your interest? Answer by circling the associated polynomial:
+    \begin{enumerate}
+        \item $\yon^\2+\yon+\1$
+        \item $\yon^\2+\3\yon^\2+\3\yon+\1$
+        \item $\yon^\2$
+        \item $\yon+\1$
+        \item $(\nn\yon)^\nn$
+        \item $S\yon^S$
+        \item $\yon^{\1\0\0}+\yon^\2+\3\yon$
+        \item $\yon + \2\yon^\4 + \3\yon^\9 + \4\yon^{\1\6} + \cdots$
+        \item Your polynomial's name $p$ here.
+    \end{enumerate}
+    Any reason for your choice? Draw a sketch of your forest.
+    \begin{solution}
+        Aesthetically speaking, here's the associated polynomial of a beautiful corolla forest:
+        \[
+        \yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
+        \]
+        It's reminiscent (and formally related) to the notion of lists: if $A$ is any set, then $A^\0+A^\1+A^\2+\cdots$ is the set $\lst(A)$ of lists (i.e.\ finite ordered sequences) with entries in $A$.
+
+        Here's a picture of this lovely forest:
+        \[
+        \begin{tikzpicture}[trees, sibling distance=3mm]
+            \node (1) {$\bullet$};
+            \node[right=.3 of 1] (2) {$\bullet$}
+            child {};
+            \node[right=.4 of 2] (3) {$\bullet$}
+            child {}
+            child {};
+            \node[right=.6 of 3] (4) {$\bullet$}
+            child {}
+            child {}
+            child {};
+            \node[right=.6 of 4] {$\cdots$};
+        \end{tikzpicture}
+        \]
+    \end{solution}
+\end{exercise}
+
+Before we can really get into this story, let's summarize where we're going: polynomials are going to have really surprising applications to modeling general interaction, and $\poly$ as a category has an abundance of structure that we can draw on.
+We speak superlatively of $\poly$:
+\slogan{
+    The category of polynomials is a jackpot. Its beauty flows without bound}
+but we have not yet begun to deliver. So let's introduce some of the applications and mathematics to come.
+
+%-------- Section --------%
+\section{Decisions and interaction in series} \label{sec.poly.intro.dec}
+We return to the example polynomial $\yon^\2 + \2\yon + \1$ from \eqref{eqn.poly_example} and its corresponding corolla forest, in which positions are expressed as roots and directions are represented as leaves (this time, we've colored the roots to distinguish them):
+\begin{equation} \label{eqn.forest2110}
+    \begin{tikzpicture}[trees]
+        \node[dgreen] (1) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.5 of 1,blue] (2) {$\bullet$}
+        child {};
+        \node[right=.5 of 2,dyellow] (3) {$\bullet$}
+        child {};
+        \node[right=.5 of 3,red] (4) {$\bullet$};
+    \end{tikzpicture}
+\end{equation}
+As in our arena language, we will call the corollas in the forest for $p$ the $p$-corollas, whose roots are $p$-roots and whose leaves at each root $i$ are the $p[i]$-leaves.
+Since each corolla can be identified with its root, we will often use the same name $i$ for both the $p$-corolla and its $p$-root.
+
+Concretely, we might think of each position as representing a \emph{menu}.
+Associated to every menu is a set of \emph{options} (directions).
+The four menus we exhibit in \eqref{eqn.forest2110} are particularly interesting: they respectively have two options, one option, one option, and no options.
+Having two options is familiar from life---it's the classic yes/no decision---as well as from Claude Shannon's information theory.
+Having one option is also familiar both theoretically and in life: ``sorry, ya just gotta go through it.''
+Having no options is when you actually don't get through it: an impossible decision, a sort of ``dead end.''
+We refer to the menus and options represented by the arena as a whole as the \emph{scenario}. %While the corollas $\1,\yon,$ and $\yon^\2$ are each interesting as decisions, the sum $\yon^\2+\2\yon+\1$ has very little theoretical interest; it's just an example.
+
+This decision-making perspective will prove insightful when we start to discuss the \emph{morphisms} between two polynomials.
+A morphism will model how two different agents, each in their own scenario, may interact.
+If we think of our lives as series of decisions we make, we interact with others by letting our own decisions depend on the decisions of others.
+In some sense, any interaction between two agents is a way of \emph{delegating} decisions from one scenario to another.
+We'll cover this in more detail in \cref{sec.poly.func_nat.morph}.
+
+For now, let's hone in on that ``in series'' part a bit.
+Life is not a single decision---it is a series of decisions, each dependent on the last.
+A game theorist might model such a series with a \emph{decision tree}, like the ones below (the first two are infinite, but that’s hard to draw, so we’ve included just the first five levels):
+\[
+\begin{tikzpicture}[trees]
+    \begin{scope}[
+        level 1/.style={sibling distance=20mm},
+        level 2/.style={sibling distance=10mm},
+        level 3/.style={sibling distance=5mm},
+        level 4/.style={sibling distance=2.5mm},
+        level 5/.style={sibling distance=1.25mm}]
+        \node[dgreen] (a) {$\bullet$}
+        child {node[dgreen] {$\bullet$}
+            child {node[dgreen] {$\bullet$}
+                child {node[dgreen] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                    child {node[dyellow] {$\bullet$}
+                        child {}
+                    }
+                }
+                child {node[blue] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                }
+            }
+            child {node[dgreen] {$\bullet$}
+                child {node[dgreen] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                    child {node[blue] {$\bullet$}
+                        child {}
+                    }
+                }
+                child  {node[red] {$\bullet$}}
+            }
+        }
+        child {node[dyellow] {$\bullet$}
+            child {node[dgreen] {$\bullet$}
+                child {node[dgreen] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                    child {node[blue] {$\bullet$}
+                        child {}
+                    }
+                }
+                child {node[dyellow] {$\bullet$}
+                    child  {node[red] {$\bullet$}}
+                }
+            }
+        }
+        ;
+    \end{scope}
+    \begin{scope}[
+        level 1/.style={sibling distance=13mm},
+        level 2/.style={sibling distance=10mm},
+        level 3/.style={sibling distance=5mm},
+        level 4/.style={sibling distance=2.5mm},
+        level 5/.style={sibling distance=1.25mm}]
+        \node (b) [right=4 of a, blue] {$\bullet$}
+        child {node[dgreen] {$\bullet$}
+            child {node[dgreen] {$\bullet$}
+                child {node[dgreen] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                    child {node[blue] {$\bullet$}
+                        child {}
+                    }
+                }
+                child {node[dyellow] {$\bullet$}
+                    child {node[dgreen] {$\bullet$}
+                        child {}
+                        child {}
+                    }
+                }
+            }
+            child {node[dgreen] {$\bullet$}
+                child  {node[red] {$\bullet$}}
+                child {node[dgreen] {$\bullet$}
+                    child {node[blue] {$\bullet$}
+                        child {}
+                    }
+                    child {node[dyellow] {$\bullet$}
+                        child {}
+                    }
+                }
+            }
+        }
+        ;
+    \end{scope}
+    \node (c) [red, right=2 of b] {$\bullet$};
+\end{tikzpicture}
+\]
+Each tree models a series of decisions that may be presented to us.
+We start at the bottom---the root---and climb up the tree, making a choice of which arrow to follow at each step.
+Sometimes we are presented with two options; sometimes just one; and sometimes no option at all.
+Eventually, our choices trace out a path up the tree.
+
+But squint at these trees, and you'll see that they are made up of something quite familiar---every tree is built out of several smaller corollas, of exactly the form we drew in \eqref{eqn.forest2110}!
+It makes sense now why we interpret our polynomials both as roots and leaves of corollas and as menus and options of decisions---when we arrange these corollas and decisions in series, we get a decision tree.
+We call each tree that we can build out of the corollas of $\yon^\2+\2\yon+\1$, like the three trees drawn above, a \emph{$(\yon^\2+\2\yon+\1)$-tree}.
+Similarly, we could define and construct a $p$-tree for any polynomial $p$.
+
+What's amazing is that this is not just an arbitrarily imposed reading of our polynomials---it is directly from the categorical structure of $\poly$ that such trees arise.
+But we will have to wait before we have all the machinery we need to discuss what's happening here---we'll revisit these trees in \cref{sec.comon.cofree.cons}.
+
+\begin{exercise}\label{exc.decision_streams}
+    \begin{enumerate}
+        \item Draw the first three levels of a $(\yon^\2+\yon^\0)$-tree.
+        \item Draw the first four levels of a $\yon$-tree.
+        \item Draw a the first three levels of a $\nn\yon^\2$-tree by labeling every node with a natural number.
+        \qedhere
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}
+            \item Here are the first three levels of a $(\yon^\2+\yon^\0)$-tree.
+            \[
+            \begin{tikzpicture}[trees,
+                level 1/.style={sibling distance=20mm},
+                level 2/.style={sibling distance=10mm},
+                level 3/.style={sibling distance=5mm},
+                level 4/.style={sibling distance=2.5mm}]
+                \node (a) {$\bullet$}
+                child {node {$\bullet$}
+                    child {node {$\bullet$}
+                        child
+                        child
+                    }
+                    child {node {$\bullet$}
+                    }
+                }
+                child {node {$\bullet$}
+                    child {node {$\bullet$}}
+                    child {node {$\bullet$}
+                    }
+                }
+                ;
+            \end{tikzpicture}
+            \]
+            \item Here are the first four levels of a $\yon$-tree.
+            \[
+            \begin{tikzpicture}[trees]
+                \node (a) {$\bullet$}
+                child {node {$\bullet$}
+                    child {node {$\bullet$}
+                        child {node {$\bullet$}
+                            child
+                }}};
+            \end{tikzpicture}
+            \]
+            \item Here are the first three levels of a $\nn\yon^\2$-tree, where we indicate the position of each node by labeling it with a natural number.
+            \[
+            \begin{tikzpicture}[trees,
+                level 1/.style={sibling distance=20mm},
+                level 2/.style={sibling distance=10mm},
+                level 3/.style={sibling distance=5mm},
+                level 4/.style={sibling distance=2.5mm}]
+                \node (a) {$27$}
+                child {node {$5040$}
+                    child {node {$192$}
+                        child
+                        child
+                    }
+                    child {node {$0$}
+                        child
+                        child
+                    }
+                }
+                child {node {$314159$}
+                    child {node {$1000$}
+                        child
+                        child
+                    }
+                    child {node {$1296$}
+                        child
+                        child
+                    }
+                }
+                ;
+            \end{tikzpicture}
+            \]
+        \end{enumerate}
+    \end{solution}
+\end{exercise}
+
+
+
+%-------- Section --------%
+\section{Dynamical systems} \label{sec.poly.intro.dyn_sys}
+
+When we say ``dynamical system,'' we are referring to a concept that may be familiar: a machine that stores an internal state.
+The machine may return output according to its current state, while it may also receive input that updates this state.
+
+For example, the internal state of a digital clock may consist of the time and the display format (``12-hour'' vs. ``24-hour'').
+If the time is six minutes past noon and the display format is ``12-hour,'' the clock will display ``12:06pm'' as its output.
+If the time is twenty minutes till midnight and the display format is ``24-hour,'' the clock will instead display ``23:40.''
+
+Meanwhile, the clock may receive input via one button that increments its current time by one minute and another button that toggles between the two display formats.
+At the press of a button, the internal state will change depending on which button was pressed and what the previous internal state was.
+
+So our digital clock is a very simple dynamical system.
+We can think of its input buttons and its output display as the way in which the clock interacts with the outside world---its \emph{interface}.
+
+Here's one way the clock might interact with the outside world: my finger is on the minute button, while your finger is on the format button, and the clock is facing you so that only you can read its display.
+In fact, we could think of ourselves as a couple of (particularly complex) dynamical systems as well, with each of our interfaces connected with the interface of the clock.
+We could model this situation with the following picture, called a \emph{wiring diagram}, showing how each system can receive input from and send output to other systems in a particular interaction pattern:
+\begin{equation*}
+    \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+        \node[bb={3}{3}, green!25!black] (X12) {\tiny me};
+        \node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
+        \node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
+        \draw (X21_out1) to (X22_in1);
+        \draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+        (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
+        \draw (X12_out2) to (X21_in2);
+    \end{tikzpicture}
+\end{equation*}
+
+Of course, there is a lot going on in the world around us that we haven't drawn.
+We each have some input ports: our eyes, our ears, etc., and some output ports: our speech, our gestures, etc. We can connect with other systems: our family, our colleagues, etc. And we can think of all of these systems as subsystems of one larger system interacting with the world.
+\begin{equation} \label{eqn.wired_forever}
+    \begin{tikzpicture}[oriented WD, every fit/.style={inner xsep=\bbx, inner ysep=\bby}, bb min width =.5cm, bbx=.5cm, bb port sep =1,bb port length=0, bby=.15cm]
+        \node[bb={2}{2}, green!25!black] (X11) {\tiny Alice};
+        \node[bb={3}{3}, green!25!black, below right=of X11] (X12) {\tiny me};
+        \node[bb={2}{1}, green!25!black, above right=of X12] (X13) {\tiny Bob};
+        \node[bb={2}{2}, green!25!black, below right = -1 and 1.5 of X12] (X21) {\tiny clock};
+        \node[bb={1}{2}, green!25!black, above right=-1 and 1 of X21] (X22) {\tiny you};
+        \node[bb={2}{2}, fit = {($(X11.north east)+(-1,4)$) (X11) (X12) (X13) ($(X21.south)$) ($(X22.east)+(.5,0)$)}, bb name = {\small Wired together like this forever?}] (Z) {};
+        \draw (X21_out1) to (X22_in1);
+        \draw let \p1=(X22.north east), \p2=(X21.north west), \n1={\y1+\bby}, \n2=\bbportlen in
+        (X22_out1) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X21_in1);
+        \draw (X11_out1) to (X13_in1);
+        \draw (X11_out2) to (X12_in1);
+        \draw (X12_out1) to (X13_in2);
+        \draw (Z_in1'|-X11_in2) to (X11_in2);
+        \draw (Z_in2'|-X12_in2) to (X12_in2);
+        \draw (X12_out2) to (X21_in2);
+        % 	\draw (X21_out2) to (Z_out2'|-X21_out2);
+        \draw let \p1=(X12.south east), \p2=(X12.south west), \n1={\y1-\bby}, \n2=\bbportlen in
+        (X12_out3) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X12_in3);
+        \draw let \p1=(X22.north east), \p2=(X11.north west), \n1={\y2+\bby}, \n2=\bbportlen in
+        (X22_out2) to[in=0] (\x1+\n2,\n1) -- (\x2-\n2,\n1) to[out=180] (X11_in1);
+        \draw (X13_out1) to (Z_out1'|-X13_out1);
+    \end{tikzpicture}
+\end{equation}
+
+We wrote a little question for you at the top of the diagram.
+Isn't there something a little funny about the way we've connected these systems?
+Maybe for very simple machines, you would wire things together once and they'd stay like that for the life of the machine.
+But you could turn your eyes away from the clock to look at Bob, Alice drops her connection to me for weeks at a time, and I would really like to be able to lift my finger off of the clock to do something else.
+So
+\slogan{the way systems connect can change over time.}
+In fact, $\poly$ will let us express this.
+
+% In this book, we'll be looking at dynamical systems with a lot of interesting new options:
+% \begin{enumerate}
+    % 	\item The interface of the system---the way in which it can be interacted with---can change shape through time.
+    % 	\item The wiring diagram connecting a bunch of systems can change through time.
+    % % 	\item One can speed up the dynamics of a system.
+    % % 	\item One can introduce ``effects,'' i.e.\ as defined by monads on $\smset$.
+    % % 	\item The dynamical systems on any interface form a topos.
+    % \end{enumerate}
+% To give some intuition for the first two, imagine yourself as a system, wired up to other systems.
+
+
+\begin{example}\label{ex.changing_wiring_bonds_supplier_assemble}
+    Here are some familiar circumstances where we see interaction patterns changing over time.
+    \begin{enumerate}[itemsep=0pt]
+        %	\item Airplanes only communicate when they get near enough;
+        %	\item A person can choose when to open (receive input through) their eyes and when to speak (produce output);\goodbreak
+        \item When too much force is applied to a material, bonds can break:
+    \end{enumerate}
+    \[
+    \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
+        \foreach \i in {0,...,4} {
+            \node[bb={1}{1}, fill=blue!10] at (1.7*\i,0) (X\i) {};
+        }
+        %	\node[bb={1}{1}, fit=(X0) (X4)] (X) {};
+        \foreach \i in {0,...,3} {
+            \draw[thick] (X\i_out1) -- (X\the\numexpr\i+1\relax_in1);
+        };
+        \draw[thick, ->] (X0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0);
+        \draw[thick, ->] (X4_out1) -- node[above, font=\tiny] {Force} +(2.5,0) node (R) {};
+        %
+        \def\x{21};
+        \foreach \i in {0,...,2} {
+            \node[bb={1}{1}, fill=blue!10] at (\x+1.7*\i,0) (Y\i) {};
+        }
+        \foreach \i in {3,...,4} {
+            \node[bb={1}{1}, fill=blue!10] at (\x+1.3+1.7*\i,0) (Y\i) {};
+        }
+        %	\node[bb={1}{1}, fit=(Y0) (Y4)] (Y) {};
+        \foreach \i in {0,1,3} {
+            \draw[thick] (Y\i_out1) -- (Y\the\numexpr\i+1\relax_in1);
+        };
+        \draw[thick, ->] (Y0_in1) -- node[above, font=\tiny] {Force} +(-2.5,0) node (L) {};
+        \draw[thick, ->] (Y4_out1) -- node[above, font=\tiny] {Force} +(2.5,0);
+        \node[starburst, draw, minimum width=2cm, minimum height=1.5cm,red,fill=orange,line width=1.5pt] at ($(L)!.5!(R)$)
+        {Snap!};
+    \end{tikzpicture}
+    \]
+    \begin{quote}
+        In materials science, the Young's modulus accounts for how much force can be transferred across a material as its endpoints are pulled apart. When the material breaks, the two sides can no longer feel evidence of each other. Thinking of pulling as sending a signal (a signal of force), we might say that the ability of internal entities to send signals to each other---the connectivity of the wiring diagram---is being measured by the Young's modulus. It will also be visible within $\poly$.
+    \end{quote}
+    \begin{enumerate}[resume]
+        \item A company may change its supplier at any time:
+    \end{enumerate}
+    \begin{equation*}%\label{eqn.supplier}
+        \begin{tikzpicture}[oriented WD, font=\ttfamily, every node/.style={fill=blue!10}, baseline=(c)]
+            \node[bb={0}{1}] (s1) {Supplier 1};
+            \node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
+            \coordinate (helper) at ($(s1)!.5!(s2)$);
+            \node[bb={1}{0}, right=1.5 of helper] (c) {Company};
+            \draw (s1_out1) to (c_in1);
+            \draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+            \begin{scope}[xshift=3.5in]
+                \node[bb={0}{1}] (s1') {Supplier 1};
+                \node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
+                \coordinate (helper') at ($(s1')!.5!(s2')$);
+                \node[bb={1}{0}, right=1.5 of helper'] (c') {Company};
+                \draw (s2'_out1) to (c'_in1);
+                \draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
+            \end{scope}
+            \node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,fill=green!10, font=\small, fill=white, line width=1.5pt] at ($(c)!.5!(helper')$)
+            {Change\\supplier!};
+        \end{tikzpicture}
+    \end{equation*}
+    \begin{quote}
+        The company can get widgets either from supplier 1 or supplier 2; we could imagine this choice is completely up to the company. The company can decide based on the quality of widgets it has received in the past: when the company gets a bad widget, it updates an internal variable, and sometimes that variable passes a threshold making the company switch states. Whatever its strategy for deciding, we should be able to encode it in $\poly$.
+    \end{quote}
+    \begin{enumerate}[resume]
+        \item When someone assembles a machine, their own outputs dictate the connection pattern of the machine's components.
+    \end{enumerate}
+    \begin{equation*}%\label{eqn.someone}
+        \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
+            \node[bb port sep=.5, bb={0}{1}] (A) {unit A};
+            \node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
+            \coordinate (helper) at ($(A)!.5!(B)$);
+            \node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
+            \draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
+            \draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
+            \draw (A_out1) -- +(10pt,0);
+            \draw (B_in1) -- +(-10pt,0);
+            %
+            \begin{scope}[xshift=3.5in]
+                \node[bb port sep=.5, bb={0}{1}] (A') {unit A};
+                \node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
+                \coordinate (helper') at ($(A')!.5!(B')$);
+                \node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
+                \draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
+                \draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
+                \draw (A'_out1) -- (B'_in1);
+            \end{scope}
+            %
+            \node[starburst, draw, minimum width=2cm, minimum height=2cm,fill=blue!50,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
+            {Attach!};
+        \end{tikzpicture}
+    \end{equation*}
+    \begin{quote}
+        Have you ever assembled something? Your internal states dictate the interaction pattern of some other things. We can say this in $\poly$.
+    \end{quote}
+
+    All of the examples discussed here will be presented in some detail once we have the requisite mathematical theory (\cref{ex.bonds_break,ex.supplier_change,ex.assemble_machine}).
+\end{example}
+
+\begin{exercise}%\label{exc.changing_types}
+    Think of another example where systems are sending each other information, but where who the information is being sent to or received from can change based on the states of the systems involved. You might have more than two, say $\rr$-many, different interaction patterns in your setting.
+    \begin{solution}
+        When I am carrying my phone in my house, my phone will connect to my Wi-Fi router. But my phone may send me a reminder that tells me to leave my house.
+        Once I carry my phone far enough away, it will disconnect from my router and connect to a cellular network instead.
+        While I am outside, I might then press a button on my phone to disconnect it from the cellular network to reduce my data usage, so that it is no longer connectd to any network.
+    \end{solution}
+\end{exercise}
+
+But there's more that's intuitively wrong or limiting about the picture in \eqref{eqn.wired_forever}. Ever notice how you can change how you interface with the world? Sometimes I close my eyes, which makes that particular way of sending me information inaccessible: that port vanishes, and you need to use your words. Sometimes I'm in a tunnel and my car can't receive a radio signal. Sometimes I extend my hand to give or receive an object from another person, but sometimes I don't. So
+\slogan{a system's interface itself can change over time.} % with the setting?
+We will be able to say all this using $\poly$ as well.
+
+And there's even more that's wrong with the above description.
+Namely, when I use my muscles or mouth to express things, my very position changes: my tongue moves, my body moves.
+The display of an analog clock is literally the positions of its hands.
+So
+\slogan{the output of a system is essentially the position it takes.}
+Moreover, when I move my eyes, that's something you can actually see---you can tell if I'm looking at you.
+When I turn around, I see different things, and \emph{you can notice I'm turned around}!
+In other words,
+\slogan{the range of inputs a system can receive depends on the position it currently outputs.}
+This is integral to our model of dynamical systems in $\poly$, and why we say that outputs correspond to positions and inputs to directions---with an entire interface represented by a polynomial.
+
+\begin{example}\label{ex.pond_eyeballs}
+    Imagine a million little eyeballs, each of which has a tiny brain inside it, all together in a pond of eyeballs. All that an individual eyeball $e$ can do is open and close. When $e$ is open, it can make some distinction about all the rest of the eyeballs in view: maybe it can count how many are open, or maybe it can see whether just one certain eyeball $e'$ is open or closed. But when $e$ is closed, it can't see anything; whatever else is happening, it's all the same to $e$. All it can do in that state is process previous information.
+
+    Each eyeball in this system will correspond to the polynomial $\yon^\ord{n}+\yon$, which consists of two positions: an ``open'' position with $n$-many possible inputs it may perceive, and a ``closed'' position with only one. For simplicity, we could assume $n=2$, so that each eyeball makes a single yes-no distinction whenever it's open.
+
+    The point, however, is that any other eyeball may be capable of noticing if $e$ is open or closed. We can imagine some interesting dynamics in this system, e.g.\ waves of openings or closings sweeping over the group, a ripple of openings expanding through the pond.
+
+    Talk about real-world applications!
+\end{example}
+
+\begin{exercise}
+    Give another example of a system where the range of possible inputs the system can receive is dependent on what output the system is currently providing.
+    \begin{solution}
+        Consider a computer application whose output is an image displayed on the screen.
+        This image consists of buttons I can click, and each button-click is a possible input that the application can receive.
+        Clicking a button will alter the display, including which buttons are now available to be clicked.
+        For example, when I click the ``File'' button, the ``File'' menu will appear, allowing me to click other buttons like the ``New Window'' button.
+        So the set of inputs I can send to the system (i.e.\ buttons I can click) is directly dependent on the output the system sends to me (i.e.\ the image displayed on the screen).
+    \end{solution}
+\end{exercise}
+
+Hopefully you now have an idea of what we call \emph{mode-dependence}: interfaces and interaction patterns changing over time, based on the states of all the systems involved. We'll see that $\poly$ speaks about mode-dependent systems and interaction patterns in this sense.
+
+\begin{remark}
+    We ended \cref{ex.pond_eyeballs} by joking about ``real-world applications,'' because a pond of eyeballs is about the most bizarre thing one can imagine. But recall Nobel physicist Frank Wilczek's quote from the preface:
+    \begin{quote}
+        For me, though, it is difficult to resist the idea that space-time is not essentially different from matter, which we understand more deeply. If so, it will consist of vast numbers of identical units---``particles of space''---each in contact with a few neighbors, exchanging messages, joining and breaking apart, giving birth and passing away.
+    \end{quote}
+    Suppose the world was made out of a vast number of identical units, each with its own behavior, able to connect and disconnect with neighbors, and even disappear from the world of cause and effect. We may not even be interested in what our world is actually made of---just what these units are able to do. Is there such an elementary unit that could produce all other dynamical systems? The $\yon^\2+\yon$ eyeballs give a sense of a very simple interface---open and perceiving a single distinction about the world, or closed and making no distinctions---that we could imagine building an entire world from.
+\end{remark}
+
+%-------- Section --------%
+
+\section{A note on implementation} \label{sec.poly.intro.code}
+
+In theory, everything we will discuss could be rigorously implemented and verified on a computer---as long as you have access to a functional programming language that supports dependent types, such as Agda or Idris.
+One implementation of $\poly$ that uses Cubical Agda can be found at \cite{1lab-poly}.
+But even in languages that are not strictly functional, the theory of $\poly$ may still guide programming paradigms for the design and execution of interactive systems.
+In this book, we'll focus on the math, but we encourage you to explore the field of computational implementations if that is where your interests lie.
+
+If you do decide to embark on a computational journey, a word of warning: what we have been calling polynomials---things like $\yon^\2+\2\yon+\1$---are often called \emph{containers} in the computer science (and particularly functional programming) literature. A container consists of a type $S$, usually called the type of \emph{shapes}, and a type $P(s)$ for each term $s:S$, called the type of \emph{positions} in shape $s$. It's mildly unfortunate that the names clash with our own: for us a container-shape is a position and a container-position is a direction.
+
+%-------- Section --------%
+\section{Mathematical theory} \label{sec.poly.intro.math_theory}
+
+% TODO: change this to a chapter-by-chapter overview of the book, rather than statements of results
+
+The applications of $\poly$ are quite diverse and interesting, encapsulating decision-based interactions and dynamical systems.
+However it is how the mathematics of $\poly$ supports these applications that is so fantastic.
+For reference, we list some of the major results about $\poly$ that we will cover in this book; note that this list is by no means comprehensive.
+
+\begin{proposition}
+    $\poly$ has all products and coproducts and is completely distributive.
+    $\poly$ also has exponential objects, making it a bicartesian closed category.
+    It therefore supports the simply typed lambda calculus.
+\end{proposition}
+\begin{proof}
+    We will prove that $\poly$ has coproducts in \cref{prop.poly_coprods}, that it has products in \cref{prop.poly_prods}, that it is completely distributive in \cref{prop.poly_completely_distributive}, and that it has exponential objects in \cref{thm.poly_cart_closed}.
+\end{proof}
+
+\begin{proposition}
+    Beyond the cocartesian and cartesian monoidal structures $(\0,+)$ and $(\1,\times)$, the category $\poly$ has two additional monoidal structures, denoted $(\yon,\otimes)$ and $(\yon,\circ)$, which are together duoidal.\footnote{We will follow the convention of writing the tensor unit before the tensor product when specifying a monoidal structure.} Moreover $\otimes$ is a closed monoidal structure that distributes over coproducts, while $\circ$ is a left coclosed monoidal structure that preserves connected limits.
+\end{proposition}
+\begin{proof}
+    We will define $\otimes$ in \cref{def.parallel} and prove that $(\yon, \otimes)$ is a monoidal structure on $\poly$ in \cref{prop.parallel_monoidal}, and we will define $\circ$ in \cref{def.comp} and prove that $(\yon, \circ)$ is a monoidal structure on $\poly$ in \cref{cor.comp_monoidal}.
+    Then we will show that $\circ$ is duoidal over $\otimes$ in \cref{prop.duoidal}.
+
+    In \cref{prop.day}, we will show that $\otimes$ distributes over coproducts.
+    Then in \cref{prop.parallel_closure}, we will prove that $\otimes$ is closed.
+    In \cref{prop.comp_left_coclosed}, we will show that $\circ$ is left coclosed, and in \cref{thm.connected_limits}, we will show that $\circ$ preserves connected limits.
+\end{proof}
+
+\begin{proposition}\label{prop.adjoint_quadruple}
+    $\poly$ has an adjoint quadruple with $\smset$ and an adjoint pair with $\smset\op$:
+    \begin{equation*}%\label{eqn.adjoints_galore}
+        \begin{tikzcd}[column sep=60pt,background color=definitioncolor]
+            \smset
+            \ar[r, shift left=7pt, "A" description]
+            \ar[r, shift left=-21pt, "A\yon"']&
+            \poly
+            \ar[l, shift right=21pt, "p(\0)"']
+            \ar[l, shift right=-7pt, "p(\1)" description]
+            \ar[l, phantom, "\scriptstyle\Leftarrow"]
+            \ar[l, phantom, shift left=14pt, "\scriptstyle\Rightarrow"]
+            \ar[l, phantom, shift right=14pt, "\scriptstyle\Rightarrow"]
+        \end{tikzcd}
+        \hspace{.6in}
+        \adjr[50pt]{\smset\op}{\yon^A}{\Gamma(p)}{\poly}.\footnote{
+            We use the notation
+            $\begin{tikzcd}[ampersand replacement=\&]
+                \cat{C}\ar[r, shift left=4pt, "L"]\&
+                \cat{D}\ar[l, shift left=4pt, "R"]\ar[l, phantom, "\scriptstyle\Rightarrow"]
+            \end{tikzcd}$
+            to denote an adjunction $L \dashv R$. The double arrow, always pointing in the same direction as the left adjoint, indicates both the unit $\cat{C}\Rightarrow R \circ L$ and the counit $L \circ R\Rightarrow \cat{D}$ of the adjunction.
+        }
+    \end{equation*}
+    Each functor is labeled by where it sends $p\in\poly$ or $A\in\smset$; in particular, $\Gamma(p) \coloneqq \poly(p, \yon)$.
+\end{proposition}
+\begin{proof}
+    We will prove that $\poly$ has an adjoint quadruple with $\smset$ in \cref{thm.adjoint_quadruple}, and that it has an adjoint pair with $\smset\op$ in \cref{prop.yoneda_left_adjoint}.
+\end{proof}
+
+\begin{proposition}
+    $\poly$ has all limits and colimits.
+\end{proposition}
+\begin{proof}
+    See \cref{thm.poly_limits} for a proof that $\poly$ has all limits, and \cref{thm.poly_colimits} for a proof that $\poly$ has all colimits.
+\end{proof}
+
+There's a lot we're leaving out of this summary, just so we can hit the highlights.
+But here's where things get really interesting.
+
+\begin{proposition}[Ahman-Uustalu]\label{prop.ahman_uustalu1}
+    There is a one-to-one isomorphism-preserving correspondence between comonoids in $(\poly,\yon,\circ)$ and small categories.
+\end{proposition}
+\begin{proof}
+    See \cref{thm.ahman_uustalu}.
+\end{proof}
+
+\begin{proposition}
+    The forgetful functor $U\colon\comon(\poly)\to\poly$ has a right adjoint
+    \[
+    \adjr{\poly}{\cofree{-}}{U}{\comon(\poly)}
+    \]
+    called the \emph{cofree comonoid} construction. It is lax monoidal with respect to $\otimes$.
+\end{proposition}
+\begin{proof}
+    See \cref{thm.cofree}; lax monoidality is proven in \cref{prop.cofree_lax_monoidal}.
+\end{proof}
+
+\begin{proposition}
+    The category $\comon(\poly)$ of comonoids in $(\poly,\yon,\circ)$ has all limits and colimits.
+    In particular, coproducts in $\comon(\poly)$ agree with those in $\smcat$.
+\end{proposition}
+\begin{proof}
+    See \cref{cor.comon_compl} for a proof that $\comon(\poly)$ has all small limits and \cref{cor.comon_cocomp} for a proof that $\comon(\poly)$ has all small colimits.
+    We explain why coproducts in $\comon(\poly)$ agree with those in $\smcat$ in \cref{ex.comon_coprod}.
+\end{proof}
+
+\begin{proposition}
+    The category $\comon(\poly)$ has a symmetric monoidal structure $(\yon,\otimes)$ making the forgetful functor $U\colon(\comon(\poly),\yon,\otimes)\to(\poly,\yon,\otimes)$ strong monoidal.
+    The monoidal product of comonoids in $\comon(\poly)$ with respect to $\otimes$ coincides with the product of categories in $\smcat$.
+\end{proposition}
+\begin{proof}
+    See \cref{prop.parallel_on_catsharp}.
+\end{proof}
+
+For the following results, let $\com{C}$ be the comonoid in $(\poly,\yon,\circ)$ that corresponds to a category $\cat{C}$ under \cref{prop.ahman_uustalu1}, and similarly for $\com{D}$ and $\cat{D}$.
+
+% \begin{proposition}
+    % There is an equivalence of categories
+    % \[
+    % \Cat{Bimod}(\com{C},0)\cong[\cat{C},\smset]
+    % \]
+    % between $(\com{C},0)$-bicomodules and $\cat{C}$-copresheaves.
+    % \end{proposition}
+% \begin{proof}
+    %
+    % \end{proof}
+
+\begin{proposition}
+    The category of left $\cat{C}$-comodules is equivalent to the category of functors $\cat{C}\to\poly$.
+    Meanwhile, a right $\cat{D}$-comodule with polynomial carrier $m$ can be identified (up to isomorphism) with a functor $\cat{D}\to\smset^{m(\1)}$.
+\end{proposition}
+\begin{proof}
+    See \cref{prop.left_comod} for the result about left $\cat{C}$-comodules and \cref{prop.right_comod} for the result about right $\cat{D}$-comodules.
+\end{proof}
+
+\begin{proposition}[Garner]
+    There is an equivalence
+    \[
+    \Cat{Bimod}(\com{C},\com{D})\cong\Cat{pra}([\cat{D},\smset],[\cat{C},\smset])
+    \]
+    between the category of bicomodules over comonoids in $\poly$ and parametric right adjoints between copresheaf categories.
+\end{proposition}
+\begin{proof}
+    See \cref{prop.prafunctor}.
+\end{proof}
+
+If you skipped over any of that---or all of that---it'll be no problem whatsoever! We will cover each of the above results in detail over the course of this book. As you read, we encourage you to periodically check back to see how many more of these results you undesrtand.
+
+There are many avenues for study, but we need to push forward.
+We'll begin in the next chapter.
+
+%-------- Section --------%
+\section{Exercise solutions}
+\Closesolutionfile{solutions}
+{\footnotesize
+    \input{solution-file1}}
