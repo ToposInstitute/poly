@@ -306,7 +306,7 @@ We write the signature of such a dependent function as
 f \colon (i \in I) \to X_i.
 \]
 Note that the indexed family of sets $X\colon I\to\smset$ completely determines this signature.
-The set of all dependent functions whose signature is determined by a given indexed family of sets is the \textit{product} of that indexed family, as below.
+The set of all dependent functions whose signature is determined by a given indexed family of sets is the \emph{product} of that indexed family, as below.
 
 \begin{definition}[Product of sets] \label{def.prod_sets}
     Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets.
@@ -1082,7 +1082,7 @@ The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials f
 \begin{definition}
     Given a polynomial functor
     \[
-    p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]},
+    p\iso\sum_{i\in p(\1)}\yon^{p[i]},
     \]
     we call an element $i\in p(\1)$ a \emph{position} of $p$ or a \emph{$p$-position}, and we call an element $a\in p[i]$ a \emph{direction} of $p$ at $i$ or a \emph{$p[i]$-direction}.
     We call $p(\1)$ the \emph{position-set} of $p$ and $p[i]$ the \emph{direction-set} of $p$ at $i$.
@@ -1111,7 +1111,7 @@ As a functor $\smset\to\smset$, a polynomial should act on functions as well as 
 Below, we explain how.
 
 \begin{proposition} \label{prop.poly_on_functions}
-    Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\coloneqq\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
+    Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
     Then $p(f)\colon p(X)\to p(Y)$ sends each $(i, g)\in p(X)$, with $i\in p(\1)$ and $g\colon p[i]\to X$, to $(i, g\then f)$ in $p(Y)$.
 \end{proposition}
 \begin{proof}
@@ -1237,7 +1237,6 @@ Our first definition will be familiar to students of graph theory, although we w
 
     We allow infinitely and even uncountably many vertices and infinitely and even uncountably many edges incident to each vertex; on the other hand, each pair of vertices is connected by a (necessarily unique) path of finitely many adjacent edges.
 \end{definition}
-
 Since all our trees will be rooted, we may refer to them simply as \emph{trees}---roots are implied.
 We will draw our trees with roots at the bottom and other vertices ``growing'' upward.
 
@@ -1247,7 +1246,6 @@ The following terminology will be handy when working with our trees; these terms
 
     Given a vertex of a rooted tree, the length of (i.e.\ number of edges in) the rooted path to that vertex is the \emph{height} of that vertex.
 \end{definition}
-
 For example, in any rooted tree, the root has height $0$; every neighbor of the root has height $1$; every neighbor of a vertex of height $1$ either is the root or has height $2$; and so forth.
 
 Now we can define a special kind of tree that will depict our representable functors.
@@ -1256,9 +1254,13 @@ Now we can define a special kind of tree that will depict our representable func
 
     The \emph{corolla associated to a representable functor} $\yon^A$ for $A\in\smset$ is the corolla whose leaves are in bijection with $A$.
 \end{definition}
-
-Here are the corollas associated to various representables; the roots are indicated by dots ($\bullet$) and the leaves are indicated by arrows ($\uparrow$).
+Here are the corollas associated to various representables:
 \begin{equation*}
+    \begin{tikzpicture}[trees, sibling distance=2mm]
+        \node["$\yon^{\1}\iso\yon$" below] (1) {$\bullet$}
+        child;
+    \end{tikzpicture}
+    \qquad
     \begin{tikzpicture}[trees, sibling distance=2mm]
         \node["$\yon^{\5}$" below] (1) {$\bullet$}
         child foreach \i in {1,...,5}
@@ -1289,9 +1291,25 @@ Here are the corollas associated to various representables; the roots are indica
         ;
     \end{tikzpicture}
 \end{equation*}
+Above, the roots are indicated by dots ($\bullet$), and the leaves are indicated by arrows ($\uparrow$).
+Because the direction-set of the representable is in bijection with the leaves of the associated corolla, we can think of each leaf as a direction, so it makes sense to draw the leaves as arrows pointing in different directions.
 
+The corolla associated to $\yon^\0\iso\1$ has \textit{no} leaves: it is the rooted tree consisting of one vertex---the root---and no edges.
+\begin{equation*}
+    \begin{tikzpicture}[trees, sibling distance=2mm]
+        \node["$\yon^\0\iso\1$" below] (1) {$\bullet$};
+    \end{tikzpicture}
+\end{equation*}
+By definition, the root itself is \textit{not} a leaf, so the corolla above does in fact have $0$ leaves.
+With no arrows pointing out, it is the corolla associated to a representable with no directions.
 
+As each representable functor has an associated corolla, each polynomial functor will have an associated disjoint union of corollas that we call a \emph{corolla forest}.
 
+\begin{definition}[Corolla forest]
+    A \emph{corolla forest} is a disjoint union of corollas, i.e.\ a graph whose connected components are all corollas (with distinguished roots).
+
+    The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
+\end{definition}
 
 % Why define trees when we could've just defined corollas...?
 
