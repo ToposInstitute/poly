@@ -959,22 +959,14 @@ We will begin with this definition in the next chapter.
 \Opensolutionfile{solutions}[solution-file2]
 
 %------------ Chapter ------------%
-\chapter{Polynomial functors and natural~transformations} \label{ch.poly.func_nat}
+\chapter{Polynomial functors} \label{ch.poly.obj}
 
-In this chapter, we will set down the basic categorical story of $\poly$, so that we have a firm foundation from which to speak about interactive systems.
-We will formally introduce the objects of $\poly$: polynomial functors.
-We will also study the natural transformations between these functors, which are $\poly$'s morphisms.
-Finally, we'll present some of $\poly$'s most versatile categorical properties.
-
+In this chapter, we will formally introduce our objects of study: polynomial functors.
+In addition to the set-theoretic perspective, we will present several more concrete ways to think about polynomials to aid intuition that we will use throughout the rest of this book.
+We keep the mathematical content of this chapter fairly light, preferring to solidify our conceptual understanding of polynomials, before advancing to deeper categorical content.
 
 %-------- Section --------%
-\section{Introducing polynomial functors}
-\label{sec.poly.func_nat.func}
-
-
-
-%---- Subsection ----%
-\subsection{What is a polynomial functor?} \label{subsec.poly.func_nat.func.what}
+\section{Introducing polynomial functors} \label{sec.poly.obj.intro}
 
 \begin{definition}[Polynomial functor]
     A \emph{polynomial functor} (or simply \emph{polynomial}) is a functor $p\colon\smset\to\smset$ such that there exists a set $I$, an $I$-indexed family of sets $(p[i])_{i\in I}$, and an isomorphism
@@ -994,6 +986,24 @@ So, up to isomorphism, a polynomial functor is just a sum of representables.
     So when we write down a polynomial, we will often combine identical representable summands $\yon^A$ by writing them in the form $I\yon^A$.
     In particular, the constant functor $\1$ is a representable functor ($\1 \iso \yon^\0$), so every constant functor $I$ is a polynomial functor: $I \iso \sum_{i \in I} \1$.
 \end{remark}
+
+\begin{exercise}
+    Consider the polynomial $q\coloneqq\yon^\8+\4\yon$.
+    \begin{enumerate}
+        \item Does the polynomial $q$ have a representable summand $\yon^\2$?
+        \item Does the polynomial $q$ have a representable summand $\yon$?
+        \item Does the polynomial $q$ have a representable summand $\4\yon$?
+        \qedhere
+    \end{enumerate}
+    \begin{solution}
+    \begin{enumerate}
+        \item No, $q$ does not have $\yon^\2$ as a representable summand.
+        \item Yes, $q$ does have $\yon$ as a representable summand.
+        \item No, $q$ does not have $\4\yon$ as a representable summand, because $\4\yon$ is not a representable functor!
+        But to make amends, we could say that $\4\yon$ is a \emph{summand}; this means that there is some $q'$ such that $q\iso q'+\4\yon$, namely $q'\coloneqq\yon^8$. So $\3\yon$ is also a summand, but $\yon^\2$ and $\5\yon$ are not.
+    \end{enumerate}
+    \end{solution}
+\end{exercise}
 
 \begin{example}\label{ex.verbose_poly_eval}
     Consider the polynomial $p\coloneqq\yon^\2+\2\yon+\1$.
@@ -1156,8 +1166,8 @@ Below, we explain how.
     \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Interpreting positions and directions}
+%-------- Section --------%
+\section{Interpreting positions and directions}
 
 Let us make an informal digression on how we will think about positions and directions of polynomials in this book.
 While this section has little mathematical content, the intuition we build here will guide us as we delve into the deeper theory of polynomials and their applications to modeling interaction.
@@ -1224,8 +1234,8 @@ By having multiple representable summands---one for each position---a polynomial
 
 % TODO: examples of interpreting positions and directions
 
-%---- Subsection ----%
-\subsection{Corolla forests}
+%-------- Section --------%
+\section{Corolla forests}
 
 We would like to have graphical depictions of our polynomials to make them easy to visualize.
 These will take the form of special graphs known as \emph{corolla forests}.
@@ -1246,16 +1256,18 @@ The following terminology will be handy when working with our trees; these terms
 
     Given a vertex of a rooted tree, the length of (i.e.\ number of edges in) the rooted path to that vertex is the \emph{height} of that vertex.
 \end{definition}
-For example, in any rooted tree, the root has height $0$; every neighbor of the root has height $1$; every neighbor of a vertex of height $1$ either is the root or has height $2$; and so forth.
+In any rooted tree, the root has height $0$; every neighbor of the root has height $1$; every neighbor of a vertex of height $1$ either is the root or has height $2$; and so forth.
 
-Now we can define a special kind of tree that will depict our representable functors.
+Now we can define a special kind of tree that we will use to depict representable functors.
 \begin{definition}[Corolla]
     A \emph{corolla} is a rooted tree in which every vertex aside from the root has height $1$. We call these vertices the \emph{leaves} of the corolla.
 
     The \emph{corolla associated to a representable functor} $\yon^A$ for $A\in\smset$ is the corolla whose leaves are in bijection with $A$.
 \end{definition}
-Here are the corollas associated to various representables:
-\begin{equation*}
+
+\begin{example}
+    Here are the corollas associated to various representables:
+    \begin{equation*}
     \begin{tikzpicture}[trees, sibling distance=2mm]
         \node["$\yon^{\1}\iso\yon$" below] (1) {$\bullet$}
         child;
@@ -1291,43 +1303,153 @@ Here are the corollas associated to various representables:
         ;
     \end{tikzpicture}
 \end{equation*}
-Above, the roots are indicated by dots ($\bullet$), and the leaves are indicated by arrows ($\uparrow$).
-Because the direction-set of the representable is in bijection with the leaves of the associated corolla, we can think of each leaf as a direction, so it makes sense to draw the leaves as arrows pointing in different directions.
+\end{example}
 
-The corolla associated to $\yon^\0\iso\1$ has \textit{no} leaves: it is the rooted tree consisting of one vertex---the root---and no edges.
-\begin{equation*}
-    \begin{tikzpicture}[trees, sibling distance=2mm]
-        \node["$\yon^\0\iso\1$" below] (1) {$\bullet$};
-    \end{tikzpicture}
-\end{equation*}
-By definition, the root itself is \textit{not} a leaf, so the corolla above does in fact have $0$ leaves.
-With no arrows pointing out, it is the corolla associated to a representable with no directions.
+In the example above, the roots are indicated by dots ($\bullet$), and the leaves are indicated by arrows ($\uparrow$).
+Because the direction-set of the representable is in bijection with the leaves of the associated corolla, we can think of each leaf as a direction, so it makes sense to draw the leaves as arrows pointing in different directions.
+Thinking of directions as menu options like in the previous section, we may view these corollas as mini-decision trees, indicating all the possible options we could select.
+
+\begin{example}
+    The corolla associated to $\yon^\0\iso\1$ has \textit{no} leaves: it is the rooted tree consisting of one vertex---the root---and no edges.
+    \begin{equation*}
+        \begin{tikzpicture}[trees, sibling distance=2mm]
+            \node["$\yon^\0\iso\1$" below] (1) {$\bullet$};
+        \end{tikzpicture}
+    \end{equation*}
+    By definition, the root itself is \textit{not} a leaf, so the corolla above does in fact have $0$ leaves.
+    With no arrows pointing out, it is the corolla associated to a representable with no directions.
+\end{example}
 
 As each representable functor has an associated corolla, each polynomial functor will have an associated disjoint union of corollas that we call a \emph{corolla forest}.
 
 \begin{definition}[Corolla forest]
     A \emph{corolla forest} is a disjoint union of corollas, i.e.\ a graph whose connected components are all corollas (with distinguished roots).
 
-    The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
+    The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of the corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
 \end{definition}
 
-% Why define trees when we could've just defined corollas...?
+\begin{example}
+    The corolla forest associated to the polynomial $p\coloneqq\yon^\2+\2\yon+\1$ can be drawn as follows:
+    \begin{equation} \label{pic.forest-example}
+    \begin{tikzpicture}[trees]
+        \node (1) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.5 of 1] (2) {$\bullet$}
+        child {};
+        \node[right=.5 of 2] (3) {$\bullet$}
+        child {};
+        \node[right=.5 of 3] (4) {$\bullet$};
+    \end{tikzpicture}
+    \end{equation}
+    Each of the $4$ corollas in \eqref{pic.forest-example} corresponds to one of the $4$ representable summands of $p$.
+    The $4$ roots in \eqref{pic.forest-example} correspond to the $4$ positions of $p$, and the leaves connected to each root correspond to the directions at each position.
+    Note that $p$ has $1$ position with $2$ directions, $2$ positions with $1$ direction each, and $1$ position with $0$ directions.
+    Hence \eqref{pic.forest-example} is the disjoint union of $1$ corolla with $2$ leaves, $2$ corollas with $1$ leaf each, and $1$ corolla with $0$ leaves.
 
-% TODO: decision trees -> corolla forests
+    Since $p(\1)\iso\4$, we could label the positions of $p$ with the elements of $\4=\{1,2,3,4\}$ so that
+    \[
+        p[1] = \2, \qquad p[2] = \1, \qquad p[3] = \1, \qquad p[4] = \0.
+    \]
+    Then we could give these same labels to the roots in \eqref{pic.forest-example}:
+    \[
+    \begin{tikzpicture}[trees]
+        \node["$1$" below] (1) {$\bullet$}
+        child {}
+        child {};
+        \node["$2$" below, right=.5 of 1] (2) {$\bullet$}
+        child {};
+        \node["$3$" below, right=.5 of 2] (3) {$\bullet$}
+        child {};
+        \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
+    \end{tikzpicture}
+    \]
+    Similarly, we could label the directions and their corresponding leaves, but we will reserve leaf labels for another purpose.
+\end{example}
 
-%---- Subsection ----%
-\subsection{Polyboxes}
+\begin{exercise}
+    Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
+    \begin{enumerate}
+        \item Draw the polynomial $p$ as a corolla forest.
+        \item How many roots does this forest have?
+        \item How many positions in the arena does this represent?
+        \item For each corolla in the forest, say how many leaves it has.
+        \item For each position in the arena, how many directions does it have? \qedhere
+    \end{enumerate}
+    \begin{solution}
+        We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
+        \begin{enumerate}
+            \item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
+            \[
+            \begin{tikzpicture}[trees, sibling distance=3mm]
+                \node (1) {$\bullet$}
+                child {}
+                child {}
+                child {};
+                \node[right=.7 of 1] (2) {$\bullet$}
+                child {}
+                child {}
+                child {};
+                \node[right=.5 of 2] (3) {$\bullet$}
+                child {};
+                \node[right=.3 of 3] (4) {$\bullet$}
+                child {};
+                \node[right=.3 of 4] (5) {$\bullet$};
+            \end{tikzpicture}
+            \]
+            \item It has five (5) roots.
+            \item It represents five positions, one per root.
+            \item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
+            \item The direction-set at each position is the same as the set of leaves of each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
+        \end{enumerate}
+    \end{solution}
+\end{exercise}
+
+% TODO: Why define trees when we could've just defined corollas...? Decision trees??
+
+%-------- Section --------%
+\section{Polyboxes}
 
 % TODO: spreadsheets/menus
 
 %-------- Section --------%
+\section{Summary and further reading}
+
+In this chapter we explained the mathematics behind our main objects of study in this book, polynomial functors. A polynomial $p=\sum_{i\in I}\yon^{p[i]}$ can be considered as
+\begin{enumerate}
+    \item combinatorial data: an indexed family of sets $(p[i])_{i\in I}$;
+    \item a picture: for each $i\in I$, a corolla with $p[i]$-many leaves;
+    \item a functor $\smset\to\smset$: for each $X:\smset$, a new set $\sum_{i\in I}X^{p[i]}$.
+\end{enumerate}
+
+There are many fine sources on polynomial functors. Some of the computer science literature is more relaxed about what a polynomial is. For example, the ``coalgebra community'' often defines a polynomial to include finite power sets (see e.g.\ \cite{jacobs2017introduction}). Other computer science communities use the same definition of polynomial, but refer to it as a \emph{container} and use different words for its positions (they call them ``shapes'') and directions (they call them, rather unfortunately, ``positions''). See e.g.\ \cite{abbot2003categoriesthesis,abbott2005containers}.
+
+But the notion of polynomial functors seems to have originated from Andr\'{e} Joyal. A good introduction to polynomial functors can be found in \cite{kock2012polynomial}; in particular the related work section on page~3 provides a nice survey of the field. A reader may also be interested in the Workshops on Polynomial Functors organized by the Topos Institute: \url{https://topos.site/p-func-workshop/}.
+
+%-------- Section --------%
+\section{Exercise solutions}
+\Closesolutionfile{solutions}
+{\footnotesize
+    \input{solution-file2}}
+
+\Opensolutionfile{solutions}[solution-file3]
+
+%------------ Chapter ------------%
+\chapter{The category of polynomial functors} \label{ch.poly.cat}
+
+In this chapter, we will define $\poly$, our main category of interest, so that we have a firm foundation from which to speak about interactive systems.
+The objects of $\poly$ are the polynomial functors that we defined in the previous chapter.
+Here we will examine the morphisms of $\poly$: natural transformations between polynomial functors.
+Along the way, we will present some of $\poly$'s most versatile categorical properties.
+
+%-------- Section --------%
 \section{Morphisms between polynomial functors}
-\label{sec.poly.func_nat.morph}
+\label{sec.poly.cat.morph}
 
 Before we define the category $\poly$ of polynomial functors, we note that polynomial functors live inside a category already: the category $\smset^\smset$ of functors $\smset\to\smset$, whose morphisms are natural transformations.
 This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
 We call such a morphism a \emph{dependent lens}, or a \emph{lens} for short.
-If you're familiar with lenses from functional programming, we'll see in \cref{subsec.poly.func_nat.morph.bimorphic_lens} how our notion of a dependent lens is related.
+If you're familiar with lenses from functional programming, we'll see in \cref{subsec.poly.cat.morph.bimorphic-lens} how our notion of a dependent lens is related.
 
 \begin{definition}[Dependent lens, $\poly$] \label{def.poly_cat}
 Given polynomial functors $p$ and $q$, a \emph{dependent lens} (or simply \emph{lens}) is a natural transformation $p\to q$.
@@ -1338,7 +1460,7 @@ In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by th
 
 %---- Subsection ----%
 \subsection{Coproducts of polynomials}
-\label{subsec.poly.func_nat.morph.coprod}
+\label{subsec.poly.cat.morph.coprod}
 
 Since polynomial functors are defined as arbitrary sums of representables, coproducts in $\poly$ are quite easy to understand.
 
@@ -1363,7 +1485,7 @@ The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
 At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the $p[i]$-directions; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the $q[j]$-directions.
 
 %---- Subsection ----%
-\subsection{Dependent lenses, concretely} \label{subsec.poly.func_nat.morph.concrete}
+\subsection{Dependent lenses, concretely} \label{subsec.poly.cat.morph.concrete}
 
 A dependent lens (i.e.\ natural transformation) between polynomial functors $p \to q$ consists of a function $p(X) \to q(X)$ for each set $X \in \smset$ such that the naturality squares commute.
 That's a lot of data to keep track of!
@@ -1905,7 +2027,7 @@ Here $p, q \in \poly$.
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{Relation to lenses from functional programming}\label{subsec.poly.func_nat.morph.bimorphic_lens}
+\subsection{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
 
 Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
 Here's a picture of $\5\yon^{\1\2}$:
@@ -2015,7 +2137,7 @@ But we will see these conditions emerge from more general theory in \cref{ex.ver
 \end{example}
 
 %---- Subsection ----%
-\subsection{Translating between natural transformations and lenses} \label{subsec.poly.func_nat.morph.translate}
+\subsection{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
 We now know that we can specify a morphism $p\to q$ from $\poly$ in two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
@@ -2182,7 +2304,7 @@ Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \
 \end{proof}
 
 %---- Subsection ----%
-\subsection{Identity and composition of lenses} \label{subsec.poly.func_nat.morph.id_comp}
+\subsection{Identity and composition of lenses} \label{subsec.poly.cat.morph.id-comp}
 
 Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of indexed families of sets and lenses.
 But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how these lenses compose.
@@ -2341,7 +2463,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{exercise}
 
 %-------- Section --------%
-\section{Symmetric monoidal products of polynomial functors} \label{sec.poly.func_nat.monoidal}
+\section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
 
 One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
 Monoidal structures are the key ingredient to many applications of categories to real-world settings, and $\poly$ is no different in that regard.
@@ -2349,15 +2471,15 @@ But there is an added bonus about the monoidal products on $\poly$ that we'll in
 
 We have already seen one monoidal structure on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
 In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts---and they are given by an operation that looks just like addition.
-We'll quickly see in \cref{subsec.poly.func_nat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure.
+We'll quickly see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure.
 Can you guess what that operation looks like?
 
 Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we'll save its surprises for when we can better savor them.
-But here in \cref{subsec.poly.func_nat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
+But here in \cref{subsec.poly.cat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
 This monoidal structure will really come in handy when we apply $\poly$ to dynamics in the next chapter.
 
 %---- Subsection ----%
-\subsection{The categorical product} \label{subsec.poly.func_nat.monoidal.prod}
+\subsection{The categorical product} \label{subsec.poly.cat.monoidal.prod}
 The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
 \begin{proposition}\label{prop.poly_prods}
@@ -2636,7 +2758,7 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 \end{exercise}
 
 %---- Subsection ----%
-\subsection{The parallel product} \label{subsec.poly.func_nat.monoidal.par}
+\subsection{The parallel product} \label{subsec.poly.cat.monoidal.par}
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
 \begin{definition}[Parallel product of polynomials] \label{def.parallel}
@@ -3210,9 +3332,9 @@ But the notion of polynomial functors seems to have originated from Andr\'{e} Jo
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
-\input{solution-file2}}
+\input{solution-file3}}
 
-\Opensolutionfile{solutions}[solution-file3]
+\Opensolutionfile{solutions}[solution-file4]
 
 %------------ Chapter ------------%
 \chapter{Dynamical systems as dependent lenses} \label{ch.poly.dyn_sys}
@@ -4014,7 +4136,7 @@ This construction is actually universal; it is known as \emph{copointing}.
 %---- Subsection ----%
 \subsection{Parallel products: juxtaposing dynamical systems}\label{subsec.poly.dyn_sys.new.par}
 
-Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.func_nat.monoidal.par}.
+Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.cat.monoidal.par}.
 In particular, the parallel product of two state systems is still a state system.
 So parallel products give us another way to create new dynamical systems from old ones.
 In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
@@ -4127,7 +4249,7 @@ Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we wanted to int
 We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\varphi}p\To{f}q$.
 We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\varphi$ (or sometimes just $p$, if a dynamical system $\varphi$ has yet to be specified) using $f$.
 
-To see how this new composite system $\varphi\then f$ relates to the original dynamical system $\varphi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.func_nat.morph.concrete}.
+To see how this new composite system $\varphi\then f$ relates to the original dynamical system $\varphi$, it is best to view $f$ as a delegation of decisions like we did in \cref{subsec.poly.cat.morph.concrete}.
 The lens $f$ converts an output $i$ from $p$ to an output $f_\1(i)$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1(i)]$ instead, via its on-directions function at $i$.
 So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
 Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
@@ -5822,9 +5944,9 @@ For further reading on the mathematics of Moore machines, see \cite{conway2012re
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
-\input{solution-file3}}
+\input{solution-file4}}
 
-\Opensolutionfile{solutions}[solution-file4]
+\Opensolutionfile{solutions}[solution-file5]
 
 %------------ Chapter ------------%
 \chapter{More categorical properties of polynomials} \label{ch.poly.bonus}
@@ -5838,12 +5960,12 @@ There are a few special classes of polynomials that are worth discussing:
 \begin{enumerate}[label=\alph*)]
 	\item constant polynomials $\0,\1,\2,A$;
 	\item linear polynomials $\0,\yon, \2\yon, A\yon$;
-	\item pure-power (or representable) polynomials $\1, \yon, \yon^\2, \yon^A$; and
+	\item representable (or pure power) polynomials $\1, \yon, \yon^\2, \yon^A$; and
 	\item monomials $\0, A, \yon, \2\yon^\3, B\yon^A$.
 \end{enumerate}
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}.
 The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
-Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.func_nat.morph.bimorphic_lens}.
+Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.cat.morph.bimorphic-lens}.
 
 \begin{exercise}
 Which of the four classes above are closed under
@@ -7255,6 +7377,6 @@ The principal monomial functor $p\mapsto p(1)\yon^{\Gamma p}$ discussed in \cref
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
-\input{solution-file4}}
+\input{solution-file5}}
 
 \end{document}

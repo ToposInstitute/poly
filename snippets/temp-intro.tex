@@ -16,54 +16,7 @@
 \section{Perspectives on polynomials}
 
 In this book we will investigate a remarkable category called $\poly$ and its intimate relationships with interactive and dynamic processes.
-But our story begins with something quite humble---high school algebra:
-\begin{align}\label{eqn.poly_example}
-    \yon^\2+\2\yon+\1 \quad&\quad
-    \textit{polynomial}
-    \intertext{
-        Such polynomials will form the objects of $\poly$. All our polynomials will involve one variable, $\yon$, chosen for reasons we'll explain soon. Polynomials in one variable can be drawn as a forest of mini-trees:
-    }
-    \label{eqn.forest_example}
-    \begin{tikzpicture}[trees]
-        \node (1) {$\bullet$}
-        child {}
-        child {};
-        \node[right=.5 of 1] (2) {$\bullet$}
-        child {};
-        \node[right=.5 of 2] (3) {$\bullet$}
-        child {};
-        \node[right=.5 of 3] (4) {$\bullet$};
-    \end{tikzpicture}
-    \quad&\quad\textit{forest}
-\end{align}
-More technically, we will call each mini-tree---a rooted tree whose \emph{leaves} (the arrows) are all children of the \emph{root} (the solid dot)---a \emph{corolla}.
-A union of trees is called a \emph{forest}, so our polynomials can be viewed as forests of corollas, which we will call \emph{corolla forests}.
-Each corolla in \eqref{eqn.forest_example} corresponds to a \emph{pure-power summand} of the form $\yon^A$ in the polynomial given in \eqref{eqn.poly_example}: the corolla with $2$ leaves corresponds to $\yon^\2$; the two corollas with $1$ leaf each correspond to the two copies of $\yon = \yon^\1$; and the corolla with no leaves corresponds to $\1 = \yon^\0$.
 
-We can label the roots and leaves of our forest, like so:
-\[
-%\label{eqn.labeled_forest}
-\begin{tikzpicture}[trees]
-    \node["$1$" below] (1) {$\bullet$}
-    child {node {$1$}}
-    child {node {$2$}};
-    \node["$2$" below, right=.5 of 1] (2) {$\bullet$}
-    child {node {$1$}};
-    \node["$3$" below, right=.5 of 2] (3) {$\bullet$}
-    child {node {$1$}};
-    \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
-\end{tikzpicture}
-\]
-This suggests yet another depiction of the polynomial \eqref{eqn.poly_example}: as an \emph{indexed family of sets} $(p[i])_{i \in I}$.
-Here $I = \4 = \{1, 2, 3, 4\}$, the set of roots, and
-\begin{align} \label{eqn.arena_example}
-    p[1] = \2 = \{1, 2\}, \quad p[2] = \1 = \{1\}, \quad p[3] = \1 = \{1\}, \quad p[4] = \0 = \varnothing, \quad&\quad\textit{arena}
-\end{align}
-so that for each root $i \in I$, the set $p[i]$ consists of the leaves at that root.
-We call the entire indexed family $(p[i])_{i \in I}$ an \emph{arena}.
-Each element $i \in I$ is a \emph{position} in the arena, and each element $a \in p[i]$ is a \emph{direction} at position $i$.
-So the relationship between the arena perspective and the forest picture is that positions are roots and directions are leaves.
-We call the index set $I$ as the \emph{position-set} of $p$, each element $i \in I$ as a \emph{$p$-position}, each set $p[i]$ as the \emph{direction-set} of $p$ at $i$, and each element $a \in p[i]$ as a \emph{$p[i]$-direction}.
 
 Throughout this book, we will see several other perspectives from which we can view polynomials.
 Here is a table of terminology, capturing five different perspectives from which we may view our objects of study.
@@ -87,61 +40,8 @@ We will freely switch between these equivalent terms depending on context.
 For instance, though a polynomial will turn out to be a \emph{functor}, while an arena is an \emph{indexed family}, they are so closely related that we often do not make a distinction between a polynomial $p$ and its arena $(p[i])_{i \in I}$; they are two different syntaxes for the same object.
 In particular, we will directly refer to the positions and directions of a polynomial when we mean the positions and directions of its associated arena.
 
-\begin{exercise}%\label{exc.forest}
-    Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
-    \begin{enumerate}
-        \item Draw the polynomial $p$ as a corolla forest.
-        \item How many roots does this forest have?
-        \item How many positions in the arena does this represent?
-        \item For each corolla in the forest, say how many leaves it has.
-        \item For each position in the arena, how many directions does it have? \qedhere
-    \end{enumerate}
-    \begin{solution}
-        We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
-        \begin{enumerate}
-            \item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
-            \[
-            \begin{tikzpicture}[trees, sibling distance=3mm]
-                \node (1) {$\bullet$}
-                child {}
-                child {}
-                child {};
-                \node[right=.7 of 1] (2) {$\bullet$}
-                child {}
-                child {}
-                child {};
-                \node[right=.5 of 2] (3) {$\bullet$}
-                child {};
-                \node[right=.3 of 3] (4) {$\bullet$}
-                child {};
-                \node[right=.3 of 4] (5) {$\bullet$};
-            \end{tikzpicture}
-            \]
-            \item It has five (5) roots.
-            \item It represents five positions, one per root.
-            \item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
-            \item The direction-set at each position is the same as the set of leaves of each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
-        \end{enumerate}
-    \end{solution}
-\end{exercise}
 
-\begin{exercise}
-    Consider the polynomial $q\coloneqq\yon^\8+\4\yon$.
-    \begin{enumerate}
-        \item Does the polynomial $q$ have a pure-power summand $\yon^\2$?
-        \item Does the polynomial $q$ have a pure-power summand $\yon$?
-        \item Does the polynomial $q$ have a pure-power summand $\4\yon$?
-        \qedhere
-    \end{enumerate}
-    \begin{solution}
-        We refer to the polynomial $q\coloneqq\yon^\8+4\yon$.
-        \begin{enumerate}
-            \item No, $q$ does not have $\yon^\2$ as a pure-power summand.
-            \item Yes, $q$ does have $\yon$ as a pure-power summand.
-            \item No, $q$ does not have $\4\yon$ as a pure-power summand, because $\4\yon$ is not a pure-power! But to make amends, we could say that $\4\yon$ is a summand; this means that there is some $q'$ such that $q=q'+\4\yon$. So $\3\yon$ is also a summand, but $\5\yon$ and $\yon^\2$ are not.
-        \end{enumerate}
-    \end{solution}
-\end{exercise}
+
 
 One feature that sets our polynomials apart from the polynomials we are familiar with from high school algebra is that the coefficients and exponents are not, strictly speaking, numbers; rather, they are sets, like $\1 = \{1\}$ and $\2 = \{1, 2\}$.
 In fact, they can be arbitrary sets, as in $B\yon^A + D\yon^C$ for sets $A, B, C, D$, including infinite ones, as in $\rr\yon^\nn + \2^\rr\yon^\rr$, leading to an infinite number of roots or leaves per root.
