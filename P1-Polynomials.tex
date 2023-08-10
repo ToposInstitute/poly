@@ -1327,9 +1327,10 @@ As each representable functor has an associated corolla, each polynomial functor
 
     The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of the corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
     When we draw the corolla forest associated to $p$, we may say that we are drawing $p$ \emph{as a (corolla) forest}.
+    We call the corollas in this forest corresponding to $p$-positions \emph{$p$-corollas} and the leaves corresponding to $p[i]$-directions \emph{$p[i]$-leaves}.
 \end{definition}
 
-\begin{example}
+\begin{example} \label{ex.corolla-forest}
     We may draw $p\coloneqq\yon^\2+\2\yon+\1$ as a forest like so:
     \begin{equation} \label{pic.forest-example}
     \begin{tikzpicture}[trees]
@@ -1374,8 +1375,8 @@ As each representable functor has an associated corolla, each polynomial functor
         \item Draw $p$ as a corolla forest.
         \item How many roots does this forest have?
         \item How many positions of $p$ do these roots represent?
-        \item For each corolla in the forest, say how many leaves it has.
-        \item For each position of $p$, say how many directions it has. \qedhere
+        \item For each $p$-corolla, say how many leaves it has.
+        \item For each $p$-position, say how many directions it has. \qedhere
     \end{enumerate}
     \begin{solution}
         \begin{enumerate}
@@ -1465,7 +1466,58 @@ Any reason for your choice? Draw a sketch of your forest.
 \end{solution}
 \end{exercise}
 
-% TODO: p(A) as A-labeled corolla from p: see \cref{ex.morph-corolla-with-labels}!
+Corolla forests help us visualize the positions and directions of polynomials, and they will especially come in handy in the next chapter, when we describe the morphisms between our polynomials and how they interact with positions and directions.
+They may also depict the elements of a polynomial functor applied to a given set, as follows.
+We have seen that for a polynomial $p$ and a set $X$,
+\[
+    p(X) \iso \sum_{i\in p(\1)}X^{p[i]} \iso \{(i,f)\mid i\in p(\1), f\colon p[i]\to X\}.
+\]
+So an element of $p(X)$ is a $p$-position $i$ along with a function $f$ that maps each direction at $i$ to an element of $X$.
+Equivalently, it is a $p$-corolla along with a function that maps each of its leaves to an element of $X$.
+Then to draw an element $(i,f)\in p(X)$, we simply need to draw the $p$-corolla corresponding to $i$ and label its leaves with elements of $X$ according to $f$.
+
+\begin{example}
+    In \cref{ex.corolla-forest}, we drew $p\coloneqq\yon^\2+\2\yon+\1$ as a corolla forest like so:
+    \[
+    \begin{tikzpicture}[trees]
+        \node["$1$" below] (1) {$\bullet$}
+        child {}
+        child {};
+        \node["$2$" below, right=.5 of 1] (2) {$\bullet$}
+        child {};
+        \node["$3$" below, right=.5 of 2] (3) {$\bullet$}
+        child {};
+        \node["$4$" below, right=.5 of 3] (4) {$\bullet$};
+    \end{tikzpicture}
+    \]
+    Previously, in \cref{ex.verbose_poly_eval}, we wrote out all $9$ elements of $p$ applied to the set $X\coloneqq\{a,b\}$ as tuples.
+    We could draw them out instead---each element corresponds to one of the four corollas above with each of its leaves labeled with an element of $X$:
+    \[
+    \begin{tikzpicture}[trees, sibling distance=5mm]
+        \node["$1$" below] (1) {$\bullet$}
+            child {node {$a$}}
+            child {node {$a$}};
+        \node["$1$" below, right=of 1] (2) {$\bullet$}
+            child {node {$a$}}
+            child {node {$b$}};
+        \node["$1$" below, right=of 2] (3) {$\bullet$}
+            child {node {$b$}}
+            child {node {$a$}};
+        \node["$1$" below, right=of 3] (4) {$\bullet$}
+            child {node {$b$}}
+            child {node {$b$}};
+        \node["$2$" below, right=of 4] (5) {$\bullet$}
+            child {node {$a$}};
+        \node["$2$" below, right=of 5] (6) {$\bullet$}
+            child {node {$b$}};
+        \node["$3$" below, right=of 6] (7) {$\bullet$}
+            child {node {$a$}};
+        \node["$3$" below, right=of 7] (8) {$\bullet$}
+            child {node {$b$}};
+        \node["$4$" below, right=.8 of 8] (9) {$\bullet$};
+    \end{tikzpicture}
+    \]
+\end{example}
 
 % TODO: Why define trees when we could've just defined corollas...? Decision trees?? built out of corollas? put above: Later we will study larger trees built out of these corollas. ???
 
