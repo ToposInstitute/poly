@@ -1326,10 +1326,11 @@ As each representable functor has an associated corolla, each polynomial functor
     A \emph{corolla forest} is a disjoint union of corollas, i.e.\ a graph whose connected components are all corollas (with distinguished roots).
 
     The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of the corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
+    When we draw the corolla forest associated to $p$, we may say that we are drawing $p$ \emph{as a (corolla) forest}.
 \end{definition}
 
 \begin{example}
-    The corolla forest associated to the polynomial $p\coloneqq\yon^\2+\2\yon+\1$ can be drawn as follows:
+    We may draw $p\coloneqq\yon^\2+\2\yon+\1$ as a forest like so:
     \begin{equation} \label{pic.forest-example}
     \begin{tikzpicture}[trees]
         \node (1) {$\bullet$}
@@ -1368,18 +1369,17 @@ As each representable functor has an associated corolla, each polynomial functor
 \end{example}
 
 \begin{exercise}
-    Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$ and the associated corolla forest and arena.
+    Consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
     \begin{enumerate}
-        \item Draw the polynomial $p$ as a corolla forest.
+        \item Draw $p$ as a corolla forest.
         \item How many roots does this forest have?
-        \item How many positions in the arena does this represent?
+        \item How many positions of $p$ do these roots represent?
         \item For each corolla in the forest, say how many leaves it has.
-        \item For each position in the arena, how many directions does it have? \qedhere
+        \item For each position of $p$, say how many directions it has. \qedhere
     \end{enumerate}
     \begin{solution}
-        We consider the polynomial $p\coloneqq\2\yon^\3+\2\yon+\1$.
         \begin{enumerate}
-            \item Here is $p$ drawn as a forest of corollas (note that the order in which the corollas are drawn does not matter):
+            \item Here is the corolla forest associated to $p\coloneqq\2\yon^\3+\2\yon+\1$ (note that the order in which the corollas are drawn does not matter):
             \[
             \begin{tikzpicture}[trees, sibling distance=3mm]
                 \node (1) {$\bullet$}
@@ -1397,15 +1397,77 @@ As each representable functor has an associated corolla, each polynomial functor
                 \node[right=.3 of 4] (5) {$\bullet$};
             \end{tikzpicture}
             \]
-            \item It has five (5) roots.
-            \item It represents five positions, one per root.
-            \item \label{sol.forest.leaves} The first and second corollas have three leaves, the third and fourth corollas have one leaf, and the fifth corolla has no leaves.
-            \item The direction-set at each position is the same as the set of leaves of each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction.'' Sheesh! Who wrote this.
+            \item The forest has $5$ roots.
+            \item The roots represent the $5$ positions, one position per root.
+            \item \label{sol.forest.leaves} The first and second corollas have $3$ leaves each, the third and fourth corollas have $1$ leaf each, and the fifth corolla has $0$ leaves.
+            \item The directions at each position correspond to the leaves in each corolla, so just copy the answer from \cref{sol.forest.leaves}, replacing ``corolla'' with ``position'' and ``leaf'' with ``direction'': the first and second positions have $3$ directions each, the third and fourth positions have $1$ direction each, and the fifth position has $0$ directions.
         \end{enumerate}
     \end{solution}
 \end{exercise}
 
-% TODO: Why define trees when we could've just defined corollas...? Decision trees??
+The position-set or any of the direction-sets of a polynomial may be infinite.
+This makes their associated corolla forests impossible to draw precisely, but they may be approximated.
+We sketch the polynomial $\yon^\3+\nn\yon^{[0,1]}$ as a forest below.
+\[%\label{eqn.represented_interval}
+\begin{tikzpicture}[trees, sibling distance=0.0625mm]
+\node (1) {$\bullet$}
+child[sibling distance=3mm] foreach \i in {1,2,3}
+;
+\node[right=1 of 1] (2) {$\bullet$}
+child foreach \i in {1,...,160}
+;
+\node[right=1 of 2] (3) {$\bullet$}
+child foreach \i in {1,...,160}
+;
+\node[right=1 of 3] (4) {$\bullet$}
+child foreach \i in {1,...,160}
+;
+\node[right=.7 of 4] (5) {$\cdots$};
+\end{tikzpicture}
+\]
+
+\begin{exercise}
+If you were a suitor choosing the corolla forest you love, aesthetically speaking, which would strike your interest? Answer by selecting the associated polynomial:
+\begin{enumerate}
+    \item $\yon^\2+\yon+\1$
+    \item $\yon^\3+\3\yon^\2+\3\yon+\1$
+    \item $\yon^\2$
+    \item $\yon+\1$
+    \item $(\nn\yon)^\nn$
+    \item $S\yon^S$ for some set $S$
+    \item $\yon^{\1\0\0}+\yon^\2+\3\yon$
+    \item $\yon + \2\yon^\4 + \3\yon^\9 + \4\yon^{\1\6} + \cdots$
+    \item Your polynomial's name $p$ here.
+\end{enumerate}
+Any reason for your choice? Draw a sketch of your forest.
+\begin{solution}
+    Aesthetically speaking, here is a polynomial that may be drawn as a beautiful corolla forest:
+    \[
+        p\coloneqq\yon^\0+\yon^\1+\yon^\2+\yon^\3+\cdots
+    \]
+    It is reminiscent (and formally related) to the notion of lists: if $A$ is any set, then $p(A)\iso A^\0+A^\1+A^\2+\cdots$ is the set $\lst(A)$ of lists (i.e.\ finite ordered sequences) with entries in $A$.
+    Here is a picture of the lovely forest associated to $p$:
+    \[
+    \begin{tikzpicture}[trees, sibling distance=3mm]
+        \node (1) {$\bullet$};
+        \node[right=.3 of 1] (2) {$\bullet$}
+        child {};
+        \node[right=.4 of 2] (3) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.6 of 3] (4) {$\bullet$}
+        child {}
+        child {}
+        child {};
+        \node[right=.6 of 4] {$\cdots$};
+    \end{tikzpicture}
+    \]
+\end{solution}
+\end{exercise}
+
+% TODO: p(A) as A-labeled corolla from p: see \cref{ex.morph-corolla-with-labels}!
+
+% TODO: Why define trees when we could've just defined corollas...? Decision trees?? built out of corollas? put above: Later we will study larger trees built out of these corollas. ???
 
 %-------- Section --------%
 \section{Polyboxes}
@@ -2178,7 +2240,7 @@ where the isomorphism follows from the universal property of coproducts, as in t
 Unwinding this isomorphism, we find that $(f^i)_{i\in I}$ corresponds to the natural transformation $f$ from $\sum_{i\in p(\1)}\yon^{p[i]}\iso p$ to $q$ that we desire.
 \end{proof}
 
-\begin{example}
+\begin{example} \label{ex.morph-corolla-with-labels}
 Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the lens $f \colon p \to q$ depicted below:
 \[
 \begin{tikzpicture}
