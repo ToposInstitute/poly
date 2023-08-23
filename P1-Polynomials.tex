@@ -1166,6 +1166,94 @@ Below, we explain how.
     \end{solution}
 \end{exercise}
 
+We conclude this section by defining several special classes of polynomials.
+We have already defined two such special classes: a \emph{representable polynomial} (or simply a \emph{representable}) is a representable functor, i.e.\ a polynomial functor isomorphic to $\yon^A$ for some set $A$; while a \emph{constant polynomial} (or simply a \emph{constant}) is a constant functor, i.e.\ a polynomial functor isomorphic to $I$, interpreted as a functor, for some set $I$.
+
+%\begin{exercise}
+%\begin{enumerate}
+%  \item Characterize when a polynomial $p$ is \textit{representable} in terms of its positions and/or its directions.
+%  \item Characterize when a polynomial $p$ is \textit{constant} in terms of its positions and/or its directions. \qedhere
+%\end{enumerate}
+%\begin{solution}
+%\begin{enumerate}
+%  \item A polynomial $p$ is representable when $p\iso\yon^A$ for some set $A$, and $\yon^A$ has exactly $1$ position.
+%  Conversely, if a polynomial $p$ has exactly $1$ position, then $p(\1)\iso\1$, so we may write $p$ (up to isomorphism) as $p\iso\sum_{1\in\1}\yon^{p[1]}\iso\yon^{p[1]}$, which is representable.
+%  So a polynomial $p$ is representable if and only if it has exactly $1$ position.
+%
+%  \item A polynomial $p$ is constant when $p\iso I$ for some set $I$, and $I$ has no directions at any of its positions.
+%  Conversely, if every direction-set of a polynomial $p$ is empty, then
+%  \[
+%    p\iso\sum_{i\in p(\1)}\yon^{p[i]}\iso\sum_{i\in p(\1)}\yon^\0\iso\sum_{i\in p(\1)}\1\iso p(\1),
+%  \]
+%  i.e.\ the set $p(\1)$ viewed as a constant functor.
+%  So a polynomial $p$ is constant if and only if it has exactly $0$ directions at each position.
+%\end{enumerate}
+%\end{solution}
+%\end{exercise}
+
+Like constants, the other two special classes of polynomials we define here will share their names with their algebraic analogues.
+Throughout, let $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ be a polynomial functor.
+
+\begin{definition}[Linear]
+We say that $p$ is \emph{linear}\footnote{Unlike linear polynomials from high school algebra (which are really \emph{affine linear functions} rather than necessarily \emph{linear functions}), our linear polynomial functors have no (nonzero) constant terms: they always send $\0$ to $\0$.}
+if $p\iso I\yon$ for some set $I$.
+\end{definition}
+
+\begin{definition}[Monomial]
+We say that $p$ is a \emph{monomial} if $p\iso I\yon^A$ for sets $I$ and $A$.
+\end{definition}
+
+\begin{example}
+  Every constant polynomial $I\iso I\yon^\0$ is a monomial, as is every linear polynomial $I\yon\iso I\yon^\1$ and every representable $\yon^A \iso \1\yon^A$.
+  On the other hand, there are monomials that are neither constant, linear, nor representable, such as $\2\yon^\2$ or $\nn\yon^\rr$.
+
+  There is only one polynomial that is both constant and linear, namely $\0\iso\0\yon$.
+  Similarly, there is only one polynomial (up to isomorphism) that is both constant and representable, namely $\1\iso\yon^\0$.
+  Finally, there is only one polynomial (up to isomorphism) that is both linear and representable, namely the identity functor $\1\yon\iso\yon\iso\yon^\1$.
+
+  In general, every set $S$ has a corresponding constant polynomial $S$, linear polynomial $S\yon$, and representable polynomial $\yon^S$; and as long as $|S|\geq2$, these are all distinct.
+\end{example}
+
+\begin{exercise}
+  \begin{enumerate}
+    \item Characterize when a polynomial $p$ is \textit{linear} in terms of its positions and/or its directions.
+    \item Characterize when a polynomial $p$ is a \textit{monomial} in terms of its positions and/or its directions. \qedhere
+  \end{enumerate}
+  \begin{solution}
+    \begin{enumerate}
+      \item A polynomial $p$ is linear when $p\iso I\yon$ for some set $I$, and $I\yon$ has exactly $1$ direction at each position. (Note that this is even true when $p\iso\0\yon\iso\0$, for then it is true vacuously.)
+      Conversely, if a polynomial $p$ has exactly $1$ direction at each position, then $p[i]\iso\1$ for all $i\in p(\1)$, so
+      \[
+        p
+          \iso
+        \sum_{i\in p(\1)}\yon^{p[i]}
+          \iso
+        \sum_{i\in p(\1)}\yon^\1
+          \iso
+        \sum_{i\in p(\1)}\yon
+          \iso
+        p(\1)\yon,
+      \]
+      which is linear.
+      So a polynomial $p$ is linear if and only if it has exactly $1$ direction at each position.
+
+      \item A polynomial $p$ is a monomial when $p\iso I\yon^A$ for sets $I$ and $A$, implying that there is an isomorphism of direction-sets $p[i]\iso A\iso p[j]$ for all $p$-positions $i$ and $j$ (i.e.\ all of its direction-sets have the same cardinality).
+      Conversely, if all the direction-sets of a polynomial $p$ are isomorphic to each other, then they are all isomorphic to some set $A$, so we have
+      \[
+        p
+          \iso
+        \sum_{i\in p(\1)}\yon^{p[i]}
+          \iso
+        \sum_{i\in p(\1)}\yon^A
+          \iso
+        p(\1)\yon^A,
+      \]
+      which is a monomial.
+      So a polynomial $p$ is a monomial if and only if all of its direction-sets have the same cardinality.
+    \end{enumerate}
+  \end{solution}
+\end{exercise}
+
 %-------- Section --------%
 \section{Interpreting positions and directions}
 
@@ -1506,7 +1594,7 @@ Then to draw an element $(i,f)\in p(X)$, we simply need to draw the $p$-corolla 
         \node["$1$" below, right=1.2 of 3] (4) {$\bullet$}
             child {node {$b$}}
             child {node {$b$}};
-        \node["$2$" below, right=1.2 of 4] (5) {$\bullet$}
+        \node["$2$" below, right=1.1 of 4] (5) {$\bullet$}
             child {node {$a$}};
         \node["$2$" below, right=of 5] (6) {$\bullet$}
             child {node {$b$}};
@@ -1514,7 +1602,7 @@ Then to draw an element $(i,f)\in p(X)$, we simply need to draw the $p$-corolla 
             child {node {$a$}};
         \node["$3$" below, right=of 7] (8) {$\bullet$}
             child {node {$b$}};
-        \node["$4$" below, right=of 8] (9) {$\bullet$};
+        \node["$4$" below, right=0.9 of 8] (9) {$\bullet$};
     \end{tikzpicture}
     \]
 \end{example}
@@ -1530,35 +1618,64 @@ Later, we will study how building larger rooted trees out of these corollas corr
 Before we conclude this chapter, we introduce one more tool for visualizing polynomials whose full power will not be evident until later.
 
 Throughout this book, we may depict a polynomial $p$ as a pair of boxes stacked on top of each other, like so:
-\begin{equation} \label{eqn.polybox}
+\[
   \begin{tikzpicture}[polybox, tos]
     \node[poly, "$p$" below] (p) {};
     \node[left=0pt of p_pos] {$p(\1)$};
     \node[left=0pt of p_dir] {$p[-]$};
   \end{tikzpicture}
-\end{equation}
+\]
+We call this picture the \emph{polyboxes for $p$}.
 Think of these boxes as cells in a spreadsheet.
 The bottom cell, or the \emph{position box}, is restricted to values in the set $p(\1)$ (as indicated by the label to its left)---it must be filled with a $p$-position, say $i\in p(\1)$:
-\begin{equation} \label{eqn.polybox}
+\[
   \begin{tikzpicture}[polybox, tos]
     \node[poly, "$p$" below] (p) {\at$i$};
     \node[left=0pt of p_pos] {$p(\1)$};
     \node[left=0pt of p_dir] {$p[-]$};
   \end{tikzpicture}
-\end{equation}
-The top cell, or the \emph{direction box}, cannot be filled until the bottom cell is.
-Once the bottom cell contains a $p$-position $i$, the top cell must be filled with a $p[i]$-direction, say $a\in p[i]$:
-\begin{equation} \label{eqn.polybox}
+\]
+The top cell, or the \emph{direction box}, cannot be filled until the position box below it is.
+Once the position box contains a $p$-position $i$, the direction box must be filled with a $p[i]$-direction, say $a\in p[i]$:
+\[
   \begin{tikzpicture}[polybox, tos]
     \node[poly, "$p$" below] (p) {$a$\at$i$};
     \node[left=0pt of p_pos] {$p(\1)$};
     \node[left=0pt of p_dir] {$p[-]$};
   \end{tikzpicture}
-\end{equation}
-The $p[-]$ label to the left of the top cell reminds us that the $a$ within it is an element of $p[i]$, where $i$ is the entry in the bottom cell.
-Once we are accustomed to polyboxes, we will often drop these reminder labels.
+\]
+The $p[-]$ label to the left of the direction box reminds us that the $a$ within it is an element of $p[i]$, where $i$ is the entry in the position box.
+Once we are accustomed to polyboxes, we will often drop these reminder labels, so that
+\[
+  \begin{tikzpicture}[polybox, tos]
+    \node[poly, "$p$" below] (p) {$a$\at$i$};
+  \end{tikzpicture}
+\]
+serves as a graphical shorthand for the statement ``consider a polynomial functor $p$ with position $i\in p(\1)$ and direction $a\in p[i]$.''
 
-% TODO: spreadsheets/menus
+Viewing polynomials as these restricted two-cell spreadsheets reinforces the idea that directions are like menu options: imagine a dropdown menu for the direction box above a filled position box that lists all the directions to choose from at the given position.
+Polyboxes also help us conceptualize the possible pairs of positions and directions of a given polynomial, as suggested by the following exercise.
+\begin{exercise}
+Given a polynomial $p$, write a formula for the cardinality of the set of all pairs $(i,a)$, where $i$ is a $p$-position and $a$ is a $p[i]$-direction.
+Justify your answer using the language of polyboxes.
+\begin{solution}
+Given a polynomial $p$, a pair $(i,a)$, where $i$ is a $p$-position and $a$ is a $p[i]$-direction, corresponds to a valid way to fill the polyboxes for $p$:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, "$p$" below] (p) {};
+  \node[left=0pt of p_pos] {$p(\1)$};
+  \node[left=0pt of p_dir] {$p[-]$};
+\end{tikzpicture}
+\]
+To fill these polyboxes, we must first choose a position $i\in p(\1)$ to fill the bottom position box, then choose a direction $a\in p[i]$ to fill the top direction box, for a total of
+\[
+  \left|\sum_{i\in p(\1)}p[i]\right|
+\]
+possible pairs $(i,a)$.
+\end{solution}
+\end{exercise}
+
+We may also
 
 %-------- Section --------%
 \section{Summary and further reading}
