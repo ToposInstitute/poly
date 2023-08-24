@@ -1663,28 +1663,72 @@ Once we are accustomed to polyboxes, we will often drop these reminder labels, s
 serves as a graphical shorthand for the statement ``consider a polynomial functor $p$ with position $i\in p(\1)$ and direction $a\in p[i]$.''
 
 Viewing polynomials as these restricted two-cell spreadsheets reinforces the idea that directions are like menu options: imagine a dropdown menu for the direction box above a filled position box that lists all the directions to choose from at the given position.
-Polyboxes also help us conceptualize the possible pairs of positions and directions of a given polynomial, as suggested by the following exercise.
-\begin{exercise}
-Given a polynomial $p$, write a formula for the cardinality of the set of all pairs $(i,a)$, where $i$ is a $p$-position and $a$ is a $p[i]$-direction.
-Justify your answer using the language of polyboxes.
-\begin{solution}
-Given a polynomial $p$, a pair $(i,a)$, where $i$ is a $p$-position and $a$ is a $p[i]$-direction, corresponds to a valid way to fill the polyboxes for $p$:
+Polyboxes also help us conceptualize the possible pairs of positions and directions of a polynomial whose corolla forest is impractical to draw, as suggested by the following example.
+
+\begin{example}
+  Consider the polynomial
+  \[
+    p\coloneqq\sum_{r\in\rr}\yon^{[-|r|,|r|]},
+  \]
+  whose positions are the real numbers and whose directions at position $r$ are the real numbers with magnitude at most $|r|$.
+  There is no clear way to draw $p$ as a corolla forest, but we could draw its polyboxes
+  \[
+  \begin{tikzpicture}[polybox, tos]
+    \node[poly, "$p$" below] (p) {$s$\at$r$};
+    \node[left=0pt of p_pos] {$p(\1)$};
+    \node[left=0pt of p_dir] {$p[-]$};
+  \end{tikzpicture}
+  \]
+  with the condition that $r$ and $s$ are real numbers satisfying $|s|\leq|r|$.
+\end{example}
+
+We may also use polyboxes to highlight our special classes of polynomials.
+When a position box may only be filled with one possible entry, we shade it in like so:
 \[
 \begin{tikzpicture}[polybox, tos]
-  \node[poly, "$p$" below] (p) {};
-  \node[left=0pt of p_pos] {$p(\1)$};
-  \node[left=0pt of p_dir] {$p[-]$};
+  \node[poly, "$p\iso\yon^A$" below, pure] (p) {};
+  \node[left=0pt of p_pos] {$p(\1)\iso\1$};
+  \node[left=0pt of p_dir] {$A$};
 \end{tikzpicture}
 \]
-To fill these polyboxes, we must first choose a position $i\in p(\1)$ to fill the bottom position box, then choose a direction $a\in p[i]$ to fill the top direction box, for a total of
-\[
-  \left|\sum_{i\in p(\1)}p[i]\right|
-\]
-possible pairs $(i,a)$.
-\end{solution}
-\end{exercise}
+The idea is that if there is only one entry that could fill a given box, then it should come pre-filled---no further choice needs to be made to fill it.
+Here $p(\1)\iso\1$, so $p$ is \textit{representable}; indeed, $p\iso\yon^A$, where $A$ is the set of possible entries for the unfilled direction box.
 
-We may also
+Similarly, the polyboxes for a \textit{linear} polynomial $I\yon$, whose direction-set at each position is a singleton, can be drawn like so:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, "$I\yon$" below, linear] (p) {};
+  \node[left=0pt of p_pos] {$I$};
+\end{tikzpicture}
+\]
+No matter what fills the position box, there is exactly one entry that could fill the direction box, so it comes pre-filled.
+The identity polynomial functor $\yon$, which is both representable and linear, therefore has the following polyboxes:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, "$\yon$" below, identity] (p) {};
+\end{tikzpicture}
+\]
+It has exactly one position and exactly one direction, so both its boxes come pre-filled.
+
+Finally, a \textit{constant} polynomial $I$ for some set $I$ has empty direction-sets.
+We indicate this by coloring its direction box red:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, "$I$" below, constant] (p) {};
+  \node[left=0pt of p_pos] {$I$};
+\end{tikzpicture}
+\]
+Because every direction-set is empty, there is nothing that may be written in the direction box.
+The red suggests a kind of error---the direction box cannot be filled.
+The polynomial functor $\1$, which is both representable and constant, therefore has the following polyboxes:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, "$\1$" below, terminal] (p) {};
+\end{tikzpicture}
+\]
+
+
+In the next chapter, we will introduce the morphisms between polynomial functors and see how their behavior may be depicted using polyboxes.
 
 %-------- Section --------%
 \section{Summary and further reading}
