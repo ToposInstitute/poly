@@ -1819,12 +1819,18 @@ In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and 
 The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
 At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the $p[i]$-directions; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the $q[j]$-directions.
 
+% TODO: Revisit this? maybe shift this paragraph down
 
+Crucially, we have the following corollary.
 
+\begin{corollary} \label{cor.poly-coprod-repr}
+  In the category $\poly$, every polynomial $p$ is the coproduct of its representable summands $(\yon^{p[i]})_{i\in p(\1)}$.
+\end{corollary}
 
+In other words, writing $p$ as the sum $\sum_{i\in p(\1)}\yon^{p[i]}$ is not just a coproduct in $\smset^\smset$; it is also a coproduct in $\poly$ itself.
 
-
-In our alternative characterization of dependent lenses below, recall that a polynomial $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ can be uniquely identified with an indexed family $p[-]\colon p(\1)\to\smset$, a functor from the set $p(\1)$ viewed as a discrete category.
+We are now ready to give our alternative characterization of dependent lenses.
+Recall that a polynomial $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ can be uniquely identified with an indexed family $p[-]\colon p(\1)\to\smset$, a functor from the set $p(\1)$ viewed as a discrete category.
 
 \begin{proposition}\label{prop.poly_maps_prod_sum}
 Given polynomials $p$ and $q$, there is an isomorphism
@@ -1843,14 +1849,20 @@ In particular, a lens $p\to q$ can be identified with a pair $(f_\1,f^\sharp)$
 where $f_\1\colon p(\1)\to q(\1)$ is a function (equivalently, a functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ for each $i\in p(\1)$.
 \end{proposition}
 \begin{proof}
-By the universal property of the coproduct, we have a natural isomorphism
+We have $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$.
+Then by \cref{cor.poly-coprod-repr} and the universal property of the coproduct, we have a natural isomorphism
 \[
-    \poly\left(\sum_{i \in p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i \in p(\1)} \poly(\yon^{p[i]}, q),
+    \poly\left(\sum_{i\in p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i\in p(\1)}\poly(\yon^{p[i]},q).
 \]
-so applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and unraveling the definitions of $p$ and $q$ yields \eqref{eqn.main_formula}.
+Applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and the fact that $q\iso\sum_{j\in q(\1)}\yon^{q[j]}$ yields the natural isomorphism
+\[
+  \prod_{i\in p(\1)}\poly(\yon^{p[i]},q) \iso \prod_{i\in p(\1)}q(p[i]) \iso \prod_{i\in p(\1)}\sum_{j\in q(\1)}p[i]^{q[j]},
+\]
+so \eqref{eqn.main_formula} follows.
 
-The expression on the right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f\colon(i\in p(\1))\to\sum_{j\in q(\1)}p[i]^{q[j]}$, each of which is uniquely determined by its two projections, $(\pi_1\circ f)\colon(i\in p(\1))\to q(\1)$ and $(\pi_2\circ f)\colon(i\in p(\1))\to p[i]^{q[j]}$ with $j\coloneqq\pi_1(f(i))$.
-These can be identified respectively with a (non-dependent) function $f_\1\coloneqq\pi_1\circ f$ with signature $p(\1)\to q(\1)$ and a natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$.
+The right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f\colon(i\in p(\1))\to\sum_{j\in q(\1)}p[i]^{q[j]}$.
+Each such dependent function is uniquely determined by its two projections $(\pi_1\circ f)\colon(i\in p(\1))\to q(\1)$ and $(\pi_2\circ f)\colon(i\in p(\1))\to p[i]^{q[(\pi_1\circ f)(i)]}$.
+These can be identified respectively with a (non-dependent) function $f_\1\coloneqq\pi_1\circ f$ with signature $p(\1)\to q(\1)$ and a natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$ whose $i\in p(\1)$ component is $f^\sharp_i\coloneqq\pi_2(f(i))\in p[i]^{q[f_\1(i)]}$.
 \end{proof}
 
 We have now greatly simplified our characterization of dependent lenses $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, they may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
