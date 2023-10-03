@@ -10,19 +10,19 @@
     decoration={markings, mark=at position 0.5 with
     	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
   }
-} 
+}
 
 \tikzset{
 	bottom base/.style={baseline=(current bounding box.south)}
 }
 
 
-  
+
 \tikzset{trees/.style={
-	inner sep=0, 
-	minimum width=0, 
+	inner sep=0,
+	minimum width=0,
 	minimum height=0,
-	level distance=.5cm, 
+	level distance=.5cm,
 	sibling distance=.5cm,
 %	every child/.style={fill},
 	edge from parent/.style={shorten <= -2pt, draw, ->},
@@ -32,7 +32,7 @@
 }
 
 \newcommand{\idchild}{edge from parent[double, -]}
-  	
+
   \tikzset{
      oriented WD/.style={%everything after equals replaces "oriented WD" in key.
         every to/.style={out=0,in=180,draw},
@@ -73,32 +73,32 @@
      bb min width=1cm,
      bb rounded corners/.store in=\bbcorners,
      bb rounded corners=2pt,
-     bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+     bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm,
 bby=.7ex},
-		 bb medium/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm, 
+		 bb medium/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm,
 bby=.9ex},
      bb/.code 2 args={%When you see this key, run the code below:
         \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
-        \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer 
+        \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer
 sep=0pt,
            rounded corners=\bbcorners,thick,
            prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
            append after command={\pgfextra{\draw
               \ifnum #1=0{} \else foreach \i in {1,...,#1} {
                  ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-
-\bbportlen,0) 
-  coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi 
+\bbportlen,0)
+  coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi
   %Define the endpoints of tickmarks
               \ifnum #2=0{} \else foreach \i in {1,...,#2} {
                  ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-
-\bbpenetrate,0) 
+\bbpenetrate,0)
   coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
            }}}
      },
-     bb name/.style={append after command={\pgfextra{\node[anchor=north] at 
+     bb name/.style={append after command={\pgfextra{\node[anchor=north] at
 (\fixname.north) {#1};}}}
   }
-  
+
 
 \newcommand{\boxofbullets}[6][1]{% [y-spacing] {number of bullets} {left endpoint} {label} {text} {position}
 	\foreach \i [evaluate=\i as \y using {#1/2*((#2-1)/2-\i)}] in {1,...,#2}{
@@ -110,25 +110,25 @@ sep=0pt,
 
 \tikzset{polybox/.style={
 	poly/.style ={
-  	rectangle split, 
-  	rectangle split parts=2, 
+  	rectangle split,
+  	rectangle split parts=2,
 		rectangle split part align={bottom},
-  	draw, 
-  	anchor=south, 
+  	draw,
+  	anchor=south,
   	inner ysep=4.5,
 	  prefix after command={\pgfextra{\let\fixname=\tikzlastnode}},
 		append after command={\pgfextra{
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.north west) (\fixname.two split east)] 
+			\node[inner xsep=0, inner ysep=0,
+				fit=(\fixname.north west) (\fixname.two split east)]
 				(\fixname_dir) {};
-			\node[inner xsep=0, inner ysep=0, 
-				fit=(\fixname.south west) (\fixname.two split east)] 
+			\node[inner xsep=0, inner ysep=0,
+				fit=(\fixname.south west) (\fixname.two split east)]
 				(\fixname_pos) {};
 			}}
 	},
 	dom/.style={
 		rectangle split part fill={none, blue!10}
-	}, 
+	},
 	cod/.style={
 		rectangle split part fill={blue!10, none}
 	},
@@ -148,10 +148,10 @@ sep=0pt,
 		rectangle split part fill={gray, none}
 	},
 	linear dom/.style={
-		rectangle split part fill={gray, blue!10}	
+		rectangle split part fill={gray, blue!10}
 	},
 	linear cod/.style={
-		rectangle split part fill={blue!10!gray, none}	
+		rectangle split part fill={blue!10!gray, none}
 	},
 	pure/.style={
 		rectangle split part fill={none, gray}
@@ -182,10 +182,10 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
 
 
 \newcommand{\bimodto}[1][]{
-	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}
 }
 \newcommand{\bimodfrom}[1][]{
-	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}
 }
 
 
@@ -283,7 +283,12 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
 }%{\earpic}
 
 
-
+\tikzset{
+    mapsto/.style={->, densely dashed, blue, shorten <=\short, shorten
+        >=\short, >=stealth, thick},
+    short/.store in=\short,
+    short=0pt
+}
 
 
 

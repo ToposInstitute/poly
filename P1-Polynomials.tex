@@ -1872,7 +1872,7 @@ This characterization can be expressed entirely in the language of positions and
 This leads to the following definition.
 
 \begin{definition}[On-positions function, on-directions map and function]
-  Given a lens $f\colon p\to q$, let $(f_\1, f^\sharp)$ denote the pair identified with $f$ by \cref{prop.lens-prod-sum}.
+  Given a lens $f\colon p\to q$, let $(f_\1, f^\sharp)$ denote the pair identified with $f$ via \cref{prop.lens-prod-sum}.
   Then we call the function $f_\1\colon p(\1)\to q(\1)$ the \emph{(forward) on-positions function of $f$}, while we call the natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$ the \emph{(backward) on-directions map of $f$}.
   For $i\in p(\1)$, we call the $i$-component $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ of $f^\sharp$ the \emph{(backward) on-directions function of $f$ at $i$}.
 \end{definition}
@@ -1911,7 +1911,86 @@ Here is our first example of a dependent lens and a real-world interaction it mi
   Each $p$-position represents the owner's possible mood, and the directions at each position represent the options available to an owner in the corresponding mood.
 
   Say that a needy or greedy owner will keep their coin jar open, while a content owner will keep their coin jar closed.
-  We can express this with an on-positions function $f_\1$ from the set of $p$-positions
+  We can express this with an on-positions function $f_\1$ from the set of $p$-positions to the set of $q$-positions, as follows:
+
+%  \[
+%  \begin{tikzpicture}[short=-2pt]
+%      \node (open) {`open'};
+%      \node[below=1 of open] (closed) {`closed'};
+%
+%      \node[draw, ellipse, inner sep=0pt, fit=(open)(closed), label={[anchor=south,below]270:$p(\1)$}] (ppos) {};
+%
+%      \node[left=1 of ppos] (needy) {`open'};
+%      \node[below=1 of open] (closed) {`closed'};
+%
+%%      \draw (1+3,.8-.4*1) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
+%%      \draw (1+3,.8-.4*2) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
+%%      \draw (1+3,.8-.4*3) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
+%%
+%%      \draw[mapsto] (X10) to (Y11);
+%%
+%%      \node[draw, ellipse, inner sep=0pt, fit=(Y11) (Y13)] (Y1) {};
+%  \end{tikzpicture}
+%  \]
+%
+%
+%
+%  \[
+%  \begin{tikzpicture}[y=3ex, text height=1ex, text depth=1ex, font=\small]
+%      \node[label={[above=-7pt]:sapiens}] (sapiens) {$\bullet$};
+%      \node[below = 1 of sapiens, label={[above=-7pt]:habilis}] (habilis) {$\bullet$};
+%      \node[below = 1 of habilis, label={[above=-7pt]:lion}] (lion) {$\bullet$};
+%      \node[below = 1 of lion, label={[above=-7pt]:tiger}] (tiger) {$\bullet$};
+%      \node[right= 2 of habilis, label={[above=-7pt]:homo}] (homo) {$\bullet$};
+%      \node[right= 2 of lion, label={[above=-7pt]:panthera}] (panthera) {$\bullet$};
+%      \node[right= 2 of homo, label={[above=-7pt]:primate}] (primate) {$\bullet$};
+%      \node[right= 2 of panthera, label={[above=-7pt]:carnivore}] (carnivore) {$\bullet$};
+%      \node[right= 2 of carnivore, label={[above=-7pt]:mammal}] (mammal) {$\bullet$};
+%      \node[draw, inner sep=15pt, fit=(sapiens) (tiger.north) (mammal)] {};
+%      %
+%      \draw[->] (sapiens) -- (homo);
+%      \draw[->] (habilis) -- (homo);
+%      \draw[->] (lion) -- (panthera);
+%      \draw[->] (tiger) -- (panthera);
+%      \draw[->] (panthera) -- (carnivore);
+%      \draw[->] (homo) -- (primate);
+%      \draw[->] (primate) -- (mammal);
+%      \draw[->] (carnivore) -- (mammal);
+%      %
+%      \node[below=4 of tiger, label={[above=-7pt]:species}] (species) {$\bullet$};
+%      \node[right=1.5 of species, label={[above=-7pt]:genus}] (genus) {$\bullet$};
+%      \node[right=1.5 of genus, label={[above=-7pt]:family}] (family) {$\bullet$};
+%      \node[right=1.5 of family, label={[above=-7pt]:order}] (order) {$\bullet$};
+%      \node[right=1.5 of order, label={[above=-7pt]:class}] (class) {$\bullet$};
+%      \node[right=1.5 of class, label={[above=-7pt]:phylum}] (phylum) {$\bullet$};
+%      \node[right=1.5 of phylum, label={[above=-7pt]:kingdom}] (kingdom) {$\bullet$};
+%      \node[draw, inner sep=15, fit=(species.north west) (kingdom.north east)] {};
+%      %
+%      \draw[->] (species) -- (genus);
+%      \draw[->] (genus) -- (family);
+%      \draw[->] (family) -- (order);
+%      \draw[->] (order) -- (class);
+%      \draw[->] (class) -- (phylum);
+%      \draw[->] (phylum) -- (kingdom);
+%      %
+%      \begin{scope}[mapsto, bend right, shorten >=12pt, shorten <=-2pt]
+%          \draw (sapiens) to (species.north);
+%          \draw (habilis) to (species.north);
+%          \draw (lion) to (species.north);
+%          \draw (tiger) to (species.north);
+%          \draw (homo) to (genus.north);
+%          \draw (panthera) to (genus.north);
+%          \draw (primate) to (order.north);
+%          \draw (carnivore) to (order.north);
+%          \draw (mammal) to (class.north);
+%      \end{scope}
+%  \end{tikzpicture}
+%  \]
+%
+%
+%
+%
+
   \[
     p(\1) = \{\text{`needy', `greedy', `content'}\}
   \]
