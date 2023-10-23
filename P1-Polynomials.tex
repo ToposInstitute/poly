@@ -1329,8 +1329,6 @@ By having multiple representable summands---one for each position---a polynomial
 \end{solution}
 \end{exercise}
 
-% TODO: examples of interpreting positions and directions
-
 %-------- Section --------%
 \section{Corolla forests}
 
@@ -1895,7 +1893,7 @@ Here is our first example of a dependent lens and a real-world interaction it mi
   \[
     q\coloneqq\{\text{`open'}\}\yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\{\text{`closed'}\}\yon^\0.
   \]
-  Its `open' position has $4$ directions representing the $4$ denominations of coins it may take, while its `closed' position has $0$ directions to indicate that it cannot take anything.
+  It has $2$ positions: its `open' position has $4$ directions representing the $4$ denominations of coins it may take, while its `closed' position has $0$ directions to indicate that it cannot take anything.
 
   Now imagine that we model the owner of this coin jar with the following polynomial:
   \begin{align*}
@@ -1908,126 +1906,120 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     +\:
     &\{\text{`content'}\}\yon^{\{\text{`count', `rest'}\}}.
   \end{align*}
-  Each $p$-position represents the owner's possible mood, and the directions at each position represent the options available to an owner in the corresponding mood.
+  Each of its $3$ positions represents a possible mood of the owner, and the directions at each position represent the options available to an owner in the corresponding mood.
+  We will construct a lens $f\colon p\to q$ to model the interaction between the owner and their coin jar.
 
   Say that a needy or greedy owner will keep their coin jar open, while a content owner will keep their coin jar closed.
-  We can express this with an on-positions function $f_\1$ from the set of $p$-positions to the set of $q$-positions, as follows:
-
-%  \[
-%  \begin{tikzpicture}[short=-2pt]
-%      \node (open) {`open'};
-%      \node[below=1 of open] (closed) {`closed'};
-%
-%      \node[draw, ellipse, inner sep=0pt, fit=(open)(closed), label={[anchor=south,below]270:$p(\1)$}] (ppos) {};
-%
-%      \node[left=1 of ppos] (needy) {`open'};
-%      \node[below=1 of open] (closed) {`closed'};
-%
-%%      \draw (1+3,.8-.4*1) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
-%%      \draw (1+3,.8-.4*2) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
-%%      \draw (1+3,.8-.4*3) node[label={[below right=0]:\tiny\x}] (Y1\x) {$\bullet$};
-%%
-%%      \draw[mapsto] (X10) to (Y11);
-%%
-%%      \node[draw, ellipse, inner sep=0pt, fit=(Y11) (Y13)] (Y1) {};
-%  \end{tikzpicture}
-%  \]
-%
-%
-%
-%  \[
-%  \begin{tikzpicture}[y=3ex, text height=1ex, text depth=1ex, font=\small]
-%      \node[label={[above=-7pt]:sapiens}] (sapiens) {$\bullet$};
-%      \node[below = 1 of sapiens, label={[above=-7pt]:habilis}] (habilis) {$\bullet$};
-%      \node[below = 1 of habilis, label={[above=-7pt]:lion}] (lion) {$\bullet$};
-%      \node[below = 1 of lion, label={[above=-7pt]:tiger}] (tiger) {$\bullet$};
-%      \node[right= 2 of habilis, label={[above=-7pt]:homo}] (homo) {$\bullet$};
-%      \node[right= 2 of lion, label={[above=-7pt]:panthera}] (panthera) {$\bullet$};
-%      \node[right= 2 of homo, label={[above=-7pt]:primate}] (primate) {$\bullet$};
-%      \node[right= 2 of panthera, label={[above=-7pt]:carnivore}] (carnivore) {$\bullet$};
-%      \node[right= 2 of carnivore, label={[above=-7pt]:mammal}] (mammal) {$\bullet$};
-%      \node[draw, inner sep=15pt, fit=(sapiens) (tiger.north) (mammal)] {};
-%      %
-%      \draw[->] (sapiens) -- (homo);
-%      \draw[->] (habilis) -- (homo);
-%      \draw[->] (lion) -- (panthera);
-%      \draw[->] (tiger) -- (panthera);
-%      \draw[->] (panthera) -- (carnivore);
-%      \draw[->] (homo) -- (primate);
-%      \draw[->] (primate) -- (mammal);
-%      \draw[->] (carnivore) -- (mammal);
-%      %
-%      \node[below=4 of tiger, label={[above=-7pt]:species}] (species) {$\bullet$};
-%      \node[right=1.5 of species, label={[above=-7pt]:genus}] (genus) {$\bullet$};
-%      \node[right=1.5 of genus, label={[above=-7pt]:family}] (family) {$\bullet$};
-%      \node[right=1.5 of family, label={[above=-7pt]:order}] (order) {$\bullet$};
-%      \node[right=1.5 of order, label={[above=-7pt]:class}] (class) {$\bullet$};
-%      \node[right=1.5 of class, label={[above=-7pt]:phylum}] (phylum) {$\bullet$};
-%      \node[right=1.5 of phylum, label={[above=-7pt]:kingdom}] (kingdom) {$\bullet$};
-%      \node[draw, inner sep=15, fit=(species.north west) (kingdom.north east)] {};
-%      %
-%      \draw[->] (species) -- (genus);
-%      \draw[->] (genus) -- (family);
-%      \draw[->] (family) -- (order);
-%      \draw[->] (order) -- (class);
-%      \draw[->] (class) -- (phylum);
-%      \draw[->] (phylum) -- (kingdom);
-%      %
-%      \begin{scope}[mapsto, bend right, shorten >=12pt, shorten <=-2pt]
-%          \draw (sapiens) to (species.north);
-%          \draw (habilis) to (species.north);
-%          \draw (lion) to (species.north);
-%          \draw (tiger) to (species.north);
-%          \draw (homo) to (genus.north);
-%          \draw (panthera) to (genus.north);
-%          \draw (primate) to (order.north);
-%          \draw (carnivore) to (order.north);
-%          \draw (mammal) to (class.north);
-%      \end{scope}
-%  \end{tikzpicture}
-%  \]
-%
-%
-%
-%
-
+  We can express this with an on-positions function $f_\1$ from the set of $p$-positions (on the left) to the set of $q$-positions (on the right), as follows (the dashed arrows indicate the function assigments):
   \[
-    p(\1) = \{\text{`needy', `greedy', `content'}\}
+  \scalebox{.7}{
+  \begin{tikzpicture}
+    % q-positions (right)
+      % from top to bottom: open, closed
+    \node (open) {`open'};
+    \node[below=.5 of open] (closed) {`closed'};
+
+    \node[draw, ellipse, inner sep=0pt, fit=(open)(closed),
+      label={[anchor=south,below]270:$q(\1)$}] (qpos) {};
+
+    % p-positions (left)
+      % from top to bottom: needy, greedy, content
+      % greedy aligned with middle of q-positions
+    \node[left=3 of qpos] (greedy) {`greedy'};
+    \node[above=.5 of greedy] (needy) {`needy'};
+    \node[below=.5 of greedy] (content) {`content'};
+
+    \node[draw, ellipse, inner sep=0pt, fit=(greedy)(needy)(content),
+      label={[anchor=south,below]270:$p(\1)$}] (ppos) {};
+
+    \draw[mapsto] (needy) -- (open);
+    \draw[mapsto] (greedy) -- (open);
+    \draw[mapsto] (content) -- (closed);
+  \end{tikzpicture}
+  }
   \]
-  to the set of $q$-positions
-  \[
-    q(\1) = \{\text{`open', `closed'}\}
-  \]
-  that sends `needy' and `greedy' to `open' and `content' to `closed'.
 
   From there, say that a needy owner whose coin jar receives a nickel or higher will choose to save it, but one whose coin jar receives a penny will choose to spend it.
   Meanwhile, a greedy owner whose coin jar receives a penny or nickel will ask for more, but one whose coin jar receives a dime or quarter will accept it.
-  We can express this with an on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$ whose `needy' component is the on-directions function $f^\sharp_{\text{`needy'}}$ from the set of $q[f_\1(\text{`needy'})]$-directions
+  We can express this behavior with an on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$.
+  Its `needy' component is the on-directions function $f^\sharp_{\text{`needy'}}\colon q[f_\1(\text{`needy'})]\to p[\text{`needy'}]$ drawn as follows:
   \[
-    q[f_\1(\text{`needy'})]=q[\text{`open'}]=\{\text{`penny', `nickel', `dime', `quarter'}\}
+  \scalebox{.7}{
+  \begin{tikzpicture}
+    % p-directions (left)
+      % from top to bottom: save, spend
+    \node (save) {`save'};
+    \node[below=.5 of save] (spend) {`spend'};
+
+    \node[draw, ellipse, inner sep=0pt, fit=(save)(spend),
+      label={[anchor=south,below]270:$p[\text{`needy'}]$}] (pdir) {};
+
+    % q-directions (right)
+      % from top to bottom: penny, nickel, dime, quarter
+      % nickel aligned with save
+    \node[right=3 of save] (nickel) {`nickel'};
+    \node[above=.5 of nickel] (penny) {`penny'};
+    \node[below=.5 of nickel] (dime) {`dime'};
+    \node[below=.5 of dime] (quarter) {`quarter'};
+
+    \node[draw, ellipse, inner sep=0pt,
+      fit=(penny)(nickel)(dime)(quarter),
+      label={[anchor=south,below]270:$q[\text{`open'}]$}] (qdir) {};
+
+    \draw[mapsto] (penny) -- (spend);
+    \draw[mapsto] (nickel) -- (save);
+    \draw[mapsto] (dime) -- (save);
+    \draw[mapsto] (quarter) -- (save);
+  \end{tikzpicture}
+  }
   \]
-  to the set of $p[\text{`needy'}]$-directions $\{\text{`save', `spend'}\}$ that sends `penny' to `spend' and everything else to `save'; whose `greedy' component is the on-directions function $f^\sharp_{\text{`greedy'}}$ from the set of $q[f_\1(\text{`greedy'})]$-directions
+  Notice that, by keeping the positions and directions of $p$ on the left and those of $q$ on the right, the on-positions function is drawn from left to right, while the on-directions functions must be drawn right to left.
+  The `greedy' component of $f^\sharp$ is the on-directions function $f^\sharp_{\text{`greedy'}}\colon q[f_\1(\text{`greedy'})]\to p[\text{`greedy'}]$ drawn like so:
   \[
-    q[f_\1(\text{`greedy'})]=q[\text{`open'}]=\{\text{`penny', `nickel', `dime', `quarter'}\}
+  \scalebox{.7}{
+    \begin{tikzpicture}
+      % q-directions (right)
+        % from top to bottom: penny, nickel, dime, quarter
+      \node (nickel) {`nickel'};
+      \node[above=.5 of nickel] (penny) {`penny'};
+      \node[below=.5 of nickel] (dime) {`dime'};
+      \node[below=.5 of dime] (quarter) {`quarter'};
+
+      \node[draw, ellipse, inner sep=0pt,
+        fit=(penny)(nickel)(dime)(quarter),
+        label={[anchor=south,below]270:$q[\text{`open'}]$}] (qdir) {};
+
+      % p-directions (left)
+        % from top to bottom: accept, reject, ask for more
+        % reject aligned with middle of q-directions
+      \node[left=3 of qdir] (reject) {`reject'};
+      \node[above=.5 of reject] (accept) {`accept'};
+      \node[below=.5 of reject] (ask) {`ask for more'};
+
+      \node[draw, ellipse, inner sep=0pt, fit=(accept)(reject)(ask),
+        label={[anchor=south,below]270:$p[\text{`needy'}]$}] (pdir) {};
+
+      \draw[mapsto] (penny) -- (ask);
+      \draw[mapsto] (nickel) -- (ask);
+      \draw[mapsto] (dime) -- (accept);
+      \draw[mapsto] (quarter) -- (accept);
+    \end{tikzpicture}
+  }
   \]
-  to the set of $p[\text{`greedy'}]$-directions $\{\text{`accept', `reject', `ask for more'}\}$ that sends `penny' and `nickel' to `ask for more' and `dime' and `quarter' to `accept'; and whose `content' component is the on-directions function $f^\sharp_{\text{`content'}}$ from the set of $q[f_\1(\text{`content'})]$-directions
-  \[
-    q[f_\1(\text{`content'})]=q[\text{`closed'}]=\0
-  \]
-  to the set of $p[\text{`content'}]$-directions that is vacuously defined.
+  Finally, since $q[f_\1(\text{`content'})]=q[\text{`closed'}]=\0$, the `content' component of $f^\sharp$ is the vacuously-defined on-directions function $f^\sharp_{\text{`content'}}\colon \0\to p[\text{`content'}]$.
   Together, the on-positions function $f_\1$ and the on-directions map $f^\sharp$ defined above completely characterize a lens $f\colon p\to q$ depicting the interaction between the coin jar and its owner.
 \end{example}
 
-This forward on-positions/backward on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
-Recall from \cref{sec.poly.intro.dec} that we may view a polynomial as a scenario, each position of a polynomial as a menu, and the directions at that position as the options available on that menu.
-Every time we select an option off a menu, we are making a decision.
-Then the lenses $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisions to $q$.
-
-You should think of this as an agent Pat in scenario $p$ needing to make a decision, so they ask a second agent Quinn in scenario $q$ to make another decision that will then inform the decision that Pat will make.
-Each one of Pat's menus in scenario $p$, say $i\in p(\1)$, is passed forward (``delegated'') to a menu in scenario $q$, say $j\in q(\1)$, for Quinn to choose an option from.
-Then each option $b\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $a\in p[i]$ on $p$'s original menu $i$.
-The lens tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
-Henceforth, we will often conflate the agent making a decision with the scenario that they are in, writing statements like ``$p$ chooses an option from its menu.''
+%This forward on-positions/backward on-directions formulation may still seem a little complicated, so here is some decision-making intuition.
+%Recall from \cref{sec.poly.intro.dec} that we may view a polynomial as a scenario, each position of a polynomial as a menu, and the directions at that position as the options available on that menu.
+%Every time we select an option off a menu, we are making a decision.
+%Then the lenses $f\colon p\to q$ are the ways to \emph{delegate} $p$'s decisions to $q$.
+%
+%You should think of this as an agent Pat in scenario $p$ needing to make a decision, so they ask a second agent Quinn in scenario $q$ to make another decision that will then inform the decision that Pat will make.
+%Each one of Pat's menus in scenario $p$, say $i\in p(\1)$, is passed forward (``delegated'') to a menu in scenario $q$, say $j\in q(\1)$, for Quinn to choose an option from.
+%Then each option $b\in q[j]$ that Quinn could select from menu $j$ is passed back to Pat as an option $a\in p[i]$ on $p$'s original menu $i$.
+%The lens tells us how each menu in $p$ is assigned a menu in $q$ to watch, as well as how each choice of option from $q$'s menu dictates a choice of option from $p$'s menu.
+%Henceforth, we will often conflate the agent making a decision with the scenario that they are in, writing statements like ``$p$ chooses an option from its menu.''
 
 % TODO: finish/integrate above section
 
