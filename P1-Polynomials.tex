@@ -2019,7 +2019,10 @@ Then each $q[f_\1(i)]$-direction $b$ is passed backward via the on-directions fu
 To visualize these lenses, we may use either our corolla forests or our polyboxes.
 
 %-------- Section --------%
-\section{Corolla pictures of dependent lenses}
+
+\section{Corolla forest pictures of dependent lenses}
+
+The corolla forest associated to a polynomial $p$ concretely depicts its positions and directions
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
@@ -3704,7 +3707,7 @@ Moreover, $\odot$ distributes over coproducts.
 In the case of $(\0,+)$ and $(\1,\times)$, this procedure returns the $(\1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
 \end{proposition}
 \begin{proof}
-Any monoidal structure $(I, \odot)$ on $\smset$ induces a monoidal structure on $\smset^\smset$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
+Any monoidal structure $(I,\star)$ on $\smset$ induces a monoidal structure on $\smset^\smset$ with the Day convolution $\odot$ as the tensor product and $\yon^I$ as the unit.
 To prove that this monoidal structure restricts to $\poly$, it suffices to show that $\poly$ is closed under the Day convolution.
 
 Given polynomials $p\coloneqq\sum_{i \in p(\1)} \yon^{p[i]}$ and $q\coloneqq\sum_{j \in q(\1)} \yon^{q[j]}$, their Day convolution is given by the coend
@@ -3786,9 +3789,8 @@ Once $\poly$ was defined, we considered various properties it has, e.g.\ that it
 	\sum_{a\in A}p_a&\coloneqq\sum_{(a,i)\in\sum_{a\in A}p_a(1)}\yon^{p_a[i]}&
 	\prod_{a\in A}p_a&\coloneqq\sum_{i\in\prod_{a\in A}p_a(1)}\yon^{\sum_{a\in A}p_a[i a]}
 \\
-	p_1+p_2&\coloneqq\sum_{(a,i)\in\{(1,i)\mid i\in p_1\}+\{(2,i)\mid i\in p_2\}}\yon^{p_a[i]}&
+	p_1+p_2&\coloneqq\sum_{(a,i)\in\{(1,i_1)\mid i_1\in p_1(\1)\}+\{(2,i_2)\mid i_2\in p_2(\1)\}}\yon^{p_a[i]}&
 	p_1\times p_2&\coloneqq\sum_{(i_1,i_2)\in p_1(1)\times p_2(1)}\yon^{p_1[i_1]+p_2[i_2]}
-	p
 \end{align*}
 We also discussed how one can take any monoidal product $\cdot$ from $\smset$ and lift it to a monoidal product $\cdot$ on $\poly$:
 \[
@@ -4170,7 +4172,7 @@ A lens $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
 A lens $S\yon^S\to\2\yon^A$ consists of a function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
 \end{proof}
 
-But what if we wanted to make a version of this automaton where, whenver the machine hits an accept state, it stops---no longer taking in any inputs? Again, to do this requires a machine whose set of possible inputs is dependent on the output the current state returns.
+But what if we wanted to make a version of this automaton where, whenever the machine hits an accept state, it stops---no longer taking in any inputs? Again, to do this requires a machine whose set of possible inputs is dependent on the output the current state returns.
 In this case, instead of an update function $u\colon S\times A\to S$, we want an update function that takes in an input $a\in A$ if the state $s\in S$ is \emph{not} an accept state (say, if $f(s)=1$) but takes in an input in $\0$ (i.e.\ no input) if the state $s$ \emph{is} an accept state (if $f(s)=2$).
 So there is one update function $u_s\colon A\to S$ if $f(s)=1$, and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
 But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$.
