@@ -2022,10 +2022,11 @@ To visualize these lenses, we may use either our corolla forests or our polyboxe
 
 \section{Corolla forest pictures of dependent lenses}
 
-The corolla forest associated to a polynomial $p$ concretely depicts its positions and directions
+The corolla forest associated to a polynomial concretely depicts its positions and directions, making it easy to extend our corolla forest pictures to depict the dependencies between the positions and directions of two polynomials that a lens between them prescribes.
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
-Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they are, depicted as corolla forests:
+Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$.
+We draw them as corolla forests with their positions labeled:
 \[
 \begin{tikzpicture}[rounded corners]
 	\node (p1) [draw, blue!50!black, "$p$" above] {
@@ -2059,9 +2060,8 @@ Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$. Here they ar
   };
 \end{tikzpicture}
 \]
-To give a lens $p\to q$, one sends each $p$-position $i\in p(\1)$ to a $q$-position $j\in q(\1)$, then sends each direction in $q[j]$ back to one in $p[i]$.
-
-How many ways are there to do this? Before answering this, let's just pick one.
+To give a lens $p\to q$, we must send each $p$-position $i\in p(\1)$ to a $q$-position $j\in q(\1)$, then send each direction in $q[j]$ back to one in $p[i]$.
+We can draw such a lens as follows.
 \[
 \begin{tikzpicture}
 	\node (p1) {
@@ -2115,29 +2115,22 @@ How many ways are there to do this? Before answering this, let's just pick one.
 	};
 \end{tikzpicture}
 \]
-This represents one lens $p\to q$.
-
-So how many different lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate the remaining ways to handle the first $p$-position, then add them up: there are $3^4+3^2+3^0+3^0=92$ ways total.
-
-The second $p$-position can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
-Similarly there are four ways to send the third $p$-position to a $q$-position and send back directions.
-
-In total, there are $92 \cdot 4 \cdot 4=1472$ lenses $p\to q$.
-
-Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
-\begin{align*}
-    |\poly(p, q)| &= \prod_{i \in p(\1)} |q(p[i])| \\
-    &= \prod_{i \in p(\1)} |p[i]|^4 + |p[i]|^2 + 2 \\
-    &= (3^4 + 3^2 + 2)(1^4 + 1^2 + 2)^2 \\
-    &= 92 \cdot 4^2 = 1472.
-\end{align*}
+This represents one possible lens $f\colon p\to q$.
+The horizontal solid arrows pointing rightward in the picture above tell us that the on-positions function $f_\1\colon p(\1)\to q(\1)$ is given by
+\[
+  f_\1(1) \coloneqq 1, \qquad f_\1(2) \coloneqq 1, \qqand f_\1(3) \coloneqq 4.
+\]
+Then the curved dashed arrows pointing leftward in the picture above describe the on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$.
+On the left, the arrows depict one possible on-directions function $f^\sharp_1\colon q[1]\to p[1]$ from the $4$ directions in $q[1]$ to the $3$ directions in $p[1]$.
+In the middle, the arrows depict the only possible on-directions function $f^\sharp_2\colon q[1]\to p[2]$ because $|p[2]|=1$.
+Finally, on the right, there are no curved arrows, depicting the only possible on-directions function $f^\sharp_3\colon q[4]\to p[3]$ because $|q[4]|=0$.
 \end{example}
 
 \begin{exercise}\label{exc.practice_poly_maps}
 \begin{enumerate}
 	\item Draw the corolla forests associated to $p\coloneqq\yon^\3+\yon+\1$, $q\coloneqq \yon^\2+\yon^\2+\2$, and $r\coloneqq\yon^\3$.
-	\item Give an example of a dependent lens $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
-	\item Explain your lens intuitively as a delegation of decisions.
+	\item Pick an example of a dependent lens $p\to q$ and draw it as we did in \cref{ex.practice_with_poly_morphisms}.
+	\item Explain the behavior of your lens as an interaction protocol in terms of positions and directions.
 	\item Explain in those terms why there can't be any lenses $p\to r$.
 \qedhere
 \end{enumerate}
@@ -2182,6 +2175,7 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
     \end{tikzpicture}
     \]
 	\item Here is one possible lens $p\to q$ (you may have drawn others).
+  % TODO: why does the pic look like this?? fix baseline somehow?
 	\[
     \begin{tikzpicture}
     	\node (p1) {
@@ -2219,7 +2213,7 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
     	};
     \end{tikzpicture}
     \]
-    \item As depicted, our lens delegates the first menu of $p$ to the second menu of $q$, whose first and second options are passed back to the third and first options, respectively, of the first menu of $p$.
+    \item As depicted, our lens assigns to the first position of $p$ the second position of $q$, whose first and second directions are passed back to the third and first directions, respectively, of the first position of $p$.
     Then the second menu of $p$ is delegated to the fourth menu of $q$, which has no options; effectively, the decision associated with the second menu of $p$ has been canceled.
     Finally, the third menu of $p$ is delegated to the third menu of $q$, neither of which has any options.
     \item There cannot be a lens $p \to r$ for the following reason: if we delegate the third menu of $p$, which has no options, to the sole menu of $r$, which has $3$ options, then there is no way to pass a choice of one of the $3$ options back to any of the options on the third menu of $p$, as there are no such options.
@@ -2236,6 +2230,27 @@ Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
 
 %-------- Section --------%
 \section{Computations with dependent lenses}
+
+
+\begin{example}
+  How many ways are there to do this? Before answering this, let's just pick one.
+
+  So how many different lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate the remaining ways to handle the first $p$-position, then add them up: there are $3^4+3^2+3^0+3^0=92$ ways total.
+
+  The second $p$-position can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
+  Similarly there are four ways to send the third $p$-position to a $q$-position and send back directions.
+
+  In total, there are $92 \cdot 4 \cdot 4=1472$ lenses $p\to q$.
+
+  Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
+  \begin{align*}
+    |\poly(p, q)| &= \prod_{i \in p(\1)} |q(p[i])| \\
+    &= \prod_{i \in p(\1)} |p[i]|^4 + |p[i]|^2 + 2 \\
+    &= (3^4 + 3^2 + 2)(1^4 + 1^2 + 2)^2 \\
+    &= 92 \cdot 4^2 = 1472.
+  \end{align*}
+\end{example}
+
 
 % TODO: integrate below
 
