@@ -2221,12 +2221,51 @@ Finally, on the right, there are no curved arrows, depicting the only possible o
 \end{solution}
 \end{exercise}
 
-% TODO: finish & integrate above
-
 %-------- Section --------%
 \section{Polybox pictures of dependent lenses}
 
-% TODO: fill in
+Another way to visualize a dependent lens $f\colon p\to q$ is to draw the polyboxes for $p$ and $q$.
+\begin{equation} \label{eqn.polybox_lens}
+  \begin{tikzpicture}
+    \node (f) ["$f\colon p\to q$" above] {
+      \begin{tikzpicture}[polybox, tos]
+        \node[poly, dom, "$p$" below] (p) {};
+        \node[left=0pt of p_pos] {$p(\1)$};
+        \node[left=0pt of p_dir] {$p[-]$};
+
+        \node[poly, cod, right=of p, "$q$" below] (q) {};
+        \node[right=0pt of q_pos] {$q(\1)$};
+        \node[right=0pt of q_dir] {$q[-]$};
+
+        \draw (p_pos) -- node[below] {} (q_pos);
+        \draw (q_dir) -- node[above] {} (p_dir);
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
+\end{equation}
+Thinking of the polyboxes as cells in a spreadsheet, the lens prescribes how the values of the cells are computed.
+The boxes shaded in blue accept user input, while the other boxes are computed from that input according to the spreadsheet's rules.
+
+The arrows track the flow of information, starting from the lower left.
+When the user fills the blue position box of $p$ with some $i\in p(\1)$, the arrow pointing right indicates that the lens fills the position box of $q$ with some $j\in q(\1)$ based on $i$.
+The corresponding assignment $i\mapsto j$ is the on-position function $f_\1$ of the lens.
+
+Then when the user fills the blue direction box of $q$ with some $b\in q[j]$, the arrow pointing left indicates that the lens fills the direction box of $p$ with some $a \in p[i]$ based on $i$ and $b$.
+Fixing $i\in p(\1)$, the assignment $b\mapsto a$ is an on-directions function $f^\sharp_i$ of the lens.
+
+Once all the boxes are filled, we obtain the following:
+\[ \label{eqn.polybox_lens_filled}
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom, "$p$" left] (p) {$a\vphantom{b}$\at$i\vphantom{j}$};
+  \node[poly, cod, "$q$" right, right=of p] (q) {$b$\at$j$};
+  \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+  \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+\end{tikzpicture}
+\]
+Here $j\coloneqq f_\1(i)$ and $a\coloneqq f^\sharp_i(b)$.
+So a lens is any protocol that will fill the remaining boxes once the user fills the blue boxes, following the directions of the arrows drawn.
+Be careful: although the arrow $f^\sharp$ is drawn from the codomain's direction box, it also takes into account what is entered into the domain's position box previously.
+After all, the on-directions map of a lens is dependent on both a position of the domain and a direction of the codomain.
 
 %-------- Section --------%
 \section{Computations with dependent lenses}
