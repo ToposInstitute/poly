@@ -2282,7 +2282,7 @@ Here is an example of a lens depicted with polyboxes that would be difficult to 
   \[
     q\coloneqq\sum_{k\in(0,\infty)}\yon^{[0,k]}
   \]
-  be the polynomial that models Caroline: its position $k\in(0,\infty)$ is the total money that Caroline receives (perhaps Caroline was prepared to receive more money than she was asking for), while its direction $r\in[0,k]$ is the money Caroline has remaining after spending some of it.
+  be the polynomial that models Caroline: its position $k\in(0,\infty)$ is the total money that Caroline receives (perhaps Caroline is prepared to receive more money than she is asking for, even if her parents are not prepared to give it), while its direction $r\in[0,k]$ is the money Caroline has remaining after spending some of it.
   Then we draw the lens $f$ that models their interaction in polyboxes as
   \[
   \begin{tikzpicture}[polybox, mapstos]
@@ -2292,16 +2292,64 @@ Here is an example of a lens depicted with polyboxes that would be difficult to 
     \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
   \end{tikzpicture}
   \]
+  We interpret this as saying that the on-positions function $f_\1$ from $p(\1)=(0,20]\times(0,20]$ to $q(\1)=(0,\infty)$ is defined on $(i,j)\in(0,20]\times(0,20]$ to be
+  \[
+    f_\1(i,j)\coloneqq i+j,
+  \]
+  while the on-directions function $f^\sharp_{(i,j)}$ from $q[i+j]=[0,i+j]$ to $p[(i,j)]=[0,i]\times[0,j]$ is defined on $r\in[0,i+j]$ to be
+  \[
+    f^\sharp_{(i,j)}(r) \coloneqq \left(\dfrac{ir}{i+j}, \dfrac{jr}{i+j}\right);
+  \]
+  the polybox picture expresses this more compactly.
+  Notice that the position box of $q$ depends only on the position box of $p$, while the direction box of $p$ depends on the position box of $p$ as well as the direction box of $q$.
 \end{example}
+
+Later on we will see how polyboxes help depict how lenses compose.
 
 %-------- Section --------%
 \section{Computations with dependent lenses}
 
+Our concrete characterization of dependent lenses allows us to enumerate them.
 
-\begin{example}
-  How many ways are there to do this? Before answering this, let's just pick one.
+\begin{example}[Enumerating lenses]
+  Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$, as in \cref{ex.practice_with_poly_morphisms}.
+  Again, we draw them as corolla forests with their positions labeled:
+  \[
+  \begin{tikzpicture}[rounded corners]
+    \node (p1) [draw, blue!50!black, "$p$" above] {
+      \begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny 1" below] (1) {$\bullet$}
+        child {}
+        child {}
+        child {};
+        \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+        child {};
+        \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+        child {};
+      \end{tikzpicture}
+    };
+    %
+    \node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
+      \begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny 1" below] (1) {$\bullet$}
+        child {}
+        child {}
+        child {}
+        child {};
+        \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+        ;
+        \node[right=.5 of 3,"\tiny 4" below] (4) {$\bullet$}
+        ;
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
+  \]
 
-  So how many different lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to $1$ requires choosing how each of the four options $(q[1]=\4)$ are to be assigned one of $p[1]=\3$ options; there are $3^4$ ways to do this. Similarly, we can calculate the remaining ways to handle the first $p$-position, then add them up: there are $3^4+3^2+3^0+3^0=92$ ways total.
+  How many lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to 1 would require choosing an on-directions function $q[1]\to p[1]$, or $\4\to\3$; there are $3^4$ of these.
+  Similarly, there are $3^2$ possible on-directions functions $q[2]\to p[1]$ and $3^0$ possible on-directions functions each $q[3]\to p[1]$ and $q[4]\to p[1]$, for a total of $3^4+3^2+3^0+3^0=92$ ways to choose $f_\1(1)$ and $f^\sharp_1$.
 
   The second $p$-position can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
   Similarly there are four ways to send the third $p$-position to a $q$-position and send back directions.
