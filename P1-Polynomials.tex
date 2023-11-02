@@ -2267,6 +2267,33 @@ So a lens is any protocol that will fill the remaining boxes once the user fills
 Be careful: although the arrow $f^\sharp$ is drawn from the codomain's direction box, it also takes into account what is entered into the domain's position box previously.
 After all, the on-directions map of a lens is dependent on both a position of the domain and a direction of the codomain.
 
+Here is an example of a lens depicted with polyboxes that would be difficult to draw with corolla forests.
+
+\begin{example}
+  Caroline asks each of her parents for $20$ dollars. Each parent gives Caroline a positive amount of money not exceeding $20$ dollars. Caroline spends some of the money she receives before returning the remainder to each parent proportionally according to the amount she received from each.
+
+  To model this interaction as a lens $f\colon p\to q$, we first define the polynomials $p$ and $q$.
+  Let
+  \[
+    p\coloneqq\sum_{(i,j)\in(0,20]\times(0,20]}\yon^{[0,i]\times[0,j]}
+  \]
+  be the polynomial that models the parents: its position $(i,j)\in(0,20]\times(0,20]$ consists of the quantities of money that each parent gives to Caroline, and its direction $(i',j')\in[0,i]\times[0,j]$ at that position consists of the quantities of money that Caroline returns to each parent.
+  Then let
+  \[
+    q\coloneqq\sum_{k\in(0,\infty)}\yon^{[0,k]}
+  \]
+  be the polynomial that models Caroline: its position $k\in(0,\infty)$ is the total money that Caroline receives (perhaps Caroline was prepared to receive more money than she was asking for), while its direction $r\in[0,k]$ is the money Caroline has remaining after spending some of it.
+  Then we draw the lens $f$ that models their interaction in polyboxes as
+  \[
+  \begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$p$" left] (p) {$\left(\dfrac{ir}{i+j}, \dfrac{jr}{i+j}\right)$\at$(i,j)$};
+    \node[poly, cod, "$q$" right, right=of p] (q) {$r\vphantom{\dfrac{jr}{i+j}}$\at$i+j$};
+    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+  \end{tikzpicture}
+  \]
+\end{example}
+
 %-------- Section --------%
 \section{Computations with dependent lenses}
 
