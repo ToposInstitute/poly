@@ -27,7 +27,7 @@ Representable functors---special functors to the category of sets---provide the 
 While much of the following theory applies to representable functors from any category, we need only focus on representable functors $\smset\to\smset$.
 
 \begin{definition}[Representable functor] \label{def.representable}
-    For a set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends each set $X$ to the set $X^S=\smset(S,X)$ and each function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$ that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, given morphisms $f \colon A \to B$ and $g \colon B \to C$ in a category, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$, whichever is more convenient.}
+    For a set $S$, we denote by $\yon^S\colon\smset\to\smset$ the functor that sends each set $X$ to the set $X^S=\smset(S,X)$ and each function $h\colon X\to Y$ to the function $h^S\colon X^S\to Y^S$ that sends $g\colon S\to X$ to $g\then h\colon S\to Y$.\footnote{Throughout this text, given morphisms $f \colon A \to B$ and $g \colon B \to C$ in a category, we will denote their composite morphism $A \to C$ interchangeably as $f \then g$ or $g \circ f$ (or even $gf$), whichever is more convenient.}
 
     We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
     In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set of $\yon^S$}.
@@ -637,30 +637,30 @@ While the identity may look foreign, it captures for sets the same process that 
 \end{proposition}
 \begin{proof}
     First, we construct a map from the left hand set to the right. An element of the set on the left is a dependent function $f \colon (i \in I) \to \sum_{j \in J(i)} X(i, j)$, which we can compose with projections from its codomain to yield $\pi_1(f(i)) \in J(i)$ and $\pi_2(f(i)) \in X(i, \pi_1(f(i)))$ for every $i \in I$.
-    We can then form the following pair:
+    We can then form the following pair:\footnote{We omit parentheses for function application here and throughout the text for compactness whenever the meaning is clear.}
     \[
-    (i \mapsto \pi_1(f(i)), i \mapsto \pi_2(f(i))).
+    (i \mapsto \pi_1 fi, i \mapsto \pi_2 fi).
     \]
-    This is an element of the right hand set, because $i \mapsto \pi_1(f(i))$ is a dependent function in $\prod_{i\in I}J(i)$ and $i \mapsto \pi_2(f(i))$ is a dependent function in $\prod_{i\in I}X(i,\pi_1(f(i)))$.
+    This is an element of the right hand set, because $i \mapsto \pi_1 fi$ is a dependent function in $\prod_{i\in I}J(i)$ and $i \mapsto \pi_2 fi$ is a dependent function in $\prod_{i\in I}X(i,\pi_1 fi)$.
 
     Now we go from right to left.
     An element of the right hand set is a pair of dependent functions, $\bar{j} \colon (i \in I) \to J(i)$ and $g \colon
-    (i \in I) \to X(i, \bar{j}(i))$.
+    (i \in I) \to X(i, \bar{j}i)$.
     We map this pair to the following element of the left hand set, a dependent function $(i\in I)\to\sum_{j\in J(i)}X(i,j)$:
     \[
-    i \mapsto (\bar{j}(i), g(i)).
+    i \mapsto (\bar{j}i, gi).
     \]
 
     Finally, we verify that the maps are mutually inverse.
     An element $(\bar{j}, g)$ of the right hand set is sent by one map and then the other to the pair
     \[
-    (i \mapsto \pi_1(\bar{j}(i), g(i)), i \mapsto \pi_2(\bar{j}(i), g(i)))=(i \mapsto \bar{j}(i), i \mapsto g(i))=(\bar{j},g)
+    (i \mapsto \pi_1(\bar{j}i, gi), i \mapsto \pi_2(\bar{j}i, gi))=(i \mapsto \bar{j}i, i \mapsto gi)=(\bar{j},g)
     \]
     Meanwhile, an element $f$ of the left hand set is sent by one map and then the other to the dependent function
     \[
-    i \mapsto (\pi_1(f(i)), \pi_2(f(i))).
+    i \mapsto (\pi_1 fi, \pi_2 fi).
     \]
-    As $f(i)$ is a pair whose components are $\pi_1(f(i))$ and $\pi_2(f(i))$, the dependent function above is precisely $f$.
+    As $fi$ is a pair whose components are $\pi_1 fi$ and $\pi_2 fi$, the dependent function above is precisely $f$.
 \end{proof}
 
 When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref{eqn.set_completely_distributive}.
@@ -668,7 +668,7 @@ When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
     For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
     \begin{equation} \label{eqn.push_prod_sum_set_indep}
-        \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)),
+        \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}i),
     \end{equation}
     where $\bar{j}$ ranges over all (standard, non-dependent) functions $I\to J$.
 \end{corollary}
@@ -685,7 +685,7 @@ In general, we refer to a category having this property as follows.
     \begin{equation}\label{eqn.cat_completely_distributive}
         \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
         \iso
-        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i)).
+        \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}i).
     \end{equation}
 \end{definition}
 
@@ -698,7 +698,7 @@ Once we define the category of polynomial functors, we will see that it, too, is
     Let $\Cat{C}$ be a completely distributive category.
     For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism
     \begin{equation} \label{eqn.push_prod_sum_obj_indep}
-        \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}(i)).
+        \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}i).
     \end{equation}
 \end{corollary}
 \begin{proof}
@@ -760,7 +760,7 @@ This is analogous to how products of sums in high school algebra can always be e
             \]
             as
             \[
-            \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j)).
+            \sum_{i\in I}\sum_{\bar{k}\in \prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}j).
             \]
             \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
             \[
@@ -768,7 +768,7 @@ This is analogous to how products of sums in high school algebra can always be e
             \]
             as
             \[
-            \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}(i))\prod_{k\in K(i,\bar{j}(i))}X(i,\bar{j}(i),k).
+            \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}i)\prod_{k\in K(i,\bar{j}i)}X(i,\bar{j}i,k).
             \]
             \item By applying \eqref{eqn.cat_completely_distributive}, we can rewrite
             \[
@@ -776,7 +776,7 @@ This is analogous to how products of sums in high school algebra can always be e
             \]
             once as
             \[
-            \prod_{i\in I}\sum_{\bar{k}\in\prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}(j))
+            \prod_{i\in I}\sum_{\bar{k}\in\prod_{j\in J}K(i,j)}\prod_{j\in J(i)}X(i,j,\bar{k}j)
             \]
             and then again as
             \[
@@ -1819,8 +1819,6 @@ In particular, \eqref{eqn.poly_coprod} implies that for any polynomials $p$ and 
 The position-set of $p+q$ is the coproduct of sets $p(\1) + q(\1)$.
 At position $(1,i) \in p(\1) + q(\1)$ with $i \in p(\1)$, the directions of $p+q$ are just the $p[i]$-directions; at position $(2,j) \in p(\1) + q(\1)$ with $j \in q(\1)$, the directions of $p+q$ are just the $q[j]$-directions.
 
-% TODO: Revisit this? maybe shift this paragraph down
-
 Crucially, we have the following corollary.
 
 \begin{corollary} \label{cor.poly-coprod-repr}
@@ -1846,7 +1844,7 @@ In particular, a lens $f\colon p\to q$ can be identified with a pair $(f_\1,f^\s
 	\smset\ar[u, phantom, near end, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \end{equation}
-where $f_\1\colon p(\1)\to q(\1)$ is a function (equivalently, a functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ for each $i\in p(\1)$.
+where $f_\1\colon p(\1)\to q(\1)$ is a function (equivalently, a functor between discrete categories) and $f^\sharp \colon q[f_\1(-)] \to p[-]$ is a natural transformation: a function $f^\sharp_i\colon q[f_\1i]\to p[i]$ for each $i\in p(\1)$.
 \end{proposition}
 \begin{proof}
 We have $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$.
@@ -1861,18 +1859,18 @@ Applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and the fact that
 so \eqref{eqn.main_formula} follows.
 
 The right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f\colon(i\in p(\1))\to\sum_{j\in q(\1)}p[i]^{q[j]}$.
-Each such dependent function is uniquely determined by its two projections $(\pi_1\circ f)\colon(i\in p(\1))\to q(\1)$ and $(\pi_2\circ f)\colon(i\in p(\1))\to p[i]^{q[(\pi_1\circ f)(i)]}$.
-These can be identified respectively with a (non-dependent) function $f_\1\coloneqq\pi_1\circ f$ with signature $p(\1)\to q(\1)$ and a natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$ whose $i$-component for $i\in p(\1)$ is $f^\sharp_i\coloneqq\pi_2(f(i))\in p[i]^{q[f_\1(i)]}$.
+Each such dependent function is uniquely determined by its two projections $\pi_1f\colon(i\in p(\1))\to q(\1)$ and $\pi_2f\colon(i\in p(\1))\to p[i]^{q[\pi_1fi]}$.
+These can be identified respectively with a (non-dependent) function $f_\1\coloneqq\pi_1f$ with signature $p(\1)\to q(\1)$ and a natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$ whose $i$-component for $i\in p(\1)$ is $f^\sharp_i\coloneqq\pi_2 fi\in p[i]^{q[f_\1i]}$.
 \end{proof}
 
-We have now greatly simplified our characterization of a dependent lens $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, $f$ may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1(i)]\to p[i]$, without any additional restrictions.
-This characterization can be expressed entirely in the language of positions and directions: $f_\1$ is a function from $p$-positions to $q$-positions, while $f^\sharp_i$ for a $p$-position $i$ is a function from $q[f_\1(i)]$-directions to $p[i]$-directions.
+We have now greatly simplified our characterization of a dependent lens $f\colon p\to q$: rather than infinitely many functions satisfying infinitely many naturality conditions, $f$ may simply be specified by a function $f_\1\colon p(\1)\to q(\1)$ and, for each $i\in p(\1)$, a function $f^\sharp_i\colon q[f_\1i]\to p[i]$, without any additional restrictions.
+This characterization can be expressed entirely in the language of positions and directions: $f_\1$ is a function from $p$-positions to $q$-positions, while $f^\sharp_i$ for a $p$-position $i$ is a function from $q[f_\1i]$-directions to $p[i]$-directions.
 This leads to the following definition.
 
 \begin{definition}[On-positions function, on-directions map and function]
   Given a lens $f\colon p\to q$, let $(f_\1, f^\sharp)$ denote the pair identified with $f$ via \cref{prop.lens-prod-sum}.
   Then we call the function $f_\1\colon p(\1)\to q(\1)$ the \emph{(forward) on-positions function of $f$}, while we call the natural transformation $f^\sharp\colon q[f_\1(-)]\to p[-]$ the \emph{(backward) on-directions map of $f$}.
-  For $i\in p(\1)$, we call the $i$-component $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ of $f^\sharp$ the \emph{(backward) on-directions function of $f$ at $i$}.
+  For $i\in p(\1)$, we call the $i$-component $f^\sharp_i\colon q[f_\1i]\to p[i]$ of $f^\sharp$ the \emph{(backward) on-directions function of $f$ at $i$}.
 \end{definition}
 
 The above definition highlights the bidirectional nature of a lens $f\colon p\to q$: it consists of a function going \textit{forward} on positions, following the direction of $f$ from $p$ to $q$, as well as functions going \textit{backward} on directions, opposing the direction of $f$ from $q$ to $p$.
@@ -2013,8 +2011,8 @@ Here is our first example of a dependent lens and a real-world interaction it mi
 More generally, a lens depicts what we call an \emph{interaction protocol}, a kind of dialogue between two agents regarding their positions and directions.
 Say that one agent is represented by a polynomial $p$ and another by a polynomial $q$.
 Then a lens $f\colon p\to q$ is an interaction protocol that prescribes how the positions of $p$ influence the positions of $q$ and how the directions of $q$ influence the directions of $p$.
-Each $p$-position $i\in p(\1)$ is passed forward via the on-positions function of $f$ to a $q$-position $f_\1(i)\in q(\1)$.
-Then each $q[f_\1(i)]$-direction $b$ is passed backward via the on-directions function of $f$ at $i$ to a $p[i]$-direction $f^\sharp_i(b)$.
+Each $p$-position $i\in p(\1)$ is passed forward via the on-positions function of $f$ to a $q$-position $f_\1i\in q(\1)$.
+Then each $q[f_\1i]$-direction $b$ is passed backward via the on-directions function of $f$ at $i$ to a $p[i]$-direction $f^\sharp_ib$.
 
 To visualize these lenses, we may use either our corolla forests or our polyboxes.
 
@@ -2262,7 +2260,7 @@ Once all the boxes are filled, we obtain the following:
   \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
 \end{tikzpicture}
 \]
-Here $j\coloneqq f_\1(i)$ and $a\coloneqq f^\sharp_i(b)$.
+Here $j\coloneqq f_\1i$ and $a\coloneqq f^\sharp_ib$.
 So a lens is any protocol that will fill the remaining boxes once the user fills the blue boxes, following the directions of the arrows drawn.
 Be careful: although the arrow $f^\sharp$ is drawn from the codomain's direction box, it also takes into account what is entered into the domain's position box previously.
 After all, the on-directions map of a lens is dependent on both a position of the domain and a direction of the codomain.
@@ -2465,7 +2463,7 @@ The following exercises provides some alternative formulas for the set of lenses
 \end{equation}
 \item \label{exc.practice_sum_prod.useful} Show that the following are isomorphic:
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\iso\sum_{f_\1\colon p(\1)\to q(\1)}\,\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg).
+	\poly(p,q)\iso\sum_{f_\1\colon p(\1)\to q(\1)}\,\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1i = j}}p[i]\Bigg).
 	\end{equation}
 \item Using the language of positions and directions, describe how an element of the right hand side of \eqref{eqn.useful_misc472} corresponds to a lens $p\to q$.
 \qedhere
@@ -2487,15 +2485,15 @@ Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
 \item By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
-    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_\1(i)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
-    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
-    &\iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
+    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_\1i]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
+    &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_\1i = j}} p[i]^{q[j]} \tag{$\ast$} \\
+    &\iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1i = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_\1\colon p(\1)\to q(\1)$, its domain $p(\1)$ can be written as the disjoint union of preimages $f_\1\inv(j) = \{i \in p(1) \mid f_\1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_\1\colon p(\1)\to q(\1)$, its domain $p(\1)$ can be written as the disjoint union of preimages $f_\1\inv(j) = \{i \in p(1) \mid f_\1i = j\}$ for each $j \in q(\1)$.
 
 \item To explain how an element of the set
 \[
-	D_{p,q} \coloneqq \sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg)
+	D_{p,q} \coloneqq \sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1i = j}}p[i]\Bigg)
 \]
 corresponds to a lens $p\to q$, we first give the instructions for choosing an element of $D_{p,q}$ as a nested list.
 \begin{quote}
@@ -2506,7 +2504,7 @@ To choose an element of $D_{p,q}$:
     \begin{longenum}
         \item for each element of $q[j]$:
         \begin{longenum}
-            \item for each element $i \in p(\1)$ satisfying $f_\1(i) = j$:
+            \item for each element $i \in p(\1)$ satisfying $f_\1i = j$:
             \begin{longenum}
                 \item choose an element of $p[i]$.
             \end{longenum}
@@ -2561,7 +2559,7 @@ Thus we get a canonical lens $\dot{p}\yon\to p$, because we have an isomorphism
 This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride2001derivative} and \cite{abbott2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted as something like a lens from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1(i)=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
+A morphism $f\colon p\to \dot{q}$ can be interpreted as something like a lens from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1i=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
 \end{example}
 
 \begin{exercise} \label{exc.deriv_directions}
@@ -2634,7 +2632,7 @@ Here $p, q \in \poly$.
 We now know that we can specify a morphism $p\to q$ in $\poly$ in two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
-    \item in the language of positions and directions, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
+    \item in the language of positions and directions, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1i] \to p[i]$.
 \end{itemize}
 But how are these two formulations related?
 Given the data of a lens and that of a natural transformation between polynomials, how can we tell if they correspond to the same morphism?
@@ -2651,19 +2649,19 @@ Then the isomorphism in \eqref{eqn.main_formula} identifies $(f_\1,f^\sharp)$ wi
 \]
 with $i\in p(\1)$ and $g\colon p[i]\to X$ to
 \[
-    (f_\1(i),f^\sharp_i\then g)\in\sum_{j\in q(\1)}X^{q[j]}\iso q(X).
+    (f_\1i,f^\sharp_i\then g)\in\sum_{j\in q(\1)}X^{q[j]}\iso q(X).
 \]
 \end{proposition}
 \begin{proof}
-As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ is equivalently an $I$-indexed family of pairs $((f_\1(i),f^\sharp_i))_{i\in I}$, where each pair $(f_\1(i),f^\sharp_i)$ is an element of
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ is equivalently an $I$-indexed family of pairs $((f_\1i,f^\sharp_i))_{i\in I}$, where each pair $(f_\1i,f^\sharp_i)$ is an element of
 \[
     \sum_{j\in q(\1)}p[i]^{q[j]}\iso q(p[i]).
 \]
-By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i])\iso\poly(\yon^{p[i]}, q)$; and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1(i), f^\sharp_i)$ to the natural transformation $f^i\colon\yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X\colon X^{p[i]}\to q(X)$ given by sending $g\colon p[i]\to X$ to
+By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i])\iso\poly(\yon^{p[i]}, q)$; and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1i, f^\sharp_i)$ to the natural transformation $f^i\colon\yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X\colon X^{p[i]}\to q(X)$ given by sending $g\colon p[i]\to X$ to
 \begin{align*}
-    q(g)(f_\1(i), f^\sharp_i) &= \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1(i), f^\sharp_i) \tag{\cref{cor.sum_prod_set_endofuncs}} \\
-    &= \left(f_\1(i), g^{q[f_\1(i)]}(f^\sharp_i)\right) \tag{\cref{def.sum-prod-func} and \cref{exc.sum-prod-func}} \\
-    &= (f_\1(i), f^\sharp_i\then g) \tag{\cref{def.representable}}.
+    q(g)(f_\1i, f^\sharp_i) &= \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1i, f^\sharp_i) \tag{\cref{cor.sum_prod_set_endofuncs}} \\
+    &= \left(f_\1i, g^{q[f_\1i]}(f^\sharp_i)\right) \tag{\cref{def.sum-prod-func} and \cref{exc.sum-prod-func}} \\
+    &= (f_\1i, f^\sharp_i\then g) \tag{\cref{def.representable}}.
 \end{align*}
 Then the $p(\1)$-indexed family of natural transformations $(f^i)_{i\in p(\1)}$ is an element of
 \[
@@ -2789,12 +2787,12 @@ In particular, it justifies the notation $f_\1$ for the on-positions function of
 Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
 Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens whose on-positions function $f_\1\colon p(\1)\to q(\1)$ is the $\1$-component of $f$ and whose on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$ satisfies, for all $i\in p(\1)$,
 \[
-    (f_\1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
+    (f_\1i, f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
 \]
 \end{corollary}
 \begin{proof}
-By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\1)\to q(\1)$ sending every $i \in p(\1)$ to $f_\1(i) \in q(\1)$, so the on-positions function $f_\1$ is indeed equal to the $\1$-component of $f$.
-Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ of $f$ sends $(i,\id_{p[i]})\in p(p[i])$ to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
+By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\1)\to q(\1)$ sending every $i \in p(\1)$ to $f_\1i \in q(\1)$, so the on-positions function $f_\1$ is indeed equal to the $\1$-component of $f$.
+Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ of $f$ sends $(i,\id_{p[i]})\in p(p[i])$ to $(f_\1i, f^\sharp_i \then \id_{p[i]}) = (f_\1i, f^\sharp_i)$.
 \end{proof}
 
 %-------- Section --------%
@@ -2809,12 +2807,12 @@ For instance, given a polynomial $p$, its identity lens should correspond to the
 \begin{exercise}[Identity lenses] \label{exc.arena_morph_id}
 For $p\in\poly$, let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X\colon p(X)\to p(X)$ for $X\in\smset$ is the identity function on $p(X)$; that is, $(\id_p)_X=\id_{p(X)}$.
 
-Use \cref{cor.morph_func_to_arena} to show that the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ and the on-directions functions $(\id_p)^\sharp_i\colon p[(\id_p)_\1(i)]\to p[i]$ for $i\in p(\1)$ of $\id_p$ are all identity functions.
+Use \cref{cor.morph_func_to_arena} to show that the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ and the on-directions functions $(\id_p)^\sharp_i\colon p[(\id_p)_\1i]\to p[i]$ for $i\in p(\1)$ of $\id_p$ are all identity functions.
 \begin{solution}
 Fix $i\in p(\1)$.
 Since the $p[i]$-component $(\id_p)_{p[i]}$ of $\id_p$ is the identity function on $p(p[i])$, by \cref{cor.morph_func_to_arena},
 \[
-    ((\id_p)_\1(i), (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i,\id_{p[i]}) = (i,\id_{p[i]}).
+    ((\id_p)_\1i, (\id_p)^\sharp_i) = (\id_p)_{p[i]}(i,\id_{p[i]}) = (i,\id_{p[i]}).
 \]
 Hence the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ maps every $i\in p(\1)$ to itself, so it is an identity function; and each on-directions function $(\id_p)^\sharp_i\colon p[i]\to p[i]$ is equal to $\id_{p[i]}$.
 \end{solution}
@@ -2825,15 +2823,15 @@ Similarly, we may deduce how two lenses compose by translating them to natural t
 \begin{exercise}[Composing lenses] \label{exc.arena_morph_comp}
 For $p,q,r\in\poly$, let $f\colon p\to q$ and $g\colon q\to r$ be natural transformations, and let $h\coloneqq f\then g$ be their composite, whose $X$-component $h_X\colon p(X)\to r(X)$ for $X\in\smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X=f_X\then g_X$.
 
-Use \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1(i)}\then f^\sharp_i$.
+Use \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1i}\then f^\sharp_i$.
 \begin{solution}
 Fix $i\in p(\1)$.
 By By \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena},
 \begin{align*}
-    (h_\1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \tag{\cref{cor.morph_func_to_arena}} \\
+    (h_\1i, h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \tag{\cref{cor.morph_func_to_arena}} \\
     &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
-    &= g_{p[i]}(f_\1(i), f^\sharp_i) \tag{\cref{cor.morph_func_to_arena}} \\
-    &= (g_\1(f_\1(i)), g^\sharp_{f_\1(i)} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
+    &= g_{p[i]}(f_\1i, f^\sharp_i) \tag{\cref{cor.morph_func_to_arena}} \\
+    &= (g_\1f_\1i, g^\sharp_{f_\1i} \then f^\sharp_i). \tag{\cref{prop.morph_arena_to_func}}
 \end{align*}
 \end{solution}
 \end{exercise}
@@ -2861,8 +2859,8 @@ commutes in $\poly$ if and only if the forward on-positions diagram
 commutes in $\smset$ and, for each $i \in p(\1)$, the backward on-directions diagram
 \[
 \begin{tikzcd}
-    p[i] & q[f_\1(i)] \ar[l, "f^\sharp_i"'] \\
-    & r[h_\1(i)] \ar[u, "g^\sharp_{f_\1(i)}"'] \ar[ul, "h^\sharp_i"]
+    p[i] & q[f_\1i] \ar[l, "f^\sharp_i"'] \\
+    & r[h_\1i] \ar[u, "g^\sharp_{f_\1i}"'] \ar[ul, "h^\sharp_i"]
 \end{tikzcd}
 \]
 commutes in $\smset$.
@@ -2896,13 +2894,13 @@ In order for \eqref{eqn.coprod_univ_prop} to commute, it must commute on positio
 \end{equation}
 But since $p(1)+q(\1)$ along with the inclusions $\iota_\1$ and $\kappa_\1$ form the coproduct of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.coprod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_\1(i)$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_\1(j)$.
+In particular, it must send each $(1,i) \in p(\1)+q(\1)$ with $i \in p(\1)$ to $f_\1i$ and each $(2,j) \in p(\1)+q(\1)$ with $j \in q(\1)$ to $g_\1j$.
 
 Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $i\in p(\1)$ and $j \in q(\1)$, the following diagrams of sets must commute:
 \begin{equation} \label{eqn.coprod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
 	p[i] & (p+q)[(1,i)] \ar[l, "\iota^\sharp_i"'] & (p+q)[(2,j)] \ar[r, "\kappa^\sharp_j"] & q[j] \\
-	& r[f_\1(i)] \ar[ul, "f^\sharp_i"] \ar[u, "h^\sharp_{(1,i)}"', dashed] & r[g_\1(j)] \ar[u, "h^\sharp_{(2,j)}", dashed] \ar[ur, "g^\sharp_j"']
+	& r[f_\1i] \ar[ul, "f^\sharp_i"] \ar[u, "h^\sharp_{(1,i)}"', dashed] & r[g_\1j] \ar[u, "h^\sharp_{(2,j)}", dashed] \ar[ur, "g^\sharp_j"']
 \end{tikzcd}
 \end{equation}
 But $(p+q)[(1,i)] \iso p[i]$ and $\iota^\sharp_i$ is the identity, so we must have $h^\sharp_{(1,i)} = f^\sharp_i$.
@@ -2913,9 +2911,8 @@ As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eq
 \end{solution}
 \end{exercise}
 
-% TODO: lens composition via polyboxes
-
-% TODO: integrate the following (smth about now we can check commutativity in Poly, we can define functors to it)
+Now that we know how lens composition works in $\poly$, we have a better handle on how it behaves categorically.
+For instance, we can verify functoriality in $\poly$, as in the following exercise.
 
 \begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
@@ -2959,6 +2956,79 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+We can visualize lens composition using polyboxes.
+Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
+\[
+\begin{tikzpicture}[polybox, tos]
+  \node[poly, dom, "$p$" below] (p) {};
+
+  \node[poly, right=of p, "$q$" below] (q) {};
+
+  \node[poly, cod, right=of q, "$r$" below] (r) {};
+
+  \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+  \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+
+  \draw (q_pos) -- node[below] {$g_\1$} (r_pos);
+  \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
+\end{tikzpicture}
+\]
+The position box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the direction box for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
+This forms a spreadsheet-filling protocol that acts as the polyboxes for $f\then g$.
+
+Again, as we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the direction box of $r$, but also the position box of $q$ that came before it.
+Similarly, the arrow $f^\sharp$ depends on both the position box of $p$ and the direction box of $q$.
+
+On the other hand, the arrow $g_\1$ depends only on the position box of $q$, and not the position box of $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the position box of $p$ may change the position box of $q$, thus affecting what $g_\1$ enters in the position box for $r$; what we mean is that if the position box of $p$ changes but the position box of $q$ does not, $g_\1$ will not change the position box of $r$.)
+For the same reason, the arrow $g^\sharp$ does not depend on the position box of $p$, and the arrow $f^\sharp$ does not depend on either box of $r$.
+The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of.
+Or just remember that these arrows are all on-positions and on-directions functions of lenses!
+
+If we have another lens $h\colon p\to r$, we can interpret the equation $f\then g = h$ by filling in their polyboxes and comparing them:
+\[
+\begin{tikzpicture}
+  \node (1) {
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$p$" below] (p) {$f^\sharp_ig^\sharp_{f_\1i}c$\at$i$};
+
+      \node[poly, right=of p, "$q$" below] (q) {$g^\sharp_{f_\1i}c$\at$f_\1i$};
+
+      \node[poly, cod, right=of q, "$r$" below] (r) {$c\vphantom{f^\sharp_ig^\sharp_{f_\1i}c}$\at$g_\1f_\1i$};
+
+      \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+
+      \draw (q_pos) -- node[below] {$g_\1$} (r_pos);
+      \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
+    \end{tikzpicture}
+  };
+  \node[right=1.8 of 1] (2) {
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$p$" left] (p) {$h^\sharp_ic$\at$i\vphantom{h_\1}$};
+      \node[poly, cod, "$r$" right, right=of p] (q) {$\vphantom{h^\sharp_i}c$\at$h_\1i$};
+      \draw (p_pos) -- node[below] {$h_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$h^\sharp$} (p_dir);
+    \end{tikzpicture}
+  };
+  \node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+
+\begin{remark}
+  At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc.\ without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
+  We choose to elide this issue to highlight the pictorial intuition of our work, rather than grinding through the nitty-gritty details.
+  This is not to say our work with polyboxes will lack rigor moving forward---if you're particularly worried, you should think of polyboxes simply as an alternate way to present information about indexed families of sets, dependent functions, and sum and product sets that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
+
+  For example, given lenses $f\colon p\to q$ and $g\colon q\to r$, the polyboxes above really do just represent the element of the set
+  \[
+  \prod_{i\in p(\1)}\sum_{k\in r(\1)}p[i]^{r[k]}\iso\poly(p,r)
+  \]
+  corresponding to the lens $p\to r$ whose on-positions function $p(\1)\to r(\1)$ is equal to the composite of the on-positions functions $f_\1$ and $g_\1$, and whose on-directions function $r[g_\1f_\1i]\to p[i]$ for each $i\in p(\1)$ is equal to the composite of the on-directions functions $g^\sharp_{f_\1i}$ and $f^\sharp_i$.
+  In other words, it represents the composite lens $f\then g$.
+  But it displays the way lenses pass positions and directions back and forth far more legibly than all the words in this paragraph can.
+  Throughout the rest of this book, we'll see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
+\end{remark}
 
 %-------- Section --------%
 \section{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
@@ -3026,7 +3096,7 @@ The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_
     \lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
   \end{aligned}
 \end{equation}
-Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
+Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1b \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1b$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
 
 So a morphism between two monomials in $\poly$ is just a bimorphic lens.
 Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
@@ -3349,16 +3419,16 @@ In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions
 \end{equation}
 But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\varphi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
 Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $k \in r(\1)$ to the pair $(f_\1(k), g_\1(k)) \in (pq)(\1)$.
+In particular, it must send each $k \in r(\1)$ to the pair $(f_\1k, g_\1k) \in (pq)(\1)$.
 
 Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
 \begin{equation} \label{eqn.prod_univ_prop_dir}
 \begin{tikzcd}[sep=large]
-	r[k] & q[g_\1(k)] \ar[l, "g^\sharp_k"'] \ar[d, "\varphi^\sharp_{(f_\1(k), g_\1(k))}"] \\
-	p[f_\1(k)] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1(k), g_\1(k))}"'] & (pq)[(f_\1(k), g_\1(k))]. \ar[ul, "h^\sharp_k"', dashed]
+	r[k] & q[g_\1k] \ar[l, "g^\sharp_k"'] \ar[d, "\varphi^\sharp_{(f_\1k, g_\1k)}"] \\
+	p[f_\1k] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1k, g_\1k)}"'] & (pq)[(f_\1k, g_\1k)]. \ar[ul, "h^\sharp_k"', dashed]
 \end{tikzcd}
 \end{equation}
-As $(pq)[(f_\1(k), g_\1(k))] \iso p[f_\1(k)] + q[g_\1(k)]$ along with the inclusions $\pi^\sharp_{(f_\1(k), g_\1(k))}$ and $\varphi^\sharp_{(f_\1(k), g_\1(k))}$ form the coproduct of $p[f_\1(k)]$ and $q[g_\1(k)]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
+As $(pq)[(f_\1k, g_\1k)] \iso p[f_\1k] + q[g_\1k]$ along with the inclusions $\pi^\sharp_{(f_\1k, g_\1k)}$ and $\varphi^\sharp_{(f_\1k, g_\1k)}$ form the coproduct of $p[f_\1k]$ and $q[g_\1k]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
 Hence $h$ is also uniquely characterized on directions, so it is unique overall.
 Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
 As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
@@ -3731,7 +3801,7 @@ The category $\poly$ has a symmetric monoidal structure $(\yon,\otimes)$ where $
 \begin{proof}[Sketch of proof]
 Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we need to give a lens $(f\otimes g)\colon (p\otimes q)\to (p'\otimes q')$. On positions, define
 \[
-(f\otimes g)_\1(i,j)\coloneqq \big(f_\1(i),g_\1(j)\big)
+(f\otimes g)_\1(i,j)\coloneqq \big(f_\1i,g_\1j\big)
 \]
 On directions at $(i,j)\in p(\1)\times q(\1)$, define
 \[
@@ -4857,7 +4927,7 @@ We can do this as long as we have a lens $f\colon p\to q$, which we can then com
 We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\varphi$ (or sometimes just $p$, if a dynamical system $\varphi$ has yet to be specified) using $f$.
 
 To see how this new composite system $\varphi\then f$ relates to the original dynamical system $\varphi$, it is best to view $f$ as a delegation of decisions like we did in \cref{???}.
-The lens $f$ converts an output $i$ from $p$ to an output $f_\1(i)$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1(i)]$ instead, via its on-directions function at $i$.
+The lens $f$ converts an output $i$ from $p$ to an output $f_\1i$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1i]$ instead, via its on-directions function at $i$.
 So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
 Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
 
@@ -6447,17 +6517,17 @@ To start, \cref{exc.par_hom_sum} implies that
 where the second isomorphism follows from the universal properties of products and coproducts.
 In particular, under this isomorphism, the identity lens on $\ihom{p,q}$ corresponds to a collection of lenses, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
 \[
-    \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1(i)]} \to \sum_{g \colon q[f_\1(i)] \to p[i]} \yon^{q[f_\1(i)]} \iso (p[i]\yon)^{q[f_\1(i)]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
+    \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1i]} \to \sum_{g \colon q[f_\1i] \to p[i]} \yon^{q[f_\1i]} \iso (p[i]\yon)^{q[f_\1i]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
 \]
-of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1(i)$.
-On positions, this lens picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1(i) \in q(\1)$ and $f^\sharp_i \colon q[f_\1(i)] \to p[i]$; on directions, the lens is the canonical inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
+of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1i$.
+On positions, this lens picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1i \in q(\1)$ and $f^\sharp_i \colon q[f_\1i] \to p[i]$; on directions, the lens is the canonical inclusion $q[f_\1i] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
 
 We can reinterpret each of these lenses as a lens
 \[
     \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
 \]
-that, on positions, picks out the position $f_\1(i) \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1(i)] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ and the inclusion $q[f_\1(i)] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
-Then by the universal property of coproducts, this collection of lenses induces a single lens $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1(i)$ of $q$, with the same behavior on directions as the corresponding lens described previously.
+that, on positions, picks out the position $f_\1i \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1i] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1i] \to p[i]$ and the inclusion $q[f_\1i] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
+Then by the universal property of coproducts, this collection of lenses induces a single lens $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1i$ of $q$, with the same behavior on directions as the corresponding lens described previously.
 \end{solution}
 \end{exercise}
 
@@ -6836,13 +6906,13 @@ We have the following chain of natural isomorphisms:
 \section{Epi-mono factorization of lenses}
 
 \begin{proposition}\label{prop.monics_in_poly}
-Let $f \colon p \to q$ be a lens in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1(i)]\to p[i]$ is an epimorphism in $\smset$.
+Let $f \colon p \to q$ be a lens in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1i]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
 \begin{proof}
 To prove the forward direction, suppose that $f$ is a monomorphism.
 Since $p\mapsto p(\1)$ is a right adjoint (\cref{thm.adjoint_quadruple}), it preserves monomorphisms, so the on-positions function $f_\1$ is also a monomorphism.
 
-We now need to show that for any $i\in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$ is an epimorphism.
+We now need to show that for any $i\in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1i] \to p[i]$ is an epimorphism.
 Suppose we are given a set $A$ and a pair of functions $g^\sharp,h^\sharp\colon p[i]\tto A$ with $f^\sharp_i \then g^\sharp = f^\sharp_i \then h^\sharp$.
 Then there exist lenses $g,h \colon \yon^A \tto p$ whose on-positions functions both pick out $i$ and whose on-directions functions are $g^\sharp$ and $h^\sharp$, so that $g \then f = h \then f$.
 As $f$ is a monomorphism, $g = h$; in particular, their on-directions functions $g^\sharp$ and $h^\sharp$ are equal, as desired.
@@ -6850,7 +6920,7 @@ As $f$ is a monomorphism, $g = h$; in particular, their on-directions functions 
 Conversely, suppose that $f_\1$ is a monomorphism and that, for each $i\in p(\1)$, the function $f^\sharp_i$ is an epimorphism.
 Let $r$ be a polynomial and $g,h\colon r\tto p$ be two lenses such that $g \then f = h \then f$.
 Then $g_\1 \then f_\1 = h_\1 \then f_\1$, which implies $g_\1 = h_\1$; we'll consider $g_\1$ the default representation.
-We also have that $f^\sharp_{g_\1(k)} \then g^\sharp_k = f^\sharp_{g_\1(k)} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_\1(k)}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
+We also have that $f^\sharp_{g_\1k} \then g^\sharp_k = f^\sharp_{g_\1k} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_\1k}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
 \end{proof}
 
 \begin{example}\label{ex.clock_in_N}
@@ -6860,7 +6930,7 @@ f \colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
 \]
 such that the trajectory ``going around and around the $k$-clock'' comes from the usual counting trajectory $\nn\yon^\nn\to\yon$ from \cref{ex.counting_trajectory}.
 
-On positions, we have $f_\1(i)=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
+On positions, we have $f_\1i=i$ for all $i \in \ord{k}$. On directions, for any $i \in \ord{k}$, we have $f^\sharp_i(n) = n \mod k$ for all $n \in \nn$.
 \end{example}
 
 \begin{exercise}
@@ -6870,8 +6940,8 @@ Explain how the behavior of the new system $\1\2\yon^{\1\2}\to p$ would be seen 
 \begin{solution}
 We are given a monomorphism $f \colon \1\2\yon^{\1\2} \to \nn\yon^\nn$ from \cref{ex.clock_in_N}.
 Let $g \colon \nn\yon^\nn \to p$ be a dynamical system with return function $g_\1 \colon \nn \to p(\1)$ and update functions $g^\sharp_n \colon p[g_\1(n)] \to \nn$ for each state $n \in \nn$.
-Then the new composite dynamical system $h \coloneqq f \then g$ has a return function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1(i) = g_\1(f_\1(i)) = g_\1(i)$, the same output that the original system returned in the state $i \in \nn$.
-Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1(i)] \to \1\2$ which, given an input $a \in p[g_\1(i)]$, updates the state from $i$ to $h^\sharp_i(a) = f^\sharp_{g_\1(i)}(g^\sharp_i(a)) = g^\sharp_i(a) \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
+Then the new composite dynamical system $h \coloneqq f \then g$ has a return function $h_\1 \colon \1\2 \to p(\1)$ which sends each state $i \in \1\2$ to the output $h_\1i = g_\1f_\1i = g_\1i$, the same output that the original system returned in the state $i \in \nn$.
+Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sharp_i \colon p[g_\1i] \to \1\2$ which, given an input $a \in p[g_\1i]$, updates the state from $i$ to $h^\sharp_ia = f^\sharp_{g_\1i}(g^\sharp_ia) = g^\sharp_ia \mod 12$, which is where the original system would have taken the same state to, but reduced modulo 12.
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead.
 \end{solution}
 \end{exercise}
@@ -6879,7 +6949,7 @@ In other words, the new system behaves like the old system but with only the sta
 \begin{proposition}\label{prop.epis_in_poly}
 Let $f \colon p \to q$ be a lens in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
 \[
-    f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_\1(i)=j}} p[i]
+    f^\flat_j \colon q[j] \to \prod_{\substack{i\in p(\1), \\ f_\1i=j}} p[i]
 \]
 from \eqref{eqn.useful_misc472} is a monomorphism.
 \end{proposition}
@@ -6898,11 +6968,11 @@ As $f$ is an epimorphism, $g = h$; in particular, their on-directions functions 
 Conversely, suppose that $f_\1$ is an epimorphism and that, for each $j\in q(\1)$, the function $f^\flat_j$ is a monomorphism.
 Let $r$ be a polynomial and $g,h\colon q\tto r$ be two lenses such that $f \then g = f \then h$.
 Then $f_\1 \then g_\1 = f_\1 \then h_\1$, which implies $g_\1=h_\1$; we'll consider $g_\1$ the default representation.
-We also have that $g^\sharp_{f_\1(i)} \then f^\sharp_i = h^\sharp_{f_\1(i)} \then f^\sharp_i$ for any $i\in p(\1)$.
+We also have that $g^\sharp_{f_\1i} \then f^\sharp_i = h^\sharp_{f_\1i} \then f^\sharp_i$ for any $i\in p(\1)$.
 It follows that, for any $j \in q(\1)$, the two composites
 \[
 \begin{tikzcd}
-	r[g_\1(j)] \ar[r, shift left, "g^\sharp_j"] \ar[r, shift right, "h^\sharp_j"'] & q[j] \ar[r, "f^\flat_j"] & \displaystyle\prod_{\substack{i\in p(\1), \\ f_\1(i)=j}} p[i]
+	r[g_\1j] \ar[r, shift left, "g^\sharp_j"] \ar[r, shift right, "h^\sharp_j"'] & q[j] \ar[r, "f^\flat_j"] & \displaystyle\prod_{\substack{i\in p(\1), \\ f_\1i=j}} p[i]
 \end{tikzcd}
 \]
 are equal, which implies that $g^\sharp_j=h^\sharp_j$ as desired.
@@ -6951,12 +7021,12 @@ We claim that $f$ is an isomorphism.
 By \cref{prop.monics_in_poly} and \cref{prop.epis_in_poly}, the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is both a monomorphism and an epimorphism, so it is an isomorphism.
 Meanwhile, \cref{prop.epis_in_poly} says that, for each $j \in q(\1)$, the induced function
 \[
-    f^\flat_j \colon q[j] \to \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]
+    f^\flat_j \colon q[j] \to \prod_{\substack{i \in p(\1), \\ f_\1i = j}} p[i]
 \]
 is a monomorphism.
 As $f_\1$ is an isomorphism, it follows that for each $i \in p(\1)$, the function
 \[
-    f^\flat_{f_\1(i)} \colon q[f_\1(i)] \to p[i]
+    f^\flat_{f_\1i} \colon q[f_\1i] \to p[i]
 \]
 is a monomorphism.
 But this is just the on-directions function $f^\sharp_i$ of $f$.
@@ -7147,9 +7217,9 @@ More precisely, let $f,g \colon p \tto q$ be two lenses.
 We construct the equalizer $p'$ of $f$ and $g$ as follows.\footnote{If we're being precise, a ``(co)equalizer'' is an object equipped with a morphism, but we will use the term to refer to either just the object or just the morphism when the context is clear.}
 We define its position-set $p'(\1)$ to be the equalizer of $f_\1,g_\1 \colon p(\1) \tto q(\1)$ in $\smset$; that is,
 \[
-    p'(\1) \coloneqq \{i \in p(\1) \mid f_\1(i) = g_\1(i)\}.
+    p'(\1) \coloneqq \{i \in p(\1) \mid f_\1i = g_\1i\}.
 \]
-Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$.
+Then for each $i \in p'(\1)$, we can define the direction-set $p'[i]$ to be the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1i] \tto p[i]$.
 In this way, we obtain a polynomial $p'$ that comes equipped with a lens $e \colon p' \to p$.
 One can check that $p'$ together with $e$ satisfies the universal property of the equalizer of $f$ and $g$; see \cref{exc.poly_limits}.
 \end{proof}
@@ -7167,7 +7237,7 @@ Complete the proof of \cref{thm.poly_limits} as follows:
     \item The lens $e \colon p' \to p$ can be characterized as follows.
     The on-positions function $e_\1 \colon p'(\1) \to p(\1)$ is the equalizer of $f_\1, g_\1 \colon p(\1) \tto q(\1)$ in $\smset$.
     In particular, $e_\1$ is the canonical inclusion that sends each element of $p'(\1)$ to the same element in $p(\1)$.
-    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1(i)] \tto p[i]$ in $\smset$.
+    Then for each $i \in p'(\1)$, the on-directions function $e^\sharp_i \colon p[i] \to p'[i]$ is the coequalizer of $f^\sharp_i, g^\sharp_i \colon q[f_\1i] \tto p[i]$ in $\smset$.
 
     \item To show that $e \then f = e \then g$, it suffices to show that both sides are equal on positions and on directions.
     On positions, $e_\1$ is defined to be the equalizer of $f_\1$ and $g_\1$, so $e_\1 \then f_\1 = e_\1 \then g_\1$.
@@ -7231,7 +7301,7 @@ Given $q,q',r \in \poly$ and lenses $q\To{f} r\From{f'} q'$, the pullback
 \]
 is given as follows.
 The position-set of $p$ is the pullback of the position-sets of $q$ and $q'$ over that of $r$ in $\smset$.
-Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_\1(i)=f'_\1(i')$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_\1(i)]=r[f_\1'(i')]$ in $\smset$.
+Then at each position $(i, i') \in p(\1) \ss q(\1) \times q'(\1)$ with $f_\1i=f'_\1i'$, we take the direction-set $p[(i, i')]$ to be the pushout of the direction-sets $q[i]$ and $q'[i']$ over $r[f_\1i]=r[f_\1'i']$ in $\smset$.
 These pullback and pushout squares also give the lenses $g$ and $g'$ on positions and on directions:
 \begin{equation}\label{eqn.pullback_poly}
 \begin{tikzcd}
@@ -7312,7 +7382,7 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
     \item We compute the pullback $p$ along with the lenses $g \colon p \to q$ and $g' \colon p \to q'$ of $q\To{f} r\From{f'} q'$ by following \cref{ex.pullbacks_in_poly}.
     We can compute $p(\1)$ by taking the pullback in $\smset$:
     \[
-        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \mid f_\1(i) = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
+        p(\1) \coloneqq \{(i, i') \in \2 \times \3 \mid f_\1i = f'_\1(i)\} = \{(1,1), (2,2), (2,3)\}.
     \]
     Moreover, the on-positions functions $g_\1$ and $g'_\1$ send each pair in $p(\1)$ to its left component and its right component, respectively.
 
@@ -7346,10 +7416,10 @@ Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item By \cref{prop.morph_arena_to_func}, $f_X$ (resp.\ $g_X$) sends each $(i,h)\in p(X)$ with $i\in p(\1)$ and $h\colon p[i]\to X$ to $(f_\1(i), f^\sharp_i\then h)$ (resp.\ $(g_\1(i), g^\sharp_i\then h)$) in $q(X)$.
-    So the equalizer of $f_X$ and $g_X$ is the set of all $(i,h)\in p(X)$ for which both $f_\1(i) = g_\1(i)$ and $f^\sharp_i\then h = g^\sharp_i\then h$.
+    \item By \cref{prop.morph_arena_to_func}, $f_X$ (resp.\ $g_X$) sends each $(i,h)\in p(X)$ with $i\in p(\1)$ and $h\colon p[i]\to X$ to $(f_\1i, f^\sharp_i\then h)$ (resp.\ $(g_\1i, g^\sharp_i\then h)$) in $q(X)$.
+    So the equalizer of $f_X$ and $g_X$ is the set of all $(i,h)\in p(X)$ for which both $f_\1i = g_\1i$ and $f^\sharp_i\then h = g^\sharp_i\then h$.
 
-    Indeed, by our construction of $p'$, the set $p'(X)$ consists of all pairs $(i,h')$ with $i\in p(\1)$ such that $f_\1(i) = g_\1(i)$ and $h'\colon p'[i]\to X$, where $p'[i]$ is the coequalizer of $f^\sharp_i,g^\sharp_i\colon q[f_\1(i)]\tto p[i]$.
+    Indeed, by our construction of $p'$, the set $p'(X)$ consists of all pairs $(i,h')$ with $i\in p(\1)$ such that $f_\1i = g_\1i$ and $h'\colon p'[i]\to X$, where $p'[i]$ is the coequalizer of $f^\sharp_i,g^\sharp_i\colon q[f_\1i]\tto p[i]$.
     By the universal property of the coequalizer, functions $h'\colon p'[i]\to X$ precisely correspond to functions $h\colon p[i]\to X$ for which $f^\sharp_i\then h = g^\sharp_i\then h$.
     So $p'(X)$ is indeed the equalizer of $f_X$ and $g_X$.
 
@@ -7609,7 +7679,7 @@ Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as 
 	|[alias=set]|\smset\ar[from=equal, to=set, pos=.3, phantom, "\overset{f^\sharp}{\Leftarrow}"]
 \end{tikzcd}
 \]
-We can see that the intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1(i)]}$ is unique up to unique isomorphism.
+We can see that the intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1i]}$ is unique up to unique isomorphism.
 \end{proof}
 
 \begin{proposition}
@@ -7622,8 +7692,8 @@ Given $h = f \then g$, we have that $h_\1 = f_\1 \then g_\1$.
 Since isomorphisms satisfy 2-out-of-3, it follows that vertical lenses satisfy 2-out-of-3 as well.
 
 Now assume $g$ is cartesian.
-On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_\1(i)} \then f^\sharp_i$.
-Since $g^\sharp_{f_\1(i)}$ is an isomorphism, it follows that every $h^\sharp_i$ is an isomorphism if and only if every $f^\sharp_i$ is an isomorphism, so $h$ is cartesian if and only if $f$ is cartesian.
+On directions, $h = f \then g$ implies that for every $i \in p(\1)$, we have $h^\sharp_i = g^\sharp_{f_\1i} \then f^\sharp_i$.
+Since $g^\sharp_{f_\1i}$ is an isomorphism, it follows that every $h^\sharp_i$ is an isomorphism if and only if every $f^\sharp_i$ is an isomorphism, so $h$ is cartesian if and only if $f$ is cartesian.
 \end{proof}
 
 \begin{exercise}
@@ -7649,9 +7719,9 @@ A lens $(f_\1,f^\sharp)\colon p\to q$ can then be described as a function $f_\1\
 	q(\1)\ar[ul, phantom, very near end, "\lrcorner"]
 \end{tikzcd}
 \end{equation}
-Here, the pullback denoted by the dot $\bullet$ is the set of pairs comprised of a $p$-position $i$ and a $q[f_\1(i)]$-direction $e$.
+Here, the pullback denoted by the dot $\bullet$ is the set of pairs comprised of a $p$-position $i$ and a $q[f_\1i]$-direction $e$.
 The function $f^\sharp$ sends each such pair to a direction $f^\sharp_i(e)$ of $p$, and the commutativity of the left square implies that $f^\sharp_i(e)$ is specifically a $p[i]$-direction.
-So $f^\sharp_i$ is indeed our familiar on-directions function $q[f_\1(i)]\to p[i]$, and $f^\sharp$ is just the sum of all these on-directions functions over $i\in p(\1)$.
+So $f^\sharp_i$ is indeed our familiar on-directions function $q[f_\1i]\to p[i]$, and $f^\sharp$ is just the sum of all these on-directions functions over $i\in p(\1)$.
 
 \begin{exercise} \label{exc.cart_pullbacks}
 Show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is also a pullback:
@@ -7668,8 +7738,8 @@ Show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the squ
 \begin{solution}
 We wish to show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is a pullback.
 We already know that that square commutes, so it is a pullback if and only if $f^\sharp$ is an isomorphism.
-The right pullback square tells us that the $\bullet$ is $\sum_{i\in p(\1)}q[f_\1(i)]$.
-So $f^\sharp_i\colon q[f_\1(i)]\to p[i]$ is an isomorphism for every $i\in p(\1)$ if and only if their sum $f^\sharp\colon\sum_{i\in p(\1)}q[f_\1(i)]\to\sum_{i\in p(\1)}p[i]\iso\dot{p}(\1)$ is an isomorphism as well.
+The right pullback square tells us that the $\bullet$ is $\sum_{i\in p(\1)}q[f_\1i]$.
+So $f^\sharp_i\colon q[f_\1i]\to p[i]$ is an isomorphism for every $i\in p(\1)$ if and only if their sum $f^\sharp\colon\sum_{i\in p(\1)}q[f_\1i]\to\sum_{i\in p(\1)}p[i]\iso\dot{p}(\1)$ is an isomorphism as well.
 Hence $f$ is cartesian if and only if $f^\sharp$ is an isomorphism, as desired.
 \end{solution}
 \end{exercise}
@@ -7745,39 +7815,40 @@ Also fix $i\in p(\1)$.
     \item Show that the diagram
     \begin{equation} \label{eqn.cart_nt_pullback_cone}
         \begin{tikzcd}[column sep=50pt]
-        	\1 \ar[r, "{(f_\1(i),\,\id_{q[f_\1(i)]})}"]\ar[d, "{(i,\,\id_{p[i]})}"']&
-        	q(q[f_\1(i)])\ar[d, "q(f^\sharp_i)"]\\
+        	\1 \ar[r, "{(f_\1i,\,\id_{q[f_\1i]})}"]\ar[d, "{(i,\,\id_{p[i]})}"']&
+        	q(q[f_\1i])\ar[d, "q(f^\sharp_i)"]\\
         	p(p[i])\ar[r, "f_{p[i]}"']&
         	q(p[i])\ar[ul, phantom, very near end, "\lrcorner"]
         \end{tikzcd}
     \end{equation}
     commutes.
     Hint: Use \cref{prop.poly_on_functions}, \cref{prop.morph_arena_to_func}, and/or \cref{cor.morph_func_to_arena}.
-    \item Apply the universal property of the pullback \eqref{eqn.cart_nt_pullback} to the diagram \eqref{eqn.cart_nt_pullback_cone} above to exhibit an element of $p(q[f_\1(i)])$.
+    \item Apply the universal property of the pullback \eqref{eqn.cart_nt_pullback} to the diagram \eqref{eqn.cart_nt_pullback_cone} above to exhibit an element of $p(q[f_\1i])$.
     Conclude from the existence of this element that $f^\sharp_i$ is an isomorphism, hence proving $3\Rightarrow1$.\qedhere
 \end{enumerate}
 \begin{solution}
 First, we will show that $1\Rightarrow3$ in \cref{prop.cart_as_nt}.
 Here $f\colon p\to q$ is a cartesian lens in $\poly$ and $h\colon A\to B$ is a function.
 \begin{enumerate}
-    \item An element of $p(B)$ is a pair comprised of a $p$-position $i$ and a function $k\colon p[i]\to B$, and \cref{prop.morph_arena_to_func} tells us that $f_B\colon p(B)\to q(B)$ sends $(i,k)\mapsto(f_\1(i),f^\sharp_i\then k)$.
+    \item An element of $p(B)$ is a pair comprised of a $p$-position $i$ and a function $k\colon p[i]\to B$, and \cref{prop.morph_arena_to_func} tells us that $f_B\colon p(B)\to q(B)$ sends $(i,k)\mapsto(f_\1i,f^\sharp_i\then k)$.
     Meanwhile, an element of $q(A)$ is a pair comprised of a $q$-position $j$ and a function $\ell\colon q[j]\to A$, and \cref{prop.poly_on_functions} tells us that $q(h)$ sends $(j,\ell)\mapsto(j,\ell\then h)$.
-    So $((i,k),(j,\ell))$ is in the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ if and only if $f_\1(i)=j$ and $f^\sharp_i\then k=\ell\then h$.
+    So $((i,k),(j,\ell))$ is in the pullback of $p(B)\To{f_B}q(B)\From{q(h)}q(A)$ if and only if $f_\1i=j$ and $f^\sharp_i\then k=\ell\then h$.
 
     As $f$ is cartesian, $f^\sharp_i$ is an isomorphism, so we can rewrite the latter equation as $k=g_i\then\ell\then h$, where $g_i$ is the inverse of $f^\sharp_i$.
-    In fact, if we let $\ell'\coloneqq g_i\then\ell$, we observe that the values of $j,k,$ and $\ell$ are all already determined by the values of $i$ and $\ell'$: we have that $j=f_\1(i)$, that $k=\ell'\then h$, and that $\ell=f^\sharp_i\then\ell'$
+    In fact, if we let $\ell'\coloneqq g_i\then\ell$, we observe that the values of $j,k,$ and $\ell$ are all already determined by the values of $i$ and $\ell'$: we have that $j=f_\1i$, that $k=\ell'\then h$, and that $\ell=f^\sharp_i\then\ell'$
     It follows that the pullback is equivalently the set of pairs $(i,\ell')$ comprised of a $p$-position $i$ and a function $\ell'\colon p[i]\to A$ (with no other restrictions on $i$ and $\ell'$).
-    The projection from the pullback to $p(B)$ sends $(i,\ell')\mapsto(i,\ell'\then h)$, and the projection from the pullback to $q(A)$ sends $(i,\ell')\mapsto(f_\1(i),f^\sharp_i\then\ell')$.
+    The projection from the pullback to $p(B)$ sends $(i,\ell')\mapsto(i,\ell'\then h)$, and the projection from the pullback to $q(A)$ sends $(i,\ell')\mapsto(f_\1i,f^\sharp_i\then\ell')$.
     \item The pullback described above---the set of pairs $(i,\ell')$ comprised of a $p$-position $i$ and a function $\ell'\colon p[i]\to A$---is exactly the set $p(A)$.
-    Moreover, the projection to $p(B)$ sending $(i,\ell')\mapsto(i,\ell'\then h)$ is $p(h)$, and the projection to $q(A)$ sending $(i,\ell')\mapsto(f_\1(i),f^\sharp_i\then\ell')$ is $f_A$ by \cref{prop.morph_arena_to_func}.
+    Moreover, the projection to $p(B)$ sending $(i,\ell')\mapsto(i,\ell'\then h)$ is $p(h)$, and the projection to $q(A)$ sending $(i,\ell')\mapsto(f_\1i,f^\sharp_i\then\ell')$ is $f_A$ by \cref{prop.morph_arena_to_func}.
     So \eqref{eqn.cart_nt_pullback} is a pullback, as desired.
 \end{enumerate}
 Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon p\to q$ as a lens in $\poly$ that is a cartesian natural transformation and $i\in p(\1)$.
 \begin{enumerate}[resume]
-    \item By \cref{cor.morph_func_to_arena}, $f_{p[i]}$ sends $(i,\id_{p[i]})\mapsto(f_\1(i),f^\sharp_i)$, and by \cref{prop.poly_on_functions}, $q(f^\sharp_i)$ sends $(f_\1(i),\id_{q[f_\1(i)]})\mapsto(f_\1(i),f^\sharp_i)$ as well, so \eqref{eqn.cart_nt_pullback_cone} commutes.
+    \item By \cref{cor.morph_func_to_arena}, we have that $f_{p[i]}$ sends $(i,\id_{p[i]})\mapsto(f_\1i,f^\sharp_i)$, and by \cref{prop.poly_on_functions}, we have that $q(f^\sharp_i)$ sends $(f_\1i,\id_{q[f_\1i]})\mapsto(f_\1i,f^\sharp_i)$ as well.
+    Hence \eqref{eqn.cart_nt_pullback_cone} commutes.
 
-    \item Taking $A\coloneqq q[f_\1(i)], B\coloneqq p[i],$ and $h\coloneqq f^\sharp_i$ in \eqref{eqn.cart_nt_pullback} and applying its universal property to \eqref{eqn.cart_nt_pullback_cone} induces an element $(i',g)$ of $p(q[f_\1(i)])$, with $i'\in p(\1)$ and $g\colon p[i']\to q[f_\1(i)]$, such that $p(f^\sharp_i)$ sends $(i',g)\mapsto(i,\id_{p[i]})$ and $f_{q[f_\1(i)]}$ sends $(i',g)\mapsto(f_\1(i),\id_{q[f_\1(i)]})$.
-    It follows from the behavior of $p(f^\sharp_i)$ (by \cref{prop.poly_on_functions}) that $i'=i$ and $g\then f^\sharp_i=\id_{p[i]}$, and it follows from the behavior of $f_{q[f_\1(i)]}$ (by \cref{prop.morph_arena_to_func}) that $f^\sharp_i\then g=\id_{q[f_\1(i)}$.
+    \item Taking $A\coloneqq q[f_\1i], B\coloneqq p[i],$ and $h\coloneqq f^\sharp_i$ in \eqref{eqn.cart_nt_pullback} and applying its universal property to \eqref{eqn.cart_nt_pullback_cone} induces an element $(i',g)$ of $p(q[f_\1i])$, with $i'\in p(\1)$ and $g\colon p[i']\to q[f_\1i]$, such that $p(f^\sharp_i)$ sends $(i',g)\mapsto(i,\id_{p[i]})$ and $f_{q[f_\1i]}$ sends $(i',g)\mapsto(f_\1i,\id_{q[f_\1i]})$.
+    It follows from the behavior of $p(f^\sharp_i)$ (by \cref{prop.poly_on_functions}) that $i'=i$ and $g\then f^\sharp_i=\id_{p[i]}$, and it follows from the behavior of $f_{q[f_\1i]}$ (by \cref{prop.morph_arena_to_func}) that $f^\sharp_i\then g=\id_{q[f_\1i}$.
     So $g$ is the inverse of $f^\sharp_i$, proving that $f^\sharp_i$ is an isomorphism, as desired.
 \end{enumerate}
 \end{solution}
@@ -7880,9 +7951,9 @@ $}
 Again, $q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
-	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1(i)\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[f(i)]/\smset)(p'[i'],q'[j'])\\&\cong
-	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_\1(i)=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[j]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1i\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
+	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1i\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[f(i)]/\smset)(p'[i'],q'[j'])\\&\cong
+	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\prod_{\{i\in p(\1)\,\mid\,f_\1i=j\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(q[j]/\smset)(p'[i'],q'[j'])\\&\cong
 	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_\1\inv(j)}e_\1\inv(i)}\;\prod_{i\in f_\1\inv(j)}\;(q[j]/\smset)(p'[i'(i)],q'[j'])\\&\cong
 	\prod_{j\in q(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\, g_\1(j')=j\}}\;\sum_{i'\in\prod_{i\in f_\1\inv(j)}e_\1\inv(i)}\;(q[j]/\smset)\Big(\sum_{i\in f_\1\inv(j)}p'[i'(i)],q'[j']\Big)\\&\cong
 	(\poly/q)(q',f_*p')
