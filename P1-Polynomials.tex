@@ -405,7 +405,7 @@ Though we proved above explicitly that $\smset$ has all small products and copro
 
 We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
 
-\begin{definition}[Categorical sum and product of functions]
+\begin{definition}[Categorical sum and product of functions] \label{def.sum-prod-func}
     Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
     Given a natural transformation $f\colon X\to Y$, i.e.\ an $I$-indexed family of functions $(f_i\colon X_i\to Y_i)_{i\in I}$, its \emph{categorical sum} (or \emph{coproduct}) is the function
     \[
@@ -423,7 +423,7 @@ We have constructed categorical sums and products of sets, but we can also const
     \]
 \end{definition}
 
-\begin{exercise}
+\begin{exercise} \label{exc.sum-prod-func}
     \begin{enumerate}
         \item Show that the categorical sum of functions is the one induced by the universal property of the categorical sum of sets.
         That is, given a set $I$, two $I$-indexed families of sets $X,Y\colon I\to\smset$, and a natural transformation $f\colon X\to Y$, the function $\sum_{i\in I}f_i\colon\sum_{i\in I}X_i\to\sum_{i\in I}Y_i$ that we called the categorical sum is induced by the following composite maps for $j\in J$:
@@ -1571,7 +1571,7 @@ So an element of $p(X)$ is a $p$-position $i$ along with a function $f$ that map
 Equivalently, it is a $p$-corolla along with a function that maps each of its leaves to an element of $X$.
 Then to draw an element $(i,f)\in p(X)$, we simply need to draw the $p$-corolla corresponding to $i$ and label its leaves with elements of $X$ according to $f$.
 
-\begin{example}
+\begin{example} \label{ex.corolla-apply-poly}
     In \cref{ex.corolla-forest}, we drew $p\coloneqq\yon^\2+\2\yon+\1$ as a corolla forest like so:
     \[
     \begin{tikzpicture}[trees]
@@ -2348,18 +2348,18 @@ Our concrete characterization of dependent lenses allows us to enumerate them.
   \end{tikzpicture}
   \]
 
-  How many lenses are there from $p$ to $q$? The first $p$-position can be sent to any $q$-position: 1, 2, 3, or 4. Sending it to 1 would require choosing an on-directions function $q[1]\to p[1]$, or $\4\to\3$; there are $3^4$ of these.
-  Similarly, there are $3^2$ possible on-directions functions $q[2]\to p[1]$ and $3^0$ possible on-directions functions each $q[3]\to p[1]$ and $q[4]\to p[1]$, for a total of $3^4+3^2+3^0+3^0=92$ ways to choose $f_\1(1)$ and $f^\sharp_1$.
+  How many lenses are there from $p$ to $q$? The first $p$-position must be sent to any $q$-position: 1, 2, 3, or 4. Sending it to 1 would require choosing an on-directions function $q[1]\to p[1]$, or $\4\to\3$; there are $3^4$ of these.
+  Similarly, there are $3^2$ possible on-directions functions $q[2]\to p[1]$, as well as $3^0$ on-directions functions $q[3]\to p[1]$ and $3^0$ on-directions functions $q[4]\to p[1]$.
+  Hence there are a total of $3^4+3^2+3^0+3^0=92$ ways to choose $f_\1(1)$ and $f^\sharp_1$.
 
-  The second $p$-position can also be sent to 1, 2, 3, or 4, before sending back directions; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
-  Similarly there are four ways to send the third $p$-position to a $q$-position and send back directions.
+  The second $p$-position must also be sent to 1, 2, 3, or 4 before selecting $f^\sharp_2$; there are $1^4+1^2+1^0+1^0=4$ ways to do this.
+  Identically, there are $4$ ways to choose $f_\1(3)$ and $f^\sharp_3$.
 
   In total, there are $92 \cdot 4 \cdot 4=1472$ lenses $p\to q$.
-
-  Unsurprisingly, this is exactly what is given by \eqref{eqn.main_formula}:
+  This coincides with what we obtain by taking the cardinality of both sides of \eqref{eqn.main_formula} and plugging in our values for $p$ and $q$:
   \begin{align*}
     |\poly(p, q)| &= \prod_{i \in p(\1)} |q(p[i])| \\
-    &= \prod_{i \in p(\1)} |p[i]|^4 + |p[i]|^2 + 2 \\
+    &= \prod_{i\in\3}\left(|p[i]|^4 + |p[i]|^2 + 2\right) \\
     &= (3^4 + 3^2 + 2)(1^4 + 1^2 + 2)^2 \\
     &= 92 \cdot 4^2 = 1472.
   \end{align*}
@@ -2371,14 +2371,14 @@ Our concrete characterization of dependent lenses allows us to enumerate them.
 \begin{exercise}
 For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
 \begin{enumerate}
-	\item Choose a polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
+	\item Choose any polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
 	\item Count all the lenses $\yon^\2\to p$. How many are there?
 	\item Is the previous answer equal to (the cardinality of) $p(\2)$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We let $p \coloneqq \yon^\3 + 1$ (you could have selected others) and draw both $p$ and $\yon^\2$ as corolla forests, labeling each root for convenience.
+    \item We let $p\coloneqq\yon^\3+\1$ (you could have selected others) and draw both $\yon^\2$ and $p$ as corolla forests, labeling each root for convenience.
     \[
     \begin{tikzpicture}[rounded corners]
     	\node (y2) [draw, blue!50!black, "$\yon^\2$" above] {
@@ -2400,84 +2400,81 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
         };
     \end{tikzpicture}
     \]
-    \item We count all the lenses from $\yon^\2$ to $p$.
+
+    \item We count all the lenses from $\yon^\2$ to $p\coloneqq\yon^\3+\1$.
     The unique position of $\yon^\2$ can be sent to either $p$-position.
-    If it is sent to the first $p$-position, then there are $2$ directions of $\yon^\2$ for each of the $3$ directions in $p[1]$ to be sent to, for a total of $2^3 = 8$ lenses.
-    Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position---at which there are no directions, so there is exactly $1$ way to do this.
-    So we have $8 + 1 = 9$ lenses from $\yon^\2$ to $p$.
-    \item Yes, the previous answer is equal to the cardinality of $p(\2)\iso\2^\3+\1\iso\9$.
+    If it is sent to the first $p$-position, then each of the $3$ directions in $p[1]$ must be sent to one of the two directions of $\yon^\2$, for a total of $2^3 = 8$ lenses.
+    Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position, at which there are no directions; so there is exactly $1$ lens that does this.
+    Hence there are $8+1=9$ lenses $\yon^\2\to p$.
+
+    \item Yes, the previous answer is equal to the cardinality of $p(\2)\iso\2^\3+\1\iso\9$, agreeing with the Yoneda lemma.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-For each of the following polynomials $p,q$, compute the number of morphisms $p\to q$.
+For each of the following polynomials $p,q$, compute the number of lenses $p\to q$.
 \begin{enumerate}
-	\item $p=\yon^\3$,\quad $q=\yon^\4$.
-	\item $p=\yon^\3+\1$,\quad $q=\yon^\4$.
-	\item $p=\yon^\3+\1$,\quad $q=\yon^\4+\1$.
-	\item $p=\4\yon^\3+\3\yon^\2+\yon$,\quad $q=\yon$.
-	\item $p=\4\yon^\3$,\quad $q=\3\yon$.
+	\item $p\coloneqq\yon^\3$,\quad $q\coloneqq\yon^\4$.
+	\item $p\coloneqq\yon^\3+\1$,\quad $q\coloneqq\yon^\4$.
+	\item $p\coloneqq\yon^\3+\1$,\quad $q\coloneqq\yon^\4+\1$.
+	\item $p\coloneqq\4\yon^\3+\3\yon^\2+\yon$,\quad $q\coloneqq\yon$.
+	\item $p\coloneqq\4\yon^\3$,\quad $q\coloneqq\3\yon$.
 \qedhere
 \end{enumerate}
 \begin{solution}
-Our goal is to compute the number of natural transformations $p\to q$ for each of the following polynomials $p,q$.
-By \eqref{eqn.main_formula}, we always have
+By \eqref{eqn.main_formula}, we have for all $p,q\in\poly$ that
 \[
-    |\poly(p, q)| = \prod_{i \in p(\1)} |q(p[i])|.
+    |\poly(p,q)| = \prod_{i\in p(\1)}|q(p[i])|.
 \]
 \begin{enumerate}
-	\item If $p=\yon^\3$ and $q=\yon^\4$, then
+	\item If $p\coloneqq\yon^\3$ and $q\coloneqq\yon^\4$, then
 	\[
-	    |\poly(p, q)| = \prod_{i \in \1} |p[i]|^4 = 3^4 = 81.
+	    |\poly(p,q)| = \prod_{i\in\1}|p[i]|^4 = 3^4 = 81.
 	\]
-	\item If $p=\yon^\3+\1$ and $q=\yon^\4$, then
+	\item If $p\coloneqq\yon^\3+\1$ and $q\coloneqq\yon^\4$, then
 	\[
-	    |\poly(p, q)| = \prod_{i \in \2} |p[i]|^4 = 3^4 \cdot 0^4 = 0.
+	    |\poly(p,q)| = \prod_{i\in\2}|p[i]|^4 = 3^4\cdot0^4 = 0.
 	\]
-	\item If $p=\yon^\3+\1$ and $q=\yon^\4+\1$, then
+	\item If $p\coloneqq\yon^\3+\1$ and $q\coloneqq\yon^\4+\1$, then
 	\[
-	    |\poly(p, q)| = \prod_{i \in \2} |p[i]|^4 + 1 = (3^4 + 1)(0^4 + 1) = 82.
+	    |\poly(p,q)| = \prod_{i\in\2}\left(|p[i]|^4+1\right) = (3^4 + 1)(0^4 + 1) = 82.
 	\]
-	\item If $p=\4\yon^\3+\3\yon^\2+\yon$ and $q=\yon$, then
+	\item If $p\coloneqq\4\yon^\3+\3\yon^\2+\yon$ and $q\coloneqq\yon$, then
 	\[
-	    |\poly(p, q)| = \prod_{i \in \8} |p[i]| = 3^4 \cdot 2^3 \cdot 1 = 648.
+	    |\poly(p,q)| = \prod_{i\in\8}|p[i]| = 3^4\cdot2^3\cdot1 = 648.
 	\]
-	\item If $p=\4\yon^\3$ and $q=\3\yon$, then
+	\item If $p\coloneqq\4\yon^\3$ and $q\coloneqq\3\yon$, then
 	\[
-	    |\poly(p, q)| = \prod_{i \in \4} 3|p[i]| = (3 \cdot 3)^4 = 6561.
+	    |\poly(p,q)| = \prod_{i\in\4}3|p[i]| = (3\cdot3)^4 = 6561.
 	\]
 \qedhere
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+The following exercises provides some alternative formulas for the set of lenses between two polynomials.
 
 \begin{exercise}\label{exc.practice_sum_prod}
 \begin{enumerate}
 \item Show that the following are isomorphic:
 \begin{equation}\label{eqn.poly_p_q}
   \poly(p,q)
-  \cong^?
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{a\in p[i]}\1
+  \iso
+  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{a\in p[i]}\1.
 \end{equation}
 \item \label{exc.practice_sum_prod.useful} Show that the following are isomorphic:
 	\begin{equation}\label{eqn.useful_misc472}
-	\poly(p,q)\cong^?\sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg)
+	\poly(p,q)\iso\sum_{f_\1\colon p(\1)\to q(\1)}\,\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg).
 	\end{equation}
-\item Describe in the language of decision-making how any element of the right-hand side of \eqref{eqn.useful_misc472} gives a way of delegating decisions from $p$ to $q$.
+\item Using the language of positions and directions, describe how an element of the right hand side of \eqref{eqn.useful_misc472} corresponds to a lens $p\to q$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{longenum}
-\item We will show that the following isomorphism holds:
+\item By \eqref{eqn.main_formula}, it suffices to show that for all $i\in p(\1)$ and $j\in q(\1)$, we have
 \[
-  \poly(p,q)
-  \cong
-  \prod_{i\in p(\1)}\sum_{j\in q(\1)}\prod_{b\in q[j]}\sum_{a\in p[i]}\1.
-\]
-By \eqref{eqn.main_formula}, it suffices to show that for all $i \in p(\1)$ and $j \in q(\1)$, we have
-\[
-    p[i]^{q[j]} \iso \prod_{b \in q[j]} \sum_{a \in p[i]} \1.
+    p[i]^{q[j]} \iso \prod_{b\in q[j]}\sum_{a\in p[i]}\1.
 \]
 Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}, we have
 \begin{align*}
@@ -2487,24 +2484,20 @@ Indeed, by \eqref{eqn.push_prod_sum_set_indep} and \cref{exc.on_sums_prods_sets}
     &\iso p[i]^{q[j]}.
 \end{align*}
 
-\item We will show that the following isomorphism holds:
-\[
-	\poly(p,q) \iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg).
-\]
-By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
+\item By \eqref{eqn.main_formula} and \eqref{eqn.push_prod_sum_set_indep}, we have
 \begin{align*}
     \poly(p, q) &\iso \prod_{i \in p(\1)} \sum_{j \in q(\1)} p[i]^{q[j]} \tag*{\eqref{eqn.main_formula}} \\
     &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{i \in p(\1)} p[i]^{q[f_\1(i)]} \tag*{\eqref{eqn.push_prod_sum_set_indep}} \\
     &\iso \sum_{f_\1 \colon p(\1) \to q(\1)} \; \prod_{j \in q(\1)} \; \prod_{\substack{i \in p(\1), \\ f_\1(i) = j}} p[i]^{q[j]} \tag{$\ast$} \\
     &\iso \sum_{f_\1\colon p(\1)\to q(\1)} \; \prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg) \tag{Universal property of products}
 \end{align*}
-where ($\ast$) follows from the fact that for any function $f_\1 \colon p(\1) \to q(\1)$, the set $p(\1)$ can be written as the disjoint union of sets of the form $f_\1\inv(j) = \{i \in p(1) \mid f_\1(i) = j\}$ for each $j \in q(\1)$.
+where ($\ast$) follows from the fact that for any function $f_\1\colon p(\1)\to q(\1)$, its domain $p(\1)$ can be written as the disjoint union of preimages $f_\1\inv(j) = \{i \in p(1) \mid f_\1(i) = j\}$ for each $j \in q(\1)$.
 
-\item To explain how the set
+\item To explain how an element of the set
 \[
 	D_{p,q} \coloneqq \sum_{f_\1\colon p(\1)\to q(\1)}\prod_{j\in q(\1)}\smset\Bigg(q[j],\prod_{\substack{i \in p(\1), \\ f_\1(i) = j}}p[i]\Bigg)
 \]
-specifies a way of delegating decisions from $p$ to $q$, we first give the instructions for choosing an element of $D_{p,q}$ as a nested list:
+corresponds to a lens $p\to q$, we first give the instructions for choosing an element of $D_{p,q}$ as a nested list.
 \begin{quote}
 To choose an element of $D_{p,q}$:
 \begin{longenum}
@@ -2521,25 +2514,26 @@ To choose an element of $D_{p,q}$:
     \end{longenum}
 \end{longenum}
 \end{quote}
-So $f_\1$ delegates each of $p$'s menus to one of $q$'s menus.
-Then for every option on every menu $j$ of $q$, we choose an option on each of $p$'s menus that has been delegated to $j$ by $f_\1$.
+So $f_\1$ sends each $p$-position to a $q$-position, as an on-positions function should.
+Then for each $q$-position $j$, each $q[j]$-direction $b$, and each $p$-position $i$ that $f_\1$ sends to $j$, we choose an element of $p[i]$ that $f^\sharp_i\colon q[j]\to p[i]$ assigns to $b$.
+As every $p$-position $i$ is sent to some $q$-position $j$ by $f_\1$, this completely characterizes $f^\sharp_i$ for every $p$-position $i$.
 \end{longenum}
 \end{solution}
 \end{exercise}
 
+In \eqref{eqn.poly_coprod}, we gave an explicit formula for coproducts in $\poly$ inherited from coproducts in $\smset^\smset$, as justified by \cref{prop.poly_coprods}.
+We can now use \eqref{eqn.main_formula} to directly verify that the expression on the right hand side of \eqref{eqn.poly_coprod} satisfies the universal property for the coproduct of polynomials $(p_i)_{i\in I}$ in $\poly$.
+
 \begin{exercise}%\label{exc.poly_coprod}
-Use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
+Use \eqref{eqn.main_formula} to verify that
 \[
-    \poly\left(\sum_{i \in I} p_i, q\right) \iso \prod_{i \in I} \poly(p_i, q)
+    \poly\left(\sum_{(i,j)\in\sum_{i\in I}p_i(\1)}\yon^{p_i[j]}, q\right) \iso \prod_{i \in I}\poly(p_i, q)
 \]
-for all polynomials $(p_i)_{i \in I}$ and $q$, as expected from the universal property of coproducts.
+for all polynomials $(p_i)_{i\in I}$ and $q$.
 \begin{solution}
-Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.poly_coprod} and \eqref{eqn.main_formula} to verify that
+We have
 \begin{align*}
-    \poly\left(\sum_{i \in I} p_i, q\right)
-    &\iso \poly\left(\sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]}, q\right)
-    \tag*{\eqref{eqn.poly_coprod}} \\
-    &\iso \prod_{(i,j) \in \sum_{i \in I} p_i(\1)} q(p_i[j])
+    \poly\left(\sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]}, q\right) &\iso \prod_{(i,j) \in \sum_{i \in I} p_i(\1)} q(p_i[j])
     \tag*{\eqref{eqn.main_formula}} \\
     &\iso \prod_{i \in I} \prod_{j \in p_i(\1)} q(p_i[j]) \\
     &\iso \prod_{i \in I} \poly(p_i, q).
@@ -2547,6 +2541,8 @@ Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we 
 \end{align*}
 \end{solution}
 \end{exercise}
+
+% TODO: move derivative stuff later, to making new polys from old/operations on polys
 
 \begin{example}[Derivatives]\label{ex.derivatives}
 The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
@@ -2633,135 +2629,25 @@ Here $p, q \in \poly$.
 \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
-
-Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
-Here's a picture of $\5\yon^{\1\2}$:
-\[
-\begin{tikzpicture}
-\node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
-	\begin{tikzpicture}[trees, sibling distance=1mm]
-	\foreach \i in {1,...,5}
-	{
-    \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-      child {}
-    ;
-	};
-	\end{tikzpicture}
-};
-\end{tikzpicture}
-\]
-
-The formula for morphisms between these is particularly simple:
-\begin{align*}
-  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
-  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
-  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
-\end{align*}
-It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
-\[
-  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
-  \iso
-  \left\{
-    (f_\1,f^\sharp)
-  \;\middle|\;
-  	\parbox{1.2in}{
-    $
-    \begin{aligned}
-  	  f_\1&\colon B_1\to B_2\\
-  	  f^\sharp&\colon B_1\times A_2\to A_1
-    \end{aligned}
-    $
-  }.
-  \right\}
-\]
-Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
-But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
-
-The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
-This category arises in functional programming.
-The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
-\begin{equation}\label{eqn.bimorphic_lens}
-\begin{aligned}
-	\lensget\coloneqq f_\1 &\colon B_1\to B_2\\
-	\lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
-\end{aligned}
-\end{equation}
-Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
-
-So a morphism between two monomials in $\poly$ is just a bimorphic lens.
-Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
-This is why we refer to these morphisms as \emph{lenses}.
-
-\begin{example} \label{ex.lens_get_put}
-Consider the monomial $S\yon^S$.
-Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
-In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
-Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
-We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
-
-A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
-If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
-Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
-
-But what happens when we string together these decisions into cycles?
-Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
-In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
-\begin{enumerate}
-    \item If your friend chooses to stay put, then you should stay put, too.
-    This is reflected by the equation
-    \[
-        \lensput(s,\lensget(s))=s.
-    \]
-
-    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
-    This is reflected by the equation
-    \[
-        \lensget(\lensput(s,t))=t.
-    \]
-
-    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
-    This is reflected by the equation
-    \[
-        \lensput(\lensput(s,t),t')=\lensput(s,t')
-    \]
-\end{enumerate}
-Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
-But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
-\end{example}
-
-%---- Subsection ----%
-\subsection{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
-We now know that we can specify a morphism $p\to q$ from $\poly$ in two ways:
+%-------- Section --------%
+\section{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
+We now know that we can specify a morphism $p\to q$ in $\poly$ in two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
     \item in the language of positions and directions, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1(i)] \to p[i]$.
 \end{itemize}
 But how are these two formulations related?
-Given the data of a lens and that of a natural transformation between polynomials, how could we tell if they correspond to the same morphism?
+Given the data of a lens and that of a natural transformation between polynomials, how can we tell if they correspond to the same morphism?
 We want to be able to translate between these two languages.
 
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
-The lemma itself is the crux of the proof of \cref{prop.lens-prod-sum}, that these two formulations of morphisms between polynomials are equivalent; so unraveling this proof reveals the translation we seek.
+The lemma itself is the crux of the proof of \cref{prop.lens-prod-sum}, that these two formulations of morphisms between polynomials are equivalent; so unraveling these proofs reveals the translation we seek.
 
 \begin{proposition} \label{prop.morph_arena_to_func}
-Let $p$ and $q$ be polynomial functors, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (i.e.\ an on-positions function), and let $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose every component is a function between their direction-sets (i.e.\ an on-directions function).
-Then the isomorphism in \eqref{eqn.main_formula} sends $(f_\1, f^\sharp)$ to the natural transformation $f\colon p \to q$ whose $X$-component $f_X\colon p(X)\to q(X)$ for $X\in\smset$ sends each
+Given $p,q\in\poly$, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (i.e.\ an on-positions function) and $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose components are functions between their direction-sets (i.e.\ an on-directions map).
+Then the isomorphism in \eqref{eqn.main_formula} identifies $(f_\1,f^\sharp)$ with the natural transformation $f\colon p\to q$ whose $X$-component $f_X\colon p(X)\to q(X)$ for $X\in\smset$ sends each
 \[
-    (i,g)\in\sum_{i'\in p(\1)} X^{p[i']}\iso p(X)
+    (i,g)\in\sum_{i\in p(\1)} X^{p[i]}\iso p(X)
 \]
 with $i\in p(\1)$ and $g\colon p[i]\to X$ to
 \[
@@ -2769,14 +2655,16 @@ with $i\in p(\1)$ and $g\colon p[i]\to X$ to
 \]
 \end{proposition}
 \begin{proof}
-As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ can equivalently be thought of as an $I$-indexed family of pairs $((f_\1(i),f^\sharp_i))_{i\in I}$, where each pair $(f_\1(i),f^\sharp_i)$ is an element of
+As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ is equivalently an $I$-indexed family of pairs $((f_\1(i),f^\sharp_i))_{i\in I}$, where each pair $(f_\1(i),f^\sharp_i)$ is an element of
 \[
     \sum_{j\in q(\1)}p[i]^{q[j]}\iso q(p[i]).
 \]
-By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i]) \iso \poly(\yon^{p[i]}, q)$, and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1(i), f^\sharp_i)$ to the natural transformation $f^i \colon \yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X \colon X^{p[i]} \to q(X)$ given by sending $g \colon p[i] \to X$ to
-\[
-    q(g)(f_\1(i), f^\sharp_i) = \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1(i), f^\sharp_i) = \left(f_\1(i), g^{q[f_\1(i)]}(f^\sharp_i)\right) = (f_\1(i), f^\sharp_i \then g).
-\]
+By the Yoneda lemma (\cref{lemma.yoneda}), we have an isomorphism $q(p[i])\iso\poly(\yon^{p[i]}, q)$; and by the proof of the Yoneda lemma, this isomorphism sends $(f_\1(i), f^\sharp_i)$ to the natural transformation $f^i\colon\yon^{p[i]} \to q$ whose $X$-component is the function $f^i_X\colon X^{p[i]}\to q(X)$ given by sending $g\colon p[i]\to X$ to
+\begin{align*}
+    q(g)(f_\1(i), f^\sharp_i) &= \left(\sum_{j \in q(\1)} g^{q[j]}\right)(f_\1(i), f^\sharp_i) \tag{\cref{cor.sum_prod_set_endofuncs}} \\
+    &= \left(f_\1(i), g^{q[f_\1(i)]}(f^\sharp_i)\right) \tag{\cref{def.sum-prod-func} and \cref{exc.sum-prod-func}} \\
+    &= (f_\1(i), f^\sharp_i\then g) \tag{\cref{def.representable}}.
+\end{align*}
 Then the $p(\1)$-indexed family of natural transformations $(f^i)_{i\in p(\1)}$ is an element of
 \[
   \prod_{i\in p(\1)}\poly(\yon^{p[i]}, q)\iso\poly\left(\sum_{i\in p(\1)}\yon^{p[i]},q\right),
@@ -2786,7 +2674,7 @@ Unwinding this isomorphism, we find that $(f^i)_{i\in I}$ corresponds to the nat
 \end{proof}
 
 \begin{example} \label{ex.morph-corolla-with-labels}
-Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the lens $f \colon p \to q$ depicted below:
+Let us return once more to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq \yon^\4 + \yon^\2 + \2$ from \cref{ex.practice_with_poly_morphisms} and the lens $f \colon p \to q$ depicted below:
 \[
 \begin{tikzpicture}
 	\node (p1) {
@@ -2842,24 +2730,22 @@ Let us return to the polynomials $p \coloneqq \yon^\3 + \2\yon$ and $q \coloneqq
 \]
 Fix a set $X \coloneqq \{a,b,c,d,e\}$.
 When viewed as a natural transformation, $f$ has as its $X$-component a function $f_X \colon p(X) \to q(X)$.
-In other words, for any element of $p(X)$, the lens $f$ should be able to give us an element of $q(X)$.
+In other words, for each element of $p(X)$, the lens $f$ should tell us how to obtain an element of $q(X)$.
 
-What does an element of $p(X)$ look like?
-To specify such an element, we would need to choose a position $i$ of $p$ and a function $p[i] \to X$.
-We can depict this by selecting a $p$-corolla and labeling each leaf of that corolla with an element of $X$.
-For example, here we depict an element $(1, g)$ of $p(X)$, where $g \colon p[1] \to X$ is given by $1 \mapsto c, 2 \mapsto e,$ and $3 \mapsto a$:
-\[
+We saw in \cref{ex.corolla-apply-poly} that each $(i,g)\in p(X)$ may be drawn as a $p$-corolla (corresponding to $i$) whose leaves are labeled with elements of $X$ (according to $g$).
+For example, here we draw $(1,g)\in p(X)$, where $g\colon p[1]\to X$ is given by $1\mapsto c, 2 \mapsto e,$ and $3 \mapsto a$:
+\begin{equation} \label{diag.corolla-apply-elt}
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$}
       child[blue!50!black] {node {$c$}}
       child[blue!50!black] {node {$e$}}
       child[blue!50!black] {node {$a$}};
 \end{tikzpicture}
-\]
-Similarly, an element of $q(X)$ can be drawn as a $q$-corolla, with each leaf labeled by an element of $X$.
+\end{equation}
+Similarly, each element of $q(X)$ can be drawn as a $q$-corolla whose leaves are labeled with elements of $X$.
 So what element of $q(X)$ is $f_X(1, g)$?
 
-\cref{prop.morph_arena_to_func} tells us that $f_X(1, g)$ can be read off of the forest depiction of $f$ at position $1$:
+\cref{prop.morph_arena_to_func} tells us that $f_X(1, g)=(f_\1(1), f^\sharp_1\then g)$, so we need only focus on the behavior of $f$ at $p$-position $1$:
 \[
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node[blue!50!black, "\tiny 1" below] (1) {$\bullet$}
@@ -2880,8 +2766,8 @@ So what element of $q(X)$ is $f_X(1, g)$?
     \end{scope}
 \end{tikzpicture}
 \]
-To draw $f_X(1, g)$, we first draw the $q$-corolla corresponding to $f_\1(1)$: the corolla on the right hand side above.
-Then we label each leaf of that corolla by following the arrow from that leaf (as given by $f^\sharp_i$) to a $p[1]$-leaf, and use the label there that is given by $(1, g)$.
+To draw $(f_\1(1), f^\sharp_1\then g)$, we first draw the $q$-corolla corresponding to $f_\1(1)$, the corolla on the right hand side above.
+Then we label each leaf of that corolla by following the arrow from that leaf to a $p[1]$-leaf, and use the label there from \eqref{diag.corolla-apply-elt} (as prescribed by $g$).
 So $f_X(1, g)$ looks like
 \[
 \begin{tikzpicture}[trees, sibling distance=2.5mm]
@@ -2892,6 +2778,7 @@ So $f_X(1, g)$ looks like
       child[red!75!black] {node {$a$}};
 \end{tikzpicture}
 \]
+
 \end{example}
 
 \cref{prop.morph_arena_to_func} lets us translate from lenses to natural transformations.
@@ -2900,7 +2787,7 @@ In particular, it justifies the notation $f_\1$ for the on-positions function of
 
 \begin{corollary} \label{cor.morph_func_to_arena}
 Let $p$ and $q$ be polynomial functors, and let $f \colon p \to q$ be a natural transformation between them.
-Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens with on-positions function $f_\1\colon p(\1)\to q(\1)$ and on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$, such that $f_\1$ is the $\1$-component of $f$ and, for each $i\in p(\1)$,
+Then the isomorphism in \eqref{eqn.main_formula} sends $f$ to the lens whose on-positions function $f_\1\colon p(\1)\to q(\1)$ is the $\1$-component of $f$ and whose on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$ satisfies, for all $i\in p(\1)$,
 \[
     (f_\1(i), f^\sharp_i) = f_{p[i]}(i, \id_{p[i]}).
 \]
@@ -2910,12 +2797,12 @@ By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\
 Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ of $f$ sends $(i,\id_{p[i]})\in p(p[i])$ to $(f_\1(i), f^\sharp_i \then \id_{p[i]}) = (f_\1(i), f^\sharp_i)$.
 \end{proof}
 
-%---- Subsection ----%
-\subsection{Identity and composition of lenses} \label{subsec.poly.cat.morph.id-comp}
+%-------- Section --------%
+\section{Identity lenses and lens composition} \label{subsec.poly.cat.morph.id-comp}
 
-Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can just as easily be thought of as the category of indexed families of sets and lenses.
-But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how these lenses compose.
-To do so, we can leverage our ability to translate back and forth between lenses and natural transformations.
+Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can be identified with the category of indexed families of sets and lenses.
+But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how lenses compose.
+We can do so by translating between lenses and natural transformations.
 
 For instance, given a polynomial $p$, its identity lens should correspond to the identity natural transformation of $p$ as a functor.
 
@@ -2933,15 +2820,15 @@ Hence the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ maps every $i\
 \end{solution}
 \end{exercise}
 
-Similarly, we should be able to deduce how two lenses compose by translating them to natural transformations, composing those, then translating back to lenses.
+Similarly, we may deduce how two lenses compose by translating them to natural transformations, composing those, then translating back to lenses.
 
 \begin{exercise}[Composing lenses] \label{exc.arena_morph_comp}
 For $p,q,r\in\poly$, let $f\colon p\to q$ and $g\colon q\to r$ be natural transformations, and let $h\coloneqq f\then g$ be their composite, whose $X$-component $h_X\colon p(X)\to r(X)$ for $X\in\smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X=f_X\then g_X$.
 
-Use \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1(i)}\then f^\sharp_i$.
+Use \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1(i)}\then f^\sharp_i$.
 \begin{solution}
 Fix $i\in p(\1)$.
-By \cref{cor.morph_func_to_arena} and \cref{prop.morph_arena_to_func},
+By By \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena},
 \begin{align*}
     (h_\1(i), h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \tag{\cref{cor.morph_func_to_arena}} \\
     &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
@@ -2954,7 +2841,7 @@ By \cref{cor.morph_func_to_arena} and \cref{prop.morph_arena_to_func},
 % TODO: turn following to prop?
 % The following corollary about interpreting commutative diagrams in $\poly$ is immediate from the preceding exercise.
 
-The following proposition, a restatement of the previous exercise, allows us to interpret commutative diagrams in $\poly$ in terms of commutative diagrams in the more familiar setting of $\smset$.
+The following proposition, a restatement of the previous exercise, allows us to interpret commutative diagrams of polynomials in $\poly$ in terms of commutative diagrams of their position- and direction-sets in $\smset$.
 
 \begin{proposition} \label{prop.comm_poly}
 Given $p,q,r\in\poly$ and lenses $f\colon p\to q, g\colon q\to r,$ and $h\colon p\to r$, the diagram
@@ -2985,7 +2872,7 @@ We can use this fact to determine whether a given diagram in $\poly$ commutes, a
 
 \begin{exercise}
 Using \cref{prop.comm_poly}, verify explicitly that, for $p, q \in \poly$, the polynomial $p+q$ given by the binary sum of $p$ and $q$ satisfies the universal property of the coproduct of $p$ and $q$.
-That is, provide lenses $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$, then show that for any other polynomial $r$ equipped with lenses $f \colon p \to r$ and $g \colon q \to r$, there exists a unique lens $h\colon p+q\to r$---shown dashed---making the following diagram commute:
+That is, provide lenses $\iota \colon p \to p + q$ and $\kappa \colon q \to p + q$, then show that for any other polynomial $r$ equipped with lenses $f \colon p \to r$ and $g \colon q \to r$, there exists a unique lens $h\colon p+q\to r$ (shown dashed) making the following diagram commute:
 \begin{equation} \label{eqn.coprod_univ_prop}
 \begin{tikzcd}
 	p \ar[r, "\iota"] \ar[dr, "f"'] &
@@ -3026,6 +2913,10 @@ As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eq
 \end{solution}
 \end{exercise}
 
+% TODO: lens composition via polyboxes
+
+% TODO: integrate the following (smth about now we can check commutativity in Poly, we can define functors to it)
+
 \begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
@@ -3050,7 +2941,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is the identity lens.
 
 	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f\colon X\to Y$ and $g\colon Y\to Z$, we have $p_f\then p_g = p_{f\then g}$.
-	By \cref{exc.top_poly_func.morphs} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f\then g$, so it suffices to show for each $x\in X$ that
+	By \cref{exc.top_poly_func.morph} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f\then g$, so it suffices to show for each $x\in X$ that
 	\[
 	    (p_{f \then g})^\sharp_x = (p_g)^\sharp_{f(x)} \then (p_f)^\sharp_x.
 	\]
@@ -3068,6 +2959,116 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+%-------- Section --------%
+\section{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
+
+Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
+Here's a picture of $\5\yon^{\1\2}$:
+\[
+\begin{tikzpicture}
+  \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
+    \begin{tikzpicture}[trees, sibling distance=1mm]
+      \foreach \i in {1,...,5}
+      {
+        \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        ;
+      };
+    \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+The formula for morphisms between these is particularly simple:
+\begin{align*}
+  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
+  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
+  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
+\end{align*}
+It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
+\[
+\poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
+\iso
+\left\{
+(f_\1,f^\sharp)
+\;\middle|\;
+\parbox{1.2in}{
+  $
+  \begin{aligned}
+    f_\1&\colon B_1\to B_2\\
+    f^\sharp&\colon B_1\times A_2\to A_1
+  \end{aligned}
+  $
+}.
+\right\}
+\]
+Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
+But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
+
+The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
+This category arises in functional programming.
+The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
+\begin{equation}\label{eqn.bimorphic_lens}
+  \begin{aligned}
+    \lensget\coloneqq f_\1 &\colon B_1\to B_2\\
+    \lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
+  \end{aligned}
+\end{equation}
+Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1(b) \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1(b)$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
+
+So a morphism between two monomials in $\poly$ is just a bimorphic lens.
+Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
+This is why we refer to these morphisms as \emph{lenses}.
+
+\begin{example} \label{ex.lens_get_put}
+  Consider the monomial $S\yon^S$.
+  Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
+  In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
+  Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
+  We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
+
+  A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+  When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
+  If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
+  Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
+
+  But what happens when we string together these decisions into cycles?
+  Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
+  In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
+  \begin{enumerate}
+    \item If your friend chooses to stay put, then you should stay put, too.
+    This is reflected by the equation
+    \[
+    \lensput(s,\lensget(s))=s.
+    \]
+
+    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
+    This is reflected by the equation
+    \[
+    \lensget(\lensput(s,t))=t.
+    \]
+
+    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
+    This is reflected by the equation
+    \[
+    \lensput(\lensput(s,t),t')=\lensput(s,t')
+    \]
+  \end{enumerate}
+  Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
+  But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
+\end{example}
 
 %-------- Section --------%
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
