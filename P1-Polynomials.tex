@@ -1112,7 +1112,7 @@ Throughout this book, we will often specify a polynomial by giving its positions
         \[
         p(\0)\iso\sum_{i\in p(\1)}\left(\yon^{p[i]}\right)(\0)\iso\sum_{\substack{i\in p(\1),\\ p[i]\neq\0}}\0+\sum_{\substack{i\in p(\1),\\ p[i]=\0}}\1\iso\{i\in p(\1)\mid p[i]=\0\}.
         \]
-        That is, $p(\0)$ is the set of \emph{constant} positions of $p$.
+        That is, $p(\0)$ is the set of \emph{constant} positions of $p$, the positions of $p$ that have no directions.
         For example, if $p\coloneqq\yon^\3+\3\yon^\2+\4$, then $p(\0)=\4$.
         In the language of high school algebra, we might call $p(\0)$ the \emph{constant term} of $p$.
     \end{solution}
@@ -2242,7 +2242,7 @@ Another way to visualize a dependent lens $f\colon p\to q$ is to draw the polybo
   \end{tikzpicture}
 \end{equation}
 Thinking of the polyboxes as cells in a spreadsheet, the lens prescribes how the values of the cells are computed.
-The boxes shaded in blue accept user input, while the other boxes are computed from that input according to the spreadsheet's rules.
+The boxes colored blue accept user input, while the other boxes are computed from that input according to the spreadsheet's rules.
 
 The arrows track the flow of information, starting from the lower left.
 When the user fills the blue position box of $p$ with some $i\in p(\1)$, the arrow pointing right indicates that the lens fills the position box of $q$ with some $j\in q(\1)$ based on $i$.
@@ -2638,23 +2638,19 @@ Let $p$ be a polynomial throughout.
 \begin{example}[Lenses from linear polynomials] \label{ex.lens-from-lin}
   A lens $f\colon I\yon\to p$ can be drawn in polyboxes as follows:
   \[
-    \begin{tikzpicture}
-      \node (f) {
-        \begin{tikzpicture}[polybox, tos]
-          \node[poly, linear dom] (p) {};
-          \node[left=0pt of p_pos] {$I$};
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, linear dom] (p) {};
+      \node[left=0pt of p_pos] {$I$};
 
-          \node[poly, cod, right=of p] (q) {};
-          \node[right=0pt of q_pos] {$p(\1)$};
-          \node[right=0pt of q_dir] {$p[-]$};
+      \node[poly, cod, right=of p] (q) {};
+      \node[right=0pt of q_pos] {$p(\1)$};
+      \node[right=0pt of q_dir] {$p[-]$};
 
-          \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-          \draw (q_dir) -- node[above] {$!$} (p_dir);
-        \end{tikzpicture}
-      };
+      \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$!$} (p_dir);
     \end{tikzpicture}
   \]
-  Recall that we shade in the direction box of a linear polynomial to indicate that it can only be filled with $1$ entry.
+  Recall that we shade in the direction box of a linear polynomial to indicate that it can only be filled with one entry.
   Hence the on-directions map of $f$ is uniquely determined, so $f$ is completely characterized by its on-positions function $f_\1$.
   We conclude that lenses $I\yon\to p$ can be identified with functions $I\to p(\1)$.
 \end{example}
@@ -2674,34 +2670,59 @@ Let $p$ be a polynomial throughout.
 \end{exercise}
 
 \begin{exercise}[Lenses to linear polynomials]
-  content...
+  Characterize lenses $p\to I\yon$ in terms of $I$ and the positions and directions of $p$.
+\begin{solution}
+  A lens $f\colon p\to I\yon$ consists of an on-positions function $f_\1\colon p(\1)\to I$ and, for each $j\in p(\1)$, an on-directions function $f^\sharp_j\colon\1\to p[j]$.
+  Equivalently, this is a function $p(\1)\to I$ and a choice of direction at every position of $p$, i.e.\ a dependent function $(j\in p(\1))\to p[j]$.
+\end{solution}
 \end{exercise}
 
-\begin{example}[Lenses from constants]
-  A lens $f\colon I\yon\to p$ can be drawn in polyboxes as follows:
+\begin{example}[Lenses to constants] \label{ex.lens-to-const}
+  A lens $f\colon p\to I$ can be drawn in polyboxes as follows:
   \[
-  \begin{tikzpicture}
-    \node (f) {
-      \begin{tikzpicture}[polybox, tos]
-        \node[poly, linear dom] (p) {};
-        \node[left=0pt of p_pos] {$I$};
+  \begin{tikzpicture}[polybox, tos]
+    \node[poly, dom] (p) {};
+    \node[left=0pt of p_pos] {$p(\1)$};
+    \node[left=0pt of p_dir] {$p[-]$};
 
-        \node[poly, cod, right=of p] (q) {};
-        \node[right=0pt of q_pos] {$p(\1)$};
-        \node[right=0pt of q_dir] {$p[-]$};
+    \node[poly, constant, right=of p] (q) {};
+    \node[right=0pt of q_pos] {$I$};
 
-        \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-        \draw (q_dir) -- node[above] {$!$} (p_dir);
-      \end{tikzpicture}
-    };
+    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+    \draw[dashed] (q_dir) -- node[above] {$!$} (p_dir);
   \end{tikzpicture}
   \]
-  Recall that we shade in the direction box of a linear polynomial to indicate that it can only be filled with $1$ entry.
-  Hence the on-directions map of $f$ is uniquely determined, so $f$ is completely characterized by its on-positions function $f_\1$.
-  We conclude that lenses $I\yon\to p$ can be identified with functions $I\to p(\1)$.
-
-  In particular, lenses $\yon\to p$ can be identified with $p$-positions; and there is a unique lens $\0\to p$, confirming that $\0$ is the initial object of $\poly$.
+  Recall that we color the direction box of a constant red to indicate that it cannot be filled with any entry.
+  Hence the on-directions map of $f$ is again uniquely determined, so $f$ is completely characterized by its on-positions function $f_\1$.
+  (While the on-directions map of $f$ does exist---it is vacuous---it can never produce an element to fill the direction box of $p$, so we draw it with a dashed line.)
+  We conclude that lenses $p\to I$ can be identified with functions $p(\1)\to I$.
 \end{example}
+
+\begin{exercise}[Lenses to $\1$ and $\0$]
+  \begin{enumerate}
+    \item Use \cref{ex.lens-to-const} to show that $\1$ is the terminal object of $\poly$.
+    \item Show that there is exactly one lens whose codomain is $\0$.
+    What is its domain? \qedhere
+  \end{enumerate}
+  \begin{solution}
+    \begin{enumerate}
+      \item Since $\1$ is a constant, \cref{ex.lens-to-const} tells us that lenses $p\to\1$ can be identified with functions $p(\1)\to\1$.
+      There is exactly one function $p(\1)\to\1$, so there is exactly one lens $p\to\1$.
+      \item Since $\0$ is a constant, \cref{ex.lens-to-const} tells us that lenses $p\to\0$ can be identified with functions $p(\1)\to\0$, which only exist when $p(\1)=\0$.
+      The only polynomial with an empty position-set is $\0$ itself, and there is a unique function from the set $\0$ to itself, so there is a unique lens from the constant polynomial $\0$ to itself as well.
+      If $p$ is not the constant $\0$, then there are no lenses $p\to\0$.
+    \end{enumerate}
+  \end{solution}
+\end{exercise}
+
+\begin{exercise}[Lenses from constants]
+  Characterize lenses $I\to p$ in terms of $I$ and the positions and directions of $p$.
+  You may find it helpful to refer to $p(\0)$; see \cref{exc.apply0}.
+  \begin{solution}
+    A lens $f\colon I\to p$ consists of an on-positions function $f_\1\colon I\to p(\1)$ and, for each $i\in I$, an on-directions function $f^\sharp_j\colon\1\to p[j]$.
+    Equivalently, this is a function $p(\1)\to I$ and a choice of direction at every position of $p$, i.e.\ a dependent function $(j\in p(\1))\to p[j]$.
+  \end{solution}
+\end{exercise}
 
 \begin{example}[Lenses to representables]
   A lens $f\colon p\to\yon^A$ can be drawn in polyboxes as follows:
@@ -2722,11 +2743,9 @@ Let $p$ be a polynomial throughout.
     };
   \end{tikzpicture}
   \]
-  Recall that we shade in the position box of a representable polynomial to indicate that it can only be filled with $1$ entry.
+  Recall that we shade in the position box of a representable to indicate that it can only be filled with one entry.
   Hence the on-positions function of $f$ is uniquely determined, so $f$ is completely characterized by its on-directions map $f^\sharp$, which takes a $p$-position $i$ and a direction $a\in A$ and sends them to a direction $b\in p[i]$.
   We conclude that lenses $p\to\yon^A$ can be identified with dependent functions $((i,a)\in p(\1)\times A)\to p[i]$.
-
-  In particular, lenses $p\to\yon$ can be identified with $p$-positions
 \end{example}
 
 \begin{exercise}[Lenses from representables]
@@ -3245,7 +3264,7 @@ for every $r[h_\1i]$-direction $c$, which agrees with \cref{exc.arena_morph_comp
 Throughout the book, we will read off equations involving positions and directions like this from equations involving lens level depicted as polyboxes.
 
 Note that there is some redundacy in the polybox picture above: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
-So for convenience, we may omit the entries in the boxes not shaded blue without losing information, leaving the reader to fill in the blanks.
+So for convenience, we may omit the entries in the boxes not colored blue without losing information, leaving the reader to fill in the blanks.
 \[
 \begin{tikzpicture}
   \node (1) {
