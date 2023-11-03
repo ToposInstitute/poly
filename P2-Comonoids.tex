@@ -1808,7 +1808,7 @@ The answer lies with the composition product.
 
 Recall that a dependent dynamical system is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
 We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\varphi$ the return and update functions, respectively.
-More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a situation $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
+More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a section $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
 
 The lens models a dynamical system as follows.
 Every state $s\in q(\1)=S$ returns an output $o\coloneqq\varphi_\1(s)\in p(\1)$, and every input $i\in p[o]$ yields an updated direction $s'\coloneqq\varphi^\sharp_s(a)\in q[s]=S'$.
@@ -2097,270 +2097,7 @@ The key to resolving both these issues lies in the next section, where we will i
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
 
 Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
-Fortunately, they have some very nice properties that make them convenient to work with.
-Before we explore these properties, we'll introduce a new way of visualizing lenses that is well-suited to capturing the behavior of lenses to composites.
-
-\subsection{Lenses as polyboxes}
-% TODO: pare this down now that we moved it earlier, but still mention usual lens polybox as 1-ary version
-
-First, let us consider what goes into specifying a lens $f\colon p\to q$.
-To visualize this, we will introduce a new form of notation, which we will call \emph{polyboxes}, that will generalize well to lenses to composites:
-\begin{equation} \label{eqn.polybox_lens}
-\begin{tikzpicture}
-  \node (f) ["$f\colon p\to q$" above] {
-    \begin{tikzpicture}[polybox, tos]
-  	  \node[poly, dom, "$p$" below] (p) {};
-  	  \node[left=0pt of p_pos] {$p(\1)$};
-  	  \node[left=0pt of p_dir] {$p[-]$};
-
-  	  \node[poly, cod, right=of p, "$q$" below] (q) {};
-  	  \node[right=0pt of q_pos] {$q(\1)$};
-	  \node[right=0pt of q_dir] {$q[-]$};
-
-  	  \draw (p_pos) -- node[below] {} (q_pos);
-  	  \draw (q_dir) -- node[above] {} (p_dir);
-    \end{tikzpicture}
-  };
-\end{tikzpicture}
-\end{equation}
-In our polyboxes, each pair of boxes stacked on top of each other represents a single polynomial.
-The lower box in a pair can be filled with any position of the polynomial, while the upper box must be filled with a direction of the polynomial at the position in the lower box.
-
-We think of \eqref{eqn.polybox_lens} as depicting the lens $f$ as a sort of gadget that acts like an automated spreadsheet: the blue boxes accept user input, while the white boxes are computed based on what is entered into the blue boxes according to the spreadsheet's preprogrammed rules.
-The arrows track the flow of information, starting from the lower left.
-
-When the user fills the lower left blue box with a $p$-position $i$, the arrow to the right tells us that the gadget should automatically fill the lower right white box with some $q$-position $j$, based on the value $i$ that has already been entered.
-This process yields a map $i\mapsto j$ that corresponds to the on-position function $f_\1$ of the lens.
-
-Then when the user fills the upper right blue box with a $q[j]$-direction $b$, the arrow to the left tells us that the gadget should automatically fill the upper left white box with some $p[i]$-position $a$, based on the values $i$ and $b$ that have already been entered.
-Fixing $i\in p(\1)$, this process yields a map $b\mapsto a$ that corresponds to the on-directions function $f^\sharp_i$ of the lens.
-
-So when both the user and the automation have finished filling all the boxes, we'll end up with something that looks like this:
-\[ \label{eqn.polybox_lens_filled}
-\begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$p$" left] (p) {$a$\at$i$};
-    \node[poly, cod, "$q$" right, right=of p] (q) {$b$\at$j$};
-    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
-\end{tikzpicture}
-\]
-Here, of course, $j\coloneqq f_\1(i)$ and $a\coloneqq f^\sharp_i(b)$.
-So a lens is any protocol that will fill in the white boxes once the user fills in the blue boxes, following the directions of the arrows drawn.
-Be careful: although the arrow $f^\sharp$ is drawn from the upper right box, it also takes into account what is entered into the lower left box previously.
-After all, the on-directions function of a lens is dependent on both a position of the domain and a direction of the codomain.
-
-If we have two composable lenses $f\colon p\to q$ and $g\colon q\to r$, then we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
-\[
-\begin{tikzpicture}[polybox, tos]
-    \node[poly, dom, "$p$" below] (p) {};
-
-    \node[poly, right=of p, "$q$" below] (q) {};
-
-    \node[poly, cod, right=of q, "$r$" below] (r) {};
-
-    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
-
-    \draw (q_pos) -- node[below] {$g_\1$} (r_pos);
-    \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
-\end{tikzpicture}
-\]
-The lower (position) box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the upper (direction box) for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
-This forms a gadget that is equivalent to what the polyboxes would be for $f\then g$.
-
-Again, as we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the upper box for $r$, but also the lower box for $q$ that came before it.
-Similarly, the arrow $f^\sharp$ depends on both the lower box for $p$ and the upper box for $q$.
-
-On the other hand, the arrow $g_\1$ depends only on the lower box for $q$, and not the lower box for $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the contents of the lower box for $p$ may change the lower box for $q$, thus indirectly affecting what $g_\1$ enters in the lower box for $r$; what we mean is that if the lower box for $p$ changes but the lower box for $q$ does not, $g_\1$ will not change the lower box for $r$.)
-For the same reason, the arrow $g^\sharp$ does not depend on the lower box for $p$, and the arrow $f^\sharp$ does not depend on either box for $r$.
-The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of.
-Or just remember that these arrows are all on-positions and on-directions functions of lenses!
-
-\begin{remark}
-At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc.\ without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
-We choose to elide this issue to highlight the pictorial intuition of our work, rather than grinding through the nitty-gritty details.
-This is not to say our work with polyboxes will lack rigor moving forward---if you're particularly worried, you should think of polyboxes simply as an alternate way to present information about indexed families of sets, dependent functions, and sum and product sets that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
-
-For example, given lenses $f\colon p\to q$ and $g\colon q\to r$, the polyboxes above really do just represent the element of the set
-\[
-    \prod_{i\in p(\1)}\sum_{k\in r(\1)}p[i]^{r[k]}\iso\poly(p,r)
-\]
-corresponding to the lens $p\to r$ whose on-positions function $p(\1)\to r(\1)$ is equal to the composite of the on-positions functions $f_\1$ and $g_\1$, and whose on-directions function $r[g_\1(f_\1(i))]\to p[i]$ for each $i\in p(\1)$ is equal to the composite of the on-directions functions $g^\sharp_{f_\1(i)}$ and $f^\sharp_i$.
-In other words, it represents the composite lens $f\then g$.
-But it displays the way lenses pass positions and directions back and forth far more legibly than all the words in this paragraph can.
-Throughout the rest of this book, we'll see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
-\end{remark}
-
-\begin{example}[Dynamical systems as polyboxes]
-Polyboxes provide a natural way to model our dependent dynamical systems.
-We can express such a system $\varphi\colon S\yon^S\to p$ in polyboxes as
-\begin{equation*}
-\begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
-
-    \node[poly, cod, right=of S, "$p$" right] (p) {$i$\at$o$};
-
-    \draw (S_pos) -- node[below] {return} (p_pos);
-    \draw (p_dir) -- node[above] {update} (S_dir);
-\end{tikzpicture}
-\end{equation*}
-Then the polybox acts as a channel between the internal state system on the left and the external interface on the right.
-The state system enters its current state $s\in S$ into the lower left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the lower right white box.
-Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
-Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
-
-We then compose $\varphi$ with a wrapper $f\colon p\to q$ like so:
-\begin{equation*}
-\begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
-
-    \node[poly, right=of S, "$p$" below] (p) {$i$\at$o$};
-
-    \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
-
-    \draw (S_pos) -- node[below] {return} (p_pos);
-    \draw (p_dir) -- node[above] {update} (S_dir);
-    \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
-    \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
-\end{tikzpicture}
-\end{equation*}
-The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the lower box on the far right.
-Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
-The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
-
-Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving output from the white box below and feeding input into the blue box above.
-To an agent who is unaware of its inner workings, the composite dynamical system $\varphi\then f$ might as well look like this:
-\begin{equation*}
-\begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
-
-    \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
-
-    \draw (S_pos) -- node[below] {return$'$} (q_pos);
-    \draw (q_dir) -- node[above] {update$'$} (S_dir);
-\end{tikzpicture}
-\end{equation*}
-\end{example}
-
-\subsection{Situations as polyboxes}
-When a polynomial has only $1$ position (i.e.\ it is representable), we shade its lower (position) polybox gray to indicate that there is no choice to be made there, either by the user or by the automation; similarly, if a polynomial has only $1$ direction at every position (i.e.\ it is linear), we shade its upper (direction) polybox gray.
-So both polyboxes for $\yon$ are shaded gray.
-
-In \cref{subsec.poly.dyn_sys.new.sit_encl}, we discussed situations, which are lenses with codomain $\yon$.
-A situation $\gamma\colon p\to\yon$, then, can be depicted as follows, where $!$ is the unique function into $\1$:
-\[
- \begin{tikzpicture}[polybox, tos]
-  	\node[poly, dom, "$p$" left] (p) {};
-  	\node[poly, identity, right=of p, "$\yon$" right] (yon) {};
-  	\draw (p_pos) -- node[below] {$!$} (yon_pos);
-  	\draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
-	\end{tikzpicture}
-\]
-But this is equivalent to a gadget where, when the user fills in the lower left blue box with a $p$-position $i$, the upper left white box is automatically filled with a $p[i]$-direction $a$.
-(Remember that the arrow $\gamma^\sharp$ depends not only on the box to its right, but also on the lower left box of $p$.)
-So we can redraw the gadget like so, combining the arrows $!$ and $\gamma^\sharp$ into one arrow $\gamma$:
-\begin{equation}\label{eqn.map_to_0ary_composite}
-\begin{tikzpicture}[polybox, tos]
-    \node[poly, dom, "$p$" left] (p) {};
-    \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
-\end{tikzpicture}
-\end{equation}
-This lines up with what we already know: that a situation $\gamma\colon p\to\yon$ is just a dependent function $\gamma\colon(i\in p(\1))\to p[i]$.
-
-\begin{example}[Enclosures as polyboxes]
-Recall that in the language of dynamical systems, situations for interfaces are thought of as enclosures: a fixed selection of input at every output that closes off the interface from external observation or interference.
-In polyboxes, composing a system $S\yon^S\to p$ with an enclosure $\gamma$ for $p$ can be depicted as
-\begin{equation*}
-\begin{tikzpicture}[polybox, tos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {};
-
-    \node[poly, right=of S, "$p$" below] (p) {};
-
-  	\node[poly, identity, right=of p, "$\yon$" right] (yon) {};
-
-    \draw (S_pos) -- node[below] {return} (p_pos);
-    \draw (p_dir) -- node[above] {update} (S_dir);
-    \draw (p_pos) -- node[below] {$!$} (yon_pos);
-    \draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
-\end{tikzpicture}
-\end{equation*}
-or, equivalently, as
-\begin{equation*}
-\begin{tikzpicture}[polybox, tos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {};
-
-    \node[poly, right=of S, "$p$" below] (p) {};
-
-    \draw (S_pos) -- node[below] {return} (p_pos);
-    \draw (p_dir) -- node[above] {update} (S_dir);
-    \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
-\end{tikzpicture}
-\end{equation*}
-Remember: in a polybox depiction of a dynamical system, the world outside the system exists to the right of all the boxes.
-So the first picture represents $\yon$ as a gray wall, cutting off any interaction between the system to its left and the world to its right.
-Meanwhile, the second picture illustrates how an enclosed system independently selects inputs to the intermediary interface $p$ via $\gamma$, according to the outputs of $p$ that the inner (leftward) system $S\yon^S\to p$ returns.
-While the second picture shows us why the closed system neither seeks nor requires external input, the first picture helps remind us that the output of $p$ never reaches the outside world either.
-The composite system is therefore equivalent to the enclosure drawn as follows:
-\begin{equation*}
-\begin{tikzpicture}[polybox, tos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {};
-
-    \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
-\end{tikzpicture}
-\end{equation*}
-In lens parlance, $\gamma'\colon S\yon^S\to\yon$ is the original system $S\yon^S\to p$ composed with $\gamma\colon p\to\yon$; in the language of dependent functions, $\gamma'\colon S\to S$ is given by
-\[
-    \gamma'(s)=\text{update}(s,\gamma(\text{return}(s))) \qquad \text{for all }s\in S,
-\]
-where we interpret $\gamma$ as a dependent function $(i\in p(\1))\to p[i]$.
-We can deduce this equation by matching up the previous two different polybox pictures, knowing that they represent the same lens.
-Placing the boxes side by side and filling them in with dummy variables makes the equation easier to read off the picture:
-\[
-\begin{tikzpicture}
-	\node (1) {
-    \begin{tikzpicture}[polybox, mapstos]
-        \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
-
-        \node[poly, right=of S, "$p$" below] (p) {$o$\at$i$};
-
-        \draw (S_pos) -- node[below] {return} (p_pos);
-        \draw (p_dir) -- node[above] {update} (S_dir);
-        \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
-    \end{tikzpicture}
-	};
-	\node[right=1.8 of 1] (2) {
-    \begin{tikzpicture}[polybox, mapstos]
-        \node[poly, dom, "$S\yon^S$" left] (S) {$t'$\at$s$};
-
-        \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
-    \end{tikzpicture}
-	};
-	\node at ($(1.east)!.5!(2.west)$) {=};
-\end{tikzpicture}
-\]
-Notice that we filled the blue boxes on either side with the same entry.
-Matching up the upper boxes of the domain in both pictures, we have that $t=t'$, so
-\[
-    \gamma'(s)=t'=t=\text{update}(s,o)=\text{update}(s,\gamma(i))=\text{update}(s,\gamma(\text{return}(s))).
-\]
-Later on, we will read more intricate equations off of polyboxes in this manner, although we won't spell it out in so much detail.
-We encourage you to trace through the arrows on your own.
-\end{example}
-
-\begin{example}[The do-nothing enclosure in polyboxes]  \label{ex.do_nothing_polybox}
-In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with an enclosure $\epsilon\colon S\yon^S\to\yon$ called the do-nothing enclosure, which assigns each state-position to its corresponding state-direction, thus leaving the state unchanged.
-That is, it is the enclosure whose polyboxes can be drawn as follows:
-\begin{equation*}
-\begin{tikzpicture}[polybox, mapstos]
-    \node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
-
-    \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
-\end{tikzpicture}
-\end{equation*}
-
-This simple example illustrates how we can use polyboxes to specify a particular lens---or, equivalently, how we can use polyboxes to \emph{define} a lens, the same way we might define a function by writing it as a formula in a dummy variable.
-\end{example}
-
+Fortunately, they have some very nice properties that make them convenient to work with, especially using polyboxes.
 
 \subsection{Lenses to composites as polyboxes}
 A lens $p\to q_1\tri q_2$ is an element of the set
@@ -2893,7 +2630,7 @@ Let's take a closer look at how $\delta$ behaves on its own, labeling its arrows
 	\draw (p'_dir) to[last] node[above] {$\delta_2$} (r_dir);
   \end{tikzpicture}
 \]
-We can see from this picture that $\delta$ arises very naturally from the structure of $S\yon^S$; indeed, every state system can be equipped with such a lens, just as every state system can be equipped with a do-nothing enclosure from \cref{ex.do_nothing}.
+We can see from this picture that $\delta$ arises very naturally from the structure of $S\yon^S$; indeed, every state system can be equipped with such a lens, just as every state system can be equipped with a do-nothing section from \cref{ex.do_nothing}.
 The bottom arrow $\delta_0\colon S\to S$ sending $s_0\mapsto s_0$ is the identity on the position-set $S$: it sends each state to itself.
 We use a double arrow to denote this equality.
 While the middle arrow $\delta_1$ also looks like an identity arrow, remember that we should think of it as depending on the left blue box as well; so it is really a function $\delta_1\colon S\times S\to S$ sending $(s_0,s_1)$, a position-state $s_0$ and a direction at $s_0$ corresponding to state $s_1$, to the new position-state $s_1$.
@@ -2926,7 +2663,7 @@ Here is another picture of the transition lens $\delta$ of $S\yon^S$ with our ne
 This resolves the second issue we raised in \cref{subsec.comon.comp.def.dyn_sys}, page~\pageref{subsubsec.comon.comp.def.dyn_sys.issues} for the case of $n=2$, giving us a dynamical system $\delta\then(\varphi\tri\varphi)\colon S\yon^S\to p\tri p$ that simulates stepping through the system $\varphi$ twice.
 But what about more general values of $n$?
 
-We already have a way of talking about the $n=0$ case: that is what the do-nothing enclosure $\epsilon\colon S\yon^S\to\yon$ models.
+We already have a way of talking about the $n=0$ case: that is what the do-nothing section $\epsilon\colon S\yon^S\to\yon$ models.
 But there is some overlap in how $\epsilon$ matches up state-positions with directions and how $\delta$ does.
 Put another way, if $\epsilon$ tells us how to do nothing, and $\delta$ tells us how to do two things, then we had better check that if one of the two things we do is nothing, then that's the same as doing just one thing.
 Can we ensure that $\epsilon$ and $\delta$ agree on what they are saying about our state system?
@@ -4182,15 +3919,15 @@ But in \cref{ex.do_nothing}, we noted that this formulation requires us to discu
 Instead, let's take an arbitrary polynomial $\car{s}\in\poly$ and attempt to characterize what it means for $\car{s}$ to be a state system using only the categorical machinery of $\poly$.
 We will continue to refer to the positions of $\car{s}$ as \emph{states}, but we will shift from thinking of the directions of $\car{s}$ as states to thinking of them as transitions from one state to another.
 
-\subsection{The do-nothing enclosure}\label{subsec.comon.sharp.state.nothing}
+\subsection{The do-nothing section}\label{subsec.comon.sharp.state.nothing}
 
-In \cref{ex.do_nothing}, we saw that every state system $\car{s}$ is equipped with a \emph{do-nothing enclosure}: a lens $\epsilon\colon\car{s}\to\yon$ that picks out a direction at each state that we would like to interpret as ``doing nothing'' and remaining at that state.
+In \cref{ex.do_nothing}, we saw that every state system $\car{s}$ is equipped with a \emph{do-nothing section}: a lens $\epsilon\colon\car{s}\to\yon$ that picks out a direction at each state that we would like to interpret as ``doing nothing'' and remaining at that state.
 
 We drew $\epsilon$ in polyboxes in \cref{ex.do_nothing_polybox}, but that was when we let ourselves assume that the position-set of a state system was equal to each of its direction-sets.
-Now all we know is that for each state $s\in\car{s}(\1)$, the do-nothing enclosure chooses an $\car{s}[s]$-direction to signify staying at the same state; it doesn't make sense to say that this direction is literally equal to $s$.
+Now all we know is that for each state $s\in\car{s}(\1)$, the do-nothing section chooses an $\car{s}[s]$-direction to signify staying at the same state; it doesn't make sense to say that this direction is literally equal to $s$.
 So we need a different name for the $\car{s}[s]$-direction that $\epsilon$ identifies: call it $\id_s$, because it behaves like a sort of identity operation on the state $s$.
 
-So the revised polyboxes for the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ are as follows:
+So the revised polyboxes for the do-nothing section $\epsilon\colon\car{s}\to\yon$ are as follows:
 \begin{equation} \label{eqn.do_nothing_polybox}
 \begin{tikzpicture}[polybox, mapstos]
     \node[poly, dom, "$\car{s}$" left] (S) {$\id_s$\at$s$};
@@ -4209,8 +3946,8 @@ Equivalently, we could say that $\car{s}$ can be written as the product of $\yon
 \end{solution}
 \end{exercise}
 
-\begin{example}[The do-nothing enclosure in tree pictures] \label{ex.nothing_trees}
-We have seen the do-nothing enclosure drawn in polyboxes, but let's see what it looks like in our tree pictures.
+\begin{example}[The do-nothing section in tree pictures] \label{ex.nothing_trees}
+We have seen the do-nothing section drawn in polyboxes, but let's see what it looks like in our tree pictures.
 We'll take $\car{s}\coloneqq\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[red],\bul[dgreen],\bul[blue]\}}$, drawn as follows:
 \[
 \begin{tikzpicture}[rounded corners]
@@ -4228,7 +3965,7 @@ We'll take $\car{s}\coloneqq\{\bul[red],\bul[dgreen],\bul[blue]\}\yon^{\{\bul[re
 };
 \end{tikzpicture}
 \]
-Then the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ can be drawn like any one of the following three possibilities:
+Then the do-nothing section $\epsilon\colon\car{s}\to\yon$ can be drawn like any one of the following three possibilities:
 \[
 \begin{tikzpicture}[trees, bend right]
     \foreach \i/\c in {1/red, 2/dgreen, 3/blue}
@@ -4250,7 +3987,7 @@ It picks out one direction at each position, namely the one of the same color.
 \end{example}
 
 
-There is not much else we can say about the do-nothing enclosure on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
+There is not much else we can say about the do-nothing section on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
 
 \subsection{The transition lens}\label{subsec.comon.sharp.state.trans}
 
@@ -4286,7 +4023,7 @@ In addition to the fact that $\text{tgt}(s_0,s_0\to s_1)=s_1$ as intended, this 
 
 The first is that the bottom arrow is the identity on $\car{s}(\1)$.
 This is something we would like to be able to express categorically in the language of $\poly$.
-We'll see that this property falls out naturally when we express how the transition lens plays nicely with the do-nothing enclosure in \cref{subsec.comon.sharp.state.cohere}.
+We'll see that this property falls out naturally when we express how the transition lens plays nicely with the do-nothing section in \cref{subsec.comon.sharp.state.cohere}.
 
 The second is that the run arrow, which runs the transition $s_0\to s_1$ and the transition $s_1\to s_2$ together into a transition starting at $s_0$, should have the same target as tfhe second transition it follows: in this case, $s_2$.
 Equationally, writing the left and right hand sides only in terms of the contents of the blue boxes, we have that
@@ -4365,9 +4102,9 @@ Then the run function takes any two arrows that form a path in the graph and col
 If this all sounds suspiciously familiar to you, you're on the right track---hang tight.
 \end{example}
 
-\subsection{The do-nothing enclosure coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
+\subsection{The do-nothing section coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
 
-For each state $s\in\car{s}(\1)$, the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ picks out the $\car{s}[s]$-direction $\id_s$ that ``does nothing'' and keeps the system in the same state $s$.
+For each state $s\in\car{s}(\1)$, the do-nothing section $\epsilon\colon\car{s}\to\yon$ picks out the $\car{s}[s]$-direction $\id_s$ that ``does nothing'' and keeps the system in the same state $s$.
 But it is the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ that actually sets our state system in motion, specifying the target of each direction and how two directions run together.
 Either of these directions could be our do-nothing direction $\id_s$, so let's try to figure out what should happen when we set each one in turn to $\id_s$.
 
@@ -4510,7 +4247,7 @@ The corresponding commutative diagram is as follows:
     \car{s}\tri\car{s}.\ar[ur, "\car{s}\:\tri\:\epsilon"']
 \end{tikzcd}
 \]
-We can combine this with our previous commutative diagram to say that the relationship between the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ and the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ of a state system $\car{s}$ is captured in $\poly$ by the following commutative diagram:
+We can combine this with our previous commutative diagram to say that the relationship between the do-nothing section $\epsilon\colon\car{s}\to\yon$ and the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ of a state system $\car{s}$ is captured in $\poly$ by the following commutative diagram:
 \begin{equation}\label{eqn.erasure_law_state}
 \begin{tikzcd}[row sep=large]
 	\yon\tri\car{s}&\car{s}\ar[d, "\delta" description]\ar[r, equal]\ar[l, equal]&\car{s}\tri\yon\\&
@@ -4753,9 +4490,9 @@ We illustrated how $\delta$ does this for the $n=2$ case in \cref{ex.dyn_sys_tra
 \end{tikzpicture}
 \]
 Notice that we have only defined $\delta^{(n)}$, and thus $\text{Run}_n(\varphi)$, for integers $n\geq2$.
-But $n=0$ runs through $n$ is doing nothing, modeled by the do-nothing enclosure $\epsilon\colon\car{s}\to\yon$, while $n=1$ run through $\varphi$ is modeled by $\varphi\colon\car{s}\to\car{s}$ itself.
+But $n=0$ runs through $n$ is doing nothing, modeled by the do-nothing section $\epsilon\colon\car{s}\to\yon$, while $n=1$ run through $\varphi$ is modeled by $\varphi\colon\car{s}\to\car{s}$ itself.
 So we want $\text{Run}_0(\varphi)=\epsilon$ and $\text{Run}_1(\varphi)=\varphi$; we can achieve this by setting $\delta^{(0)}\coloneqq\epsilon$ and $\delta^{(1)}\coloneqq\id_\car{s}$.
-Here we should think of the do-nothing enclosure $\delta^{(0)}$ as the transition lens modeling $0$ steps through our state system, and the identity $\delta^{(1)}$ as the transition lens modeling a single step.
+Here we should think of the do-nothing section $\delta^{(0)}$ as the transition lens modeling $0$ steps through our state system, and the identity $\delta^{(1)}$ as the transition lens modeling a single step.
 
 \begin{exercise}
 Verify that when $\delta^{(0)}=\epsilon$ and $\delta^{(1)}=\id_\car{s}$, if $\text{Run}_n(\varphi)$ is defined as $\delta^{(n)}\then\varphi\tripow{n}$ for all $n\in\nn$, then $\text{Run}_0(\varphi)=\epsilon$ and $\text{Run}_1(\varphi)=\id_\car{s}$.
@@ -4858,7 +4595,7 @@ But since we think of our polynomials more often in terms of positions and direc
 Nearly all our work on state systems up until now can be summarized thusly:
 \slogan{
     every state system is a polynomial comonoid,\\
-    whose eraser is the do-nothing enclosure\\
+    whose eraser is the do-nothing section\\
     and whose duplicator is the transition lens.
 }
 The comonoid structure on a state system $\car{s}$ is what allows us to write canonical lenses $\car{s}\to\car{s}\tripow{n}$ for any $n\in\nn$.
@@ -5804,13 +5541,13 @@ The linear polynomial $B\yon$ corresponds to a category whose objects form the s
 
 
 \begin{example}[State systems as categories] \label{ex.state_cat}
-We know that every state system $\car{s}\iso S\yon^S$ with its do-nothing enclosure $\epsilon\colon\car{s}\to\yon$ and its transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ is a comonoid, so what category $\cat{S}$ does $(\car{s},\epsilon,\delta)$ correspond to?
+We know that every state system $\car{s}\iso S\yon^S$ with its do-nothing section $\epsilon\colon\car{s}\to\yon$ and its transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ is a comonoid, so what category $\cat{S}$ does $(\car{s},\epsilon,\delta)$ correspond to?
 
 Recall from \cref{ex.not_all_com_state} that state systems are exactly those comonoids whose codomain (i.e.\ ``target'') functions $\cod\colon\car{s}[s]\to\car{s}(\1)$ for $s\in\car{s}(\1)$ are bijections.
 That is, from every object $s\in\Ob\cat S=\car{s}(\1)$, there is exactly $1$ morphism to every object $t\in\Ob\cat S$.
 So not only is $\cat S$ a preorder, it is the \emph{codiscrete preorder} on $\car{s}(\1)$, where there is always a morphism between every pair of objects.
 
-Let's redraw the polyboxes for the do-nothing enclosure of $\car{s}$ from \eqref{eqn.do_nothing_polybox} and the transition lens of $\car{s}$ from \eqref{eqn.trans_lens_polybox}, this time with our new arrow labels, as a sanity check:
+Let's redraw the polyboxes for the do-nothing section of $\car{s}$ from \eqref{eqn.do_nothing_polybox} and the transition lens of $\car{s}$ from \eqref{eqn.trans_lens_polybox}, this time with our new arrow labels, as a sanity check:
 \[
 \begin{tikzpicture}
 \node (erase) {

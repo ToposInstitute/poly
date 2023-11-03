@@ -2267,7 +2267,7 @@ After all, the on-directions map of a lens is dependent on both a position of th
 
 Here is an example of a lens depicted with polyboxes that would be difficult to draw with corolla forests.
 
-\begin{example}
+\begin{example} \label{ex.lend-return}
   Caroline asks each of her parents for $20$ dollars. Each parent gives Caroline a positive amount of money not exceeding $20$ dollars. Caroline spends some of the money she receives before returning the remainder to each parent proportionally according to the amount she received from each.
 
   To model this interaction as a lens $f\colon p\to q$, we first define the polynomials $p$ and $q$.
@@ -2302,6 +2302,7 @@ Here is an example of a lens depicted with polyboxes that would be difficult to 
   Notice that the position box of $q$ depends only on the position box of $p$, while the direction box of $p$ depends on the position box of $p$ as well as the direction box of $q$.
 \end{example}
 
+The above example illustrates how we can use polyboxes to specify a particular lens---or, equivalently, how we can use polyboxes to \emph{define} a lens, the same way we might define a function by writing it as a formula in a dummy variable.
 Later on we will see how polyboxes help depict how lenses compose.
 
 %-------- Section --------%
@@ -2632,7 +2633,7 @@ Here $p, q \in \poly$.
 
 In \cref{sec.poly.obj.spec}, we considered four special classes of polynomials (here $I$ and $A$ are sets): constant polynomials $I$, linear polynomials $I\yon$, representable polynomials $\yon^A$, and monomials $I\yon^A$.
 Of special note are the constant and linear polynomial $\0$, the constant and representable polynomial $\1$, and the linear and representable polynomial $\yon$.
-We now consider lenses with all of these special polynomials as domains or codomains with the help of polyboxes, highlighting some important examples and leaving the rest as exercises.
+We now consider lenses with these special polynomials as domains or codomains, highlighting some important examples using polyboxes and leaving most of the rest as exercises.
 Let $p$ be a polynomial throughout.
 
 \begin{example}[Lenses from linear polynomials] \label{ex.lens-from-lin}
@@ -2715,14 +2716,24 @@ Let $p$ be a polynomial throughout.
   \end{solution}
 \end{exercise}
 
-\begin{exercise}[Lenses from constants]
-  Characterize lenses $I\to p$ in terms of $I$ and the positions and directions of $p$.
-  You may find it helpful to refer to $p(\0)$; see \cref{exc.apply0}.
+\begin{exercise}[Lenses from constants such as $\1$]
+  \begin{enumerate}
+    \item Characterize lenses $I\to p$ in terms of $I$ and the positions and directions of $p$.
+    You may find it helpful to refer to $p(\0)$; see \cref{exc.apply0}.
+    \item Use the previous part to characterize lenses $\1\to p$. \qedhere
+  \end{enumerate}
   \begin{solution}
-    A lens $f\colon I\to p$ consists of an on-positions function $f_\1\colon I\to p(\1)$ and, for each $i\in I$, an on-directions function $f^\sharp_j\colon\1\to p[j]$.
-    Equivalently, this is a function $p(\1)\to I$ and a choice of direction at every position of $p$, i.e.\ a dependent function $(j\in p(\1))\to p[j]$.
+  \begin{enumerate}
+    \item A lens $f\colon I\to p$ consists of an on-positions function $f_\1\colon I\to p(\1)$ and, for each $i\in I$, an on-directions function $f^\sharp_i\colon p[i]\to\0$.
+    There is exactly one such on-directions function when $p[i]=\0$ and no such on-directions function otherwise.
+    It follows that a lens $f\colon I\to p$ can be identified with a function $f_\1\colon I\to p(\1)$ whose image is contained in the set of $p$-positions with no directions.
+    By \cref{exc.apply0}, this set of $p$-positions can be identified with the set $p(\0)$ (the \emph{constant} term of $p$); so a lens $I\to p$ is equivalent to a function $I\to p(\0)$.
+    \item From the previous part, a lens $\1\to p$ may be identified with a function $\1\to p(\0)$ and thus an element of $p(\0)$.
+  \end{enumerate}
   \end{solution}
 \end{exercise}
+
+We already know from the Yoneda lemma (see \cref{exc.poly_morph_yoneda}) that lenses $\yon^A\to p$ correspond to elements of $p(A)$, so we turn our attention to lenses $p\to\yon^A$.
 
 \begin{example}[Lenses to representables]
   A lens $f\colon p\to\yon^A$ can be drawn in polyboxes as follows:
@@ -2748,124 +2759,179 @@ Let $p$ be a polynomial throughout.
   We conclude that lenses $p\to\yon^A$ can be identified with dependent functions $((i,a)\in p(\1)\times A)\to p[i]$.
 \end{example}
 
-\begin{exercise}[Lenses from representables]
-  content...
+\begin{example}[Lenses to $\yon$]
+  As a special case of the previous example, a lens $\gamma\colon p\to\yon$ can be drawn in polyboxes as follows:
+  \[
+  \begin{tikzpicture}
+    \node (f) {
+      \begin{tikzpicture}[polybox, tos]
+        \node[poly, dom] (p) {};
+        \node[left=0pt of p_pos] {$p(\1)$};
+        \node[left=0pt of p_dir] {$p[-]$};
+
+        \node[poly, identity, right=of p] (q) {};
+
+        \draw (p_pos) -- node[below] {$!$} (q_pos);
+        \draw (q_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
+  \]
+  Such lenses can be identified with dependent functions $(i\in p(\1))\to p[i]$, which, abusing notation, we also denote by $\gamma$.
+  For each $p$-position $i$ in the blue position box, $\gamma$ picks out a $p[i]$-direction to fill the unshaded direction box.
+  (Remember that the arrow labeled $\gamma^\sharp$ depends not only on the direction box to its right, but also on the position box of $p$.)
+  So it makes sense to abbreviate the polybox picture of $\gamma$ like so:
+  \begin{equation}\label{eqn.map_to_0ary_composite}
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$p$" left] (p) {};
+      \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+    \end{tikzpicture}
+  \end{equation}
+\end{example}
+
+The correspondence between lenses $p\to\yon$ and dependent functions $(i\in p(\1))\to p[i]$ exhibited in the previous example also follows directly from \eqref{eqn.main_formula}: taking $q\coloneqq\yon$, we have
+\[
+\poly(p,\yon)\iso\prod_{i\in p(\1)}\sum_{j\in\1}p[i]^\1\iso\prod_{i\in p(\1)}p[i],
+\]
+where the right hand side is precisely the set of dependent functions $(i\in p(\1))\to p[i]$.
+By \cref{exc.product_as_sections}, such functions may be identified with the \emph{sections} of the projection function $\sum_{i\in p(\1)}p[i]\to p(\1)$ sending $(i,a)\mapsto i$.
+The fact that this projection determines $p$ (up to isomorphism) motivates the following definition.
+
+\begin{definition}[Section; bundle] \label{def.sec-bun}
+  For $p\in\poly$, a \emph{section} of $p$ is a lens $p\to\yon$.
+  We denote the set of all sections of $p$ by $\Gamma(p)$; that is,
+  \begin{equation} \label{eqn.gamma_def}
+    \Gamma(p)\coloneqq\poly(p,\yon).
+  \end{equation}
+  The \emph{bundle} of $p$, denoted $\pi_p$, is the projection function
+  \[
+    \sum_{i\in p(\1)}p[i]\to p(\1)
+  \]
+  sending $(i,a)\mapsto i$.
+\end{definition}
+
+With this terminology, we can say that $p$ is determined (up to isomorphism) by its bundle, and that the sections of $p$ can be identified with the sections of its bundle.
+
+To visualize the bundle of $p$, simply draw it as a corolla forest: a \emph{bundle} of arrows.
+The bundle projects each leaf down to its root.
+To visualize a section of $p$, picture its corollas piled atop each other; a section $\gamma\colon p\to\yon$ is then a \emph{cross-section} of this pile of $p$-corollas, picking out an arrow from each one---a direction at each position.
+
+Alternatively, you could think of the arrow curving back to the polyboxes for $p$ in the picture of a section $\gamma$ from \eqref{eqn.gamma_def} as \emph{sectioning} off the polyboxes for $p$ from any polyboxes that may otherwise appear to its right.
+We clarify this intuition by returning to a previous example of a polynomial and considering its sections.
+
+\begin{example}
+  Recall from \cref{ex.lend-return} the polynomial
+  \[
+    q\coloneqq\sum_{k\in(0,\infty)}\yon^{[0,k]}
+  \]
+  whose positions $k\in(0,\infty)$ are the possible quantities of money that Caroline receives from her parents and whose directions $r\in[0,k]$ are the possible quantities of money that Caroline has remaining after spending some of it.
+
+  One component that was missing from our model was how Caroline spends her money.
+  A section for $q$ fills in this gap by closing the loop from the money Caroline receives to the money she has remaining.
+  Explicitly, a section $\gamma\colon q\to\yon$ corresponds to a dependent function $(k\in(0,\infty))\to[0,k]$ that uses the amount of money that Caroline receives to determine the amount of money that she will have remaining.
+
+  For instance, if Caroline always spends half the money she receives, then the polyboxes for the section $\gamma\colon q\to\yon$ that models this behavior can be drawn as follows:
+  \[
+  \begin{tikzpicture}[polybox,mapstos]
+    \node[poly, dom, "$q$" left] (p) {$k/2$\at$k$};
+    \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+  \end{tikzpicture}
+  \]
+  Without $\gamma$, we do not know how much money Caroline will decide to spend; having $\gamma$ makes her decision deterministic and sections this decision off from unknown variables.
+  Of course, the position box of $q$, the amount of money Caroline receives, is still open to outside influence, as determined by a lens to $q$ such as the one from \cref{ex.lend-return}.
+\end{example}
+
+The definition of $\Gamma$ given in \eqref{eqn.gamma_def} actually makes $\Gamma$ a functor $\poly\to\smset\op$ that satisfies the following property.
+
+\begin{proposition}\label{prop.gamma_pres_coproduct}
+  The sections functor $\Gamma\colon\poly\to\smset\op$ sends $(0,+)$ to $(1,\times)$:
+  \[
+  \Gamma(\0)\iso\1
+  \qqand
+  \Gamma(p+q)\iso\Gamma(p)\times\Gamma(q).
+  \]
+\end{proposition}
+
+\begin{exercise}
+  Prove \cref{prop.gamma_pres_coproduct}.
+  \begin{solution}
+    The functor $\Gamma$ is defined as the hom-functor $\poly(-,\yon)\colon\poly\to\smset\op$, which exhibits the universal property of colimits by sending colimits in $\poly$ to limits in $\smset$.
+    Hence \cref{prop.gamma_pres_coproduct} follows from \cref{prop.poly_coprods}.
+    More explicitly, $\Gamma(\0)=\poly(\0,\yon)\iso\1$ since $\0$ is initial in $\poly$, and $\Gamma(p+q)=\poly(p+q,\yon)\iso\poly(p+q,\yon)=\Gamma(p)\times\Gamma(q)$ since $+$ gives coproducts in $\poly$.
+  \end{solution}
 \end{exercise}
 
+%\begin{remark}
+%  The sections functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoidal in the sense that there are canonical functions
+%  \[
+%  \1\cong\Gamma(\yon)
+%  \qqand
+%  \Gamma(p)\times\Gamma(q)\to\Gamma(p\otimes q)
+%  \]
+%  satisfying certain well-known laws. But we won't need this, so we omit its proof.
+%\end{remark}
 
+\begin{example}[Lenses between monomials are bimorphic lenses] \label{subsec.poly.cat.morph.bimorphic-lens}
+  Lenses whose domains and codomains are both monomials are especially simple to write down, because they can be characterized as a pair of (standard, not dependent) functions that are independent of each other, as follows.
 
-%\section{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
+  Given $I,J,A,B\in\smset$, a lens $f\colon I\yon^A\to J\yon^B$ is determined by an on-positions function $f_\1\colon I\to J$ and an on-directions map: for each $i\in I$, an on-directions function $f^\sharp_i\colon B\to A$.
+  But the data of such an on-directions map may be repackaged as a single function $f^\sharp\colon I\times B\to A$.
+  We can do this because every position in $I$ has the same direction-set $A$, and every position in $J$ has the same direction-set $B$.
 
-Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
-Here's a picture of $\5\yon^{\1\2}$:
-\[
-\begin{tikzpicture}
-  \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
-    \begin{tikzpicture}[trees, sibling distance=1mm]
-      \foreach \i in {1,...,5}
-      {
-        \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        ;
-      };
-    \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
+  In functional programming, such a pair of functions is called a \emph{bimorphic lens}, or a \emph{lens} for short.
+  In categorical terms, we may say that the monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses}, defined in \cite{hedges2018limits} (here the category is named after its morphisms rather than its objects).
+  When such a lens arises in functional programming, the two functions that comprise it are given special names:
+  \begin{equation}\label{eqn.bimorphic_lens}
+    \begin{aligned}
+      \lensget\coloneqq f_\1 &\colon J\to I\\
+      \lensput\coloneqq f^\sharp &\colon I\times B\to A
+    \end{aligned}
+  \end{equation}
+  Each position $i\in I$ \emph{gets} a position $f_\1i\in J$ and \emph{puts} each direction $b\in B$ back to a direction $f^\sharp(i,b)\in A$.
 
-The formula for morphisms between these is particularly simple:
-\begin{align*}
-  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
-  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
-  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
-\end{align*}
-It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
-\[
-\poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
-\iso
-\left\{
-(f_\1,f^\sharp)
-\;\middle|\;
-\parbox{1.2in}{
-  $
-  \begin{aligned}
-    f_\1&\colon B_1\to B_2\\
-    f^\sharp&\colon B_1\times A_2\to A_1
-  \end{aligned}
-  $
-}.
-\right\}
-\]
-Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
-But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
+  So a natural transformation between two monomial functors is a bimorphic lens.
+  Then a natural transformation between two polynomial functors is a more general kind of lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
+  Favoring the dependent version, we call these natural transformations \emph{lenses}.
+\end{example}
 
-The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
-This category arises in functional programming.
-The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
-\begin{equation}\label{eqn.bimorphic_lens}
-  \begin{aligned}
-    \lensget\coloneqq f_\1 &\colon B_1\to B_2\\
-    \lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
-  \end{aligned}
-\end{equation}
-Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1b \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1b$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
-
-So a morphism between two monomials in $\poly$ is just a bimorphic lens.
-Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
-This is why we refer to these morphisms as \emph{lenses}.
-
-\begin{example} \label{ex.lens_get_put}
+\begin{example}[Very well-behaved lenses] \label{ex.lens_get_put}
   Consider the monomial $S\yon^S$.
   Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
-  In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
-  Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
+  We could think of each direction as pointing to the `next' position to move to.
   We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
 
-  A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-  When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
-  If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
-  Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
+  Then here is one way we can think of a lens $f\colon S\yon^S\to T\yon^T$.
+  Say that Otto takes positions in $S$, while Tim takes positions in $T$.
+  Tim will act as Otto's proxy as follows.
+  Tim will model Otto's position via the on-positions function $S\to T$ of $f$: if Otto is at position $s\in S$, then Tim will be at position $f_\1(s)\in T$.
+  On the other hand, Otto will take his directions from Tim via the on-directions map $S\times T\to S$ of $f$: if Tim follows the direction $t'\in T$, then Otto will head from his current position $s\in S$ in the direction $f^\sharp(s,t')\in S$.
+  We interpret these directions as new positions for Otto and Tim to move to.
+  So as Otto moves through the positions in $S$, he is both modeled and directed by Tim moving through the positions in $T$.
 
-  But what happens when we string together these decisions into cycles?
-  Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
-  In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
+  With this setup, there are three conditions that we might expect the lens $f\colon S\yon^S\to T\yon^T$ to satisfy:
   \begin{enumerate}
-    \item If your friend chooses to stay put, then you should stay put, too.
-    This is reflected by the equation
+    \item With Otto at $s\in S$, if Tim stays put at $f_\1s$ (i.e.\ the direction he selects at $f_\1s$ is still $f_\1s$), then Otto should stay put at $s$ (i.e.\ the direction he selects at $s$ is still $s$):
     \[
-    \lensput(s,\lensget(s))=s.
+      f^\sharp(s,f_\1s)=s.
     \]
 
-    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
-    This is reflected by the equation
+    \item Once Tim moves to $t\in T$ and Otto moves from $s\in S$ accordingly, Tim's new position should model Otto's new position:
     \[
-    \lensget(\lensput(s,t))=t.
+      f_\1(f^\sharp(s,t))=t.
     \]
 
-    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
-    This is reflected by the equation
+    \item If Tim moves to $t$, then to $t'$, Otto should end up at the same position as where he would have ended up if Tim had moved directly to $t'$ in the first place:
     \[
-    \lensput(\lensput(s,t),t')=\lensput(s,t')
+      f^\sharp(f^\sharp(s,t),t')=f^\sharp(s,t')
     \]
   \end{enumerate}
   Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
-  But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
+  We will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
 \end{example}
 
 %-------- Section --------%
 \section{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
-We now know that we can specify a morphism $p\to q$ in $\poly$ in two ways:
+We now know that we can specify a morphism $p\to q$ in $\poly$ in one of two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
     \item in the language of positions and directions, by specifying a lens $p\to q$, i.e.\ a function $f_\1 \colon p(\1) \to q(\1)$ and, for each $i \in p(\1)$, a function $f^\sharp_i \colon q[f_\1i] \to p[i]$.
@@ -3308,6 +3374,8 @@ So for convenience, we may omit the entries in the boxes not colored blue withou
   But the polyboxes show how lenses pass positions and directions back and forth far more legibly than all the words in this paragraph can.
   Throughout the rest of this book, we will see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
 \end{remark}
+
+% TODO: moneylending example composed?
 
 %-------- Section --------%
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
@@ -4563,6 +4631,24 @@ Positions of the interface are called \emph{outputs}, and directions of the inte
 The lens's on-positions function $\varphi_\1\colon S\to p(\1)$ is called the \emph{return function}, and for each $s\in S$, the lens's on-directions function $\varphi^\sharp_s\colon p[\varphi_\1(s)]\to S$ is called the \emph{update function} at $s$.
 \end{definition}
 
+\begin{example}[Dynamical systems as polyboxes]
+  We can express a dynamical system $\varphi\colon S\yon^S\to p$ in polyboxes as
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+      \node[poly, cod, right=of S, "$p$" right] (p) {$i$\at$o$};
+
+      \draw (S_pos) -- node[below] {return} (p_pos);
+      \draw (p_dir) -- node[above] {update} (S_dir);
+    \end{tikzpicture}
+  \end{equation*}
+  Then the polybox acts as a channel between the internal state system on the left and the external interface on the right.
+  The state system enters its current state $s\in S$ into the lower left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the lower right white box.
+  Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
+  Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
+\end{example}
+
 \subsection{Thinking about dependency}
 
 The current output $i$ of a dependent dynamical system with interface $p$ is a $p$-position: an element of the set $p(\1)$.
@@ -5221,61 +5307,79 @@ Then the file-searcher acts just like the file-reader does on inputs, so the on-
 \end{solution}
 \end{exercise}
 
+\begin{example}[Polybox pictures of wrapper interfaces]
+  In polyboxes, composing a dynamical system $\varphi\colon S\yon^S\to p$ with a wrapper $f\colon p\to q$ looks like this:
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+      \node[poly, right=of S, "$p$" below] (p) {$i$\at$o$};
+
+      \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
+
+      \draw (S_pos) -- node[below] {return} (p_pos);
+      \draw (p_dir) -- node[above] {update} (S_dir);
+      \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+    \end{tikzpicture}
+  \end{equation*}
+  The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the lower box on the far right.
+  Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
+  The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
+
+  Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving output from the white box below and feeding input into the blue box above.
+  To an agent who is unaware of its inner workings, the composite dynamical system $\varphi\then f$ might as well look like this:
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+      \node[poly, cod, right=of S, "$q$" right] (q) {$i'$\at$o'$};
+
+      \draw (S_pos) -- node[below] {return$'$} (q_pos);
+      \draw (q_dir) -- node[above] {update$'$} (S_dir);
+    \end{tikzpicture}
+  \end{equation*}
+\end{example}
+
 In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
-\subsection{Situations as enclosures}\label{subsec.poly.dyn_sys.new.sit_encl}
+\subsection{Sections as wrappers}\label{subsec.poly.dyn_sys.new.sit_encl}
 Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
 We can think of this as wrapping $\yon$, the interface with one output and one input, around $\varphi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
-We call such a wrapper an \emph{enclosure} for an interface $p$, since it is a way of closing off $p$ to the outside world.
+In the language of \cref{def.sec-bun}, this is precisely a \emph{section} of $p$.
+As we noted then, this name is appropriate, since $\gamma$ a way of sectioning off the interface $p$ from the outside world.
 
-Let us zoom out from the dynamical systems interpretation of polynomials for the time being to examine the categorical properties of enclosures.
-Given a polynomial $p$, we denote the set of lenses $p\to\yon$ by
-\begin{equation} \label{eqn.gamma_def}
-\Gamma(p)\coloneqq\poly(p,\yon)
-\end{equation}
-as we did in \cref{prop.adjoint_quadruple}.
-By \eqref{eqn.main_formula}, we have that
-\begin{equation} \label{eqn.gamma_prod}
-    \Gamma(p) \iso \prod_{i \in p(\1)} p[i],
-\end{equation}
-so a map $\gamma\in\Gamma(p)$ can be thought of as a dependent function that sends each $p$-position $i$ to a direction $\gamma(i)$ of $p$ at $i$.
-So we call an element of $\Gamma(p)$ a \emph{situation} for $p$.
-The idea is that the situation you're in gives you a direction to go along at any position you may take.
-
-Returning to the language of dynamical systems, a situation for $p$ corresponds to an enclosure for the interface $p$, in that it chooses a fixed input at every output of $p$.
-An enclosure for your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
-
-\begin{remark}
-Although they both refer to lenses into $\yon$, we will favor the term \emph{enclosure} in the context of dynamical systems and wrappers and the term \emph{situation} more generally.
-\end{remark}
+Recall that a section $\gamma\colon p\to\yon$ can be identified with a dependent function $\gamma\colon(i\in p(\1))\to p[i]$ that sends each $p$-position $i$ to a $p[i]$-direction.
+In the language of dynamical systems, a section of the interface $p$ chooses a fixed input at every output of $p$.
+A section for your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
 
 \begin{exercise} \label{exc.enclosures_as_functions}
 Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{enumerate}
-	\item Is it true that an enclosure $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
-	\item Describe how to interpret an enclosure $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
-	\item Given an enclosure $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
+	\item Is it true that a section $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
+	\item Describe how to interpret a section $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
+	\item Given a section $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
 	\item No, it represents a function $B\to A$!
-	An enclosure sends each output $b\in B$ to an input $a\in A$.
-	\item As a wrapper around an interface $B\yon^A$, an enclosure $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
-	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with an enclosure $\gamma$ yields a Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
-	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the enclosure $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
+	A section sends each output $b\in B$ to an input $a\in A$.
+	\item As a wrapper around an interface $B\yon^A$, a section $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
+	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with a section $\gamma$ yields a Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
+	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the section $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
 	\[
 	    S\To{\Delta}S\times S\To{\id_S\times\text{return}}S\times B\To{\id_S\times g}S\times A\To{\text{update}}S,
 	\]
 	where $\Delta$ is the diagonal map $s\mapsto(s,s)$.
-	This composite map $S\to S$ sends every state to the next according to the output the original state returns, the input that the enclosure gives in response to that output, and the update function that sends the original state and the input to the new state.
+	This composite map $S\to S$ sends every state to the next according to the output the original state returns, the input that the section gives in response to that output, and the update function that sends the original state and the input to the new state.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}[The do-nothing enclosure] \label{ex.do_nothing}
+\begin{example}[The do-nothing section] \label{ex.do_nothing}
 There is something rather off-putting about the way we model dynamical systems as lenses $\varphi\colon S\yon^S\to p$.
 We know that $\varphi$ tells us how state-positions return output-positions and, given a current state-position, how input-directions update state-directions.
 But we rely only on the labels of elements in $S$ to tell us which positions and directions refer to the same states!
@@ -5284,22 +5388,22 @@ Nothing inherent in the language of $\poly$ makes these associations between sta
 Put another way, the monomials $\{4,6\}\yon^{\{4,6\}},\{4,6\}\yon^{\{4,8\}},$ and $\{3,5\}\yon^{\{6,7\}}$ are all isomorphic in $\poly$, but the first can be a state system while the other two cannot!
 
 To address this issue, we need a way to connect the positions of a polynomial to its own directions in the language of $\poly$.
-Here's where situations save the day: a lens $S\yon^S\to\yon$ is just a way of assigning to each position in $S$ a direction in $S$.
-So we can define $\epsilon\colon S\yon^S\to\yon$ to be the situation that sends each position $s\in S$ to the direction $s$ at $s$ corresponding to the same state.
+Here's where sections save the day: a lens $S\yon^S\to\yon$ is just a way of assigning to each position in $S$ a direction in $S$.
+So we can define $\epsilon\colon S\yon^S\to\yon$ to be the section that sends each position $s\in S$ to the direction $s$ at $s$ corresponding to the same state.
 Note that $\epsilon$ can be identified with the identity function on $S$ (see \cref{exc.enclosures_as_functions}).
 Now $\poly$ knows which direction is associated with the same state as the position it is at.
 
-In this way, we can generalize our notion of state systems to monomials $S\yon^{S'}$ equipped with a bijection $S\to S'$, which we can then translate to a situation $\epsilon\colon S\yon^{S'}\to\yon$.
+In this way, we can generalize our notion of state systems to monomials $S\yon^{S'}$ equipped with a bijection $S\to S'$, which we can then translate to a section $\epsilon\colon S\yon^{S'}\to\yon$.
 But for convenience of notation, we will continue to identify the position-set of a state system with each of its direction-sets.
 
-More concretely, the enclosure $\epsilon\colon S\yon^S\to\yon$ acts as a very special (if rather unexciting) dynamical system: it is the \emph{do-nothing enclosure}, with only one possible output and one possible input that always keeps the current state the same.
-While the system does, well, nothing, we do know one key fact about it: given any state system, regardless of the state set, we can always define a do-nothing enclosure on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
-The existence of the do-nothing enclosure explains why our terminology does not clash: every polynomial $S\yon^S$ comes equipped with a dependent dynamical system $\epsilon\colon S\yon^S\to\yon$, so it really is a state \emph{system}.
+More concretely, the section $\epsilon\colon S\yon^S\to\yon$ acts as a very special (if rather unexciting) dynamical system: it is the \emph{do-nothing section}, with only one possible output and one possible input that always keeps the current state the same.
+While the system does, well, nothing, we do know one key fact about it: given any state system, regardless of the state set, we can always define a do-nothing section on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
+The existence of the do-nothing section explains why our terminology does not clash: every polynomial $S\yon^S$ comes equipped with a dependent dynamical system $\epsilon\colon S\yon^S\to\yon$, so it really is a state \emph{system}.
 Later on we'll see other systems that come with $S\yon^S$ for free.}
 
 Yet this isn't the whole story.
-The do-nothing enclosure knows, at each position, the direction that keeps the system at the same state; but it doesn't know which of the other directions send the system to which of the other positions' states.
-We're still relying on the labels of direction-sets being the same for that: for instance, the polynomials $\{1',2',3'\}\yon^{\{1,2,3\}}$ and $\{1'\}\yon^{\{0,1,4\}}+\{2'\}\yon^{\{2,5,6\}}+\{3'\}\yon^{\{-8,-1,3\}}$ are isomorphic, but even with a do-nothing enclosure matching $1'\mapsto1,2'\mapsto2,3'\mapsto3$ to make the first one into a state system, we don't have a way to tell $\poly$ how to make the second one a state system yet.
+The do-nothing section knows, at each position, the direction that keeps the system at the same state; but it doesn't know which of the other directions send the system to which of the other positions' states.
+We're still relying on the labels of direction-sets being the same for that: for instance, the polynomials $\{1',2',3'\}\yon^{\{1,2,3\}}$ and $\{1'\}\yon^{\{0,1,4\}}+\{2'\}\yon^{\{2,5,6\}}+\{3'\}\yon^{\{-8,-1,3\}}$ are isomorphic, but even with a do-nothing section matching $1'\mapsto1,2'\mapsto2,3'\mapsto3$ to make the first one into a state system, we don't have a way to tell $\poly$ how to make the second one a state system yet.
 
 From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\varphi\colon S\yon^S\to p$ does ``one thing'': it steps through the system once, generating the current state's output with the return function and taking in input with the update function.
 It's all set to take another step, but how does $\poly$ know which state to visit next?
@@ -5308,61 +5412,99 @@ Can we actually $\emph{run}$ a dynamical system in $\poly$?
 We'll develop the machinery to answer these questions over the course of the three chapters in \cref{part.comon}, starting in \cref{subsec.comon.comp.def.dyn_sys}.
 \end{example}
 
-\begin{exercise}
-The notation $\Gamma(p)$ for the set of situations for a polynomial $p$ comes from the common mathematical concept of a ``global section.''
-Show that situations $\gamma\colon p\to\yon$ are precisely \emph{sections} (as defined in \cref{exc.product_as_sections}) of the canonical function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
-\begin{solution}
-Given a polynomial $p$, we wish to show that situations for $p$ are precisely sections of the function $\pi_p\colon\dot{p}(\1)\to p(\1)$ from \cref{exc.deriv_directions}.
-That function sends every direction of $p$ to the position at which it is located.
-So a section $\gamma\colon p(\1)\to\dot{p}(\1)$ of $\pi_p$ would send each $p$-position to a direction of $p$ at that position, which is also exactly what a situation for $p$ does.
-Alternatively, we can directly apply \cref{exc.product_as_sections} to deduce that the dependent product $\Gamma(p)\iso\prod_{i \in p(\1)}p[i]$ is isomorphic to the set of sections of the projection $\sum_{i\in p(\1)}p[i]\to p(\1)$ defined by $(i,x)\mapsto i$, which is exactly $\pi_p$.
-\end{solution}
-\end{exercise}
+\begin{example}[Polybox pictures of sections as wrappers]
+  In polyboxes, composing a system $S\yon^S\to p$ with a section $\gamma$ of $p$ can be depicted as
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {};
 
-\begin{proposition}\label{prop.gamma_pres_coproduct}
-The situations functor $\Gamma\colon\poly\to\smset\op$ sends $(0,+)$ to $(1,\times)$:
-\[
-	\Gamma(\0)\iso\1
-	\qqand
-	\Gamma(p+q)\iso\Gamma(p)\times\Gamma(q).
-\]
-\end{proposition}
-Technically, one could say that $\Gamma$ preserves coproducts, since coproducts in $\smset\op$ are products in $\smset$.
+      \node[poly, right=of S, "$p$" below] (p) {};
 
-\begin{exercise}
-Prove \cref{prop.gamma_pres_coproduct}.
-\begin{solution}
-\cref{prop.gamma_pres_coproduct} follows directly from \cref{prop.poly_coprods}: we have that $\Gamma(\0) = \poly(\0,\yon) \iso \1$ since $\0$ is initial in $\poly$, and $\Gamma(p + q) = \poly(p+q,\yon) \iso \poly(p+q,\yon) = \Gamma(p) \times \Gamma(q)$ since $+$ gives coproducts in $\poly$.
-\end{solution}
-\end{exercise}
+      \node[poly, identity, right=of p, "$\yon$" right] (yon) {};
 
-\begin{remark}
-The situations functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoidal in the sense that there are canonical functions
-\[
-	\1\cong\Gamma(\yon)
-	\qqand
-	\Gamma(p)\times\Gamma(q)\to\Gamma(p\otimes q)
-\]
-satisfying certain well-known laws. But we won't need this, so we omit its proof.
-\end{remark}
+      \draw (S_pos) -- node[below] {return} (p_pos);
+      \draw (p_dir) -- node[above] {update} (S_dir);
+      \draw (p_pos) -- node[below] {$!$} (yon_pos);
+      \draw (yon_dir) -- node[above] {$\gamma^\sharp$} (p_dir);
+    \end{tikzpicture}
+  \end{equation*}
+  or, equivalently, as
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {};
 
-% \subsubsection{The polynomial $S\yon^S$ as a comonad on $\smset$}\label{page.poly_comonad}
+      \node[poly, right=of S, "$p$" below] (p) {};
 
-% A \emph{comonad} on $\smset$ is a functor $F\colon\smset\to\smset$, equipped with two natural transformations $\epsilon\colon F\to\id$ and $\delta\colon F\to F\circ F$, satisfying three equations. We don't need this now, so we won't get into it here. But we will note that every comonad comes from an adjunction, and the adjunction corresponding to $S\yon^S$ is
-% \[
-% \adj{\smset}{-\times S}{-^S}{\smset}
-% \]
-% the ``curry/uncurry'' adjunction. In functional programming, the comonad $S\yon^S$ is called the \emph{state comonad},%
-% \footnote{The comonad $S\yon^S$ is sometimes called the \emph{store} comonad.}
-% and the elements of $S$ are called states. \niu{Are they??} It is no coincidence that we also refer to elements of $S$ as states. \niu{How does the interpretation of the store comonad as a data structure indexed by $S$ along with a ``current location'' element in $S$ actually relate to this?}
+      \draw (S_pos) -- node[below] {return} (p_pos);
+      \draw (p_dir) -- node[above] {update} (S_dir);
+      \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+    \end{tikzpicture}
+  \end{equation*}
+  Remember: in a polybox depiction of a dynamical system, the world outside the system exists to the right of all the boxes.
+  So the first picture represents $\yon$ as a gray wall, cutting off any interaction between the system to its left and the world to its right.
+  Meanwhile, the second picture illustrates how a sectioned-off system independently selects inputs to the intermediary interface $p$ via $\gamma$, according to the outputs of $p$ that the inner (leftward) system $S\yon^S\to p$ returns.
+  While the second picture shows us why the closed system neither seeks nor requires external input, the first picture helps remind us that the output of $p$ never reaches the outside world either.
+  The composite system is therefore equivalent to the section drawn as follows:
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, tos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {};
 
-% Again, we will be \emph{very} interested in polynomial comonads later---as mentioned in \cref{prop.ahman_uustalu1}, they are exactly categories!!---but for now we move on to things we can use right away in our story about dynamical systems.%
-% \footnote{If you're curious what category the comonad $S\yon^S$ corresponds to, it's the one with object set $S$ and a unique morphism $s_1\to s_2$ for every pair of objects $s_1,s_2\in S$.}
+      \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
+    \end{tikzpicture}
+  \end{equation*}
+  In lens parlance, $\gamma'\colon S\yon^S\to\yon$ is the original system $S\yon^S\to p$ composed with $\gamma\colon p\to\yon$; in the language of dependent functions, $\gamma'\colon S\to S$ is given by
+  \[
+  \gamma'(s)=\text{update}(s,\gamma(\text{return}(s))) \qquad \text{for all }s\in S,
+  \]
+  where we interpret $\gamma$ as a dependent function $(i\in p(\1))\to p[i]$.
+  We can deduce this equation by matching up the previous two different polybox pictures, knowing that they represent the same lens.
+  Placing the boxes side by side and filling them in with dummy variables (making sure to fill the blue boxes on either side with the same entry) makes the equation easier to read off the picture:
+  \[
+  \begin{tikzpicture}
+    \node (1) {
+      \begin{tikzpicture}[polybox, mapstos]
+        \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+
+        \node[poly, right=of S, "$p$" below] (p) {$o$\at$i$};
+
+        \draw (S_pos) -- node[below] {return} (p_pos);
+        \draw (p_dir) -- node[above] {update} (S_dir);
+        \draw (p_pos) to[climb'] node[right] {$\gamma$} (p_dir);
+      \end{tikzpicture}
+    };
+    \node[right=1.8 of 1] (2) {
+      \begin{tikzpicture}[polybox, mapstos]
+        \node[poly, dom, "$S\yon^S$" left] (S) {$t'$\at$s$};
+
+        \draw (S_pos) to[climb'] node[right] {$\gamma'$} (S_dir);
+      \end{tikzpicture}
+    };
+    \node at ($(1.east)!.5!(2.west)$) {=};
+  \end{tikzpicture}
+  \]
+  Matching up the upper boxes of the domain in both pictures, we have that $t=t'$, so
+  \[
+  \gamma'(s)=t'=t=\text{update}(s,o)=\text{update}(s,\gamma(i))=\text{update}(s,\gamma(\text{return}(s))).
+  \]
+  Later on we will read more intricate equations off of polyboxes in this manner, although we won't spell it out in so much detail; we encourage you to trace through the arrows on your own.
+\end{example}
+
+\begin{example}[The do-nothing section in polyboxes]  \label{ex.do_nothing_polybox}
+  In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with a section $\epsilon\colon S\yon^S\to\yon$ called the do-nothing section, which assigns each state-position to its corresponding state-direction, thus leaving the state unchanged.
+  That is, it is the section whose polyboxes can be drawn as follows:
+  \begin{equation*}
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$S\yon^S$" left] (S) {$s$\at$s$};
+
+      \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
+    \end{tikzpicture}
+  \end{equation*}
+\end{example}
 
 %-------- Section --------%
 \section{General interaction}\label{sec.poly.dyn_sys.interact}
 
-We now have all the pieces we need to fulfill the promises of \cref{sec.poly.intro.dyn_sys} by modeling interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
+We now have all the pieces we need to model interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
 
 \subsection{Wrapping juxtaposed dynamical systems together}
 
@@ -5597,17 +5739,17 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
 \end{solution}
 \end{exercise}
 
-\subsection{Enclosing juxtaposed dynamical systems together}
+\subsection{Sectioning juxtaposed dynamical systems off together}
 
-We saw in \cref{subsec.poly.dyn_sys.new.sit_encl} that a situation (i.e.\ lens into $\yon$) for the interface of a dynamical system encloses that dynamical system in a closed system.
-So it should not come as a surprise that a situation for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
+We saw in \cref{subsec.poly.dyn_sys.new.sit_encl} that a section (i.e.\ lens to $\yon$) for the interface of a dynamical system sections that dynamical system off as a closed system.
+So it should not come as a surprise that a section for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
 Imagine that you see some chalk and you pinch it between your thumb and forefinger.
 An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around.
 How might we model this in $\poly$?
 We will construct a closed dynamical system---one with interface $\yon$---consisting of only you and the chalk.
-To do so, we will provide an interface for you, and interface for the chalk, and an enclosure for your juxtaposition.
+To do so, we will provide an interface for you, and interface for the chalk, and an section for your juxtaposition.
 
 Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
@@ -5651,7 +5793,7 @@ $HPH\to HHP$, and we take it to be the obvious map sending your height and press
   \end{cases}
 \]
 
-So now we've got you and the chalk in enclosed together by $\gamma$, so we are ready to add some dynamics.
+So now we've got you and the chalk in sectioned off together by $\gamma$, so we are ready to add some dynamics.
 Your dynamics can be whatever you want, so let's just add some dynamics to the chalk (you'll get to give yourself some dynamics in \cref{exc.pickup_chalk}).
 The chalk has only four states $C\coloneqq \{\text{`out'}, \text{`in'}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is in your possession.
 We will give a dynamical system $C\yon^C\to\const{Chalk}$ with states $C$ and interface $\const{Chalk}$, i.e.\ a lens
@@ -5692,8 +5834,8 @@ Our goal here is to show that you can define interactions in which one system ca
 \end{solution}
 \end{exercise}
 
-Given $n\in\nn$ and polynomials $p_1,\ldots,p_n$ as interfaces, a situation $p_1\otimes\cdots\otimes p_n\to\yon$ puts these $n$ interfaces in an enclosure together.
-The following proposition provides an alternative perspective on such situations.
+Given $n\in\nn$ and polynomials $p_1,\ldots,p_n$ as interfaces, a section $p_1\otimes\cdots\otimes p_n\to\yon$ sections off these $n$ interfaces together.
+The following proposition provides an alternative perspective on such sections.
 
 \begin{proposition}\label{prop.situations2}
 Given polynomials $p,q\in\poly$, there is a bijection
@@ -5701,7 +5843,7 @@ Given polynomials $p,q\in\poly$, there is a bijection
 \Gamma(p\otimes q)\cong\smset\big(q(\1),\Gamma(p)\big)\;\times\;\smset\big(p(\1),\Gamma(q)\big).
 \end{equation}
 \end{proposition}
-The idea is that specifying an enclosure for interfaces $p$ and $q$ together is equivalent to specifying an enclosure for $p$ for every output $q$ might return and specifying an enclosure for $q$ for every output $p$ might return.
+The idea is that specifying a section for the interfaces $p$ and $q$ together is equivalent to specifying a section for $p$ for every output $q$ might return and specifying a section for $q$ for every output $p$ might return.
 \begin{proof}[Proof of \cref{prop.situations2}]
 This is a direct calculation:
 \begin{align*}
@@ -5716,7 +5858,7 @@ This is a direct calculation:
 \end{proof}
 
 \begin{example}
-An enclosure $f\colon B\yon^A\otimes B'\yon^{A'}\to \yon$, corresponds to a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')\in BB'$, the enclosure $f$ specifies a pair of inputs $(a,a')\in AA'$.
+A section $f\colon B\yon^A\otimes B'\yon^{A'}\to \yon$, corresponds to a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')\in BB'$, the section $f$ specifies a pair of inputs $(a,a')\in AA'$.
 
 Let's think of elements of $B$ and $B'$ not as outputs, but as locations that two machines may occupy.
 \[
@@ -5739,31 +5881,31 @@ Let's think of elements of $B$ and $B'$ not as outputs, but as locations that tw
 Then given a pair of locations $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e.\ what values of $(a,a')$ they get.
 Equivalently, \eqref{eqn.situations2} says that the interaction pattern tells us what values the first eye sees at any location when the second eye's location is fixed at $b'$, as well as what values the second eye sees at any location when the first eye's location is fixed at $b$.
 
-Here we see that \eqref{eqn.situations2} provides two ways to interpret the interaction pattern between two interfaces in a closed system: either as an enclosure around each interface that the other is part of, or as a single enclosure around them both.
+Here we see that \eqref{eqn.situations2} provides two ways to interpret the interaction pattern between two interfaces in a closed system: either as a section around each interface that the other is part of, or as a single section around them both.
 \end{example}
 
 \begin{exercise}
 Let $p\coloneqq q\coloneqq\nn\yon^\nn$.
-We wish to specify an enclosure around their juxtaposition.
+We wish to specify a section around their juxtaposition.
 \begin{enumerate}
     \item Say we wanted to feed the output of $q$ as input to $p$.
     What function $f\colon q(\1)\to\Gamma(p)$ captures this behavior?
     \item Say we wanted to feed the sum of the outputs of $p$ and $q$ as input to $q$.
     What function $g\colon p(\1)\to\Gamma(q)$ captures this behavior?
-    \item What enclosure $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
+    \item What section $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
 	\item Let dynamical systems $\varphi\colon\nn\yon^\nn\to p$ and $\psi\colon\nn\yon^\nn\to q$ both be the identity on $\nn\yon^\nn$.
 	Suppose $\varphi$ starts in the state $0\in\nn$ and $\psi$ starts in the state $1\in\nn$.
-	Describe the behavior of the system obtained by enclosing $\varphi$ and $\psi$ together with $\gamma$, i.e.\ the system $(\varphi\otimes\psi)\then\gamma$.
+	Describe the behavior of the system obtained by sectioning $\varphi$ and $\psi$ off together with $\gamma$, i.e.\ the system $(\varphi\otimes\psi)\then\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \begin{enumerate}
-    \item If we want to feed the output of $q$ as input to $p$, the corresponding function $f\colon q(\1)\to\Gamma(p)$ should send any output $b\in q(\1)$ to the enclosure $\nn\to\nn$ of $p$ that sends any natural number output of $p$ to $b$ itself.
+    \item If we want to feed the output of $q$ as input to $p$, the corresponding function $f\colon q(\1)\to\Gamma(p)$ should send any output $b\in q(\1)$ to the section $\nn\to\nn$ of $p$ that sends any natural number output of $p$ to $b$ itself.
     That is, $f$ is the function $b\mapsto(\_\mapsto b)$.
-    \item If we want to feed the sum of the outputs of $p$ and $q$ as input to $q$, the corresponding function $g\colon p(\1)\to\Gamma(q)$ should send any output $a\in q(\1)$ to the enclosure $\nn\to\nn$ of $q$ that sends every natural number output $b$ of $q$ to the sum $a+b$.
+    \item If we want to feed the sum of the outputs of $p$ and $q$ as input to $q$, the corresponding function $g\colon p(\1)\to\Gamma(q)$ should send any output $a\in q(\1)$ to the section $\nn\to\nn$ of $q$ that sends every natural number output $b$ of $q$ to the sum $a+b$.
     That is, $g$ is the function $a\mapsto(b\mapsto a+b)$.
-    \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((f(b))(a),(g(a))(b))=(b,a+b)$, which is the enclosure $\gamma\colon p\otimes q\to\yon$ that $(f,g)$ corresponds to via \eqref{eqn.situations2}.
+    \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((f(b))(a),(g(a))(b))=(b,a+b)$, which is the section $\gamma\colon p\otimes q\to\yon$ that $(f,g)$ corresponds to via \eqref{eqn.situations2}.
     \item As $\varphi$ and $\psi$ are both the identity, the system $(\varphi\otimes\psi)\then\gamma$ is really just the system $\gamma\colon p\otimes q\to\yon$.
     When it is at state $(a,b)$, its next state will be $(b,a+b)$.
     So if its initial state is $(0,1)$, its following states will be $(1,1),(1,2),(2,3),(3,5),(5,8),(8,13),\ldots$, forming the familiar Fibonacci sequence.
@@ -5774,20 +5916,20 @@ We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \begin{exercise}
 We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \const{You} and \const{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$.
 \begin{enumerate}
-	\item How does the chalk's output specify an enclosure for you? That is, write the map $\const{Chalk}(\1)\to\Gamma(\const{You})$.
-	\item How does your output specify an enclosure for the chalk? That is, write the map $\const{You}(\1)\to\Gamma(\const{Chalk})$.
+	\item How does the chalk's output specify a section for you? That is, write the map $\const{Chalk}(\1)\to\Gamma(\const{You})$.
+	\item How does your output specify a section for the chalk? That is, write the map $\const{You}(\1)\to\Gamma(\const{Chalk})$.
 \qedhere
 \end{enumerate}
 \begin{solution}
-We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$ from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$ via \eqref{eqn.situations2}.
+We wish to write the section $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$ from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$ via \eqref{eqn.situations2}.
 \begin{enumerate}
     \item Fix an output $(s_\const{Chalk}, h_\text{chalk})\in\const{Chalk}(\1)=\{\text{`out'},\text{`in'}\}H$ of the chalk.
-    If $s_\const{Chalk}=\text{`out'}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
+    If $s_\const{Chalk}=\text{`out'}$, then the corresponding section $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
     \[
         (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
     \]
     according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
-    Meanwhile, if $s_\const{Chalk}=\text{`in'}$, then the corresponding enclosure $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
+    Meanwhile, if $s_\const{Chalk}=\text{`in'}$, then the corresponding section $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
     \[
         (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
     \]
@@ -5798,7 +5940,7 @@ We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\y
     \]
 
     \item Fix an output $(h_\const{You},p_\const{You})\in\const{You}(\1)=HP$ of the chalk.
-    Then the corresponding enclosure $\const{Chalk}\iso\{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{`out'}\}H\to P$ sending
+    Then the corresponding section $\const{Chalk}\iso\{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{`out'}\}H\to P$ sending
     \[
         (\text{`out'},h_\const{Chalk})\mapsto
             \begin{cases}
@@ -5849,7 +5991,7 @@ We wish to write the enclosure $\gamma\colon\const{You}\otimes\const{Chalk}\to\y
         &\iso \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Universal properties of products and internal homs},
     \end{align*}
     and the result follows.
-    \item The general idea is that specifying an enclosure for interfaces $p_1,\ldots,p_n$ together is equivalent to specifying an enclosure for $p_i$ for every output all the other interfaces might return, for each $i\in\ord{n}$.
+    \item The general idea is that specifying a section for interfaces $p_1,\ldots,p_n$ together is equivalent to specifying a section for $p_i$ for every output all the other interfaces might return, for each $i\in\ord{n}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6166,7 +6308,7 @@ In other words, we can associate each vertex $v\in V$ with the monomial
 	p_v\coloneqq\tau(v)\yon^{\prod_{e\in E_v}\tau(t(e))}
 \]
 specifying its inputs and outputs, where $E_v\coloneqq s\inv(v)\ss E$ denotes the set of edges emanating from $v$.
-The graph then determines an enclosure
+The graph then determines a section
 \[
 \gamma\colon\bigotimes_{v\in V}p_v\to\yon
 \]
@@ -6251,11 +6393,11 @@ In other words, each possible state configuration $S$ of all the vertices in $V$
 In the case of \cref{ex.graph_interaction}, when we had a graph, it told us what the neighbor function should always be.
 Now we can think of it like all the vertices are voting, via $N'$, on what neighbor function to use to determine which vertices are listening to which others.
 
-We can put this all together by providing an enclosure for all the vertices,
+We can put this all together by providing a section for all the vertices,
 \begin{equation}\label{eqn.polymap_misc9237}
     \bigotimes_{v\in V}p_v\cong\2^V\yon^{\2^{\sum_{v\in V}\ord{n}(v)}}\too\yon.
 \end{equation}
-Specifying such an enclosure amounts to specifying a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{n}(v)}$ that sends each possible state configuration $S\in\2^V$ of all the vertices in $V$ to a function $g(S)\colon\sum_{v\in V}\ord{n}(v)\to\2$ specifying the states every vertex hears.
+Specifying such a section amounts to specifying a function $g\colon \2^V\to\2^{\sum_{v\in V}\ord{n}(v)}$ that sends each possible state configuration $S\in\2^V$ of all the vertices in $V$ to a function $g(S)\colon\sum_{v\in V}\ord{n}(v)\to\2$ specifying the states every vertex hears.
 But we already have a neighbor function assigned to $S$ that respects $\ord{n}$, namely $N'_S$, for which $N'_S(v)\iso\ord{n}(v)$ for all $v\in V$.
 So we can think of $g(S)$ equivalently as a function $g(S)\colon\sum_{v\in V}N'_S(v)\to\2$ that says for each $v\in V$ what signal in $\2$ it should receive from its neighbor $w\in N'_S(v)$.
 But we can just have it receive the current state of its neighbor, as given by $S$:
@@ -6386,7 +6528,7 @@ We want to consider the case of a company that may change its supplier based on 
 \end{tikzpicture}
 \]
 So the company has interface $\2\yon^W$, and each supplier has interface $W\yon$.
-Then an enclosure for the company and the suppliers is just a lens $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$, corresponding to a function $\2W^\2\to W$ given by evaluation.
+Then a section for the company and the suppliers is just a lens $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$, corresponding to a function $\2W^\2\to W$ given by evaluation.
 In other words, the company's output determines its supplier.
 \end{example}
 
@@ -6423,7 +6565,7 @@ Call this set $X$, so that \texttt{unit A} has interface $X\yon$ and \texttt{uni
 We fix a default value $x_0\in X$ for the input to \texttt{unit B} when it is not connected to \texttt{unit A}.
 Meanwhile, the person takes no input and dictates whether the units are attached or not, so we give it interface $\2\yon$.
 
-Then an enclosure for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+Then a section for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
 \end{example}
 
 We can easily generalize \cref{ex.assemble_machine}.
