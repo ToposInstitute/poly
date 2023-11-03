@@ -2628,6 +2628,223 @@ Here $p, q \in \poly$.
 \end{exercise}
 
 %-------- Section --------%
+\section{Dependent lenses between special polynomials}
+
+In \cref{sec.poly.obj.spec}, we considered four special classes of polynomials (here $I$ and $A$ are sets): constant polynomials $I$, linear polynomials $I\yon$, representable polynomials $\yon^A$, and monomials $I\yon^A$.
+Of special note are the constant and linear polynomial $\0$, the constant and representable polynomial $\1$, and the linear and representable polynomial $\yon$.
+We now consider lenses with all of these special polynomials as domains or codomains with the help of polyboxes, highlighting some important examples and leaving the rest as exercises.
+Let $p$ be a polynomial throughout.
+
+\begin{example}[Lenses from linear polynomials] \label{ex.lens-from-lin}
+  A lens $f\colon I\yon\to p$ can be drawn in polyboxes as follows:
+  \[
+    \begin{tikzpicture}
+      \node (f) {
+        \begin{tikzpicture}[polybox, tos]
+          \node[poly, linear dom] (p) {};
+          \node[left=0pt of p_pos] {$I$};
+
+          \node[poly, cod, right=of p] (q) {};
+          \node[right=0pt of q_pos] {$p(\1)$};
+          \node[right=0pt of q_dir] {$p[-]$};
+
+          \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+          \draw (q_dir) -- node[above] {$!$} (p_dir);
+        \end{tikzpicture}
+      };
+    \end{tikzpicture}
+  \]
+  Recall that we shade in the direction box of a linear polynomial to indicate that it can only be filled with $1$ entry.
+  Hence the on-directions map of $f$ is uniquely determined, so $f$ is completely characterized by its on-positions function $f_\1$.
+  We conclude that lenses $I\yon\to p$ can be identified with functions $I\to p(\1)$.
+\end{example}
+
+\begin{exercise}[Lenses from $\0$ and $\yon$]
+\begin{enumerate}
+  \item Use \cref{ex.lens-from-lin} to verify that $\0$ is the initial object of $\poly$.
+  \item Use \cref{ex.lens-from-lin} to show that lenses $\yon\to p$ can be identified with $p$-positions. \qedhere
+\end{enumerate}
+\begin{solution}
+  \begin{enumerate}
+    \item Since $\0\iso\0\yon$ is a linear polynomial, \cref{ex.lens-from-lin} tells us that lenses $\0\to p$ can be identified with functions $\0\to p(\1)$.
+    There is exactly one function $\0\to p(\1)$, so there is exactly one lens $\0\to p$.
+    \item Since $\yon\iso\1\yon$ is a linear polynomial, \cref{ex.lens-from-lin} tells us that lenses $\yon\to p$ can be identified with functions $\1\to p(\1)$, which in turn can be identified with elements of $p(\1)$.
+  \end{enumerate}
+\end{solution}
+\end{exercise}
+
+\begin{exercise}[Lenses to linear polynomials]
+  content...
+\end{exercise}
+
+\begin{example}[Lenses from constants]
+  A lens $f\colon I\yon\to p$ can be drawn in polyboxes as follows:
+  \[
+  \begin{tikzpicture}
+    \node (f) {
+      \begin{tikzpicture}[polybox, tos]
+        \node[poly, linear dom] (p) {};
+        \node[left=0pt of p_pos] {$I$};
+
+        \node[poly, cod, right=of p] (q) {};
+        \node[right=0pt of q_pos] {$p(\1)$};
+        \node[right=0pt of q_dir] {$p[-]$};
+
+        \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+        \draw (q_dir) -- node[above] {$!$} (p_dir);
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
+  \]
+  Recall that we shade in the direction box of a linear polynomial to indicate that it can only be filled with $1$ entry.
+  Hence the on-directions map of $f$ is uniquely determined, so $f$ is completely characterized by its on-positions function $f_\1$.
+  We conclude that lenses $I\yon\to p$ can be identified with functions $I\to p(\1)$.
+
+  In particular, lenses $\yon\to p$ can be identified with $p$-positions; and there is a unique lens $\0\to p$, confirming that $\0$ is the initial object of $\poly$.
+\end{example}
+
+\begin{example}[Lenses to representables]
+  A lens $f\colon p\to\yon^A$ can be drawn in polyboxes as follows:
+  \[
+  \begin{tikzpicture}
+    \node (f) {
+      \begin{tikzpicture}[polybox, tos]
+        \node[poly, dom] (p) {};
+        \node[left=0pt of p_pos] {$p(\1)$};
+        \node[left=0pt of p_dir] {$p[-]$};
+
+        \node[poly, pure cod, right=of p] (q) {};
+        \node[right=0pt of q_dir] {$A$};
+
+        \draw (p_pos) -- node[below] {$!$} (q_pos);
+        \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
+  \]
+  Recall that we shade in the position box of a representable polynomial to indicate that it can only be filled with $1$ entry.
+  Hence the on-positions function of $f$ is uniquely determined, so $f$ is completely characterized by its on-directions map $f^\sharp$, which takes a $p$-position $i$ and a direction $a\in A$ and sends them to a direction $b\in p[i]$.
+  We conclude that lenses $p\to\yon^A$ can be identified with dependent functions $((i,a)\in p(\1)\times A)\to p[i]$.
+
+  In particular, lenses $p\to\yon$ can be identified with $p$-positions
+\end{example}
+
+\begin{exercise}[Lenses from representables]
+  content...
+\end{exercise}
+
+
+
+%\section{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
+
+Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
+Here's a picture of $\5\yon^{\1\2}$:
+\[
+\begin{tikzpicture}
+  \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
+    \begin{tikzpicture}[trees, sibling distance=1mm]
+      \foreach \i in {1,...,5}
+      {
+        \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        child {}
+        ;
+      };
+    \end{tikzpicture}
+  };
+\end{tikzpicture}
+\]
+
+The formula for morphisms between these is particularly simple:
+\begin{align*}
+  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
+  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
+  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
+\end{align*}
+It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
+\[
+\poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
+\iso
+\left\{
+(f_\1,f^\sharp)
+\;\middle|\;
+\parbox{1.2in}{
+  $
+  \begin{aligned}
+    f_\1&\colon B_1\to B_2\\
+    f^\sharp&\colon B_1\times A_2\to A_1
+  \end{aligned}
+  $
+}.
+\right\}
+\]
+Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
+But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
+
+The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
+This category arises in functional programming.
+The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
+\begin{equation}\label{eqn.bimorphic_lens}
+  \begin{aligned}
+    \lensget\coloneqq f_\1 &\colon B_1\to B_2\\
+    \lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
+  \end{aligned}
+\end{equation}
+Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1b \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1b$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
+
+So a morphism between two monomials in $\poly$ is just a bimorphic lens.
+Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
+This is why we refer to these morphisms as \emph{lenses}.
+
+\begin{example} \label{ex.lens_get_put}
+  Consider the monomial $S\yon^S$.
+  Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
+  In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
+  Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
+  We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
+
+  A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
+  When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
+  If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
+  Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
+
+  But what happens when we string together these decisions into cycles?
+  Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
+  In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
+  \begin{enumerate}
+    \item If your friend chooses to stay put, then you should stay put, too.
+    This is reflected by the equation
+    \[
+    \lensput(s,\lensget(s))=s.
+    \]
+
+    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
+    This is reflected by the equation
+    \[
+    \lensget(\lensput(s,t))=t.
+    \]
+
+    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
+    This is reflected by the equation
+    \[
+    \lensput(\lensput(s,t),t')=\lensput(s,t')
+    \]
+  \end{enumerate}
+  Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
+  But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
+\end{example}
+
+%-------- Section --------%
 \section{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
 We now know that we can specify a morphism $p\to q$ in $\poly$ in two ways:
 \begin{itemize}
@@ -2957,7 +3174,9 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{solution}
 \end{exercise}
 
-We can visualize lens composition using polyboxes.
+%-------- Section --------%
+\section{Polybox pictures of lens composition}
+
 Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
 \[
 \begin{tikzpicture}[polybox, tos]
@@ -2974,23 +3193,22 @@ Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes
   \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
 \end{tikzpicture}
 \]
-The position box for $q$, which would normally be blue as part of the polyboxes for $g\colon q\to r$, is instead filled in via $f_\1$; similarly, the direction box for $q$, which would normally be blue as part of the polyboxes for $f\colon p\to q$, is filled in via $g^\sharp$.
+The position box for $q$, which would be blue as part of the polyboxes for $g\colon q\to r$ alone, is instead filled in via $f_\1$; similarly, the direction box for $q$, which would be blue as part of the polyboxes for just $f\colon p\to q$, is filled in via $g^\sharp$.
 This forms a spreadsheet-filling protocol that acts as the polyboxes for $f\then g$.
 
 Again, as we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the direction box of $r$, but also the position box of $q$ that came before it.
-Similarly, the arrow $f^\sharp$ depends on both the position box of $p$ and the direction box of $q$.
+Similarly, $f^\sharp$ depends on both the position box of $p$ and the direction box of $q$.
 
-On the other hand, the arrow $g_\1$ depends only on the position box of $q$, and not the position box of $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the position box of $p$ may change the position box of $q$, thus affecting what $g_\1$ enters in the position box for $r$; what we mean is that if the position box of $p$ changes but the position box of $q$ does not, $g_\1$ will not change the position box of $r$.)
-For the same reason, the arrow $g^\sharp$ does not depend on the position box of $p$, and the arrow $f^\sharp$ does not depend on either box of $r$.
-The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of.
-Or just remember that these arrows are all on-positions and on-directions functions of lenses!
+On the other hand, the arrow $g_\1$ depends only on the position box of $q$, and not the position box of $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the position box of $p$ may change the position box of $q$, thus indirectly affecting what $g_\1$ enters in the position box for $r$; we mean that if the position box of $p$ changes but the position box of $q$ does not, $g_\1$ will not change the position box of $r$.)
+Similarly, $g^\sharp$ does not depend on the position box of $p$, and $f^\sharp$ does not depend on either box of $r$.
+The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of---or just remember that these arrows are all on-positions and on-directions functions of lenses.
 
 If we have another lens $h\colon p\to r$, we can interpret the equation $f\then g = h$ by filling in their polyboxes and comparing them:
 \[
 \begin{tikzpicture}
   \node (1) {
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$p$" below] (p) {$f^\sharp_ig^\sharp_{f_\1i}c$\at$i$};
+      \node[poly, dom, "$p$" below] (p) {$f^\sharp_ig^\sharp_{f_\1i}c$\at$i\vphantom{f_\1}$};
 
       \node[poly, right=of p, "$q$" below] (q) {$g^\sharp_{f_\1i}c$\at$f_\1i$};
 
@@ -3005,8 +3223,50 @@ If we have another lens $h\colon p\to r$, we can interpret the equation $f\then 
   };
   \node[right=1.8 of 1] (2) {
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$p$" left] (p) {$h^\sharp_ic$\at$i\vphantom{h_\1}$};
-      \node[poly, cod, "$r$" right, right=of p] (q) {$\vphantom{h^\sharp_i}c$\at$h_\1i$};
+      \node[poly, dom, "$p$" below] (p) {$h^\sharp_ic$\at$i\vphantom{h_\1}$};
+      \node[poly, cod, "$r$" below, right=of p] (q) {$\vphantom{h^\sharp_i}c$\at$h_\1i$};
+      \draw (p_pos) -- node[below] {$h_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$h^\sharp$} (p_dir);
+    \end{tikzpicture}
+  };
+  \node at ($(1.east)!.5!(2.west)$) {=};
+\end{tikzpicture}
+\]
+Here we have filled the blue boxes on either side with the same entries.
+Then if we match up the other boxes in the domain and codomain, we can read off the equations
+\[
+  g_\1f_\1i = h_\1i
+\]
+for every $p$-position $i$ and
+\[
+  f^\sharp_ig^\sharp_{f_\1i}c = h^\sharp_ic
+\]
+for every $r[h_\1i]$-direction $c$, which agrees with \cref{exc.arena_morph_comp} and \cref{prop.comm_poly}.
+Throughout the book, we will read off equations involving positions and directions like this from equations involving lens level depicted as polyboxes.
+
+Note that there is some redundacy in the polybox picture above: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
+So for convenience, we may omit the entries in the boxes not shaded blue without losing information, leaving the reader to fill in the blanks.
+\[
+\begin{tikzpicture}
+  \node (1) {
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$p$" below] (p) {\at$i$};
+
+      \node[poly, right=of p, "$q$" below] (q) {};
+
+      \node[poly, cod, right=of q, "$r$" below] (r) {$c$};
+
+      \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+      \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+
+      \draw (q_pos) -- node[below] {$g_\1$} (r_pos);
+      \draw (r_dir) -- node[above] {$g^\sharp$} (q_dir);
+    \end{tikzpicture}
+  };
+  \node[right=1.8 of 1] (2) {
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom, "$p$" below] (p) {\at$i$};
+      \node[poly, cod, "$r$" below, right=of p] (q) {$c$};
       \draw (p_pos) -- node[below] {$h_\1$} (q_pos);
       \draw (q_dir) -- node[above] {$h^\sharp$} (p_dir);
     \end{tikzpicture}
@@ -3016,129 +3276,19 @@ If we have another lens $h\colon p\to r$, we can interpret the equation $f\then 
 \]
 
 \begin{remark}
-  At this point in our introduction to polyboxes, the reader may be concerned that we are referring to things like ``gadgets,'' ``spreadsheets,'' ``users,'' ``automation,'' etc.\ without being entirely precise or rigorous about what we mean by them, or what it means to say that they are ``equivalent.''
-  We choose to elide this issue to highlight the pictorial intuition of our work, rather than grinding through the nitty-gritty details.
-  This is not to say our work with polyboxes will lack rigor moving forward---if you're particularly worried, you should think of polyboxes simply as an alternate way to present information about indexed families of sets, dependent functions, and sum and product sets that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
+  When working with polyboxes, the reader may be concerned that we refer to ``spreadsheets'' and ``protocols'' without being rigorous about what they are or what it means to set them equal.
+  We choose to elide this issue to highlight the graphical intuition rather than grinding through the details.
+  This is not to say our work with polyboxes will lack rigor moving forward---if you are particularly worried, you should think of polyboxes as an alternate way to present information about indexed families of sets, dependent functions, and sum and product sets that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
 
-  For example, given lenses $f\colon p\to q$ and $g\colon q\to r$, the polyboxes above really do just represent the element of the set
+  For example, given lenses $f\colon p\to q$ and $g\colon q\to r$, the polyboxes on the left hand side of the equation above should be interpreted as the element of the set
   \[
-  \prod_{i\in p(\1)}\sum_{k\in r(\1)}p[i]^{r[k]}\iso\poly(p,r)
+    \prod_{i\in p(\1)}\sum_{k\in r(\1)}p[i]^{r[k]}\iso\poly(p,r)
   \]
-  corresponding to the lens $p\to r$ whose on-positions function $p(\1)\to r(\1)$ is equal to the composite of the on-positions functions $f_\1$ and $g_\1$, and whose on-directions function $r[g_\1f_\1i]\to p[i]$ for each $i\in p(\1)$ is equal to the composite of the on-directions functions $g^\sharp_{f_\1i}$ and $f^\sharp_i$.
-  In other words, it represents the composite lens $f\then g$.
-  But it displays the way lenses pass positions and directions back and forth far more legibly than all the words in this paragraph can.
-  Throughout the rest of this book, we'll see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
+  corresponding to the lens $p\to r$ whose on-positions function $p(\1)\to r(\1)$ is the composite of the on-positions functions $f_\1$ and $g_\1$ and whose on-directions function $r[g_\1f_\1i]\to p[i]$ at $i\in p(\1)$ is equal to the composite of the on-directions functions $g^\sharp_{f_\1i}$ and $f^\sharp_i$.
+  In other words, the polyboxes represent the composite lens $f\then g$.
+  But the polyboxes show how lenses pass positions and directions back and forth far more legibly than all the words in this paragraph can.
+  Throughout the rest of this book, we will see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
 \end{remark}
-
-%-------- Section --------%
-\section{Relation to lenses from functional programming}\label{subsec.poly.cat.morph.bimorphic-lens}
-
-Monomials are special polynomials: those of the form $B\yon^A$ for sets $A,B$. % TODO: make this its own def?
-Here's a picture of $\5\yon^{\1\2}$:
-\[
-\begin{tikzpicture}
-  \node[draw, rounded corners, "$\5\yon^{\1\2}$"] {
-    \begin{tikzpicture}[trees, sibling distance=1mm]
-      \foreach \i in {1,...,5}
-      {
-        \node["\tiny \i" below] at (1.8*\i,0) {$\bullet$}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        child {}
-        ;
-      };
-    \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-
-The formula for morphisms between these is particularly simple:
-\begin{align*}
-  \poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right) &\iso \prod_{b \in B_1} \sum_{b' \in B_2} A_1^{A_2} \tag*{\eqref{eqn.main_formula}} \\
-  &\iso \smset(B_1, B_2 \times A_1^{A_2}) \\
-  &\iso \smset(B_1,B_2)\times\smset(B_1\times A_2,A_1).
-\end{align*}
-It says that to give a morphism from one monomial to another, you just need to give two (non-dependent!) functions. Let's rewrite it to make those two functions explicit---they are the familiar on-positions and on-directions functions:
-\[
-\poly\left(B_1\yon^{A_1},\,B_2\yon^{A_2}\right)
-\iso
-\left\{
-(f_\1,f^\sharp)
-\;\middle|\;
-\parbox{1.2in}{
-  $
-  \begin{aligned}
-    f_\1&\colon B_1\to B_2\\
-    f^\sharp&\colon B_1\times A_2\to A_1
-  \end{aligned}
-  $
-}.
-\right\}
-\]
-Ordinarily, $f^\sharp$ is more involved: its type depends on the directions at each position of the domain and its image position via $f_\1$.
-But for monomials, every position has the same set of directions, so $f^\sharp$ is just a standard function.
-
-The monomials in $\poly$ span a full subcategory of $\poly$ equivalent to \emph{the category of bimorphic lenses} \cite{hedges2018limits}.
-This category arises in functional programming.
-The functions $f_\1, f^\sharp$ corresponding to a morphism $f \colon B_1\yon^{A_1}\to B_2\yon^{A_2}$ are given special names:
-\begin{equation}\label{eqn.bimorphic_lens}
-  \begin{aligned}
-    \lensget\coloneqq f_\1 &\colon B_1\to B_2\\
-    \lensput\coloneqq f^\sharp &\colon B_1\times A_2\to A_1
-  \end{aligned}
-\end{equation}
-Each position $b \in B_1$ of $B_1\yon^{A_1}$ ``gets'' a position $f_\1b \in B_2$ of $B_2\yon^{A_2}$, and given $b \in B_1$, every direction at $f_\1b$ in $A_2$ ``puts'' a direction back at $b$ in $A_1$.
-
-So a morphism between two monomials in $\poly$ is just a bimorphic lens.
-Then a morphism between any two polynomials in $\poly$ is a more generalized lens: a \emph{dependent} lens, where the direction-sets depend on the positions.
-This is why we refer to these morphisms as \emph{lenses}.
-
-\begin{example} \label{ex.lens_get_put}
-  Consider the monomial $S\yon^S$.
-  Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
-  In the language of decision-making, each $s \in S$ is a menu whose options are themselves just the menus in $S$ again.
-  Notice that there is a natural way to string together a series of such decisions into a cycle: at each step, you start at some element of $S$, and the option you select is the element of $S$ that you will move to next.
-  We will start to formalize this idea in \cref{ex.do_nothing} and continue this work throughout the following chapters.
-
-  A lens $(\lensget,\lensput)\colon S\yon^S\to T\yon^T$ is as usual a way to delegate decisions of $S\yon^S$ to decisions of $T\yon^T$.
-  When you need to select an option from the menu $s \in S$, you ask your friend to check the menu $\lensget(s) \in T$ for help.
-  If your friend selects option $t \in T$, then you know to select option $\lensput(s, t) \in S$.
-  Then the options you have each selected are your new positions: your friend moves to $t$, you move to $\lensput(s, t)$, and you may each check the corresponding menus at your new positions.
-
-  But what happens when we string together these decisions into cycles?
-  Now you are moving between elements of $S$, looking to your friend for help at each step as they move between elements of $T$.
-  In this setting, there are a few conditions that a lens $S\yon^S \to T\yon^T$ should satisfy to ensure that the associated delgation behaves nicely with respect to the movements of both you and your friend:
-  \begin{enumerate}
-    \item If your friend chooses to stay put, then you should stay put, too.
-    This is reflected by the equation
-    \[
-    \lensput(s,\lensget(s))=s.
-    \]
-
-    \item After your friend moves, and you move accordingly, you should delegate the decision at your new location to the decision at your friend's new location.
-    This is reflected by the equation
-    \[
-    \lensget(\lensput(s,t))=t.
-    \]
-
-    \item If your friend moves to $t$, then to $t'$, the place where you end up should be where you would have ended up if your friend had moved directly to $t'$ in the first place.
-    This is reflected by the equation
-    \[
-    \lensput(\lensput(s,t),t')=\lensput(s,t')
-    \]
-  \end{enumerate}
-  Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
-  But we will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
-\end{example}
 
 %-------- Section --------%
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
