@@ -2835,7 +2835,7 @@ To visualize the bundle of $p$, simply draw it as a corolla forest: a \emph{bund
 The bundle projects each leaf down to its root.
 To visualize a section of $p$, picture its corollas piled atop each other; a section $\gamma\colon p\to\yon$ is then a \emph{cross-section} of this pile of $p$-corollas, picking out an arrow from each one---a direction at each position.
 
-Alternatively, you could think of the arrow curving back to the polyboxes for $p$ in the picture of a section $\gamma$ from \eqref{eqn.gamma_def} as \emph{sectioning} off the polyboxes for $p$ from any polyboxes that may otherwise appear to its right.
+Alternatively, you could think of the arrow curving back to the polyboxes for $p$ in our picture  \eqref{eqn.map_to_0ary_composite} of a section $\gamma\colon p\to\yon$ as \emph{sectioning} off the polyboxes for $p$ from any polyboxes that may otherwise appear to its right.
 We clarify this intuition by returning to a previous example of a polynomial and considering its sections.
 
 \begin{example}
@@ -2860,7 +2860,7 @@ We clarify this intuition by returning to a previous example of a polynomial and
   Of course, the position box of $q$, the amount of money Caroline receives, is still open to outside influence, as determined by a lens to $q$ such as the one from \cref{ex.lend-return}.
 \end{example}
 
-The definition of $\Gamma$ given in \eqref{eqn.gamma_def} actually makes $\Gamma$ a functor $\poly\to\smset\op$ that satisfies the following property.
+The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a functor $\poly\to\smset\op$ satisfying the following.
 
 \begin{proposition}\label{prop.gamma_pres_coproduct}
   The sections functor $\Gamma\colon\poly\to\smset\op$ sends $(0,+)$ to $(1,\times)$:
@@ -3243,37 +3243,47 @@ This exercise is for those who know what topological spaces and continuous maps 
   \[
     p_X\coloneqq\sum_{x \in X}\yon^{\{ U\ss X \mid x\in U, \, U\text{ open} \}}.
   \]
-  Give a formula by which any continuous map $X\to Y$ induces a lens $p_X\to p_Y$.
-	\item Show that your formula defines a functor.
-	\item Is it full? Faithful?
+  Given a continuous map $f\colon X\to Y$, define a lens $p_X\to p_Y$ either by writing down its formula or drawing it in polyboxes.
+	\item Show that the assignment above defines a functor $\Cat{Top}\to\poly$.
+	\item Is this functor full? Is it faithful?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-	\item \label{exc.top_poly_func.morphs} For every continuous map $f \colon X \to Y$, we give a lens $p_f \colon p_X \to p_Y$.
+	\item \label{exc.top_poly_func.morphs} Given a continuous map $f \colon X \to Y$, we define a lens $p_f \colon p_X \to p_Y$ as follows.
 	The on-positions function is just $f$; then for each $p_X$-position $x\in X$, the on-directions function $(p_f)^\sharp_x\colon p_Y[f(x)]\to p_X[x]$ sends each open neighborhood $U$ of $f(x)$ to $f\inv(U)$, which we know is an open neighborhood of $x$ because $f$ is continuous.
+  The polybox picture for $p_f$ is as follows:
+  \[
+  \begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom, "$p$" below] (p) {$f\inv(U)$\at$x\vphantom{f}$};
+
+    \node[poly, cod, right=of p, "$q$" below] (q) {$U\vphantom{f\inv}$\at$f(x)$};
+
+    \draw (p_pos) -- node[below] {$f$} (q_pos);
+    \draw (q_dir) -- node[above] {$f\inv$} (p_dir);
+  \end{tikzpicture}
+  \]
 
 	\item To show that $p_X$ is functorial in $X$, it suffices to show that sending continuous maps $f\colon X\to Y$ to their induced lenses $p_f\colon p_X\to p_Y$ preserves identities and composition.
-	First, we show that for any topological space $X$, the lens $p_{\id_X}$, where $\id_X$ is the identity map on $X$, is the identity lens.
+	First, we show for $X\in\Cat{Top}$ that the lens $p_{\id_X}$ is an identity.
 	By \cref{exc.top_poly_func.morphs}, the on-positions function of $p_{\id_X}$ is $\id_X$, and for each $x\in X$ the on-directions function $(p_f)^\sharp_x\colon p_X[x]\to p_X[x]$ sends $U\in p_X[x]$ to $(\id_X)\inv(U) = U$.
 	Hence $p_{\id_X}$ is the identity on both positions and directions; it follows from \cref{exc.arena_morph_id} that $p_{\id_X}$ is the identity lens.
 
-	We now show that for topological spaces $X,Y,$ and $Z$ and continuous maps $f\colon X\to Y$ and $g\colon Y\to Z$, we have $p_f\then p_g = p_{f\then g}$.
-	By \cref{exc.top_poly_func.morph} and \cref{exc.arena_morph_comp}, the on-positions function of either side is equal to $f\then g$, so it suffices to show for each $x\in X$ that
+	We now show for $X,Y,Z\in\Cat{Top}$ and continuous maps $f\colon X\to Y$ and $g\colon Y\to Z$ that $p_f\then p_g = p_{f\then g}$.
+	By \cref{exc.top_poly_func.morphs} and \cref{exc.arena_morph_comp}, the on-positions functions of both $p_f\then p_g$ and $p_{f\then g}$ are equal to $f\then g$, so it suffices to show for each $x\in X$ that
 	\[
 	    (p_{f \then g})^\sharp_x = (p_g)^\sharp_{f(x)} \then (p_f)^\sharp_x.
 	\]
-	Again by \cref{exc.top_poly_func.morphs}, the left hand side sends each $U\in p_Z[g(f(x))]$ to $(f \then g)\inv(U)$, while the right hand side sends $U$ to $f\inv(g\inv(U))$; by elementary set theory, these sets are equal.
+	By \cref{exc.top_poly_func.morphs}, the left hand side sends each $U\in p_Z[g(f(x))]$ to $(f \then g)\inv(U)$, while the right hand side sends $U$ to $f\inv(g\inv(U))$; by elementary set theory, these sets are equal.
 
 	\item The functor is not full.
 	Consider the spaces $X\coloneqq\2$ with the indiscrete topology (i.e.\ the only open sets are the empty set and $X$) and $Y\coloneqq\2$ with the discrete topology (i.e.\ all subsets are open).
-	Then $p_X\iso\2\yon$ (each point in $X$ has one open neighborhood: the entire space $X$) and $p_Y\iso\2\yon^\2$ (each point in $Y$ has two open neighborhoods: a singleton set and $Y$ itself), so our functor induces a map from the set of continuous functions $X\to Y$ to the set of lenses $\2\yon\to\2\yon^\2$.
+	Then $p_X\iso\2\yon$ (each point in $X$ has exactly one open neighborhood: the entire space $X$) and $p_Y\iso\2\yon^\2$ (each point in $Y$ has exactly two open neighborhoods: a singleton set and $Y$ itself), so our functor induces a map from the set of continuous functions $X\to Y$ to the set of lenses $\2\yon\to\2\yon^\2$.
 	We claim this map is not surjective: in particular, consider the lens $h\colon\2\yon\to\2\yon^\2$ that is the identity on positions (and uniquely defined on directions).
 	Then a continuous function $f\colon X\to Y$ that our functor sends to $h$ must also be the identity on the underlying sets of $X$ and $Y$.
 	But such a function cannot be continuous: a singleton subset of $Y$ is open, but its preimage under $f$ is a singleton subset of $X$ and therefore not open.
 	So our functor sends no continuous function $X\to Y$ to $h$ and therefore is not full.
-
-	The functor is, however, faithful: given spaces $X$ and $Y$ and continuous function $f\colon X\to Y$, we can uniquely recover $f$ from $p_f$ by taking its on-positions function $(p_f)_\1$.
+	The functor is, however, faithful: given spaces $X$ and $Y$ and continuous function $f\colon X\to Y$, we can uniquely recover $f$ from $p_f$ by taking its on-positions function $(p_f)_\1=f$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
