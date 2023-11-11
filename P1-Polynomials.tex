@@ -3310,12 +3310,11 @@ Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes
 The position box for $q$, which would be blue as part of the polyboxes for $g\colon q\to r$ alone, is instead filled in via $f_\1$; similarly, the direction box for $q$, which would be blue as part of the polyboxes for just $f\colon p\to q$, is filled in via $g^\sharp$.
 This forms a spreadsheet-filling protocol that acts as the polyboxes for $f\then g$.
 
-Again, as we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the direction box of $r$, but also the position box of $q$ that came before it.
+As we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the direction box of $r$, but also the position box of $q$ that came before it.
 Similarly, $f^\sharp$ depends on both the position box of $p$ and the direction box of $q$.
-
-On the other hand, the arrow $g_\1$ depends only on the position box of $q$, and not the position box of $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain. (Of course, changing the position box of $p$ may change the position box of $q$, thus indirectly affecting what $g_\1$ enters in the position box for $r$; we mean that if the position box of $p$ changes but the position box of $q$ does not, $g_\1$ will not change the position box of $r$.)
+On the other hand, the arrow $g_\1$ depends only on the position box of $q$, and not the position box of $p$ that came before it: $g_\1$ is the on-positions function for a lens $q\to r$ and therefore depends only on its domain $q$. (Of course, changing the position box of $p$ may change the position box of $q$ via $f_\1$, thus indirectly affecting what $g_\1$ enters in the position box for $r$; we mean that if the position box of $p$ changes but the position box of $q$ does not, $g_\1$ will not change the position box of $r$.)
 Similarly, $g^\sharp$ does not depend on the position box of $p$, and $f^\sharp$ does not depend on either box of $r$.
-The key is to let each arrow depend on exactly the boxes that come before it in either the domain or the codomain of the lens that the arrow is a part of---or just remember that these arrows are all on-positions and on-directions functions of lenses.
+The key is to let each arrow depend on exactly the boxes that come before it in the domain and codomain of the lens that the arrow is a part of.
 
 If we have another lens $h\colon p\to r$, we can interpret the equation $f\then g = h$ by filling in their polyboxes and comparing them:
 \[
@@ -3347,28 +3346,24 @@ If we have another lens $h\colon p\to r$, we can interpret the equation $f\then 
 \end{tikzpicture}
 \]
 Here we have filled the blue boxes on either side with the same entries.
-Then if we match up the other boxes in the domain and codomain, we can read off the equations
+Then if we match up the uncolored boxes in the domain and codomain on either side, we can read off the equations
 \[
-  g_\1f_\1i = h_\1i
+  g_\1f_\1i = h_\1i \qqand f^\sharp_ig^\sharp_{f_\1i}c = h^\sharp_ic
 \]
-for every $p$-position $i$ and
-\[
-  f^\sharp_ig^\sharp_{f_\1i}c = h^\sharp_ic
-\]
-for every $r[h_\1i]$-direction $c$, which agrees with \cref{exc.arena_morph_comp} and \cref{prop.comm_poly}.
-Throughout the book, we will read off equations involving positions and directions like this from equations involving lens level depicted as polyboxes.
+for every $p$-position $i$ and $r[h_\1i]$-direction $c$, which agrees with \cref{exc.arena_morph_comp} and \cref{prop.comm_poly}.
+Throughout this book, we will often read off equalities of positions and directions from polybox pictures of lens equations in this way.
 
-Note that there is some redundacy in the polybox picture above: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
-So for convenience, we may omit the entries in the boxes not colored blue without losing information, leaving the reader to fill in the blanks.
+Note that there is redundacy in the above polybox picture: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
+So we may omit the entries in the uncolored boxes without losing information, leaving the reader to fill in the blanks:
 \[
 \begin{tikzpicture}
   \node (1) {
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$p$" below] (p) {\at$i$};
+      \node[poly, dom, "$p$" below] (p) {$\phantom{c}$\at$i$};
 
-      \node[poly, right=of p, "$q$" below] (q) {};
+      \node[poly, right=of p, "$q$" below] (q) {$\phantom{c}$\at$\phantom{i}$};
 
-      \node[poly, cod, right=of q, "$r$" below] (r) {$c$};
+      \node[poly, cod, right=of q, "$r$" below] (r) {$c$\at$\phantom{i}$};
 
       \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
       \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
@@ -3379,8 +3374,8 @@ So for convenience, we may omit the entries in the boxes not colored blue withou
   };
   \node[right=1.8 of 1] (2) {
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$p$" below] (p) {\at$i$};
-      \node[poly, cod, "$r$" below, right=of p] (q) {$c$};
+      \node[poly, dom, "$p$" below] (p) {$\phantom{c}$\at$i$};
+      \node[poly, cod, "$r$" below, right=of p] (q) {$c$\at$\phantom{i}$};
       \draw (p_pos) -- node[below] {$h_\1$} (q_pos);
       \draw (q_dir) -- node[above] {$h^\sharp$} (p_dir);
     \end{tikzpicture}
@@ -3390,7 +3385,7 @@ So for convenience, we may omit the entries in the boxes not colored blue withou
 \]
 
 \begin{remark}
-  When working with polyboxes, the reader may be concerned that we refer to ``spreadsheets'' and ``protocols'' without being rigorous about what they are or what it means to set them equal.
+  The reader may be concerned that when working with polyboxes, we refer to ``spreadsheets'' and ``protocols'' without being rigorous about what they are or what it means to set them equal.
   We choose to elide this issue to highlight the graphical intuition rather than grinding through the details.
   This is not to say our work with polyboxes will lack rigor moving forward---if you are particularly worried, you should think of polyboxes as an alternate way to present information about indexed families of sets, dependent functions, and sum and product sets that can be systematically translated---via elementary steps, though perhaps with some laborious bookkeeping---into the more standard $\in$ and $\sum$ and $\prod$ notation we have been using thus far.
 
@@ -3411,16 +3406,15 @@ So for convenience, we may omit the entries in the boxes not colored blue withou
 
 One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
 Monoidal structures are the key ingredient to many applications of categories to real-world settings, and $\poly$ is no different in that regard.
-But there is an added bonus about the monoidal products on $\poly$ that we'll introduce that isn't shared by some fancy monoidal products on other categories like ``the tensor product of modules over a commutative ring'': if you know how to add, multiply, and exponentiate expressions from high school algebra, then you already know how to compute these monoidal products!
+As a bonus, if you know how to add, multiply, and exponentiate expressions from high school algebra, then you already know how to compute the monoidal products on $\poly$ that we will introduce!
 
 We have already seen one monoidal structure on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
-In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts---and they are given by an operation that looks just like addition.
-We'll quickly see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure.
-Can you guess what that operation looks like?
+In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts: they are given by an operation that looks just like addition.
+We will see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure that looks just like multiplication.
 
-Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we'll save its surprises for when we can better savor them.
+Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we will save its surprises for when we can better savor them.
 But here in \cref{subsec.poly.cat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
-This monoidal structure will really come in handy when we apply $\poly$ to dynamics in the next chapter.
+This monoidal structure will prove useful when we apply $\poly$ to dynamics in the next chapter.
 
 %---- Subsection ----%
 \subsection{The categorical product} \label{subsec.poly.cat.monoidal.prod}
