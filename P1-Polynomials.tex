@@ -4271,79 +4271,99 @@ Variants of lenses are studied in compositional game theory \cite{hedges2016comp
 %------------ Chapter ------------%
 \chapter{Dynamical systems as dependent lenses} \label{ch.poly.dyn_sys}
 
-Let's start putting all this $\poly$ stuff to use.
+One of the main goals of this book is to use dependent lenses in $\poly$ to model dynamical systems and automata.
+In this chapter, we will begin to see how to do this through a wide range of examples.
 
 %-------- Section --------%
 \section{Moore machines}\label{sec.poly.dyn_sys.moore}
 
-We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can return output and be updated according to input.
+We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can update its current state according to the input it receives and return output according to its current state.
 
 \begin{definition}[Moore machine]\label{def.moore_machine}
-If $A$, $B$, and $S$ are sets, an $(A,B)$-\emph{Moore machine} with \emph{states} $S$ consists of two functions
-\begin{align*}
-	\text{return}&\colon S\to B\\
-	\text{update}&\colon S\times A\to S
-\end{align*}
+  A \emph{Moore machine} consists of the following data: three sets,
+  \begin{itemize}
+    \item a set $S$, called the \emph{state-set}, whose elements are \emph{states};
+    \item a set $I$, called the \emph{position-set} (or \emph{output-set}), whose elements are \emph{positions} (or \emph{outputs}); and
+    \item a set $A$, called the \emph{direction-set} (or \emph{input-set}), whose elements are \emph{directions} (or \emph{inputs});
+  \end{itemize}
+  and two functions,
+  \begin{itemize}
+    \item $\text{return}\colon S\to I$ and
+    \item $\text{update}\colon S\times A\to S$.
+  \end{itemize}
+  To emphasize the role that the three sets play, we can specify that this is an $(A,I)$\emph{-Moore machine with states} $S$.
 \end{definition}
 
-We can visualize a Moore machine as follows.
-It has a set $S$ of possible states.
-At any point in time, the machine is in one of those states: say $s \in S$.
-While there, whenever we ask the machine to produce output, it will give us $\text{return}(s) \in B$.
-But if we feed the machine input $a \in A$, the machine will switch to a new state, $\text{update}(s, a)$.
-Note that this new state depends not only on the input the machine receives, but also on the state the machine is in when it receives that input.
+The input/output terminology is standard, while the position/direction terminology is our own: we will soon see how the positions and directions of a Moore machine relate to that of a polynomial, and this terminology will generalize better when we introduce \emph{dependent} Moore machines later this chapter.
 
-\begin{example}\label{ex.Moore_three}
-Here's a labeled transition diagram of a Moore machine with $S\coloneqq\3$ states:
+We should interpret an $(A,I)$-Moore machine as follows.
+At any time, the machine occupies one of the states in its state-set $S$.
+Say its current state is $s\in S$; then we can ask the machine to perform one of the following two tasks.
+\begin{itemize}
+  \item We can ask the machine to \emph{return its position}: it should then produce the position $\text{return}(s) \in I$.
+  \item We can feed the machine one of its \emph{directions} $a\in A$ and ask it to \emph{update its state}: it should then replace its current state with the new state $\text{update}(s,a)\in S$.
+  Note that the new state depends not only on the direction the machine receives but also on the state the machine occupies when it receives that direction.
+\end{itemize}
+
+We may visualize a Moore machine with a \emph{transition diagram} as follows.
+
+\begin{example}[A Moore machine's transition diagram]\label{ex.Moore_three}
+Given $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$ and $I\coloneqq\{0,1\}$, we can draw a transition diagram for an $(A,I)$-Moore machine with $S\coloneqq\3$ states as follows:
 \begin{equation} \label{eqn.trans_diag}
 \begin{tikzpicture}
 	\node[draw] {
   \begin{tikzcd}[column sep=small]
-  	\LMO{b_1}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
-  	\LMO{b_2}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
-  	\LMO{b_2} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
+  	\LMO{0}\ar[rr, dgreen, thick, bend left]\ar[loop left, thick, orange]&&
+  	\LMO{1}\ar[ll, thick, orange, bend left]\ar[dl, bend left, thick, dgreen]\\&
+  	\LMO{1} \ar[ul, thick, orange, bend left] \ar[loop left, thick, dgreen]
   \end{tikzcd}
   };
 \end{tikzpicture}
 \end{equation}
-Each state is labeled by the output value it returns: an element of $B\coloneqq\{b_1,b_2\}$. Each state has two outgoing arrows, one orange and one green, representing the two possible inputs, so $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
-The targets of the arrows indicate the updated state.
+Each state is labeled by the position it returns according to the machine's return function.
+Additionally, each state has two outgoing arrows, one ${\color{orange}\text{orange}}$ and one ${\color{dgreen}\text{green}}$, corresponding to the two possible directions.
+The targets of the arrows indicate the updated state according to the machine's update function.
 
-For example, let's say the machine starts at the bottom state.
-We imagine barking a sequence of inputs---say ``{\color{orange}orange! orange!} {\color{dgreen}green!} {\color{orange}orange!} \ldots''---at this machine to make it run through its states and return the output at each state:
+Say the machine starts at the bottom state.
+By feeding it a sequence of directions---say $({\color{orange}\text{orange}}, {\color{orange}\text{orange}}, {\color{dgreen}\text{green}}, {\color{orange}\text{orange}},\ldots)$---we can send the machine through its states via its update function and return the position at each state:
 \begin{enumerate}
-    \item Starting at the bottom state, the machine returns the output $b_2$.
-    \item Receiving the input ``{\color{orange}orange}'' at the bottom state, the machine follows the {\color{orange}orange} arrow from the bottom state to update its state to the left state.
-    \item At the left state, the machine returns the output $b_1$.
-    \item Receiving the input ``{\color{orange}orange}'' at the left state, the machine follows the {\color{orange}orange} arrow from the left state to update its state to---once again---the left state.
-    \item At the left state, the machine returns the output $b_1$.
-    \item Receiving the input ``{\color{dgreen}green}'' at the left state, the machine follows the {\color{dgreen}green} arrow from the left state to update its state to the right state.
-    \item At the right state, the machine returns the output $b_2$.
-    \item Receiving the input ``{\color{orange}orange}'' at the left state, the machine follows the {\color{orange}orange} arrow from the right state to update its state to the left state.
-    \item At the left state, the machine returns the output $b_1$.
+    \item Starting at the bottom state, the machine returns the position $1$.
+    \item Following the {\color{orange}orange} arrow from the bottom state, the machine updates its state to the left state.
+    \item At the left state, the machine returns the position $0$.
+    \item Following the {\color{orange}orange} arrow from the left state, the machine updates its state to---once again---the left state.
+    \item At the left state, the machine returns the position $0$.
+    \item Following the {\color{dgreen}green} arrow from the left state, the machine updates its state to the right state.
+    \item At the right state, the machine returns the position $1$.
+    \item Following the {\color{orange}orange} arrow from the right state, the machine updates its state to the left state.
+    \item At the left state, the machine returns the position $0$.
 
     \ldots
-
-    So given a fixed initial state, namely the bottom state, this Moore machine sends the sequence $({\color{orange}\text{orange}}, {\color{orange}\text{orange}}, {\color{dgreen}\text{green}}, {\color{orange}\text{orange}},\ldots)$ of elements in $A$ to the sequence $(b_2,b_1,b_1,b_2,b_1,\ldots)$ of elements in $B$.
 \end{enumerate}
+In summary, starting from the bottom state, this Moore machine sends the sequence $({\color{orange}\text{orange}}, {\color{orange}\text{orange}}, {\color{dgreen}\text{green}}, {\color{orange}\text{orange}},\ldots)$ of directions in $A$ to the sequence $(1,0,0,1,0,\ldots)$ of positions in $I$.
 \end{example}
 
-In general, given an initial state $s_0\in S$, an $(A,B)$-Moore machine with states $S$ sends every sequence $(a_1,a_2,a_3,\ldots)$ of elements in $A$ to a sequence $(b_0,b_1,b_2,b_3,\ldots)$ of elements in $B$, defined as follows via an intermediary sequence $(s_0,s_1,s_2,s_3,\ldots)$:
+In general, given an initial state $s_0\in S$, an $(A,I)$-Moore machine with states $S$ sends every sequence $(a_1,a_2,a_3,\ldots)$ of directions in $A$ to a sequence $(i_0,i_1,i_2,i_3,\ldots)$ of positions in $I$, defined inductively as follows via an intermediary sequence $(s_0,s_1,s_2,s_3,\ldots)$ of states in $S$:
 \[
     b_k\coloneqq \text{return}(s_k) \qqand s_{k+1}\coloneqq \text{update}(s_k, a_{k+1})
 \]
 for all $k\in\nn$.
-We'll see that $\poly$ gives us a more concise way to express this in \cref{ex.input_output}.
+We will see that $\poly$ gives us a more concise way to express this in \cref{ex.input_output}.
 
-\subsection{Moore machines as lenses}
+Comparing \cref{def.moore_machine} with \cref{subsec.poly.cat.morph.bimorphic-lens}, we find that an $(A,I)$-Moore machine with states $S$ is precisely a lens between monomials $\phi\colon S\yon^S\to I\yon^A$ with on-positions function $\phi_\1\coloneqq\text{return}\colon S\to I$ and on-directions map $\phi^\sharp\coloneqq S\times A\to S$.
+The positions and directions of the Moore machine are the positions and directions of the codomain of the corresponding lens, while the domain of the lens has the states of the Moore machine as both its positions and its directions.
+So we can repackage \cref{def.moore_machine} as follows.
 
-Does \cref{def.moore_machine} look familiar?
-It's easy to see that an $(A,B)$-Moore machine with states $S$ is just a lens between monomials
-\[
-(\lensget, \lensput)\colon S\yon^S\to B\yon^A,
-\]
-with $\lensget\coloneqq\text{return}$ and $\lensput\coloneqq\text{update}$.\footnote{Recall from \eqref{eqn.bimorphic_lens} that ``get'' and ``put'' are our special names for the on-positions and on-directions functions of a lens between monomials.}
-Given such a Moore machine, we will call the monomial $B\yon^A$ the \emph{interface}, because it encodes how an outsider can interact with the machine, namely the possible inputs and outputs; and we will call the monomial $S\yon^S$ the \emph{state system}.
+\begin{definition}[Moore machine, version 2]\label{def.moore_machine2}
+  For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens $S\yon^S\to I\yon^A$ in $\poly$.
+  We call
+  \begin{itemize}
+    \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
+    \item the codomain monomial $I\yon^A$ the machine's \emph{interface}---its position-set and direction-set are the machine's \emph{position-set} and \emph{direction-set}, and its positions and directions are the machine's \emph{positions} and \emph{directions}.
+  \end{itemize}
+\end{definition}
+
+We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: its positions are what the machine returns that an outsider observes, and its directions are what an outsider can feed to the machine as updates.
+Rather than directly observing and changing the states, an outsider must interact with the machine via its interface.
 
 \begin{exercise}
 Write the Moore machine from \cref{ex.Moore_three} as a lens between monomials.
