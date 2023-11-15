@@ -1314,7 +1314,7 @@ Nevertheless, when we think of a polynomial's directions, we will often think of
 \cref{ex.reps-as-menus} shows how we may interpret the directions of a single representable summand as options in a menu.
 By having multiple representable summands---one for each position---a polynomial may capture more general scenarios with a range of possible menus.
 
-\begin{example}[A coin jar] \label{ex.coin-jar}
+\begin{example}[Modeling with a polynomial] \label{ex.coin-jar}
     Consider a coin jar with a slot that may be open or closed.
     When the slot is open, the jar may accept a penny, a nickel, a dime, or a quarter---there are $4$ options to choose from.
     When the slot is closed, the jar may not accept any coins at all---there are $0$ options.
@@ -1905,7 +1905,7 @@ In the next several sections, we will give some examples of lenses and intuition
 
 Here is our first example of a dependent lens and a real-world interaction it might model.
 
-\begin{example}[Interacting with the coin jar]
+\begin{example}[Modeling an interaction protocol with a lens]
   Recall our coin jar polynomial from \cref{ex.coin-jar}:
   \[
     q\coloneqq\{\text{`open'}\}\yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\{\text{`closed'}\}\yon^\0.
@@ -2286,7 +2286,7 @@ After all, the on-directions map of a lens is dependent on both a position of th
 
 Here is an example of a lens depicted with polyboxes that would be difficult to draw with corolla forests.
 
-\begin{example} \label{ex.lend-return}
+\begin{example}[Modeling with a lens in polyboxes] \label{ex.lend-return}
   Caroline asks each of her parents for $20$ dollars. Each parent gives Caroline a positive amount of money not exceeding $20$ dollars. Caroline spends some of the money she receives before returning the remainder to each parent proportionally according to the amount she received from each.
 
   To model this interaction as a lens $f\colon p\to q$, we first define the polynomials $p$ and $q$.
@@ -2838,7 +2838,7 @@ To visualize a section of $p$, picture its corollas piled atop each other; a sec
 Alternatively, you could think of the arrow curving back to the polyboxes for $p$ in our picture  \eqref{eqn.map_to_0ary_composite} of a section $\gamma\colon p\to\yon$ as \emph{sectioning} off the polyboxes for $p$ from any polyboxes that may otherwise appear to its right.
 We clarify this intuition by returning to a previous example of a polynomial and considering its sections.
 
-\begin{example}
+\begin{example}[Modeling with sections] \label{ex.spend-section}
   Recall from \cref{ex.lend-return} the polynomial
   \[
     q\coloneqq\sum_{k\in(0,\infty)}\yon^{[0,k]}
@@ -3399,7 +3399,38 @@ So we may omit the entries in the uncolored boxes without losing information, le
   Throughout the rest of this book, we will see how this polybox notation provides immediate, reader-friendly computations and justifications; but all these results can be translated back into more grounded mathematical language as desired.
 \end{remark}
 
-% TODO: moneylending example composed?
+\begin{example}[Modeling with a composite lens in polyboxes]
+  By composing the lens $f\colon p\to q$ from \cref{ex.lend-return} that models the exchange of money between Caroline (modeled by $q$) and her parents (modeled by $p$) with the lens $\gamma\colon q\to\yon$ from \cref{ex.spend-section} that models how Caroline spends her money, we obtain a lens $f\then\gamma\colon p\to\yon$ that models how Caroline's parents spend their money through Caroline.
+  The polybox picture of the composite lens $f\then\gamma$ is given by merging the polybox pictures of $f$ and $\gamma$:
+  \[
+  \begin{tikzpicture}
+    \node (1) {
+      \begin{tikzpicture}[polybox, mapstos]
+        \node[poly, dom, "$p$" below] (p) {$\left(\dfrac{i}{i+j}\cdot\dfrac{i+j}2,\dfrac{j}{i+j}\cdot\dfrac{i+j}2\right)$\at$(i,j)$};
+
+        \node[poly, right=of p, "$q$" below] (q) {$\vphantom{\left(\dfrac{j}{i+j}\dfrac{i+j}2\right)}\dfrac{i+j}2$\at$i+j$};
+
+        \draw (p_pos) -- node[below] {$f_\1$} (q_pos);
+        \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
+
+        \draw (q_pos) to[climb'] node[right] {$\gamma$} (q_dir);
+      \end{tikzpicture}
+    };
+    \node[right=1.8 of 1] (2) {
+      \begin{tikzpicture}[polybox, mapstos]
+        \node[poly, dom, "$p$" below] (p) {$(i/2,j/2)$\at$(i,j)$};
+
+        \draw (p_pos) to[climb'] node[right] {$f\then\gamma$} (p_dir);
+      \end{tikzpicture}
+    };
+    \node at ($(1.east)!.5!(2.west)$) {=};
+  \end{tikzpicture}
+  \]
+  Here $(i,j)\in p(\1)=(0,20]\times(0,20]$.
+  The right hand side summarizes what happens to the parents: if the first parent gives away $i$ dollars and the second parent gives away $j$ dollars, eventually the first parent will receive $i/2$ dollars and the second parent will receive $j/2$ dollars.
+  The factored left hand side describes how this happens: the parents give $i$ and $j$ dollars respectively to Caroline, who takes the $i+j$ dollars total and spends half of it.
+  She then returns the remaining half to her parents, splitting the money proportionately according to the amount each parent contributed.
+\end{example}
 
 %-------- Section --------%
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
