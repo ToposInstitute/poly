@@ -4314,12 +4314,12 @@ We begin with our simplest example of a dynamical system: a deterministic machin
   A \emph{Moore machine} consists of the following data: three sets,
   \begin{itemize}
     \item a set $S$, called the \emph{state-set}, whose elements are \emph{states};
-    \item a set $I$, called the \emph{position-set} (or \emph{output-set}), whose elements are \emph{positions} (or \emph{outputs}); and
+    \item a set $I$, called the \emph{position-set} (or \emph{output-set}), whose elements are \emph{positions} (or \emph{outputs});
     \item a set $A$, called the \emph{direction-set} (or \emph{input-set}), whose elements are \emph{directions} (or \emph{inputs});
   \end{itemize}
   and two functions,
   \begin{itemize}
-    \item $\text{return}\colon S\to I$ and
+    \item $\text{return}\colon S\to I$;
     \item $\text{update}\colon S\times A\to S$.
   \end{itemize}
   To emphasize the role that the three sets play, we can specify that this is an $(A,I)$\emph{-Moore machine with states} $S$.
@@ -4380,61 +4380,87 @@ In general, given an initial state $s_0\in S$, an $(A,I)$-Moore machine with sta
 for all $k\in\nn$.
 We will see that $\poly$ gives us a more concise way to express this in \cref{ex.input_output}.
 
-Comparing \cref{def.moore_machine} with \cref{subsec.poly.cat.morph.bimorphic-lens}, we find that an $(A,I)$-Moore machine with states $S$ is precisely a lens between monomials $\phi\colon S\yon^S\to I\yon^A$ with on-positions function $\phi_\1\coloneqq\text{return}\colon S\to I$ and on-directions map $\phi^\sharp\coloneqq S\times A\to S$.
+Comparing \cref{def.moore_machine} with \cref{subsec.poly.cat.morph.bimorphic-lens}, we find that an $(A,I)$-Moore machine with states $S$ is precisely a lens between monomials $\varphi\colon S\yon^S\to I\yon^A$ with on-positions function $\varphi_\1\coloneqq\text{return}\colon S\to I$ and on-directions map $\varphi^\sharp\coloneqq S\times A\to S$.
 The positions and directions of the Moore machine are the positions and directions of the codomain of the corresponding lens, while the domain of the lens has the states of the Moore machine as both its positions and its directions.
 So we can repackage \cref{def.moore_machine} as follows.
 
 \begin{definition}[Moore machine, version 2]\label{def.moore_machine2}
-  For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens $S\yon^S\to I\yon^A$ in $\poly$.
+  For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens $\varphi\colon S\yon^S\to I\yon^A$ in $\poly$.
   We call
   \begin{itemize}
     \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
-    \item the codomain monomial $I\yon^A$ the machine's \emph{interface}---its position-set and direction-set are the machine's \emph{position-set} and \emph{direction-set}, and its positions and directions are the machine's \emph{positions} and \emph{directions}.
+    \item the codomain monomial $I\yon^A$ the machine's \emph{interface}---its position-set and direction-set are the machine's \emph{position-set} and \emph{direction-set}, and its positions and directions are the machine's \emph{positions} and \emph{directions};
+    \item the on-positions function $\varphi_\1\colon S\to I$ the machine's \emph{return function};
+    \item the on-directions map $\varphi^\sharp\colon S\times A\to S$ the machine's \emph{update function}.
   \end{itemize}
 \end{definition}
 
-We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: its positions are what the machine returns that an outsider observes, and its directions are what an outsider can feed to the machine as updates.
+We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: an outsider observes the positions of the interface that the machine returns and feeds the directions of the interface to the machine as updates.
 Rather than directly observing and changing the states, an outsider must interact with the machine via its interface.
 
 \begin{exercise}
-Write the Moore machine from \cref{ex.Moore_three} as a lens between monomials.
+In this exercise, we will write the Moore machine from \cref{ex.Moore_three} as a lens $\varphi$ between monomials.
 \begin{enumerate}
-    \item What is the state system?
-    \item What is the interface?
+    \item What is the machine's state system, the domain of $\varphi$?
+    \item What is the machine's interface, the codomain of $\varphi$?
 \end{enumerate}
-Call the left state $1$, the right state $2$, and the bottom state $3$.
+Call the left state $L$, the right state $R$, and the bottom state $B$.
 \begin{enumerate}[resume]
-    \item What is the on-positions function ``get''?
-    \item What is the on-directions function ``put''? \qedhere
+    \item What is the machine's return function, the on-positions function of $\varphi$?
+    \item What is the machine's update function, the on-directions map of $\varphi$?
+    \item Draw the first two steps listed in \cref{ex.Moore_three} of the machine's operation (starting at the bottom state and receiving the direction ${\color{orange}\text{orange}}$) using polyboxes.
+    \qedhere
 \end{enumerate}
 \begin{solution}
-We can write the Moore machine from \cref{ex.Moore_three} as a lens $S\yon^S\to B\yon^A$ between monomials as follows.
 \begin{enumerate}
     \item As $S=\3$, the state system is $S\yon^S=\3\yon^\3$.
-    \item As $B=\{b_1,b_2\}$ and $A=\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$, the interface is $B\yon^A=\{b_1,b_2\}\yon^{\{{\color{orange}\text{orange}},\,{\color{dgreen}\text{green}}\}}$.
-    \item The on-positions function ``get'' sends $1\mapsto b_1, 2\mapsto b_2,$ and $3\mapsto b_2$.
-    \item The on-directions function ``put'' sends
+    \item As $I=\{0,1\}$ and $A=\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$, the interface is $I\yon^A=\{0,1\}\yon^{\{{\color{orange}\text{orange}},\,{\color{dgreen}\text{green}}\}}$.
+    \item The return function $S\to I$ sends $L\mapsto 0, R\mapsto 1,$ and $B\mapsto 1$.
+    \item The update function $S\times A\to S$ sends
     \begin{align*}
-        (1, {\color{orange}\text{orange}})\mapsto1&,\quad(1, {\color{dgreen}\text{green}})\mapsto2, \\
-        (2, {\color{orange}\text{orange}})\mapsto1&,\quad(2, {\color{dgreen}\text{green}})\mapsto3, \\
-        (3, {\color{orange}\text{orange}})\mapsto1&,\quad(3, {\color{dgreen}\text{green}})\mapsto3.
+        (L, {\color{orange}\text{orange}})\mapsto L&,\quad(L, {\color{dgreen}\text{green}})\mapsto R, \\
+        (R, {\color{orange}\text{orange}})\mapsto L&,\quad(R, {\color{dgreen}\text{green}})\mapsto B, \\
+        (B, {\color{orange}\text{orange}})\mapsto L&,\quad(B, {\color{dgreen}\text{green}})\mapsto B.
     \end{align*}
+    \item In the first two steps, the machine sends its bottom state $B$ to its position $1$ via its return function, then sends its bottom state $B$ and its direction ${\color{orange}\text{orange}}$ to its left state $L$ via its update function.
+    We can interpret this in terms of the lens $\phi$ and depict the steps in polyboxes as
+    \[
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom] (p) {$L$\at$B$};
+        \node[left=0pt of p_pos] {$S$};
+        \node[left=0pt of p_dir] {$S$};
+
+      \node[poly, cod, right=of p] (q) {${\color{orange}\text{orange}}$\at$1$};
+        \node[right=0pt of q_pos] {$I$};
+        \node[right=0pt of q_dir] {$A$};
+
+      \draw (p_pos) -- node[below] {$f$} (q_pos);
+      \draw (q_dir) -- node[above] {$f\inv$} (p_dir);
+    \end{tikzpicture}
+    \]
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\subsection{More Moore machines}
+Here are some more examples of Moore machines.
 
 \begin{example}\label{ex.counting_trajectory}
-There is a dynamical system that takes unchanging input and produces as output the sequence of natural numbers $0,1,2,3,\ldots.$ It is a Moore machine with states $\nn$ and interface $\nn\yon$. The associated lens $\nn\yon^\nn\to\nn\yon$ is given by the identity $\nn \to \nn$ on positions and the function $\nn \iso \nn \times \1 \to \nn$ sending $n\mapsto n+1$ on directions.
-% \[
-% \begin{tikzpicture}[polybox, mapstos]
-% 	\node[poly, dom] (s) {$n+1$\nodepart{two}$n$};
-% 	\node[poly, cod, linear, right=of s] (p) {$\vphantom{1}$\nodepart{two}$n$};
-% 	\draw (s_pos) to[first] (p_pos);
-% 	\draw (p_dir) to[last] (s_dir);
-% \end{tikzpicture}
-% \]
+There is a $(\1,\nn)$-Moore machine with states $\nn$ that, with initial state $0\in\nn$, returns the sequence of natural numbers $(0,1,2,3,\ldots)$.
+The machine is given by the lens $\nn\yon^\nn\to\nn\yon$ whose on-positions function is the identity $\nn\to\nn$ and whose on-directions map $\nn\times\1\iso\nn\to\nn$ sends $n\mapsto n+1$.
+Here it is in polyboxes (recall that the shaded direction box indicates that the direction-set is a singleton, i.e.\ there is no choice to be made in filling it in):
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (s) {$n+1$\at$n$};
+    \node[left=0pt of s_pos] {$\nn$};
+    \node[left=0pt of s_dir] {$\nn$};
+
+ 	\node[poly, cod, linear, right=of s] (p) {$\vphantom{1}$\at$n$};
+    \node[right=0pt of p_pos] {$\nn$};
+
+ 	\draw (s_pos) to[first] (p_pos);
+ 	\draw (p_dir) to[last] (s_dir);
+\end{tikzpicture}
+\]
 \end{example}
 
 \begin{example}\label{ex.R2_moore}
