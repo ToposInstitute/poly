@@ -2675,7 +2675,7 @@ Let $p$ be a polynomial throughout.
   We conclude that lenses $I\yon\to p$ can be identified with functions $I\to p(\1)$.
 \end{example}
 
-\begin{exercise}[Lenses from $\0$ and $\yon$]
+\begin{exercise}[Lenses from $\0$ and $\yon$] \label{exc.lens-from-0-or-yon}
 \begin{enumerate}
   \item Use \cref{ex.lens-from-lin} to verify that $\0$ is the initial object of $\poly$.
   \item Use \cref{ex.lens-from-lin} to show that lenses $\yon\to p$ can be identified with $p$-positions. \qedhere
@@ -4385,7 +4385,7 @@ The positions and directions of the Moore machine are the positions and directio
 So we can repackage \cref{def.moore_machine} as follows.
 
 \begin{definition}[Moore machine, version 2]\label{def.moore_machine2}
-  For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens $\varphi\colon S\yon^S\to I\yon^A$ in $\poly$.
+  For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens \[\varphi\colon S\yon^S\to I\yon^A\] in $\poly$.
   We call
   \begin{itemize}
     \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
@@ -4423,7 +4423,7 @@ Call the left state $L$, the right state $R$, and the bottom state $B$.
         (B, {\color{orange}\text{orange}})\mapsto L&,\quad(B, {\color{dgreen}\text{green}})\mapsto B.
     \end{align*}
     \item In the first two steps, the machine sends its bottom state $B$ to its position $1$ via its return function, then sends its bottom state $B$ and its direction ${\color{orange}\text{orange}}$ to its left state $L$ via its update function.
-    We can interpret this in terms of the lens $\phi$ and depict the steps in polyboxes as
+    We can interpret this in terms of the lens $\varphi$ and depict the steps in polyboxes as
     \[
     \begin{tikzpicture}[polybox, mapstos]
       \node[poly, dom] (p) {$L$\at$B$};
@@ -4444,7 +4444,7 @@ Call the left state $L$, the right state $R$, and the bottom state $B$.
 
 Here are some more examples of Moore machines.
 
-\begin{example}\label{ex.counting_trajectory}
+\begin{example}[Counter]\label{ex.counting_trajectory}
 There is a $(\1,\nn)$-Moore machine with states $\nn$ that, with initial state $0\in\nn$, returns the sequence of natural numbers $(0,1,2,3,\ldots)$.
 The machine is given by the lens $\nn\yon^\nn\to\nn\yon$ whose on-positions function is the identity $\nn\to\nn$ and whose on-directions map $\nn\times\1\iso\nn\to\nn$ sends $n\mapsto n+1$.
 Here it is in polyboxes (recall that the shaded direction box indicates that the direction-set is a singleton, i.e.\ there is no choice to be made in filling it in):
@@ -4461,131 +4461,171 @@ Here it is in polyboxes (recall that the shaded direction box indicates that the
  	\draw (p_dir) to[last] (s_dir);
 \end{tikzpicture}
 \]
+The picture tells us that if the current state (the left position box) is $n\in\nn$, the next state (the left direction box) is $n+1\in\nn$.
+Since the machine just returns its current state as a position, the sequence of positions returned will always be an increasing sequence of consecutive natural numbers.
 \end{example}
 
-\begin{example}\label{ex.R2_moore}
+\begin{example}[Moving in the plane]\label{ex.R2_moore}
   Let us construct a Moore machine with positions in $\rr^2$, which we may think of as locations in the coordinate plane, and directions in $[0,\infty)\times[0,2\pi)$, which we may think of as commands to move a certain distance $r\in[0,\infty)$ at a certain angle $\theta\in[0,2\pi)$.
-  We will let the machine's state-set be $\rr^2$ as well, so the machine is a lens
+  We will let the machine's state-set be $\rr^\2$ as well, so the machine is a lens
   \[
     \rr^\2\yon^{\rr^\2}\to\rr^\2\yon^{[0,1]\times[0,2\pi)}.
   \]
   We can define such a lens using polyboxes:
-  \begin{align*}
-    \rr^\2&\To{\text{return}}\rr^\2&
-    \rr^\2\times[0,1]\times[0,2\pi)&\To{\text{update}}\rr^\2
-    	%\nonumber\\\label{eqn.r2moore}
-    	\\
-    (x,y)&\mapsto(x,y)&
-    (x,y,r,\theta)&\mapsto(x+r\cos\theta, y+r\sin\theta)
-  \end{align*}
+  \[
+  \begin{tikzpicture}[polybox, mapstos]
+    \node[poly, dom] (s) {$(x+r\cos\theta,y+r\sin\theta)$\at$(x,y)$};
+    \node[left=0pt of s_pos] {$\rr^\2$};
+    \node[left=0pt of s_dir] {$\rr^\2$};
+
+    \node[poly, cod, right=of s] (p) {$(r,\theta)\vphantom{y}$\at$(x,y)$};
+    \node[right=0pt of p_pos] {$\rr^\2$};
+    \node[right=0pt of p_dir] {$[0,\infty)\times[0,2\pi)$};
+
+    \draw (s_pos) to[first] (p_pos);
+    \draw (p_dir) to[last] (s_dir);
+  \end{tikzpicture}
+  \]
 \end{example}
 
 \begin{exercise}
 Explain in words what the Moore machine in \cref{ex.R2_moore} does.
 \begin{solution}
-At any point in time, the Moore machine in \cref{ex.R2_moore} is located somewhere on the $2$-dimensional plane, say at the coordinates $(x, y) \in \rr^\2$.
+At any time, the Moore machine in \cref{ex.R2_moore} is located at a point on the coordinate plane, say $(x, y) \in \rr^\2$.
 This location is its current state.
-Whenever we ask the machine to produce output, it will tell us those coordinates, since $\text{return}(x, y) = (x, y)$.
-But if we give the machine input of the form $(r, \theta)$ for some distance $r \in [0,1]$ and direction $\theta \in [0, 2\pi)$, the machine will move by that distance, in that direction, going from $(x, y)$ to
+When we ask the machine to return its position, it will tell us those coordinates, since the return function is the identity.
+Then if we give the machine a direction $(r, \theta)$ for some distance $r \in [0,1]$ and angle $\theta \in [0, 2\pi)$, the machine will move by that distance, at that angle counterclockwise from the positive $x$-axis, from $(x, y)$ to
 \[
-    \text{update}(x,y,r,\theta) = (x,y) + r(\cos\theta, \sin\theta)
+    (x+r\cos\theta, y+r\sin\theta) = (x,y) + r(\cos\theta, \sin\theta)
 \]
-(here we treat $\rr^\2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ in the direction of $\theta$).
+(here we treat $\rr^\2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ at the angle $\theta$).
 \end{solution}
 \end{exercise}
 
-\begin{example}[From functions to memoryless Moore machines]\label{ex.funs_to_moore}
-For any function $f\colon A\to B$, there is a corresponding $(A,B)$-Moore machine with states $B$ that takes in an element of $A$ and returns the element of $B$ obtained by applying $f$.
+\begin{example}[Functions as memoryless Moore machines]\label{ex.funs_to_moore}
+Given a function $f\colon A\to I$, there is a corresponding $(A,I)$-Moore machine with states $I$ that takes in an element of $A$ and returns the element of $I$ obtained by applying $f$.
 
-It is given by the lens $(\id_B, \pi_A\then f)\colon B\yon^B\to B\yon^A$. That is, it is the identity on positions, returning the state directly as output, and on directions it is the function $B\times A\To{\pi_A}A\To{f} B$, which ignores the current state and applies $f$ to the input to compute the new state.
+It is given by the lens $I\yon^I\to I\yon^A$ defined as follows:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (s) {$f(a)$\at$i$};
+  \node[left=0pt of s_pos] {$I$};
+  \node[left=0pt of s_dir] {$I$};
 
-If the machine begins in state $b_0$ and is given a sequence $(a_1,a_2,\ldots)$ of elements in $A$, the machine's outputs will be $(b_0,f(a_1),f(a_2),\ldots)$. We could say this machine is \emph{memoryless}, because at no point does the state of the machine depend on any previous states.
+  \node[poly, cod, right=of s] (p) {$\vphantom{f}a$\at$i$};
+  \node[right=0pt of p_pos] {$I$};
+  \node[right=0pt of p_dir] {$A$};
+
+  \draw (s_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (s_dir);
+\end{tikzpicture}
+\]
+That is, this lens is the identity on positions, returning the state directly as its position, and on directions it is the function $I\times A\To{\pi_2}A\To{f} I$, which ignores the current state and applies $f$ to the direction received to compute the new state.
+
+If the machine starts in state $i_0$ and is given a sequence of directions $(a_1,a_2,\ldots)$ from $A$, the machine will return the positions $(i_0,f(a_1),f(a_2),\ldots)$. We say this machine is \emph{memoryless}, because at no point does the state of the machine actually depend on any previous states; instead, its state depends only on the last direction it received.
 \end{example}
 
 \begin{exercise}\label{exc.funs_to_moore}
-Suppose we have a function $f\colon A\times B\to B$.
+Suppose we have a function $f\colon A\times I\to I$.
 \begin{enumerate}
-	\item Find a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$.
+	\item Find a corresponding $(A,I)$-Moore machine $I\yon^I\to I\yon^A$.
+  You may draw it out in polyboxes.
 	\item Would you say the machine is memoryless?
-	\item Now for any function $g\colon A\to B$, give a corresponding $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ by first turning $g\colon A\to B$ into a function $A\times B\to B$ that discards its second input.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item We seek an $(A,B)$-Moore machine $B\yon^B\to B\yon^A$ corresponding to the function $f\colon A\times B\to B$.
-    We know that an $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ consists of a return function $B \to B$ and an update function $B \times A \to B$.
-    So we can simply let the return function be the identity on $B$ and the update function be $B \times A \iso A \times B \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
+    \item We seek an $(A,I)$-Moore machine $I\yon^I\to I\yon^A$ corresponding to the function $f\colon A\times I\to I$.
+    We know that an $(A,I)$-Moore machine $I\yon^I \to I\yon^A$ consists of a return function $I \to I$ and an update function $I \times A \to I$.
+    So we can simply let the return function be the identity on $I$ and the update function be $I \times A \iso A \times I \To{f} B$, i.e.\ the function $f$ with its inputs swapped.
+    In polyboxes, the machine looks like
+    \[
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom] (s) {$f(a,i)$\at$i$};
+      \node[left=0pt of s_pos] {$I$};
+      \node[left=0pt of s_dir] {$I$};
+
+      \node[poly, cod, right=of s] (p) {$\vphantom{f}a$\at$i$};
+      \node[right=0pt of p_pos] {$I$};
+      \node[right=0pt of p_dir] {$A$};
+
+      \draw (s_pos) to[first] (p_pos);
+      \draw (p_dir) to[last] (s_dir);
+    \end{tikzpicture}
+    \]
 
     \item Generally, such a machine is not memoryless.
-    Unlike in \cref{ex.funs_to_moore}, the update function $B \times A \iso A \times B \To{f} B$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
+    Unlike in \cref{ex.funs_to_moore}, the update function $I \times A \iso A \times I \To{f} I$ does appear to depend on its first input, namely the previous state, which $f$ takes as its second input.
+    We can see this from out polybox picture above: the left direction box, which contains the new state $f(a,i)$, depends on the current state $i\in I$ in the left position box.
 
-    However, if $f$ factors through the projection $\pi_A \colon A \times B \to A$, i.e.\ if $f$ can be written as a composite $A \times B \To{\pi_A} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine from \cref{ex.funs_to_moore} corresponding to $f'$.
-
-    \item Given a function $g\colon A\to B$, we can compose it with the projection $\pi_A\colon A\times B\to A$ to obtain a function $A\times B\To{\pi_A}A\To{g}B$, which sends its first input through $g$ and discards its second input.
-    Then the corresponding $(A,B)$-Moore machine $B\yon^B \to B\yon^A$ has the identity function on $B$ as its return function and the composite $B\times A\To{\pi_A}A\To{g}B$, which discards its first input and sends its second input through $g$, as its update function.
+    However, if $f$ factors through the projection $\pi_1 \colon A \times I \to A$, i.e.\ if $f$ can be written as a composite $A \times I \To{\pi_1} A \To{f'} B$ for some $f' \colon A \to B$, then the resulting machine \emph{is} memoryless: it is the memoryless Moore machine from \cref{ex.funs_to_moore} corresponding to $f'$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Find $A,B\in\smset$ such that the following can be identified with a lens $S\yon^S\to B\yon^A$, and explain in words what the corresponding Moore machine does (there may be multiple possible solutions):
+Find $A,I\in\smset$ such that the following can be identified with a lens $S\yon^S\to I\yon^A$, and explain in words what the corresponding $(A,I)$-Moore machine does (there may be multiple possible solutions):
 \begin{enumerate}
-	\item a \emph{discrete dynamical system}, i.e.\ a set of states $S$ and a transition function $S\to S$ that tells us how to move from state to state.
+	\item a \emph{discrete dynamical system}, i.e.\ a set of states $S$ and a transition function $S\to S$ that describes how to transfer from state to state.
 	\item a \emph{magma}, i.e.\ a set $S$ and a function $S\times S\to S$.
 	\item a set $S$ and a subset $S'\ss S$.\qedhere
 \end{enumerate}
 \begin{solution}
-For each of the following constructs, we find $A, B \in \smset$ such that the construct can be identified with a lens $S\yon^S \to B\yon^A$, i.e.\ a function $\text{return} \colon S \to B$ and a function $\text{update} \colon S \times A \to S$.
+For each of the following constructs, we find $A,I\in\smset$ such that the construct can be identified with a lens $\varphi\colon S\yon^S\to I\yon^A$, i.e.\ a return function $\varphi_\1\colon S\to B$ and an update function $\varphi^\sharp\colon S\times A\to S$.
 \begin{enumerate}
-    \item Given a discrete dynamical system with states $S$ and transition funtion $n \colon S \to S$, we can set $A \coloneqq B \coloneqq \1$.
-    Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times \1 \to S$ is given by $S \times 1 \iso S \To{n} S$.
-    The corresponding Moore machine has unchanging input (you could think of it as a button that says ``advance to the next state'') and unchanging output (which effectively tells us nothing).
-    So it is just a set of states, and a deterministic way to move from state to state.
+  \item Given a discrete dynamical system with states $S$ and transition funtion $n\colon S\to S$, we can set $A\coloneqq I\coloneqq\1$.
+  Then $\varphi_\1\colon S\to\1$ is unique, while $\varphi^\sharp\colon S\times\1\to S$ is given by $S\times\1\iso S\To{n}S$.
+  The corresponding Moore machine can only be fed one direction (you could think of that direction as a button that simply says ``advance to the next state'') and can only return one position (which tells us no information).
+  So it is just a set of states and a deterministic way to move from state to state.
 
-    We could have also set $A \coloneqq \0$ and $B \coloneqq S$, so that $\text{return} \coloneqq n$ and $\text{update} \colon S \times \0 \to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its output, which happens to refer to some state.
+  We could have also set $A\coloneqq\0$ and $I\coloneqq S$, so that $\varphi_\1\coloneqq n$ and $\varphi^\sharp\colon S\times\0\to S$ is unique, but this formulation is somewhat less satisfying: this is a Moore machine that never moves between its states, effectively functioning as a lookup table between whatever state the machine happens to be in and its position, which also happens to refer to some state.
 
-    \item Given a magma consisting of a set $S$ and a function $m \colon S \times S \to S$, we can set $A \coloneqq S$ and $B \coloneqq 1$.
-    Then $\text{return} \colon S \to \1$ is unique, while $\text{update} \colon S \times S \to S$ is equal to $m$.
-    The corresponding Moore machine produces unchanging output.
-    It uses the binary operation $m$ to combine the current state with the input---which also refers to a state---to obtain the new state.
+  \item Given a magma consisting of a set $S$ and a function $m\colon S\times S\to S$, we can set $A \coloneqq S$ and $I\coloneqq\1$.
+  Then $\varphi_\1\colon S\to\1$ is unique, while $\varphi^\sharp\colon S\times S\to S$ is equal to $m$.
+  The corresponding Moore machine always returns the same position.
+  It uses the binary operation $m$ to combine the current state with a given direction---which also refers to a state---to obtain the new state.
 
-    Alternatively, we could have set the update function to be $m$ with its inputs swapped.
-    The difference here is that the new state is given by applying $m$ with the input on the left and the current state on the right, rather than the other way around.
-    If $m$ is noncommutative, this would yield a different Moore machine.
+  Alternatively, we could have set the update function to be $m$ with its inputs swapped.
+  The difference here is that the new state is given by applying $m$ with the direction on the left and the current state on the right, rather than the other way around.
+  If $m$ is noncommutative, this would yield a different Moore machine.
 
-    We could have also set $A \coloneqq \0$ and $B \coloneqq S^S$, so that $\text{update} \colon S \times \0 \to S$ is unique, while currying $m$ gives $\text{return}$, so that $\text{return}(s)$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
-    Alternatively, $\text{return}(s)$ could be the function $s' \mapsto m(s', s)$.
-    Either way, this is a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
+  We could have also set $A\coloneqq\0$ and $I\coloneqq S^S$, so that $\varphi^\sharp\colon S\times\0\to S$ is unique, while currying $m$ gives $\varphi_\1$, so that $\varphi_\1 s$ is the function $S \to S$ given by $s' \mapsto m(s, s')$.
+  Alternatively, $\varphi_\1 s$ could be the function $s' \mapsto m(s', s)$.
+  Either way, this is again a Moore machine that never moves between its states, functioning as a lookup table between the machine's current state and the function $m$ partially applied to that state on one side or the other.
 
-    \item Given a set $S$ and a subset $S' \ss S$, we can set $A \coloneqq \0$ and $B \coloneqq \2$.
-    Then $\text{update} \colon S \times \0 \to S$ is unique, while we define $\text{return} \colon S \to \2$ by
-    \[
-        \text{return}(s) =
-        \begin{cases}
-            1 & \text{if } s \in S' \\
-            2 & \text{if } s \notin S',
-        \end{cases}
-    \]
-    so that $S'$ can be recovered from the return function as its fiber over $1$.
-    The corresponing Moore machine never moves between its states, but gives one of two outputs indicating whether or not the current state is in the subset $S'$.
+  \item Given a set $S$ and a subset $S' \ss S$, we can set $A\coloneqq\0$ and $I\coloneqq\2$.
+  Then $\varphi^\sharp\colon S\times\0\to S$ is unique, while we define $\varphi_\1\colon S\to\2$ by
+  \[
+      \varphi_\1 s =
+      \begin{cases}
+          1 & \text{if } s \in S' \\
+          2 & \text{if } s \notin S'
+      \end{cases}
+  \]
+  so that $S'$ can be recovered from $\varphi_\1$ as its fiber over $1$.
+  The corresponing Moore machine never moves between its states, but returns one of two positions indicating whether or not the current state is in the subset $S'$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
-Consider the Moore machine in \cref{ex.R2_moore}, and think of it as a robot. Using the terminology from that example, modify the robot as follows.
+The previous examples of Moore machines largely had the identity function as return functions.
+In the following exercises, we will build examples of Moore machines that do not return their entire states as their positions.
 
-Add to its state a ``health meter,'' which has a real value between 0 and 10. Make the robot lose half its health whenever it moves to a location whose $x$-coordinate is negative. Do not output its health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+\begin{exercise}[Robot with health]
+Think of the Moore machine in \cref{ex.R2_moore} as a robot and modify it as follows.
+
+Add to its state a ``health meter,'' which takes a real value between 0 and 1 representing the robot's health.
+Have the robot lose half its health each time it moves to a location whose $x$-coordinate is negative.
+Do not output the robot's health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
-We modify the Moore machine from \cref{ex.R2_moore} as follows.
-The original Moore machine had states $\rr^\2$, so to add a health meter with values in $[0,10]$, we take the cartesian product to obtain the new set of states $\rr^\2 \times [0,10]$.
-The inputs and outputs are unchanged, so the Moore machine is a lens
+The original Moore machine had states $\rr^\2$, so to add a health meter that takes values in $[0,1]$, we take the cartesian product to obtain a new set of states $\rr^\2\times[0,1]$.
+The position-set and direction-set are unchanged, so the Moore machine is a lens
 \[
-    \rr^\2 \times [0,10] \yon^{\rr^\2 \times [0,10]} \to \rr^\2 \yon^{[0,1] \times [0,2\pi)}.
+    \rr^\2\times[0,1]\yon^{\rr^\2\times[0,1]} \to \rr^\2\yon^{[0,\infty)\times[0,2\pi)}.
 \]
-Its return function $\rr^\2 \times [0,10] \to \rr^\2$ is the canonical projection, as the machine only outputs its location in $\rr^\2$ and not its health; while its update function
+Its return function $\rr^\2\times[0,1]\to\rr^\2$ is the canonical projection, as the machine returns only its location in $\rr^\2$ and not its health; while its update function
 \[
-    \rr^\2 \times [0,10] \times [0,1] \times [0,2\pi) \to \rr^\2 \times [0,10]
+    \rr^\2 \times [0,1] \times [0,\infty) \times [0,2\pi) \to \rr^\2 \times [0,1]
 \]
 sends $(x, y, h, r, \theta)$ to
 \[
@@ -4596,28 +4636,31 @@ where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and 
 \end{exercise}
 
 \begin{exercise}[Tape of a Turing machine]
-A Turing machine has a tape. The tape has a cell for each integer, and each cell holds a value $v\in V=\{0,1,-\}$ of 0,1, or blank. At any given time the tape not only holds this function $f\colon\zz\to V$ from cell numbers to values, but also a distinguished choice $c\in\zz$ of the ``current'' cell. Thus the set of states of the tape is $V^\zz\times\zz$.
+A Turing machine has a tape consisting of a cell for each integer; each cell bears a value $v\in V\coloneqq\{0,1,-\}$, and one of the cells $c\in\zz$ is distinguished as the ``current'' cell.
+So the set of states of the tape is $V^\zz\times\zz$.
 
-The Turing machine interacts with the tape by asking for the value at the current cell, an element of $V$, and by telling it to change the value there as well as whether to move left (i.e.\ decrease the current cell number by $1$) or right (i.e.\ increase by $1$). Thus the set of outputs of the tape is $V$ and the set of inputs is $V\times\{L,R\}$.
+The Turing machine interacts with the tape by asking for the value of the current cell, an element of $V$; and by changing the value of the current cell before moving left (i.e.\ replacing the current cell $c\in\zz$ with the new cell $c-1$) or right (i.e.\ replacing $c$ with $c+1$).
+Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 
 \begin{enumerate}
-	\item Give the form of the tape as a Moore machine, i.e.\ lens $t\colon S\yon^S\to B\yon^A$ for appropriate sets $S, A, B$.
+	\item If we model the tape as a Moore machine $t\colon S\yon^S\to I\yon^A$, what are $S,I,$ and $A$?
 	\item Write down the specific $t$ that makes it act like a tape as specified above.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item The tape of a Turing machine has states $V^\zz \times \zz$, outputs $V$, and inputs $V \times \{L, R\}$, so as a Moore machine, it is a lens
+    \item The tape has states $S\coloneqq V^\zz \times \zz$, positions $I\coloneqq V$, and directions $A\coloneqq V\times\{L,R\}$; so as a Moore machine, it is a lens
     \[
         t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
     \]
-    \item The return function of $t$ should output the value at the current cell of the tape. So $\text{return} \colon V^\zz \times \zz \to V$ is the evaluation map: it sends $(f,c)$ with $f \colon \zz \to V$ and $c \in \zz$ to $f(c)$.
-    Then the update function of $t$ should write the input value of $V$ in the current cell of the tape, then shift the cell number down or up one according to whether the second input value is $L$ (left) or $R$ (right).
-    So
+    \item The return function of $t$ should give the value in the current cell of the tape.
+    So $t_\1\colon V^\zz\times\zz\to V$ is the evaluation map: it sends $(f,c)$ with $f\colon\zz\to V$ and $c\in\zz$ to $f(c)$.
+    Then on a given direction $(v,D)\in V\times\{L,R\}$, the update function of $t$ writes $v$ in the tape's current cell before shifting the current cell number up or down by one according to whether $D$ is $R$ (right) or $L$ (left).
+    More precisely,
     \[
-        \text{update} \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
+        t^\sharp \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
     \]
-    sends old tape $f \colon \zz \to V$, old cell number $c \in \zz$, new value $v \in V$, and direction $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ defined by
+    sends current tape $f\colon\zz\to V$, current cell number $c\in\zz$, new value $v \in V$, and $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ defined by
     \[
         f'(n)\coloneqq
         \begin{cases}
@@ -4625,160 +4668,148 @@ The Turing machine interacts with the tape by asking for the value at the curren
             f(n) & \text{if } n \neq c
         \end{cases}
     \]
-    and the new cell number $c-1$ if $D=L$ and $c+1$ if $D = R$.
+    and the new cell number $c-1$ if $D=L$ and $c+1$ if $D=R$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{exc.file_reader}
-Let's say a file of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
-We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as entries in the file and, for each entry $i \in \ord{n}$, the value $f(i)$ as the character at entry $i$.
+\begin{exercise}[File reader]\label{exc.file_reader}
+Say that a \emph{file} of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
+We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as \emph{entries} in the file and, for each entry $i\in\ord{n}$, the value $f(i)$ as the \emph{character} at entry $i$.
 
-Given a file $f$, make a file-reading Moore machine whose output type is $\Set{ascii} + \{\text{``done''}\}$
-and whose input type is
+Given a file $f$, design a file-reading Moore machine whose position-set is $\Set{ascii} + \{\text{``done''}\}$
+and whose direction-set is
 \[
 \{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}.
 \]
-For any input, if it is of the form $(s,t)$, then the file-reader should go to entry $s$ in the file and read the character at that entry.
-If the input is ``continue,'' the file-reader should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character—unless the new entry would be greater than $t$, in which case the file-reader should continually output ``done'' until it receives another $(s,t)$ pair.
+Given a direction $(s,t)$, the file-reader should go to entry $s$ and return the character at that entry.
+If the given direction is instead ``continue,'' the file-reader should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character---unless the new entry would be greater than $t$, in which case the file-reader should return ``done'' until it receives another $(s,t)$ pair.
 \begin{solution}
-Given a file $f \colon \ord{n} \to \Set{ascii}$, we construct our file-reader as a Moore machine as follows.
-There are many options for what states the machine should record, but we will use pairs of values $(i, t) \in \ord{n}^\2$, where $i$ is the entry where the file-reader is currently located, while $t$ is the entry where the file-reader should stop.
-But we will also include a ``stopped'' state to record when the file-reader has already stopped.
-So the Moore machine is a lens
+There are many options for the machine's state-set; we choose to use pairs of entries $(i,t)\in\ord{n}^\2$, where $i$ is the entry where the file-reader is currently located, while $t$ is the entry where the file-reader should stop.
+We will also include a ``stopped'' state for when the file-reader has already stopped.
+So our Moore machine is a lens
 \[
     (\ord{n}^\2+\{\text{``stopped''}\})\yon^{\ord{n}^\2+\{\text{``stopped''}\}} \to (\Set{ascii} + \{\text{``done''}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}}.
 \]
-If the file-reader's current state is ``stopped,'' then the file-reader should output ``done.'' Otherwise, the file-reader should output the character at the entry where the file-reader is currently located.
-So its return function $\ord{n}^\2+\{\text{``done''}\} \to \Set{ascii} + \{\text{``done''}\}$ sends $(i, t)$ to $f(i)$ and ``done'' to ``done.''
+If the file-reader's current state is ``stopped,'' then the file-reader should return the position ``done.''
+Otherwise, the file-reader should return the character at the entry where the file-reader is currently located.
+So its return function $\ord{n}^\2+\{\text{``stopped''}\} \to \Set{ascii} + \{\text{``done''}\}$ sends $(i, t)$ to $f(i)$ and ``stopped'' to ``done.''
 Meanwhile, the update function
 \[
-    (\ord{n}^\2+\{\text{``done''}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}) \to \ord{n}^\2+\{\text{``done''}\}
+    (\ord{n}^\2+\{\text{``stopped''}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}) \to \ord{n}^\2+\{\text{``stopped''}\}
 \]
-sends any state with input $(s,t)$ to the state $(s,t)$.
-On the other hand, if the input is ``continue,'' an old state $(i,t)$ is sent to the new state $(i+1,t)$ if $i + 1 \leq t$ and ``done'' otherwise.
-Finally, if the old state is ``done'' and the input is ``continue,'' the new state is still ``done.''
+behaves as follows on the current state and given direction: regardless of the current state, if the given direction is a pair $(s,t)$, the new state will also be $(s,t)$.
+On the other hand, if the given direction is ``continue'' and the current state is a pair $(i,t)$, the new state should be the pair $(i+1,t)$ if $i+1\leq t$ and ``done'' otherwise.
+Finally, if the given direction is ``continue'' and the current state is ``stopped,'' the new state should still be ``stopped.''
 \end{solution}
 \end{exercise}
 
-While \cref{exc.file_reader} gives us a functioning file-reader, it is a little strange that we are still able to give the input ``continue'' even when the output is ``done,'' or input a new range of entries before the file-reader has finished reading from the previous range.
-In \cref{sec.poly.dyn_sys.depend_sys}, we'll introduce a generalization of Moore machines to handle cases like these, where the array of inputs the machine can receive changes depending on the output that it just returned.
-In particular, we will be able to let the file-reader ``close its port,'' so that it can't receive signals while it's busy reading, but open its port again once it's ``done''; see \cref{ex.generalized_file_reader}.
+While \cref{exc.file_reader} gives us a functioning file-reader, it is rather awkward that we are still able to give the direction ``continue'' even when the position is ``done,'' or provide a new range of entries before the file-reader has finished reading from the previous range.
+In \cref{sec.poly.dyn_sys.depend_sys}, we will introduce a generalization of Moore machines to handle cases like these, where the array of directions the machine can receive changes depending on its current position.
+In particular, we will be able to let the file-reader ``close its port,'' so that it can't receive signals while it's busy reading, but open its port once it's ``done''; see \cref{ex.generalized_file_reader}.
 
 \subsubsection{Deterministic state automata}
 
-The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine (with a preset initial state).
+The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine with a distinguished initial state.
 
 \begin{definition}[Deterministic state automaton, language]\label{def.dfa}
 A \emph{deterministic state automaton} consists of
 \begin{enumerate}
-	\item a set $S$, elements of which are called \emph{states};
-	\item a set $A$, elements of which are called \emph{input symbols};
-	\item a function $u\colon S\times A\to S$, called the \emph{update function};
-	\item an element $s_0\in S$, called the \emph{initial state}; and
-	\item a subset $F\ss S$, called the \emph{accept states}.
+	\item a set $S$ of \emph{states};
+	\item a set $A$ of \emph{symbols};
+	\item an \emph{update function} $u\colon S\times A\to S$;
+	\item an \emph{initial state} $s_0\in S$;
+	\item a subset $F\ss S$ of \emph{accept states}.
 \end{enumerate}
-Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ of elements from $A$ (i.e.\ an element of $\lst(A)$, the free monoid on $A$), we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined
+Let
 \[
-    s_{k+1}\coloneqq u(s_k,a_{k+1})
+  \lst(A)=\sum_{n\in\nn}A^\ord{n}
 \]
-for all $k\in\nn$ is such that $s_n$ is an accept state: $s_n\in F$.
+denote the set of finite sequences $(a_1,\ldots,a_n)$ of symbols in $A$; we call such a sequence a \emph{word}.
+We say that the automaton \emph{accepts} the word $(a_1,\ldots,a_n)$ if starting at the initial state and following the symbols in the word leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined inductively for $k\in\nn$ by
+\[
+  s_{k+1}\coloneqq u(s_k,a_{k+1})
+\]
+is such that $s_n$ is an accept state: $s_n\in F$.
 
-We call any set of words in $\lst(A)$ a \emph{language}, and we say that the set of all words that the automaton accepts is the language \emph{recognized} by the automaton.
+We call a subset of $\lst(A)$ a \emph{language}, and we say that the set of all words in $\lst(A)$ that the automaton accepts is the language \emph{recognized} by the automaton.
 \end{definition}
 
 \begin{remark}
 When we study a deterministic state automaton, we are usually interested in which words the automaton accepts and, more generally, what language the automaton recognizes.
-While intuitive, the condition we provided for when an automaton accepts a word is rather cumbersome to work with.
-In \cref{ex.dsa_lang_recog}, we'll see a simpler way of saying whether an automaton accepts a word, as well as specifying what language the automaton recognizes.
-Better yet, we'll find that this alternative formulation arises naturally from the theory of $\poly$.
+While intuitive, the condition we provided for when an automaton accepts a word can be cumbersome to work with.
+In \cref{ex.dsa_lang_recog}, we will give a more compact way of describing whether an automaton accepts a word and specifying the language the automaton recognizes.
+Better yet, we will find that this alternative formulation arises naturally from the theory of $\poly$.
 \end{remark}
 
 \begin{proposition} \label{prop.dsa}
-A deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a pair of lenses
+A deterministic state automaton with a set of states $S$ and a set of symbols $A$ can be identified with a pair of lenses
 \[
-\yon\to S\yon^S\to \2\yon^A.
+  \yon\to S\yon^S\to \2\yon^A.
 \]
 \end{proposition}
 \begin{proof}
-A lens $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
-A lens $S\yon^S\to\2\yon^A$ consists of a function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
+By \cref{exc.lens-from-0-or-yon}, a lens $\yon\to S\yon^S$ can be identified with an initial state $s_0\in S$.
+Then a lens $S\yon^S\to\2\yon^A$ consists of a return function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
 \end{proof}
 
-But what if we wanted to make a version of this automaton where, whenever the machine hits an accept state, it stops---no longer taking in any inputs? Again, to do this requires a machine whose set of possible inputs is dependent on the output the current state returns.
-In this case, instead of an update function $u\colon S\times A\to S$, we want an update function that takes in an input $a\in A$ if the state $s\in S$ is \emph{not} an accept state (say, if $f(s)=1$) but takes in an input in $\0$ (i.e.\ no input) if the state $s$ \emph{is} an accept state (if $f(s)=2$).
-So there is one update function $u_s\colon A\to S$ if $f(s)=1$, and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
-But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$.
+In other words, we can think of an $(A,\2)$-Moore machine with states $S$ as a deterministic state automaton without a specified initial state, but with the same states, directions as symbols, and the same update function.
+
+Now imagine if we wanted to construct a version of this automaton that stops reading symbols (i.e.\ directions) whenever the machine hits an accept state (i.e.\ returns one position instead of the other).
+To do this would require a machine whose set of possible directions is dependent on its current position.
+Instead of an update function $u\colon S\times A\to S$, we would need an update function that takes a direction $a\in A$ if the state $s\in S$ is \emph{not} an accept state (say, if $f(s)=1$) but takes a direction in $\0$ (i.e.\ no direction) if the state $s$ \emph{is} an accept state (if $f(s)=2$).
+So there would be one update function $u_s\colon A\to S$ if $f(s)=1$, and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
+But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$!
 Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
 %-------- Section --------%
 \section{Dependent dynamical systems}\label{sec.poly.dyn_sys.depend_sys}
 
-As lenses, each of our Moore machines above has an interface of the form $B\yon^A$, i.e.\ a monomial.
-Every representable summand of the interface has the same exponent $A$, corresponding to the fact that the set of available inputs into the machine is always $A$.
-But by replacing $B\yon^A$ with an arbitrary polynomial $p$---a sum of monomials, in which different representable summands may have different exponents---we will allow our input set to change.
+Each of our Moore machines above has a monomial $I\yon^A$ as an interface.
+Every representable summand of such an interface has the same representing set $A$, so the set of directions that can be fed into the machine is always $A$.
+But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a different direction-set at each position, we can model a broader class of machines.
 
 \begin{definition}[Dependent dynamical system]\label{def.gen_moore}
-A \emph{dependent dynamical system} (or a \emph{dependent Moore machine}, or simply a \emph{dynamical system}) is a lens
-\[\varphi\colon S\yon^S\to p\]
-for some $S\in\smset$ and $p\in\poly$. The set $S$ is called the set of \emph{states}---with $S\yon^S$ called the \emph{state system}---and the polynomial $p$ is called the \emph{interface}.
-Positions of the interface are called \emph{outputs}, and directions of the interface are called \emph{inputs}.
-
-The lens's on-positions function $\varphi_\1\colon S\to p(\1)$ is called the \emph{return function}, and for each $s\in S$, the lens's on-directions function $\varphi^\sharp_s\colon p[\varphi_\1(s)]\to S$ is called the \emph{update function} at $s$.
+  A \emph{dependent dynamical system} (or a \emph{dependent Moore machine}, or simply a \emph{dynamical system}) is a lens \[\varphi\colon S\yon^S\to p\] for some $S\in\smset$ and $p\in\poly$.
+  We call
+  \begin{itemize}
+    \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
+    \item the codomain polynomial $p$ the machine's \emph{interface}---its position-set and direction-sets are the machine's \emph{position-set} and \emph{direction-sets}, and its positions and directions are the machine's \emph{positions} and \emph{directions};
+    \item the on-positions function $\varphi_\1\colon S\to p(\1)$ the machine's \emph{return function};
+    \item the on-directions map $\varphi^\sharp\colon p[\varphi_\1(-)]\to S$ the machine's \emph{update map}, and the on-directions function $\varphi^\sharp_s\colon S\times p[\varphi_\1s]\to S$ at $s\in S$ the machine's \emph{update function} at $s$.
+  \end{itemize}
 \end{definition}
 
 \begin{example}[Dynamical systems as polyboxes]
   We can express a dynamical system $\varphi\colon S\yon^S\to p$ in polyboxes as
   \begin{equation*}
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s\vphantom{i}$};
+        \node[left=0pt of s_pos] {$S$};
+        \node[left=0pt of s_dir] {$S$};
 
-      \node[poly, cod, right=of S, "$p$" right] (p) {$i$\at$o$};
+      \node[poly, cod, right=of S, "$p$" right] (p) {$a\vphantom{t}$\at$i$};
 
       \draw (S_pos) -- node[below] {return} (p_pos);
       \draw (p_dir) -- node[above] {update} (S_dir);
     \end{tikzpicture}
   \end{equation*}
-  Then the polybox acts as a channel between the internal state system on the left and the external interface on the right.
-  The state system enters its current state $s\in S$ into the lower left blue box, and the return function converts this state to the output $o\in p(\1)$, which is exposed by the interface in the lower right white box.
-  Associated with this output is a set of inputs $p[o]$; an interacting agent selects one of these inputs $i\in p[o]$ to enter into the upper right blue box.
-  Finally, the update function takes in the current state $s$ and the input $i$ and fills in the upper left white box accordingly with the next state $t\in S$ (or, more precisely, a direction at the current state $s$ that should point to the next state $t$).
+  We can visualize $\phi$ as a channel between the internal state system on the left and the external interface on the right.
+  The state system enters its current state $s\in S$ into the left position box, and the return function converts this state to a position $i\in p(\1)$ of the interface.
+  At $i$, the interface has a direction-set $p[i]$; an interacting agent selects one of these directions $a\in p[i]$ to enter into the right direction box.
+  Finally, the update map uses the current state $s$ and the position $i$ to fill the left direction box with the new state $t\in S$.
+  Then the process repeats with $t$ in place of $s$.
 \end{example}
 
-\subsection{Thinking about dependency}
-
-The current output $i$ of a dependent dynamical system with interface $p$ is a $p$-position: an element of the set $p(\1)$.
-Then any input provided to the update function at that time must come from the direction-set $p[i]$.
-So the set of available inputs varies depending on the current output.
-What kind of system has that kind of a relationship between its inputs and outputs?
-
-Think back to our promises for more generalized dynamical systems from \cref{sec.poly.intro.dyn_sys}.
-We can begin to think of outputs not only as outward expressions, but as positions that one takes---terminology we've been using all along.
-If the polynomial is your body, then your outputs would be the positions that your body could take.
-This includes where you go, as well as the direction you're looking with your head and eyes, whether your lips are pursed or not, etc.
-In fact, every form of output you provide, from talking to gesturing to moving another object, is performed by changing your position. And your position determines what inputs you'll notice: if your eyes are closed, your input type is different than if your eyes are open.
-
-\slogan{The position you're in is itself a sensory organ: a hand outstretched, an eye open or closed.}
-
-If we squint, we could even see an output more as a sensing apparatus than anything else. This is pretty philosophical, but imagine your outputs---what you say and do---are more there as a question to the world, a way of sensing what the world is like.
-
 \begin{remark}
-It may seem limiting that the set of possible inputs of a dependent dynamical system should depend on the current \emph{output}, rather than the current \emph{state}.
-Isn't it possible to have a system with different states that give the same output but take in inputs from different sets?
-
-Philosophically, the answer to this question is ``no'' as long as we think about the interface of a dynamical system as capturing everything about how the system interacts with the outside world.
-In particular, the output of a system should capture everything an external observer could possibly perceive about the system, while the input set should capture every way an external force can independently decide to interact with the system.
-
-But if the range of ways in which an external agent can choose to interact with the system \emph{changes}, the external agent should be able to detect this fact!
-If the internal state changes, but the external output remains the same, the agent wouldn't see any difference---they wouldn't know to interact with the system any differently, so their range of possible inputs would have to stay the same, too.
-That's why it makes sense for the set of possible inputs to depend not on the hidden internal state, but on the output currently exposed.
+It may seem limiting that the set of possible directions a dependent dynamical system can receive should depend on the current \emph{position} rather than the current \emph{state}; but this makes sense philosophically if we accept that the system's interface should capture \emph{everything} about how it interacts with the outside world.
+In particular, the system's position should capture everything an external observer could possibly perceive about the system, while the direction-set should capture all the ways in which an external agent can choose to interact with the system.
+But if the set of directions available to an external agent \emph{changes}, the external agent should be able to detect this fact---the system's position must have changed as well!
+On the other hand, if the internal state changes, but the external position remains the same, the agent wouldn't see any difference---they wouldn't know to interact with the system any differently, so the directions available to them would have to stay the same, too.
 \end{remark}
 
-But however you think of dependent dynamical systems, we need to get a feel for how they work mathematically.
-We'll do this by going through several examples.
-
-\subsection{Examples of dependent dynamical systems}
-To start, let's finish up the example from the end of the last section.
+Here are some examples of dependent dynamical systems.
+We start by completely the example from the end of the last section.
 
 \begin{example}\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
@@ -5333,7 +5364,7 @@ We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}
 	};
 %
 	\node (p3) [right=3.5 of p1] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
+	\begin{tikzpicture}[rees, sibling distance=2.5mm]
     \node["\tiny 3" below] (1) {$\bullet$}
       child[blue] {coordinate (11)};
     \node[right=1.5 of 1, "\tiny $b$" below] (2) {$\bullet$}
