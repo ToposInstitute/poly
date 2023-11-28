@@ -1348,7 +1348,7 @@ We build up to defining them as follows.
 
 Our first definition will be familiar to students of graph theory, although we will add some technical details suited to our purposes.
 \begin{definition}[Rooted tree]
-    A \emph{rooted tree} is a nonempty connected acyclic graph with a distinguished vertex called the \emph{root}.
+    A \emph{rooted tree} is a nonempty connected acyclic undirected graph with a distinguished vertex called the \emph{root}.
 
     We allow infinitely and even uncountably many vertices and infinitely and even uncountably many edges incident to each vertex; on the other hand, each pair of vertices is connected by a (necessarily unique) path of finitely many adjacent edges.
 \end{definition}
@@ -1428,7 +1428,7 @@ Thinking of directions as menu options like in the previous section, we may view
 As each representable functor has an associated corolla, each polynomial functor will have an associated disjoint union of corollas that we call a \emph{corolla forest}.
 
 \begin{definition}[Corolla forest]
-    A \emph{corolla forest} is a disjoint union of corollas, i.e.\ a graph whose connected components are all corollas (with distinguished roots).
+    A \emph{corolla forest} is a disjoint union of corollas, i.e.\ an undirected graph whose connected components are all corollas (with distinguished roots).
 
     The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of the corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
     When we draw the corolla forest associated to $p$, we may say that we are \emph{drawing $p$ as a (corolla) forest}.
@@ -4673,7 +4673,7 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}[File reader]\label{exc.file_reader}
+\begin{exercise}[File-reader]\label{exc.file_reader}
 Say that a \emph{file} of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
 We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as \emph{entries} in the file and, for each entry $i\in\ord{n}$, the value $f(i)$ as the \emph{character} at entry $i$.
 
@@ -4726,7 +4726,7 @@ Let
   \lst(A)=\sum_{n\in\nn}A^\ord{n}
 \]
 denote the set of finite sequences $(a_1,\ldots,a_n)$ of symbols in $A$; we call such a sequence a \emph{word}.
-We say that the automaton \emph{accepts} the word $(a_1,\ldots,a_n)$ if starting at the initial state and following the symbols in the word leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined inductively for $k\in\nn$ by
+We say that the automaton \emph{accepts} the word $(a_1,\ldots,a_n)$ if starting at the initial state and following the symbols in the word leads us to an accept state---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined inductively by
 \[
   s_{k+1}\coloneqq u(s_k,a_{k+1})
 \]
@@ -4784,7 +4784,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
   We can express a dynamical system $\varphi\colon S\yon^S\to p$ in polyboxes as
   \begin{equation*}
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s\vphantom{i}$};
+      \node[poly, dom] (S) {$t$\at$s\vphantom{i}$};
         \node[left=0pt of s_pos] {$S$};
         \node[left=0pt of s_dir] {$S$};
 
@@ -4809,30 +4809,36 @@ On the other hand, if the internal state changes, but the external position rema
 \end{remark}
 
 Here are some examples of dependent dynamical systems.
-We start by completely the example from the end of the last section.
+We begin by finishing the example at the end of the last section.
 
-\begin{example}\label{ex.regular_lang_stop}
+\begin{example}[Halting deterministic state automata]\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
-Say we want such an automaton to halt after reaching an accept state and no longer take input.
-For that, rather than use a lens $S\yon^S\to \2\yon^A$, we could use a lens
+Say we want such an automaton to halt after reaching an accept state and read no more symbols.
+Then rather than a lens $S\yon^S\to \2\yon^A$, we could use a lens
 \[
-\varphi\colon S\yon^S\to \yon^A+\1.
+  \varphi\colon S\yon^S\to \yon^A+\1.
 \]
-To give such a lens, we provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
-A function $\varphi_\1$ sends some elements of $S$ to $1$ and others to $2$; those that are sent to $2$ are said to be accept states.
+To give such a lens, we first need to provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
+Such a function sends some elements of $S$ to $1$ and the rest to $2$; those that are sent to $2$ are the accept states.
 
 If we reach an accept state, we want the machine to halt.
-So at the position $2$, corresponding to the summand $\1$, there are no directions---and thus no inputs available.
-In other words, the update function $\varphi^\sharp_s$ is trivial when $\varphi_\1(s)=2$.
+So at the position $2$, corresponding to the summand $\1$, there are no directions available.
+This makes the update function $\varphi^\sharp_s$ vacuous when $\varphi_\1s=2$.
 
-On the other hand, $\varphi^\sharp_s$ is not trivial on those elements $s\in S$ for which $\varphi_\1(s)=1$.
-Instead, these update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state on each input from $A$, if the current state is $s$.
-This is in line with the way the automaton's update function behaves.
+On the other hand, when $\varphi_\1s=1$, the update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state for each direction in $A$ if the current state is $s$.
+This corresponds to the automaton's update function.
 
 When equipped with an initial state $s_0\in S$ specified by a lens $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
-Given a sequence (or ``word'') $(a_1,\ldots,a_n)$ in $\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without hitting an accept state and stopping too early}---or, more formally, if there exists a sequence $(s_0,s_1,\ldots,s_n)$ such that $\varphi_\1(s_n)=2$ and, for all $k\in[0,n-1]$, we have $\varphi_\1(s_k)=1$ and
+Given a word $(a_1,\ldots,a_n)\in\lst(A)$, we say that the automaton \emph{accepts} this word if starting at the initial state and following the elements in the sequence leads us to an accept state, \emph{without reaching an accept state any earlier}---or, more formally, if the sequence $(s_0,s_1,\ldots,s_n)$ defined inductively by
 \[
-    s_{k+1}=\varphi^\sharp_{s_k}(a_{k+1}).
+  s_{k+1}\coloneqq \varphi^\sharp_{s_k}a_{k+1}
+\]
+is such that $s_n$ is the sequence's first accept state:
+\[
+  \varphi_\1s_k=\begin{cases}
+    1 & \text{if } k<n \\
+    2 & \text{if } k=n
+  \end{cases}
 \]
 We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
 \end{example}
@@ -4879,21 +4885,19 @@ Answer the following questions, in keeping with the notation from \cref{ex.regul
 \qedhere
 \end{enumerate}
 \begin{solution}
-Here we examine the halting deterministic state automaton depicted in \eqref{eqn.halt_dsa}, with left state (and initial state) 1, right state 2, bottom state 3, and arrows {\color{orange}orange} and {\color{dgreen}green}.
-
 \begin{enumerate}
     \item The set of states is $S\coloneqq\{1,2,3\}=\3$ (or equivalently $S\coloneqq\{\bul[blue],\bul[dyellow],\bul[red]\}\iso\3$).
     \item The set of input symbols is $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
     \item The automaton should halt at the accept states, so the accept states are exactly the states that have no arrows coming out of them---in this case, only state 3.
     States 1 and 2 are not accept states.
     \item Let the corresponding lens be $\varphi\colon S\yon^S\to\yon^A+\1$, or $\varphi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
-    According to the previous part, $\varphi$ has a return function $\varphi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1, and sending state 3, as an accept state, to 2.
-    Then the two nontrivial update functions behave as follows, according to the targets of the arrows in \eqref{eqn.halt_dsa}:
+    According to the previous part, $\varphi$ has a return function $\varphi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1; and sending state 3, as an accept state, to 2.
+    Then $\varphi^\sharp_3$ is vacuous, while the other two update functions are given by the the targets of the arrows in \eqref{eqn.halt_dsa} as follows:
     \begin{align*}
-        \varphi^\sharp_1&\colon\quad{\color{orange}\text{orange}}\mapsto2,{\color{dgreen}\text{green}}\mapsto1\\
-        \varphi^\sharp_2&\colon\quad{\color{orange}\text{orange}}\mapsto3,{\color{dgreen}\text{green}}\mapsto1,
+        \varphi^\sharp_1({\color{orange}\text{orange}})\coloneqq2&,\varphi^\sharp_1({\color{dgreen}\text{green}})\coloneqq1;\\
+        \varphi^\sharp_2({\color{orange}\text{orange}})\coloneqq3&,\varphi^\sharp_2({\color{dgreen}\text{green}})\coloneqq1,
     \end{align*}
-    while $\varphi^\sharp_3\colon\0\to S$ is trivial.
+    while
     \item Some examples of words accepted by this automaton include the word $({\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ the word $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}}),$ and the word $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
     \item Some words are not accepted by the automaton because they lead you to a non-accept state (1 or 2); others are not accepted by the automaton because they lead you to an accept state (3) too early.
     Some examples of the former possibility include the words $({\color{dgreen}\text{green}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$, while some examples of the latter possibility include the words $({\color{dgreen}\text{green}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{dgreen}\text{green}})$ and $({\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}},{\color{orange}\text{orange}})$.
@@ -4901,31 +4905,37 @@ Here we examine the halting deterministic state automaton depicted in \eqref{eqn
 \end{solution}
 \end{exercise}
 
-Every graph gives rise to a dynamical system---but to ensure that we are talking about the same thing, let us fix the definition of a graph.
+For further examples, every graph gives rise to a dynamical system; but to ensure that we are discussing the same concept, let us fix the definition of a graph.
 
 \begin{definition}[Graph] \label{def.graph}
-A \emph{graph} $G = (E \tto V)$ consists of an edge set $E$, a vertex set $V$, a source function $s\colon E\to V$, and a target function $t\colon E\to V$.
+A \emph{graph} $G \coloneqq (E \tto V)$ consists of
+\begin{itemize}
+  \item a set $E$ of \emph{edges};
+  \item a set $V$ of \emph{vertices};
+  \item a \emph{source function} $s\colon E\to V$ that assigns each edge a source vertex;
+  \item a \emph{target function} $t\colon E\to V$ that assigns each edge a target vertex.
+\end{itemize}
 \end{definition}
 
 So when we say ``graph,'' we mean a \emph{directed} graph, and we allow multiple edges between the same pair of vertices as well as self-loops.
 
 \begin{example}[Graphs as dynamical systems] \label{ex.graph_dyn}
-Given a graph $G = (E \tto V)$ with source map $s \colon E \to V$ and target map $t \colon E \to V$, there is an associated polynomial
+Given a graph $G\coloneqq(E\tto V)$ with source and target functions $s,t\colon E\to V$, there is an associated polynomial
 \[
-    g := \sum_{v \in V} \yon^{s\inv(v)}.
+    g\coloneqq\sum_{v \in V} \yon^{s\inv(v)}.
 \]
-Its positions are the vertices of the graph, and at each position $v\in V$, its directions are the edges coming out of $v$.
+Its positions are the vertices of the graph, and its directions at $v\in V$ are the edges coming out of $v$.
 We call this the \emph{emanation polynomial} of $G$.
 
-The graph itself can be seen as a dynamical system $\varphi\colon V\yon^V \to g$, where $\varphi_\1 = \id_V$ and $\varphi^\sharp_v(e) = t(e)$.
-So its states are the vertices of the graph, each vertex returns itself as output, and an input at a vertex $v\in V$ is an edge $e\in E$ coming out of that vertex that takes us from the vertex $v=s(e)$ along the edge $e$ to its target vertex $\varphi^\sharp_v(e)=t(e)$.
+The graph itself induces a dynamical system $\varphi\colon V\yon^V\to g$, where $\varphi_\1 = \id_V$ and $\varphi^\sharp_v e = t(e)$.
+So its states as well as its positions are the vertices of the graph, and a direction at a vertex $v\in V$ is an edge $e\in E$ coming out of $v$ that takes us from $v=s(e)$ along the edge $e$ to its target vertex $\varphi^\sharp_v e=t(e)$.
 \end{example}
 
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
 Draw its labeled transition diagram as in \eqref{eqn.trans_diag} or \eqref{eqn.halt_dsa}.
 \begin{solution}
-No matter what graph you chose, \cref{ex.graph_dyn} tells us that if you were to draw out the labeled transition diagram of its associated dynamical system, you would just end up with a picture of your graph!
+No matter what graph you chose, \cref{ex.graph_dyn} tells us that if you were to draw the labeled transition diagram of its associated dynamical system, you would just end up with a picture of your graph!
 The vertices of your graph are the states, and the edges of your graph are the possible transitions between them.
 \end{solution}
 \end{exercise}
@@ -4943,8 +4953,8 @@ The vertices of your graph are the states, and the edges of your graph are the p
 % \end{example}
 
 \begin{example}\label{ex.generalized_file_reader}
-In \cref{exc.file_reader} one is tasked with building a file-reader as a Moore machine, where a file is a function $f\colon\ord{n}\to\Set{ascii}$.
-Now we turn that file-reader into a dependent dynamical system $\varphi\colon S\yon^S\to p$ that cannot take in input while it is reading.
+In \cref{exc.file_reader}, we built a file-reader as a Moore machine, where a file is a function $f\colon\ord{n}\to\Set{ascii}$ from entries to characters.
+Now we turn that file-reader into a dependent dynamical system $\varphi\colon S\yon^S\to p$ with only one direction while reading.
 
 We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
 Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
@@ -4953,14 +4963,14 @@ Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as po
 \]
 So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: `ready' or `busy.'
 These form the possible outputs of the file-reader.
-As for the inputs, we define the direction-sets of $p$ as follows, for all $c\in\Set{ascii}$:
+Then we define the direction-sets of $p$ as follows for $c\in\Set{ascii}$:
 \[
-    p[(\text{`ready'}, c)]\coloneqq S \qqand p[(\text{`busy'}, c)]\coloneqq\1.
+    p[(\text{`ready'}, c)]\coloneqq S \qqand p[(\text{`busy'}, c)]\coloneqq\{\text{`advance'}\}\iso\1.
 \]
-That way, our file-reader can receive any pair of entries in $S$ as input when it is `ready,' but can only be told to advance when it is `busy.'
+That way, our file-reader can receie as its direction any pair of entries in $S$ when it is `ready' but can only be told to `advance' when it is `busy.'
 
 We want our file-reader to be `ready' if its current entry is the terminal entry; otherwise, it will be `busy.'
-In either case, it will return the ascii character at the current position.
+In either case, it will return the character at the current entry.
 So we define the return function $\varphi_\1$ such that, for all $(s,t)\in S$,
 \begin{align*}
   \varphi_\1(s, t) =
@@ -4970,21 +4980,21 @@ So we define the return function $\varphi_\1$ such that, for all $(s,t)\in S$,
   \end{cases}
 \end{align*}
 
-While the file-reader is `ready,' we want it to set its new current and terminal entries to be the input.
-So for each $(s,t)\in S$ for which $s=t$, we define the update function $\varphi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
+While the file-reader is `ready,' we want to set its new current and terminal entries to equal the given direction.
+So for each $(s,t)\in S$ with $s=t$, define the update function $\varphi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
 
 On the other hand, while the file-reader is `busy,' we want it to step forward through the file each time it receives an input.
-So for each $(s,t)\in S$ for which $s\neq t$, we let the update function $\varphi^\sharp_{(s,t)}\colon \1\to S$ specify the element $(s+1, t)\in S$, thus shifting its current entry up by $1$.
+So for each $(s,t)\in S$ for which $s<t$, we let the update function $\varphi^\sharp_{(s,t)}\colon\1\to S$ specify the element $(s+1,t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
 \begin{exercise} \label{exc.file_searcher}
-Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only emits output $c\in\Set{ascii}$ when $c$ is a specific character---say, $c=100$.
+Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only returns $c\in\Set{ascii}$ in its position when $c$ is a specific character; say $c=100$.
+Otherwise, it returns the placeholder character $\_$.
 Give the lens for this file-searcher by explicitly defining its return (on-positions) and update (on-directions) functions.
 Hint: You should be able to use the same state system.
 \begin{solution}
-We give a file-searcher $\psi\colon S\yon^S\to q$ that acts just like the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader}, except that it only emits output $o\in\Set{ascii}$ when $c=100$.
-In place of any other ascii character, we'll have it output $\_$ instead.
-So its possible outputs should form the set
+We give a file-searcher $\psi\colon S\yon^S\to q$ according to the specification as follows.
+Its possible positions should form the set
 \[
     q(\1)\coloneqq\{\text{`ready'}, \text{`busy'}\}\times\{100,\_\}.
 \]
@@ -4992,9 +5002,9 @@ The direction-sets of $q$ can be defined in the same way we defined the directio
 \[
     q[(\text{`ready'}, c)]\coloneqq S \qqand q[(\text{`busy'}, c)]\coloneqq\1.
 \]
-Then we define the return function $\psi_\1$ like $\varphi_\1$, but first checking to see if the character at the current entry is $100$: so for all $(s,t)\in S$,
+Then we set the return function $\psi_\1$ to behave like $\varphi_\1$, but with characters not equal to $100$ replaced with $\_$: so for all $(s,t)\in S$,
 \begin{align*}
-  \psi_\1(s, t) =
+  \psi_\1(s,t) =
   \begin{cases}
     (\text{`ready'}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
     (\text{`ready'}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
@@ -5010,7 +5020,7 @@ On the other hand, for each $(s,t)\in S$ for which $s\neq t$, we let the update 
 
 In the previous exercise, we manually constructed a file-searcher that acted very much like a file-reader.
 In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
-Moreover, this construction highlights precisely how our file-searcher is related to our file-reader.
+Moreover, this construction will highlight precisely how our file-searcher is related to our file-reader.
 This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
 
 \begin{example}\label{ex.grid_robot}
@@ -5023,8 +5033,8 @@ Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be t
 		\{-1,0\}&\tn{ if }i=n
 	\end{cases}
 \]
-We can think of $D_i$ as the set of all directions a robot could move if at position $i$.
-In particular, a robot already at $i=1$ cannot move in the $-1$ direction; likewise, a robot already at $i=n$ cannot move in the $+1$ direction.
+We can think of $D_i$ as the set of all directions a robot could move if at location $i$.
+In particular, a robot already at $i=1$ cannot shift its location by $-1$; likewise, a robot already at $i=n$ cannot shift its location $+1$.
 
 Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\varphi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
 \[
@@ -7049,7 +7059,7 @@ In this chapter we explained how discrete dynamical systems can be expressed as 
 \[S\yon^S\to B\yon^A.\]
 We discussed a generalization $S\yon^S\to p$, where the output is an arbitrary polynomial $p\in\poly$. We also talked about how to wire machines in parallel by using the parallel product $\otimes$ and how to add wrapper interfaces by composing with lenses $p\to q$.
 
-Throughout the chapter we gave quite a few different examples. For example, we discussed how every function $A\to B$ counts as a memoryless dynamical system. In fact, it was shown in \cite{beurier2019memoryless} that every dynamical system can be obtained by wiring together memoryless ones. We discussed examples such as file readers, moving robots, colliding particles, companies that change their suppliers, materials that break when too much force is applied, etc.
+Throughout the chapter we gave quite a few different examples. For example, we discussed how every function $A\to B$ counts as a memoryless dynamical system. In fact, it was shown in \cite{beurier2019memoryless} that every dynamical system can be obtained by wiring together memoryless ones. We discussed examples such as file-readers, moving robots, colliding particles, companies that change their suppliers, materials that break when too much force is applied, etc.
 
 For further reading on the mathematics of Moore machines, see \cite{conway2012regular}. For more on mode-dependent interaction, see \cite{spivak2017nesting}. For a similar and complementary categorical approach to dynamical systems, we recommend David Jaz Myers' \emph{Categorical Systems Theory} book, currently in draft form here: \url{http://davidjaz.com/Papers/DynamicalBook.pdf}.
 
