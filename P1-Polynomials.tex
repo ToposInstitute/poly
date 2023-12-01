@@ -4267,10 +4267,24 @@ We leave discussion of them to future work, so as not to distract us from our ma
 %-------- Section --------%
 \section{Summary and further reading}
 
-In this chapter we introduced and examined morphisms between our polynomials.
-First, we viewed our polynomials as functors and introduced the morphisms between them as natural transformations.
-Next, we interpreted these morphisms in terms of positions and directions and viewed them pictorially.
-We want to emphasize that we will be referring to each morphism (natural transformation) $p\to q$ between polynomials as a \emph{lens}.
+In this chapter, we introduced the category $\poly$, whose objects are polynomial functors and whose morphisms are the natural transformations between them.
+We call these natural transformations \emph{dependent lenses}, or \emph{lenses} for short.
+We also proved our first categorical property of $\poly$: that it hs all small coproducts.
+In the next chapter, we will review the coproduct construction before turning to other operations on our polynomials.
+
+The main result of this chapter was a concrete characterization of our dependent lenses between polynomial functors.
+A dependent lens $f\colon p\to q$ is characterized by its
+\begin{itemize}
+  \item \emph{on-positions function}, a function $f_\1\colon p(\1)\to q(\1)$ sending $p$-positions forward to $q$-positions; and its
+  \item \emph{on-directions functions}, one for each $p$-position $i$ denoted $f^\sharp_i\colon q[f_\1 i]\to p[i]$ sending $q[f_\1 i]$-directions backward to $p[i]$-directions.
+\end{itemize}
+This forward-backward relationship is what makes dependent lenses so well-suited for modeling \emph{interaction protocols}.
+Given two agents with positions and directions, a dependent lens between them defines an interaction protocol that describes how the position of the first agent determines the position of the second agent and how the direction of the second agent determines the direction of the first.
+This perspective is exhibited by our corolla and polybox pictures for lenses.
+We studied examples of lenses between special polynomials: in particular, lenses between monomials are known as \emph{bimorphic lenses} in functional programming literature.
+
+Finally, we unwound our interpretation of natural transformations between polynomials as dependent lenses with on-positions and on-directions functions to describe what happens to these functions when lenses compose.
+This gave us an accessible way to interpret commutative diagrams in $\poly$ that is particularly convenient to express using polyboxes.
 
 Once $\poly$ was defined, we considered various properties it has, e.g.\ that it has all products and coproducts, and that these distribute: $\prod\sum\to\sum\prod$.
 \begin{align*}
@@ -5105,7 +5119,7 @@ In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system 
 %-------- Section --------%
 \section{Constructing new dynamical systems from old}\label{sec.poly.dyn_sys.new}
 
-We have now seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
+We have seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
 But we have yet to take full advantage of the categorical structure that $\poly$ provides.
 In particular, purely based on what we know of $\poly$ so far from \cref{ch.poly.cat}, we have three rather different ways of obtaining new dynamical systems from old ones:
 \begin{enumerate}
