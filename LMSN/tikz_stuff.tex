@@ -1,0 +1,307 @@
+\pgfdeclarelayer{edgelayer}
+\pgfdeclarelayer{nodelayer}
+\pgfsetlayers{edgelayer,nodelayer,main}
+
+
+
+\tikzset{
+	tick/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+  }
+}
+
+\tikzset{
+	bottom base/.style={baseline=(current bounding box.south)}
+}
+
+
+
+\tikzset{trees/.style={
+	inner sep=0,
+	minimum width=0,
+	minimum height=0,
+	level distance=.5cm,
+	sibling distance=.5cm,
+%	every child/.style={fill},
+	edge from parent/.style={shorten <= -2pt, draw, ->},
+	grow'=up,
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}
+	}
+}
+
+\newcommand{\idchild}{edge from parent[double, -]}
+
+  \tikzset{
+     oriented WD/.style={%everything after equals replaces "oriented WD" in key.
+        every to/.style={out=0,in=180,draw},
+        label/.style={
+           font=\everymath\expandafter{\the\everymath\scriptstyle},
+           inner sep=0pt,
+           node distance=2pt and -2pt},
+        semithick,
+        node distance=1 and 1,
+        decoration={markings, mark=at position \stringdecpos with \stringdec},
+        ar/.style={postaction={decorate}},
+        execute at begin picture={\tikzset{
+           x=\bbx, y=\bby,
+           }}
+        },
+     string decoration/.store in=\stringdec,
+     string decoration={\arrow{stealth};},
+     string decoration pos/.store in=\stringdecpos,
+     string decoration pos=.7,
+	 	 dot size/.store in=\dotsize,
+	   dot size=3pt,
+	 	 dot/.style={
+			 circle, draw, thick, inner sep=0, fill=black, minimum width=\dotsize
+	   },
+     bbx/.store in=\bbx,
+     bbx = 1.5cm,
+     bby/.store in=\bby,
+     bby = 1.5ex,
+     bb port sep/.store in=\bbportsep,
+     bb port sep=1.5,
+     % bb wire sep/.store in=\bbwiresep,
+     % bb wire sep=1.75ex,
+     bb port length/.store in=\bbportlen,
+     bb port length=4pt,
+     bb penetrate/.store in=\bbpenetrate,
+     bb penetrate=0,
+     bb min width/.store in=\bbminwidth,
+     bb min width=1cm,
+     bb rounded corners/.store in=\bbcorners,
+     bb rounded corners=2pt,
+     bb small/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm,
+bby=.7ex},
+		 bb medium/.style={bb port sep=1, bb port length=2.5pt, bbx=.4cm, bb min width=.4cm,
+bby=.9ex},
+     bb/.code 2 args={%When you see this key, run the code below:
+        \pgfmathsetlengthmacro{\bbheight}{\bbportsep * (max(#1,#2)+1) * \bby}
+        \pgfkeysalso{draw,minimum height=\bbheight,minimum width=\bbminwidth,outer
+sep=0pt,
+           rounded corners=\bbcorners,thick,
+           prefix after command={\pgfextra{\let\fixname\tikzlastnode}},
+           append after command={\pgfextra{\draw
+              \ifnum #1=0{} \else foreach \i in {1,...,#1} {
+                 ($(\fixname.north west)!{\i/(#1+1)}!(\fixname.south west)$) +(-
+\bbportlen,0)
+  coordinate (\fixname_in\i) -- +(\bbpenetrate,0) coordinate (\fixname_in\i')}\fi
+  %Define the endpoints of tickmarks
+              \ifnum #2=0{} \else foreach \i in {1,...,#2} {
+                 ($(\fixname.north east)!{\i/(#2+1)}!(\fixname.south east)$) +(-
+\bbpenetrate,0)
+  coordinate (\fixname_out\i') -- +(\bbportlen,0) coordinate (\fixname_out\i)}\fi;
+           }}}
+     },
+     bb name/.style={append after command={\pgfextra{\node[anchor=north] at
+(\fixname.north) {#1};}}}
+  }
+
+
+\newcommand{\boxofbullets}[6][1]{% [y-spacing] {number of bullets} {left endpoint} {label} {text} {position}
+	\foreach \i [evaluate=\i as \y using {#1/2*((#2-1)/2-\i)}] in {1,...,#2}{
+		\node (pt_#4_\i) at ($(0,\y)+#3$) {$\bullet$};
+		\node[#6, font=\tiny] (lab_#4_\i) at ($(0,\y)+#3$) {#5$_\i$};
+	}
+	\node[draw, rounded corners, inner xsep=2pt, inner ysep=0pt, fit={(pt_#4_1) (pt_#4_#2) (lab_#4_1) (lab_#4_#2)}] (box_#4) {};
+}
+
+\tikzset{polybox/.style={
+	poly/.style ={
+  	rectangle split,
+  	rectangle split parts=2,
+		rectangle split part align={bottom},
+  	draw,
+  	anchor=south,
+  	inner ysep=4.5,
+	  prefix after command={\pgfextra{\let\fixname=\tikzlastnode}},
+		append after command={\pgfextra{
+			\node[inner xsep=0, inner ysep=0,
+				fit=(\fixname.north west) (\fixname.two split east)]
+				(\fixname_dir) {};
+			\node[inner xsep=0, inner ysep=0,
+				fit=(\fixname.south west) (\fixname.two split east)]
+				(\fixname_pos) {};
+			}}
+	},
+	dom/.style={
+		rectangle split part fill={none, blue!10}
+	},
+	cod/.style={
+		rectangle split part fill={blue!10, none}
+	},
+	constant/.style={
+		rectangle split part fill={red!50, none}
+	},
+	constant dom/.style={
+		rectangle split part fill={red!50, blue!10}
+	},
+	terminal/.style={
+		rectangle split part fill={red!50, gray}
+	},
+	identity/.style={
+		rectangle split part fill={gray, gray}
+	},
+	linear/.style={
+		rectangle split part fill={gray, none}
+	},
+	linear dom/.style={
+		rectangle split part fill={gray, blue!10}
+	},
+	linear cod/.style={
+		rectangle split part fill={blue!10!gray, none}
+	},
+	pure/.style={
+		rectangle split part fill={none, gray}
+	},
+	pure dom/.style={
+		rectangle split part fill={none, blue!10!gray}
+	},
+	pure cod/.style={
+		rectangle split part fill={blue!10, gray}
+	},
+	shorten <=3pt, shorten >=3pt,
+	first/.style={out=0, in=180},
+	climb/.style={out=180, in=180, looseness=2},
+	climb'/.style={out=0, in=0, looseness=2},
+	last/.style={out=180, in=0},
+	mapstos/.style={arrows={|->}},
+	tos/.style={arrows={->}},
+	font=\footnotesize,
+	node distance=2ex and 1.5cm
+}
+}
+
+
+\tikzset{
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.95ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
+}
+
+
+\newcommand{\bimodto}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}
+}
+\newcommand{\bimodfrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}
+}
+
+
+
+
+\newcommand{\earpic}{
+\begin{tikzpicture}[polybox, tos]
+	\node[poly, dom, "$m$" left] (m) {};
+	\node[poly, cod, right=of m, "$m$" right] (mm) {};
+	\node[poly, cod, above=of mm, "$C$" right] (C) {};
+	\node[poly, cod, below=of mm, "$D$" right] (D) {};
+%
+	\draw (m_pos) to[out=0, in=180] (D_pos);
+	\draw (D_dir) to[climb] (mm_pos);
+	\draw (mm_dir) to[climb] (C_pos);
+	\draw (C_dir) to[last] (m_dir);
+\end{tikzpicture}
+}
+
+\newcommand{\treepic}{
+\begin{tikzpicture}[trees, scale=1.5,
+  level 1/.style={sibling distance=20mm},
+  level 2/.style={sibling distance=10mm},
+  level 3/.style={sibling distance=5mm},
+  level 4/.style={sibling distance=2.5mm},
+  level 5/.style={sibling distance=1.25mm}]
+  \node[dgreen] (a) {$\bullet$}
+    child {node[dgreen] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+    	}
+    	child {node[dyellow] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child  {node[red] {$\bullet$}}
+    	}
+    }
+    child {node[dyellow] {$\bullet$}
+    	child {node[dgreen] {$\bullet$}
+    		child {node[dgreen] {$\bullet$}
+  				child {node[dgreen] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  				child {node[dyellow] {$\bullet$}
+    				child {}
+    				child {}
+    			}
+  			}
+    		child {node[dyellow] {$\bullet$}
+					child {node[dgreen] {$\bullet$}
+      			child {}
+      			child {}
+     			}
+    			child  {node[red] {$\bullet$}}
+  			}
+  		}
+  		child {node[red] {$\bullet$}
+  		}
+  	}
+  ;
+\end{tikzpicture}
+}
+
+\newcommand{\coverpic}{
+\begin{tikzpicture}
+	\node {\treepic};
+	\draw[blue, densely dotted] (current bounding box.south west) rectangle
+(current bounding box.north east);
+\end{tikzpicture}
+}%{\earpic}
+
+
+\tikzset{
+    mapsto/.style={->, densely dashed, blue, shorten <=\short, shorten
+        >=\short, >=stealth, thick},
+    short/.store in=\short,
+    short=0pt
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
