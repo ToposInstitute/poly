@@ -1,3 +1,4 @@
+{-# OPTIONS --guardedness #-}
 module prelude.Stream where
 open import prelude
 open import Data.List as L using (List)
