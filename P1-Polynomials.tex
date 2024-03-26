@@ -16,12 +16,17 @@
 \chapter{Representable functors from the~category of sets} \label{ch.poly.rep-sets}
 
 In this chapter, we lay the categorical groundwork needed to define our category of interest, the category of polynomial functors.
-We begin by examining a special kind of polynomial functor that you may already be familiar with---representable functors from the category $\smset$ of sets and functions.
+We begin by examining a special kind of polynomial functor that you may already be familiar with---representable functors from the category $\smset$ of sets and functions.%
+\index{functor!representable|(}
+\index{functor!polynomial|see{polynomial functor}}
+\index{polynomial functor}
 We highlight the role these representable functors play in what is arguably the fundamental theorem of category theory, the Yoneda lemma.
 We will also discuss sums and products of sets and of set-valued functors, which we will need to construct our polynomial functors.
 
 %-------- Section --------%
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.rep-sets.yon}
+
+\index{Yoneda lemma}
 
 Representable functors---special functors to the category of sets---provide the foundation for the category $\poly$.
 While much of the following theory applies to representable functors from any category, we need only focus on representable functors $\smset\to\smset$.
@@ -31,7 +36,8 @@ While much of the following theory applies to representable functors from any ca
 
     We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
     In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set of $\yon^S$}.
-    As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.
+    As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.%
+    \index{pure power (functor)}
 \end{definition}
 
 The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}.
@@ -39,6 +45,7 @@ The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.
 Throughout this book, when referring to finite sets, we will adopt the following convention: $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$, an $n$-element set, for each natural number $n$.
 For example, in standard font, $5$ represents the usual natural number, while in sans serif font, $\5$ represents the $5$-element set $\{1,2,3,4,5\}$.
 When the same variable name appears in both italicized and sans serif fonts, the italicized variable denotes a natural number and the sans serif variable denotes the corresponding set; for example, if we state that $m\in\nn$, then we also understand $\ord{m}$ to mean the set $\{1,\ldots,m\}$.
+\index{set!finite}
 
 \begin{example}
     The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
@@ -57,6 +64,7 @@ When the same variable name appears in both italicized and sans serif fonts, the
         \item A functor $X\mapsto \2^X$.
         If it could be representable, where should it send each function? \qedhere
     \end{enumerate}
+\index{functor!identity}\index{functor!constant}
 
     \begin{solution}
         \begin{enumerate}
@@ -76,6 +84,7 @@ When the same variable name appears in both italicized and sans serif fonts, the
 
 Now that we have introduced representable functors, we study the maps between them.
 As representables are functors, the maps between them are natural transformations.
+\index{natural transformation}
 
 \begin{proposition}\label{prop.representable_nt}
     For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ its $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
@@ -159,6 +168,7 @@ These representable functors and natural transformations live in the larger cate
 \end{exercise}
 
 We now have all the ingredients we need to state and prove the Yoneda lemma on the category of sets.
+\index{Yoneda lemma}
 
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
     Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
@@ -254,7 +264,11 @@ We now have all the ingredients we need to state and prove the Yoneda lemma on t
     \end{solution}
 \end{exercise}
 
-How will we go from these representable functors to polynomial ones?
+\index{functor!representable|)}
+
+
+How will we go from these representable functors to polynomial ones?%
+\index{polynomial functor}
 Recall that, in algebra, a polynomial is just a sum of pure powers.
 So we will define a \emph{polynomial functor} $\smset\to\smset$ to be a sum of pure power functors---that is, the representable functors $\yon^A$ for each set $A$ we just introduced.%
 \footnote{This analogy isn't perfect: in algebra, polynomials are generally finite sums of pure powers, whereas our polynomial functors may be infinite sums of representables.
@@ -268,7 +282,12 @@ For example, in the polynomial
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\2$ and $\3$ respectively denote the sets $\{1,2\}$ and $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote arbitrary sets.
 
-To make sense of these polynomials, we need to define functor addition, both in the binary case (i.e.\ what is $\yon^A+\yon^B$?) and more generally over arbitrary sets (i.e.\ what is $\sum_{i\in I}\yon^{A_i}$?).
+To make sense of these polynomials, we need to define functor addition,%
+\index{functor!sum of}
+\index{functor!product of}
+\index{polynomial functor!sum of}
+\index{polynomial functor!product of}
+ both in the binary case (i.e.\ what is $\yon^A+\yon^B$?) and more generally over arbitrary sets (i.e.\ what is $\sum_{i\in I}\yon^{A_i}$?).
 This will allow us to interpret polynomials like \eqref{eqn.biz_poly}.
 In particular, just as $3y^3=y^3+y^3+y^3$ in algebra, the summand $\3\yon^\3$ of \eqref{eqn.biz_poly} denotes the sum of representables $\yon^\3+\yon^\3+\yon^\3$, while the summand $\rr\yon^\zz$ denotes the sum over $\rr$ of copies of $\yon^\zz$.
 
@@ -279,9 +298,14 @@ The construction of sums and products of functors $\smset\to\smset$ will rely on
 %-------- Section --------%
 \section{Sums and products of sets} \label{sec.poly.rep-sets.sum-prod-set}
 
+\index{set!sum of}
+\index{set!product of}
+\index{set!indexing}
+
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$.
 Classically, we may denote this \emph{$I$-indexed family of sets} by $(X_i)_{i\in I}$.
 Categorically, we may view this data as a specific kind of functor: if we identify the set $I$ with the \emph{discrete category} on $I$, whose objects are the elements of $I$ and whose morphisms are all identities, then $(X_i)_{i\in I}$ can be identified with a functor $X\colon I\to\smset$ with $X(i)\coloneqq X_i$.
+\index{indexed family of objects}
 To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ for a set $I$ viewed as a discrete category (although we will occasionally use the classical notation when convenient), but denote the set obtained by evaluating $X$ at each $i\in I$ by $X_i$ rather than $X(i)$.
 
 To pick out an element of one of the sets in the indexed family $X\colon I\to\smset$, we need to specify both an index $i\in I$ and an element $x\in X_i$.
@@ -298,10 +322,14 @@ We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as 
     X_{i_1}+\cdots+X_{i_n}.
     \]
 \end{definition}
+\index{element!of a sum of sets}
+\index{element!of a product of sets}
+\index{dependent function}
 
 Say instead we pick an element from \emph{every} set in the indexed family: that is, we construct an assignment $i\mapsto x_i$, where each $x_i\in X_i$.
 If every $X_i$ were the same set $X$, then this would just be a function $I\to X$.
 More generally, this assignment is what we call a \emph{dependent function}: its codomain $X_i$ \emph{depends} on its input $i$.
+\index{dependent function}
 We write the signature of such a dependent function as
 \[
 f \colon (i \in I) \to X_i.
@@ -324,6 +352,7 @@ The set of all dependent functions whose signature is determined by a given inde
 For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to $i\in I$ by $f(i), fi,$ or $f_i$.
 When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-tuple $(f(i_1),\ldots,f(i_n))$; similarly, when $I\coloneqq\nn$, we may identify $f$ with the infinite sequence $(f_0,f_1,f_2,\ldots)$.
 
+\index{set!cardinality of}
 \begin{example}\label{ex.two_sums_and_prods}
     If $I\coloneqq\2=\{1,2\}$, then an $I$-indexed family $X\colon I\to \smset$ consists of two sets---say $X_1\coloneqq\{a,b,c\}$ and $X_2\coloneqq\{c,d\}$.
     Their sum is then the disjoint union
@@ -333,6 +362,7 @@ When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-
     The cardinality\footnote{The \emph{cardinality} of a set is the number of elements it contains, at least when the set is finite; with care the notion can be extended to infinite sets as well.} of $X_1+X_2$ will always be the sum of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``sum.''
 
     Meanwhile, their product is the usual cartesian product
+    \index{cartesian product|see{product}}
     \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
     The cardinality of $X_1\times X_2$ will always be the product of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``product.''
 \end{example}
@@ -374,10 +404,17 @@ When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-
 \end{exercise}
 
 The following standard fact describes the constructions from \cref{def.sum_sets,def.prod_sets} categorically and further justifies why we call them sums and products.
+\index{product}
+\index{coproduct}
+\index{diagram}
 
 \begin{proposition} \label{prop.set_prod_coprod}
     Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
 \end{proposition}
+\index{coproduct!inclusion map into}
+\index{coproduct!universal property of}
+\index{product!projection map out of}
+\index{product!universal property of}
 
 \begin{proof}
     The sum $\sum_{i\in I}X_i$ comes equipped with an inclusion $\iota_j\colon X_j\to\sum_{i\in I}X_i$ for each $j\in I$ given by $x\mapsto(j,x)$.
@@ -402,8 +439,13 @@ The following standard fact describes the constructions from \cref{def.sum_sets,
 \end{exercise}
 
 Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard categorical fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
+\index{limit}
+\index{colimit}
 
 We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
+
+\index{coproduct!of functions}
+\index{product!of functions}
 
 \begin{definition}[Categorical sum and product of functions] \label{def.sum-prod-func}
     Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
@@ -511,6 +553,8 @@ Below, we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
         \item choose an element of $X_i$.
     \end{enumerate}
 \end{quote}
+\index{element!of a dependent sum}
+
 
 Then the projection $\pi_1$ from \cref{exc.product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
 
@@ -525,6 +569,9 @@ Next, we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
         \end{enumerate}
     \end{enumerate}
 \end{quote}
+
+\index{element!of a dependent product}
+\index{element!of a nested dependent set}
 
 Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s such as
 \begin{equation}\label{eqn.sum_prod_sum}
@@ -623,6 +670,9 @@ This dependent function in turn sends each $j \in J(i)$ to a pair that can be pr
 %-------- Subsection --------%
 \section{Expanding products of sums} \label{sec.poly.rep-sets.expand}
 
+\index{type theoretic axiom of choice}
+\index{distributive law}
+
 We will often encounter sums of sets nested within products, as in \eqref{eqn.sum_prod_sum} and \eqref{eqn.prod_sum_prod}.
 The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice}, but it is perhaps more familiar as a set-theoretic analogue of the \emph{distributive property} of multiplication over addition.
 While the identity may look foreign, it captures for sets the same process that you would use to multiply multi-digit numbers from grade school arithmetic or polynomials from high school algebra.
@@ -688,6 +738,9 @@ In general, we refer to a category having this property as follows.
         \sum_{\bar{j}\in \prod_{i\in I}J(i)}\;\prod_{i\in I}X(i,\bar{j}i).
     \end{equation}
 \end{definition}
+
+The term ``completely distributive'' comes from lattice theory. As such it is consistent with two different extensions to categories that may not be posets. We use it to mean that the category has all sums and products and that products distribute over sums. Other authors use it to mean that the category has all colimits and limits and a sort of distributivity between them.
+\index{completely distributive category}
 
 So \cref{prop.push_prod_sum_set} states that $\smset$ is completely distributive.
 Once we define the category of polynomial functors, we will see that it, too, is completely distributive.
