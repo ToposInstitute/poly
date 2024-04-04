@@ -1962,6 +1962,7 @@ But before we can characterize lenses out of polynomial functors in general, we 
 Fortunately, since polynomial functors are defined as coproducts of representables, coproducts in $\poly$ are easy to understand.
 
 \index{polynomial functors!coproduct of|see{polynomial functors, sum of polynomials}}
+\index{polynomial functors!product of|see{polynomial functors, product of polynomials}}
 
 \begin{proposition} \label{prop.poly_coprods}
   The category $\poly$ has all small coproducts, coinciding with coproducts in $\smset^\smset$ given by the operation $\sum_{i \in I}$ for each set $I$.
@@ -3644,6 +3645,8 @@ We will see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all product
 
 \index{monoidal structure!cartesian (products)}\index{monoidal structure!cocartesian (sums)}
 
+
+
 Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we will save its surprises for when we can better savor them.
 But here in \cref{subsec.poly.cat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
 This monoidal structure will prove useful when we apply $\poly$ to dynamics in the next chapter.
@@ -3934,8 +3937,8 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 
 %---- Subsection ----%
 \subsection{The parallel product} \label{subsec.poly.cat.monoidal.par}
-\index{monoidal product!parallel|(}
-\index{Dirichlet product|see{monoidal product, parallel}}
+\index{monoidal structure!parallel|(}
+\index{Dirichlet product|see{monoidal structure, parallel}}
 
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
@@ -4501,6 +4504,8 @@ Given two agents with positions and directions, a dependent lens between them de
 This perspective is exhibited by our corolla and polybox pictures for lenses.
 We studied examples of lenses between special polynomials: in particular, lenses between monomials are known as \emph{bimorphic lenses} in functional programming literature.
 
+\index{lens!bimorphic}
+
 We then unwound our interpretation of natural transformations between polynomials as dependent lenses with on-positions and on-directions functions to describe what happens to these functions when lenses compose.
 This gave us an accessible way to interpret commutative diagrams in $\poly$ that is particularly convenient to express using polyboxes.
 
@@ -4523,6 +4528,10 @@ A special case of this is the product structure $\times$ on $\poly$, which emerg
 
 Variants of lenses are studied in compositional game theory \cite{hedges2016compositionality,hedges2017coherence,hedges2018limits,hedges2018morphisms}, in categorical database theory \cite{johnson2012lenses}, in functional programming and programming language theory \cite{bohannon2006relational,oconnor2011functor,abou2016reflections}, and in more generalized categorical settings \cite{gibbons2012relating,spivak2019generalized}.
 
+\index{compositional game theory}
+\index{database theory}
+\index{functional programming}
+
 %-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
@@ -4539,6 +4548,8 @@ In this chapter, we will begin to see how to do this through a wide range of exa
 
 %-------- Section --------%
 \section{Moore machines}\label{sec.poly.dyn_sys.moore}
+
+\index{Moore machines|(}
 
 We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can update its current state according to the input it receives and return output according to its current state.
 
@@ -4557,6 +4568,9 @@ We begin with our simplest example of a dynamical system: a deterministic machin
   To emphasize the role that the three sets play, we can specify that this is an $(A,I)$\emph{-Moore machine with states} $S$.
 \end{definition}
 
+\index{Moore machine!states of}
+\index{Moore machine!update}\index{Moore machine!return}
+
 The input/output terminology is standard, while the position/direction terminology is our own: we will soon see how the positions and directions of a Moore machine relate to that of a polynomial, and this terminology will generalize better when we introduce \emph{dependent} Moore machines later this chapter.
 
 We should interpret an $(A,I)$-Moore machine as follows.
@@ -4568,7 +4582,10 @@ Say its current state is $s\in S$; then we can ask the machine to perform one of
   Note that the new state depends not only on the direction the machine receives but also on the state the machine occupies when it receives that direction.
 \end{itemize}
 
+
 We may visualize a Moore machine with a \emph{transition diagram} as follows.
+
+\index{Moore machine!transition diagram}
 
 \begin{example}[A Moore machine's transition diagram]\label{ex.Moore_three}
 Given $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$ and $I\coloneqq\{0,1\}$, we can draw a transition diagram for an $(A,I)$-Moore machine with $S\coloneqq\3$ states as follows:
@@ -4629,6 +4646,8 @@ So we can repackage \cref{def.moore_machine} as follows.
 
 We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: an outsider observes the positions of the interface that the machine returns and feeds the directions of the interface to the machine as updates.
 Rather than directly observing and changing the states, an outsider must interact with the machine via its interface.
+
+\index{Moore machine!interface of}
 
 \begin{exercise}
 In this exercise, we will write the Moore machine from \cref{ex.Moore_three} as a lens $\varphi$ between monomials.
@@ -4733,6 +4752,9 @@ Then if we give the machine a direction $(r, \theta)$ for some distance $r \in [
 (here we treat $\rr^\2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ at the angle $\theta$).
 \end{solution}
 \end{exercise}
+
+\index{Moore machine!memoryless}
+\index{Moore machine!induced by function}
 
 \begin{example}[Functions as memoryless Moore machines]\label{ex.funs_to_moore}
 Given a function $f\colon A\to I$, there is a corresponding $(A,I)$-Moore machine with states $I$ that takes in an element of $A$ and returns the element of $I$ obtained by applying $f$.
@@ -4867,6 +4889,8 @@ where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and 
 \end{solution}
 \end{exercise}
 
+\index{Moore machine!tape of Turing machine}
+
 \begin{exercise}[Tape of a Turing machine]
 A Turing machine has a tape consisting of a cell for each integer; each cell bears a value $v\in V\coloneqq\{0,1,-\}$, and one of the cells $c\in\zz$ is distinguished as the ``current'' cell.
 So the set of states of the tape is $V^\zz\times\zz$.
@@ -4904,6 +4928,8 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{Moore machine!file reader}
 
 \begin{exercise}[File-reader]\label{exc.file_reader}
 Say that a \emph{file} of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
@@ -4944,6 +4970,8 @@ In particular, we will be able to let the file-reader ``close its port,'' so tha
 
 The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine with a distinguished initial state.
 
+\index{deterministic state automaton}\index{Moore machine!deterministic state automaton|see{deterministic state automaton}}
+
 \begin{definition}[Deterministic state automaton, language]\label{def.dfa}
 A \emph{deterministic state automaton} consists of
 \begin{enumerate}
@@ -4966,6 +4994,8 @@ is such that $s_n$ is an accept state: $s_n\in F$.
 
 We call a subset of $\lst(A)$ a \emph{language}, and we say that the set of all words in $\lst(A)$ that the automaton accepts is the language \emph{recognized} by the automaton.
 \end{definition}
+
+\index{deterministic state automaton!language of}
 
 \begin{remark}
 When we study a deterministic state automaton, we are usually interested in which words the automaton accepts and, more generally, what language the automaton recognizes.
@@ -4994,8 +5024,13 @@ So there would be one update function $u_s\colon A\to S$ if $f(s)=1$, and a diff
 But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$!
 Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
+\index{Moore machines|)}
+
 %-------- Section --------%
 \section{Dependent dynamical systems}\label{sec.poly.dyn_sys.depend_sys}
+
+\index{Moore machines!dependent|see{dependent dynamical system}}
+\index{dynamical system|(}
 
 Each of our Moore machines above has a monomial $I\yon^A$ as an interface.
 Every representable summand of such an interface has the same representing set $A$, so the set of directions that can be fed into the machine is always $A$.
@@ -5043,6 +5078,8 @@ On the other hand, if the internal state changes, but the external position rema
 Here are some examples of dependent dynamical systems.
 We begin by finishing the example at the end of the last section.
 
+\index{dependent Moore machine!halting}
+
 \begin{example}[Halting deterministic state automata]\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
 Say we want such an automaton to halt after reaching an accept state and read no more symbols.
@@ -5074,6 +5111,8 @@ is such that $s_n$ is the sequence's first accept state:
 \]
 We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
 \end{example}
+
+\index{deterministic state automaton!language of}
 
 \begin{remark}
 Again, the conditions for when one of these automata accepts a word are rather awkward to formally state.
@@ -5163,6 +5202,8 @@ The graph itself induces a dynamical system $\varphi\colon V\yon^V\to g$, where 
 So its states as well as its positions are the vertices of the graph, and a direction at a vertex $v\in V$ is an edge $e\in E$ coming out of $v$ that takes us from $v=s(e)$ along the edge $e$ to its target vertex $\varphi^\sharp_v e=t(e)$.
 \end{example}
 
+\index{graph!as dynamical system}
+
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
 Draw its labeled transition diagram as in \eqref{eqn.trans_diag} or \eqref{eqn.halt_dsa}.
@@ -5219,6 +5260,8 @@ On the other hand, while the file-reader is `busy,' we want it to step forward t
 So for each $(s,t)\in S$ for which $s<t$, we let the update function $\varphi^\sharp_{(s,t)}\colon\1\to S$ specify the element $(s+1,t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
+\index{file reader}\index{file searcher}
+
 \begin{exercise} \label{exc.file_searcher}
 Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only returns $c\in\Set{ascii}$ in its position when $c$ is a specific character; say $c=100$.
 Otherwise, it returns the placeholder character $\_$.
@@ -5254,6 +5297,8 @@ In the previous exercise, we manually constructed a file-searcher that acted ver
 In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
 Moreover, this construction will highlight precisely how our file-searcher is related to our file-reader.
 This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
+
+\index{robot|(}
 
 \begin{example}\label{ex.grid_robot}
 Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be the set
@@ -5333,9 +5378,14 @@ But there is a much simpler way to think about the new system as the juxtapositi
 We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{subsec.poly.dyn_sys.new.par}.
 In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
+\index{robot|)}
+\index{dynamical system|)}\index{dependent dynamical system|see{dynamical system}}
+
 
 %-------- Section --------%
 \section{Constructing new dynamical systems from old}\label{sec.poly.dyn_sys.new}
+
+\index{dynamical systems!constructing new from old|(}
 
 We have seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
 But we have yet to take full advantage of the categorical structure that $\poly$ provides.
@@ -5350,6 +5400,8 @@ In this section, we'll review each of them in turn.
 
 %---- Subsection ----%
 \subsection{Categorical products: multiple interfaces operating on the same states}\label{subsec.poly.dyn_sys.new.prod}
+
+\index{dynamical systems!constructing from products}
 
 For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
 Then by the universal property of products in $\poly$, there is an induced lens \[\varphi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
@@ -5416,6 +5468,8 @@ Each state now returns two outputs: one according to the return function of $\va
 As for the possible inputs, we now have the option of giving either an input from a direction-set of $\varphi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\varphi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
 \end{example}
 
+\index{event-based systems}
+
 \begin{exercise}[Toward event-based systems]
 Let $\varphi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
 
@@ -5434,8 +5488,12 @@ This construction is actually universal; it is known as \emph{copointing}.
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!copointed}
+
 %---- Subsection ----%
 \subsection{Parallel products: juxtaposing dynamical systems}\label{subsec.poly.dyn_sys.new.par}
+
+\index{dynamical systems!juxtaposing}
 
 Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.cat.monoidal.par}.
 In particular, the parallel product of two state systems is still a state system.
@@ -5536,6 +5594,7 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 \end{enumerate}
 \end{solution}
 \end{exercise}
+\index{robot}
 
 The parallel product takes two dynamical systems and essentially puts them in the same room together so that they can be run at the same time.
 But it doesn't allow for any interaction \emph{between} the two systems.
@@ -5544,6 +5603,8 @@ We'll introduce wrapper interfaces in the next section, before describing how th
 
 %---- Subsection ----%
 \subsection{Composing lenses: wrapper interfaces}\label{subsec.poly.dyn_sys.new.wrap}
+
+\index{dynamical system!wrapper interface|(}
 
 The idea behind a wrapper interface is simple.
 Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
@@ -5714,6 +5775,7 @@ In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
 \subsection{Sections as wrappers}\label{subsec.poly.dyn_sys.new.sit_encl}
+
 Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
 We can think of this as wrapping $\yon$, the interface with one output and one input, around $\varphi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
@@ -5870,12 +5932,17 @@ We'll develop the machinery to answer these questions over the course of the thr
   \end{equation*}
 \end{example}
 
+\index{dynamical systems!constructing new from old|)}
+
 %-------- Section --------%
 \section{General interaction}\label{sec.poly.dyn_sys.interact}
 
 We now have all the pieces we need to model interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
+\index{interaction|(}
+\index{interaction pattern|see{interaction}}
 
 \subsection{Wrapping juxtaposed dynamical systems together}
+
 
 When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
 Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
@@ -5888,7 +5955,7 @@ On directions, $f$ takes into account the current outputs of each of the constit
 In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
 When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
 
-\begin{example}[Repeater]
+\begin{example}[Repeater]\index{dynamical system!repeater}
 Suppose we have a dependent dynamical system $\varphi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
 What if we wanted to construct a system $\psi$ that operates just like $\varphi$, but \emph{always} returns elements of $A$ as output?
 Where $\varphi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\varphi$ returns silence before it has returned any elements of $A$ yet.)
@@ -5960,6 +6027,7 @@ The on-positions function of the tracker is the projection $\2\nn\to\nn$ that re
 storing the new direction of the paddler as well as moving the machine forward one unit if the paddle switches while keeping the machine still if the paddle stays still.
 \end{example}
 
+\index{dynamical system!paddler}
 \begin{exercise}
 Change the dynamics and state system of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
 
@@ -6027,7 +6095,7 @@ To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the 
 \end{align*}
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\index{robot}
 Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set of points and $d\colon X\times X\to\rr_{\geq0}$ is a distance function satisfying the usual laws.
 Let's have robots interact in this space.
 
@@ -6108,17 +6176,21 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
 \end{solution}
 \end{exercise}
 
+\index{dynamical system!wrapper interface|)}
+
 \subsection{Sectioning juxtaposed dynamical systems off together}
 
 We saw in \cref{subsec.poly.dyn_sys.new.sit_encl} that a section (i.e.\ lens to $\yon$) for the interface of a dynamical system sections that dynamical system off as a closed system.
 So it should not come as a surprise that a section for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
+
+\index{interaction!picking up the chalk|(}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
 Imagine that you see some chalk and you pinch it between your thumb and forefinger.
 An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around.
 How might we model this in $\poly$?
 We will construct a closed dynamical system---one with interface $\yon$---consisting of only you and the chalk.
-To do so, we will provide an interface for you, and interface for the chalk, and an section for your juxtaposition.
+To do so, we will provide an interface for you, and interface for the chalk, and a section for your juxtaposition.
 
 Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
@@ -6203,6 +6275,8 @@ Our goal here is to show that you can define interactions in which one system ca
 \end{solution}
 \end{exercise}
 
+\index{interaction!picking up the chalk|)}
+
 Given $n\in\nn$ and polynomials $p_1,\ldots,p_n$ as interfaces, a section $p_1\otimes\cdots\otimes p_n\to\yon$ sections off these $n$ interfaces together.
 The following proposition provides an alternative perspective on such sections.
 
@@ -6281,6 +6355,8 @@ We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{interaction!picking up the chalk}
 
 \begin{exercise}
 We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \const{You} and \const{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$.
@@ -6367,6 +6443,9 @@ We wish to write the section $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon
 
 \subsection{Wiring diagrams as interaction patterns}
 
+\index{wiring diagram|see{interaction, wiring diagram}}
+\index{interaction!wiring diagram|(}
+
 A \emph{wiring diagram} is a graphical depiction of interactions between systems.
 Wiring diagrams depict systems as boxes, showing how they can send inputs and outputs to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
 
@@ -6375,7 +6454,7 @@ The box itself is not, per se, a dynamical system as we have defined one; but it
 Then the entire wiring diagram---specifying how these boxes nest within a larger box---is just an interaction pattern between the interfaces, with the larger box playing the role of the wrapper interface.
 Once every nested box is equipped with a lens from a state system, we obtain a dynamical system whose interface is the larger box.
 
-\begin{example}
+\begin{example}\index{control system}
 Here is a simple wiring diagram.
 \begin{equation}\label{eqn.control_diag}
 \begin{tikzpicture}[oriented WD, baseline=(B)]
@@ -6556,7 +6635,7 @@ Consider the following wiring diagram.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}[Long division] \label{exc.long_div}
+\begin{exercise}[Long division] \label{exc.long_div}\index{long division}
 \begin{enumerate}
 	\item Let $\fun{divmod}\colon\nn\times\nn_{\geq1}\to\nn\times\nn$ send $(a,b)\mapsto(a\bdiv b, a\bmod b)$; for example, it sends $(10,7)\mapsto(1,3)$ and $(30,7)\mapsto(4,2)$.
 	Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
@@ -6659,7 +6738,7 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
 \end{solution}
 \end{exercise}
 
-\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}
+\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}\index{cellular automata}
 Suppose we have a graph $G=(E\tto V)$ as in \cref{def.graph} and a set $\tau(v)$ associated with each vertex $v\in V$:
 \[
 \begin{tikzcd}
@@ -6735,12 +6814,14 @@ We seek to model Conway's Game of Life as a closed dynamical system using \cref{
 \end{solution}
 \end{exercise}
 
+\index{interaction!wiring diagram|)}
+
 \subsection{More examples of general interaction}
 
 While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a diagram.
 For example, here we generalize our previous cellular automata example.
 
-\begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}
+\begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}\index{cellular automata}
 Recall from \cref{ex.graph_interaction} how we constructed a cellular automaton on a graph $G=(E\tto V)$.
 For each $v\in V$, the graph specifies the set $N(v)\coloneqq t(E_v)$ of vertices at the ends of edges coming out of $v$.
 These vertices are the \emph{neighbors} of $v$, or the vertices that $v$ can ``listen'' to.
@@ -6796,7 +6877,7 @@ It could be dictated by a given vertex $v_0\in V$ in the sense that its state co
 
 Here are some more examples of using dependent dynamical systems to model changing wiring diagrams.
 
-\begin{example}\label{ex.bonds_break}
+\begin{example}\label{ex.bonds_break}\index{interaction!breaking bonds}
 In the picture below, forces are being applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as on the right.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
@@ -6875,7 +6956,7 @@ We let the on-directions function $F(FF)\to F+\{\text{`snapped'}\}$ send
 Thus, when the sum of forces is high enough, the internal state is updated to the `snapped' state; otherwise, it is sent to the force it receives from outside, which it is now ready to transfer to the other system.
 \end{example}
 
-\begin{example}\label{ex.supplier_change}
+\begin{example}\label{ex.supplier_change}\index{interaction!supplier change}
 Consider the case of a company that may change its supplier based on its internal state. The company returns two possible outputs, corresponding to who it wants to receive widgets $W$ from:
 \[
 \begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
@@ -6900,7 +6981,7 @@ Then a section for the company and the suppliers is just a lens $\2\yon^W\otimes
 In other words, the company's output determines its supplier.
 \end{example}
 
-\begin{example}\label{ex.assemble_machine}
+\begin{example}\label{ex.assemble_machine}\index{interaction!assembling}
 When someone assembles a machine, their own positions dictate the interaction pattern of the machine's components.
 \begin{equation*}%\label{eqn.someone2}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
@@ -6945,8 +7026,11 @@ In other words, if $p$ is deciding the interaction pattern between $q_1,\ldots,q
 What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it be constantly choosing interaction patterns. Let's see how it works.
 
 
+\index{interaction|)}
 %-------- Section --------%
-\section{Closure of $\otimes$}%[-,-]
+\section{Closure of $\otimes$}\label{sec.closure}%[-,-]
+\index{closed monoidal structure}
+\index{monoidal closed structure|see{closed monoidal structure}}
 
 The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
 \begin{equation}\label{eqn.monoidal_closure}
@@ -7248,7 +7332,7 @@ Then by the universal property of coproducts, this collection of lenses induces 
 \end{solution}
 \end{exercise}
 
-\begin{example}[Modeling your environment without knowing what it is]
+\begin{example}[Modeling your environment without knowing what it is]\index{environment!universal}
 Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imagine it is part of an interaction pattern
 \[
 	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to r
@@ -7262,7 +7346,7 @@ That is, for each $p$-position it produces a direction there, which is just what
 Now suppose we were to populate the interface $p$ with dynamics, a lens $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
 \end{example}
 
-\begin{example}[Chu $\&$]
+\begin{example}[Chu $\&$]\index{Chu space}
 Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
@@ -7311,6 +7395,7 @@ The category $\poly$ has very useful formal properties, including completion und
 %-------- Section --------%
 \section{Special polynomials and adjunctions} \label{sec.poly.bonus.adj}
 
+
 There are a few special classes of polynomials that are worth discussing:
 \begin{enumerate}[label=\alph*)]
 	\item constant polynomials $\0,\1,\2,A$;
@@ -7322,7 +7407,7 @@ The first two classes, constant and linear polynomials, are interesting because 
 The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
 Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.cat.morph.bimorphic-lens}.
 
-\begin{exercise}
+\begin{exercise}\dnote{Didn't we do something like this earlier somewhere?}
 Which of the four classes above are closed under
 \begin{enumerate}
 	\item the cocartesian monoidal structure $(\0,+)$ (i.e.\ addition)?
@@ -7381,6 +7466,8 @@ There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 \begin{proof}
 By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a map of sets $A\to B$.
 \end{proof}
+
+\index{adjunction!between $\smset$ and $\poly$}
 
 \begin{theorem}\label{thm.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$:
@@ -7466,6 +7553,8 @@ In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)
 
 We also have a copower-hom-power two-variable adjunction between $\poly,\smset,$ and $\poly$.
 
+\index{adjunction!two-variable}
+
 \begin{proposition}\label{prop.two_var_adj}
 There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:
 \begin{equation}\label{eqn.two_var_adj}
@@ -7488,6 +7577,7 @@ For any set $B$ there is an adjunction
 where the functors are labeled by where they send $q\in\poly$ and $A\in\smset$.
 \end{corollary}
 
+
 \begin{exercise}
 Prove \cref{cor.substituting_adj} from \cref{prop.two_var_adj}.
 \begin{solution}
@@ -7502,6 +7592,8 @@ Replacing $p$ with $\yon^B$ in \eqref{eqn.two_var_adj} from \cref{prop.two_var_a
 By the Yoneda lemma, $\poly(\yon^B, q)$ is naturally isomorphic to $q(B)$, yielding the desired result.
 \end{solution}
 \end{exercise}
+
+\index{adjunction!between $\smset\op$ and $\poly$}\index{global sections}
 
 \begin{proposition}\label{prop.yoneda_left_adjoint}
 The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
@@ -7524,6 +7616,8 @@ which in turn is naturally isomorphic to $\smset(A, \Gamma(p))$ by \eqref{eqn.ga
 
 % Previously an exercise; but already basically done
 % Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.parallel_closure}.
+
+\index{principle monomial}
 
 \begin{corollary}[Principal monomial]\label{cor.principal_monomial}
 There is an adjunction
@@ -7582,6 +7676,10 @@ We have the following chain of natural isomorphisms:
 %-------- Section --------%
 \section{Epi-mono factorization of lenses}
 
+\index{factorization system!epi-mono}
+
+\index{lens!monomorphism}
+
 \begin{proposition}\label{prop.monics_in_poly}
 Let $f \colon p \to q$ be a lens in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1i]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
@@ -7622,6 +7720,8 @@ Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sha
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead.
 \end{solution}
 \end{exercise}
+
+\index{lens!epimorphism}
 
 \begin{proposition}\label{prop.epis_in_poly}
 Let $f \colon p \to q$ be a lens in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
@@ -7762,10 +7862,18 @@ So again since $\smset$ has epi-mono factorization, such $r[j], \mu^\sharp_j,$ a
 Hence such $p \To{\epsilon} r \To{\mu} q$ uniquely exists overall.
 \end{proof}
 
+\index{factorization system!epi-mono}
+
+
 %-------- Section --------%
 \section{Cartesian closure}
 
-We have already seen the closure operation $\ihom{-,-}$ for one monoidal structure on $\poly$, namely $(\yon,\otimes)$.
+\index{polynomial functors!cartesian closed}
+\index{polynomial functor!exponential}
+\index{closed monoidal structure}
+\index{exponential|(}
+
+We have already seen in \cref{sec.closure} the closure operation $\ihom{-,-}$ for one monoidal structure on $\poly$, namely $(\yon,\otimes)$.
 But this is not the only closed monoidal structure on $\poly$: in fact, we will show that $\poly$ is cartesian closed as well.
 
 For any two polynomials $q,r$, define $r^q\in\poly$ by the formula
@@ -7876,9 +7984,12 @@ The lens $\text{eval}$ is the canonical evaluation lens.
 \end{solution}
 \end{exercise}
 
+\index{exponential|)}
+
 
 %-------- Section --------%
 \section{Limits and colimits of polynomials}
+\index{polynomial functor!limits of polynomials|(}
 
 We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
 We will now see that $\poly$ has all small limits and colimits.
@@ -7965,6 +8076,8 @@ We have seen \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for products
 We have also just shown \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for equalizers in the proof of \cref{thm.poly_limits}.
 It follows from the construction of any limit as an equalizer of products that it is true for arbitrary limits.
 \end{example}
+
+\index{polynomial functor!pullback of polynomials}
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
 Given $q,q',r \in \poly$ and lenses $q\To{f} r\From{f'} q'$, the pullback
@@ -8080,6 +8193,8 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!equalizer of polynomials}
+
 \begin{exercise} \label{exc.refl_limits}
 An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $\smset^\smset$ is still a polynomial functor---since the full subcategory inclusion $\poly \to \smset^\smset$ reflects these equalizers, it would follow that $\poly$ has equalizers.
 But we already know what polynomial the equalizer should be from the proof of \cref{thm.poly_limits}.
@@ -8110,6 +8225,9 @@ Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{polynomial functor!limits of polynomials|)}
+\index{polynomial functor!colimits of polynomials|(}
 
 \begin{theorem}\label{thm.poly_colimits}
 The category $\poly$ has all small colimits.
@@ -8270,6 +8388,8 @@ By \cref{thm.adjoint_quadruple}, for any polynomial $p$, there are canonical len
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!pushout of polynomials}
+
 \begin{proposition}\label{prop.tensor_as_pushout}
 For polynomials $p,q$, the following is a pushout:
 \[
@@ -8302,6 +8422,8 @@ where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image unde
 
 This means that to give a lens $\varphi\colon p\otimes q\to r$, it suffices to give two lenses $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The lens $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the lens $\varphi_q$ says how information about $p$'s position is transferred to $q$.
 
+\index{monoidal product!parallel as pushout}
+
 \begin{corollary}\label{cor.tensor_as_pushout}
 Suppose we have polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
 \[
@@ -8323,8 +8445,13 @@ When $n=0$, the wide pushout has no legs and the empty parallel product is $\yon
 If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
 \end{proof}
 
+\index{polynomial functor!colimits of polynomials|)}
+
 %-------- Section --------%
 \section{Vertical-cartesian factorization of lenses}
+
+\index{factorization system!vertical-cartesian|(}
+
 
 Aside from epi-mono factorization, there is another factorization system on $\poly$ that will show up frequently.
 
@@ -8334,12 +8461,17 @@ It is called \emph{vertical} if $f_\1\colon p(\1)\to q(\1)$ is an isomorphism.
 It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
+\index{lens!vertical}
+\index{lens!cartesian}
+
+
 \begin{proposition}\label{prop.vert_cart_factorization}
 Vertical and cartesian lenses form a factorization system of $\poly$.
 \end{proposition}
 \begin{proof}
 It is easy to check that isomorphisms are both vertical and cartesian, and that vertical and cartesian lenses are each closed under composition.
 It remains to show that every lens in $\poly$ can be uniquely (up to unique isomorphism) factored as a vertical lens composed with a cartesian lens.
+
 
 Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
@@ -8358,6 +8490,8 @@ Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as 
 \]
 We can see that the intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1i]}$ is unique up to unique isomorphism.
 \end{proof}
+
+\index{2-out-of-3}
 
 \begin{proposition}
 Vertical lenses satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then g$, if any two of $f,g,h$ are vertical, then so is the third.
@@ -8432,6 +8566,8 @@ For instance, when $p\coloneqq\yon+\1$, we have that $\Gamma(p)\iso\0\not\iso\1\
 \end{exercise}
 
 Why do we use the word \emph{cartesian} to describe cartesian morphisms? It turns out that, as natural transformations, cartesian morphisms are precisely what are known as cartesian natural transformations.
+
+\index{natural transformation!cartesian|seealso{lens!cartesian}}
 
 \begin{definition}[Cartesian natural transformation] \label{def.cart_nat_trans}
 A \emph{cartesian natural transformation} is a natural transformation whose naturality squares are all pullbacks.
@@ -8531,6 +8667,8 @@ Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon
 \end{solution}
 \end{exercise}
 
+\index{monoidal structures!preservation of vertical and cartesian maps}
+
 \begin{proposition}\label{prop.monoidal_pres_vert_cart}
 The monoidal structures $+$, $\times$, and $\otimes$ preserve both vertical and cartesian morphisms.
 \end{proposition}
@@ -8566,8 +8704,12 @@ is vertical (resp.\ cartesian).
 This follows from \cref{ex.pullbacks_in_poly}, since the pullback (resp.\ pushout) of an isomorphism is an isomorphism.
 \end{proof}
 
+\index{factorization system!vertical-cartesian|)}
+
 %-------- Section --------%
 \section{Monoidal $*$-bifibration over $\smset$}
+
+\index{monoidal $*$-bifibraion}
 
 We conclude this chapter by showing that the functor $p\mapsto p(\1)$ has special properties that make it what \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}.
 Roughly speaking, this means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that.
@@ -8599,6 +8741,8 @@ Given an object $c$ in a category $\cat{C}$, the \emph{slice category} of $\cat{
 \begin{definition}[Exponentiable morphism]
 Given a category $\cat{C}$ with objects $c, d$ and morphism $f \colon c \to d$ such that all pullbacks along $f$ exist in $\cat{C}$, we say that $f$ is \emph{exponentiable} if the functor $f^* \colon \cat{C}/d \to \cat{C}/c$ given by pulling back along $f$ is a left adjoint.
 \end{definition}
+
+\index{lens!cartesian as exponentiable}\index{exponentiable lens|see{lens, cartesian}}
 
 \begin{theorem}\label{thm.cart_exponentiable}
 Cartesian lenses in $\poly$ are exponentiable.
