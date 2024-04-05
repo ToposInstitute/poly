@@ -13,7 +13,8 @@
 %------------ Chapter ------------%
 \chapter{The substitution product}\label{ch.comon.comp}
 
-\index{monoidal structure!substitution}
+\index{monoidal structure!substitution|see{substitution product}}
+\index{substitution product|(}
 
 We have seen that the category $\poly$ of polynomial functors has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
@@ -22,11 +23,15 @@ But we touched upon one thing---what in some sense is the most interesting part 
 \yon^\2\circ(\yon+\1)=(\yon+\1)^\2\iso\yon^\2+\2\yon+\1.
 \]
 In other words, $(\yon+\1)$ is \emph{substituted in} for the variable $\yon$ in $\yon^\2$. What could be simpler? 
+\index{polynomial functor!composition of polynomials|see{polynomial functor, substitution of polynomials}}
+\index{polynomial functor!substitution of polynomials}
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time.
 There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p[i]$, landing at a position $j$ in $q$, choosing a direction in $q[j]$, and then landing... somewhere.''
 This is exactly what we need to run through multiple steps of a dynamical system, the very thing we didn't know how to do in \cref{ex.do_nothing}.
 We'll continue that story in \cref{subsec.comon.comp.def.dyn_sys}.
+
+\index{two-step procedure!substitution product as}
 
 The substitution product has many surprises up its sleeve, as we'll see throughout the rest of the book.%
 \footnote{Substitution product could also be called \emph{composition product}. We like to reserve the word ``composition'' and ``compose'' for morphisms. When polynomials are construed as functors, this makes sense, as opposed to when they are construed as objects ($p\in\Ob(\poly)$), as they are for us.}
@@ -41,6 +46,7 @@ We begin with the definition of the substitution product in terms of polynomials
 Given polynomial functors $p, q$, we let $p \circ q$ denote their \emph{substitution product}, or their composite as functors.
 That is, $p \circ q \colon \smset \to \smset$ sends each set $X$ to the set $p(q(X))$.
 \end{definition}
+\index{substitution product!as composition of functors}
 
 Functor composition, i.e.\ substitution, gives a monoidal structure on the category $\smset^\smset$ of functors $\smset\to\smset$, but to check that the full subcategory $\poly$ of $\smset^\smset$ inherits this monoidal structure, we need to verify that the composite of two functors in $\poly$ is still a functor in $\poly$.
 
@@ -67,9 +73,13 @@ To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which s
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
 
+\index{substitution product!formula for}
+
 \begin{corollary} \label{cor.comp_monoidal}
 The category $\poly$ has a monoidal structure $(\yon,\circ)$, where $\yon$ is the identity functor and $\circ$ is given by substitution.
 \end{corollary}
+
+\index{substitution product!unit of}
 
 Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition/substitution, namely
 \[
@@ -78,7 +88,7 @@ p\tri q\coloneqq p\circ q.
 The symbol $\tri$ looks a bit like the composition symbol in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
 But $\tri$ highlights the asymmetry of substitution, in contrast with the other monoidal structures on $\poly$ we've encountered.
 Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
-For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composite of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold substitution product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold substitution product'' in general, we refer to an arbitrary substitution product of $n$ polynomials that may or may not all be equal to each other. This will apply to substitution products of lenses as well, once we define those.}
+For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold substitution product of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold substitution product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold substitution product'' in general, we refer to an arbitrary substitution product of $n$ polynomials that may or may not all be equal to each other. This will apply to substitution products of lenses as well, once we define those.}
 In particular, $p\tripow0=\yon$ and $p\tripow1=p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
@@ -148,6 +158,8 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
+\index{substitution product!of special polynomials}
+
 \begin{exercise}\label{exc.composites_of_specials}
 \begin{enumerate}
 	\item If $p$ and $q$ are representable, show that $p\tri q$ is too. Give a formula for it.
@@ -187,6 +199,8 @@ for a lens $\varphi\colon A\yon\to q$ has an on-positions function $A\to q(\1)$ 
 We know how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
 For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their substitution product $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
 
+\index{substitution product!on morphisms}
+
 \begin{definition}[Horizontal composition of natural transformations]\label{def.horiz_comp_nat_trans}
 Let $f\colon p\to p'$ and $g\colon q\to q'$ be two natural transformations between (polynomial) functors $p,p',q,q'\colon\smset\to\smset$.
 Then the \emph{horizontal composite} of $f$ and $g$, denoted $f\tri g$, is the natural transformation $p\tri q\to p'\tri q'$ whose $X$-component for each $X\in\smset$ is the function
@@ -214,6 +228,8 @@ We claim that \eqref{eqn.horiz_comp_nat_trans_comp} and \eqref{eqn.horiz_comp_na
 Indeed it does, by the naturality of $f$.
 \end{solution}
 \end{exercise}
+\index{natural transformation!horizontal composition}
+\index{natural transformation!vertical composition}
 
 \begin{remark}
 There are two very different notions of lens composition floating around, so we'll try to mitigate confusion by standardizing terminology here.
@@ -226,7 +242,7 @@ This corresponds to \emph{horizontal composition} of natural transformations.
 In this case, we'll use the verb phrase ``\emph{taking the monoidal product}.''
 
 On the other hand, we'll use the terms ``composite'' and ``substitution product'' interchangeably to refer to polynomials $p\tri q$, obtained by composing $p,q\in\poly$ as functors or, equivalently, applying the monoidal product functor $\tri$ on them---as there is no risk of confusion here.%
-\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the substitution product. We elected to use the substitution product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
+%\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the substitution product. We elected to use the substitution product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
 
 This is another reason we tend to avoid the symbol $\circ$, preferring to use $\then$ for vertical composition and $\tri$ for substitution.
 Of course, if you're ever confused, you can always check whether the codomain of the first lens matches up with the domain of the second.
@@ -238,7 +254,7 @@ However, we only sometimes think of it as the composition of functors and the ho
 
 \subsection{Composite positions and directions}\label{subsec.comon.comp.def.arena}
 
-Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composite of two polynomials in terms of positions and directions.
+Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the substitution product of two polynomials in terms of positions and directions.
 The position-set of $p \tri q$ is
 \begin{equation} \label{eqn.comp_pos}
     (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\ol{j} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
@@ -252,7 +268,7 @@ Given such a position $(i, \ol{j})$ of $p \tri q$, the direction-set of $p \tri 
 So a direction of $p \tri q$ at $(i, \ol{j})$ consists of a $p[i]$-direction $a$ and a $q[\ol{j}(a)]$-direction.
 
 While this description completely characterizes $p \tri q$, it may be a bit tricky to wrap your head around.
-Here is an alternative perspective that can help us get a better intuition for what's going on with composite polynomials.
+Here is an alternative perspective that can help us get a better intuition for what's going on with the substitution product of polynomials.
 
 Back in \cref{sec.poly.rep-sets.sum-prod-set}, we saw how to write the instructions for choosing an element of a sum or product of sets.
 For instance, given a polynomial $p$ and a set $X$, the instructions for choosing an element of
@@ -299,7 +315,7 @@ The instructions associated with a polynomial $p\tri q$ are:
     \end{enumerate}
 \end{enumerate}
 \end{quote}
-Similarly, we could write down the instructions associated with any $n$-fold composite by nesting even further.
+Similarly, we could write down the instructions associated with any $n$-fold substitution product by nesting even further.
 We might think of such instructions as specifying some sort of length-$n$ \emph{strategy}, in the sense of game theory, for picking positions given any directions---except that the opponent is somehow abstract, having no positions of its own.
 
 When we rewrite \eqref{eqn.composite_formula} \eqref{eqn.composite_formula_sums_first}, we are collapsing the instructions down into the following, highlighting the positions and directions of $p\tri q$.
@@ -3898,6 +3914,8 @@ Polynomial substitution is one of the best known aspects of polynomial functors.
 \input{solution-file6}}
 
 \Opensolutionfile{solutions}[solution-file7]
+
+\index{substitution product|)}
 
 %------------ Chapter ------------%
 \chapter{Polynomial comonoids and cofunctors}\label{ch.comon.sharp}
