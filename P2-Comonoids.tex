@@ -11,10 +11,10 @@
 \Opensolutionfile{solutions}[solution-file6]
 
 %------------ Chapter ------------%
-\chapter{The substitution product}\label{ch.comon.comp}
+\chapter{The composition product}\label{ch.comon.comp}
 
-\index{monoidal structure!substitution|see{substitution product}}
-\index{substitution product|(}
+\index{monoidal structure!substitution|see{composition product}}
+\index{composition product|(}
 
 We have seen that the category $\poly$ of polynomial functors has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
@@ -23,32 +23,32 @@ But we touched upon one thing---what in some sense is the most interesting part 
 \yon^\2\circ(\yon+\1)=(\yon+\1)^\2\iso\yon^\2+\2\yon+\1.
 \]
 In other words, $(\yon+\1)$ is \emph{substituted in} for the variable $\yon$ in $\yon^\2$. What could be simpler? 
-\index{polynomial functor!composition of polynomials|see{polynomial functor, substitution of polynomials}}
-\index{polynomial functor!substitution of polynomials}
+\index{polynomial functor, substitution of polynomials|see{polynomial functor!composition of polynomials}}
+\index{polynomial functor!composition of polynomials}
 
 It turns out that this operation, which we'll see soon is a monoidal product, has a lot to do with time.
 There is a strong sense---made precise in \cref{prop.poly_closed_comp}---in which the polynomial $p\circ q$ represents ``starting at a position $i$ in $p$, choosing a direction in $p[i]$, landing at a position $j$ in $q$, choosing a direction in $q[j]$, and then landing... somewhere.''
 This is exactly what we need to run through multiple steps of a dynamical system, the very thing we didn't know how to do in \cref{ex.do_nothing}.
 We'll continue that story in \cref{subsec.comon.comp.def.dyn_sys}.
 
-\index{two-step procedure!substitution product as}
+\index{two-step procedure!composition product as}
 
-The substitution product has many surprises up its sleeve, as we'll see throughout the rest of the book.%
-\footnote{Substitution product could also be called \emph{composition product}. We like to reserve the word ``composition'' and ``compose'' for morphisms. When polynomials are construed as functors, this makes sense, as opposed to when they are construed as objects ($p\in\Ob(\poly)$), as they are for us.}
+The composition product has many surprises up its sleeve, as we'll see throughout the rest of the book.%
+\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the composition product. We elected to use the composition product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
 
 %-------- Section --------%
-\section{Defining the substitution product}\label{sec.comon.comp.def}
-We begin with the definition of the substitution product in terms of polynomials as functors.
+\section{Defining the composition product}\label{sec.comon.comp.def}
+We begin with the definition of the composition product in terms of polynomials as functors.
 
 \subsection{Composite functors}\label{subsec.comon.comp.def.functor}
 
-\begin{definition}[Substitution product] \label{def.comp}
-Given polynomial functors $p, q$, we let $p \circ q$ denote their \emph{substitution product}, or their composite as functors.
+\begin{definition}[Composition product] \label{def.comp}
+Given polynomial functors $p, q$, we let $p \circ q$ denote their \emph{composition product}, or their composite as functors.
 That is, $p \circ q \colon \smset \to \smset$ sends each set $X$ to the set $p(q(X))$.
 \end{definition}
-\index{substitution product!as composition of functors}
+\index{composition product!as composition of functors}
 
-Functor composition, i.e.\ substitution, gives a monoidal structure on the category $\smset^\smset$ of functors $\smset\to\smset$, but to check that the full subcategory $\poly$ of $\smset^\smset$ inherits this monoidal structure, we need to verify that the composite of two functors in $\poly$ is still a functor in $\poly$.
+Functor composition gives a monoidal structure on the category $\smset^\smset$ of functors $\smset\to\smset$, but to check that the full subcategory $\poly$ of $\smset^\smset$ inherits this monoidal structure, we need to verify that the composite of two functors in $\poly$ is still a functor in $\poly$.
 
 \begin{proposition}\label{prop.poly_closed_comp}
 Suppose $p,q\in\poly$ are polynomial functors $p,q\colon\smset\to\smset$. Then their composite $p\circ q$ is again a polynomial functor, and we have the following isomorphism:
@@ -73,22 +73,22 @@ To see this is a polynomial, we use \eqref{eqn.push_prod_sum_set_indep}, which s
 (written slightly bigger for clarity), which is clearly a polynomial.
 \end{proof}
 
-\index{substitution product!formula for}
+\index{composition product!formula for}
 
 \begin{corollary} \label{cor.comp_monoidal}
-The category $\poly$ has a monoidal structure $(\yon,\circ)$, where $\yon$ is the identity functor and $\circ$ is given by substitution.
+The category $\poly$ has a monoidal structure $(\yon,\circ)$, where $\yon$ is the identity functor and $\circ$ is given by composition.
 \end{corollary}
 
-\index{substitution product!unit of}
+\index{composition product!unit of}
 
-Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition/substitution, namely
+Because we may wish to use $\circ$ to denote composition in arbitrary categories, we use a special symbol for polynomial composition, namely
 \[
 p\tri q\coloneqq p\circ q.
 \]
 The symbol $\tri$ looks a bit like the composition symbol in that it is an open shape, and when writing quickly by hand, it's okay if it morphs into a $\circ$.
-But $\tri$ highlights the asymmetry of substitution, in contrast with the other monoidal structures on $\poly$ we've encountered.
+But $\tri$ highlights the asymmetry of composition, in contrast with the other monoidal structures on $\poly$ we've encountered.
 Moreover, we'll soon see that $\tri$ is quite evocative in terms of trees.
-For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold substitution product of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold substitution product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold substitution product'' in general, we refer to an arbitrary substitution product of $n$ polynomials that may or may not all be equal to each other. This will apply to substitution products of lenses as well, once we define those.}
+For each $n\in\nn$, we'll also use $p\tripow{n}$ to denote the $n$-fold composition product of $p$, i.e.\ $n$ copies of $p$ all composed with each other.\footnote{When we say ``the $n$-fold composition product of $p$,'' we mean $n$ copies of $p$ all composed with each other; but when we discuss an ``$n$-fold composition product'' in general, we refer to an arbitrary composition product of $n$ polynomials that may or may not all be equal to each other. This will apply to composition products of lenses as well, once we define those.}
 In particular, $p\tripow0=\yon$ and $p\tripow1=p$.
 
 We repeat the important formulas from \cref{prop.poly_closed_comp} and its proof in the new notation:
@@ -158,7 +158,7 @@ We are given $p\coloneqq\yon^\2+\yon^\1$ and $q\coloneqq \yon^\3+\1$.
 \end{solution}
 \end{exercise}
 
-\index{substitution product!of special polynomials}
+\index{composition product!of special polynomials}
 
 \begin{exercise}\label{exc.composites_of_specials}
 \begin{enumerate}
@@ -197,10 +197,10 @@ for a lens $\varphi\colon A\yon\to q$ has an on-positions function $A\to q(\1)$ 
 \end{exercise}
 
 We know how $\tri$ acts on the objects in $\poly$, but what does it do to the morphisms between them?
-For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their substitution product $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
+For any pair of natural transformations $f\colon p\to p'$ and $g\colon q\to q'$ between polynomial functors, their composite $f\tri g\colon p\tri q\to p'\tri q'$ is given by \emph{horizontal composition}.
 
-\index{substitution product!on morphisms|see{substitution product, on lenses}}
-\index{substitution product!on lenses|(}
+\index{composition product!on morphisms|see{composition product, on lenses}}
+\index{composition product!on lenses|(}
 
 \begin{definition}[Horizontal composition of natural transformations]\label{def.horiz_comp_nat_trans}
 Let $f\colon p\to p'$ and $g\colon q\to q'$ be two natural transformations between (polynomial) functors $p,p',q,q'\colon\smset\to\smset$.
@@ -239,28 +239,28 @@ We'll reserve the term \emph{composite lens} for lenses $h\then j\colon r\to t$ 
 This corresponds to \emph{vertical composition} of natural transformations.
 This is also the kind of composition we will mean whenever we use the verb ``\emph{compose},'' if the objects of that verb are lenses.
 
-Meanwhile, we'll use the term \emph{substitution product (of lenses)} for lenses $f\tri g\colon p\tri q\to p'\tri q'$ obtained by applying the monoidal product functor $\tri\colon\poly\times\poly\to\poly$ on the lenses $f\colon p\to p'$ and $g\colon q\to q'$.
+Meanwhile, we'll use the term \emph{composition product (of lenses)} for lenses $f\tri g\colon p\tri q\to p'\tri q'$ obtained by applying the monoidal product functor $\tri\colon\poly\times\poly\to\poly$ on the lenses $f\colon p\to p'$ and $g\colon q\to q'$.
 This corresponds to \emph{horizontal composition} of natural transformations.
 In this case, we'll use the verb phrase ``\emph{taking the monoidal product}.''
 
-On the other hand, we'll use the terms ``composite'' and ``substitution product'' interchangeably to refer to polynomials $p\tri q$, obtained by composing $p,q\in\poly$ as functors or, equivalently, applying the monoidal product functor $\tri$ on them---as there is no risk of confusion here.%
-%\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the substitution product. We elected to use the substitution product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
+On the other hand, we'll use the terms ``composite'' and ``composition product'' interchangeably to refer to polynomials $p\tri q$, obtained by composing $p,q\in\poly$ as functors or, equivalently, applying the monoidal product functor $\tri$ on them---as there is no risk of confusion here.%
+%\footnote{Some authors refer to $\tri$ as the \emph{substitution} product, rather than the composition product. We elected to use the composition product terminology because it provides a good noun form ``the composite'' for $p\tri q$, whereas ``the substitute'' is somehow strange in English.}
 
-This is another reason we tend to avoid the symbol $\circ$, preferring to use $\then$ for vertical composition and $\tri$ for substitution.
+This is another reason we tend to avoid the symbol $\circ$, preferring to use $\then$ for vertical composition and $\tri$ for horizontal composition.
 Of course, if you're ever confused, you can always check whether the codomain of the first lens matches up with the domain of the second.
 If they don't, we must be taking their monoidal product.
 \end{remark}
 
-The substitution product of polynomials and lenses will be extremely important in the story that follows.
+The composition product of polynomials and lenses will be extremely important in the story that follows.
 However, we only sometimes think of it as the composition of functors and the horizontal composition of natural transformations; more often we think of it as certain operations on positions and directions or on corolla forests.
 
-\index{substitution product!on lenses|)}
+\index{composition product!on lenses|)}
 
 \subsection{Composite positions and directions}\label{subsec.comon.comp.def.arena}
 
-\index{substitution product!positions and directions}
+\index{composition product!positions and directions}
 
-Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the substitution product of two polynomials in terms of positions and directions.
+Let us interpret our formula \eqref{eqn.composite_formula_sums_first} for the composition product of two polynomials in terms of positions and directions.
 The position-set of $p \tri q$ is
 \begin{equation} \label{eqn.comp_pos}
     (p \tri q)(\1) \iso \sum_{i \in p(\1)} \; \sum_{\ol{j} \colon p[i] \to q(1)} \1 \iso \sum_{i \in p(\1)} \smset(p[i], q(\1)).
@@ -274,7 +274,7 @@ Given such a position $(i, \ol{j})$ of $p \tri q$, the direction-set of $p \tri 
 So a direction of $p \tri q$ at $(i, \ol{j})$ consists of a $p[i]$-direction $a$ and a $q[\ol{j}(a)]$-direction.
 
 While this description completely characterizes $p \tri q$, it may be a bit tricky to wrap your head around.
-Here is an alternative perspective that can help us get a better intuition for what's going on with the substitution product of polynomials.
+Here is an alternative perspective that can help us get a better intuition for what's going on with the composition product of polynomials.
 
 Back in \cref{sec.poly.rep-sets.sum-prod-set}, we saw how to write the instructions for choosing an element of a sum or product of sets.
 For instance, given a polynomial $p$ and a set $X$, the instructions for choosing an element of
@@ -294,7 +294,7 @@ To choose an element of $p(X)$:
 \end{quote}
 But say we hadn't picked a set $X$ yet; in fact, say we might replace $X$ with a general polynomial instead.
 We'll replace ``an element of $X$'' with a placeholder---the words ``a future''---that indicates that we don't yet know what will go there. It depends on what has come before.%
-\footnote{In a significant sense, the substitution product should be thought of as being about dependency.} 
+\footnote{In a significant sense, the composition product should be thought of as being about dependency.} 
 Furthermore, to highlight that these instructions are associated with some polynomial $p$, we will use our familiar positions and directions terminology.
 \begin{quote}
 The instructions associated with a polynomial $p$ are:
@@ -308,9 +308,9 @@ The instructions associated with a polynomial $p$ are:
 \end{quote}
 
 \index{future!as placeholder for dependency}
-\index{substitution product!as dependency}
+\index{composition product!as dependency}
 
-If we think of polynomials in terms of their instructions, then \eqref{eqn.composite_formula} tells us that the substitution product simply nests one set of instructions within another, as follows.
+If we think of polynomials in terms of their instructions, then \eqref{eqn.composite_formula} tells us that the composition product simply nests one set of instructions within another, as follows.
 \begin{quote}
 The instructions associated with a polynomial $p\tri q$ are:
 \begin{enumerate}
@@ -325,11 +325,11 @@ The instructions associated with a polynomial $p\tri q$ are:
     \end{enumerate}
 \end{enumerate}
 \end{quote}
-Similarly, we could write down the instructions associated with any $n$-fold substitution product by nesting even further.
+Similarly, we could write down the instructions associated with any $n$-fold composition product by nesting even further.
 We might think of such instructions as specifying some sort of length-$n$ \emph{strategy}, in the sense of game theory, for picking positions given any directions---except that the opponent is somehow abstract, having no positions of its own.
 
-\index{substitution product!$n$-fold}
-\index{substitution product!positions aas strategies}
+\index{composition product!$n$-fold}
+\index{composition product!positions aas strategies}
 
 When we rewrite \eqref{eqn.composite_formula} \eqref{eqn.composite_formula_sums_first}, we are collapsing the instructions down into the following, highlighting the positions and directions of $p\tri q$.
 \begin{quote}
@@ -384,15 +384,15 @@ We will see in \cref{subsec.comon.comp.def.corolla} that these instructions have
 \end{solution}
 \end{exercise}
 
-But how does the substitution product act on lenses?
+But how does the composition product act on lenses?
 Given lenses $f\colon p\to p'$ and $g\colon q\to q'$, we can translate them to natural transformations, take their horizontal composite, then translate this back to a lens.
 The following exercise guides us through this process.
 
-\index{substitution product!on lenses}
+\index{composition product!on lenses}
 
-\begin{exercise}[The substitution product of lenses] \label{exc.comp_prod_lens}
+\begin{exercise}[The composition product of lenses] \label{exc.comp_prod_lens}
 Fix lenses $f\colon p\to p'$ and $g\colon q\to q'$.
-We seek to characterize their substitution product $f\tri g\colon p\tri q\to p'\tri q'$.
+We seek to characterize their composition product $f\tri g\colon p\tri q\to p'\tri q'$.
 \begin{enumerate}
     \item\label{exc.comp_prod_lens.1} Use \cref{prop.morph_arena_to_func} to compute the $q(X)$-component of $f$ as a natural transformation.
     \item\label{exc.comp_prod_lens.2} Use \cref{prop.poly_on_functions,prop.morph_arena_to_func} to compute $p'$ applied to the $X$-component of $g$ as a natural transformation.
@@ -451,9 +451,9 @@ By \eqref{eqn.comp_lens_pos}, on positions, $f\tri g$ takes a $p$-position $i$ a
 Then by \eqref{eqn.comp_lens_pos}, on directions, $f\tri g$ sends a direction of $p'$ back to a direction of $p$ via an on-directions function of $f$, then sends a direction of $q'$ back to a direction of $q$ via an on-directions funtion of $g$.
 We'll get a better sense of what's happening when we see this drawn out as corolla forests in \cref{ex.comp_prod_trees}.
 
-\subsection{Substitution product on corolla forests} \label{subsec.comon.comp.def.corolla}
+\subsection{Composition product on corolla forests} \label{subsec.comon.comp.def.corolla}
 
-\index{substitution product!grafting corollas}
+\index{composition product!grafting corollas}
 
 It turns out that the forest of $p\tri q$ is given by grafting $q$-corollas onto the leaves of $p$-corollas in every possible way.
 We will demonstrate this using an example.
@@ -1022,8 +1022,8 @@ Now $r\coloneqq \2\yon+\1$. Before we draw the composites, here's a picture of $
 \end{solution}
 \end{exercise}
 
-\index{substitution product!involving constant polynomials}
-\index{polynomial functor!application as substitution}
+\index{composition product!involving constant polynomials}
+\index{polynomial functor!application as composition}
 
 \begin{example}[Composing polynomials with constants] \label{ex.apply_2}
 For any set $X$ and polynomial $p$, we can take $p(X)\in\smset$; indeed $p\colon\smset\to\smset$ is a functor! In particular, by this point you've seen us write $p(\1)$ hundreds of times. But we've also seen that $X$ is itself a polynomial, namely a constant one.
@@ -1192,12 +1192,12 @@ We'll generally write $p(\1)$ when we want to emphasize the position-set as a se
 
 \begin{exercise}
 Let $\varphi\colon p\to q$ be a lens and $X$ be a set viewed as a constant polynomial.
-Consider the lens $\varphi\tri X\colon p\tri X\to q\tri X$, given by taking the substitution product of $\varphi$ with the identity lens on $X$.
+Consider the lens $\varphi\tri X\colon p\tri X\to q\tri X$, given by taking the composition product of $\varphi$ with the identity lens on $X$.
 Show that $\varphi\tri X$, when viewed as a function $p(X)\to q(X)$ between sets, is exactly the $X$-component of $\varphi$ viewed as a natural transformation.
 \begin{solution}
 Let $\varphi\colon p\to q$ be a lens and $X$ be a set viewed as a constant polynomial.
 Note that every component of the identity natural transformation on $X$ as a constant functor is just the identity function $\id_X\colon X\to X$ on $X$ as a set.
-Then by \cref{def.horiz_comp_nat_trans}, any component of the substitution product $\varphi\tri X$ viewed as a natural transformation is given by the composite function
+Then by \cref{def.horiz_comp_nat_trans}, any component of the composition product $\varphi\tri X$ viewed as a natural transformation is given by the composite function
 \[
     p(X) \To{\varphi_X} q(X) \To{q(\id_X)} q(X).
 \]
@@ -1290,10 +1290,10 @@ And here is a picture of $\yon\tri p$, obtained by grafting each $p$-corolla to 
 This is just $p$ with every position propped up one level, so it is also still a picture of $p$.
 \end{exercise}
 
-How shall we think about taking the substitution product of lenses in terms of our tree pictures?
+How shall we think about taking the composition product of lenses in terms of our tree pictures?
 We can interpret the results of \cref{exc.comp_prod_lens} as follows.
 
-\index{substitution product!tree picture of}
+\index{composition product!tree picture of}
 
 \begin{example}\label{ex.comp_prod_trees}
 Let's take $p\coloneqq \yon^\2+\yon$, $q\coloneqq\yon^\2+\yon$, $p'\coloneqq\yon^\3+\yon$, and $q'\coloneqq\yon+\1$.
@@ -1825,7 +1825,7 @@ Using the definitions, instructions, and style from \cref{ex.comp_prod_trees}, w
 
 \begin{exercise}
 Suppose $p$, $q$, and $r$ are polynomials and you're given arbitrary lenses $\varphi\colon q\to p\tri q$ and $\psi\colon q\to q\tri r$. Does the following diagram necessarily commute?\tablefootnote{When the name of an object is used in place of a morphism, we refer to the identity morphism on that object.
-So for instance, $\varphi\tri r$ is the substitution product of $\varphi$ with the identity lens on $r$.}
+So for instance, $\varphi\tri r$ is the composition product of $\varphi$ with the identity lens on $r$.}
 \[
 \begin{tikzcd}
 	q\ar[r, "g"]\ar[d, "\varphi"']&
@@ -1838,18 +1838,18 @@ That is, do we have $\varphi\then (p\tri \psi)=^?\psi\then (\varphi\tri r)$?
 \begin{solution}
 Given arbitrary polynomials $p,q,r$ and lenses $\varphi\colon q\to p\tri q$ and $\psi\colon q\to q\tri r$, it is \emph{not} necessarily the case that $\varphi\then (p\tri \psi)=\psi\then (\varphi\tri r)$!
 After all, we can let $p\coloneqq\yon$ and $q\coloneqq\2$ so that $\varphi$ is a lens $\2\to\yon\tri\2\iso\2$ (see \cref{ex.compose_yon}) and $\psi$ is a lens $\2\to\2\tri r\iso\2$ (see \cref{exc.composing_with_constants}).
-Then by following the instructions for interpreting a substitution product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri \psi=\yon\tri \psi$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\psi$, while $\varphi\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\varphi$.
+Then by following the instructions for interpreting a composition product of lenses from either \cref{exc.comp_prod_lens} or \cref{ex.comp_prod_trees}, we can verify that $p\tri \psi=\yon\tri \psi$ is a lens $\2\iso\yon\tri\2\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\psi$, while $\varphi\tri r$ is a lens $\2\iso\2\tri r\to\yon\tri\2\tri r\iso\2$ equivalent to the lens $\varphi$.
 If, say, we let $\varphi\colon\2\to\2$ be the function sending everything to $1\in\2$ and $\psi\colon\2\to\2$ be the function sending everything to $2\in\2$, then in this case $\varphi\then (p\tri \psi)=\varphi\then \psi\neq \psi\then \varphi=\psi\then (\varphi\tri r)$.
 \end{solution}
 \end{exercise}
 
-\subsection{Dynamical systems and the substitution product} \label{subsec.comon.comp.def.dyn_sys}
+\subsection{Dynamical systems and the composition product} \label{subsec.comon.comp.def.dyn_sys}
 
-\index{dynamical system!substitution product and}
-\index{dynamical system!speeding up|see{dynamical system, substitution product and}}
+\index{dynamical system!composition product and}
+\index{dynamical system!speeding up|see{dynamical system, composition product and}}
 
 Back in \cref{ex.do_nothing}, we posed the question of how to model running multiple steps of dynamical system in $\poly$.
-The answer lies with the substitution product.
+The answer lies with the composition product.
 
 Recall that a dependent dynamical system is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
 We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\varphi$ the return and update functions, respectively.
@@ -1867,7 +1867,7 @@ Then to model a second step through the system, we identify the $q[s]$-direction
 % Before the next round, we use $\ol{t}$ to compute the state assigned to that direction.
 % Second, we use the return function to compute an output for that state
 
-But this is exactly what the substitution product $\varphi\tri\varphi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
+But this is exactly what the composition product $\varphi\tri\varphi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
 \begin{equation} \label{eqn.interface_position_pair}
     \left(\varphi_\1(s_0),\varphi^\sharp_{s_0}\then e^{-1}\then\varphi_\1\right)\in(p\tri p)(\1),
 \end{equation}
@@ -1884,7 +1884,7 @@ comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next sta
 In summary, at certain positions, $\varphi\tri\varphi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning output $o_0$, receiving input $i_1$, updating its state to $s_1$, returning output $o_1$, receiving input $i_2$, and preparing to update its state to $s_2$.
 Adding another layer, $\varphi\tri\varphi\tri\varphi\colon q\tri q\tri q\to p\tri p\tri p$ will tell us how the system behaves when we step through it three times; and in general, $\varphi\tripow{n}\colon q\tripow{n}\to p\tripow{n}$ will tell us how the system behaves when we step through it $n$ times.
 
-\begin{example}[Substitution products of dynamical systems as trees] \label{ex.comp_dyn_sys_tree}
+\begin{example}[Composition products of dynamical systems as trees] \label{ex.comp_dyn_sys_tree}
 Consider the dynamical system $\varphi\colon S\yon^S\to p$ with $p\coloneqq\yon^A+\1$, corresponding to the halting deterministic state automaton \eqref{eqn.halt_dsa} from \cref{exc.halt_dsa}, depicted again here for convenience:
 \[
 \begin{tikzcd}[column sep=small]
@@ -2002,7 +2002,7 @@ Consider the following tree, corresponding to a position of the $2$-fold composi
 		};
 \end{tikzpicture}
 \end{equation}
-We can follow the steps from \cref{ex.comp_prod_trees} to find that the substitution product of lenses $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree as follows:
+We can follow the steps from \cref{ex.comp_prod_trees} to find that the composition product of lenses $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree as follows:
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -2048,16 +2048,19 @@ Actually, it says that if we start from the yellow state (the root on the left, 
 But if we instead go in the green direction (up from the root along the green arrow to the left), we could go in the green direction again (up the next green arrow) to arrive at a blue state (as indicated by the dashed arrow above), or instead in the orange direction to arrive at a yellow state (similarly).
 \end{example}
 
-This is what we meant in the introduction when we said that the substitution product has to do with time.
+\index{time!composition product and}
+
+This is what we meant in the introduction when we said that the composition product has to do with time.\dnote{Where did we say this? I didn't find it. Please add $\backslash$ index$\{$time!composition product and$\}$ wherever it is.} %copy this: \index{time!composition product and}
 It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
 Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
 The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
+\index{clock tick}\index{interaction!multi-step}
 
 \subsubsection{Why this is not enough}\label{subsubsec.comon.comp.def.dyn_sys.issues}
 There are several pressing issues we must address, however, before we can even begin to provide a satisfying answer to everything we asked for in \cref{ex.do_nothing}.
 The first is a communication issue: as you probably sensed, our set-theoretic notation for $\varphi\tripow{n}$ is rather cumbersome, and that was just for $n=2$.
-We could depict the behavior of our substitution products of dynamical systems more clearly using tree pictures (see \cref{ex.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
-A concise visual representation of the back-and-forth interaction of lenses would help us reason about substitution products more effectively.
+We could depict the behavior of our composition products of dynamical systems more clearly using tree pictures (see \cref{ex.comp_dyn_sys_tree}), but even that becomes infeasible in greater generality.
+A concise visual representation of the back-and-forth interaction of lenses would help us reason about composition products more effectively.
 
 The second issue is more technical: to ensure that $\varphi\tri\varphi$ behaves the way we want, when we specify a position of its domain $q\tri q$, we have to provide not only an initial state $s_0$ but also the isomorphism $e^{-1}\colon S'\to S$ to let the lens know which state in $S$ each $q[s_0]$-direction in $S'$ should lead to.
 But there are many other positions $(s_0,f)$ of $q\tri q$ that we could have specified, and each $f\colon S'\to S$ associates $q[s_0]$-directions to $q$-positions in a different way.
@@ -2065,7 +2068,7 @@ So $\varphi\tri\varphi$ is carrying around a lot of extraneous---even misleading
 Our isomorphism $e^{-1}$ is a temporary fix, but as we pointed out in \cref{ex.do_nothing}, it relies on the set-theoretic equality of the direction-sets of $q$---there's nothing inherent to the categorical structure of $q$ in $\poly$ that encodes how directions map to states, at least not yet.
 What are we missing?
 
-\begin{example}[Substitution products of dynamical systems can be misleading] \label{ex.comp_dyn_sys_mislead}
+\begin{example}[Composition products of dynamical systems can be misleading] \label{ex.comp_dyn_sys_mislead}
 In \cref{ex.comp_dyn_sys_mislead}, instead of \eqref{eqn.sys_tri2_good_tree}, we could have picked the following tree, corresponding to a different (yet entirely valid) position of $S\yon^S\tri S\yon^S$:
 \[
 \begin{tikzpicture}[trees,
@@ -2089,7 +2092,7 @@ In \cref{ex.comp_dyn_sys_mislead}, instead of \eqref{eqn.sys_tri2_good_tree}, we
 		};
 \end{tikzpicture}
 \]
-The substitution product $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree like so:
+The composition product $\varphi\tri\varphi\colon S\yon^S\tri S\yon^S\to p\tri p$ acts on this tree like so:
 \[
 \begin{tikzpicture}[trees,
   level 1/.style={sibling distance=10mm},
@@ -2142,11 +2145,13 @@ The key to resolving both these issues lies in the next section, where we will i
 
 %-------- Section --------%
 \section{Lenses to composites}\label{sec.comon.comp.to_comp}
+\index{lens!to composite}\index{polybox!maps to composition product}
 
 Lenses to composites---that is, lenses of the form $f\colon p\to q_1\tri\cdots\tri q_n$ for some $n\in\nn$ with composites as their codomains---will be ubiquitous in the remainder of our story.
 Fortunately, they have some very nice properties that make them convenient to work with, especially using polyboxes.
 
 \subsection{Lenses to composites as polyboxes}
+\index{polybox|(}
 A lens $p\to q_1\tri q_2$ is an element of the set
 \begin{align*}
     \poly(p, q_1\tri q_2) &\iso \poly\left(p, \sum_{j_1\in q_1(\1)}\;\prod_{b_1\in q_1[j_1]}\;\sum_{j_2\in q_2(\1)}\;\prod_{b_2\in q_2[j_2]}\yon\right) \tag*{\eqref{eqn.composite_formula}} \\
@@ -2237,6 +2242,8 @@ Each of $p$'s menus is passed forward to a menu for $q_1$ to choose from.
 For every option that $q_1$ may choose, there is then also a menu for $q_2$ to choose from.
 Then for every option that $q_2$ may choose, there is a menu for $q_3$ to choose from, and so on, all the way until $q_n$ has chosen an option.
 Together, all the options that $q_1,\ldots,q_n$ chose then inform the option that $p$ should select from its original menu.
+
+\index{decision!multi-step}\index{menu}
 
 \slogan{A lens $p\to q_1\tri\cdots\tri q_n$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$, then $q_2$, etc., all the way to $q_n$, then interpreting the results.}
 
@@ -2456,6 +2463,7 @@ To indicate this, we color the upper right box red and leave the arrow emerging 
 % Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
 % \end{exercise}
 
+\index{dynamical system!composite interface}
 \begin{example}[Dynamical systems with composite interfaces] \label{ex.dyn_sys_comp_inter}
 We explored dynamical systems with product interfaces in \cref{subsec.poly.dyn_sys.new.prod} and parallel product interfaces in \cref{subsec.poly.dyn_sys.new.par}.
 How about dynamical systems with composite interfaces?
@@ -2487,9 +2495,9 @@ All this generalizes to $n$-fold composite interfaces exactly how you'd expect: 
 \end{example}
 
 
-\subsection{The substitution product of lenses as polyboxes}
+\subsection{The composition product of lenses as polyboxes}
 
-A special case of a lens whose codomain is a composite is a lens that is itself the substitution product of lenses.
+A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.
 If we draw such a lens using polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the polyboxes for the constituent lenses on top of each other.
 For example, given lenses $\varphi\colon p\to q$ and $\varphi'\colon p'\to q'$, here is $\varphi\tri \varphi'$ drawn as polyboxes:
 \begin{equation} \label{eqn.comp_lens_polybox}
@@ -2516,8 +2524,8 @@ Then by \eqref{eqn.comp_lens_pos}, following just the bottom arrow $\varphi_\1$ 
 Finally, once the user fills in the upper box of $q'$, following the top arrow $(\varphi')^\sharp$ completes the specification of a direction of $p\tri p'$.
 In this way, \eqref{eqn.comp_lens_polybox} can be thought of as a special case of \eqref{eqn.map_to_2ary_composite}.
 
-\begin{example}[Dynamical systems and the substitution product, revisited] \label{ex.dyn_sys_comp_polyboxes}
-In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold substitution product $\varphi\tripow{n}$ of a dynamical system $\varphi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
+\begin{example}[Dynamical systems and the composition product, revisited] \label{ex.dyn_sys_comp_polyboxes}
+In \cref{subsec.comon.comp.def.dyn_sys}, we explained how the $n$-fold composition product $\varphi\tripow{n}$ of a dynamical system $\varphi\colon S\yon^S\to p$ models the behavior of running through the system $n$ times, provided we choose the positions of $(S\yon^S)\tripow{n}$ appropriately.
 We can visualize this behavior using polyboxes---for example, here's what the $n=3$ case looks like:
 \[
 \begin{tikzpicture}[polybox, mapstos]
@@ -2611,7 +2619,7 @@ We will read equations off of polyboxes like this repeatedly in the rest of the 
 
 \begin{example}[Transition lenses for state systems] \label{ex.dyn_sys_trans_polyboxes}
 
-In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold substitution product $\varphi\tripow2$ of a dynamical system $\varphi\colon S\yon^S\to p$ can be drawn as follows:
+In \cref{ex.dyn_sys_comp_polyboxes}, we saw that the $2$-fold composition product $\varphi\tripow2$ of a dynamical system $\varphi\colon S\yon^S\to p$ can be drawn as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$S\yon^S$" left] (s) {$s_1$\at$s_0$};
@@ -2632,7 +2640,7 @@ The second blue box on the domain side, the one we fill with $s_1$, should inste
 
 In fact, it would be nice if the domain were still just $S\yon^S$.
 Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\varphi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
-But we just learned how to take a substitution product of lenses such as $\varphi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
+But we just learned how to take a composition product of lenses such as $\varphi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
 \[
 \begin{tikzpicture}
 	\node (1) {
@@ -2793,15 +2801,18 @@ Then the current state is updated to the newer state $s_2$.
 \end{solution}
 \end{exercise}
 
-%-------- Section --------%
-\section{Categorical properties of the substitution product} \label{sec.comon.comp.prop}
+\index{polybox|)}
 
-We conclude this chapter by discussing several interesting properties of the substitution product, many of which will come in handy in the following chapters.
+
+%-------- Section --------%
+\section{Categorical properties of the composition product} \label{sec.comon.comp.prop}
+
+We conclude this chapter by discussing several interesting properties of the composition product, many of which will come in handy in the following chapters.
 We'll focus on how $\tri$ interacts with other constructions on $\poly$ that we introduced in previous chapters.
 
 \subsection{Interaction with products and coproducts} \label{subsec.comon.comp.prop.prod}
 
-It turns out that the substitution product behaves well---albeit asymmetrically---with products and coproducts.
+It turns out that the composition product behaves well---albeit asymmetrically---with products and coproducts.
 
 \begin{proposition}[Left distributivity of $\tri$ over $+$ and $\times$]\label{prop.left_dist_prod}
 Given a polynomial $r$, the functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism).
@@ -3299,7 +3310,7 @@ It follows that $\tri$ preserves all limits on the left.
 But we will present a proof of this fact from an alternative perspective: by appealing to the left coclosure of $\tri$.
 
 \begin{proposition}[Meyers] \label{prop.comp_left_coclosed}
-The substitution product is left coclosed.
+The composition product is left coclosed.
 That is, there exists a left coclosure operation, which we denote $\lchom{-}{-}\colon\poly\op\times\poly\to\poly$,
 such that there is a natural isomorphism
 \begin{equation} \label{eqn.lchom_adj_iso}
@@ -3930,11 +3941,11 @@ Here $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are lenses.
 %-------- Section --------%
 \section{Summary and further reading}
 
-In this chapter we introduced the substitution (sometimes called ``composition'') product $\tri$. Given polynomials $p,q$ thought of as functors, their composite is again polynomial and is given by $p\tri q$. We explained how it looks in terms of algebra, e.g.\ how to compute $\yon^\2\tri(\yon+\1)$; in terms of sets, e.g.\ as a sum-product-sum-product $\sum\prod\sum\prod$, which can be reduced to a single $\sum\prod$; in terms of trees, by stacking corollas on top of corollas; and in terms of polyboxes. We paid particular attention to lenses into a composite $p\to q\tri r$.
+In this chapter we introduced the composition (sometimes called ``substitution'') product $\tri$. Given polynomials $p,q$ thought of as functors, their composite is again polynomial and is given by $p\tri q$. We explained how it looks in terms of algebra, e.g.\ how to compute $\yon^\2\tri(\yon+\1)$; in terms of sets, e.g.\ as a sum-product-sum-product $\sum\prod\sum\prod$, which can be reduced to a single $\sum\prod$; in terms of trees, by stacking corollas on top of corollas; and in terms of polyboxes. We paid particular attention to lenses into a composite $p\to q\tri r$.
 
 This allowed us to explain how to think of dynamical systems $S\yon^S\to p\tri q$ with composite interfaces as multi-step machines: each state produces a $p$-output, and then for every $p$-input produces a $q$-output, and then for every $q$-input returns an updated $S$-state.
 
-Finally, we discussed some facts of the substitution product. For example, we showed that $-\tri q$ has a left adjoint $\lchom{q}{-}$ and that $q\tri -$ has a left multi-adjoint $-\frown q$. We also explained that $p\tri q$ preserves all with limits in the variable $p$ and all connected limits in the variable $q$. We also explained the duoidal interaction between $\otimes$ and $\tri$, i.e.\ the natural lens $\tri\otimes\tri\to\otimes\tri\otimes$, and how $\tri$ interacts with cartesian lenses.
+Finally, we discussed some facts of the composition product. For example, we showed that $-\tri q$ has a left adjoint $\lchom{q}{-}$ and that $q\tri -$ has a left multi-adjoint $-\frown q$. We also explained that $p\tri q$ preserves all with limits in the variable $p$ and all connected limits in the variable $q$. We also explained the duoidal interaction between $\otimes$ and $\tri$, i.e.\ the natural lens $\tri\otimes\tri\to\otimes\tri\otimes$, and how $\tri$ interacts with cartesian lenses.
 
 Polynomial substitution is one of the best known aspects of polynomial functors. Again, see \cite{kock2012polynomial} for more on this. We learned of the left coclosure (see \cref{prop.comp_left_coclosed}) from Josh Meyers, though it may have already been known in the containers community.
 %-------- Section --------%
@@ -3945,7 +3956,7 @@ Polynomial substitution is one of the best known aspects of polynomial functors.
 
 \Opensolutionfile{solutions}[solution-file7]
 
-\index{substitution product|)}
+\index{composition product|)}
 
 %------------ Chapter ------------%
 \chapter{Polynomial comonoids and cofunctors}\label{ch.comon.sharp}
@@ -4635,7 +4646,7 @@ Still, it can be helpful to think of comonoids as having a \emph{coassociative} 
 \end{remark}
 
 \begin{remark}
-Comonoids in a functor category with respect to the substitution product are generally known as \emph{comonads}.
+Comonoids in a functor category with respect to the composition product are generally known as \emph{comonads}.
 So it would be a little more precise and familiar to refer to our polynomial comonoids as \emph{polynomial comonads}.
 But since we think of our polynomials more often in terms of positions and directions than as functors, we’ll favor the term comonoid over comonad.
 \end{remark}
@@ -6975,7 +6986,7 @@ This is actually a very natural categorical concept---we'll see some equivalent 
 
 Recall from \cref{ex.coalgebras} that for a set $S$, lenses $S\yon^S\to p$ correspond to functions $S\to p(S)$ known as coalgebras for the functor $p$.
 As a cofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S$ to $\car{c}$, it should correspond to a special kind of coalgebra $S\to\car{c}(S)$ for the functor $\car{c}$.
-Indeed, whenever $\car{c}$ carries a comonoid $\cat{C}$ with respect to the substitution product (i.e.\ a comonad), there is a special notion of a $\cat{C}$-coalgebra (i.e.\ a coalgebra for the comonad $\cat{C}$), as follows.
+Indeed, whenever $\car{c}$ carries a comonoid $\cat{C}$ with respect to the composition product (i.e.\ a comonad), there is a special notion of a $\cat{C}$-coalgebra (i.e.\ a coalgebra for the comonad $\cat{C}$), as follows.
 
 \begin{definition}[Coalgebra for a polynomial comonoid]\label{def.coalgebra}
 Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a polynomial comonoid.
@@ -7011,7 +7022,7 @@ A \emph{morphism} of $\cat{C}$-coalgebras $(S,\alpha)\to(T,\beta)$ is a function
 \]
 \end{definition}
 
-% Before we show the correspondence between cofunctors out of state categories and coalgebras, we first discuss how state categories arise formally from the theory of the substitution product.
+% Before we show the correspondence between cofunctors out of state categories and coalgebras, we first discuss how state categories arise formally from the theory of the composition product.
 
 % \begin{example}[State categories, formally]
 % Fix  $S\in\smset$.
@@ -7682,9 +7693,9 @@ Since $p\tripow1(\1)\iso p(\1)$ and $p\tripow0(\1)\iso\yon(\1)\iso\1$, the uniqu
 We can interpret this function as taking a corolla and ``stripping away'' its leaves along with the position-label on its root, leaving only a single unlabeled root: a stage-$0$ pretree.
 
 This deceptively simple function has a surprising amount of utility when combined with other maps.
-For any $n\in\nn$, we can take the substitution product in $\poly$ of the identity on $p\tripow{n}$ and $!$, interpreted as a lens between constant polynomials, to obtain a lens $p\tripow{n}\tri \:!\colon p\tripow{n}\tri p(\1)\to p\tripow{n}\tri\1$, or equivalently a function $p\tripow{n}(!)\colon p\tripow{n+1}(\1)\to p\tripow{n}(\1)$ from stage-$(n+1)$ pretrees to stage-$n$ pretrees on $p$.
+For any $n\in\nn$, we can take the composition product in $\poly$ of the identity on $p\tripow{n}$ and $!$, interpreted as a lens between constant polynomials, to obtain a lens $p\tripow{n}\tri \:!\colon p\tripow{n}\tri p(\1)\to p\tripow{n}\tri\1$, or equivalently a function $p\tripow{n}(!)\colon p\tripow{n+1}(\1)\to p\tripow{n}(\1)$ from stage-$(n+1)$ pretrees to stage-$n$ pretrees on $p$.
 
-We can deduce the behavior of this function on stage-$(n+1)$ pretrees from what we know about how the substitution product interacts with pretrees on $p$.
+We can deduce the behavior of this function on stage-$(n+1)$ pretrees from what we know about how the composition product interacts with pretrees on $p$.
 The identity lens on $p\tripow{n}$ keeps the lower $n$ levels of each $p\tripow{(n+1)}$-pretree intact, while $!$ will ``strip away'' the $p\tripow{(n+1)}$-pretree's height-$(n+1)$ leaves, along with all the position-labels on its height-$n$ vertices.
 Thus $p\tripow{n}(!)$ is the function sending every stage-$(n+1)$ pretree on $p$ to its stage-$n$ pretree, effectively \emph{trimming it down} a level.
 
@@ -8321,7 +8332,7 @@ How does $\delta_p$ behave in terms of $p$-trees?
 First, we characterize $\car{t}_p\tri\car{t}_p$ and its projections to each $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram}.
 Concretely, we know that a $\car{t}_p\tri\car{t}_p$-position is just a $p$-tree $T\in\tr_p$ along with a $p$-tree $U(v)\in\tr_p$ associated with every vertex $v\in\vtx(T)$.
 Then a direction at that position is a choice of vertex $v\in\vtx(T)$ and another vertex $w\in\vtx(U(v))$ of the $p$-tree $U(v)$ associated with $v$.
-Each projection from $\car{t}_p\tri\car{t}_p$ to $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram} is then the substitution product of the projections $\epsilon^{(\ell)}_p\colon\car{t}_p\to p\tripow\ell$ and $\epsilon^{(m)}_p\colon\car{t}_p\to p\tripow{m}$, which by \cref{ex.eps_n_polybox} we can draw in polyboxes like so:
+Each projection from $\car{t}_p\tri\car{t}_p$ to $p\tripow\ell\tri p\tripow{m}$ in \eqref{eqn.cofree_tri2_diagram} is then the composition product of the projections $\epsilon^{(\ell)}_p\colon\car{t}_p\to p\tripow\ell$ and $\epsilon^{(m)}_p\colon\car{t}_p\to p\tripow{m}$, which by \cref{ex.eps_n_polybox} we can draw in polyboxes like so:
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom, "$\car{t}_p$" below] (p) {$v$\at$T$};
@@ -8943,7 +8954,7 @@ Then by induction, the larger diagram
     \1 & p\tri\1 \ar[l] & p\tripow2\tri\1 \ar[l] & p\tripow3\tri\1 \ar[l] & \cdots \ar[l]
 \end{tikzcd}
 \end{equation}
-commutes as well: its leftmost rectangle is \eqref{eqn.phi_seed}, and taking the substitution product of each rectangle in \eqref{eqn.phi_expand} with the commutative rectangle
+commutes as well: its leftmost rectangle is \eqref{eqn.phi_seed}, and taking the composition product of each rectangle in \eqref{eqn.phi_expand} with the commutative rectangle
 \[
 \begin{tikzcd}[column sep=large]
     \car{c} \ar[d, "\varphi"'] \ar[r, equals] & \car{c} \ar[d, "\varphi"] \\
