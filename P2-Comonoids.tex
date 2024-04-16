@@ -329,7 +329,7 @@ Similarly, we could write down the instructions associated with any $n$-fold com
 We might think of such instructions as specifying some sort of length-$n$ \emph{strategy}, in the sense of game theory, for picking positions given any directions---except that the opponent is somehow abstract, having no positions of its own.
 
 \index{composition product!$n$-fold}
-\index{composition product!positions aas strategies}
+\index{composition product!positions as strategies}
 
 When we rewrite \eqref{eqn.composite_formula} \eqref{eqn.composite_formula_sums_first}, we are collapsing the instructions down into the following, highlighting the positions and directions of $p\tri q$.
 \begin{quote}
@@ -2821,6 +2821,8 @@ We'll focus on how $\tri$ interacts with other constructions on $\poly$ that we 
 
 It turns out that the composition product behaves well---albeit asymmetrically---with products and coproducts.
 
+\index{distributive law!coproducts over composition}\index{distributive law!products over composition}
+
 \begin{proposition}[Left distributivity of $\tri$ over $+$ and $\times$]\label{prop.left_dist_prod}
 Given a polynomial $r$, the functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism).
 That is, for any $p,q\in\poly$, we have the following natural isomorphisms:
@@ -2867,6 +2869,7 @@ So by \eqref{eqn.composite_formula}, we have that
 \end{align*}
 \end{solution}
 \end{exercise}
+\index{distributive law!products over composition}
 
 \begin{example}[Picturing the left distributivity of $\tri$ over $\times$]\label{ex.picturing_dist}
 We want an intuitive understanding of the left distributivity given by \eqref{eqn.comp_left_pres_times}.
@@ -3056,6 +3059,8 @@ So each tree in $(p\tri r)(q\tri r)$ is obtained by grafting $r$-corollas to eac
 But it doesn't matter if we graft $r$-corollas onto leaves first, or if we glue the roots of $p$- and $q$-corollas together first--the processes are equivalent.
 Hence the isomorphism $pq\tri r\iso(p\tri r)(q\tri r)$ holds.
 \end{example}
+
+\index{distributive law!coproducts over composition}
 
 \begin{exercise}\label{exc.picturing_dist}
 Follow \cref{ex.picturing_dist} with coproducts $(+)$ in place of products $(\times)$: use pictures to give an intuitive understanding of the left distributivity given by \eqref{eqn.comp_left_pres_plus}.
@@ -3311,10 +3316,15 @@ We'll see this in action after we discuss how $\tri$ preserves limits on the lef
 
 \subsection{Interaction with limits on the left} \label{subsec.comon.comp.prop.lim_left}
 
+\index{composition product!limits and}
+
 We saw in \cref{thm.poly_limits} that $\poly$ has all limits, and we saw in \cref{exc.refl_limits} that these limits coincide with limits in $\smset^\smset$.
 Hence the argument in the proof of \cref{prop.left_dist_prod} by appealing to \cref{prop.presheaf_lim_ptwise} can be generalized to arbitrary limits.
 It follows that $\tri$ preserves all limits on the left.
 But we will present a proof of this fact from an alternative perspective: by appealing to the left coclosure of $\tri$.
+
+\index{composition product!coclosure|(}
+\index{left Kan extension|see{composition product, coclosure}
 
 \begin{proposition}[Meyers] \label{prop.comp_left_coclosed}
 The composition product is left coclosed.
@@ -3407,7 +3417,7 @@ Here we show that this is indeed the case.
 \end{exercise}
 
 \begin{exercise}
-In personal communication, Todd Trimble noted that the left coclosure can be thought of as a left Kan extension
+In personal communication, Todd Trimble noted (the in-retrospect-obvious fact) that the left coclosure can be thought of as a left Kan extension
 \[
 \begin{tikzcd}
 	\smset\ar[r, "p"]\ar[d, "q"']\ar[dr, phantom, very near start, "\Downarrow"]&
@@ -3516,6 +3526,8 @@ On the other hand, we have already seen that viewing dynamical systems as lenses
 Plus, our adjunction lets us switch to the coalgebraic perspective whenever we see fit: $\poly$ lets us talk about both.
 \end{example}
 
+\index{composition product!coclosure|)}
+\index{composition product!limits and}
 
 \begin{proposition}[Left preservation of limits] \label{prop.left_pres_lim}
 The operation $\tri$ preserves limits on the left (up to natural isomorphism).
@@ -3554,14 +3566,20 @@ By \cref{prop.comp_left_coclosed}, the functor $(-\tri q)\colon\poly\to\poly$ is
 
 \subsection{Interaction with limits on the right} \label{subsec.comon.comp.prop.lim_right}
 
+\index{composition product!connected limits and}
+
 So $\tri$ preserves limits on the left.
 How about limits on the right?
 We saw in \cref{exc.right_not_dist_prod} that $\tri$ does not even preserve products on the right, so it certainly does not preserve all limits.
 But it turns out that there is a special class of limits that $\tri$ does preserve on the right.
 
+\index{limit!connected}\index{connected limit|see{limit, connected}}
+
 \begin{definition}[Connected limit]
 A \emph{connected limit} is one whose indexing category $\cat{J}$ is nonempty and connected. That is, $\cat{J}$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 \end{definition}
+
+\index{category!connected}\index{equalizer}\index{pullback}\index{directed limit}
 
 \begin{example}
 The following categories are connected:
@@ -3592,6 +3610,8 @@ For example, products in a slice category $\cat{C}/c$ are just pullbacks in $\ca
 By relating $\poly$ to its slice categories via an adjunction, we'll be able to show that $\tri$ preserves connected limits.
 (An alternative proof of this fact can be found in \cite[Proposition 1.16]{kock2012polynomial}.)
 %The claim for the right side comes down to the fact that polynomials are sums of representables; representable functors commute with all limits and sums commute with connected limits in $\smset$.
+
+\index{category!slice}
 
 Recall that objects in a slice category $\cat{C}/c$ are just morphisms with codomain $c$.
 For ease of notation, we'll often suppress the actual morphism and just write down the name of its domain when there is a canonical choice for the morphism, or when it is clear from context.
@@ -3735,7 +3755,7 @@ Here we show that this is indeed the case.
 \end{solution}
 \end{exercise}
 
-
+\index{composition product!connected limits and}
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ preserves connected limits on both sides.
@@ -3841,6 +3861,8 @@ Every on-directions function of every lens we found in this exercise are isomorp
 \end{solution}
 \end{exercise}
 
+\index{independence}
+
 \begin{example}[Lenses from $\otimes$ to $\tri$]
 For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
 Defining this lens in the usual way is rather tedious and unilluminating, but written in polyboxes, the lens looks like this (recall that positions of $p\otimes q$ are just pairs of positions of $p$ and $q$, while directions at each such pair are pairs of directions of $p$ and $q$, one at each position in the pair; we drop the parentheses around the ordered pair for readability):
@@ -3867,6 +3889,8 @@ In particular, $o_{p,q}$ commutes with associators and unitors.
 This can be used in the following way. Lenses $p\to q\tri r$ into composites are fairly easy to understand (through polyboxes, for example), whereas lenses $q\tri r\to p$ are not so easy to think about. However, given such a lens, one may always compose it with $o_{q,r}$ to obtain a lens $q\otimes r\to p$.
 This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
 \end{example}
+
+\index{duoidality}
 
 It turns out that the monoidal structures $\otimes$ and $\tri$ together satisfy an interesting property known as \emph{duoidality}.
 We won't give the entire definition of what it means for two monoidal structures to be duoidal here---there are a few commutative diagrams to verify for technical reasons---but the key condition is that there is a natural lens
@@ -3909,8 +3933,11 @@ We also need a direction of $q\tri q'$, which can be obtained analogously:
 
 \subsection{Interaction with vertical and cartesian lenses} \label{subsec.comon.comp.prop.cart}
 
+\index{lens!vertical}\lens{cartesian}
+
 We conclude this section by examining how $\tri$ interacts with vertical and cartesian lenses, as defined in \cref{def.vert_cart}.
 
+\index{composition product!cartesian lenses and}
 \begin{proposition}[Preservation of cartesian lenses]\label{prop.comp_pres_cart}
 If $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are cartesian lenses, then so is $\varphi\tri \psi\colon p\tri q \to p'\tri q'$.
 \end{proposition}
@@ -3927,6 +3954,8 @@ The square on the left is a pullback because $\varphi\colon p\to p'$ is cartesia
 Meanwhile, the square on the right is a pullback because $\psi\colon q\to q'$ is cartesian and $\tri$ preserves pullbacks by \cref{thm.connected_limits}.
 Hence the outer rectangle is a pullback as well, implying that $\varphi\tri \psi\colon p\tri q \to p'\tri q'$ is cartesian.
 \end{proof}
+
+\index{composition product!vertical lenses and}
 
 \begin{exercise}
 Let $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ be lenses.
