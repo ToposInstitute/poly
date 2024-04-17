@@ -3996,6 +3996,8 @@ Polynomial substitution is one of the best known aspects of polynomial functors.
 
 %------------ Chapter ------------%
 \chapter{Polynomial comonoids and cofunctors}\label{ch.comon.sharp}
+\index{polynomial comonoid|(}
+\index{polynomial comonad|see{polynomial comonoid}}
 
 \slogan{Imagine a realm where there are various positions you can be in. From every position, there are a number of moves you can make, possibly infinitely many. But whatever move you make, you'll end up in a new position. Well, technically it counts as a move to simply stay where you are, so you might end up in the same position. But wherever you move to, you can move again, and any number of moves from the original position counts as a single move. What sort of realm is this?}
 
@@ -4004,11 +4006,14 @@ In 2018, researchers Daniel Ahman and Tarmo Uustalu presented a characterization
 For us, this story will emerge naturally as we continue to expand our understanding of the humble state system of a dependent dynamical system.
 Let's go through it.
 
+
 %-------- Section --------%
 \section{State systems, categorically}\label{sec.comon.sharp.state}
 
 Since defining dependent dynamical systems in \cref{def.gen_moore}, we have evolved our understanding of their state systems over the course of the last few chapters.
 Let's take this moment to review what we know about these state systems so far.
+
+\index{state system}
 
 Our original definition of a state system was as a monomial $S\yon^S$ for some set $S$.
 But in \cref{ex.do_nothing}, we noted that this formulation requires us to discuss the positions and directions of a state system at the level of sets rather than in the language of $\poly$.
@@ -4031,6 +4036,8 @@ So the revised polyboxes for the do-nothing section $\epsilon\colon\car{s}\to\yo
     \draw (S_pos) to[climb'] node[right] {$\epsilon$} (S_dir);
 \end{tikzpicture}
 \end{equation}
+
+\index{section!do nothing}
 
 \begin{exercise}
 Say I have a polynomial $\car{s}\in\poly$, and I tell you that there is a lens $\epsilon\colon\car{s}\to\yon$.
@@ -4084,6 +4091,8 @@ It picks out one direction at each position, namely the one of the same color.
 
 
 There is not much else we can say about the do-nothing section on its own, so let us revisit the other lens that every state system is equipped with before considering the relationship between the two.
+
+\index{lens!transition}
 
 \subsection{The transition lens}\label{subsec.comon.sharp.state.trans}
 
@@ -4199,6 +4208,7 @@ If this all sounds suspiciously familiar to you, you're on the right track---han
 \end{example}
 
 \subsection{The do-nothing section coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
+
 
 For each state $s\in\car{s}(\1)$, the do-nothing section $\epsilon\colon\car{s}\to\yon$ picks out the $\car{s}[s]$-direction $\id_s$ that ``does nothing'' and keeps the system in the same state $s$.
 But it is the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ that actually sets our state system in motion, specifying the target of each direction and how two directions run together.
@@ -4352,6 +4362,8 @@ We can combine this with our previous commutative diagram to say that the relati
 \end{equation}
 
 \subsection{The transition lens is coassociative}\label{subsec.comon.sharp.state.coassoc}
+\index{coassociativity}\index{lens!transition}\index{state system}
+
 
 Toward the end of \cref{ex.dyn_sys_trans_polyboxes}, we noted that while the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ gives us a canonical way to model two steps of a dynamical system with state system $\car{s}$, we have a choice of how to model three steps through the same system: we could obtain a lens $\car{s}\to\car{s}\tripow3$ that runs three directions together by taking either one of the composite lenses $\delta\then(\delta\tri\car{s})$ or $\delta\then(\car{s}\tri\delta)$.
 That presents a problem for us: which one should we choose?
@@ -4434,6 +4446,7 @@ Setting these equal yields our desired associativity equation:
 \]
 \end{solution}
 \end{exercise}
+\index{associativity}
 
 This associative property is what we get by matching up the white direction boxes on each domain side, but there are three more white position boxes on each codomain side that we can match up as well.
 The fact that the lower two of these pairs coincide is a consequence of the fact that the bottom arrow of $\delta$ is the identity, which we already knew from \cref{subsec.comon.sharp.state.cohere}; so we don't learn anything new there.
@@ -4466,6 +4479,8 @@ Armed with this new lens, we can model three steps through a system $\varphi\col
 \[
     \car{s}\To{\delta^{(3)}}\car{s}\tripow3\To{\varphi\tripow3}p\tripow3.
 \]
+
+\index{coassociativity}
 
 In fact, coassociativity guarantees that $\delta$ induces a canonical lens $\delta^{(n)}\colon\car{s}\to\car{s}\tripow{n}$ for every integer $n\geq2$, starting with $\delta^{(2)}\coloneqq\delta$.%
 \footnote{Perhaps this notation seems a little unnatural, but it helps to think of the original $\delta\colon\car{s}\to\car{s}\tri\car{s}$ as the $n=2$ case of a generalized transition lens modeling $n$ steps through the state system.}
@@ -4528,6 +4543,8 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 \end{exercise}
 
 \subsection{Running dynamical systems}\label{subsec.comon.sharp.state.run}
+
+\index{dynamical system!running}
 
 Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
 Given a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\varphi)$, with the same state system $\car{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\varphi)\coloneqq\delta^{(n)}\then\varphi\tripow{n}$.
@@ -4637,8 +4654,11 @@ Is there a way to package all this information into a single morphism that can m
 We will answer this question in \cref{ch.comon.cofree}; but for now, let us investigate what's really going on with our state systems algebraically.
 
 \subsection{State systems as comonoids}
+\index{state system!comonoid as}
 
 It turns out that objects equipped with morphisms like those in \cref{subsec.comon.sharp.state.nothing,subsec.comon.sharp.state.trans} that satisfy the commutative diagrams from \cref{subsec.comon.sharp.state.cohere,subsec.comon.sharp.state.coassoc} are well-known to category theorists.
+
+\index{comonoid!definition}
 
 \begin{definition}[Comonoid]\label{def.comonoid}
 In a monoidal category $(\Cat{C},\yon,\tri)$, a \emph{comonoid} $\com{C}\coloneqq(\car{c},\epsilon,\delta)$ consists of
@@ -4669,6 +4689,10 @@ We may also say that the eraser and duplicator morphisms comprise a \emph{comono
 
 We refer to a comonoid $\com{C}$ in $(\poly,\yon,\tri)$ as a \emph{polynomial comonoid}.
 \end{definition}
+\index{eraser|see{comonoid, counit of}}
+\index{duplicator|see{comonoid, comultiplication of}}
+\index{comonoid!counit of}
+\index{comonoid!comultiplication of}}
 
 \begin{remark}
 The concept of a \emph{comonoid} in a monoidal category is dual to that of a \emph{monoid}, which may be more familiar.
@@ -4676,10 +4700,14 @@ Monoids come with \emph{unit} and \emph{multiplication} morphisms that point the
 (We'll talk more about monoids in $\smset$ in \cref{ex.monoids}.)
 Prepending `co-' to each term yields the corresponding terms for comonoids.
 
+\index{monoid!unit of}\index{monoid!multiplication of}
+
 The alternative names \emph{eraser} for the \emph{counit} and \emph{duplicator} for the \emph{comultiplication} are less standard, but we will favor them to avoid confusion between the counit of a \emph{comonoid} and the counit of an \emph{adjunction}---and so that their names match up with the Greek letters $\epsilon$ and $\delta$ that we will so often use to label them.
 The word ``duplicator'' comes from the fact that $\delta\colon\car{c}\to\car{c}\tri\car{c}$ effectively turns one $\car{c}$ into two, while the ``eraser'' $\epsilon\colon\car{c}\to\yon$ erases the $\car{c}$ altogether, leaving only the monoidal unit $\yon$.
 Still, it can be helpful to think of comonoids as having a \emph{coassociative} comultiplication along with a counit satisfying \emph{left and right counit laws}.
 \end{remark}
+
+\index{comonad|see{polynomial comonoid}}
 
 \begin{remark}
 Comonoids in a functor category with respect to the composition product are generally known as \emph{comonads}.
@@ -4687,6 +4715,7 @@ So it would be a little more precise and familiar to refer to our polynomial com
 But since we think of our polynomials more often in terms of positions and directions than as functors, we’ll favor the term comonoid over comonad.
 \end{remark}
 
+\index{state system!as comonoid}
 \begin{example}[State systems are polynomial comonoids]
 Nearly all our work on state systems up until now can be summarized thusly:
 \slogan{
@@ -4740,6 +4769,8 @@ We complete the proof of \cref{prop.n_duplication}, where we are given a comonoi
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{polynomial comonoid}
 
 \begin{example}[Not all polynomial comonoids are state systems] \label{ex.not_all_com_state}
 At this point, a natural question to ask is whether everything we know about a state system $\car{s}$ is captured by the fact that state systems are polynomial comonoids.
@@ -5031,6 +5062,8 @@ Verify that $(\car{a},\epsilon,\delta)$ as defined in \cref{ex.walking_arrow_com
 We will eventually see that comonoids in $\poly$ are categories; this gives us intuition for what is going on here. In fact the category corresponding to the comonoid in this exercise is the walking arrow, depicted in \eqref{eqn.walking_arrow_bent_cor}. The erasure (counit) laws are verified by looking at the picture of $\delta$ in \eqref{eqn.my_comonoid_delta} and noting that it sends the double (do-nothing) lines (the identities) back to the double lines.
 \end{solution}
 \end{exercise}
+
+\index{linear polynomial!comonoid structure on}
 
 \begin{exercise}\label{exc.linear_poly_comon}
 Show that if $B$ is a set, then there exists a unique comonoid structure on the linear polynomial $B\yon$.
@@ -7522,6 +7555,7 @@ We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors bu
 
 \Opensolutionfile{solutions}[solution-file8]
 
+
 %------------ Chapter ------------%
 \chapter{Categorical properties of polynomial comonoids} \label{ch.comon.cofree}
 
@@ -9647,6 +9681,7 @@ Then the result follows from \cite[Fact~3.4]{porst2019colimits}.
 \end{proof}
 
 
+
 %-------- Section --------%
 \subsection{Parallel product comonoids}
 
@@ -10502,6 +10537,7 @@ We then briefly discussed some other properties of $\smcat^\sharp$ including a f
 
 We then moved on to left-, right-, and bicomodules between polynomial comonoids. In particular, we showed that left $\cat{C}$-comodules can be identified with functors $\cat{C}\to\poly$, and that $(\cat{C},\cat{D})$-bicomodules correspond to parametric right adjoint functors (prafunctors) $\smset^\cat{D}\to\smset^\cat{C}$. This idea was due to Richard Garner; it is currently unpublished, but can be found in video form here: \url{https://www.youtube.com/watch?v=tW6HYnqn6eI}. What we call prafunctors are sometimes called familial functors between (co-)presheaf categories; see \cite{weber2007theory}, \cite{garner2018shapely}, and \cite{shapiro2021familial} for more on this notion.
 
+\index{polynomial comonoid|)}
 
 
 %-------- Section --------%
