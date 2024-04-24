@@ -2250,6 +2250,7 @@ Then for every option that $q_2$ may choose, there is a menu for $q_3$ to choose
 Together, all the options that $q_1,\ldots,q_n$ chose then inform the option that $p$ should select from its original menu.
 
 \index{decision!multi-step}\index{menu}
+\index{polybox}
 
 \slogan{A lens $p\to q_1\tri\cdots\tri q_n$ is a multi-step policy for $p$ to make decisions by asking for decisions from $q_1$, then $q_2$, etc., all the way to $q_n$, then interpreting the results.}
 
@@ -2429,6 +2430,8 @@ Polyboxes display the same data in a different format:
 \]
 As before, keep in mind that each arrow of a lens depends not only on the box it emerges from, but also on every box that came before it in our usual reading order (lower left to lower right to upper right to upper left).
 
+\index{polybox}
+
 The third set of polyboxes, where the left blue box has been filled with an $A$ and the lower right blue box has been filled with a $V$, is worth highlighting: as $\varphi^r_A(V)=F$, but $r[F]=\varnothing$, it is impossible to write a direction of $r$ at $F$ to go in the upper right box.
 To indicate this, we color the upper right box red and leave the arrow emerging from it dashsed.
 \end{example}
@@ -2493,6 +2496,7 @@ Given the current state $s\in S$, the system feeds it into $\varphi^q$ to return
 Upon receiving an input $b\in q[j]$, it then uses $\varphi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
 Once a second input $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of inputs $(b,c)$ it received into $\varphi^\sharp$, yielding a new state $t\in S$.
 
+
 That's a lot of words, which is why the polybox picture is so helpful: by following the arrows, we can see that a dynamical system with a composite interface actually captures a very natural type of interaction!
 Mixing our metaphors a little, $\varphi$ could model a system that displays cascading menus, where selecting an option $b$ on the first menu $j$ opens up a second menu $k$.
 It is only when the interacting agent selects an option $c$ from this second menu that both choices are sent back to the state system, which updates its state accordingly.
@@ -2502,6 +2506,7 @@ All this generalizes to $n$-fold composite interfaces exactly how you'd expect: 
 
 
 \subsection{The composition product of lenses as polyboxes}
+
 
 A special case of a lens whose codomain is a composite is a lens that is itself the composition product of lenses.
 If we draw such a lens using polyboxes by following the instructions from \eqref{eqn.comp_lens_pos} and \eqref{eqn.comp_lens_dir}, we would really just be stacking the polyboxes for the constituent lenses on top of each other.
@@ -3340,6 +3345,8 @@ In particular, the left coclosure operation sends $q,p\in\poly$ to
 \begin{proof}
 We present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_left_coclosed_calc}.
 
+\index{polybox}
+
 As in \cref{ex.map_to_comp}, a lens $\varphi\colon p\to r\tri q$ can be written as follows:
 \[
 \begin{tikzpicture}[polybox, mapstos]
@@ -3629,6 +3636,8 @@ where
 \begin{proof}
 Again, we present an argument using polyboxes; we leave it to the reader to write this proof in more standard mathematical notation in \cref{exc.comp_right_slice_coclosed_calc}.
 
+\index{polybox}
+
 Note that to consider $q\tri r$ as an object in $\poly/(q\tri\1)$, we are implicitly using the lens $q\:\tri\:!\colon q\tri r\to q\tri 1$. By definition, morphisms from $f$ to $q\:\tri\:!$ in $\poly/(q\tri\1)$ are lenses $\varphi\colon p\to q\tri r$ for which $\varphi\then(q\:\tri\:!)=f$.
 We can write this equation using polyboxes:
 \[
@@ -3860,7 +3869,7 @@ Every on-directions function of every lens we found in this exercise are isomorp
 \end{solution}
 \end{exercise}
 
-\index{independence}
+\index{independence}\index{polybox}
 
 \begin{example}[Lenses from $\otimes$ to $\tri$]
 For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
@@ -4095,6 +4104,8 @@ There is not much else we can say about the do-nothing section on its own, so le
 
 \subsection{The transition lens}\label{subsec.comon.sharp.state.trans}
 
+\index{polybox}
+
 We saw in \cref{ex.dyn_sys_trans_polyboxes} that $\car{s}$ also comes equipped with a \emph{transition lens}: a lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$, which we can draw as
 \[
 \begin{tikzpicture}[polybox, mapstos]
@@ -4212,6 +4223,8 @@ If this all sounds suspiciously familiar to you, you're on the right track---han
 For each state $s\in\car{s}(\1)$, the do-nothing section $\epsilon\colon\car{s}\to\yon$ picks out the $\car{s}[s]$-direction $\id_s$ that ``does nothing'' and keeps the system in the same state $s$.
 But it is the transition lens $\delta\colon\car{s}\to\car{s}\tri\car{s}$ that actually sets our state system in motion, specifying the target of each direction and how two directions run together.
 Either of these directions could be our do-nothing direction $\id_s$, so let's try to figure out what should happen when we set each one in turn to $\id_s$.
+
+\index{polybox}
 
 We can draw in polyboxes what happens when we set $\id_s$, as specified by $\epsilon$, to be the first direction that $\delta$ runs together like this:
 \[
@@ -4412,7 +4425,7 @@ If we write out the two composite lenses in polyboxes, with $\delta\then(\delta\
     };
 	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
-\end{equation}
+\end{equation}\index{polybox}
 Remember: the way to read these polyboxes is to start at the lower blue square on the left and follow the path counter clockwise around the diagram; and if you reach a box with no arrows leading out of it, go up to the blue box above it and continue to follow the arrows from there.
 
 There's a lot going on here, so let's break it down---we'll focus on the run functions first.
@@ -4989,7 +5002,7 @@ Here's what that looks like:
 \end{equation}
 And that's all we need to specify the triple $(\car{a},\epsilon,\delta)$.
 
-Here are $\epsilon\colon\car{a}\to\yon$ and $\delta\colon\car{a}\to\car{a}\tri\car{a}$ again, in terms of polyboxes.
+Here are $\epsilon\colon\car{a}\to\yon$ and $\delta\colon\car{a}\to\car{a}\tri\car{a}$ again, in terms of polyboxes.\index{polybox}
 \[
 \begin{tikzpicture}
 	\node (p1) {
@@ -5357,7 +5370,7 @@ As with the right erasure law, we can partially fill in the polyboxes for the le
 So the left erasure law on positions guarantees that $\cod\id_i=i$ for all $i\in\Ob\cat{C}$.
 It makes sense that we would find this here: the eraser assigns identities, while the duplicator assigns codomains, so a statement about codomains of identities is a coherence condition between the eraser and the duplicator.
 
-\subsubsection{The erasure laws on directions are the identity laws}
+\subsubsection{The erasure laws on directions are the identity laws}\index{polybox}
 
 Let us finish filling in the polyboxes for the left and right erasure laws to see what they have to say on directions.
 In the picture below, the left equality depicts the left erasure law (to conserve space, we'll substitute $i$ for $\cod\id_i$ on the left, which we now know we can do), while the right equality depicts the right erasure law:
@@ -5408,7 +5421,7 @@ But these are precisely the identity laws of the category $\cat{C}$.
 \subsubsection{The coassociative law on positions: codomains of composites}
 
 It remains to consider the comonoid's coassociative law \eqref{eqn.coassoc_law}, $\delta\then(\delta\tri\car{s})=\delta\then(\car{s}\tri\delta)$.
-To read what it says on positions, we draw the polyboxes and fill them in, stopping just short of the uppermost direction box of the codomain:
+To read what it says on positions, we draw the polyboxes and fill them in, stopping just short of the uppermost direction box of the codomain:\index{polybox}
 \[
 \begin{tikzpicture}
     \node (p1) {
@@ -5461,7 +5474,7 @@ Hence composites are assigned the proper codomains.
 
 \subsubsection{The coassociative law on directions is the associative law of composition}
 
-Finally, let us fill in the remaining polyboxes for the coassociative law (we'll substitute $\cod g$ for $\cod(f\then g)$ on the left, which we now know we can do):
+Finally, let us fill in the remaining polyboxes for the coassociative law (we'll substitute $\cod g$ for $\cod(f\then g)$ on the left, which we now know we can do):\index{polybox}
 \[
 \begin{tikzpicture}
     \node (p1) {
@@ -6254,10 +6267,12 @@ satisfying the following conditions, collectively known as the \emph{cofunctor l
 	\end{equation}
 	for each $c\in\Ob\cat{C}, g\in\cat{C'}[Fc],$ and $h\in\cat{C'}[\cod g]$.
 \end{enumerate}
-We let $\smcat^\sharp\iso\comon(\poly)$ denote the category of (small) categories and cofunctors.
+We let $\catsharp\iso\comon(\poly)$ denote the category of (small) categories and cofunctors.
 \end{definition}
 
-Henceforth we will identify the category $\smcat^\sharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
+\index{$\catsharp$}\index{comonoids|seealso{$\catsharp$}}
+
+Henceforth we will identify the category $\catsharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
 
 Since each cofunctor includes a lens between its carrier polynomials, cofunctors compose the way lenses do.
 
@@ -6271,7 +6286,7 @@ Let $\cat{C},\cat{D},\cat{E}$ be categories, and let $F\colon\cat{C}\cof\cat{D}$
     Where does it send each object and morphism?\qedhere
 \end{enumerate}
 \begin{solution}
-Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are cofunctors in $\smcat^\sharp$.
+Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are cofunctors in $\catsharp$.
 \begin{enumerate}
     \item The identity cofunctor $\id_\cat{D}$ on $\cat{D}$ should correspond to the identity lens on the carrier of $\cat{D}$, which is the identity on both positions (objects) and directions (morphisms).
     So $\id_\cat{D}$ sends each object $d\in\Ob\cat{D}$ to itself, while $\left(\id_\cat{D}\right)^\sharp_d\colon\cat{D}[d]\to\cat{D}[d]$ sends each morphism out of $d$ to itself as well.
@@ -6325,7 +6340,8 @@ Hence $F^\sharp_c g$ and $F^\sharp_{c'}\left(g^{-1}\right)$ are inverses, and th
 \end{proof}
 
 
-Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\smcat^\sharp$.
+Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\catsharp$.
+\index{$\catsharp$!isomorphisms in}
 
 \index{cofunctor!isomorphism}
 
@@ -6333,18 +6349,18 @@ Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\smcat^\sharp$
 We've justified the ``isomorphism-preserving'' part of \cref{thm.ahman_uustalu} implicitly, but let's make it explicit.
 
 Recall that two categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if there exist functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$ that are mutually inverse, i.e.\ $F\then G$ and $G\then F$ are identity functors on $\cat{C}$ and $\cat{D}$.
-Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$ if there exist cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity cofunctors on $\cat{C}$ and $\cat{D}$.
-Show that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\smcat^\sharp$.
+Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$ if there exist cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity cofunctors on $\cat{C}$ and $\cat{D}$.
+Show that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\catsharp$.
 \begin{solution}
-We want to show that categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\smcat^\sharp$.
+We want to show that categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\catsharp$.
 First, assume that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$, so that there exist mutually inverse functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$.
 Then we can define a cofunctor $H\colon\cat{C}\cof\cat{D}$ such that for each $c\in\cat{C}$ we have $Hc\coloneqq Fc\in\cat{D}$, and for each $g\in\cat{D}[Fc]$ we have $H^\sharp_c g\coloneqq Gg\in\cat{C}[GFc]=\cat{C}[c]$.
 We can verify that $H$ really is a cofunctor: it preserves identities and composition because $G$ does, and it preserves codomains because $H\cod H^\sharp_c g=F\cod Gg=FG\cod g=\cod g$.
 Analogously, we can define a cofunctor $K\colon\cat{D}\cof\cat{C}$ with $Kd\coloneqq Gd$ and $K^\sharp_d f\coloneqq Ff$ for each $d\in\cat{D}$ and $f\in\cat{C}[Gd]$.
 Then $H\then K$ is equal to $F\then G$ both on objects and on morphisms, so it is the identity cofunctor on $\cat{C}$; analogously, $K\then H$ is the identity cofunctor on $\cat{D}$.
-Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$.
+Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$.
 
-Conversely, assume $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat^\sharp$, so that there exist mutually inverse cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$.
+Conversely, assume $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$, so that there exist mutually inverse cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$.
 Given objects $c,c'$ and a morphism $f\colon c\to c'$ in $\cat{C}$, we have that $KHc=c$, so $K^\sharp_{Hc}$ is a function $\cat{C}[c]\to\cat{D}[Hc]$.
 In particular, $K^\sharp_{Hc}f$ is a morphism in $\cat{D}$ whose domain is $Hc$ and whose codomain satisfies $K\cod K^\sharp_{Hc}f=\cod f=c'$, and thus $\cod K^\sharp_{Hc}f=Hc'$.
 Hence we can define a functor $F\colon\cat{C}\to\cat{D}$ such that for each $c\in\cat{C}$ we have $Fc\coloneqq Hc\in\cat{D}$, and for each morphism $f\colon c\to c'$ in $\cat{C}$ we have $Ff\coloneqq K^\sharp_{Hc}f\colon Hc\to Hc'$.
@@ -6356,7 +6372,7 @@ Analogously, $G\then F$ is the identity functor on $\cat{D}$.
 Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
 \end{exercise}
-But while isomorphisms in $\smcat^\sharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
+But while isomorphisms in $\catsharp$ are the same as those in $\smcat$, the non-isomorphisms can be very different.
 We'll see this in the examples to come.
 
 %---- Subsection ----%
@@ -6396,7 +6412,7 @@ We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\
 \begin{exercise}\label{exc.yon_comonoid}
 \begin{enumerate}
 	\item Show that $\yon$ has a unique comonoid structure.
-	\item Show that $\yon$ with its comonoid structure is terminal in $\smcat^\sharp$.
+	\item Show that $\yon$ with its comonoid structure is terminal in $\catsharp$.
 	\item Explain why $\yon$ is terminal using the language of states and transitions.
 \qedhere
 \end{enumerate}
@@ -6680,7 +6696,7 @@ There are $2$ choices of morphisms emanating from the object on the left, and $1
 % Show that arrow fields can be composed
 % maybe just bring all the arrow field stuff up here!
 
-We will see later in \cref{prop.traj_mon_poly} that the arrow fields on a category form a monoid, and that this operation $\smcat^\sharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
+We will see later in \cref{prop.traj_mon_poly} that the arrow fields on a category form a monoid, and that this operation $\catsharp\to\Cat{Mon}\op$ is functorial and in fact an adjoint.
 
 \begin{exercise}
 Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$, and let $\yon^\nn$ be the monoid of natural numbers $(\nn,0,+)$ viewed as a $1$-object category as above.
@@ -6750,7 +6766,7 @@ This works!
 \end{exercise}
 
 \begin{proposition}\label{prop.monoids_ff}
-There is a fully faithful functor $\Cat{Mon}\op\to\smcat^\sharp$, whose image consists of all categories whose carriers are representable.
+There is a fully faithful functor $\Cat{Mon}\op\to\catsharp$, whose image consists of all categories whose carriers are representable.
 \end{proposition}
 \begin{proof}
 Given a monoid $(M,e,*)$, we think of it as a category with one object; its carrier $\yon^M$ is representable. A cofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Cofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
@@ -6759,9 +6775,9 @@ Given a monoid $(M,e,*)$, we think of it as a category with one object; its carr
 \begin{proposition}
 There is an adjunction
 \[
-\smcat^\sharp(\cat{C},A\yon)\cong\smset(\Ob\cat{C},A)
+\catsharp(\cat{C},A\yon)\cong\smset(\Ob\cat{C},A)
 \]
-for $\cat{C}\in\smcat^\sharp$ and $A\in\smset$.
+for $\cat{C}\in\catsharp$ and $A\in\smset$.
 \end{proposition}
 \begin{proof}
 In the solution to \cref{exc.linear_poly_cat}, we saw that a category is discrete iff its carrier is a linear polynomial: this occurs when the only arrow emanating from each object is its identity. Thus $A\yon$ corresponds to a discrete category. A cofunctor from any category to a discrete category needs to say what happens on objects, but the rest of the data is determined because identities need to be sent back to identities. This is the content of the proposition.
@@ -7016,7 +7032,7 @@ We'll revisit cofunctors from state categories in \cref{sec.comon.sharp.cof.from
 \subsubsection{Other cofunctors}
 
 
-\begin{example}[Objects aren't representable in $\smcat^\sharp$]\label{ex.rep_objects}
+\begin{example}[Objects aren't representable in $\catsharp$]\label{ex.rep_objects}
 In the world of categories and the usual functors between them, the terminal category $\cat{T}\coloneqq\fbox{$\bullet$}$ with one object and one morphism \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ naturally correspond to objects in $\cat{C}$.
 
 Unfortunately, the same cannot be said for cofunctors: we'll see in \cref{exc.rep_objects} that there does not exist a fixed category $\cat{U}$ for which cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$ for every category $\cat{C}$.
@@ -7030,7 +7046,7 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 	\item Show that for any category $\cat{U}$, cofunctors $\cat{U}\cof\2\yon$ are in bijection with the set $\2^{\Ob\cat{U}}$.
 	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if cofunctors $\cat{U}\cof\cat{C}$ are always in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
 	\item Now use a different category $\cat{D}$ to show that if cofunctors $\cat{U}\cof\cat{D}$ are in bijection with objects in $\cat{D}$, then $\cat{U}$ must have more than one object.
-	Conclude that objects are not reprsentable in $\smcat^\sharp$ the way they are in $\smcat$.
+	Conclude that objects are not reprsentable in $\catsharp$ the way they are in $\smcat$.
 	\item Is there a fixed category $\cat{V}$ for which cofunctors $\cat{E}\cof\cat{V}$ are in bijection with objects in $\cat{E}$ for every category $\cat{E}$?
 	If there is, find it; if there isn't, prove there isn't.
 \qedhere
@@ -7039,7 +7055,7 @@ We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid struc
 \begin{enumerate}
     \item Every object in $\cat{U}$ must be labeled with either 1 or 2, but there are no other requirements.
     \item If cofunctors $\cat{U}\to\cat{C}$ are always in bijection with objects in $\cat{C}$, then with $\cat{C}=\2\yon$, we have a bijection $\2\cong\2^{\Ob(\cat{U})}$ by part 1, so $\cat{U}$ has one object.
-    \item Take $\cat{D}$ to be the walking arrow. Then if $\cat{U}$ has only one object, it cannot be sent to the source object of $\cat{D}$ because the emanating morphism would have nowhere to go. Hence the unique object of $\cat{U}$ must be sent to the target object of $\cat{D}$. But there is only one such cofunctor, whereas there are two objects in $\cat{D}$. We conclude that objects are not reprsentable in $\smcat^\sharp$ the way they are in $\smcat$.
+    \item Take $\cat{D}$ to be the walking arrow. Then if $\cat{U}$ has only one object, it cannot be sent to the source object of $\cat{D}$ because the emanating morphism would have nowhere to go. Hence the unique object of $\cat{U}$ must be sent to the target object of $\cat{D}$. But there is only one such cofunctor, whereas there are two objects in $\cat{D}$. We conclude that objects are not reprsentable in $\catsharp$ the way they are in $\smcat$.
     \item No, there is no such $\cat{V}$. There is exactly one cofunctor $0\cof\cat{V}$, but there are no objects of $0$.
 \end{enumerate}
 \end{solution}
@@ -7070,7 +7086,7 @@ There are two: one of which sends $s\mapsto u$ and $t\mapsto v$ and the other of
 \begin{enumerate}
 	\item For any category $\cat{C}$ with carrier $\car{c}$, find a category with carrier $\car{c}\yon$.
 	\item Show that your construction is functorial; i.e.\ assign each cofunctor $\cat{C}\cof\cat{D}$ a cofunctor $\car{c}\yon\cof\car{d}\yon$ in a way that preserves identities and composites.
-	\item Is your functor a monad on $\smcat^\sharp$, a comonad on $\smcat^\sharp$, both, or neither?
+	\item Is your functor a monad on $\catsharp$, a comonad on $\catsharp$, both, or neither?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -7100,7 +7116,7 @@ Suppose $\car{c},\car{d},\car{e}$ are polynomials, each with a comonoid structur
 \end{solution}
 \end{exercise}
 
-In the next chapter, we will delve deeper into the categorical structure and properties of $\smcat^\sharp$.
+In the next chapter, we will delve deeper into the categorical structure and properties of $\catsharp$.
 We'll encounter many more categories and cofunctors along the way.
 But first, we'll conclude this chapter with several alternative characterizations of cofunctors out of state categories.
 
@@ -7222,7 +7238,7 @@ Meanwhile, the corresponding function $\varphi\colon S\to\car{c}\tri S$, equival
 
 Then it suffices to show that $\Phi$ satisfies the cofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.
 We can verify this using polyboxes.
-From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state the following (remember that the arrow in the eraser for the state category $S\yon^S$ is just an equality):
+From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state the following (remember that the arrow in the eraser for the state category $S\yon^S$ is just an equality):\index{polybox}\index{state category}
 \[
 \begin{tikzpicture}
 	\node (id1) {
@@ -7356,7 +7372,7 @@ Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can b
 	\node at ($(p1.south)!.5!(p2.north)$) {$=$};
 \end{tikzpicture}
 \]
-But these polybox equations are equivalent as well.
+But these polybox equations are equivalent as well.\index{polybox}
 Hence the cofunctor laws for $\Phi$ are equivalent to the coalgebra laws for $\varphi$.
 \end{proof}
 
@@ -7609,7 +7625,7 @@ In the next chapter, we will discover even more characterizations of the same da
 
 In this chapter we began by showing that for every set $S$, the thing that makes a dynamical system like $S\yon^S\to p$ actually run is the fact that $S\yon^S$ has the structure of a comonoid.  We then explained Ahman-and-Uustalu's result that comonoids, i.e.\ polynomials $p$, equipped with a pair of lenses $\epsilon\colon p\to\yon$ and $\delta\colon p\to p\tri p$, are exactly categories \cite{ahman2016directed}. We explained how $\epsilon$ picks out an identity for each object and how $\delta$ picks out a codomain for each morphism and a composite for each composable pair of morphisms. In particular we showed that the category corresponding to $S\yon^S$ is the \emph{contractible groupoid on $S$}, i.e.\ the category with $S$-many objects and a unique morphism between any two.
 
-We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors but \emph{cofunctors}: they map forwards on objects and backwards on morphisms. Cofunctors were first defined by Marcelo Aguiar \cite{aguiar1997internal}, though his definition was opposite to ours. Cofunctors are the morphisms of a category we notate as $\smcat^\sharp$. We showed that cofunctors between state categories $S\yon^S\cof T\yon^T$ are what are known in the functional programming community as \emph{very well-behaved lenses}. For more on lenses, see \cite{nlab2022lens}.
+We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors but \emph{cofunctors}: they map forwards on objects and backwards on morphisms. Cofunctors were first defined by Marcelo Aguiar \cite{aguiar1997internal}, though his definition was opposite to ours. Cofunctors are the morphisms of a category we notate as $\catsharp$. We showed that cofunctors between state categories $S\yon^S\cof T\yon^T$ are what are known in the functional programming community as \emph{very well-behaved lenses}. For more on lenses, see \cite{nlab2022lens}.
 
 \index{cofunctor!Aguiar's definition}
 
@@ -7626,15 +7642,20 @@ We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors bu
 %------------ Chapter ------------%
 \chapter{Categorical properties of polynomial comonoids} \label{ch.comon.cofree}
 
-While we defined the category $\smcat^\sharp$ of categories and cofunctors in the last chapter, we have only begun to scratch the surface of the properties it satisfies.
-As the category of comonoids in $\poly$, equipped with a canonical forgetful functor $U\colon\smcat^\sharp\to\poly$ sending each polynomial to its carrier, $\smcat^\sharp$ inherits many of the categorical properties satisfied by $\poly$.
-Underpinning this inheritance is the fact that $U$ has a right adjoint, a cofree functor $\poly\to\smcat^\sharp$.
+While we defined the category $\catsharp$ of categories and cofunctors in the last chapter, we have only begun to scratch the surface of the properties it satisfies.
+As the category of comonoids in $\poly$, equipped with a canonical forgetful functor $U\colon\catsharp\to\poly$ sending each polynomial to its carrier, $\catsharp$ inherits many of the categorical properties satisfied by $\poly$.
+Underpinning this inheritance is the fact that $U$ has a right adjoint, a cofree functor $\poly\to\catsharp$.
 We will introduce this adjunction in the first section of this chapter.
-Then we will discuss how many of the categorical properties of $\poly$, including much of what we covered in \cref{ch.poly.bonus}, play nicely with restriction to $\smcat^\sharp$.
+Then we will discuss how many of the categorical properties of $\poly$, including much of what we covered in \cref{ch.poly.bonus}, play nicely with restriction to $\catsharp$.
 Finally, we will touch on other constructions we can make over the comonoids in $\poly$, such as their comodules and coalgebras.
+
+\index{$\catsharp$!categorical properties of|(}
 
 %-------- Section --------%
 \section{Cofree comonoids} \label{sec.comon.cofree.cons}
+
+\index{comonoid!cofree|see{cofree comonoid}}
+\index{cofree comonoid|(}
 
 Consider a dynamical system $\varphi\colon\car{s}\to p$ with state system $\car{s}$ and interface $p$.
 In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there was a single morphism that could capture all the information encoded by the family of lenses $\text{Run}_n(\varphi)\colon\car{s}\to p\tripow{n}$ for all $n\in\nn$, defined as the composite
@@ -7647,7 +7668,7 @@ It turns out that there is: the key is that there is a natural way to interpret 
 In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid} (or \emph{cofree category}) \emph{on $p$}.
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 
-We'll go through the construction of the cofree comonoid and its implications in this section, featuring a purely formal proof of the fact the forgetful functor $U\colon\smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, where for each $p\in\poly$, the carrier $\car{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ is given by the limit of the following diagram:
+We'll go through the construction of the cofree comonoid and its implications in this section, featuring a purely formal proof of the fact the forgetful functor $U\colon\catsharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\catsharp$, where for each $p\in\poly$, the carrier $\car{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ is given by the limit of the following diagram:
 \begin{equation} \label{eqn.cofree_diagram}
 \begin{tikzcd}
 	\yon \ar[d] &
@@ -7668,11 +7689,15 @@ But first, let us concretely characterize the canonical comonoid structure on th
 %---- Subsection ----%
 \subsection{The carrier of the cofree comonoid} \label{subsec.comon.cofree.cons.car}
 
+\index{cofree comonoid!carrier of|(}
+
 Let $\car{t}_p$ be the limit of the diagram \eqref{eqn.cofree_diagram} in $\poly$; it will turn out to be the carrier of the cofree comonoid on $p$ (where $p$ will be an arbitrary polynomial throughout).
 We could compute this limit directly, but we will be able to describe it more concretely in terms of what we call \emph{trees on $p$} or \emph{$p$-trees}: trees comprised of $p$-corollas.
 In doing so, we will formalize the tree pictures we have been using to describe polynomials all along.
 
 \subsubsection{Trees on polynomials}
+
+\index{tree!on a polynomial}
 
 \begin{definition}[Tree on a polynomial] \label{def.poly_tree}
 Let $p\in\poly$ be a polynomial.
@@ -7735,6 +7760,7 @@ We would like to draw some examples of $p$-trees, but note that a $p$-tree can h
 This means that plenty of $p$-trees cannot be drawn, even when all the position- and direction-sets of $p$ are finite; but we can instead consider finite-height portions of them that we will call \emph{pretrees}.
 
 \subsubsection{Pretrees on polynomials}
+\index{tree!pretree}
 
 Before we define pretrees, let's give some examples.
 
@@ -7813,6 +7839,7 @@ The trees in \eqref{eqn.some_trees_misc58} can all be obtained by following just
 On the other hand, we know from \cref{subsec.comon.comp.def.corolla} that such a tree represents a position of $p\tripow3$, whose directions are its height-$3$ leaves---and this is true for any $n\in\nn$ in place of $3$.
 So these trees are still important to our theory; but since they are not always complete $p$-trees, we will call them something else.
 
+\index{tree!stages}
 
 \begin{definition} \label{def.tripow_pretree}
 Given $p\in\poly$, a \emph{stage-$n$ pretree} (or \emph{$p\tripow{n}$-pretree}) is defined to be an element of $p\tripow{n}(\1)$. For each $i\in p\tripow{n}(\1)$ the \emph{height-$n$ leaves} of $i$ is defined to be the set $p\tripow{n}[i]$.
@@ -7847,7 +7874,7 @@ sending every stage-$(n+k)$ pretree on $p$ to its stage-$n$ pretree by trimming 
 We will see these functions again shortly.
 \end{example}
 
-
+\index{tree!as limit of pretrees}
 \subsubsection{Trees as a limit of pretrees}
 
 Before we go any further in the theory of $p$-trees, let us look at some more examples.
@@ -8003,8 +8030,11 @@ To go from the latter description to the former, simply invert the description i
 \end{solution}
 \end{exercise}
 
+\index{coalgebra!terminal}
+
 If you know about coalgebras for functors, as mentioned in \cref{ex.coalgebras}, then you might know the limit $\car{t}_p(\1)$ of \eqref{eqn.cofree_pos_diagram} by a different name: it is the \emph{terminal coalgebra for the functor} $p$, or the \emph{terminal $p$-coalgebra}, because it is terminal in the category of $p$-coalgebras, as the following exercise shows.
 
+\index{coalgebra!morphism of coalgebras}
 \begin{exercise}
 A \emph{$p$-coalgebra morphism} between $p$-coalgebras $\varphi\colon S\to p(S)$ and $\psi\colon T\to p(T)$ (as in \cref{ex.coalgebras}) is a function $f\colon S\to T$ such that the square
 \[
@@ -8032,6 +8062,8 @@ commutes.
 
 \subsubsection{Positions of the cofree comonoid}
 
+\index{cofree comonoid!positions of}
+
 Now recall from \cref{ex.compute_limits} that in $\poly$, the positions of a limit are the limit of the positions.
 Moreover, in \eqref{eqn.cofree_diagram}, every vertical lens $p\tripow{n}\to p\tripow{n}\tri\1$ is, in fact, a \emph{vertical} lens in the sense of \cref{def.vert_cart}: an isomorphism on positions.
 So \eqref{eqn.cofree_diagram} on positions collapses down to its bottom row, viewed as a diagram in $\smset$.
@@ -8041,6 +8073,7 @@ So $\tr_p$ is the position-set of the limit $\car{t}_p$ of \eqref{eqn.cofree_dia
 So, as we said above, $\car{t}_p(\1)$ is the set carrying the terminal coalgebra of $p$, but  we prefer to think of it as the set of $p$-trees, for it gives us a concrete way to realize the limit and its projections, as well as a natural interpretation of the directions of $\car{t}_p$ at each position.
 
 \subsubsection{The directions of the cofree comonoid}
+\index{cofree comonoid!directions of}
 
 Given that $\car{t}_p$ is the limit of \eqref{eqn.cofree_diagram}, \cref{ex.compute_limits} also tells us how to compute its directions: the directions of a limit are the colimit of the directions.
 But every polynomial in the bottom row of \eqref{eqn.cofree_diagram} has an empty direction-set, and there are no arrows between polynomials in the top row.
@@ -8338,14 +8371,20 @@ Here are different ways to draw polyboxes for $\epsilon^{(n)}_p\colon\car{t}_p\t
 \]
 \end{example}
 
+\index{polybox}
+\index{cofree comonoid!carrier of|)}
+
+
 %---- Subsection ----%
 \subsection{Cofree comonoids as categories} \label{subsec.comon.cofree.cons.cat}
+\index{category!cofree comonoids as}\index{cofree comonoid!as category}
 
 We have now characterized the carrier $\car{t}_p$ of the comonoid $\cofree{p}$ that will turn out to be cofree on $p$; but we have yet to describe the comonoid structure of $\cofree{p}$ that $\car{t}_p$ carries.
 This structure will allow us to interpret $\cofree{p}$ as a category, whose objects will be $p$-trees and whose morphisms will be the vertices of each $p$-tree.
 We could go ahead and describe this category right now, but as category theorists, let us show that the eraser and duplicator of $\cofree{p}$, as well as the comonoid laws that they satisfy, arise naturally from our construction of $\car{t}_p$ as the limit of \eqref{eqn.cofree_diagram}.
 
 \subsubsection{The eraser of the cofree comonoid}
+\index{cofree comonoid!eraser of}
 
 The eraser for a comonoid $\cofree{p}$ carried by $\car{t}_p$ should be a lens of the form $\car{t}_p\to\yon$.
 Conveniently, since $\yon$ appears in \eqref{eqn.cofree_diagram}, its limit $\car{t}_p$ is already equipped with a canonical lens $\epsilon_p\colon\car{t}_p\to\yon$, as seen in \eqref{eqn.cofree_with_lim}.
@@ -8361,6 +8400,7 @@ Equivalently, we can identify $\id_T$ with the unique length-$0$ rooted path of 
 The rest of the categorical structure of $\cofree{p}$ will be determined by its duplicator.
 
 \subsubsection{The duplicator of the cofree comonoid}
+\index{cofree comonoid!duplicator of}
 
 The duplicator for a comonoid $\cofree{p}$ carried by $\car{t}_p$ should be a lens $\delta_p\colon\car{t}_p\to\car{t}_p\tri\car{t}_p$.
 But before we can specify such a lens, we need to figure out what kind of polynomial $\car{t}_p\tri\car{t}_p$ is.
@@ -8618,6 +8658,8 @@ So by the universal property of $\car{t}_p\tri\car{t}_p\tri\car{t}_p$, coassocia
 
 We call the category $\cofree{p}$ corresponding to the comonoid $\left(\car{t}_p,\epsilon_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
 
+\index{category!of $p$-trees|see{cofree comonoid}}
+
 \begin{example}[The category of $p$-trees: states and transitions for (co)free]
 Let's step back and think about how $p$-tree categories relate to the original polynomial $p$ from the perspective of the states and transitions of dynamical systems.
 Before we build any trees or categories out of it, a polynomial $p$ is just a family of sets of directions indexed over a set of positions.
@@ -8653,6 +8695,7 @@ This gives the comonoid structure on $\car{t}_p$, completing the cofree construc
 Soon we will prove that $\cofree{p}$ really is the cofree category on $p$, but first we give some examples to make all this concrete.
 
 \subsubsection{Examples of $p$-tree categories}
+\index{cofree comonoid!examples of|(}
 
 In what follows, we will freely switch between the morphisms-as-vertices and the morphisms-as-rooted-paths perspectives of $p$-tree categories given in \cref{prop.cofree_as_cat} whenever convenient.
 
@@ -9023,16 +9066,20 @@ holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. 
 \end{solution}
 \end{exercise}
 
+\index{cofree comonoid!examples of|)}
+
 
 %---- Subsection ----%
 \subsection{Exhibiting the forgetful-cofree adjunction}
 
+\index{forgetful-cofree adjunction}\index{cofree comonoid!adjunction with $\poly$}
+
 We are now ready to give a diagrammatic proof of the main result of this section: as promised, the category $\cofree{p}$ we constructed is the cofree comonoid on $p$.
 
-\begin{theorem}[Cofree comonoid] \label{thm.cofree}
-The forgetful functor $U\colon \smcat^\sharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\smcat^\sharp$, giving rise to an adjunction
+\begin{theorem}[Cofree comonoid] \label{thm.cofree}\index{cofree comonoid}
+The forgetful functor $U\colon \catsharp\to\poly$ has a right adjoint $\cofree{-}\colon\poly\to\catsharp$, giving rise to an adjunction
 \[
-    \adj{\smcat^\sharp}{U}{\cofree{-}}{\poly},
+    \adj{\catsharp}{U}{\cofree{-}}{\poly},
 \]
 such that for each $p\in\poly$, the carrier $\car{t}_p\coloneqq U\cofree{p}$ of the category $\cofree{p}$ is given by the limit of the diagram \eqref{eqn.cofree_diagram}, repeated here:
 \[
@@ -9049,9 +9096,9 @@ such that for each $p\in\poly$, the carrier $\car{t}_p\coloneqq U\cofree{p}$ of 
 	\cdots.\ar[l]
 \end{tikzcd}
 \]
-That is, for any category $\cat{C}\in\smcat^\sharp$ with carrier $\car{c}\coloneqq U\cat{C}$, there is a natural isomorphism
+That is, for any category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$, there is a natural isomorphism
 \[
-    \poly(\car{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
+    \poly(\car{c},p)\iso\catsharp(\cat{C},\cofree{p}).
 \]
 \end{theorem}
 
@@ -9134,10 +9181,11 @@ It suffices to show that we can recover the $n^\text{th}$ component of $g$ from 
 
 %---- Subsection ----%
 \subsection{The many (inter)faces of the cofree comonoid} \label{subsec.comon.cofree.cons.faces}
+\index{cofree comonoid!interfaces for}
 
-The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\smcat^\sharp$ with carrier $\car{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
+The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
 \[
-    \poly(\car{c},p)\iso\smcat^\sharp(\cat{C},\cofree{p}).
+    \poly(\car{c},p)\iso\catsharp(\cat{C},\cofree{p}).
 \]
 So every lens $\varphi\colon\car{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
 
@@ -9173,7 +9221,7 @@ Now we have a better sense of what we mean when we say that $F\colon\cat{C}\cof\
 All together, $\car{t}_p$ acts as a giant interface that captures the $n$-fold behavior of $p\tripow{n}$ for every $n\in\nn$.
 But to see all this explicitly, let's consider some examples.
 
-\begin{example}\label{ex.halt_dsa_accept}
+\begin{example}\label{ex.halt_dsa_accept}\index{deterministic state automaton!halting}
 Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+\1$, and consider the dynamical system $\varphi\colon S\yon^S\to p$ modeling the halting deterministic state automaton from \cref{exc.halt_dsa}, depicted here again for your convenience:
 \[
 \begin{tikzcd}[column sep=small]
@@ -9309,6 +9357,7 @@ Notice, too, that every $p$-subtree of any one of these $p$-trees is another one
 
 In general, given a lens $\varphi\colon S\yon^S\to\yon^A+\1$ modeling a halting deterministic state automaton and an initial state $s_0\in S$, the $(\yon^A+\1)$-tree to which the corresponding cofunctor $F\colon S\yon^S\cof\cofree{\yon^A+\1}$ sends $s_0$ encodes the set of words accepted by the automaton with that initial state in its maximal rooted paths.
 \end{example}
+\index{deterministic state automaton!language of}
 
 \begin{example}[Languages recognized by deterministic state automata] \label{ex.dsa_lang_recog}
 Recall from \cref{prop.dsa} that a deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a lens $\yon\to S\yon^S$, indicating the initial state $s_0\in S$, and a lens $\varphi\colon S\yon^S\to\2\yon^A$, indicating the subset of accept states $F\coloneqq\varphi_1^{-1}(2)\ss S$ and the update function $u\colon S\times A\to S$ via $u(s,a)=\varphi^\sharp_s(a)$.
@@ -9320,6 +9369,8 @@ Equivalently, an element of $\2^{\lst(A)}$ is a subset of $\lst(A)$; in the case
 So on objects, $F$ sends each possible start state $s_0\in S$ of the automaton to the subset of words that the automaton would then accept!
 Backward on morphisms, $F^\sharp_{s_0}$ sends every possible word to the state the automaton would reach if it followed that word starting from $s_0$.
 \end{example}
+
+\index{cofree comonoid!and Moore machines}
 
 \begin{example}[Input sequences to output sequences] \label{ex.input_output}
 We interpret our dynamical systems as converting sequences of input to sequences of output.
@@ -9341,6 +9392,8 @@ Finally, $F^\sharp_{s_0}(a_1,\ldots,a_i)\in S$ then corresponds to the system's 
 
 %---- Subsection ----%
 \subsection{Morphisms between cofree comonoids}
+\index{cofree comonoids!morphisms between}
+
 Given a lens $\varphi \colon p \to q$, the cofree functor gives us a comonoid morphism $\cofree{\varphi}\colon\cofree{p}\to\cofree{q}$ as follows.
 
 An object $t \in \tr_p$ is a tree; the tree $u \coloneqq \cofree{\varphi} (t) \in \tr_q $ is constructed recursively as follows. If the root of $t$ is $i \in p(\1)$ then the root of $u$ is $j \coloneqq \varphi_1 (i)$. To each branch $b \in q[j]$, we need to assign a new tree, and we use the one situated at $\varphi_i ^ \sharp (b)$.
@@ -9414,6 +9467,8 @@ Let $p$ be a polynomial.
 %---- Subsection ----%
 \subsection{Some categorical properties of cofree comonoids}
 
+\index{cofree comonoid!as free category on a graph}
+
 \begin{proposition}\label{prop.cofree_free_on_graph}
 For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. That is, there is a graph $G_p$ whose associated free category in the usual sense (the category of vertices and paths in $G_p$) is isomorphic to $\cofree{p}$.
 \end{proposition}
@@ -9436,19 +9491,20 @@ The free category on a graph always has this property, so the result follows fro
 \end{proof}
 
 \begin{proposition}\label{prop.ynn_monoid}
-The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\smcat^\sharp$.
+The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\catsharp$.
 \end{proposition}
 \begin{proof}
-The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\smcat^\sharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid.
+The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\catsharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid.
 
-The unique lens $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the lens $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\smcat^\sharp,\yon,\times)$.
+The unique lens $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the lens $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\catsharp,\yon,\times)$.
 \end{proof}
 
 Recall from \cref{ex.arrow_field} that an arrow field of a category $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\nn$.
 
+
 \begin{corollary}
-For any category $\cat{C}$, the set $\smcat^\sharp(\cat{C},\yon^\nn)$ of arrow fields has the structure of a monoid. Moreover, this construction is functorial
-\[\smcat^\sharp(-,\yon^\nn)\colon\smcat^\sharp\to\Cat{Mon}\op\]
+For any category $\cat{C}$, the set $\catsharp(\cat{C},\yon^\nn)$ of arrow fields has the structure of a monoid. Moreover, this construction is functorial
+\[\catsharp(-,\yon^\nn)\colon\catsharp\to\Cat{Mon}\op\]
 \end{corollary}
 \begin{proof}
 We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}.
@@ -9458,10 +9514,12 @@ A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoi
 
 We use the notation $\cat{C}\mapsto\vec{\cat{C}}$ for the monoid of arrow fields.
 
+\index{arrow fields!as adjoint}
+
 \begin{theorem}\label{thm.catsharp_to_mon}
 The arrow fields functor
-\[\smcat^\sharp\to\Cat{Mon}\op\]
-is right adjoint to the inclusion $\Cat{Mon}\op\to\smcat^\sharp$ from \cref{prop.monoids_ff}.
+\[\catsharp\to\Cat{Mon}\op\]
+is right adjoint to the inclusion $\Cat{Mon}\op\to\catsharp$ from \cref{prop.monoids_ff}.
 \end{theorem}
 \begin{proof}
 Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an arrow field $\cat{C}$, preserving unit and multiplication.
@@ -9473,33 +9531,38 @@ There is a commutative square of left adjoints
 \begin{tikzcd}
 	\Cat{Mon}\op\ar[r, "U"]\ar[d, "\yon^-"']&
 	\smset\op\ar[d, "\yon^-"]\\
-	\smcat^\sharp\ar[r, "U"']&
+	\catsharp\ar[r, "U"']&
 	\poly
 \end{tikzcd}
 \]
 where the functors denoted $U$ are forgetful functors.
 \end{proposition}
 \begin{proof}
-Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\smcat^\sharp$ from \cref{prop.monoids_ff}, it is easy to check that the above diagram commutes.
+Using the fully faithful functor $\yon^-\colon\Cat{Mon}\op\fromto\catsharp$ from \cref{prop.monoids_ff}, it is easy to check that the above diagram commutes.
 
-The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\smcat^\sharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\smcat^\sharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
+The free-forgetful adjunction $\smset\fromto\Cat{Mon}$ gives an opposite adjunction $\smset\op\fromto\Cat{Mon}\op$, where $U$ is now left adjoint. We saw that $\yon^-\colon\smset\op\to\poly$ is a left adjoint in \cref{prop.yoneda_left_adjoint}, that $U\colon\catsharp\to\poly$ is a left adjoint in \cref{thm.cofree}, and that $\yon^-\colon\Cat{Mon}\to\catsharp$ is a left adjoint in \cref{thm.catsharp_to_mon}.
 \end{proof}
 
-\section{More categorical properties of $\smcat^\sharp$}
+\index{cofree comonoid|)}
 
-Many of the properties of $\poly$ we covered in \cref{ch.poly.cat,ch.poly.bonus} have analogues in $\smcat^\sharp$; we review these here.
+
+\section{More categorical properties of $\catsharp$}
+
+Many of the properties of $\poly$ we covered in \cref{ch.poly.cat,ch.poly.bonus} have analogues in $\catsharp$; we review these here.
 
 %-------- Section --------%
 \subsection{Other special comonoids and adjunctions}
 
-We begin by highlighting a few other adjunctions involving $\smcat^\sharp$, as well as the special comonoids in $\smcat^\sharp$ they provide.
+We begin by highlighting a few other adjunctions involving $\catsharp$, as well as the special comonoids in $\catsharp$ they provide.
+
+\index{polynomial comonoids!representable}
 
 \begin{proposition}
 The functor $\yon^-$ from \cref{prop.traj_mon_poly} factors through an isomorphism of categories
 \[
-    \smcat^\sharp_{\text{rep}}\iso\Cat{Mon}\op,
+    \catsharp_{\text{rep}}\iso\Cat{Mon}\op,
 \]
-where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms and  $\smcat^\sharp_{\text{rep}}$ is the full subcategory of $\smcat^\sharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
+where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms and  $\catsharp_{\text{rep}}$ is the full subcategory of $\catsharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
 \end{proposition}
 \begin{proof}
 Let $\cat{C}$ be a category. It has only one object iff its carrier $\car{c}$ has only one position, i.e.\ $\car{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
@@ -9507,11 +9570,13 @@ Let $\cat{C}$ be a category. It has only one object iff its carrier $\car{c}$ ha
 A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
 \end{proof}
 
+\index{polynomial comonoids!linear}
+
 \begin{exercise}\label{exc.lin_comon_set}
-Let $\smcat^\sharp_{\text{lin}}$ be the full subcategory of $\smcat^\sharp$ consisting of categories with linear carriers $S\yon$ for some $S\in\smset$.
+Let $\catsharp_{\text{lin}}$ be the full subcategory of $\catsharp$ consisting of categories with linear carriers $S\yon$ for some $S\in\smset$.
 Show that there is an isomorphism of categories
 \[
-\smcat^\sharp_{\text{lin}}\iso\smset.=
+\catsharp_{\text{lin}}\iso\smset.=
 \]
 \begin{solution}
 A category $S\yon$ with linear carrier is a discrete category on $S$, so we need to show that a cofunctor between the discrete category on $S$ and the discrete category on $T$ is the same thing as a function $S\to T$. But this is clear: a cofunctor $S\yon\to T\yon$ is a function $S\to T$ on objects and a function backwards on morphisms, and the latter is unique because each object in $S\yon$ has a unique outgoing morphism.
@@ -9519,14 +9584,14 @@ A category $S\yon$ with linear carrier is a discrete category on $S$, so we need
 \end{exercise}
 
 \begin{proposition}[Discrete categories]
-The inclusion $\smcat^\sharp_{\text{lin}}\to\smcat^\sharp$ has a left adjoint sending each $(\car{c},\epsilon,\delta)\in\smcat^\sharp$ to the unique comonoid carried by $(\car{c}\tri\1)\yon$ in $\smcat^\sharp_{\text{lin}}$.
+The inclusion $\catsharp_{\text{lin}}\to\catsharp$ has a left adjoint sending each $(\car{c},\epsilon,\delta)\in\catsharp$ to the unique comonoid carried by $(\car{c}\tri\1)\yon$ in $\catsharp_{\text{lin}}$.
 \end{proposition}
 \begin{proof}
 We need to show that for any comonoid $(\car{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
 \[
-  \smcat^\sharp(\car{c},A\yon).
+  \catsharp(\car{c},A\yon).
   \cong^?
-  \smcat^\sharp((\car{c}\tri\1)\yon,A\yon)
+  \catsharp((\car{c}\tri\1)\yon,A\yon)
 \]
 But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities.
 \end{proof}
@@ -9537,6 +9602,9 @@ But every morphism in $A\yon$ is an identity, so the result follows from the fac
 
 %-------- Section --------%
 \subsection{Vertical-cartesian factorization of cofunctors}
+
+\index{factorization system!vertical cartesian}
+\index{cofunctor!vertical}\index{cofunctor!cartesian}
 
 A cofunctor is called \emph{cartesian} if the underlying lens $f\colon\car{c}\to\car{d}$ is cartesian (i.e.\ for each position $i\in\car{c}(\1)$, the map $f^\sharp_i\colon\car{d}[f_1(i)]\to\car{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
 
@@ -9577,10 +9645,12 @@ We will complete the proof of \cref{prop.factor_cofunctor}, using the same notat
 \end{solution}
 \end{exercise}
 
+\index{discrete opfibration!as cartesian cofunctor}
+
 \begin{proposition} \label{prop.cart_dopf}
 The wide%
-\footnote{A subcategory $\Cat{D}$ of a category $\Cat{C}$ is \emph{wide} if every object of $\Cat{C}$ is in $\Cat{D}$.}%
-subcategory of cartesian cofunctors in $\smcat^\sharp$ is isomorphic to the wide subcategory of discrete opfibrations in $\smcat$.
+\footnote{A subcategory $\Cat{D}$ of a category $\Cat{C}$ is \emph{wide} if every object of $\Cat{C}$ is in $\Cat{D}$.}
+subcategory of cartesian cofunctors in $\catsharp$ is isomorphic to the wide subcategory of discrete opfibrations in $\smcat$.
 \end{proposition}
 \begin{proof}
 Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
@@ -9596,11 +9666,11 @@ Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunc
 
 % Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\varphi_1\coloneqq\Ob(\pi)$ to be its on-objects part, and for any $s\in\Ob(\cat{S})$ and emanating morphism $f\in\cat{C}[\varphi_1(s)]$, we define $\varphi^\sharp_s(f)\coloneqq\ol{f}$ to be the lift guaranteed by \cref{def.dopf}. The conversions between discrete opfibrations and cartesian cofunctors are easily seen to be functorial and the roundtrips are identities.
 
-
+\index{cofunctor!vertical}
 \begin{proposition}\label{prop.com_vert_cat_boo}
-The wide subcategory of vertical maps in $\smcat^\sharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
+The wide subcategory of vertical maps in $\catsharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
 \[
-\smcat^\sharp_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
+\catsharp_{\text{vert}}\cong(\smcat_{\text{boo}})\op.
 \]
 \end{proposition}
 \begin{proof}
@@ -9634,6 +9704,8 @@ Let's take the two nonidentity arrows in $\cat{C}$ to be labeled $s,t$ and the u
 
 We record the following proposition here.%; it will be useful in \cref{cor.cartesian_cof_extra_adjoint}.
 
+\index{cofree comonoid!preserves cartesian maps}
+
 \begin{proposition}
 If $\varphi\colon p\to q$ is a cartesian lens, then $\cofree{\varphi}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
 \[
@@ -9647,34 +9719,38 @@ Given $\varphi\colon p\to q$ cartesian, each tree $T\in\tr_p$ is sent to a tree 
 
 %-------- Section --------%
 \subsection{Limits and colimits of comonoids}
+\index{polynomial comonoid!colimits of}
 
 We saw in \cref{thm.poly_limits,thm.poly_colimits} that $\poly$ has all small limits and colimits.
-It turns out that $\smcat^\sharp$ has all small limits and colimits as well.
-We start by discussing colimits in $\smcat^\sharp$, as they are somewhat easier to get a handle on.
+It turns out that $\catsharp$ has all small limits and colimits as well.
+We start by discussing colimits in $\catsharp$, as they are somewhat easier to get a handle on.
 
-\subsubsection{Colimits in $\smcat^\sharp$}
+\subsubsection{Colimits in $\catsharp$}
+\index{polynomial comonoid!colimits of|(}
 
-It is a consequence of the forgetful-cofree adjunction from \cref{thm.cofree} that $\smcat^\sharp$ inherits all the colimits from $\poly$.
+It is a consequence of the forgetful-cofree adjunction from \cref{thm.cofree} that $\catsharp$ inherits all the colimits from $\poly$.
 As these results are somewhat technical, relying on a property of functors known as \emph{comonadicity}, we defer their proofs to references.
 
 \begin{proposition}[Porst]
-The forgetful functor $\smcat^\sharp\to\poly$ is comonadic.
+The forgetful functor $\catsharp\to\poly$ is comonadic.
 \end{proposition}
 \begin{proof}
-The fact that a forgetful functor $\smcat^\sharp\iso\Cat{Comon}(\poly)\to\poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via a straightforward generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
+The fact that a forgetful functor $\catsharp\iso\Cat{Comon}(\poly)\to\poly$ is comonadic if it has a right adjoint follows from Beck's monadicity theorem via a straightforward generalization of an argument given by Par{\'e} in \cite[pp.~138-9]{pare1969absolute}, as pointed out by Porst in \cite[Fact~3.1]{porst2019colimits}.
 So the result follows from \cref{thm.cofree}.
 \end{proof}
 
 \begin{corollary} \label{cor.comon_cocomp}
-The category $\smcat^\sharp$ has all small colimits.
-They are created by the forgetful functor $\smcat^\sharp\to\poly$.
+The category $\catsharp$ has all small colimits.
+They are created by the forgetful functor $\catsharp\to\poly$.
 \end{corollary}
 \begin{proof}
 A comonadic functor creates all colimits that exist in its codomain (see \cite{nlab:created-limit}), and by \cref{thm.poly_colimits}, the category $\poly$ has all small colimits.
 \end{proof}
 
-\begin{example}[Coproducts in $\smcat^\sharp$] \label{ex.comon_coprod}
-Probably the most familiar kind of colimit in $\smcat^\sharp$ is the coproduct, as \cref{cor.comon_cocomp} tells us that it agrees with the usual coproduct from $\smcat$.
+\index{polynomial comonoid!coproducts of}
+
+\begin{example}[Coproducts in $\catsharp$] \label{ex.comon_coprod}
+Probably the most familiar kind of colimit in $\catsharp$ is the coproduct, as \cref{cor.comon_cocomp} tells us that it agrees with the usual coproduct from $\smcat$.
 Here's why.
 
 For concreteness, let $I$ be a set and $(\cat{C}_i)_{i\in I}$ be categories with carriers $(\car{c}_i)_{i\in I}$.
@@ -9688,7 +9764,7 @@ and whose morphisms out of each $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$ a
 \]
 Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_{i\in I}\car{c}_i$.
 
-It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\smcat^\sharp$.
+It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\catsharp$.
 We already know from \cref{cor.comon_cocomp} that it has the right carrier: the coproduct of carriers $\sum_{i\in I}\car{c}_i$. It also has the right morphisms, for any object $(i,x)$ with $x\in\car{c}_i(1)$, the set of emanating morphisms is---and should be---$\car{c}_i[x]$.
 
 % ** give inclusions as cofunctors
@@ -9711,38 +9787,38 @@ We already know from \cref{cor.comon_cocomp} that it has the right carrier: the 
 \begin{exercise}\label{exc.0_initial_com}
 \begin{enumerate}
 	\item Show that $\0$ has a unique comonoid structure.
-	\item Explain why $\0$ with its comonoid structure is initial in $\smcat^\sharp$ in two ways: by explicitly showing it has the required universal property, or by invoking \cref{cor.comon_cocomp}.
+	\item Explain why $\0$ with its comonoid structure is initial in $\catsharp$ in two ways: by explicitly showing it has the required universal property, or by invoking \cref{cor.comon_cocomp}.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category (which we will also denote by $\0$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
-    \item We show that $\0$ has the universal property of the initial object in $\smcat^\sharp$ as follows.
+    \item We show that $\0$ has the universal property of the initial object in $\catsharp$ as follows.
     For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
 
-    Alternatively, we know by \cref{cor.comon_cocomp} that $\smcat^\sharp$ has an initial object, and that the forgetful functor $\smcat^\sharp\to\poly$ sends it to the initial object in $\poly$, which is $\0$ (by \cref{prop.poly_coprods} and the following discussion).
-    So the initial object in $\smcat^\sharp$ must be the unique comonoid carried by $\0$.
+    Alternatively, we know by \cref{cor.comon_cocomp} that $\catsharp$ has an initial object, and that the forgetful functor $\catsharp\to\poly$ sends it to the initial object in $\poly$, which is $\0$ (by \cref{prop.poly_coprods} and the following discussion).
+    So the initial object in $\catsharp$ must be the unique comonoid carried by $\0$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Given a comonoid $(\car{c},\epsilon,\delta)\in\smcat^\sharp$, show that there is an induced comonoid structure on the polynomial $\2\car{c}$.
+Given a comonoid $(\car{c},\epsilon,\delta)\in\catsharp$, show that there is an induced comonoid structure on the polynomial $\2\car{c}$.
 \begin{solution}
-The coproduct of $\car{c}$ with itself is again a comonoid (as a category it is the disjoint union of $\car{c}$ with itself) and it has the right carrier polynomial, since the carrier functor $U\colon\smcat^\sharp\to\poly$ is a left adjoint.
+The coproduct of $\car{c}$ with itself is again a comonoid (as a category it is the disjoint union of $\car{c}$ with itself) and it has the right carrier polynomial, since the carrier functor $U\colon\catsharp\to\poly$ is a left adjoint.
 \end{solution}
 \end{exercise}
+\index{polynomial comonoid!colimits of|)}
 
-
-\subsubsection{Limits in $\smcat^\sharp$}
+\subsubsection{Limits in $\catsharp$}
 
 As in the case of colimits, there is a rather technical result showing that the forgetful-cofree adjunction implies the existence of all small limits of comonoids, which we summarize here.
 
 \begin{corollary} \label{cor.comon_compl}
-The category $\smcat^\sharp$ has all small limits.
+The category $\catsharp$ has all small limits.
 \end{corollary}
 \begin{proof}
-By \cref{thm.cofree}, the forgetful functor $U\colon\smcat^\sharp\to\poly$ has a right adjoint, and by \cref{thm.poly_limits}, $\poly$ itself has all small limits.
+By \cref{thm.cofree}, the forgetful functor $U\colon\catsharp\to\poly$ has a right adjoint, and by \cref{thm.poly_limits}, $\poly$ itself has all small limits.
 Furthermore equalizers in $\poly$ are connected limits, so by \cref{thm.connected_limits}, they are preserved by $\tri$ on either side.
 Then the result follows from \cite[Fact~3.4]{porst2019colimits}.
 \end{proof}
@@ -9752,17 +9828,19 @@ Then the result follows from \cite[Fact~3.4]{porst2019colimits}.
 %-------- Section --------%
 \subsection{Parallel product comonoids}
 
-The usual product of categories is not the categorical product in $\smcat^\sharp$. %**show this with small counterexample
-It is, however, a \emph{monoidal} product on $\smcat^\sharp$, coinciding with the parallel product $\otimes$ on $\poly$.
+The usual product of categories is not the categorical product in $\catsharp$. %**show this with small counterexample
+It is, however, a \emph{monoidal} product on $\catsharp$, coinciding with the parallel product $\otimes$ on $\poly$.
+
+\index{parallel product!of polynomial comonoids}\index{polynomial comonoids!parallel product of}
 
 \begin{proposition}\label{prop.parallel_on_catsharp}
-The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\smcat^\sharp$, such that the forgetful functor
-$U\colon\smcat^\sharp\to\poly$
+The parallel product $(\yon,\otimes)$ on $\poly$ extends to a monoidal structure $(\yon,\otimes)$ on $\catsharp$, such that the forgetful functor
+$U\colon\catsharp\to\poly$
 is strong monoidal with respect to $\otimes$.
 The parallel product of two categories is their product in $\smcat$.
 \end{proposition}
 \begin{proof}
-Let $\cat{C},\cat{D}\in\smcat^\sharp$ be categories corresponding to comonoids $(\car{c},\epsilon_{\car c},\delta_{\car c})$ and $(\car{d},\epsilon_{\car d},\delta_{\car d})$.
+Let $\cat{C},\cat{D}\in\catsharp$ be categories corresponding to comonoids $(\car{c},\epsilon_{\car c},\delta_{\car c})$ and $(\car{d},\epsilon_{\car d},\delta_{\car d})$.
 
 
 
@@ -9778,14 +9856,14 @@ We define $\delta_{\cat{C}\otimes\cat{D}}\colon(\car{c}\otimes\car{d})\to(\car{c
 \[
 \car{c}\otimes\car{d}\To{\delta_{\car{c}}\otimes\delta_{\car{d}}}(\car{c}\tri\car{c})\otimes(\car{d}\tri\car{d})\to(\car{c}\otimes\car{d})\tri(\car{c}\otimes\car{d}).
 \]
-One can check that this says that codomains and composition are defined coordinate-wise, and that $(\car{c}\otimes\car{d},\epsilon_{\car{c}\otimes\car{d}},\delta_{\car{c}\otimes\car{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$. See \cref{exc.parallel_on_catsharp}.
+One can check that this says that codomains and composition are defined coordinate-wise, and that $(\car{c}\otimes\car{d},\epsilon_{\car{c}\otimes\car{d}},\delta_{\car{c}\otimes\car{d}})$ forms a comonoid. One can also check that this is functorial in $\cat{C},\cat{D}\in\catsharp$. See \cref{exc.parallel_on_catsharp}.
 \end{proof}
 
 \begin{exercise}\label{exc.parallel_on_catsharp}
 We complete the proof of \cref{prop.parallel_on_catsharp}.
 \begin{enumerate}
 	\item Show that $(\car{c}\otimes\car{d},\epsilon_{\car{c}\otimes\car{d}},\delta_{\car{c}\otimes\car{d}})$, as described in \cref{prop.parallel_on_catsharp}, forms a comonoid.
-	\item Check that the construction $(\cat{C},\cat{D})\mapsto\cat{C}\otimes\cat{D}$ is functorial in $\cat{C},\cat{D}\in\smcat^\sharp$.
+	\item Check that the construction $(\cat{C},\cat{D})\mapsto\cat{C}\otimes\cat{D}$ is functorial in $\cat{C},\cat{D}\in\catsharp$.
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -9800,6 +9878,8 @@ We complete the proof of \cref{prop.parallel_on_catsharp}.
 
 The cofree construction works nicely with this monoidal product.
 
+\index{parallel product!and the cofree construction}
+
 \begin{proposition}\label{prop.cofree_lax_monoidal}
 The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is a lens $\yon\to\car{t}_\yon$, and for any $p,q\in\poly$ there is a natural lens
 \[
@@ -9808,7 +9888,7 @@ The cofree functor $p\mapsto\cofree{p}$ is lax monoidal; in particular there is 
 satisfying the usual conditions.
 \end{proposition}
 \begin{proof}
-By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an oplax monoidal functor is lax monoidal.
+By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\catsharp\to\poly$ is strong monoidal. A consequence of Kelly's doctrinal adjunction theorem \cite{kelly1974doctrinal} says that the right adjoint of an oplax monoidal functor is lax monoidal.
 \end{proof}
 
 \begin{exercise}
@@ -9830,11 +9910,14 @@ By \cref{prop.parallel_on_catsharp}, the left adjoint $U\colon\smcat^\sharp\to\p
 
 \section{Comodules over polynomial comonoids}
 
+\index{comodule|(}
+
 Just as we can define a category of comonoids within any monoidal category, we can further define a notion of comodules over such comonoids.
 And much like how polynomial comonoids are categories, these comodules can also be described in categorical terms we are already familiar with.
 There is much more to say about comodules over polynomial comonoids than we have room for here---we will merely give a glimpse of the theory and applications.
 
 \subsection{Left and right comodules}
+\index{comodule!left}
 
 When the monoidal category is not symmetric, left comodules and right comodules may differ significantly, so we define them separately (but notice that the diagrams for one are analogous to the diagrams for the other).
 
@@ -9862,6 +9945,8 @@ such that the following diagrams, collectively known as the \emph{left comodule 
 \end{equation}
 When referring to a left $\cat{C}$-comodule, we may omit its coaction if it can be inferred from context (or simply unspecified), identifying the comodule with its carrier.
 
+\index{comodule!morphism of}
+
 A \emph{morphism} of left $\cat{C}$-comodules $m$ and $n$ is a morphism $\alpha\colon m\to n$ such that the following diagram commutes:
 \[
 \begin{tikzcd}
@@ -9881,6 +9966,8 @@ In \cref{def.left_comod}, if the carrier of the left $\cat{C}$-comodule is alway
 Hence constant left $\cat{C}$-comodules are precisely left $\cat{C}$-coalgebras; their notions of morphisms coincide as well, so the categories they form are isomorphic.
 \end{solution}
 \end{exercise}
+
+\index{comodule!right}
 
 \begin{definition}[Right comodule]\label{def.right_comod}
 In a monoidal category $(\Cat{C},\yon,\tri)$, let $\cat{D}=(\car{d},\epsilon,\delta)$ be a comonoid.
@@ -10180,6 +10267,7 @@ Thus if $\yon^M$ is both a right-$\com{C}$ comodule and a right-$\com{D}$ comodu
 \end{proof}
 
 \subsection{Bicomodules}
+\index{bicomodule}
 
 We take special note of any object that is both a left comodule and a right comodule in compatible ways.
 
@@ -10207,6 +10295,7 @@ But it also looks like an arrow going backward from $\car{d}$ to $\car{c}$, whic
 
 A \emph{morphism} of $(\cat{C},\cat{D})$-bicomodules is one that is a morphism of left $\cat{C}$-comodules and a morphism of right $\cat{D}$-comodules.
 \end{definition}
+\index{bicomodule!morphism of}\index{polybox}
 
 We draw the commutativity of \eqref{eqn.bimod_coherence} using polyboxes.
 \begin{equation}\label{eqn.bimod_coherence_polybox}
@@ -10288,7 +10377,7 @@ Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{exc.yon
 \end{solution}
 \end{exercise}
 
-\subsection{More equivalences}
+\subsection{More equivalences}\index{cofunctor!from state category}\index{coalgebra}
 
 We have seen that a cofunctor from a state category to a category $\cat{C}$ carries the same data as a $\cat{C}$-coalgebra, which is in turn equivalent to a discrete opfibration over $\cat{C}$ or a copresheaf on $\cat{C}$.
 We then showed that cartesian cofunctors to $\cat{C}$ is an equivalent notion as well. % TODO: refs?
@@ -10433,6 +10522,8 @@ For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\
 \end{enumerate}
 \end{exercise}
 
+\index{copresheaves!as bicomodules}
+
 \begin{exercise}
 We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\cat{C},\0)$-bicomodule has a very nice structure: it's the topos of copresheaves on $\cat{C}$.
 \begin{enumerate}
@@ -10443,8 +10534,9 @@ We saw in \cref{thm.tfae_c_sets} that the category $\bimod{\cat{C}}{\0}$ of $(\c
 \end{exercise}
 
 \subsection{Bicomodules are parametric right adjoints}
+\index{parametric right adjoint}\index{bicomodule!as parametric right adjoint}
 
-There is an equivalent characterization of bicomodules over a pair of polynomial comonoids due to Richard Garner.
+There is an equivalent characterization of bicomodules over a pair of polynomial comonoids due to Richard Garner.\index{Garner, Richard} Thus we attribute the foundational theory of $\catsharp$ to Ahman-Uustalu-Garner.
 
 \begin{proposition}[Garner]\label{prop.prafunctor}
 Let $\cat{C}$ and $\cat{D}$ be categories.
@@ -10477,9 +10569,11 @@ Before we knew about bicomodule structures, what we called positions and directi
 Let $\cat{C}$ and $\cat{D}$ be categories. A \emph{prafunctor} (also called a \emph{parametric right adjoint functor}) $\smset^{\cat{C}}\to\smset^{\cat{D}}$ is one satisfying any of the conditions of \cref{prop.prafunctor}.
 \end{definition}
 
-\subsection{Bicomodules in dynamics}
+\subsection{Bicomodules in dynamics}\index{bicomodules!dynamical systems and}\index{dynamical systems!as bicomodules}
 
 We conclude with a peek at how bicomodules can model dynamical systems themselves.
+
+\index{cellular automata}
 
 \begin{example}[Cellular automata]\label{ex.cellular_bimod}
 In \cref{ex.graph_interaction,exc.conway} we briefly discussed cellular automata; here we will discuss another way that cellular automata show up, this time in terms of bicomodules.
@@ -10537,6 +10631,8 @@ For each $v\in V$, let $A_v\coloneqq\fun{src}\inv(v)$, the set of arrows emanati
 \end{solution}
 \end{exercise}
 
+\index{cellular automaton!running}
+
 \begin{example}[Running a cellular automaton]
 Let $g$ be a graph on vertex set $V$, let $T$ assign a color set to each $v\in V$, and let $\alpha$ be the update function for a cellular automaton. As in \cref{ex.cellular_bimod}, this is all given by a diagram
 \[
@@ -10590,22 +10686,23 @@ Recall that the $(V\yon,0)$-bicomodule $T$ assigns to each vertex $v\in V$ some 
 \end{solution}
 \end{exercise}
 
+\index{comodule|)}
 
 %-------- Section --------%
 \section{Summary and further reading}
 
 In this chapter we gave more of the theory of $\tri$-comonoids, sometimes called polynomial comonads. We began by defining an adjunction
 \[
-\adj{\smcat^\sharp}{U}{\cofree{-}}{\poly}
+\adj{\catsharp}{U}{\cofree{-}}{\poly}
 \]
 where $\cofree{p}$ is the cofree comonoid $\cofree{p}$ associated to any polynomial $p$, and we gave intuition for it in terms of $p$-trees. A $p$-tree is a (possibly infinite) tree for which each vertex is labeled by a position $i\in p(\1)$ and its outgoing arrows are each labeled by an element of $p[i]$. The category corresponding to $\cofree{p}$ has $p$-trees as its objects; the morphisms emanating from such a $p$-tree are the finite rooted paths up the tree, and the codomain of such a path is the tree rooted at its endpoint.
 
-We then briefly discussed some other properties of $\smcat^\sharp$ including a formal proof of the fact that it has all limits and colimits. Colimits in $\smcat^\sharp$ are created by, i.e.\ fit nicely with, colimits in $\poly$, but limits are quite strange; we did not really discuss them here, but for example the product in $\smcat^\sharp$ of the walking arrow \fbox{$\bullet\to\bullet$} with itself has infinitely-many objects!
+We then briefly discussed some other properties of $\catsharp$ including a formal proof of the fact that it has all limits and colimits. Colimits in $\catsharp$ are created by, i.e.\ fit nicely with, colimits in $\poly$, but limits are quite strange; we did not really discuss them here, but for example the product in $\catsharp$ of the walking arrow \fbox{$\bullet\to\bullet$} with itself has infinitely-many objects!
 
 We then moved on to left-, right-, and bicomodules between polynomial comonoids. In particular, we showed that left $\cat{C}$-comodules can be identified with functors $\cat{C}\to\poly$, and that $(\cat{C},\cat{D})$-bicomodules correspond to parametric right adjoint functors (prafunctors) $\smset^\cat{D}\to\smset^\cat{C}$. This idea was due to Richard Garner; it is currently unpublished, but can be found in video form here: \url{https://www.youtube.com/watch?v=tW6HYnqn6eI}. What we call prafunctors are sometimes called familial functors between (co-)presheaf categories; see \cite{weber2007theory}, \cite{garner2018shapely}, and \cite{shapiro2021familial} for more on this notion.
 
 \index{polynomial comonoid|)}
-
+\index{$\catsharp$!categorical properties of|)}
 
 %-------- Section --------%
 \section{Exercise solutions}
