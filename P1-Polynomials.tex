@@ -20,6 +20,7 @@ We begin by examining a special kind of polynomial functor that you may already 
 \index{functor!representable|(}
 \index{functor!polynomial|see{polynomial functor}}
 \index{polynomial functor}
+\index{functor!set-valued}
 We highlight the role these representable functors play in what is arguably the fundamental theorem of category theory, the Yoneda lemma.
 We will also discuss sums and products of sets and of set-valued functors, which we will need to construct our polynomial functors.
 
@@ -404,7 +405,7 @@ The following standard fact describes the constructions from \cref{def.sum_sets,
 \index{coproduct}
 \index{diagram}
 
-\begin{proposition} \label{prop.set_prod_coprod}
+\begin{proposition} \label{prop.set_prod_coprod}\index{functor!set-valued}
     Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
 \end{proposition}
 \index{coproduct!inclusion map into}
@@ -844,7 +845,7 @@ This is analogous to how products of sums in high school algebra can always be e
     \end{solution}
 \end{exercise}
 
-Now that we understand sums and products of sets, we are ready to explore sums and products of set-valued functors.
+Now that we understand sums and products of sets, we are ready to explore sums and products of set-valued functors.\index{functor!set-valued}
 
 %-------- Subsection --------%
 \section{Sums and products of functors $\smset\to\smset$} \label{sec.poly.rep-sets.sum-prod-func}
@@ -854,7 +855,7 @@ We have defined representable functors such as $\yon^\2$, $\yon$, and $\1$; we j
 But we might as well introduce products of functors at the same time, because they will very much come in handy.
 Both these concepts generalize to limits and colimits in $\smset^\smset$.
 
-\begin{proposition} \label{prop.presheaf_lim_ptwise}
+\begin{proposition} \label{prop.presheaf_lim_ptwise}\index{functor!limit of functors}\index{functor!colimit of functors}
     The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
     In particular, on objects, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
     \[
@@ -1931,6 +1932,7 @@ This leads to a natural definition of morphisms between polynomial functors, fro
 We call such a morphism a \emph{dependent lens}, or a \emph{lens} for short.
 If you are familiar with lenses from functional programming, we'll see in \cref{subsec.poly.cat.morph.bimorphic-lens} how our notion of a dependent lens is related.
 
+\index{functional programming!lenses in}
 \index{polynomial functor!morphism of|see{lens}}
 \index{dependent lens|see{lens}}
 \index{lens|(}
@@ -4545,7 +4547,7 @@ Variants of lenses are studied in compositional game theory \cite{hedges2016comp
 
 \index{compositional game theory}
 \index{database}
-\index{functional programming}
+\index{functional programming!lenses in}
 
 %-------- Section --------%
 \section{Exercise solutions}
@@ -5282,7 +5284,10 @@ On the other hand, while the file-reader is `busy,' we want it to step forward t
 So for each $(s,t)\in S$ for which $s<t$, we let the update function $\varphi^\sharp_{(s,t)}\colon\1\to S$ specify the element $(s+1,t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
-\index{file reader}\index{file searcher}
+\index{file reader|see{Moore machine, file reader}}
+\index{Moore machine!file reader}
+\index{file searcher|see{Moore machine, file searcher}}
+\index{Moore machine!file searcher}
 
 \begin{exercise} \label{exc.file_searcher}
 Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only returns $c\in\Set{ascii}$ in its position when $c$ is a specific character; say $c=100$.
@@ -7382,7 +7387,7 @@ In other words, $\ihom{p,r}$ holds within it all of the possible ways $p$ can in
 For example, in the case of $r\coloneqq\yon$, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$.
 That is, for each $p$-position it produces a direction there, which is just what $p$ needs as input in a closed system.
 
-\index{dynamics}
+\index{dynamics}\index{environment}
 
 Now suppose we were to populate the interface $p$ with dynamics, a lens $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
 \end{example}
@@ -8037,7 +8042,7 @@ The lens $\text{eval}$ is the canonical evaluation lens.
 \end{solution}
 \end{exercise}
 
-\index{exponential|)}
+\index{exponential|)}\index{exponential|seealso{closed monoidal structure}}\index{Cartesian closed category}
 
 
 %-------- Section --------%
@@ -8297,6 +8302,8 @@ Each direction-set of $q'$ will be a limit of a diagram of direction-sets of $p$
 
 For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_\1\inv(c)$ and edges $E_c \coloneqq s_\1\inv(g_\1\inv(c)) = t_\1\inv(g_\1\inv(c))$.
 Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated direction-set $p[e]$ (resp.\ $q[v]$).
+
+\index{element!category of elements}\index{category!of elements}
 
 The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_\1(e)$ and $e \to t_\1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$.
 There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_\1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_\1(e)] \to p[e]$.
