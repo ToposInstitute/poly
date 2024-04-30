@@ -14,7 +14,7 @@
 \chapter{The composition product}\label{ch.comon.comp}
 
 \index{monoidal structure!substitution|see{composition product}}
-\index{composition product|(}
+\index{composition product|(}\index{interface!changing}
 
 We have seen that the category $\poly$ of polynomial functors has quite a bit of well-interoperating mathematical structure. Further, it is an expressive way to talk about dynamical systems that can change their interfaces and wiring patterns based on their internal states.
 
@@ -1215,7 +1215,7 @@ Therefore $\varphi\tri X$ as a function can be identified with the $X$-component
 \end{exercise}
 
 \begin{exercise}\label{ex.compose_yon}
-For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso\yon\tri p$.
+For any $p\in\poly$ there are natural isomorphisms $p\iso p\tri \yon$ and $p\iso\yon\tri p$.\index{isomorphism!natural}
 \begin{enumerate}
 	\item Thinking of polynomials as functors $\smset\to\smset$, what functor does $\yon$ represent?
 	\item Why are $p\tri\yon$ and $\yon\tri p$ isomorphic to $p$?
@@ -1859,6 +1859,8 @@ If, say, we let $\varphi\colon\2\to\2$ be the function sending everything to $1\
 Back in \cref{ex.do_nothing}, we posed the question of how to model running multiple steps of dynamical system in $\poly$.
 The answer lies with the composition product.
 
+\index{interface}
+
 Recall that a dependent dynamical system is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
 We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\varphi$ the return and update functions, respectively.
 More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a section $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
@@ -1876,7 +1878,7 @@ Then to model a second step through the system, we identify the $q[s]$-direction
 % Second, we use the return function to compute an output for that state
 
 But this is exactly what the composition product $\varphi\tri\varphi\colon q\tri q\to p\tri p$ does: by \eqref{eqn.comp_lens_pos}, its on-positions function sends the pair $(s_0,e^{-1})\in(q\tri q)(\1)$, comprised of an initial state $s_0\in q(\1)$ and the function $e^{-1}\colon q[s_0]=S'\to S=q(\1)$, to the pair
-\begin{equation} \label{eqn.interface_position_pair}
+\begin{equation} \label{eqn.interface_position_pair}\index{interface}
     \left(\varphi_\1(s_0),\varphi^\sharp_{s_0}\then e^{-1}\then\varphi_\1\right)\in(p\tri p)(\1),
 \end{equation}
 comprised of the initial output $o_0\coloneqq\varphi_\1(s)\in p(\1)$ and a composite function
@@ -2063,7 +2065,7 @@ But if we instead go in the green direction (up from the root along the green ar
 \index{time!composition product and}
 
 This is what we meant in the introduction when we said that the composition product has to do with time.\dnote{Where did we say this? I didn't find it. Please add $\backslash$ index$\{$time!composition product and$\}$ wherever it is.} %copy this: \index{time!composition product and}
-\index{dynamical system!trees}
+\index{dynamical system!trees}\index{interface}
 
 This is what we meant in the introduction when we said that the substitution product has to do with time.
 It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
@@ -2481,7 +2483,7 @@ To indicate this, we color the upper right box red and leave the arrow emerging 
 % Suppose $A_1,\ldots,A_k$ are sets and $p_i\coloneqq A_i\yon$ for each $i$. Use the notation of \cref{ex.pos_in_composite} to give the position-set $p\coloneqq p_1\tri\cdots\tri p_k$.
 % \end{exercise}
 
-\index{dynamical system!composite interface}
+\index{dynamical system!composite interface}\index{interface!composite}
 \begin{example}[Dynamical systems with composite interfaces] \label{ex.dyn_sys_comp_inter}
 We explored dynamical systems with product interfaces in \cref{subsec.poly.dyn_sys.new.prod} and parallel product interfaces in \cref{subsec.poly.dyn_sys.new.par}.
 How about dynamical systems with composite interfaces?
@@ -2499,7 +2501,7 @@ By the previous example, a dynamical system $\varphi\colon S\yon^S\to q\tri r$ c
 \end{tikzpicture}
 \]
 We can interpret the behavior of this system as follows.
-Rather than a single interface $q\tri r$, we view $\varphi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.
+Rather than a single interface $q\tri r$, we view $\varphi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.\index{interface!composite}
 
 Given the current state $s\in S$, the system feeds it into $\varphi^q$ to return an output $j$ of the first interface $q$.
 Upon receiving an input $b\in q[j]$, it then uses $\varphi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
@@ -2511,7 +2513,7 @@ Mixing our metaphors a little, $\varphi$ could model a system that displays casc
 It is only when the interacting agent selects an option $c$ from this second menu that both choices are sent back to the state system, which updates its state accordingly.
 
 All this generalizes to $n$-fold composite interfaces exactly how you'd expect: a dynamical system with interface $q_1\tri\cdots\tri q_n$ produces output and receives input through interface $q_1$, then accordingly produces output and receives input through interface $q_2$, and so on, until it produces output (according to the current state and all previous inputs) and receives input through $q_n$, whereupon it updates its state according to the $n$ inputs it received along with the current state.
-\end{example}
+\end{example}\index{interface!composite}
 
 
 \subsection{The composition product of lenses as polyboxes}
@@ -2535,6 +2537,8 @@ For example, given lenses $\varphi\colon p\to q$ and $\varphi'\colon p'\to q'$, 
 What differentiates this from simply writing down the polyboxes for $\varphi$ and the polyboxes for $\varphi'$ is that we are explictly associating the position that will fill the lower box of $p'$ with the direction that will fill the upper box of $p$, and likewise the position that will fill the lower box of $q'$ with the direction that will fill the upper box of $q$.
 Moreover, we have the user fill out the lower set of boxes first and work their way up, so that, in particular, they can use the information they obtained from the behavior of $\varphi_\1$ and $\varphi^\sharp$ to decide what to put in the lower box of $p'$.
 So this really does depict a lens $p\tri p'\to q\tri q'$.
+
+\index{interaction}
 
 How does \eqref{eqn.comp_lens_polybox} relate to our usual polybox depiction of a lens to a composite, as in \eqref{eqn.map_to_2ary_composite}, but with the domain also replaced with a composite?
 A user who interacts with \eqref{eqn.comp_lens_polybox} can fill the lower set of polyboxes (the ones for $\varphi$) first, ignoring the upper set of polyboxes (the ones for $\varphi'$) until the entire lower half is filled.
@@ -2803,7 +2807,7 @@ Given $S\coloneqq\nn$ and $p\coloneqq\rr\yon^\1$, we have a dynamical system $\v
     We update the current state from $k$ to $k+1$ in one run, and from $k+1$ to $k+2$ in the next---thus increasing the current state by $2$ overall.
 \end{enumerate}
 \end{solution}
-\end{exercise}
+\end{exercise}\index{interface}
 
 \begin{exercise}
 As a lens whose domain is a state system, the transition lens $\delta\colon S\yon^S\to S\yon^S\tri S\yon^S$ of a state system $S\yon^S$ can be interpreted as a standalone dynamical system. Describe the dynamics of this system.
@@ -2819,7 +2823,7 @@ Each run through the system is a $2$-step process: first, the current state $s_0
 Then this new state $s_1$ is immediately returned, and an ever newer state $s_2\in S$ is received.
 Then the current state is updated to the newer state $s_2$.
 \end{solution}
-\end{exercise}
+\end{exercise}\index{interface}
 
 \index{polybox|)}
 
@@ -2837,7 +2841,7 @@ It turns out that the composition product behaves well---albeit asymmetrically--
 \index{distributive law!coproducts over composition}\index{distributive law!products over composition}
 
 \begin{proposition}[Left distributivity of $\tri$ over $+$ and $\times$]\label{prop.left_dist_prod}
-Given a polynomial $r$, the functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism).
+Given a polynomial $r$, the functor $(-\tri r)\colon\poly\to\poly$ that sends each $p\in\poly$ to $p\tri r$ commutes with coproducts and products (up to natural isomorphism).\index{isomorphism!natural}
 That is, for any $p,q\in\poly$, we have the following natural isomorphisms:
 \begin{equation}\label{eqn.comp_left_pres_plus}
     (p+q)\tri r\iso (p\tri r)+(q\tri r)
@@ -3342,7 +3346,7 @@ But we will present a proof of this fact from an alternative perspective: by app
 \begin{proposition}[Meyers] \label{prop.comp_left_coclosed}
 The composition product is left coclosed.
 That is, there exists a left coclosure operation, which we denote $\lchom{-}{-}\colon\poly\op\times\poly\to\poly$,
-such that there is a natural isomorphism
+such that there is a natural isomorphism\index{isomorphism!natural}
 \begin{equation} \label{eqn.lchom_adj_iso}
     \poly(p, r\tri q)\iso\poly\left(\lchom{q}{p}, r\right).
 \end{equation}
@@ -3450,7 +3454,7 @@ In order for $\lchom{q}{p}$ to be a left Kan extension of $p$ along $q$, we need
 \begin{exercise}
 Let $A$ and $B$ be sets, and let $p$ and $q$ be polynomials.
 \begin{enumerate}
-    \item Prove that the following natural isomorphism holds:
+    \item Prove that the following natural isomorphism holds:\index{isomorphism!natural}
     \begin{equation}\label{eqn.monomials_and_comp}
     	\poly(A\yon^B,p)\iso\smset(A,p(B)).
     \end{equation}
@@ -3528,7 +3532,7 @@ We are given $A,B\in\smset$ and $p,q\in\poly$
 % Do you see how polyboxes with a black (one-element) part can flip upside-down to go to the other side?
 
 \begin{example}[Dynamical systems as coalgebras] \label{ex.coalgebras}\index{coalgebra!dynamical systems as}
-Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$.
+Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$.\index{isomorphism!natural}
 Such a function is known as a \emph{coalgebra for the functor $p$} or a \emph{$p$-coalgebra}.%
 \tablefootnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonad}, which is a coalgebra for a functor with extra conditions that we will introduce later in \cref{sec.comon.sharp.cof.from_state}.
 The version we are using will usually be clear from context---here, for example, we do not expect $p$ to be a comonad---but we will try to be explicit with our terminology whenever the interpretation may be ambiguous.}
@@ -3539,7 +3543,7 @@ The coalgebraic perspective has the benefit of staying in the familiar category 
 
 On the other hand, we have already seen that viewing dynamical systems as lenses $S\yon^S\to p$ rather than as functions $S\to p(S)$ has the benefit of isolating the internal state system to the domain and the external interface to the codomain, aiding both intuition and functionality.
 Plus, our adjunction lets us switch to the coalgebraic perspective whenever we see fit: $\poly$ lets us talk about both.
-\end{example}
+\end{example}\index{interface}
 
 \index{composition product!coclosure|)}
 \index{composition product!limits and}
@@ -3590,7 +3594,7 @@ But it turns out that there is a special class of limits that $\tri$ does preser
 
 \index{limit!connected}\index{connected limit|see{limit, connected}}
 
-\begin{definition}[Connected limit]
+\begin{definition}[Connected limit]\index{indexing category!for (co)limit}
 A \emph{connected limit} is one whose indexing category $\cat{J}$ is nonempty and connected. That is, $\cat{J}$ has at least one object, and any two objects are connected by a finite zigzag of arrows.
 \end{definition}
 
@@ -3633,7 +3637,7 @@ For ease of notation, we'll often suppress the actual morphism and just write do
 So for example, on the left hand side of \eqref{eqn.rchom_adj_iso} below, $p$ represents the lens $f\colon p\to q\tri 1$ and $q\tri r$ represents the lens $q\:\tri\:!\colon q\tri r\to q\tri\1$, both objects in the slice category $\poly/q\tri\1$.
 
 \begin{proposition} \label{prop.comp_right_slice_coclosed}
-Given polynomials $p,q,r\in\poly$ and a function $f\colon p\to q\tri\1$, there is a natural isomorphism
+Given polynomials $p,q,r\in\poly$ and a function $f\colon p\to q\tri\1$, there is a natural isomorphism\index{isomorphism!natural}
 \begin{equation} \label{eqn.rchom_adj_iso}
     \poly/(q\tri\1)\left(p, q\tri r\right)\iso\poly\left(p\rchom{f}q, r\right),
 \end{equation}
@@ -3776,7 +3780,7 @@ Here we show that this is indeed the case.
 
 \begin{theorem}[Preservation of connected limits]\label{thm.connected_limits}
 The operation $\tri$ preserves connected limits on both sides.
-That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms
+That is, if $\cat{J}$ is a connected category, $p\colon \cat{J}\to\poly$ is a functor, and $q\in\poly$ is a polynomial, then there are natural isomorphisms\index{isomorphism!natural}
 \[
 	\left(\lim_{j\in \cat{J}} p_j\right)\tri q\iso \lim_{j\in \cat{J}}(p_j\tri q)
 	\qqand
@@ -3828,7 +3832,7 @@ Use \cref{thm.connected_limits} in the following.
 
 While we're here, it will be helpful to record the following.
 \begin{proposition} %Make this an exercise, mimicking earlier stuff
-For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $\cat{J}$ is connected and $p\colon \cat{J}\to\poly$ is a functor, then there is a natural isomorphism:
+For any polynomial $q\in\poly$, tensoring with $q$ (on either side) preserves connected limits. That is, if $\cat{J}$ is connected and $p\colon \cat{J}\to\poly$ is a functor, then there is a natural isomorphism:\index{isomorphism!natural}
 \[
 	\left(\lim_{j\in \cat{J}} p_j\right)\otimes q\cong
 	\lim_{j\in \cat{J}} (p_j\otimes q).
@@ -3878,7 +3882,7 @@ Every on-directions function of every lens we found in this exercise are isomorp
 \end{solution}
 \end{exercise}
 
-\index{independence}\index{polybox}
+\index{polybox}\index{indexed family}
 
 \begin{example}[Lenses from $\otimes$ to $\tri$]
 For any $p$ and $q$, there is an interesting cartesian lens $o_{p,q}\colon p\otimes q\to p\tri q$ that, stated informally, ``orders'' the operation, taking the symmetric monoidal product $\otimes$ and reinterprets it as a special case of the asymmetric monoidal product $\tri$.
@@ -3905,7 +3909,7 @@ In particular, $o_{p,q}$ commutes with associators and unitors.
 
 This can be used in the following way. Lenses $p\to q\tri r$ into composites are fairly easy to understand (through polyboxes, for example), whereas lenses $q\tri r\to p$ are not so easy to think about. However, given such a lens, one may always compose it with $o_{q,r}$ to obtain a lens $q\otimes r\to p$.
 This is quite a bit simpler to think about: they are our familiar interaction patterns from \cref{sec.poly.dyn_sys.interact}.
-\end{example}
+\end{example}\index{interaction pattern}
 
 \index{duoidality}
 
@@ -4224,7 +4228,7 @@ So the target function of $\delta$ turns our corolla picture of $\car{s}$ into a
 Then the run function takes any two arrows that form a path in the graph and collapses them down to a single arrow that starts (and, according to \eqref{eqn.state_run_tgt}, ends) at the same vertex as the two-arrow path.
 
 If this all sounds suspiciously familiar to you, you're on the right track---hang tight.
-\end{example}
+\end{example}\index{graph!complete}
 
 \subsection{The do-nothing section coheres with the transition lens}\label{subsec.comon.sharp.state.cohere}
 
@@ -4501,7 +4505,7 @@ Armed with this new lens, we can model three steps through a system $\varphi\col
     \car{s}\To{\delta^{(3)}}\car{s}\tripow3\To{\varphi\tripow3}p\tripow3.
 \]
 
-\index{coassociativity}
+\index{coassociativity}\index{interface}
 
 In fact, coassociativity guarantees that $\delta$ induces a canonical lens $\delta^{(n)}\colon\car{s}\to\car{s}\tripow{n}$ for every integer $n\geq2$, starting with $\delta^{(2)}\coloneqq\delta$.%
 \footnote{Perhaps this notation seems a little unnatural, but it helps to think of the original $\delta\colon\car{s}\to\car{s}\tri\car{s}$ as the $n=2$ case of a generalized transition lens modeling $n$ steps through the state system.}
@@ -4565,7 +4569,7 @@ We will state this in more generality in \cref{prop.n_duplication}, but here's s
 
 \subsection{Running dynamical systems}\label{subsec.comon.sharp.state.run}
 
-\index{dynamical system!running}
+\index{dynamical system!running}\index{interface}
 
 Finally, we are ready to fulfill our promise from way back in \cref{ex.do_nothing} by using the language of $\poly$ to describe stepping through a dynamical system $n$ times for arbitrary $n\in\nn$.
 Given a dynamical system $\varphi\colon\car{s}\to p$ with interface $p\in\poly$, we can construct a new dynamical system that we call $\text{Run}_n(\varphi)$, with the same state system $\car{s}$ but a new interface $p\tripow{n}$, by defining $\text{Run}_n(\varphi)\coloneqq\delta^{(n)}\then\varphi\tripow{n}$.
@@ -4577,7 +4581,7 @@ Visually, we define $\text{Run}_n(\varphi)$ so that the following diagram commut
 	p\tripow n
 \end{tikzcd}
 \end{equation*}
-One way to think of this is that $\text{Run}_n(\varphi)$ is a sped-up version of $\varphi$: one step through $\text{Run}_n(\varphi)$ is equivalent to $n$ steps through $\varphi$.
+One way to think of this is that $\text{Run}_n(\varphi)$ is a sped-up version of $\varphi$: one step through $\text{Run}_n(\varphi)$ is equivalent to $n$ steps through $\varphi$.\index{interaction}
 But this is just because a single interaction with the interface $p\tripow{n}$ models a sequence of $n$ interactions with the interface $p$, as detailed in \cref{subsec.comon.comp.def.dyn_sys,ex.dyn_sys_comp_polyboxes}.
 So $\text{Run}_n(\varphi)$ repackages $n$ cycles through $\varphi$ into a single step.
 Crucially, $\delta^{(n)}$ is what tells us how to sequence all $n$ of these steps together on the state system side.
@@ -5807,7 +5811,7 @@ So the resulting category will again have carrier $S\yon^S$.
 
 Not only does \cref{ex.state_cat} finally explain what our state systems really are (they're just special categories!), it illustrates two important features of our story.
 One is that on positions, the duplicator $\delta\colon\car{c}\to\car{c}\tri\car{c}$ of a comonoid takes the corolla picture of $\car{c}$ and ``bends the arrows'' so that they point to other roots, yielding the underlying graph of a category.
-Then $\delta$ on directions collapses two-arrow paths in the graph down to individual arrows, while the eraser $\epsilon\colon\car{c}\to\yon$ identifies empty paths with identity arrows.
+Then $\delta$ on directions collapses two-arrow paths in the graph down to individual arrows, while the eraser $\epsilon\colon\car{c}\to\yon$ identifies empty paths with identity arrows.\index{graph!underlying a category}
 
 Another important point is that we can view any category as a \emph{generalized state system}: its objects as \emph{states}, and its morphisms as \emph{transitions} between states.
 The polynomial comonoid perspective is particularly suited for thinking about categories in this way: each object is a position that we could be in, and each morphism out of that object is a direction that we might take.
@@ -7526,7 +7530,7 @@ Given a graph $G\coloneqq(\fun{src},\fun{tgt}\colon A\tto V)$ and functor $S\col
 	\sum_{a\in A} S(\fun{src}(a))\ar[r, shift left, "{(\fun{src},\id)}"]\ar[r, shift right, "{(\fun{\tgt},S(a))}"']&
 	\sum_{v\in V} S(v)
 \end{tikzcd}
-\]
+\]\index{graph}
 In other words, it is a graph for which a vertex is a pair $(v,s)$ with $v\in V$ a $G$-vertex and $s\in S(v)$, and for which an arrow is a pair $(a, s)$ with $a\in A$ a $G$-arrow, say $a\colon v\to v'$, and $s\in S(v)$ is an element over the source of that arrow. With this notation, the arrow $(a,s)$ has as source vertex $(v,s)$ and has as target vertex $(v',S(a)(s))$ where $S(a)\colon S(v)\to S(v')$ is the function given by the functor $S\colon\cat{G}\to\smset$.
 
 It remains to see that the free category on $H$ is isomorphic to $\int^{\cat{G}}S$. We first note that it has the same set of objects, namely $\sum_{v\in V}S(v)$. A morphism in $\int^\cat{G}S$ can be identified with an object $(v,s)$ together with a morphism $f\colon v\to v'$ in $\cat{G}$, but this is just a length-$n$ sequence $(a_1,\ldots,a_n)$ of arrows, with $v=\fun{src}(a_1)$, $\fun{tgt}(a_{i})=\fun{src}(a_{i+1})$ for $1\leq i<n$, and $\fun{tgt}(a_n)=v'$. This is the same data as a morphism in the free category on $H$.
@@ -7601,6 +7605,7 @@ Again, there are infinitely many tables in this schema. Only three of them have 
 
 Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\colon S\yon^S\cof\cofree{p}$. By \cref{prop.tfae_dopf,prop.ds_dopf}, we can consider it as a discrete opfibration over $\cofree{p}$. By \cref{exc.elts_free_grph} the category $\elts \varphi$ is again free on a graph. It is this graph that we usually draw when depicting the dynamical system, e.g.\ in \eqref{eqn.dyn_sys_misc573}.
 
+\index{graph!category free on}\index{category!free}
 
 %\begin{exercise}
 %Give an example of a dynamical system on $p\coloneqq\yon^\2+\yon$ for which the corresponding copresheaf has in its image a set with at least two elements.
@@ -7664,7 +7669,7 @@ Finally, we will touch on other constructions we can make over the comonoids in 
 \section{Cofree comonoids} \label{sec.comon.cofree.cons}
 
 \index{comonoid!cofree|see{cofree comonoid}}
-\index{cofree comonoid|(}
+\index{cofree comonoid|(}\index{interface}
 
 Consider a dynamical system $\varphi\colon\car{s}\to p$ with state system $\car{s}$ and interface $p$.
 In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there was a single morphism that could capture all the information encoded by the family of lenses $\text{Run}_n(\varphi)\colon\car{s}\to p\tripow{n}$ for all $n\in\nn$, defined as the composite
@@ -8669,7 +8674,7 @@ So by the universal property of $\car{t}_p\tri\car{t}_p\tri\car{t}_p$, coassocia
 
 We call the category $\cofree{p}$ corresponding to the comonoid $\left(\car{t}_p,\epsilon_p,\delta_p\right)$ the \emph{category of $p$-trees}, the \emph{category of trees on $p$}, or the \emph{$p$-tree category}.
 
-\index{category!of $p$-trees|see{cofree comonoid}}
+\index{category!of $p$-trees|see{cofree comonoid}}\index{indexed set}
 
 \begin{example}[The category of $p$-trees: states and transitions for (co)free]
 Let's step back and think about how $p$-tree categories relate to the original polynomial $p$ from the perspective of the states and transitions of dynamical systems.
@@ -9108,7 +9113,7 @@ such that for each $p\in\poly$, the carrier $\car{t}_p\coloneqq U\cofree{p}$ of 
 	\cdots.\ar[l]
 \end{tikzcd}
 \]
-That is, for any category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$, there is a natural isomorphism
+That is, for any category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$, there is a natural isomorphism\index{isomorphism!natural}
 \[
     \poly(\car{c},p)\iso\catsharp(\cat{C},\cofree{p}).
 \]
@@ -9193,9 +9198,9 @@ It suffices to show that we can recover the $n^\text{th}$ component of $g$ from 
 
 %---- Subsection ----%
 \subsection{The many (inter)faces of the cofree comonoid} \label{subsec.comon.cofree.cons.faces}
-\index{cofree comonoid!interfaces for}
+\index{cofree comonoid!interfaces for}\index{interface}
 
-The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism
+The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U\cat{C}$ and a polynomial $p\in\poly$, there is a natural isomorphism\index{isomorphism!natural}
 \[
     \poly(\car{c},p)\iso\catsharp(\cat{C},\cofree{p}).
 \]
@@ -9389,6 +9394,8 @@ We interpret our dynamical systems as converting sequences of input to sequences
 The forgetful-cofree adjunction allows us to express this conversion formally in the language of $\poly$.
 For convenience, we'll focus on the example of an $(A,B)$-Moore machine $\varphi\colon S\yon^S\to B\yon^A$, although of course we can generalize this beyond monomial interfaces.
 
+\index{interface!monomial}
+
 The lens $\varphi$ corresponds to a cofunctor $F\colon S\yon^S\cof\cofree{B\yon^A}$.
 By \cref{exc.b-lab_a-ary_trees}, $\cofree{B\yon^A}$ is the category of $B$-labeled $A$-ary trees; in paticular, its carrier is $\car{t}_{B\yon^A}\iso B^{\lst(A)}\yon^{\lst(A)}$.
 
@@ -9479,7 +9486,7 @@ Let $p$ be a polynomial.
 %---- Subsection ----%
 \subsection{Some categorical properties of cofree comonoids}
 
-\index{cofree comonoid!as free category on a graph}
+\index{cofree comonoid!as free category on a graph}\index{graph!free category on}
 
 \begin{proposition}\label{prop.cofree_free_on_graph}
 For every polynomial $p$, the cofree category $\cofree{p}$ is free on a graph. That is, there is a graph $G_p$ whose associated free category in the usual sense (the category of vertices and paths in $G_p$) is isomorphic to $\cofree{p}$.
@@ -9500,7 +9507,7 @@ Let $p$ be a polynomial and $\cofree{p}$ the cofree comonoid. Every morphism in 
 \end{corollary}
 \begin{proof}
 The free category on a graph always has this property, so the result follows from \cref{prop.cofree_free_on_graph}.
-\end{proof}
+\end{proof}\index{graph!free category on}
 
 \begin{proposition}\label{prop.ynn_monoid}
 The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\catsharp$.
@@ -9599,7 +9606,7 @@ A category $S\yon$ with linear carrier is a discrete category on $S$, so we need
 The inclusion $\catsharp_{\text{lin}}\to\catsharp$ has a left adjoint sending each $(\car{c},\epsilon,\delta)\in\catsharp$ to the unique comonoid carried by $(\car{c}\tri\1)\yon$ in $\catsharp_{\text{lin}}$.
 \end{proposition}
 \begin{proof}
-We need to show that for any comonoid $(\car{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism
+We need to show that for any comonoid $(\car{c},\epsilon,\delta)$ and set $A$, we have a natural isomorphism\index{isomorphism!natural}
 \[
   \catsharp(\car{c},A\yon).
   \cong^?
@@ -10464,7 +10471,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
 	\item[$5\cong7$:] By the adjunction in \cref{thm.adjoint_quadruple} and the fully faithful inclusion $\smset\to\poly$ of sets as constant polynomials, \cref{prop.ff_const_set_to_poly}, we have isomorphisms
 	\[\poly(S\yon,\car{c}\tri S\yon)\cong\smset(S,\car{c}\tri S\yon\tri\1)=\smset(S,\car{c}\tri S)\cong\poly(S,\car{c}\tri S).\]
 	One checks easily that if $S\yon\to\car{c}\tri S\yon$ corresponds to $S\to\car{c}\tri S$ under the above isomorphism, then one is a left comodule if and only if the other is.
-	\item[$7\cong8$:] By \eqref{eqn.flip_reps_lins} we have a natural isomorphism
+	\item[$7\cong8$:] By \eqref{eqn.flip_reps_lins} we have a natural isomorphism\index{isomorphism!natural}
 	\[
 		\poly(S\yon,\car{c}\tri S\yon)\cong\poly(\yon^S,\yon^S\tri\car{c}).
 	\]
@@ -10532,7 +10539,7 @@ For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\
 	\item dynamical system with comonoid interface $\com{C}$?
 \qedhere
 \end{enumerate}
-\end{exercise}
+\end{exercise}\index{interface!comonoid}
 
 \index{copresheaf!as bicomodule}\index{category!of bicomodules}\index{category!copresheaf}
 
@@ -10647,7 +10654,7 @@ For each $v\in V$, let $A_v\coloneqq\fun{src}\inv(v)$, the set of arrows emanati
 
 \index{cellular automata!running}
 
-\begin{example}[Running a cellular automaton]
+\begin{example}[Running a cellular automaton]\index{graph!cellular automaton on}
 Let $g$ be a graph on vertex set $V$, let $T$ assign a color set to each $v\in V$, and let $\alpha$ be the update function for a cellular automaton. As in \cref{ex.cellular_bimod}, this is all given by a diagram
 \[
 \begin{tikzcd}
