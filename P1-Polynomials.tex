@@ -5346,20 +5346,20 @@ Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be t
 		\{-1,0\}&\tn{ if }i=n
 	\end{cases}
 \]
-We can think of $D_i$ as the set of all directions a robot could move if at location $i$.
-In particular, a robot already at $i=1$ cannot shift its location by $-1$; likewise, a robot already at $i=n$ cannot shift its location $+1$.
+We can think of $D_i$ as the set of ways a robot could move from location $i$.
+If $1<i<n$, a robot may shift its location by $-1$ (move left/down), $0$ (remain still), or $+1$ (move right/up).
+But a robot already at $i=1$ cannot shift its location by $-1$; likewise, a robot already at $i=n$ cannot shift its location by $+1$.
 
-Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\varphi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
+Then we can model a robot told to move in an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system
 \[
-    p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
+    \varphi\colon (\ord{n}\times\ord{n})\yon^{\ord{n}\times\ord{n}}\to\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
 \]
-The robot's state is a position in the grid.
-We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that each state returns itself as output---in particular, the robot returns a position as output by moving to that position in the grid.
+The robot's state is a location $(i,j)\in\ord{n}\times\ord{n}$ in the grid.
+We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that the dynamical system returns its state as its position: the robot expresses its position by moving to that location in the grid.
 
-Then for each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair of directions $(d,e)\in D_i\times D_j$ to the grid position given by $(i+d,j+e)$.
-Concretely, this says that if a robot at position $(i,j)$ in the grid receives the pair of directions $(d,e)$ as its input, its new position in the grid will be $(i+d,j+e)$.
-Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still in the grid.
-With this setup, the robot has more movement options when it is in the center of the grid than when it is on the sides or corners:
+For each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair $(d,e)\in D_i\times D_j$ to the grid location $(i+d,j+e)\in(n,n)$.
+Concretely, this says that if a robot located at $(i,j)$ receives the pair $(d,e)$ as its direction, its new position will be $(i+d,j+e)$.
+Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still inside the grid; with this setup, the robot has fewer ways to move on the sides or corners of the grid than anywhere else:
 \[
 \begin{tikzpicture}[scale=.5]
   \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
@@ -5376,35 +5376,36 @@ With this setup, the robot has more movement options when it is in the center of
 	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
 \end{tikzpicture}
 \]
+In this picture, $\ord{n}\coloneqq\7$, and the $4$ directions at position $(1,7)$ and $9$ directions at position $(5,4)$ are shown (recall that remaining still is an option in either case).
 
-Note that, in this example, the positions of $p$ are literally the positions in the grid where the robot could be, and the directions of $p$ at each position are literally the directions in which the robot can move!
+Note that in this example, the positions are literally the positions in the grid where the robot could be, and the directions at each position are literally the directions in which the robot can move!
 \end{example}
 
 \begin{exercise} \label{exc.grid_reward}
 Modify the dynamical system from \cref{ex.grid_robot} as follows.
 \begin{enumerate}
-	\item Replace $p$ with another interface $p'$ so that at each grid value, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$.
-	\item Replace $S$ with another set of states $S'$ so that an element $s\in S'$ may include both the robot's position and a list of all reward values so far.
-	\item With your new $p'$ and $S'$, define a new lens $\varphi'\colon S'\yon^{S'}\to p'$ that preserves the behavior of $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot}, but also properly updates the robots list of rewards.
+	\item Replace the interface with a new polynomial $p$ so that at each grid location, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$.
+	\item Replace the state-set with a new set $S$ so that an element $s\in S$ may include both the robot's position and a list of all reward values so far.
+	\item With your new $p$ and $S$, define a new dynamical system $\varphi'\colon S\yon^S\to p$ that preserves the behavior of the dynamical system from \cref{ex.grid_robot} while updating the robot's reward list without returning it externally.
 \qedhere
 \end{enumerate}
 \begin{solution}
 We modify the dynamical system from \cref{ex.grid_robot}.
 \begin{enumerate}
-    \item Previously, the set of inputs at each output $(i,j)\in\ord{n}\times\ord{n}$ of our interface $p$ was $D_i\times D_j$.
-    But now we also want to be able to give the robot a ``reward value'' $r\in\rr$.
-    So our new input set should be $D_i\times D_j\times\rr$, making
+    \item Previously, the direction-set at position $(i,j)\in\ord{n}\times\ord{n}$ of our interface was $D_i\times D_j$.
+    But now we also want to give the robot a ``reward value'' $r\in\rr$.
+    So our new direction-set should be $D_i\times D_j\times\rr$:
     \[
-        p'\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}} \yon^{D_i\times D_j\times\rr}.
+        p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}} \yon^{D_i\times D_j\times\rr}.
     \]
-    \item Previously, a state was just a position in $\ord{n}\times\ord{n}$.
+    \item Previously, a state was just a location in the grid: an element of $\ord{n}\times\ord{n}$.
     But now we want to be able to record a list of reward values as well.
-    Since each reward value is a real number, it suffices to define the state set to be $S'\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.\index{list}
-    \item The former return function $\varphi_\1\colon S\to p(\1)$ was the identity on $\ord{n}\times\ord{n}$.
-    The new return function $\varphi'_\1$ should still just yield the robot's current grid position, but since it is now a function from $S'=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\varphi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
+    Since each reward value is a real number, we define the state-set to be $S\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.\index{list}
+    \item The former return function $\varphi_\1$ was the identity on $\ord{n}\times\ord{n}$.
+    The new return function $\varphi'_\1$ should still just return the robot's current grid position; but since it is now a function from $S=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\varphi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
 
     For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\varphi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
-    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, updating the list of rewards.
+    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, also updating the list of rewards.
 \end{enumerate}
 \end{solution}
 \end{exercise}
