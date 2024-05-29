@@ -28,17 +28,21 @@ And that is the way to get the greatest possible variety, but with all the order
 At the same time, all that is needed to grasp the construction of this category---called $\poly$ for short---is an understanding of mathematical sets and functions.
 There is no need for the theory and applications of polynomial functors to remain the stuff of technical papers; $\poly$ is far too versatile, too full of potential, to be kept out of reach.
 
+\index{applied category theory}\index{lens}\index{dialectica category}
+
 Informally, a polynomial functor is a collection of elements we call \emph{positions} and, for each position, a collection of elements we call \emph{directions}.
 There is then a natural notion of a morphism between polynomial functors that sends positions forward and directions backward, modeling two-way communication.
 From these basic components, category theory allows us to construct an immense array of mathematical gadgets that model a diverse range of interactive processes.
 In this book, we will establish the theory of polynomial functors and categorical constructions on them while exploring how they model interaction.
 
-\section*{Purpose and prerequisites}
+\section{Purpose and prerequisites}
 
 A categorical theory of general interaction must be interdisciplinary by its very nature.
 Already, drafts of this text have been read by everyone from algebraic geometers to neuroscientists and AI developers.
 We hope to extend our reach ever further, to bring together thinkers and tinkerers from a diverse array of backgrounds under a common language by which to study interactive systems categorically.
 In short---we know about $\poly$; you know about other things; but only our collective knowledge can reveal how $\poly$ could be applied to those other things.
+
+\index{interdisciplinary}
 
 As such, we have strived to write a friendly and accessible expository text that can serve as a stepping stone toward further investigations into polynomial functors.
 We include exercises and, crucially, solutions to guide the learning process; we draw extensive analogies to provide motivation and develop intuition; we pose examples whenever necessary.
@@ -60,6 +64,7 @@ You are ready to read this book if you can define the following fundamental conc
 \end{itemize}
 We will additionally assume a passing familiarity with the language of graph-theoretic trees (e.g.\ vertices, roots, leaves, paths).
 
+
 That said, with a little investment on your part, you could very well use this book as a way to teach yourself some category theory.
 If you have ever tried to learn category theory, only to become lost in abstraction or otherwise overwhelmed by seemingly endless lists of examples from foreign fields, perhaps you will benefit from a focused case study of one particularly fruitful category.
 If you encounter terms or ideas that you would like to learn more about, we encourage you to look them up elsewhere, and you may find yourself spending a pleasant afternoon doing a deep dive into a new definition or theorem.
@@ -70,19 +75,27 @@ Then come back when you're ready---we'll be here.
 This book is designed to be read linearly.
 \cref{part.poly} introduces the category $\poly$ and illustrates how it models interaction protocols and dynamical systems; while \cref{part.poly} highlights a crucial operation on $\poly$, the composition product, which upgrades the theory so that it properly captures the
 
-\section*{Choices and conventions}
+\section{Choices and conventions}\label{sec.choices}
 
 Throughout this book, we have chosen to focus on polynomial functors of a single variable on the category of sets.
-The motivation for this seemingly narrow scope is twofold: to keep matters as concrete and intuitive as possible, with easy access to elements that we can work with directly; and to demonstrate the immense versatility of even this small corner of the theory.
+The motivation for this seemingly narrow scope is twofold: to keep matters as concrete and intuitive as possible, with easy access to elements that we can work with directly; and to demonstrate the immense versatility of even this small corner of the theory. Furthermore, the subject of multi-variate polynomials arises by considering what are called comonoids and comodules in $\poly$ \cite{spivak2023functorial}.
+
+\index{polynomial functor!multivariate}\index{multivariate polynomial|see{polynomial functor, multivariate}}
 
 Below is a list of conventions we adopt; while it is not comprehensive, any unusual choices are justified within the text, often as a footnote.
 
-The natural numbers include $0$, so $\nn\coloneqq\{0,1,2,\ldots\}$.
+The natural numbers include $0$, so $\nn\coloneqq\{0,1,2,\ldots\}$. Throughout this book, when referring to finite sets, we will adopt the following convention: $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$, an $n$-element set, for each natural number $n$.
+For example, in standard font, $5$ represents the usual natural number, while in sans serif font, $\5$ represents the $5$-element set $\{1,2,3,4,5\}$.
+When the same variable name appears in both italicized and sans serif fonts, the italicized variable denotes a natural number and the sans serif variable denotes the corresponding set; for example, if we state that $m\in\nn$, then we also understand $\ord{m}$ to mean the set $\{1,\ldots,m\}$.
+\index{set!finite}
+
+\index{natural numbers, $\nn$}\index{set!ordinal}
 
 The names of categories will be capitalized.
 We will mostly ignore size issues, but roughly speaking small categories will be written in script (e.g.$\ \cat{C}, \cat{D}$), while large categories (usually, but not always, named) will be written in bold (e.g.\ $\poly, \Cat{C}$).
 We use $\smset$ to denote the category of (small) sets and functions and $\smcat$ to denote the category of (small) categories and functors.
 We use exponential notation $\cat{D}^{\cat{C}}$ to denote the category of functors $\cat{C}\to\cat{D}$ and natural transformations.
+\index{set!category of sets}\index{functor!category of functors}
 
 We write either $c\in\Ob\cat{C}$ or $c\in\cat{C}$ to denote an object $c$ of a category $\cat{C}$.
 We use $\sum$ rather than $\coprod$ to denote coproducts.
@@ -92,9 +105,11 @@ We use $\coloneqq$ for definitions and temporary assignments, as opposed to $=$ 
 We use $\iso$ to indicate an isomorphism of objects and $=$ to indicate an equality of objects, although the choice of the former does not preclude the possibility of the latter, nor does the latter necessarily imply any significance beyond an arbitrary selection that has been made.
 We will freely use the definite article ``the'' to refer to objects that are unique only up to unique isomorphism.
 
+\index{coproduct}\index{product}\index{isomorphism}\index{equality!use of}
+
 We list nullary operations before binary ones: for example, we denote a monoidal category $\cat{C}$ with monoidal unit $I$ and monoidal product $\odot$ by $(\cat{C},I,\odot)$, or say that $(I,\odot)$ is a monoidal structure on $\cat{C}$.
 
-\section*{Past, present, and future}
+\section{Past, present, and future}
 
 The idea for this book began in 2020, originally as part of a joint work with David Jaz Myers on using categories to model dynamical systems.
 It soon became clear, however, that our writing and his---while intimately related---would be better off as separate volumes.

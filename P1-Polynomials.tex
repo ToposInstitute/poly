@@ -16,12 +16,18 @@
 \chapter{Representable functors from the~category of sets} \label{ch.poly.rep-sets}
 
 In this chapter, we lay the categorical groundwork needed to define our category of interest, the category of polynomial functors.
-We begin by examining a special kind of polynomial functor that you may already be familiar with---representable functors from the category $\smset$ of sets and functions.
+We begin by examining a special kind of polynomial functor that you may already be familiar with---representable functors from the category $\smset$ of sets and functions.%
+\index{functor!representable|(}
+\index{functor!polynomial|see{polynomial functor}}
+\index{polynomial functor}
+\index{functor!set-valued}
 We highlight the role these representable functors play in what is arguably the fundamental theorem of category theory, the Yoneda lemma.
 We will also discuss sums and products of sets and of set-valued functors, which we will need to construct our polynomial functors.
 
 %-------- Section --------%
 \section{Representable functors and the Yoneda lemma} \label{sec.poly.rep-sets.yon}
+
+\index{Yoneda lemma}
 
 Representable functors---special functors to the category of sets---provide the foundation for the category $\poly$.
 While much of the following theory applies to representable functors from any category, we need only focus on representable functors $\smset\to\smset$.
@@ -31,21 +37,19 @@ While much of the following theory applies to representable functors from any ca
 
     We call a functor (isomorphic to one) of this form a \emph{representable functor}, or a \emph{representable}.
     In particular, we call $\yon^S$ the functor \emph{represented by} $S$, and we call $S$ the \emph{representing set of $\yon^S$}.
-    As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.
+    As $\yon^S$ denotes raising a variable to the power of $S$, we will also refer to representables as \emph{pure powers}.%
+    \index{pure power|see{functor, representable}}
 \end{definition}
 
 The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}.
 
-Throughout this book, when referring to finite sets, we will adopt the following convention: $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$, an $n$-element set, for each natural number $n$.
-For example, in standard font, $5$ represents the usual natural number, while in sans serif font, $\5$ represents the $5$-element set $\{1,2,3,4,5\}$.
-When the same variable name appears in both italicized and sans serif fonts, the italicized variable denotes a natural number and the sans serif variable denotes the corresponding set; for example, if we state that $m\in\nn$, then we also understand $\ord{m}$ to mean the set $\{1,\ldots,m\}$.
-
+Recall from \cref{sec.choices} our notation $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$
 \begin{example}
     The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
     After all, $X\times X \iso X^\2$, so this functor is the pure power $\yon^\2$.
 \end{example}
 
-\begin{exercise}\label{exc.representable_fun}
+\begin{exercise}\label{exc.representable_fun}\index{functor!representable}\index{representable polynomial|seealso{functor!representable}}
     For each of the following functors $\smset\to\smset$, say if it is representable or not; if it is, give the set that represents it.
     \begin{enumerate}
         \item The identity functor $X\mapsto X$, which sends each function to itself.
@@ -57,6 +61,7 @@ When the same variable name appears in both italicized and sans serif fonts, the
         \item A functor $X\mapsto \2^X$.
         If it could be representable, where should it send each function? \qedhere
     \end{enumerate}
+\index{functor!identity}\index{functor!constant}
 
     \begin{solution}
         \begin{enumerate}
@@ -76,6 +81,7 @@ When the same variable name appears in both italicized and sans serif fonts, the
 
 Now that we have introduced representable functors, we study the maps between them.
 As representables are functors, the maps between them are natural transformations.
+\index{natural transformation!between representables}
 
 \begin{proposition}\label{prop.representable_nt}
     For any function $f\colon R\to S$, there is an induced natural transformation $\yon^f\colon\yon^S\to \yon^R$; on any set $X$ its $X$-component $X^f\colon X^S\to X^R$ is given by sending $g\colon S\to X$ to $f\then g\colon R\to X$.
@@ -102,7 +108,7 @@ As representables are functors, the maps between them are natural transformation
         To show that \eqref{diag.yon_embed_nat} commutes, we note that by the construction of the components of $\yon^f$ in the statement of \cref{prop.representable_nt}, both vertical maps in the diagram compose functions from $S$ with $f \colon R \to S$ on the left; and by \cref{def.representable}, both horizontal maps compose functions to $X$ with $h \colon X \to Y$ on the right.
         So by the associativity of composition, the diagram commutes: $(f\then g)\then h=f\then(g\then h)$ for all $g\colon S\to X$.
     \end{solution}
-\end{exercise}
+\end{exercise}\index{associativity}
 
 \begin{exercise} \label{exc.representable_nt_components}
     Let $X$ be an arbitrary set. For each of the following sets $R,S$ and functions $f\colon R\to S$, describe the $X$-component $X^f\colon X^S\to X^R$ of the natural transformation $\yon^f\colon\yon^S\to\yon^R$.
@@ -159,6 +165,7 @@ These representable functors and natural transformations live in the larger cate
 \end{exercise}
 
 We now have all the ingredients we need to state and prove the Yoneda lemma on the category of sets.
+\index{Yoneda lemma}
 
 \begin{lemma}[Yoneda lemma]\label{lemma.yoneda}
     Given a functor $F\colon\smset\to\smset$ and a set $S$, there is an isomorphism
@@ -175,6 +182,8 @@ We now have all the ingredients we need to state and prove the Yoneda lemma on t
     Conversely, given an element $a\in F(S)$, there is a natural transformation we denote by $m^a\colon\yon^S\to F$ whose $X$-component is the function $X^S\to F(X)$ that sends $g\colon S\to X$ to $F(g)(a)$.
     In \cref{exc.finish_proof_yoneda} we ask you to show that this is indeed natural in $X$; that these two constructions, $m\mapsto m_S(\id_S)$ and $a\mapsto m^a$, are mutually inverse; and that the resulting isomorphism is natural.
 \end{proof}
+
+\index{natural transformation!and Yoneda embedding}
 
 \begin{exercise}\label{exc.finish_proof_yoneda}
     In this exercise, we fill in the details of the preceding proof.
@@ -254,7 +263,11 @@ We now have all the ingredients we need to state and prove the Yoneda lemma on t
     \end{solution}
 \end{exercise}
 
-How will we go from these representable functors to polynomial ones?
+\index{functor!representable|)}
+
+
+How will we go from these representable functors to polynomial ones?%
+\index{polynomial functor}
 Recall that, in algebra, a polynomial is just a sum of pure powers.
 So we will define a \emph{polynomial functor} $\smset\to\smset$ to be a sum of pure power functors---that is, the representable functors $\yon^A$ for each set $A$ we just introduced.%
 \footnote{This analogy isn't perfect: in algebra, polynomials are generally finite sums of pure powers, whereas our polynomial functors may be infinite sums of representables.
@@ -268,7 +281,12 @@ For example, in the polynomial
 \end{equation}
 $\rr$ denotes the set of real numbers, $\zz$ denotes the set of integers, $\2$ and $\3$ respectively denote the sets $\{1,2\}$ and $\{1,2,3\}$, and $A$, $I$, $Q_i$, and $R_i$ denote arbitrary sets.
 
-To make sense of these polynomials, we need to define functor addition, both in the binary case (i.e.\ what is $\yon^A+\yon^B$?) and more generally over arbitrary sets (i.e.\ what is $\sum_{i\in I}\yon^{A_i}$?).
+To make sense of these polynomials, we need to define functor addition,%
+\index{functor!sum of functors}
+\index{functor!product of functors}
+\index{polynomial functor!sum of polynomials}
+\index{polynomial functor!product of polynomials}\index{product|seealso{polynomial functor, product of polynomials}}
+ both in the binary case (i.e.\ what is $\yon^A+\yon^B$?) and more generally over arbitrary sets (i.e.\ what is $\sum_{i\in I}\yon^{A_i}$?).
 This will allow us to interpret polynomials like \eqref{eqn.biz_poly}.
 In particular, just as $3y^3=y^3+y^3+y^3$ in algebra, the summand $\3\yon^\3$ of \eqref{eqn.biz_poly} denotes the sum of representables $\yon^\3+\yon^\3+\yon^\3$, while the summand $\rr\yon^\zz$ denotes the sum over $\rr$ of copies of $\yon^\zz$.
 
@@ -279,9 +297,14 @@ The construction of sums and products of functors $\smset\to\smset$ will rely on
 %-------- Section --------%
 \section{Sums and products of sets} \label{sec.poly.rep-sets.sum-prod-set}
 
+\index{set!sum of sets}
+\index{set!product of sets}
+\index{set!indexing}\index{category!discrete}\index{indexed set}
+
 Let $I$ be a set, and let $X_i$ be a set for each $i\in I$.
 Classically, we may denote this \emph{$I$-indexed family of sets} by $(X_i)_{i\in I}$.
 Categorically, we may view this data as a specific kind of functor: if we identify the set $I$ with the \emph{discrete category} on $I$, whose objects are the elements of $I$ and whose morphisms are all identities, then $(X_i)_{i\in I}$ can be identified with a functor $X\colon I\to\smset$ with $X(i)\coloneqq X_i$.
+\index{indexed family of objects}
 To compromise, we will denote an indexed family of sets by $X\colon I\to\smset$ for a set $I$ viewed as a discrete category (although we will occasionally use the classical notation when convenient), but denote the set obtained by evaluating $X$ at each $i\in I$ by $X_i$ rather than $X(i)$.
 
 To pick out an element of one of the sets in the indexed family $X\colon I\to\smset$, we need to specify both an index $i\in I$ and an element $x\in X_i$.
@@ -298,10 +321,14 @@ We call the set of such pairs $(i,x)$ the \emph{sum} of this indexed family, as 
     X_{i_1}+\cdots+X_{i_n}.
     \]
 \end{definition}
+\index{element!of a sum of sets}
+\index{element!of a product of sets}
+\index{dependent function}\index{indexed set}
 
 Say instead we pick an element from \emph{every} set in the indexed family: that is, we construct an assignment $i\mapsto x_i$, where each $x_i\in X_i$.
 If every $X_i$ were the same set $X$, then this would just be a function $I\to X$.
 More generally, this assignment is what we call a \emph{dependent function}: its codomain $X_i$ \emph{depends} on its input $i$.
+\index{dependent function}
 We write the signature of such a dependent function as
 \[
 f \colon (i \in I) \to X_i.
@@ -319,11 +346,12 @@ The set of all dependent functions whose signature is determined by a given inde
     \[
     X_{i_1}\times\cdots\times X_{i_n} \qqor X_{i_1}\cdots X_{i_n}.
     \]
-\end{definition}
+\end{definition}\index{dependent function}
 
 For a dependent function $f\colon(i\in I)\to X_i$, we may denote the element of $X_i$ that $f$ assigns to $i\in I$ by $f(i), fi,$ or $f_i$.
 When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-tuple $(f(i_1),\ldots,f(i_n))$; similarly, when $I\coloneqq\nn$, we may identify $f$ with the infinite sequence $(f_0,f_1,f_2,\ldots)$.
 
+\index{set!cardinality of}
 \begin{example}\label{ex.two_sums_and_prods}
     If $I\coloneqq\2=\{1,2\}$, then an $I$-indexed family $X\colon I\to \smset$ consists of two sets---say $X_1\coloneqq\{a,b,c\}$ and $X_2\coloneqq\{c,d\}$.
     Their sum is then the disjoint union
@@ -333,11 +361,12 @@ When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-
     The cardinality\footnote{The \emph{cardinality} of a set is the number of elements it contains, at least when the set is finite; with care the notion can be extended to infinite sets as well.} of $X_1+X_2$ will always be the sum of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``sum.''
 
     Meanwhile, their product is the usual cartesian product
+    \index{cartesian product|see{product}}\index{product}
     \[\prod_{i\in \2}X_i \cong X_1\times X_2=\{(a,c),(a,d),(b,c),(b,d),(c,c),(c,d)\}.\]
     The cardinality of $X_1\times X_2$ will always be the product of the cardinalities of $X_1$ and $X_2$, justifying the use of the word ``product.''
 \end{example}
 
-\begin{exercise}\label{exc.on_sums_prods_sets}
+\begin{exercise}\label{exc.on_sums_prods_sets}\index{indexed set}
     Let $I$ be a set.
     \begin{enumerate}
         \item \label{exc.on_sums_prods_sets.sum} Show that there is an isomorphism of sets $I\iso\sum_{i\in I}\1$.
@@ -374,10 +403,17 @@ When $I\coloneqq\{i_1,\ldots,i_n\}$ is finite, we may identify $f$ with the $n$-
 \end{exercise}
 
 The following standard fact describes the constructions from \cref{def.sum_sets,def.prod_sets} categorically and further justifies why we call them sums and products.
+\index{product}
+\index{coproduct}
+\index{diagram}
 
-\begin{proposition} \label{prop.set_prod_coprod}
+\begin{proposition} \label{prop.set_prod_coprod}\index{functor!set-valued}
     Let $I$ be a set and $X\colon I\to\smset$ be an $I$-indexed family of sets. Then the sum $\sum_{i\in I}X_i$ is the categorical coproduct of these sets in $\smset$ (i.e.\ the colimit of the functor $X\colon I\to\smset$, viewed as a diagram), and the product $\prod_{i\in I}X_i$ is the categorical product of these sets in $\smset$ (i.e.\ the limit of the functor $X\colon I\to\smset$, viewed as a diagram).
 \end{proposition}
+\index{coproduct!inclusion map into}
+\index{coproduct!universal property of}
+\index{product!projection map out of}
+\index{product!universal property of}\index{colimit}
 
 \begin{proof}
     The sum $\sum_{i\in I}X_i$ comes equipped with an inclusion $\iota_j\colon X_j\to\sum_{i\in I}X_i$ for each $j\in I$ given by $x\mapsto(j,x)$.
@@ -402,8 +438,13 @@ The following standard fact describes the constructions from \cref{def.sum_sets,
 \end{exercise}
 
 Though we proved above explicitly that $\smset$ has all small products and coproducts, from here on out, we will assume the standard categorical fact that $\smset$ is complete (has all small limits) and cocomplete (has all small colimits). % TODO: add ref for this??
+\index{limit}
+\index{colimit}
 
 We have constructed categorical sums and products of sets, but we can also construct categorical sums and products of the maps between them: functions.
+
+\index{coproduct!of functions}
+\index{product!of functions}
 
 \begin{definition}[Categorical sum and product of functions] \label{def.sum-prod-func}
     Let $I$ be a set and $X,Y\colon I\to\smset$ be $I$-indexed families of sets.
@@ -497,7 +538,7 @@ We now highlight some tools and techniques to help us work with sum and product 
             By construction $s_{f_s}(i) = (i, f_s(i)) = (\pi_1(s(i)), \pi_2(s(i))) = s(i)$ and $f_{s_f}(i) = \pi_2(s_f(i)) = \pi_2(i, f(i)) = f(i)$, so these maps are mutually inverse.
         \end{enumerate}
     \end{solution}
-\end{exercise}
+\end{exercise}\index{dependent function}
 
 A helpful way to think about sum or product sets is to consider what choices must be made to specify an element of such a set.
 In the following examples, say that we have a set $I$ and an $I$-indexed family $X \colon I \to \smset$.
@@ -511,6 +552,8 @@ Below, we give the instructions for choosing an element of $\sum_{i \in I} X_i$.
         \item choose an element of $X_i$.
     \end{enumerate}
 \end{quote}
+\index{element!of a dependent sum}
+
 
 Then the projection $\pi_1$ from \cref{exc.product_as_sections} sends each element of $\sum_{i \in I} X_i$ to the element of $i \in I$ chosen in step 1, while the projection $\pi_2$ sends each element of $\sum_{i \in I} X_i$ to the element of $X_i$ chosen in step 2.
 
@@ -525,6 +568,9 @@ Next, we give the instructions for choosing an element of $\prod_{i \in I} X_i$.
         \end{enumerate}
     \end{enumerate}
 \end{quote}
+
+\index{element!of a dependent product}
+\index{element!of a nested dependent set}
 
 Armed with these interpretations, we can tackle more complicated expressions, including those with nested $\sum$'s and $\prod$'s such as
 \begin{equation}\label{eqn.sum_prod_sum}
@@ -623,12 +669,15 @@ This dependent function in turn sends each $j \in J(i)$ to a pair that can be pr
 %-------- Subsection --------%
 \section{Expanding products of sums} \label{sec.poly.rep-sets.expand}
 
+\index{type theoretic axiom of choice}
+\index{distributive law}
+
 We will often encounter sums of sets nested within products, as in \eqref{eqn.sum_prod_sum} and \eqref{eqn.prod_sum_prod}.
 The following proposition helps us work with these; it is sometimes called the \emph{type-theoretic axiom of choice}, but it is perhaps more familiar as a set-theoretic analogue of the \emph{distributive property} of multiplication over addition.
 While the identity may look foreign, it captures for sets the same process that you would use to multiply multi-digit numbers from grade school arithmetic or polynomials from high school algebra.
 
 \begin{proposition}[Pushing $\prod$ past $\sum$]\label{prop.push_prod_sum_set}
-    For any sets $I,(J(i))_{i\in I},$ and $(X(i,j))_{i\in I, j\in J(i)}$, we have a natural isomorphism
+    For any sets $I,(J(i))_{i\in I},$ and $(X(i,j))_{i\in I, j\in J(i)}$, we have a natural isomorphism\index{isomorphism!natural}
     \begin{equation}\label{eqn.set_completely_distributive}
         \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
         \iso
@@ -666,7 +715,7 @@ While the identity may look foreign, it captures for sets the same process that 
 When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref{eqn.set_completely_distributive}.
 
 \begin{corollary} \label{cor.push_prod_sum_set_indep}
-    For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism
+    For any sets $I, J,$ and $(X(i, j))_{i \in I, j \in J}$, we have a natural isomorphism\index{isomorphism!natural}
     \begin{equation} \label{eqn.push_prod_sum_set_indep}
         \prod_{i\in I}\sum_{j\in J}X(i,j)\cong\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}i),
     \end{equation}
@@ -680,8 +729,8 @@ When $J(i)=J$ does not depend on $i\in I$, we can simplify the formula in \eqref
 It turns out that being able to push $\prod$ past $\sum$ as in \eqref{eqn.set_completely_distributive} is not a property that is unique to sets.
 In general, we refer to a category having this property as follows.
 
-\begin{definition}[Completely distributive category]
-    A category $\Cat{C}$ with all small products and coproducts is \emph{completely distributive}\footnote{While our terminology generalizes that of a completely distributive lattice, which has the additional requirement that the category be a poset, it is unfortunately not standard: a completely distributive category refers to a different concept in some categorical literature. We will not use this other concept, so there is no ambiguity.} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\Cat{C}$, we have a natural isomorphism
+\begin{definition}[Completely distributive category]\index{coproduct}\index{product}
+    A category $\Cat{C}$ with all small products and coproducts is \emph{completely distributive}\footnote{While our terminology generalizes that of a completely distributive lattice, which has the additional requirement that the category be a poset, it is unfortunately not standard: a completely distributive category refers to a different concept in some categorical literature. We will not use this other concept, so there is no ambiguity.} if products distribute over coproducts as in \eqref{eqn.set_completely_distributive}; that is, for any set $I$, sets $(J(i))_{i\in I}$, and objects $(X(i,j))_{i\in I,j\in J(i)}$ from $\Cat{C}$, we have a natural isomorphism\index{isomorphism!natural}
     \begin{equation}\label{eqn.cat_completely_distributive}
         \prod_{i\in I}\sum_{j\in J(i)}X(i,j)
         \iso
@@ -689,14 +738,21 @@ In general, we refer to a category having this property as follows.
     \end{equation}
 \end{definition}
 
+The term ``completely distributive'' comes from lattice theory. As such it is consistent with two different extensions to categories that may not be posets. We use it to mean that the category has all sums and products and that products distribute over sums. Other authors use it to mean that the category has all colimits and limits and a sort of distributivity between them.
+\index{completely distributive category}
+
 So \cref{prop.push_prod_sum_set} states that $\smset$ is completely distributive.
 Once we define the category of polynomial functors, we will see that it, too, is completely distributive.
+
+\index{completely distributive category!$\poly$ as}
+\index{completely distributive category!$\smset$ as}
+
 
 \cref{cor.push_prod_sum_set_indep} generalizes to all completely distributive categories as well; we state this formally below.
 
 \begin{corollary} \label{cor.push_prod_sum_obj_indep}
     Let $\Cat{C}$ be a completely distributive category.
-    For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism
+    For any sets $I$ and $J$ and objects $(X(i, j))_{i \in I, j \in J}$ in $\Cat{C}$, we have a natural isomorphism\index{isomorphism!natural}
     \begin{equation} \label{eqn.push_prod_sum_obj_indep}
         \prod_{i\in I}\sum_{j\in J}X(i,j)\iso\sum_{\bar{j}\colon I\to J}\prod_{i\in I}X(i,\bar{j}i).
     \end{equation}
@@ -704,6 +760,9 @@ Once we define the category of polynomial functors, we will see that it, too, is
 \begin{proof}
     Again, take $J(i)\coloneqq J$ for all $i \in I$ in \eqref{eqn.cat_completely_distributive}.
 \end{proof}
+
+\index{completely distributive category!distributive law in|see{distributive law}}
+\index{distributive law}
 
 \begin{exercise}
     Let $\Cat{C}$ be a completely distributive category.
@@ -732,6 +791,8 @@ Once we define the category of polynomial functors, we will see that it, too, is
 Throughout this book, such as in the exercise below, you will see expressions consisting of alternating products and sums.
 Using \eqref{eqn.cat_completely_distributive}, you can always rewrite such an expression as a sum of products, in which every $\sum$ appears before every $\prod$.\footnote{When an expression is written so that every $\sum$ appears before every $\prod$, it is said to be in \emph{disjunctive normal form}.}
 This is analogous to how products of sums in high school algebra can always be expanded into sums of products via the distributive property.
+
+\index{disjunctive normal form}
 
 \begin{exercise} \label{exc.push_prod_sum_set}
     Let $I, (J(i))_{i\in I},$ and $(K(i,j))_{(i,j)\in IJ}$ be sets, and for each $(i,j,k)\in IJK$, let $X(i,j,k)$ be an object in a completely distributive category.
@@ -786,7 +847,7 @@ This is analogous to how products of sums in high school algebra can always be e
     \end{solution}
 \end{exercise}
 
-Now that we understand sums and products of sets, we are ready to explore sums and products of set-valued functors.
+Now that we understand sums and products of sets, we are ready to explore sums and products of set-valued functors.\index{functor!set-valued}
 
 %-------- Subsection --------%
 \section{Sums and products of functors $\smset\to\smset$} \label{sec.poly.rep-sets.sum-prod-func}
@@ -796,7 +857,7 @@ We have defined representable functors such as $\yon^\2$, $\yon$, and $\1$; we j
 But we might as well introduce products of functors at the same time, because they will very much come in handy.
 Both these concepts generalize to limits and colimits in $\smset^\smset$.
 
-\begin{proposition} \label{prop.presheaf_lim_ptwise}
+\begin{proposition} \label{prop.presheaf_lim_ptwise}\index{functor!limit of functors}\index{functor!colimit of functors}\index{limit!of functors}\index{colimit!of functors}
     The category $\smset^\smset$ has all small limits and colimits, and they are computed pointwise.
     In particular, on objects, given a small category $\cat{J}$ and a functor $F\colon \cat{J}\to\smset^\smset$, for all $X\in\smset$, the limit and colimit of $F$ satisfy isomorphisms
     \[
@@ -808,7 +869,10 @@ Both these concepts generalize to limits and colimits in $\smset^\smset$.
     This is a special case of a more general fact when $\smset^\smset$ is replaced by an arbitrary functor category $\Cat{D}^\Cat{C}$, where $\Cat{D}$ is a category that (like $\smset$) has all small limits and colimits; see \cite[pages 22--23, displays (24) and (25)]{macLane1992sheaves}.
 \end{proof}
 
+\index{functor!category of functors}\index{limit!of functors $\smset\to\smset$}\index{colimit!of functors $\smset\to\smset$}
+
 Focusing on the case of coproducts and products, the following corollary is immediate.
+\index{coproduct}
 
 \begin{corollary}[Sums and products of functors $\smset\to\smset$] \label{cor.sum_prod_set_endofuncs}
     Given functors $F,G\colon\smset\to\smset$, their categorical coproduct or sum in $\smset^\smset$, denoted $F+G$, is the functor $\smset\to\smset$ defined for $X,Y\in\smset$ and $f\colon X\to Y$ by
@@ -845,6 +909,8 @@ Focusing on the case of coproducts and products, the following corollary is imme
 We also note the special case of initial and terminal objects.
 Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\smset\to\smset$ that sends every set to $I$.
 
+\index{functor!constant}
+
 \begin{corollary}[Initial and terminal functors $\smset\to\smset$]
     The constant functor $\0\colon\smset\to\smset$ is initial in $\smset^\smset$, while the constant functor $\1\colon\smset\to\smset$ is terminal in $\smset^\smset$.
 \end{corollary}
@@ -853,9 +919,11 @@ Given a set $I\in\smset$, we will also use $I$ to denote the constant functor $\
     Similarly, as the set $\1$ is terminal in $\smset$ (for every set $X$ there is a unique map $X\to\1$), \cref{prop.presheaf_lim_ptwise} implies that the constant functor $\1$ is terminal in $\smset^\smset$.
 \end{proof}
 
+\index{functor!initial}\index{functor!terminal}
+
 Finally, we note that $\smset^\smset$ inherits the distributivity of $\smset$.
 
-\begin{proposition}\label{prop.set_endofunc_distrib}
+\begin{proposition}\label{prop.set_endofunc_distrib}\index{completely distributive category!$\smset^\smset$ as}
     The category $\smset^\smset$ is completely distributive.
 \end{proposition}
 \begin{proof}
@@ -892,7 +960,7 @@ First, for any set $A$ and functor $F\colon\smset\to\smset$, we may write an $A$
         \]
         Here we used the fact that $A\iso\sum_{a\in A}\1$ from \cref{exc.on_sums_prods_sets} \cref{exc.on_sums_prods_sets.sum} (there we proved the statement for sets, but the same statement for the corresponding constant set-valued functors follows immediately).
     \end{solution}
-\end{exercise}
+\end{exercise}\index{completely distributive category}
 
 Similarly, we may wish to write an $A$-indexed product of copies of $F$ in exponential form as $F^A$.
 But since we have already introduced exponential notation for representable functors, this yields two possible interpretations for the functor $\smset\to\smset$ denoted by $\yon^A$: as the functor represented by $A$, or as the $A$-indexed product of copies of the identity functor $\yon\colon\smset\to\smset$.
@@ -909,7 +977,7 @@ In fact, the following exercise shows that there is no ambiguity, as the two int
         \[
         \prod_{i\in I}\yon^A\iso\yon^{IA}.
         \]
-        (Hint: You may use the fact that following natural isomorphism holds between sets of functions:
+        (Hint: You may use the fact that following natural isomorphism holds between sets of functions:\index{isomorphism!natural}
         \[
         \{ f \colon I\times A\to X \} \iso \{ g \colon I\to X^A \}.
         \]
@@ -952,12 +1020,16 @@ We will begin with this definition in the next chapter.
 In this chapter, we reviewed the definition of a \emph{representable functor} $\yon^S\colon\smset\to\smset$ for $S\in\smset$ sending $X\mapsto X^S$.
 We then stated and proved the \emph{Yoneda lemma}, a foundational result characterizing maps out of these representables: for an arbitrary functor $F\colon\smset\to\smset$, natural transformations $\yon^S\to F$ are in natural correspondence with elements of $F(S)$.
 
+\index{functor!representable}\index{Yoneda lemma}\index{category!discrete}\index{coproduct}\index{product}
+
 We then reviewed other categorical constructions in $\smset$, many of which carry over to the polynomial functors we introduce in the next chapter.
 For a set $I$, we can view it as a discrete category and consider a functor $X\colon I\to\smset$ as an \emph{$I$-indexed family of sets} comprised of a set $X_i$ for each $i\in I$.
 An $I$-indexed family of sets $X$ has a \emph{sum} (or \emph{coproduct}), the set of pairs $(i,x)$ with $i\in I$ and $x\in X_i$; and a \emph{product}, the set of \emph{dependent functions} $f\colon(i\in I)\to X_i$.
 Such a dependent function sends each $i\in I$ to an element of $X_i$.
 These constructions satisfy the universal properties of coproducts and products; moreover, products distribute over coproducts, making $\smset$ a completely distributive category.
 All these constructions and properties are inherited by $\smset^\smset$, whose limits (including products) and colimits (including coproducts) are computed pointwise: on one object at a time according to limits and colimits in $\smset$.
+
+\index{dependent function}
 
 For other introductions to the Yoneda lemma, the category of sets, or both, take your pick of \cite{Pierce:1991,Borceux:1994a,MacLane:1998a,Leinster:2014a,Riehl:2017a,fong2019seven,cheng_2022}.
 
@@ -968,6 +1040,15 @@ For other introductions to the Yoneda lemma, the category of sets, or both, take
     \input{solution-file1}}
 
 \Opensolutionfile{solutions}[solution-file2]
+
+
+
+
+
+
+
+
+
 
 %------------ Chapter ------------%
 \chapter{Polynomial functors} \label{ch.poly.obj}
@@ -988,6 +1069,8 @@ We keep the mathematical content of this chapter fairly light, preferring to sol
 \end{definition}
 
 So, up to isomorphism, a polynomial functor is just a sum of representables.
+
+\index{polynomial functor!as sum of representables}
 
 \begin{remark}
     Given sets $I, A \in \smset$, it follows from \cref{exc.repeated_sum_is_product} that we have an isomorphism of polynomials
@@ -1015,6 +1098,8 @@ So, up to isomorphism, a polynomial functor is just a sum of representables.
     \end{enumerate}
     \end{solution}
 \end{exercise}
+
+\index{polynomial functor!summand of}
 
 \begin{example}\label{ex.verbose_poly_eval}
     Consider the polynomial $p\coloneqq\yon^\2+\2\yon+\1$.
@@ -1047,6 +1132,8 @@ In general, a polynomial $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ applied to a set $
 \sum_{i\in I}X^{p[i]}
 \]
 and can be thought of as the set of all pairs comprised of an element of $I$ and a function $p[i]\to X$ or, equivalently, a $p[i]$-tuple of elements of $X$.
+
+\index{polynomial functor!action on sets}
 
 \begin{exercise}
     In the verbose style of \cref{ex.verbose_poly_eval}, write out all the elements of $p(X)$ for $p$ and $X$ as follows (if there are infinitely many, denote the set $p(X)$ some other way):
@@ -1086,6 +1173,8 @@ and can be thought of as the set of all pairs comprised of an element of $I$ and
 
 The following proposition shows how the polynomial functor $p$ itself determines the set $I$ over which we sum up representables to obtain $p$.
 
+\index{polynomial functor!$p(1)$ as summands of}
+
 \begin{proposition}\label{prop.apply1}
     Let $p\coloneqq\sum_{i\in I}\yon^{p[i]}$ be an arbitrary polynomial functor. Then $I\cong p(\1)$, so there is an isomorphism of functors
     \begin{equation}\label{eqn.sum_p1}
@@ -1109,6 +1198,10 @@ The notation in \eqref{eqn.sum_p1} will be how we denote arbitrary polynomials f
     We call $p(\1)$ the \emph{position-set of $p$} and $p[i]$ the \emph{direction-set of $p$ at $i$}.
 \end{definition}
 
+\index{polynomial functor!positions and directions}
+\index{positions!of polynomial|seealso{polynomial functor!positions and directions}}
+\index{directions!of polynomial|seealso{polynomial functor!positions and directions}}
+
 Note that the position-set $p(\1)$ along with the $p(\1)$-indexed family of direction-sets $p[-]\colon p(\1)\to\smset$ uniquely characterize a polynomial $p$ up to isomorphism.
 Throughout this book, we will often specify a polynomial by giving its positions and its directions at each position.
 
@@ -1130,6 +1223,8 @@ Throughout this book, we will often specify a polynomial by giving its positions
 
 As a functor $\smset\to\smset$, a polynomial should act on functions as well as on sets.
 Below, we explain how.
+
+\index{polynomial functor!action on functions}
 
 \begin{proposition} \label{prop.poly_on_functions}
     Let $p$ be an arbitrary polynomial functor, which our notation lets us write as $p\iso\sum_{i\in p(\1)} \yon^{p[i]}$, and let $f\colon X\to Y$ be an arbitrary function.
@@ -1185,6 +1280,10 @@ We have already defined two such special classes: \emph{representables} and \emp
 A \emph{representable polynomial} (or simply a \emph{representable}) is a representable functor, i.e.\ a polynomial functor isomorphic to $\yon^A$ for some set $A$.
 Meanwhile, a \emph{constant polynomial} (or simply a \emph{constant}) is a constant functor, i.e.\ a polynomial functor isomorphic to $I$, interpreted as a functor, for some set $I$.
 
+\index{polynomial functor!constant|see{constant polynomial}}\index{polynomial functor!representable|see{representable polynomial}}\index{polynomial functor!linear|see{linear polynomial}}
+\index{set!as constant polynomial}
+\index{constant polynomial}\index{linear polynomial}\index{representable polynomial}
+
 \begin{exercise}
 \begin{enumerate}
   \item Characterize when a polynomial $p$ is \textit{representable} in terms of its positions and/or its directions.
@@ -1210,16 +1309,19 @@ Meanwhile, a \emph{constant polynomial} (or simply a \emph{constant}) is a const
 Like constants, the other two special classes of polynomials we define here will share their names with their algebraic analogues.
 Throughout, let $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ be a polynomial functor.
 
-\begin{definition}[Linear]
-We say that $p$ is \emph{linear}\footnote{Unlike linear polynomials from high school algebra (which are really \emph{affine linear functions} rather than necessarily \emph{linear functions}), our linear polynomial functors have no (nonzero) constant terms: they always send $\0$ to $\0$.}
+\begin{definition}[Linear, affine]
+We say that $p$ is \emph{linear}\footnote{Unlike linear polynomials from high school algebra (which are really \emph{affine linear functions} rather than necessarily \emph{linear functions}), our linear polynomial functors have no (nonzero) constant terms: they always send $\0$ to $\0$. A polynomial is \emph{affine} if it is of the form $A\yon+B$, though we will not use this concept much in the book.}
 if $p\iso I\yon$ for some set $I$.
 \end{definition}
+\index{linear polynomial}
+\index{polynomial functor!affine|see{affine polynomial}}\index{affine polynomial}
 
 \begin{definition}[Monomial]
 We say that $p$ is a \emph{monomial} if $p\iso I\yon^A$ for sets $I$ and $A$.
 \end{definition}
+\index{monomial}
 
-\begin{example}
+\begin{example}\index{constant polynomial}\index{linear polynomial}\index{representable polynomial}
   Every constant polynomial $I\iso I\yon^\0$ is a monomial, as is every linear polynomial $I\yon\iso I\yon^\1$ and every representable $\yon^A \iso \1\yon^A$.
   On the other hand, there are monomials that are neither constant, linear, nor representable, such as $\2\yon^\2$ or $\nn\yon^\rr$.
   Moreover, there are polynomials that are not monomials, such as $\yon^\4+\3$ or $\sum_{n\in\nn}\yon^{\ord{n}}$.
@@ -1276,6 +1378,7 @@ Later on in \cref{sec.poly.bonus.adj}, we will see how all four of these special
 %-------- Section --------%
 \section{Interpreting positions and directions}
 
+\index{polynomial functor!positions and directions|(}
 Let us make an informal digression on how we will think about positions and directions of polynomials in this book.
 While this section has little mathematical content, the intuition we build here will guide us as we delve into the deeper theory of polynomials and their applications to modeling interaction.
 
@@ -1306,7 +1409,7 @@ While these positions and directions may be imagined abstractly, here we give so
     Having no options, represented by $\yon^\0\iso\1$, is when you actually don't get through it: an impossible decision, a ``dead end.''
 
     In contrast, we may interpret the representable $\yon^{[0,1]}$ as a menu with an infinite range of options: a slider with one end labeled $0$ and the other labeled $1$, able to take on any value in between.
-\end{example}
+\end{example}\index{decision!impossible}\index{isomorphism!of representable functors}
 
 For consistency, we will favor the term ``direction'' over ``option'' when referring to the elements of $A$ for a summand $\yon^A$ of a polynomial.
 Nevertheless, when we think of a polynomial's directions, we will often think of them as options to choose from.
@@ -1339,6 +1442,9 @@ By having multiple representable summands---one for each position---a polynomial
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!positions and directions|)}
+
+
 %-------- Section --------%
 \section{Corolla forests}
 
@@ -1346,9 +1452,14 @@ We would like to have graphical depictions of our polynomials to make them easy 
 These will take the form of special graphs known as \emph{corolla forests}.
 We build up to defining them as follows.
 
+\index{corolla forest|see{polynomial functor!associated corolla forest}}\index{polynomial functor!associated corolla forest}\index{corolla forest|(}
+
+
 Our first definition will be familiar to students of graph theory, although we will add some technical details suited to our purposes.
-\begin{definition}[Rooted tree]
+\begin{definition}[Rooted tree]\index{tree!rooted}\index{tree!corolla and}
     A \emph{rooted tree} is a nonempty connected acyclic undirected graph with a distinguished vertex called the \emph{root}.
+\dnote{Why is a rooted tree undirected? That seems very strange to me, since we draw it with arrows.}
+    \index{rooted tree|see{tree, rooted}}
 
     We allow infinitely and even uncountably many vertices and infinitely and even uncountably many edges incident to each vertex; on the other hand, each pair of vertices is connected by a (necessarily unique) path of finitely many adjacent edges.
 \end{definition}
@@ -1358,6 +1469,9 @@ We will draw our trees with roots at the bottom and other vertices ``growing'' u
 The following terminology will be handy when working with our trees; these terms should be familiar, or at the very least they should match your intuition.
 \begin{definition}[Rooted path; height]
     A \emph{rooted path} is a path in a rooted tree from its root to any vertex.
+
+    \index{rooted tree!rooted path in}
+    \index{rooted tree!height of vertex}
 
     Given a vertex of a rooted tree, the length of (i.e.\ number of edges in) the rooted path to that vertex is the \emph{height} of that vertex.
 \end{definition}
@@ -1369,6 +1483,8 @@ Now we can define a special kind of tree that we will use to depict representabl
 
     The \emph{corolla associated to a representable functor $\yon^A$} for $A\in\smset$ is the corolla whose leaves are in bijection with $A$.
 \end{definition}
+
+\index{corolla}
 
 \begin{example}
     Here are the corollas associated to various representables:
@@ -1413,6 +1529,8 @@ Now we can define a special kind of tree that we will use to depict representabl
 In the example above, the roots are indicated by dots ($\bullet$), and the leaves are indicated by arrows ($\uparrow$).
 Because the direction-set of the representable is in bijection with the leaves of the associated corolla, we can think of each leaf as a direction, so it makes sense to draw the leaves as arrows pointing in different directions.
 Thinking of directions as menu options like in the previous section, we may view these corollas as mini-decision trees, indicating all the possible options we could select.
+\index{corolla forest!leaf of}\index{corolla forest!corolla of}
+\index{decision tree}
 
 \begin{example}
     The corolla associated to $\yon^\0\iso\1$ has \textit{no} leaves: it is the rooted tree consisting of one vertex---the root---and no edges.
@@ -1427,8 +1545,10 @@ Thinking of directions as menu options like in the previous section, we may view
 
 As each representable functor has an associated corolla, each polynomial functor will have an associated disjoint union of corollas that we call a \emph{corolla forest}.
 
+\index{corolla!representable as}
+
 \begin{definition}[Corolla forest]
-    A \emph{corolla forest} is a disjoint union of corollas, i.e.\ an undirected graph whose connected components are all corollas (with distinguished roots).
+    A \emph{corolla forest} is a disjoint union of corollas.
 
     The \emph{corolla forest associated to a polynomial functor} $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ is the disjoint union of the corollas associated to each representable summand $\yon^{p[i]}$ of $p$.
     When we draw the corolla forest associated to $p$, we may say that we are \emph{drawing $p$ as a (corolla) forest}.
@@ -1627,12 +1747,16 @@ Then to draw an element $(i,f)\in p(X)$, we simply need to draw the $p$-corolla 
 Throughout this book, we will generally use corolla forests to depict polynomials with relatively small numbers of positions or directions, where drawing out entire corolla forests is manageable.
 Later, we will study how building larger rooted trees out of these corollas corresponds to conducting various categorical operations on our polynomials.
 
+\index{corolla forest|)}
+
 %% TODO: how much later?
 
 %-------- Section --------%
 \section{Polyboxes}
 
 Before we conclude this chapter, we introduce one more tool for visualizing polynomials whose full power will not be evident until later.
+
+\index{polybox|(}
 
 Throughout this book, we may depict a polynomial $p$ as a pair of boxes stacked on top of each other, like so:
 \[
@@ -1669,6 +1793,8 @@ Once we are accustomed to polyboxes, we will often drop these reminder labels, s
   \end{tikzpicture}
 \]
 serves as a graphical shorthand for the statement ``consider a polynomial functor $p$ with position $i\in p(\1)$ and direction $a\in p[i]$.''
+
+\index{polybox!spreadsheet}\index{polybox!position box}\index{polybox!direction box}
 
 Viewing polynomials as these restricted two-cell spreadsheets reinforces the idea that directions are like menu options: imagine a dropdown menu for the direction box above a filled position box that lists all the directions to choose from at the given position.
 Polyboxes also help us conceptualize the possible pairs of positions and directions of a polynomial whose corolla forest is impractical to draw, as suggested by the following example.
@@ -1718,6 +1844,8 @@ The identity polynomial functor $\yon$, which is both representable and linear, 
 \]
 It has exactly one position and exactly one direction, so both its boxes come pre-filled.
 
+\index{polybox!for linear polynomials}\index{polybox!for representable polynomials}
+
 Finally, a \textit{constant} polynomial $I$ for some set $I$ has empty direction-sets.
 We indicate this by coloring its direction box red:
 \[
@@ -1735,8 +1863,13 @@ The polynomial functor $\1$, which is both representable and constant, therefore
 \end{tikzpicture}
 \]
 
+\index{polybox!for constant polynomials}\index{constant polynomial}
+
 
 In the next chapter, we will introduce the morphisms between polynomial functors and see how their behavior may be depicted using polyboxes.
+
+\index{polybox|)}
+
 
 %-------- Section --------%
 \section{Summary and further reading}
@@ -1753,13 +1886,21 @@ We highlighted four special classes of polynomials (here $I$ and $A$ are sets):
   \item monomials $I\yon^A$, whose direction-sets all have the same cardinality.
 \end{itemize}
 
+\index{constant polynomial}\index{linear polynomial}\index{representable polynomial}\index{polynomial functor!monomial|see{monomial}}\index{monomial}
+
 Throughout this book, we will use polynomials to model decision-making agents that hold positions and take directions from those positions.
 We can draw a polynomial $p$ graphically as a \emph{corolla forest}, with a \emph{corolla} (a rooted tree whose non-root vertices are all leaves) for every $p$-position $i$ that has a leaf for every $p[i]$-direction.
 We can also depict a polynomial as a \emph{polybox picture}, resembling two stacked cells in a spreadsheet, to be filled in with an element of $i$ below and an element of $p[i]$ above.
 
-There are many fine sources on polynomial functors. Some of the computer science literature is more relaxed about what a polynomial is. For example, the ``coalgebra community'' often defines a polynomial to include finite power sets (see e.g.\ \cite{jacobs2017introduction}). Other computer science communities use the same definition of polynomial, but refer to it as a \emph{container} and use different words for its positions (they call them ``shapes'') and directions (they call them, rather unfortunately, ``positions''). See e.g.\ \cite{abbot2003categoriesthesis,abbott2005containers}.
+\index{corolla forest}\index{polybox}
 
-But the notion of polynomial functors seems to have originated from Andr\'{e} Joyal. A good introduction to polynomial functors can be found in \cite{kock2012polynomial} and more extensive notes in \cite{kock2016}; in particular the related work section on page~3 provides a nice survey of the field. A reader may also be interested in the Workshops on Polynomial Functors organized by the Topos Institute: \url{https://topos.site/p-func-workshop/}.
+There are many fine sources on polynomial functors. Some of the computer science literature is more relaxed about what a polynomial is. For example, the ``coalgebra community'' often defines a polynomial to include finite power sets (see e.g.\ \cite{jacobs2017introduction}). Other computer science communities use the same definition of polynomial, but refer to it as a \emph{container} and use different words for its positions (they call them ``shapes'') and directions (they call them, rather unfortunately, ``positions''). See e.g.\ \cite{abbot2003categoriesthesis,abbott2005containers}.\index{coalgebra!community}
+
+\index{polynomial functor!term usage by ``coalgebra community''}
+
+But the notion of polynomial functors seems to have originated from Andr\'{e} Joyal. A good introduction to polynomial functors---including an extensive bibliography of references---can be found in \cite{kock2012polynomial} and more extensive notes in \cite{kock2016}; in particular the related work section on page~3 provides a nice survey of the field. A reader may also be interested in the Workshops on Polynomial Functors organized by the Topos Institute: \url{https://topos.site/p-func-workshop/}.
+
+\index{Joyal, Andr\'{e}}\index{Kock, Joachim}
 
 %-------- Section --------%
 \section{Exercise solutions}
@@ -1771,6 +1912,7 @@ But the notion of polynomial functors seems to have originated from Andr\'{e} Jo
 
 %------------ Chapter ------------%
 \chapter{The category of polynomial functors} \label{ch.poly.cat}
+\index{category!of polynomial functors|(}
 
 % TODO: Should we name it "Morphisms between polynomial functors" or maybe "Dependent lenses" instead?? If so, split off symmetric monoidal structures except little bit about coproducts
 
@@ -1779,14 +1921,23 @@ The objects of $\poly$ are the polynomial functors that we defined in the previo
 Here we will examine the morphisms of $\poly$: natural transformations between polynomial functors.
 Along the way, we will present some of $\poly$'s most versatile categorical properties.
 
+\index{natural transformation!between polynomials|see{lens}}
+
+
 %-------- Section --------%
 \section{Dependent lenses between polynomial functors}
 \label{sec.poly.cat.morph}
 
+
 Before we define the category $\poly$ of polynomial functors, we note that polynomial functors live inside a category already: the category $\smset^\smset$ of functors $\smset\to\smset$, whose morphisms are natural transformations.
-This leads to a very natural (if you will) definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
+This leads to a natural definition of morphisms between polynomial functors, from which we can derive a category of polynomial functors for free.
 We call such a morphism a \emph{dependent lens}, or a \emph{lens} for short.
 If you are familiar with lenses from functional programming, we'll see in \cref{subsec.poly.cat.morph.bimorphic-lens} how our notion of a dependent lens is related.
+
+\index{functional programming!lenses in}
+\index{polynomial functor!morphism of|see{lens}}
+\index{dependent lens|see{lens}}
+\index{lens|(}
 
 \begin{definition}[Dependent lens, $\poly$] \label{def.poly_cat}
 Given polynomial functors $p$ and $q$, a \emph{dependent lens} (or simply \emph{lens}) \emph{from $p$ to $q$} is a natural transformation $p\to q$.
@@ -1795,9 +1946,14 @@ Then $\poly$ is the category whose objects are polynomial functors and whose mor
 
 In other words, $\poly$ is the full subcategory of $\smset^\smset$ spanned by the polynomial functors: we take the category $\smset^\smset$, throw out all the objects that are not (isomorphic to) polynomials, but keep all the same morphisms between the objects that remain.
 
+\index{polynomial functor!category of polynomials}
+\index{polynomial functor!full subcategory of $\smset^\smset$}
+
 Unraveling the familiar definition of a natural transformation, a dependent lens between polynomial functors $p \to q$ thus consists of a function $p(X) \to q(X)$ for every set $X$ such that naturality squares commute.
 That is a lot of data to keep track of!
 Fortunately, there is a much simpler way to think about these lenses, which we will discover using the Yoneda lemma.
+
+\index{Yoneda lemma}\index{isomorphism!natural}
 
 \begin{exercise} \label{exc.poly_morph_yoneda}
 Given a set $S$ and a polynomial $q$, show that a lens $\yon^S \to q$ can be naturally identified with an element of the set $q(S)$.
@@ -1818,6 +1974,9 @@ The above exercise gives us an alternative characterization for lenses out of re
 But before we can characterize lenses out of polynomial functors in general, we need to describe how coproducts work in $\poly$.
 Fortunately, since polynomial functors are defined as coproducts of representables, coproducts in $\poly$ are easy to understand.
 
+\index{coproduct}\index{polynomial functor!coproduct of polynomials|see{polynomial functors, sum of polynomials}}
+\index{polynomial functor!product of polynomials|see{polynomial functors, product of polynomials}}
+
 \begin{proposition} \label{prop.poly_coprods}
   The category $\poly$ has all small coproducts, coinciding with coproducts in $\smset^\smset$ given by the operation $\sum_{i \in I}$ for each set $I$.
 \end{proposition}
@@ -1827,7 +1986,7 @@ Fortunately, since polynomial functors are defined as coproducts of representabl
 \end{proof}
 
 Explicitly, given an $I$-indexed family of polynomials $(p_i)_{i \in I}$, its coproduct is
-\begin{equation} \label{eqn.poly_coprod}
+\begin{equation} \label{eqn.poly_coprod}\index{coproduct!of indexed family}
   \sum_{i \in I} p_i \iso \sum_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{(i,j) \in \sum_{i \in I} p_i(\1)} \yon^{p_i[j]}
 \end{equation}
 by \cref{cor.sum_prod_set_endofuncs}.
@@ -1844,10 +2003,10 @@ Crucially, we have the following corollary.
   In the category $\poly$, every polynomial $p$ is the coproduct of its representable summands $(\yon^{p[i]})_{i\in p(\1)}$.
 \end{corollary}
 
-In other words, writing $p$ as the sum $\sum_{i\in p(\1)}\yon^{p[i]}$ is not just a coproduct in $\smset^\smset$; it is also a coproduct in $\poly$ itself.
+In other words, writing $p$ as the sum $\sum_{i\in p(\1)}\yon^{p[i]}$ is not just a coproduct in $\smset^\smset$; it is also a coproduct in $\poly$ itself.\index{coproduct!in $\poly$}
 
 We are now ready to give our alternative characterization of dependent lenses.
-Recall that a polynomial $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ can be uniquely identified with an indexed family $p[-]\colon p(\1)\to\smset$, a functor from the set $p(\1)$ viewed as a discrete category.
+Recall that a polynomial $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$ can be uniquely identified with an indexed family $p[-]\colon p(\1)\to\smset$, a functor from the set $p(\1)$ viewed as a discrete category.\index{category!discrete}
 
 \begin{proposition}\label{prop.lens-prod-sum}
 Given polynomials $p$ and $q$, there is an isomorphism
@@ -1867,7 +2026,7 @@ where $f_\1\colon p(\1)\to q(\1)$ is a function (equivalently, a functor between
 \end{proposition}
 \begin{proof}
 We have $p\iso\sum_{i\in p(\1)}\yon^{p[i]}$.
-Then by \cref{cor.poly-coprod-repr} and the universal property of the coproduct, we have a natural isomorphism
+Then by \cref{cor.poly-coprod-repr} and the universal property of the coproduct, we have a natural isomorphism\index{coproduct!universal property of}\index{isomorphism!natural}
 \[
     \poly\left(\sum_{i\in p(\1)}\yon^{p[i]}, q\right) \iso \prod_{i\in p(\1)}\poly(\yon^{p[i]},q).
 \]
@@ -1876,6 +2035,8 @@ Applying \cref{exc.poly_morph_yoneda} (i.e.\ the Yoneda lemma) and the fact that
   \prod_{i\in p(\1)}\poly(\yon^{p[i]},q) \iso \prod_{i\in p(\1)}q(p[i]) \iso \prod_{i\in p(\1)}\sum_{j\in q(\1)}p[i]^{q[j]},
 \]
 so \eqref{eqn.main_formula} follows.
+
+\index{lens!positions and directions}\index{Yoneda lemma}
 
 The right hand side of \eqref{eqn.main_formula} is the set of dependent functions $f\colon(i\in p(\1))\to\sum_{j\in q(\1)}p[i]^{q[j]}$.
 Each such dependent function is uniquely determined by its two projections $\pi_1f\colon(i\in p(\1))\to q(\1)$ and $\pi_2f\colon(i\in p(\1))\to p[i]^{q[\pi_1fi]}$.
@@ -1895,10 +2056,13 @@ This leads to the following definition.
 The above definition highlights the bidirectional nature of a lens $f\colon p\to q$: it consists of a function going \textit{forward} on positions, following the direction of $f$ from $p$ to $q$, as well as functions going \textit{backward} on directions, opposing the direction of $f$ from $q$ to $p$.
 This forward-backward interaction is what drives the applications of $\poly$ we will study.
 
+\index{lens!bidirectionality of}
+
 We prefer to call a morphism between polynomial functors a ``lens'' rather than a ``natural transformation'' because we wish to emphasize this concrete on-positions and on-directions perspective.
 Whenever we do need to view a morphism in $\poly$ as a natural transformation, we will refer to them as such.
 
 In the next several sections, we will give some examples of lenses and intuition for thinking about them in terms of interaction protocols, corolla forests, and polyboxes.
+
 
 %-------- Section --------%
 \section{Dependent lenses as interaction protocols}
@@ -1911,6 +2075,8 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     q\coloneqq\{\text{`open'}\}\yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\{\text{`closed'}\}\yon^\0.
   \]
   It has $2$ positions: its `open' position has $4$ directions representing the $4$ denominations of coins it may take, while its `closed' position has $0$ directions to indicate that it cannot take anything.
+
+  \index{lens!as interaction protocol|(}
 
   Now imagine that we model the owner of this coin jar with the following polynomial:
   \begin{align*}
@@ -1928,7 +2094,7 @@ Here is our first example of a dependent lens and a real-world interaction it mi
 
   Say that a needy or greedy owner will keep their coin jar open, while a content owner will keep their coin jar closed.
   We can express this with an on-positions function $f_\1$ from the set of $p$-positions (on the left) to the set of $q$-positions (on the right), as follows (the dashed arrows indicate the function assigments):
-  \[
+  \begin{center}
   \scalebox{.7}{
   \begin{tikzpicture}
     % q-positions (right)
@@ -1954,13 +2120,13 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     \draw[mapsto] (content) -- (closed);
   \end{tikzpicture}
   }
-  \]
+  \end{center}
 
   From there, say that a needy owner whose coin jar receives a nickel or higher will choose to save it, but one whose coin jar receives a penny will choose to spend it.
   Meanwhile, a greedy owner whose coin jar receives a penny or nickel will ask for more, but one whose coin jar receives a dime or quarter will accept it.
   We can express this behavior with an on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$.
   Its `needy' component is the on-directions function $f^\sharp_{\text{`needy'}}\colon q[f_\1(\text{`needy'})]\to p[\text{`needy'}]$ drawn as follows:
-  \[
+  \begin{center}
   \scalebox{.7}{
   \begin{tikzpicture}
     % p-directions (left)
@@ -1989,10 +2155,10 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     \draw[mapsto] (quarter) -- (save);
   \end{tikzpicture}
   }
-  \]
+  \end{center}
   Notice that, by keeping the positions and directions of $p$ on the left and those of $q$ on the right, the on-positions function is drawn from left to right, while the on-directions functions must be drawn right to left.
   The `greedy' component of $f^\sharp$ is the on-directions function $f^\sharp_{\text{`greedy'}}\colon q[f_\1(\text{`greedy'})]\to p[\text{`greedy'}]$ drawn like so:
-  \[
+  \begin{center}
   \scalebox{.7}{
     \begin{tikzpicture}
       % q-directions (right)
@@ -2022,10 +2188,12 @@ Here is our first example of a dependent lens and a real-world interaction it mi
       \draw[mapsto] (quarter) -- (accept);
     \end{tikzpicture}
   }
-  \]
+  \end{center}
   Finally, since $q[f_\1(\text{`content'})]=q[\text{`closed'}]=\0$, the `content' component of $f^\sharp$ is the vacuously-defined on-directions function $f^\sharp_{\text{`content'}}\colon \0\to p[\text{`content'}]$.
   Together, the on-positions function $f_\1$ and the on-directions map $f^\sharp$ defined above completely characterize a lens $f\colon p\to q$ depicting the interaction between the coin jar and its owner.
 \end{example}
+
+\index{lens!bidirectionality of}
 
 More generally, a lens depicts what we call an \emph{interaction protocol}, a kind of dialogue between two agents regarding their positions and directions.
 Say that one agent is represented by a polynomial $p$ and another by a polynomial $q$.
@@ -2035,11 +2203,14 @@ Then each $q[f_\1i]$-direction $b$ is passed backward via the on-directions func
 
 To visualize these lenses, we may use either our corolla forests or our polyboxes.
 
-%-------- Section --------%
+\index{lens!as interaction protocol|)}
 
+%-------- Section --------%
 \section{Corolla forest pictures of dependent lenses}
 
 The corolla forest associated to a polynomial concretely depicts its positions and directions, making it easy to extend our corolla forest pictures to depict the dependencies between the positions and directions of two polynomials that a lens between them prescribes.
+
+\index{lens!corolla forest depiction}
 
 \begin{example}\label{ex.practice_with_poly_morphisms}
 Let $p\coloneqq \yon^\3+\2\yon$ and $q\coloneqq\yon^\4+\yon^\2+\2$.
@@ -2241,6 +2412,8 @@ Finally, on the right, there are no curved arrows, depicting the only possible o
 %-------- Section --------%
 \section{Polybox pictures of dependent lenses}
 
+\index{lens!polybox depiction|(}
+
 Another way to visualize a dependent lens $f\colon p\to q$ is to draw the polyboxes for $p$ and $q$.
 \begin{equation} \label{eqn.polybox_lens}
   \begin{tikzpicture}
@@ -2262,6 +2435,8 @@ Another way to visualize a dependent lens $f\colon p\to q$ is to draw the polybo
 \end{equation}
 Thinking of the polyboxes as cells in a spreadsheet, the lens prescribes how the values of the cells are computed.
 The boxes colored blue accept user input, while the other boxes are computed from that input according to the spreadsheet's rules.
+
+\index{lens!spreadsheet depiction}
 
 The arrows track the flow of information, starting from the lower left.
 When the user fills the blue position box of $p$ with some $i\in p(\1)$, the arrow pointing right indicates that the lens fills the position box of $q$ with some $j\in q(\1)$ based on $i$.
@@ -2323,6 +2498,7 @@ Here is an example of a lens depicted with polyboxes that would be difficult to 
 
 The above example illustrates how we can use polyboxes to specify a particular lens---or, equivalently, how we can use polyboxes to \emph{define} a lens, the same way we might define a function by writing it as a formula in a dummy variable.
 Later on we will see how polyboxes help depict how lenses compose.
+\index{lens!polybox depiction|)}
 
 %-------- Section --------%
 \section{Computations with dependent lenses}
@@ -2366,6 +2542,8 @@ Our concrete characterization of dependent lenses allows us to enumerate them.
   \end{tikzpicture}
   \]
 
+  \index{lens!enumeration}
+
   How many lenses are there from $p$ to $q$? The first $p$-position must be sent to any $q$-position: 1, 2, 3, or 4. Sending it to 1 would require choosing an on-directions function $q[1]\to p[1]$, or $\4\to\3$; there are $3^4$ of these.
   Similarly, there are $3^2$ possible on-directions functions $q[2]\to p[1]$, as well as $3^0$ on-directions functions $q[3]\to p[1]$ and $3^0$ on-directions functions $q[4]\to p[1]$.
   Hence there are a total of $3^4+3^2+3^0+3^0=92$ ways to choose $f_\1(1)$ and $f^\sharp_1$.
@@ -2385,7 +2563,7 @@ Our concrete characterization of dependent lenses allows us to enumerate them.
 
 
 % TODO: integrate below
-
+\index{Yoneda lemma}
 \begin{exercise}
 For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
 \begin{enumerate}
@@ -2542,6 +2720,8 @@ As every $p$-position $i$ is sent to some $q$-position $j$ by $f_\1$, this compl
 In \eqref{eqn.poly_coprod}, we gave an explicit formula for coproducts in $\poly$ inherited from coproducts in $\smset^\smset$, as justified by \cref{prop.poly_coprods}.
 We can now use \eqref{eqn.main_formula} to directly verify that the expression on the right hand side of \eqref{eqn.poly_coprod} satisfies the universal property for the coproduct of polynomials $(p_i)_{i\in I}$ in $\poly$.
 
+\index{polynomial functor!sum of polynomials}
+
 \begin{exercise}%\label{exc.poly_coprod}
 Use \eqref{eqn.main_formula} to verify that
 \[
@@ -2580,6 +2760,7 @@ This natural transformation comes up in computer science in the context of ``plu
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
 A morphism $f\colon p\to \dot{q}$ can be interpreted as something like a lens from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1i=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
+\index{polynomial functor!derivative of|see{derivative}}\index{derivative}
 \end{example}
 
 \begin{exercise} \label{exc.deriv_directions}
@@ -2592,6 +2773,7 @@ We can evaluate $\dot{p}(\1)$ directly from the definition of $\dot{p}$ to obtai
 which is isomorphic to the set of all directions of $p$.
 Then $\pi_p \colon \dot{p}(\1) \to p(\1)$ is the canonical projection, sending each direction $a$ of $p$ to the position $i$ of $p$ for which $a \in p[i]$.
 \end{solution}
+\index{derivative! $\dot{p}(1)$ as directions of $p$}
 \end{exercise}
 
 \begin{exercise}
@@ -2645,6 +2827,7 @@ Here $p, q \in \poly$.
 	We can say that a lens $f \colon p\yon \to q$ is like a lens $p \to q$, except that any of the directions of $q$ may remain unassigned---i.e.\ we may have partial on-directions functions.
 \end{enumerate}
 \end{solution}
+\index{derivative!not well-behaved in $\poly$}
 \end{exercise}
 
 %-------- Section --------%
@@ -2655,7 +2838,7 @@ Of special note are the constant and linear polynomial $\0$, the constant and re
 We now consider lenses with these special polynomials as domains or codomains, highlighting some important examples using polyboxes and leaving most of the rest as exercises.
 Let $p$ be a polynomial throughout.
 
-\begin{example}[Lenses from linear polynomials] \label{ex.lens-from-lin}
+\begin{example}[Lenses from linear polynomials] \label{ex.lens-from-lin}\index{lens!from linear polynomial}
   A lens $f\colon I\yon\to p$ can be drawn in polyboxes as follows:
   \[
     \begin{tikzpicture}[polybox, tos]
@@ -2689,7 +2872,7 @@ Let $p$ be a polynomial throughout.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}[Lenses to linear polynomials]
+\begin{exercise}[Lenses to linear polynomials]\index{lens!to linear polynomial}
   Characterize lenses $p\to I\yon$ in terms of $I$ and the positions and directions of $p$.
 \begin{solution}
   A lens $f\colon p\to I\yon$ consists of an on-positions function $f_\1\colon p(\1)\to I$ and, for each $j\in p(\1)$, an on-directions function $f^\sharp_j\colon\1\to p[j]$.
@@ -2697,7 +2880,7 @@ Let $p$ be a polynomial throughout.
 \end{solution}
 \end{exercise}
 
-\begin{example}[Lenses to constants] \label{ex.lens-to-const}
+\begin{example}[Lenses to constants] \label{ex.lens-to-const}\index{lens!to constant polynomial}
   A lens $f\colon p\to I$ can be drawn in polyboxes as follows:
   \[
   \begin{tikzpicture}[polybox, tos]
@@ -2735,7 +2918,7 @@ Let $p$ be a polynomial throughout.
   \end{solution}
 \end{exercise}
 
-\begin{exercise}[Lenses from constants such as $\1$]
+\begin{exercise}[Lenses from constants such as $\1$]\index{lens!from constant polynomial}
   \begin{enumerate}
     \item Characterize lenses $I\to p$ in terms of $I$ and the positions and directions of $p$.
     You may find it helpful to refer to $p(\0)$; see \cref{exc.apply0}.
@@ -2752,9 +2935,11 @@ Let $p$ be a polynomial throughout.
   \end{solution}
 \end{exercise}
 
-We already know from the Yoneda lemma (see \cref{exc.poly_morph_yoneda}) that lenses $\yon^A\to p$ correspond to elements of $p(A)$, so we turn our attention to lenses $p\to\yon^A$.
+\index{Yoneda lemma}
 
-\begin{example}[Lenses to representables]
+We already know from the Yoneda lemma (see \cref{exc.poly_morph_yoneda}) that lenses $\yon^A\to p$ correspond to elements of $p(A)$, so we understand lenses from representables. Thus we turn our attention to lenses $p\to\yon^A$.\index{lens!from representable polynomial}
+
+\begin{example}[Lenses to representables]\index{lens!to representable polynomial}
   A lens $f\colon p\to\yon^A$ can be drawn in polyboxes as follows:
   \[
   \begin{tikzpicture}
@@ -2795,7 +2980,7 @@ We already know from the Yoneda lemma (see \cref{exc.poly_morph_yoneda}) that le
       \end{tikzpicture}
     };
   \end{tikzpicture}
-  \]
+  \]\index{dependent function!lens to $\yon$ as}
   Such lenses can be identified with dependent functions $(i\in p(\1))\to p[i]$, which, abusing notation, we also denote by $\gamma$.
   For each $p$-position $i$ in the blue position box, $\gamma$ picks out a $p[i]$-direction to fill the unshaded direction box.
   (Remember that the arrow labeled $\gamma^\sharp$ depends not only on the direction box to its right, but also on the position box of $p$.)
@@ -2808,6 +2993,8 @@ We already know from the Yoneda lemma (see \cref{exc.poly_morph_yoneda}) that le
   \end{equation}
 \end{example}
 
+\index{dependent function!lens to $\yon$ as}
+
 The correspondence between lenses $p\to\yon$ and dependent functions $(i\in p(\1))\to p[i]$ exhibited in the previous example also follows directly from \eqref{eqn.main_formula}: taking $q\coloneqq\yon$, we have
 \begin{equation} \label{eqn.gamma_prod}
 \poly(p,\yon)\iso\prod_{i\in p(\1)}\sum_{j\in\1}p[i]^\1\iso\prod_{i\in p(\1)}p[i],
@@ -2816,7 +3003,7 @@ where the right hand side is precisely the set of dependent functions $(i\in p(\
 By \cref{exc.product_as_sections}, such functions may be identified with the \emph{sections} of the projection function $\sum_{i\in p(\1)}p[i]\to p(\1)$ sending $(i,a)\mapsto i$.
 The fact that this projection determines $p$ (up to isomorphism) motivates the following definition.
 
-\begin{definition}[Section; bundle] \label{def.sec-bun}
+\begin{definition}[Section; bundle] \label{def.sec-bun}\index{section|(}\index{lens!to $\yon$ as section}\index{bundle}\index{section|(}
   For $p\in\poly$, a \emph{section} of $p$ is a lens $p\to\yon$.
   We denote the set of all sections of $p$ by $\Gamma(p)$; that is,
   \begin{equation} \label{eqn.gamma_def}
@@ -2871,7 +3058,9 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
   \]
 \end{proposition}
 
-\begin{exercise}
+\index{section|)}
+
+\begin{exercise}\index{colimit!in $\poly$}
   Prove \cref{prop.gamma_pres_coproduct}.
   \begin{solution}
     The functor $\Gamma$ is defined as the hom-functor $\poly(-,\yon)\colon\poly\to\smset\op$, which exhibits the universal property of colimits by sending colimits in $\poly$ to limits in $\smset$.
@@ -2880,6 +3069,8 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
   \end{solution}
 \end{exercise}
 
+\index{functor!of sections, $\Gamma$}
+\index{section|)}
 %\begin{remark}
 %  The sections functor $\Gamma\colon\poly\to\smset\op$ is also normal lax monoidal in the sense that there are canonical functions
 %  \[
@@ -2892,6 +3083,8 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
 
 \begin{example}[Lenses between monomials are bimorphic lenses] \label{subsec.poly.cat.morph.bimorphic-lens}
   Lenses whose domains and codomains are both monomials are especially simple to write down, because they can be characterized as a pair of (standard, not dependent) functions that are independent of each other, as follows.
+
+  \index{lens!bimorphic|see{lens, between monomials}}\index{lens!between monomials}
 
   Given $I,J,A,B\in\smset$, a lens $f\colon I\yon^A\to J\yon^B$ is determined by an on-positions function $f_\1\colon I\to J$ and an on-directions map: for each $i\in I$, an on-directions function $f^\sharp_i\colon B\to A$.
   But the data of such an on-directions map may be repackaged as a single function $f^\sharp\colon I\times B\to A$.
@@ -2913,7 +3106,7 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
   Favoring the dependent version, we call these natural transformations \emph{lenses}.
 \end{example}
 
-\begin{example}[Very well-behaved lenses] \label{ex.lens_get_put}
+\begin{example}[Very well-behaved lenses] \label{ex.lens_get_put}\index{lens!very well-behaved}
   Consider the monomial $S\yon^S$.
   Its position-set is $S$, and its direction-set at each position $s\in S$ is again just $S$.
   We could think of each direction as pointing to the `next' position to move to.
@@ -2945,11 +3138,14 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
     \]
   \end{enumerate}
   Such a lens is known to functional programmers as a \emph{very well-behaved lens}; the three conditions above are its \emph{lens laws}.
-  We will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.
+  We will see these conditions emerge from more general theory in \cref{ex.very_well_behaved_lenses}.\index{lens!laws}
 \end{example}
 
 %-------- Section --------%
 \section{Translating between natural transformations and lenses} \label{subsec.poly.cat.morph.translate}
+
+\index{lens!as natural transformation|(}
+
 We now know that we can specify a morphism $p\to q$ in $\poly$ in one of two ways:
 \begin{itemize}
     \item in the language of functors, by specifying a natural transformation $p \to q$, i.e.\ for each $X\in\smset$, a function $p(X)\to q(X)$ such that naturality squares commute; or
@@ -2962,6 +3158,8 @@ We want to be able to translate between these two languages.
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
 The lemma itself is the crux of the proof of \cref{prop.lens-prod-sum}, that these two formulations of morphisms between polynomials are equivalent; so unraveling these proofs reveals the translation we seek.
 
+\index{Yoneda lemma}
+
 \begin{proposition} \label{prop.morph_arena_to_func}
 Given $p,q\in\poly$, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (i.e.\ an on-positions function) and $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose components are functions between their direction-sets (i.e.\ an on-directions map).
 Then the isomorphism in \eqref{eqn.main_formula} identifies $(f_\1,f^\sharp)$ with the natural transformation $f\colon p\to q$ whose $X$-component $f_X\colon p(X)\to q(X)$ for $X\in\smset$ sends each
@@ -2973,7 +3171,7 @@ with $i\in p(\1)$ and $g\colon p[i]\to X$ to
     (f_\1i,f^\sharp_i\then g)\in\sum_{j\in q(\1)}X^{q[j]}\iso q(X).
 \]
 \end{proposition}
-\begin{proof}
+\begin{proof}\index{Yoneda lemma}
 As an element of the product over $I$ on the right hand side of \eqref{eqn.main_formula}, the pair $(f_\1,f^\sharp)$ is equivalently an $I$-indexed family of pairs $((f_\1i,f^\sharp_i))_{i\in I}$, where each pair $(f_\1i,f^\sharp_i)$ is an element of
 \[
     \sum_{j\in q(\1)}p[i]^{q[j]}\iso q(p[i]).
@@ -3116,14 +3314,20 @@ By \cref{prop.morph_arena_to_func}, the $\1$-component of $f$ is a function $p(\
 Moreover, for each $i\in p(\1)$, the $p[i]$-component $f_{p[i]} \colon p(p[i]) \to q(p[i])$ of $f$ sends $(i,\id_{p[i]})\in p(p[i])$ to $(f_\1i, f^\sharp_i \then \id_{p[i]}) = (f_\1i, f^\sharp_i)$.
 \end{proof}
 
+\index{lens!as natural transformation|)}
+
+
 %-------- Section --------%
 \section{Identity lenses and lens composition} \label{subsec.poly.cat.morph.id-comp}
+
 
 Thus far, we have seen how the category $\poly$ of polynomial functors and natural transformations can be identified with the category of indexed families of sets and lenses.
 But in order to actually discuss the latter category, we need to be able to give identity lenses and describe how lenses compose.
 We can do so by translating between lenses and natural transformations.
 
 For instance, given a polynomial $p$, its identity lens should correspond to the identity natural transformation of $p$ as a functor.
+
+\index{lens!identity}
 
 \begin{exercise}[Identity lenses] \label{exc.arena_morph_id}
 For $p\in\poly$, let $\id_p \colon p \to p$ be its identity natural transformation, whose $X$-component $(\id_p)_X\colon p(X)\to p(X)$ for $X\in\smset$ is the identity function on $p(X)$; that is, $(\id_p)_X=\id_{p(X)}$.
@@ -3140,6 +3344,8 @@ Hence the on-positions function $(\id_p)_\1\colon p(\1)\to p(\1)$ maps every $i\
 \end{exercise}
 
 Similarly, we may deduce how two lenses compose by translating them to natural transformations, composing those, then translating back to lenses.
+
+\index{lens!composition of}
 
 \begin{exercise}[Composing lenses] \label{exc.arena_morph_comp}
 For $p,q,r\in\poly$, let $f\colon p\to q$ and $g\colon q\to r$ be natural transformations, and let $h\coloneqq f\then g$ be their composite, whose $X$-component $h_X\colon p(X)\to r(X)$ for $X\in\smset$ is the composite of the $X$-components of $f$ and $g$; that is, $h_X=f_X\then g_X$.
@@ -3235,7 +3441,7 @@ As the commutativity of the diagrams in \eqref{eqn.coprod_univ_prop_pos} and \eq
 Now that we know how lens composition works in $\poly$, we have a better handle on how it behaves categorically.
 For instance, we can verify functoriality in $\poly$, as in the following exercise.
 
-\begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}
+\begin{exercise}[A functor $\Cat{Top}\to\poly$] \label{exc.top_poly_func}\index{topological space}
 This exercise is for those who know what topological spaces and continuous maps are. It will not be used again in this book.
 \begin{enumerate}
 	\item Given a topological space $X$, define a polynomial $p_X$ whose positions are the points in $X$ and whose directions at $x\in X$ are the open neighborhoods of $x$.
@@ -3291,6 +3497,8 @@ This exercise is for those who know what topological spaces and continuous maps 
 %-------- Section --------%
 \section{Polybox pictures of lens composition}
 
+\index{polybox!for lens composition|(}
+
 Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes together to form polyboxes for their composite, $f\then g\colon p\to r$:
 \[
 \begin{tikzpicture}[polybox, tos]
@@ -3309,6 +3517,8 @@ Given lenses $f\colon p\to q$ and $g\colon q\to r$, we can piece their polyboxes
 \]
 The position box for $q$, which would be blue as part of the polyboxes for $g\colon q\to r$ alone, is instead filled in via $f_\1$; similarly, the direction box for $q$, which would be blue as part of the polyboxes for just $f\colon p\to q$, is filled in via $g^\sharp$.
 This forms a spreadsheet-filling protocol that acts as the polyboxes for $f\then g$.
+
+\index{lens!spreadsheet depiction}
 
 As we follow the arrows from left to right and up and left again, take care to note that the arrow $g^\sharp$ depends not only on the direction box of $r$, but also the position box of $q$ that came before it.
 Similarly, $f^\sharp$ depends on both the position box of $p$ and the direction box of $q$.
@@ -3353,7 +3563,7 @@ Then if we match up the uncolored boxes in the domain and codomain on either sid
 for every $p$-position $i$ and $r[h_\1i]$-direction $c$, which agrees with \cref{exc.arena_morph_comp} and \cref{prop.comm_poly}.
 Throughout this book, we will often read off equalities of positions and directions from polybox pictures of lens equations in this way.
 
-Note that there is redundacy in the above polybox picture: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
+Note that there is redundancy in the above polybox picture: we have filled in all the boxes for clarity, but their entries are determined by the entries in the blue boxes and the labels on the arrows.
 So we may omit the entries in the uncolored boxes without losing information, leaving the reader to fill in the blanks:
 \[
 \begin{tikzpicture}
@@ -3432,8 +3642,15 @@ So we may omit the entries in the uncolored boxes without losing information, le
   She then returns the remaining half to her parents, splitting the money proportionately according to the amount each parent contributed.
 \end{example}
 
+
+\index{polybox!for lens composition|)}
+\index{lens|)}
+
+
 %-------- Section --------%
 \section{Symmetric monoidal products of polynomial functors} \label{sec.poly.cat.monoidal}
+
+\index{monoidal structure}\index{polynomial functor!monoidal structure on|see{monoidal structure}}
 
 One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
 Monoidal structures are the key ingredient to many applications of categories to real-world settings, and $\poly$ is no different in that regard.
@@ -3443,15 +3660,24 @@ We have already seen one monoidal structure on $\poly$: the cocartesian monoidal
 In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts: they are given by an operation that looks just like addition.
 We will see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure that looks just like multiplication.
 
+\index{monoidal structure!cartesian (products)}\index{monoidal structure!cocartesian (sums)}\index{coproduct}
+
+
+
 Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we will save its surprises for when we can better savor them.
 But here in \cref{subsec.poly.cat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
 This monoidal structure will prove useful when we apply $\poly$ to dynamics in the next chapter.
 
+
 %---- Subsection ----%
 \subsection{The categorical product} \label{subsec.poly.cat.monoidal.prod}
+\dnote{Does \cref{subsec.poly.cat.monoidal.prod} belong here? It feels out of place}
+
 The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
 
-\begin{proposition}\label{prop.poly_prods}
+\index{interface}\index{dynamics!internal}\index{control}
+
+\begin{proposition}\label{prop.poly_prods}\index{polynomial functor!product of polynomials}
 The category $\poly$ has arbitrary products, coinciding with products in $\smset^\smset$ given by the operation $\prod_{i \in I}$.
 \end{proposition}
 \begin{proof}
@@ -3459,7 +3685,7 @@ Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
 
 By \cref{cor.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
 The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
-It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.
+It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.\index{polynomial functor!sum of polynomials}
 
 By \cref{prop.set_endofunc_distrib}, $\smset^\smset$ is completely distributive.
 Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $\smset^\smset$ as
@@ -3474,7 +3700,9 @@ which, as a coproduct of representables, is in $\poly$.
 % We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
-\begin{corollary} \label{prop.poly_completely_distributive}
+\index{polynomial functor!product of polynomials}
+
+\begin{corollary} \label{prop.poly_completely_distributive}\index{completely distributive category}
 The category $\poly$ is completely distributive.
 \end{corollary}
 \begin{proof}
@@ -3580,6 +3808,7 @@ We will sometimes write $pq$ rather than $p\times q$:
 pq\coloneqq p\times q
 \end{equation}
 
+\index{corolla forest!for product of polynomials}
 \begin{example}
 We can draw the product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
 \[
@@ -3674,7 +3903,6 @@ In practice, we can multiply polynomial functors the same way we would multiply 
         &\iso \sum_{i \in B_1} \sum_{j \in B_2} \yon^{A_1 + A_2} \\
         &\iso B_1 B_2\yon^{A_1 + A_2}.
     \end{align*}
-
     \item We expand the product $\left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
     \begin{align*}
         \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} B_i\yon^{A_i} \\
@@ -3728,10 +3956,15 @@ As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_
 
 %---- Subsection ----%
 \subsection{The parallel product} \label{subsec.poly.cat.monoidal.par}
+\index{monoidal structure!parallel|see{Parallel product}}
+\index{Dirichlet product|see{parallel product}}
+\index{parallel product|(}
+
+
 There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
 \begin{definition}[Parallel product of polynomials] \label{def.parallel}
-Let $p$ and $q$ be polynomials. Their \emph{parallel product}, denoted $p\otimes q$, is given by the formula:
+Let $p$ and $q$ be polynomials. Their \emph{parallel product} (also called \emph{Dirichlet product}), denoted $p\otimes q$, is given by the formula:
 \begin{equation}\label{eqn.parallel_def}
 p\otimes q\iso\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
@@ -3865,7 +4098,7 @@ We take all pairs of positions, and for each pair we take the product of the dir
 \end{exercise}
 
 
-
+\index{monoidal structure!corolla forest depiction}
 
 \begin{exercise}
 Let $p\coloneqq\yon^\2+\yon$ and $q\coloneqq\2\yon^\4$.
@@ -3998,7 +4231,7 @@ Consider the polynomials $p\coloneqq \2\yon^\2+\3\yon$ and $q\coloneqq\yon^\4+\3
 	(2\mdot2^\yon+3\mdot 1^\yon) \cdot
 	(1\mdot4^\yon+3\mdot 3^\yon)
 	\]
-    The factors of the above product are called Dirichlet series.
+    The factors of the above product are called Dirichlet series.\index{Dirichlet series}
 	\item Describe the connection between the last two parts. (An alternative name we give for the parallel product $\otimes$ is the \emph{Dirichlet product}.) \qedhere
 \end{enumerate}
 \begin{solution}
@@ -4102,7 +4335,7 @@ On directions at $(i,j)\in p(\1)\times q(\1)$, define
 Then \cref{exc.prepare_poly_smc} gives us the unitors, associator, and braiding.
 We have not proven the functoriality of $\otimes$, the naturality of the isomorphisms from \cref{exc.prepare_poly_smc}, or all the coherences between these isomorphisms, but we ask the reader to take them on trust or to check them for themselves.
 Alternatively, we may invoke the Day convolution to obtain the monoidal structure $(\yon, \otimes)$ directly (see \cref{prop.day}).
-\end{proof}
+\end{proof}\index{Day convolution}
 
 \begin{exercise} \label{exc.some_parallel_prods}
 \begin{enumerate}
@@ -4128,8 +4361,10 @@ Alternatively, we may invoke the Day convolution to obtain the monoidal structur
 \end{solution}
 \end{exercise}
 
-\begin{exercise}\label{exc.dir_closed_classes}
-Which of the following classes of polynomials are closed under $\otimes$? Note also whether they contain $\yon$.
+\index{parallel product!of special polynomials}
+
+\begin{exercise}\label{exc.dir_closed_classes}\index{affine polynomial}\index{linear polynomial}\index{monomial}
+Which of the following special classes of polynomials are closed under $\otimes$? Note also whether they contain $\yon$.
 \begin{enumerate}
 	\item The set $\{A\yon^\0\mid A\in\smset\}$ of constant polynomials.
 	\item The set $\{A\yon\mid A\in\smset\}$ of linear polynomials.
@@ -4176,6 +4411,8 @@ This is because by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly
 \end{solution}
 \end{exercise}
 
+\index{distributive law!for parallel product}
+
 \begin{exercise}
 Show that for any $p_1,p_2,q\in\poly$ there is an isomorphism
 \[
@@ -4191,9 +4428,12 @@ We show that $(p_1 + p_2) \otimes q \iso (p_1 \otimes q) + (p_2 \otimes q)$ usin
 \end{solution}
 \end{exercise}
 
+\index{Day convolution}\index{distributive law!for Day monoidal structures}
+\index{monoidal structure!from monoidal structure on $\smset$}
+
 \begin{proposition} \label{prop.day}
 For any monoidal structure $(I,\star)$ on $\smset$, there is a corresponding monoidal structure $(\yon^I, \odot)$ on $\poly$, where $\odot$ is the Day convolution.
-Moreover, $\odot$ distributes over coproducts.
+Moreover, $\odot$ distributes over coproducts.\index{coproduct!distributing over}
 
 In the case of $(\0,+)$ and $(\1,\times)$, this procedure returns the $(\1,\times)$ and $(\yon,\otimes)$ monoidal structures respectively.
 \end{proposition}
@@ -4223,7 +4463,7 @@ in $\poly$.
 That the Day convolution distributes over coproducts also follows from the fact that products distribute over coproducts in $\smset$ and coends commute with coproducts; or, alternatively, directly from \eqref{eqn.day_conv.poly}.
 
 We observe that \eqref{eqn.day_conv.poly} gives $(\yon^I, \odot) = (\1, \times)$ when $(I, \star) = (\0, +)$ and $(\yon^I, \odot) = (\yon, \otimes)$ when $(I, \star) = (\1, \times)$.
-\end{proof}
+\end{proof}\index{Day convolution}
 
 \begin{exercise}
 \begin{enumerate}
@@ -4264,12 +4504,16 @@ Monoids in $\poly$ with respect to the parallel product $\otimes$ are particular
 We leave discussion of them to future work, so as not to distract us from our main story.
 \end{remark}
 
-%-------- Section --------%
+\index{monoid!for parallel product}
+
+\index{parallel product|)}
+
+%-------- Section --------%z1
 \section{Summary and further reading}
 
 In this chapter, we introduced the category $\poly$, whose objects are polynomial functors and whose morphisms are the natural transformations between them.
 We call these natural transformations \emph{dependent lenses}, or \emph{lenses} for short.
-We also proved our first categorical property of $\poly$: that it hs all small coproducts.
+We also proved our first categorical property of $\poly$: that it has all small coproducts.
 %In the next chapter, we will review the coproduct construction before turning to other operations on our polynomials.
 
 The main result of this chapter was a concrete characterization of our dependent lenses between polynomial functors.
@@ -4282,6 +4526,8 @@ This forward-backward relationship is what makes dependent lenses so well-suited
 Given two agents with positions and directions, a dependent lens between them defines an interaction protocol that describes how the position of the first agent determines the position of the second agent and how the direction of the second agent determines the direction of the first.
 This perspective is exhibited by our corolla and polybox pictures for lenses.
 We studied examples of lenses between special polynomials: in particular, lenses between monomials are known as \emph{bimorphic lenses} in functional programming literature.
+
+\index{lens!between monomials}
 
 We then unwound our interpretation of natural transformations between polynomials as dependent lenses with on-positions and on-directions functions to describe what happens to these functions when lenses compose.
 This gave us an accessible way to interpret commutative diagrams in $\poly$ that is particularly convenient to express using polyboxes.
@@ -4305,6 +4551,10 @@ A special case of this is the product structure $\times$ on $\poly$, which emerg
 
 Variants of lenses are studied in compositional game theory \cite{hedges2016compositionality,hedges2017coherence,hedges2018limits,hedges2018morphisms}, in categorical database theory \cite{johnson2012lenses}, in functional programming and programming language theory \cite{bohannon2006relational,oconnor2011functor,abou2016reflections}, and in more generalized categorical settings \cite{gibbons2012relating,spivak2019generalized}.
 
+\index{compositional game theory}
+\index{database}
+\index{functional programming!lenses in}
+
 %-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
@@ -4312,6 +4562,7 @@ Variants of lenses are studied in compositional game theory \cite{hedges2016comp
 \input{solution-file3}}
 
 \Opensolutionfile{solutions}[solution-file4]
+\index{category!of polynomial functors|)}
 
 %------------ Chapter ------------%
 \chapter{Dynamical systems as dependent lenses} \label{ch.poly.dyn_sys}
@@ -4321,6 +4572,8 @@ In this chapter, we will begin to see how to do this through a wide range of exa
 
 %-------- Section --------%
 \section{Moore machines}\label{sec.poly.dyn_sys.moore}
+
+\index{Moore machine|(}
 
 We begin with our simplest example of a dynamical system: a deterministic machine with internal states that can update its current state according to the input it receives and return output according to its current state.
 
@@ -4339,6 +4592,9 @@ We begin with our simplest example of a dynamical system: a deterministic machin
   To emphasize the role that the three sets play, we can specify that this is an $(A,I)$\emph{-Moore machine with states} $S$.
 \end{definition}
 
+\index{Moore machine!states of}
+\index{Moore machine!update}\index{Moore machine!return}
+
 The input/output terminology is standard, while the position/direction terminology is our own: we will soon see how the positions and directions of a Moore machine relate to that of a polynomial, and this terminology will generalize better when we introduce \emph{dependent} Moore machines later this chapter.
 
 We should interpret an $(A,I)$-Moore machine as follows.
@@ -4350,7 +4606,11 @@ Say its current state is $s\in S$; then we can ask the machine to perform one of
   Note that the new state depends not only on the direction the machine receives but also on the state the machine occupies when it receives that direction.
 \end{itemize}
 
+
 We may visualize a Moore machine with a \emph{transition diagram} as follows.
+
+\index{Moore machine!transition diagram}
+\index{interface!monomial|(}
 
 \begin{example}[A Moore machine's transition diagram]\label{ex.Moore_three}
 Given $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$ and $I\coloneqq\{0,1\}$, we can draw a transition diagram for an $(A,I)$-Moore machine with $S\coloneqq\3$ states as follows:
@@ -4408,9 +4668,12 @@ So we can repackage \cref{def.moore_machine} as follows.
     \item the on-directions map $\varphi^\sharp\colon S\times A\to S$ the machine's \emph{update function}.
   \end{itemize}
 \end{definition}
+\index{state system}\index{interface}\index{Moore machine}
 
 We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: an outsider observes the positions of the interface that the machine returns and feeds the directions of the interface to the machine as updates.
 Rather than directly observing and changing the states, an outsider must interact with the machine via its interface.
+
+\index{Moore machine!interface of|seealso{interface}}
 
 \begin{exercise}
 In this exercise, we will write the Moore machine from \cref{ex.Moore_three} as a lens $\varphi$ between monomials.
@@ -4515,6 +4778,9 @@ Then if we give the machine a direction $(r, \theta)$ for some distance $r \in [
 (here we treat $\rr^\2$ as a vector space, so that $r(\cos\theta, \sin\theta)$ is a vector of length $r$ at the angle $\theta$).
 \end{solution}
 \end{exercise}
+
+\index{Moore machine!memoryless}
+\index{Moore machine!induced by function}
 
 \begin{example}[Functions as memoryless Moore machines]\label{ex.funs_to_moore}
 Given a function $f\colon A\to I$, there is a corresponding $(A,I)$-Moore machine with states $I$ that takes in an element of $A$ and returns the element of $I$ obtained by applying $f$.
@@ -4636,7 +4902,7 @@ The original Moore machine had states $\rr^\2$, so to add a health meter that ta
 The position-set and direction-set are unchanged, so the Moore machine is a lens
 \[
     \rr^\2\times[0,1]\yon^{\rr^\2\times[0,1]} \to \rr^\2\yon^{[0,\infty)\times[0,2\pi)}.
-\]
+\]\index{product}
 Its return function $\rr^\2\times[0,1]\to\rr^\2$ is the canonical projection, as the machine returns only its location in $\rr^\2$ and not its health; while its update function
 \[
     \rr^\2 \times [0,1] \times [0,\infty) \times [0,2\pi) \to \rr^\2 \times [0,1]
@@ -4648,6 +4914,8 @@ sends $(x, y, h, r, \theta)$ to
 where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and $h' = h$ otherwise.
 \end{solution}
 \end{exercise}
+
+\index{Moore machine!tape of Turing machine}
 
 \begin{exercise}[Tape of a Turing machine]
 A Turing machine has a tape consisting of a cell for each integer; each cell bears a value $v\in V\coloneqq\{0,1,-\}$, and one of the cells $c\in\zz$ is distinguished as the ``current'' cell.
@@ -4686,6 +4954,8 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{Moore machine!file reader}
 
 \begin{exercise}[File-reader]\label{exc.file_reader}
 Say that a \emph{file} of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
@@ -4726,6 +4996,8 @@ In particular, we will be able to let the file-reader ``close its port,'' so tha
 
 The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine with a distinguished initial state.
 
+\index{deterministic state automaton}\index{Moore machine!deterministic state automaton|see{deterministic state automaton}}
+
 \begin{definition}[Deterministic state automaton, language]\label{def.dfa}
 A \emph{deterministic state automaton} consists of
 \begin{enumerate}
@@ -4735,7 +5007,7 @@ A \emph{deterministic state automaton} consists of
 	\item an \emph{initial state} $s_0\in S$;
 	\item a subset $F\ss S$ of \emph{accept states}.
 \end{enumerate}
-Let
+Let\index{list}
 \[
   \lst(A)=\sum_{n\in\nn}A^\ord{n}
 \]
@@ -4748,6 +5020,8 @@ is such that $s_n$ is an accept state: $s_n\in F$.
 
 We call a subset of $\lst(A)$ a \emph{language}, and we say that the set of all words in $\lst(A)$ that the automaton accepts is the language \emph{recognized} by the automaton.
 \end{definition}
+
+\index{deterministic state automaton!language of}
 
 \begin{remark}
 When we study a deterministic state automaton, we are usually interested in which words the automaton accepts and, more generally, what language the automaton recognizes.
@@ -4776,8 +5050,14 @@ So there would be one update function $u_s\colon A\to S$ if $f(s)=1$, and a diff
 But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$!
 Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
+\index{interface!monomial|)}
+\index{Moore machine|)}
+
 %-------- Section --------%
 \section{Dependent dynamical systems}\label{sec.poly.dyn_sys.depend_sys}
+
+\index{Moore machine!dependent|see{dynamical system, dependent}}
+\index{dynamical system|(}\index{interface!polynomial}
 
 Each of our Moore machines above has a monomial $I\yon^A$ as an interface.
 Every representable summand of such an interface has the same representing set $A$, so the set of directions that can be fed into the machine is always $A$.
@@ -4793,6 +5073,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
     \item the on-directions map $\varphi^\sharp\colon p[\varphi_\1(-)]\to S$ the machine's \emph{update map}, and the on-directions function $\varphi^\sharp_s\colon S\times p[\varphi_\1s]\to S$ at $s\in S$ the machine's \emph{update function} at $s$.
   \end{itemize}
 \end{definition}
+\index{state system}
 
 \begin{example}[Dynamical systems as polyboxes]
   We can express a dynamical system $\varphi\colon S\yon^S\to p$ in polyboxes as
@@ -4814,6 +5095,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
   Finally, the update map uses the current state $s$ and the position $i$ to fill the left direction box with the new state $t\in S$.
   Then the process repeats with $t$ in place of $s$.
 \end{example}
+\index{interface}
 
 \begin{remark}
 It may seem limiting that the set of possible directions a dependent dynamical system can receive should depend on the current \emph{position} rather than the current \emph{state}; but this makes sense philosophically if we accept that the system's interface should capture \emph{everything} about how it interacts with the outside world.
@@ -4824,6 +5106,9 @@ On the other hand, if the internal state changes, but the external position rema
 
 Here are some examples of dependent dynamical systems.
 We begin by finishing the example at the end of the last section.
+
+\index{dependent Moore machine|see{dynamical system}}
+\index{deterministic state automaton!halting}
 
 \begin{example}[Halting deterministic state automata]\label{ex.regular_lang_stop}
 Recall deterministic state automata from \cref{def.dfa}.
@@ -4856,6 +5141,8 @@ is such that $s_n$ is the sequence's first accept state:
 \]
 We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
 \end{example}
+
+\index{deterministic state automaton!language of}
 
 \begin{remark}
 Again, the conditions for when one of these automata accepts a word are rather awkward to formally state.
@@ -4921,7 +5208,7 @@ Answer the following questions, in keeping with the notation from \cref{ex.regul
 
 For further examples, every graph gives rise to a dynamical system; but to ensure that we are discussing the same concept, let us fix the definition of a graph.
 
-\begin{definition}[Graph] \label{def.graph}
+\begin{definition}[Graph] \label{def.graph}\index{graph}
 A \emph{graph} $G \coloneqq (E \tto V)$ consists of
 \begin{itemize}
   \item a set $E$ of \emph{edges};
@@ -4933,7 +5220,7 @@ A \emph{graph} $G \coloneqq (E \tto V)$ consists of
 
 So when we say ``graph,'' we mean a \emph{directed} graph, and we allow multiple edges between the same pair of vertices as well as self-loops.
 
-\begin{example}[Graphs as dynamical systems] \label{ex.graph_dyn}
+\begin{example}[Graphs as dynamical systems] \label{ex.graph_dyn}\index{graph}
 Given a graph $G\coloneqq(E\tto V)$ with source and target functions $s,t\colon E\to V$, there is an associated polynomial
 \[
     g\coloneqq\sum_{v \in V} \yon^{s\inv(v)}.
@@ -4941,9 +5228,13 @@ Given a graph $G\coloneqq(E\tto V)$ with source and target functions $s,t\colon 
 Its positions are the vertices of the graph, and its directions at $v\in V$ are the edges coming out of $v$.
 We call this the \emph{emanation polynomial} of $G$.
 
+\index{graph}
+
 The graph itself induces a dynamical system $\varphi\colon V\yon^V\to g$, where $\varphi_\1 = \id_V$ and $\varphi^\sharp_v e = t(e)$.
 So its states as well as its positions are the vertices of the graph, and a direction at a vertex $v\in V$ is an edge $e\in E$ coming out of $v$ that takes us from $v=s(e)$ along the edge $e$ to its target vertex $\varphi^\sharp_v e=t(e)$.
 \end{example}
+
+\index{graph!as dynamical system}
 
 \begin{exercise}
 Pick your favorite graph $G$, and consider the associated dynamical system as in \cref{ex.graph_dyn}.
@@ -5001,6 +5292,11 @@ On the other hand, while the file-reader is `busy,' we want it to step forward t
 So for each $(s,t)\in S$ for which $s<t$, we let the update function $\varphi^\sharp_{(s,t)}\colon\1\to S$ specify the element $(s+1,t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
+\index{file reader|see{Moore machine, file reader}}
+\index{Moore machine!file reader}
+\index{file searcher|see{Moore machine, file searcher}}
+\index{Moore machine!file searcher}
+
 \begin{exercise} \label{exc.file_searcher}
 Say instead of a file-reader, we wanted a file-searcher, which acts just like the file-reader from \cref{ex.generalized_file_reader} except that it only returns $c\in\Set{ascii}$ in its position when $c$ is a specific character; say $c=100$.
 Otherwise, it returns the placeholder character $\_$.
@@ -5037,6 +5333,9 @@ In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-se
 Moreover, this construction will highlight precisely how our file-searcher is related to our file-reader.
 This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
 
+\index{interface!wrapper}
+\index{robot|(}
+
 \begin{example}\label{ex.grid_robot}
 Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be the set
 \[
@@ -5047,20 +5346,20 @@ Choose $n\in\nn$, a \emph{grid size}, and for each $i\in\ord{n}$, let $D_i$ be t
 		\{-1,0\}&\tn{ if }i=n
 	\end{cases}
 \]
-We can think of $D_i$ as the set of all directions a robot could move if at location $i$.
-In particular, a robot already at $i=1$ cannot shift its location by $-1$; likewise, a robot already at $i=n$ cannot shift its location $+1$.
+We can think of $D_i$ as the set of ways a robot could move from location $i$.
+If $1<i<n$, a robot may shift its location by $-1$ (move left/down), $0$ (remain still), or $+1$ (move right/up).
+But a robot already at $i=1$ cannot shift its location by $-1$; likewise, a robot already at $i=n$ cannot shift its location by $+1$.
 
-Then we can model a robot that can be instructed to move within an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system $\varphi\colon S\yon^S\to p$, with $S\coloneqq\ord{n}\times\ord{n}$ and
+Then we can model a robot told to move in an $\ord{n}\times\ord{n}$ grid as a dependent dynamical system
 \[
-    p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
+    \varphi\colon (\ord{n}\times\ord{n})\yon^{\ord{n}\times\ord{n}}\to\sum_{(i,j)\in\ord{n}\times\ord{n}}\yon^{D_i\times D_j}.
 \]
-The robot's state is a position in the grid.
-We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that each state returns itself as output---in particular, the robot returns a position as output by moving to that position in the grid.
+The robot's state is a location $(i,j)\in\ord{n}\times\ord{n}$ in the grid.
+We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that the dynamical system returns its state as its position: the robot expresses its position by moving to that location in the grid.
 
-Then for each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair of directions $(d,e)\in D_i\times D_j$ to the grid position given by $(i+d,j+e)$.
-Concretely, this says that if a robot at position $(i,j)$ in the grid receives the pair of directions $(d,e)$ as its input, its new position in the grid will be $(i+d,j+e)$.
-Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still in the grid.
-With this setup, the robot has more movement options when it is in the center of the grid than when it is on the sides or corners:
+For each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair $(d,e)\in D_i\times D_j$ to the grid location $(i+d,j+e)\in(n,n)$.
+Concretely, this says that if a robot located at $(i,j)$ receives the pair $(d,e)$ as its direction, its new position will be $(i+d,j+e)$.
+Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still inside the grid; with this setup, the robot has fewer ways to move on the sides or corners of the grid than anywhere else:
 \[
 \begin{tikzpicture}[scale=.5]
   \draw[step=1cm,gray,very thin] (-3,-3) grid (4,4);
@@ -5077,35 +5376,36 @@ With this setup, the robot has more movement options when it is in the center of
 	\draw[->, blue] (1.5, 0.5) -- (2.5,-0.5);
 \end{tikzpicture}
 \]
+In this picture, $\ord{n}\coloneqq\7$, and the $4$ directions at position $(1,7)$ and $9$ directions at position $(5,4)$ are shown (recall that remaining still is an option in either case).
 
-Note that, in this example, the positions of $p$ are literally the positions in the grid where the robot could be, and the directions of $p$ at each position are literally the directions in which the robot can move!
+Note that in this example, the positions are literally the positions in the grid where the robot could be, and the directions at each position are literally the directions in which the robot can move!
 \end{example}
 
 \begin{exercise} \label{exc.grid_reward}
 Modify the dynamical system from \cref{ex.grid_robot} as follows.
 \begin{enumerate}
-	\item Replace $p$ with another interface $p'$ so that at each grid value, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$.
-	\item Replace $S$ with another set of states $S'$ so that an element $s\in S'$ may include both the robot's position and a list of all reward values so far.
-	\item With your new $p'$ and $S'$, define a new lens $\varphi'\colon S'\yon^{S'}\to p'$ that preserves the behavior of $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot}, but also properly updates the robots list of rewards.
+	\item Replace the interface with a new polynomial $p$ so that at each grid location, the robot can receive not only the direction it should move in but also a ``reward value'' $r\in\rr$.
+	\item Replace the state-set with a new set $S$ so that an element $s\in S$ may include both the robot's position and a list of all reward values so far.
+	\item With your new $p$ and $S$, define a new dynamical system $\varphi'\colon S\yon^S\to p$ that preserves the behavior of the dynamical system from \cref{ex.grid_robot} while updating the robot's reward list without returning it externally.
 \qedhere
 \end{enumerate}
 \begin{solution}
 We modify the dynamical system from \cref{ex.grid_robot}.
 \begin{enumerate}
-    \item Previously, the set of inputs at each output $(i,j)\in\ord{n}\times\ord{n}$ of our interface $p$ was $D_i\times D_j$.
-    But now we also want to be able to give the robot a ``reward value'' $r\in\rr$.
-    So our new input set should be $D_i\times D_j\times\rr$, making
+    \item Previously, the direction-set at position $(i,j)\in\ord{n}\times\ord{n}$ of our interface was $D_i\times D_j$.
+    But now we also want to give the robot a ``reward value'' $r\in\rr$.
+    So our new direction-set should be $D_i\times D_j\times\rr$:
     \[
-        p'\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}} \yon^{D_i\times D_j\times\rr}.
+        p\coloneqq\sum_{(i,j)\in\ord{n}\times\ord{n}} \yon^{D_i\times D_j\times\rr}.
     \]
-    \item Previously, a state was just a position in $\ord{n}\times\ord{n}$.
+    \item Previously, a state was just a location in the grid: an element of $\ord{n}\times\ord{n}$.
     But now we want to be able to record a list of reward values as well.
-    Since each reward value is a real number, it suffices to define the state set to be $S'\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.
-    \item The former return function $\varphi_\1\colon S\to p(\1)$ was the identity on $\ord{n}\times\ord{n}$.
-    The new return function $\varphi'_\1$ should still just yield the robot's current grid position, but since it is now a function from $S'=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\varphi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
+    Since each reward value is a real number, we define the state-set to be $S\coloneqq\ord{n}\times\ord{n}\times\lst(\rr)$.\index{list}
+    \item The former return function $\varphi_\1$ was the identity on $\ord{n}\times\ord{n}$.
+    The new return function $\varphi'_\1$ should still just return the robot's current grid position; but since it is now a function from $S=\ord{n}\times\ord{n}\times\lst(\rr)$, it should instead be the canonical projection $\varphi'_\1\colon \ord{n}\times\ord{n}\times\lst(\rr)\to\ord{n}\times\ord{n}$.
 
     For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\varphi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
-    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, updating the list of rewards.
+    With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, also updating the list of rewards.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -5115,9 +5415,14 @@ But there is a much simpler way to think about the new system as the juxtapositi
 We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{subsec.poly.dyn_sys.new.par}.
 In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
+\index{robot|)}
+\index{dynamical system|)}
+
 
 %-------- Section --------%
 \section{Constructing new dynamical systems from old}\label{sec.poly.dyn_sys.new}
+
+\index{dynamical system!constructing new from old|(}
 
 We have seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
 But we have yet to take full advantage of the categorical structure that $\poly$ provides.
@@ -5133,10 +5438,14 @@ In this section, we'll review each of them in turn.
 %---- Subsection ----%
 \subsection{Categorical products: multiple interfaces operating on the same states}\label{subsec.poly.dyn_sys.new.prod}
 
+\index{interface!multiple}
+
+\index{dynamical system!constructing from product}
+
 For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
 Then by the universal property of products in $\poly$, there is an induced lens \[\varphi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
 
-We can characterize the dynamics of $\varphi$ in terms of each original dynamical system $\varphi_i$ as follows.
+We can characterize the dynamics of $\varphi$ in terms of each original dynamical system $\varphi_i$ as follows.\index{dynamics}
 By \cref{exc.poly_prod}, the return function \[\varphi_\1\colon S\to\prod_{i\in\ord{n}}p_i(\1)\] sends each state $s\in S$ to the corresponding $n$-tuple of outputs $((\varphi_i)_\1(s))_{i\in\ord{n}}$ returned by each of the original dynamical systems at that state.
 Then at each state $s\in S$, the update function \[\varphi^\sharp_s\colon\sum_{i\in\ord{n}}p_i[(\varphi_i)_\1(s)]\to S\] sends each pair $(i,d)$ in its domain, with $i\in\ord{n}$ and $d\in p_i[(\varphi_i)_\1(s)]$, to where the update function of $\varphi_i$ at $s$ sends $d$: namely $(\varphi_i)^\sharp_s(d)$.
 
@@ -5156,7 +5465,7 @@ The universal property of products in $\poly$ gives us a lens
 \]
 which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
 \end{solution}
-\end{exercise}
+\end{exercise}\index{Moore machine}
 
 \begin{example} \label{ex.prod_diagrams}
 Consider two four-state dependent dynamical systems $\varphi\colon\4\yon^\4\to\rr\yon^{\{r,b\}}$ and $\psi\colon\4\yon^\4\to \zz_{\geq0}\yon^{\{g,p\}}+\zz_{<0}\yon^{\{g\}}$, drawn below as labeled transition diagrams (we think of $r,b,g,$ and $p$ as red, blue, green, and purple, respectively):
@@ -5198,6 +5507,8 @@ Each state now returns two outputs: one according to the return function of $\va
 As for the possible inputs, we now have the option of giving either an input from a direction-set of $\varphi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\varphi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
 \end{example}
 
+\index{event-based systems}
+
 \begin{exercise}[Toward event-based systems]
 Let $\varphi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
 
@@ -5216,8 +5527,13 @@ This construction is actually universal; it is known as \emph{copointing}.
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!copointed}
+
 %---- Subsection ----%
 \subsection{Parallel products: juxtaposing dynamical systems}\label{subsec.poly.dyn_sys.new.par}
+
+\index{dynamical system!juxtaposing}
+\index{parallel product!and dynamical systems|(}
 
 Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.cat.monoidal.par}.
 In particular, the parallel product of two state systems is still a state system.
@@ -5226,6 +5542,8 @@ In fact, it's about as easy as you could hope: you just multiply the set of stat
 
 For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$.
 Then we can take the parallel product of all of them to get a lens \[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
+
+
 
 We can characterize the dynamics of $\varphi$ in terms of each constituent dynamical system $\varphi_i$ as follows.
 By the proof of \cref{prop.parallel_monoidal}, the return function \[\varphi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\varphi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
@@ -5246,7 +5564,7 @@ Taking their parallel product in $\poly$ gives us a lens
 \]
 which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
 \end{solution}
-\end{exercise}
+\end{exercise}\index{Moore machine}
 
 \begin{example} \label{ex.par_diagrams}
 Consider two dependent dynamical systems $\varphi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
@@ -5318,14 +5636,19 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 \end{enumerate}
 \end{solution}
 \end{exercise}
+\index{robot}
 
 The parallel product takes two dynamical systems and essentially puts them in the same room together so that they can be run at the same time.
 But it doesn't allow for any interaction \emph{between} the two systems.
 For that, we will need to use what we call a wrapper interface.
 We'll introduce wrapper interfaces in the next section, before describing how they can be used in conjunction with parallel products to model general interaction in \cref{sec.poly.dyn_sys.interact}.
 
+\index{parallel product!and dynamical systems|)}
+
 %---- Subsection ----%
 \subsection{Composing lenses: wrapper interfaces}\label{subsec.poly.dyn_sys.new.wrap}
+
+\index{dynamical system!wrapper interface|see{interface, wrapper}}\index{interface!wrapper|(}
 
 The idea behind a wrapper interface is simple.
 Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
@@ -5496,6 +5819,7 @@ In the next section, we describe a special kind of wrapper.
 
 %---- Subsection ----%
 \subsection{Sections as wrappers}\label{subsec.poly.dyn_sys.new.sit_encl}
+
 Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
 We can think of this as wrapping $\yon$, the interface with one output and one input, around $\varphi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
@@ -5506,6 +5830,8 @@ Recall that a section $\gamma\colon p\to\yon$ can be identified with a dependent
 In the language of dynamical systems, a section of the interface $p$ chooses a fixed input at every output of $p$.
 A section for your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
 
+\index{dependent function}
+
 \begin{exercise} \label{exc.enclosures_as_functions}
 Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{enumerate}
@@ -5513,7 +5839,7 @@ Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 	\item Describe how to interpret a section $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
 	\item Given a section $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
 \qedhere
-\end{enumerate}
+\end{enumerate}\index{dynamics}
 \begin{solution}
 \begin{enumerate}
 	\item No, it represents a function $B\to A$!
@@ -5652,25 +5978,30 @@ We'll develop the machinery to answer these questions over the course of the thr
   \end{equation*}
 \end{example}
 
+\index{dynamical system!constructing new from old|)}
+
 %-------- Section --------%
 \section{General interaction}\label{sec.poly.dyn_sys.interact}
 
 We now have all the pieces we need to model interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
+\index{interaction|(}
+\index{interaction pattern|see{interaction}}
 
 \subsection{Wrapping juxtaposed dynamical systems together}
+\index{parallel product!and interaction}
 
-When wrapper interaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
+When wrapper interfaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
 Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
 \[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
 by taking their parallel product.
 Then we can wrap an interface $q$ around $\varphi$ using a wrapper $f$, yielding a new dynamical system
 \[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\varphi}\bigotimes_{i\in\ord{n}}p_i\To{f}q.\]
-On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interace.
+On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interface.
 On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the constituent interfaces.
 In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
 When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
 
-\begin{example}[Repeater]
+\begin{example}[Repeater]\index{dynamical system!repeater}
 Suppose we have a dependent dynamical system $\varphi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
 What if we wanted to construct a system $\psi$ that operates just like $\varphi$, but \emph{always} returns elements of $A$ as output?
 Where $\varphi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\varphi$ returns silence before it has returned any elements of $A$ yet.)
@@ -5729,6 +6060,8 @@ We can wrap an interface $\nn\yon$ around them both using an interaction pattern
 \]
 whose on-positions function is the projection $\2\nn\to\nn$, returning the location returned by the tracker, and whose on-directions function is the projection $\2\nn\to\2$, passing the output of the paddler as input to the tracker.
 
+\index{dynamics}
+
 Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker.
 We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $T\coloneqq\2\nn$, storing what side the paddler is on and the current location.
 The on-positions function of the tracker is the projection $\2\nn\to\nn$ that returns the current location; then at each $(d,i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\nn$ sends
@@ -5742,6 +6075,7 @@ The on-positions function of the tracker is the projection $\2\nn\to\nn$ that re
 storing the new direction of the paddler as well as moving the machine forward one unit if the paddle switches while keeping the machine still if the paddle stays still.
 \end{example}
 
+\index{dynamical system!paddler}
 \begin{exercise}
 Change the dynamics and state system of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
 
@@ -5796,6 +6130,8 @@ On directions, we use the function
 \]
 so that each system is able to see the location of the other system relative to its own, i.e.\ the vector pointing from itself to the other system (unless that vector is zero, in which case the whole thing should have already halted).
 
+\index{dynamics}
+
 We can use these vectors to define the internal dynamics of each system so that they move the way we want them to.
 Each system will hold as its internal state its current location and velocity, i.e.\ $S=\rr^\2\times\rr^\2$.
 To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the current location, update the current location by adding the current velocity, and update the current velocity by adding a vector with appropriate magnitude pointing to the other system:
@@ -5809,7 +6145,7 @@ To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the 
 \end{align*}
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\index{robot}
 Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set of points and $d\colon X\times X\to\rr_{\geq0}$ is a distance function satisfying the usual laws.
 Let's have robots interact in this space.
 
@@ -5890,17 +6226,23 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
 \end{solution}
 \end{exercise}
 
+\index{interface!wrapper|)}
+
 \subsection{Sectioning juxtaposed dynamical systems off together}
 
 We saw in \cref{subsec.poly.dyn_sys.new.sit_encl} that a section (i.e.\ lens to $\yon$) for the interface of a dynamical system sections that dynamical system off as a closed system.
 So it should not come as a surprise that a section for a parallel product of interfaces yields an interaction pattern between the interfaces that only allows the interfaces to interact with each other, cutting off any other interaction with the outside world.
+
+\index{parallel product!section for}
+
+\index{interaction!picking up the chalk|(}\index{interface!closed}
 
 \begin{example}[Picking up the chalk]\label{ex.pickup_chalk}
 Imagine that you see some chalk and you pinch it between your thumb and forefinger.
 An amazing thing about reality is that you will then have the chalk, in the sense that you can move it around.
 How might we model this in $\poly$?
 We will construct a closed dynamical system---one with interface $\yon$---consisting of only you and the chalk.
-To do so, we will provide an interface for you, and interface for the chalk, and an section for your juxtaposition.
+To do so, we will provide an interface for you, and interface for the chalk, and a section for your juxtaposition.
 
 Let's say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Let's also say that you take in information about the chalk's height. Here are the two sets we'll be using:
 \[
@@ -5965,7 +6307,7 @@ and the on-directions function of \eqref{eqn.chalk_dynamics} at $(\text{`in'}, h
 \end{align*}
 Obviously, this is all quite complicated, intricate, and contrived.
 Our goal here is to show that you can define interactions in which one system can engage with or disengage from another, where one system controls the behavior of the other when the two are engaged.
-\end{example}
+\end{example}\index{control}
 
 \begin{exercise}\label{exc.pickup_chalk}
 \begin{enumerate}
@@ -5984,6 +6326,9 @@ Our goal here is to show that you can define interactions in which one system ca
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{interaction!picking up the chalk|)}
+\index{section}
 
 Given $n\in\nn$ and polynomials $p_1,\ldots,p_n$ as interfaces, a section $p_1\otimes\cdots\otimes p_n\to\yon$ sections off these $n$ interfaces together.
 The following proposition provides an alternative perspective on such sections.
@@ -6063,6 +6408,8 @@ We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{interaction!picking up the chalk}
 
 \begin{exercise}
 We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \const{You} and \const{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$.
@@ -6147,17 +6494,24 @@ We wish to write the section $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon
 \end{solution}
 \end{exercise}
 
+\index{section}
+
 \subsection{Wiring diagrams as interaction patterns}
+
+\index{wiring diagram|see{interaction, wiring diagram}}
+\index{interaction!wiring diagram|(}
 
 A \emph{wiring diagram} is a graphical depiction of interactions between systems.
 Wiring diagrams depict systems as boxes, showing how they can send inputs and outputs to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
+
+\index{interface!monomial}
 
 Formally, and more precisely, we can think of each box in a wiring diagram as an interface given by some monomial.
 The box itself is not, per se, a dynamical system as we have defined one; but it becomes a dynamical system once we equip it with a lens from a state system.
 Then the entire wiring diagram---specifying how these boxes nest within a larger box---is just an interaction pattern between the interfaces, with the larger box playing the role of the wrapper interface.
 Once every nested box is equipped with a lens from a state system, we obtain a dynamical system whose interface is the larger box.
 
-\begin{example}
+\begin{example}\index{control}
 Here is a simple wiring diagram.
 \begin{equation}\label{eqn.control_diag}
 \begin{tikzpicture}[oriented WD, baseline=(B)]
@@ -6186,9 +6540,9 @@ Here is a simple wiring diagram.
 	\node[below=0of outer.north] {\texttt{System}};
 \end{tikzpicture}
 \end{equation}
-The plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.
+The plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.\index{control}
 
-There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has a fixed set of inputs and outputs, and so we can consider the box as a monomial interface.
+There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has a fixed set of inputs and outputs, and so we can consider the box as a monomial interface.\index{interface!monomial}
 \begin{equation}\label{eqn.basic_diagram}
 	\const{Plant}\coloneqq C\yon^{AB}
 	\qquad\quad
@@ -6226,10 +6580,10 @@ we can obtain the dynamics for the outer box:
 \[
 ST\yon^{ST}\To{\varphi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\const{System}.
 \]
-\end{example}
+\end{example}\index{dynamics}
 
 \begin{exercise}
-\begin{enumerate}
+\begin{enumerate}\index{control}
 	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
 	\item What are the monomials represented by the boxes in your diagram (replacing \eqref{eqn.basic_diagram})?
 	\item What is the interaction pattern represented by this wiring diagram?
@@ -6338,7 +6692,7 @@ Consider the following wiring diagram.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}[Long division] \label{exc.long_div}
+\begin{exercise}[Long division] \label{exc.long_div}\index{long division}
 \begin{enumerate}
 	\item Let $\fun{divmod}\colon\nn\times\nn_{\geq1}\to\nn\times\nn$ send $(a,b)\mapsto(a\bdiv b, a\bmod b)$; for example, it sends $(10,7)\mapsto(1,3)$ and $(30,7)\mapsto(4,2)$.
 	Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
@@ -6380,7 +6734,7 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
 \begin{solution}
 \begin{enumerate}
     \item Using \cref{exc.funs_to_moore}, we can turn $\fun{divmod}$ into the dynamical system $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ whose return function is the identity on $\nn\times\nn$ and whose update function $\nn\times\nn\times\nn\times\nn_{\geq1}\to\nn\times\nn$ sends $(\_,\_,a,b)\mapsto(a\bdiv b,a\bmod b)$.
-    \item From left to right, the inner boxes represent monomial interfaces $\nn_{\geq1}\yon, \nn\times\nn\yon^{\nn\times\nn_{\geq1}}, \nn\yon,$ and $\nn\yon^{\nn\times\nn}$.
+    \item From left to right, the inner boxes represent monomial interfaces $\nn_{\geq1}\yon, \nn\times\nn\yon^{\nn\times\nn_{\geq1}}, \nn\yon,$ and $\nn\yon^{\nn\times\nn}$.\index{interface!monomial}
     The box labeled $7$ is given dynamics $7\colon\yon\to\nn_{\geq1}\yon$ so that it always returns the output $7$; similarly, the box labeled $10$ is given dynamics $10\colon\yon\to\nn\yon$ so that it always returns the output $10$.
     Meanwhile, the box labeled is given dynamics $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ from the previous part; while we can again apply \cref{exc.funs_to_moore} to the standard multiplication function $*\colon\nn\times\nn\to\nn$ to give the box labeled $*$ dynamics as well, yielding a dynamical system $*\colon\nn\yon^\nn\to\nn\yon^{\nn\times\nn}$ whose return function is the identity on $\nn$ and whose update function $\nn\times\nn\times\nn\to\nn$ sends $(\_,m,n)\mapsto m*n$.
 
@@ -6441,7 +6795,7 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
 \end{solution}
 \end{exercise}
 
-\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}
+\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}\index{cellular automata}\index{graph}
 Suppose we have a graph $G=(E\tto V)$ as in \cref{def.graph} and a set $\tau(v)$ associated with each vertex $v\in V$:
 \[
 \begin{tikzcd}
@@ -6469,6 +6823,7 @@ given by a function
 \]
 that sends each dependent function $o\colon(v\in V)\to\tau(v)$ to the dependent function $(e\in E)\to\tau(t(e))$ sending $e\mapsto o(t(e))$.
 In other words, given the output $o(v)\in\tau(v)$ for every vertex $v\in V$, we know for each edge $e\in E$ that the input $s(e)$ receives is the output of $t(e)$.
+\index{dependent function}\index{dynamics}\index{graph}
 
 Hence, once we give dynamics to each $p_v$, namely by specifying a dynamical system $S_v\yon^{S_v}\to p_v$ with outputs in $\tau(v)$ and inputs in $\prod_{e\in E_v}\tau(t(e))$, we will obtain a closed dynamical system that transitions from each vertex's state to the next according to the information that they pass each other along their edges.
 
@@ -6479,7 +6834,7 @@ For example, a common graph found in cellular automata is a 2-dimensional intege
 with $s(i,j,m,n)=(m,n)$ and $t(i,j,m,n)=(m+i, n+j)$, so that the neighbors of each vertex are the eight vertices that surround it.
 \end{example}
 
-\begin{exercise}[Conway's Game of Life]\label{exc.conway}
+\begin{exercise}[Conway's Game of Life]\label{exc.conway}\index{graph}\index{interaction!cellular automata and}
 Conway's Game of Life is played on a 2-dimensional integer lattice as follows.
 Each lattice point is either \emph{live} or \emph{dead}, and each point observes its eight \emph{neighbors} to which it is horizontally, vertically, or diagonally adjacent.
 The following occurs at every time step:
@@ -6517,12 +6872,14 @@ We seek to model Conway's Game of Life as a closed dynamical system using \cref{
 \end{solution}
 \end{exercise}
 
+\index{interaction!wiring diagram|)}
+
 \subsection{More examples of general interaction}
 
 While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a diagram.
 For example, here we generalize our previous cellular automata example.
 
-\begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}
+\begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}\index{cellular automata}\index{graph}
 Recall from \cref{ex.graph_interaction} how we constructed a cellular automaton on a graph $G=(E\tto V)$.
 For each $v\in V$, the graph specifies the set $N(v)\coloneqq t(E_v)$ of vertices at the ends of edges coming out of $v$.
 These vertices are the \emph{neighbors} of $v$, or the vertices that $v$ can ``listen'' to.
@@ -6578,7 +6935,7 @@ It could be dictated by a given vertex $v_0\in V$ in the sense that its state co
 
 Here are some more examples of using dependent dynamical systems to model changing wiring diagrams.
 
-\begin{example}\label{ex.bonds_break}
+\begin{example}\label{ex.bonds_break}\index{interaction!breaking bonds}
 In the picture below, forces are being applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as on the right.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
@@ -6616,6 +6973,7 @@ it takes as input two forces $(f_L, f_R)$ and returns unchanging output.
 
 Though the systems $\varphi_1$ and $\varphi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
 
+\index{interaction pattern}
 To do so, we need to define an interaction pattern $p_1\otimes p_2\to p$ that wraps $p$ around $\varphi_1$ and $\varphi_2$.
 That is, we need to give a lens
 \[
@@ -6657,7 +7015,7 @@ We let the on-directions function $F(FF)\to F+\{\text{`snapped'}\}$ send
 Thus, when the sum of forces is high enough, the internal state is updated to the `snapped' state; otherwise, it is sent to the force it receives from outside, which it is now ready to transfer to the other system.
 \end{example}
 
-\begin{example}\label{ex.supplier_change}
+\begin{example}\label{ex.supplier_change}\index{interaction!supplier change}
 Consider the case of a company that may change its supplier based on its internal state. The company returns two possible outputs, corresponding to who it wants to receive widgets $W$ from:
 \[
 \begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
@@ -6682,7 +7040,7 @@ Then a section for the company and the suppliers is just a lens $\2\yon^W\otimes
 In other words, the company's output determines its supplier.
 \end{example}
 
-\begin{example}\label{ex.assemble_machine}
+\begin{example}\label{ex.assemble_machine}\index{interaction!assembling}
 When someone assembles a machine, their own positions dictate the interaction pattern of the machine's components.
 \begin{equation*}%\label{eqn.someone2}
 \begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
@@ -6727,8 +7085,12 @@ In other words, if $p$ is deciding the interaction pattern between $q_1,\ldots,q
 What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it be constantly choosing interaction patterns. Let's see how it works.
 
 
+\index{interaction|)}
 %-------- Section --------%
-\section{Closure of $\otimes$}%[-,-]
+\section{Closure of $\otimes$}\label{sec.closure}%[-,-]
+\index{closed monoidal structure}
+\index{monoidal closed structure|see{closed monoidal structure}}
+\index{parallel product!closure for}
 
 The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
 \begin{equation}\label{eqn.monoidal_closure}
@@ -6896,7 +7258,7 @@ a contradiction.
 \end{solution}
 \end{exercise}
 
-\begin{proposition}\label{prop.parallel_closure}
+\begin{proposition}\label{prop.parallel_closure}\index{isomorphism!natural}
 With $\ihom{-,-}$ as defined in \eqref{eqn.par_hom}, there is a natural isomorphism
 \begin{equation}\label{eqn.poly_closure_brackets}
 	\poly(p\otimes q,r)\cong\poly(p,\ihom{q,r}).
@@ -6923,7 +7285,7 @@ We have the following chain of natural isomorphisms:
 	&\iso
 	\poly(p,\ihom{q,r}).
 \end{align*}
-\end{proof}
+\end{proof}\index{Yoneda lemma}
 
 \begin{exercise}\label{exc.poly_plug_1}
 Show that for any $p,q$ we have an isomorphism of sets
@@ -6942,7 +7304,7 @@ Since $p \iso \yon \otimes p$, we have that
     &\iso \ihom{p,q}(\1). \tag{Yoneda lemma}
 \end{align*}
 \end{solution}
-\end{exercise}
+\end{exercise}\index{Yoneda lemma}
 
 The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} lens
 \begin{equation}\label{eqn.eval_parallel}
@@ -6967,7 +7329,7 @@ To obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we c
 Then the evaluation lens is the lens corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
 To recover this lens, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
 To start, \cref{exc.par_hom_sum} implies that
-\begin{align*}
+\begin{align*}\index{isomorphism!natural}
     \poly(\ihom{p,q}, \ihom{p,q})
     &\iso
     \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
@@ -7030,7 +7392,7 @@ Then by the universal property of coproducts, this collection of lenses induces 
 \end{solution}
 \end{exercise}
 
-\begin{example}[Modeling your environment without knowing what it is]
+\begin{example}[Modeling your environment without knowing what it is]\index{environment!universal}\index{interaction pattern}
 Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imagine it is part of an interaction pattern
 \[
 	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to r
@@ -7041,10 +7403,12 @@ In other words, $\ihom{p,r}$ holds within it all of the possible ways $p$ can in
 For example, in the case of $r\coloneqq\yon$, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$.
 That is, for each $p$-position it produces a direction there, which is just what $p$ needs as input in a closed system.
 
+\index{dynamics}\index{environment}
+
 Now suppose we were to populate the interface $p$ with dynamics, a lens $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
 \end{example}
 
-\begin{example}[Chu $\&$]
+\begin{example}[Chu $\&$]\index{Chu space}
 Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
@@ -7077,21 +7441,24 @@ Throughout the chapter we gave quite a few different examples. For example, we d
 
 For further reading on the mathematics of Moore machines, see \cite{conway2012regular}. For more on mode-dependent interaction, see \cite{spivak2017nesting}. For a similar and complementary categorical approach to dynamical systems, we recommend David Jaz Myers' \emph{Categorical Systems Theory} book, currently in draft form here: \url{http://davidjaz.com/Papers/DynamicalBook.pdf}.
 
+\index{interaction!mode dependent}
+
 %-------- Section --------%
 \section{Exercise solutions}
 \Closesolutionfile{solutions}
 {\footnotesize
-\input{solution-file4}}
+	\input{solution-file4}}
 
 \Opensolutionfile{solutions}[solution-file5]
 
 %------------ Chapter ------------%
 \chapter{More categorical properties of polynomials} \label{ch.poly.bonus}
 
-The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{part.comon} if so inclined, and check back here when needed. Better yet might be to just gently leaf through this chapter, to see how well-behaved and versatile the category $\poly$ really is.
+The category $\poly$ has very useful formal properties, including completion under colimits and limits, various adjunctions with $\smset$, factorization systems, and so on. Most of the following material is not necessary for the development of our main story, but we collect it here for reference. The reader can skip directly to \cref{part.comon} if so inclined and check back here when needed. Better yet might be to gently leaf through this chapter, to see how well-behaved and versatile the category $\poly$ is.
 
 %-------- Section --------%
 \section{Special polynomials and adjunctions} \label{sec.poly.bonus.adj}
+
 
 There are a few special classes of polynomials that are worth discussing:
 \begin{enumerate}[label=\alph*)]
@@ -7103,6 +7470,8 @@ There are a few special classes of polynomials that are worth discussing:
 The first two classes, constant and linear polynomials, are interesting because they both put a copy of $\smset$ inside $\poly$, as we'll see in \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}.
 The third puts a copy of $\smset\op$ inside $\poly$: it is the Yoneda embedding that we saw way back in \cref{exc.finish_proof_yoneda}.
 Finally, the fourth puts a copy of bimorphic lenses inside $\poly$, as we saw in \cref{subsec.poly.cat.morph.bimorphic-lens}.
+
+\index{Yoneda embedding|see{Yoneda lemma}}
 
 \begin{exercise}
 Which of the four classes above are closed under
@@ -7154,15 +7523,18 @@ Here $A, B, A', B' \in \smset$.
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon^\0=A$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and, for each $a\in A$, a function $\0\to\0$. There is only one function $\0\to\0$, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\0\to B\yon^\0$ consists of a function $f\colon A\to B$ and, for each $a\in A$, a function $\0\to\0$. There is only one function $\0\to\0$, so $f$ can be identified with just a function between sets $A\to B$.
 \end{proof}
 
 \begin{proposition}\label{prop.ff_lin_set_to_poly}
 There is a fully faithful functor $\smset\to\poly$ sending $A\mapsto A\yon$.
 \end{proposition}
 \begin{proof}
-By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a map of sets $A\to B$.
+By \eqref{eqn.colax_poly_map}, a lens $f\colon A\yon^\1\to B\yon^\1$ consists of a function $f\colon A\to B$ and for each $a\in A$ a function $\1\to\1$. There is only one function $\1\to\1$, so $f$ can be identified with just a function between sets $A\to B$.
 \end{proof}
+
+\index{adjunction!between $\smset$ and $\poly$}
+\index{set!as constant polynomial}
 
 \begin{theorem}\label{thm.adjoint_quadruple}
 $\poly$ has an adjoint quadruple with $\smset$:
@@ -7183,8 +7555,8 @@ where the functors have been labeled by where they send $A\in\smset$ and $p\in \
 
 Both rightward functors $\smset\to\poly$ are fully faithful.
 \end{theorem}
-\begin{proof}
-For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; by the Yoneda lemma, it is the functor $\poly(\yon^A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}, gives us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:
+\begin{proof}\index{Yoneda lemma}
+For any set $A$, there is a functor $\poly\to\smset$ given by sending $p$ to $p(A)$; by the Yoneda lemma, it is the functor $\poly(\yon^A,-)$. This, together with \cref{prop.ff_const_set_to_poly,prop.ff_lin_set_to_poly}, gives us the four functors and the fact that the two rightward functors are fully faithful. It remains to provide the following three natural isomorphisms:\index{isomorphism!natural}
 \[
 \poly(A,p)\iso\smset(A,p(\0))\qquad
 \poly(p,A)\iso\smset(p(\1),A)\qquad
@@ -7195,7 +7567,7 @@ All three come from our formula \eqref{eqn.main_formula} for computing general h
 
 \begin{exercise}\label{exc.adjoint_quadruple}
 Here we prove the remainder of \cref{thm.adjoint_quadruple} using \eqref{eqn.main_formula}:
-\begin{enumerate}
+\begin{enumerate}\index{isomorphism!natural}
 	\item Provide a natural isomorphism $\poly(A,p)\iso\smset(A,p(\0))$.
 	\item \label{exc.adjoint_quadruple.pos_const} Provide a natural isomorphism $\poly(p,A)\iso\smset(p(\1),A)$.
 	\item \label{exc.adjoint_quadruple.linear_pos} Provide a natural isomorphism $\poly(A\yon,p)\iso\smset(A,p(\1))$.
@@ -7242,11 +7614,13 @@ In fact, this follows directly from the Yoneda lemma, but we can also invoke the
     p(1) \iso \smset(\1, p(\1)) \iso \poly(\yon, p).
 \]
 \end{solution}
-\end{exercise}
+\end{exercise}\index{Yoneda lemma}
 
 In \cref{thm.adjoint_quadruple} we see that $p\mapsto p(\0)$ and $p\mapsto p(\1)$ have left adjoints. This is true more generally for any set $A$ in place of $\0$ and $\1$, as we show in \cref{cor.substituting_adj}. However, the fact that $p\mapsto p(\1)$ is itself the left adjoint of the left adjoint of $p\mapsto p(\0)$---and hence that we have the \emph{quadruple} of adjunctions in \eqref{eqn.adjoints_galore}---is special to $A=\0,\1$.
 
 We also have a copower-hom-power two-variable adjunction between $\poly,\smset,$ and $\poly$.
+
+\index{adjunction!two-variable}
 
 \begin{proposition}\label{prop.two_var_adj}
 There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:
@@ -7255,10 +7629,10 @@ There is a two-variable adjunction between $\poly$, $\smset$, and $\poly$:
 \end{equation}
 \end{proposition}
 \begin{proof}
-Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of $q$, the universal properties of coproducts and products give natural isomorphisms
+Since $Ap$ is the $A$-fold coproduct of $p$ and $q^A$ is the $A$-fold product of $q$, the universal properties of coproducts and products give natural isomorphisms\index{isomorphism!natural}
 \[\poly(Ap,q)\cong\prod_{a\in A}\poly(p,q)\cong\poly(p,q^A).\]
 The middle set is naturally isomorphic to $\smset(A,\poly(p,q))$, completing the proof.
-\end{proof}
+\end{proof}\index{coproduct!indexed}
 
 Replacing $p$ with $\yon^B$ in \eqref{eqn.two_var_adj}, we obtain the following using the Yoneda lemma.
 
@@ -7268,12 +7642,13 @@ For any set $B$ there is an adjunction
 \adj{\smset}{A\yon^B}{q(B)}{\poly}
 \]
 where the functors are labeled by where they send $q\in\poly$ and $A\in\smset$.
-\end{corollary}
+\end{corollary}\index{Yoneda lemma}
+
 
 \begin{exercise}
 Prove \cref{cor.substituting_adj} from \cref{prop.two_var_adj}.
 \begin{solution}
-To prove \cref{cor.substituting_adj}, it suffices to exhibit a natural isomorphism
+To prove \cref{cor.substituting_adj}, it suffices to exhibit a natural isomorphism\index{isomorphism!natural}
 \[
     \poly(A\yon^B, q) \iso \smset(A, q(B)).
 \]
@@ -7285,13 +7660,16 @@ By the Yoneda lemma, $\poly(\yon^B, q)$ is naturally isomorphic to $q(B)$, yield
 \end{solution}
 \end{exercise}
 
+\index{Yoneda lemma}
+\index{adjunction!between $\smset\op$ and $\poly$}\index{global sections}
+
 \begin{proposition}\label{prop.yoneda_left_adjoint}
 The Yoneda embedding $A\mapsto \yon^A$ has a left adjoint
 \[
 \adjr{\smset\op}{\yon^-}{\Gamma}{\poly}
 \]
 where $\Gamma(p) \coloneqq \poly(p, \yon) \iso \prod_{i\in p(\1)}p[i]$, as in \eqref{eqn.gamma_def} and \eqref{eqn.gamma_prod}.
-That is, there is a natural isomorphism
+That is, there is a natural isomorphism\index{isomorphism!natural}
 \begin{equation} \label{eqn.yoneda_left_adjoint}
     \poly(p, \yon^A) \iso \smset(A, \Gamma(p)).
 \end{equation}
@@ -7304,8 +7682,21 @@ By \eqref{eqn.main_formula}, we have the natural isomorphism
 which in turn is naturally isomorphic to $\smset(A, \Gamma(p))$ by \eqref{eqn.gamma_prod}.
 \end{proof}
 
+\begin{exercise}\index{global sections}
+  Prove \cref{prop.yoneda_left_adjoint} from \cref{prop.two_var_adj}.
+  \begin{solution}
+    Replacing $q$ with $\yon$ in the second isomorphism in \eqref{eqn.two_var_adj} from \cref{prop.two_var_adj}, we obtain the natural isomorphism\index{isomorphism!natural}
+    \[
+    \smset(A,\poly(p,\yon)) \iso \poly(p,\yon^A).
+    \]
+    As $\Gamma(p)=\poly(p,\yon)$, yields the desired result.
+  \end{solution}
+\end{exercise}
+
 % Previously an exercise; but already basically done
 % Show that $\Gamma(p)\cong\ihom{p,\yon}(\1)$ where $\ihom{-,-}$ is as in \cref{prop.parallel_closure}.
+
+\index{monomial!principal}
 
 \begin{corollary}[Principal monomial]\label{cor.principal_monomial}
 There is an adjunction
@@ -7313,7 +7704,7 @@ There is an adjunction
     \adj{\poly}{{(p(\1),\Gamma(p))}}{A\yon^B}{\smset\times\smset\op}
 \]
 where the functors are labeled by where they send $p\in\poly$ and $(A,B)\in\smset\times\smset\op$.
-That is, there is a natural isomorphism
+That is, there is a natural isomorphism\index{isomorphism!natural}
 \begin{equation} \label{eqn.principal_monomial}
     \poly(p, A\yon^B) \iso \smset(p(1), A) \times \smset(B, \Gamma(p)).
 \end{equation}
@@ -7326,7 +7717,7 @@ By the universal property of the product of $A$ and $\yon^B$, we have a natural 
 Then the desired natural isomorphism follows from \cref{exc.adjoint_quadruple} \cref{exc.adjoint_quadruple.pos_const} and \eqref{eqn.yoneda_left_adjoint}.
 \end{proof}
 
-\begin{exercise}
+\begin{exercise}\index{global sections}
 Use \eqref{eqn.principal_monomial} together with \eqref{eqn.dir_dual} and \eqref{eqn.poly_closure_brackets} to find an alternative proof for \cref{prop.situations2}, i.e.\ that there is an isomorphism
 \[
     \Gamma(p\otimes q) \iso \smset\big(q(\1),\Gamma(p)\big) \times \smset\big(p(\1),\Gamma(q)\big).
@@ -7340,7 +7731,7 @@ for any $p,q\in\poly$.
 %       \adj{\poly}{-\otimes q}{{\ihom{q,-}}}{\poly}
 % \]
 % from \cref{cor.principal_monomial,prop.parallel_closure} together with the isomorphism $\ihom{p,\yon} \iso \Gamma(p)\yon^{p(\1)}$ from \eqref{eqn.dir_dual} give
-We have the following chain of natural isomorphisms:
+We have the following chain of natural isomorphisms involving global sections: \index{global sections}\index{isomorphism!natural}
 \begin{align*}
 	\Gamma(p \otimes q) &=
 	\poly(p \otimes q,\yon)
@@ -7364,6 +7755,10 @@ We have the following chain of natural isomorphisms:
 %-------- Section --------%
 \section{Epi-mono factorization of lenses}
 
+\index{factorization system!epi-mono}
+
+\index{lens!monomorphism}
+
 \begin{proposition}\label{prop.monics_in_poly}
 Let $f \colon p \to q$ be a lens in $\poly$. It is a monomorphism if and only if the on-positions function $f_\1 \colon p(\1) \to q(\1)$ is a monomorphism in $\smset$ and, for each $i \in p(\1)$, the on-directions function $f^\sharp_i \colon q[f_\1i]\to p[i]$ is an epimorphism in $\smset$.
 \end{proposition}
@@ -7382,7 +7777,7 @@ Then $g_\1 \then f_\1 = h_\1 \then f_\1$, which implies $g_\1 = h_\1$; we'll con
 We also have that $f^\sharp_{g_\1k} \then g^\sharp_k = f^\sharp_{g_\1k} \then h^\sharp_k$ for any $k \in r(\1)$. But $f^\sharp_{g_\1k}$ is an epimorphism, so in fact $g^\sharp_k = h^\sharp_k$, as desired.
 \end{proof}
 
-\begin{example}\label{ex.clock_in_N}
+\begin{example}\label{ex.clock_in_N}\index{clock}
 Choose a finite nonempty set $\ord{k}$ for $1\leq k\in\nn$, e.g.\ $\ord{k}=\1\2$. There is a monomorphism
 \[
 f \colon\ord{k}\yon^{\ord{k}}\to\nn\yon^\nn
@@ -7404,6 +7799,8 @@ Meanwhile, the update function for each state $i \in \1\2$ is a function $h^\sha
 In other words, the new system behaves like the old system but with only the states in $\1\2 \ss \nn$ retained, and on any input that would have caused the old system to move to a state outside of $\1\2$, the new system moves to the equivalent state (modulo 12) within $\1\2$ instead.
 \end{solution}
 \end{exercise}
+
+\index{lens!epimorphism}
 
 \begin{proposition}\label{prop.epis_in_poly}
 Let $f \colon p \to q$ be a lens in $\poly$. It is an epimorphism if and only if the function $f_\1 \colon p(\1) \to q(\1)$ is an epimorphism in $\smset$ and, for each $j\in q(\1)$, the induced function
@@ -7544,10 +7941,18 @@ So again since $\smset$ has epi-mono factorization, such $r[j], \mu^\sharp_j,$ a
 Hence such $p \To{\epsilon} r \To{\mu} q$ uniquely exists overall.
 \end{proof}
 
+\index{factorization system!epi-mono}
+
+
 %-------- Section --------%
 \section{Cartesian closure}
 
-We have already seen the closure operation $\ihom{-,-}$ for one monoidal structure on $\poly$, namely $(\yon,\otimes)$.
+\index{polynomial functor!cartesian closed structure}
+\index{polynomial functor!exponentials of polynomials}
+\index{closed monoidal structure}
+\index{exponential|(}
+
+We have already seen in \cref{sec.closure} the closure operation $\ihom{-,-}$ for one monoidal structure on $\poly$, namely $(\yon,\otimes)$.
 But this is not the only closed monoidal structure on $\poly$: in fact, we will show that $\poly$ is cartesian closed as well.
 
 For any two polynomials $q,r$, define $r^q\in\poly$ by the formula
@@ -7610,7 +8015,7 @@ Here $p \in \poly$ and $A, B \in \smset$.
 % \end{exercise}
 
 \begin{theorem}\label{thm.poly_cart_closed}
-The category $\poly$ is cartesian closed. That is, we have a natural isomorphism
+The category $\poly$ is cartesian closed. That is, we have a natural isomorphism\index{isomorphism!natural}
 \[
     \poly(p,r^q) \iso \poly(p\times q,r),
 \]
@@ -7649,7 +8054,7 @@ Use \cref{thm.poly_cart_closed} to show that for any polynomials $p,q$, there is
 	\text{eval}\colon p^q \times q \to p.
 \end{equation*}
 \begin{solution}
-By \cref{thm.poly_cart_closed}, there is a natural isomorphism
+By \cref{thm.poly_cart_closed}, there is a natural isomorphism\index{isomorphism!natural}
 \[
     \poly(p^q, p^q) \iso \poly(p^q \times q, p).
 \]
@@ -7658,14 +8063,17 @@ The lens $\text{eval}$ is the canonical evaluation lens.
 \end{solution}
 \end{exercise}
 
+\index{exponential|)}\index{exponential|seealso{closed monoidal structure}}\index{Cartesian closed category}
+
 
 %-------- Section --------%
 \section{Limits and colimits of polynomials}
+\index{polynomial functor!limits of polynomials|(}
 
 We have already seen that $\poly$ has all coproducts (\cref{prop.poly_coprods}) and products (\cref{prop.poly_prods}).
 We will now see that $\poly$ has all small limits and colimits.
 
-\begin{theorem}\label{thm.poly_limits}
+\begin{theorem}\label{thm.poly_limits}\index{limit!in $\poly$}
 The category $\poly$ has all small limits.
 \end{theorem}
 \begin{proof}
@@ -7729,7 +8137,7 @@ Complete the proof of \cref{thm.poly_limits} as follows:
 \end{solution}
 \end{exercise}
 
-\begin{example}[Computing general limits in $\poly$] \label{ex.compute_limits}
+\begin{example}[Computing general limits in $\poly$] \label{ex.compute_limits}\index{limit!positions and directions}
 The proof of \cref{thm.poly_limits} justifies the following mnemonic for limits in $\poly$:
 \slogan{The positions of a limit are the limit of the positions. \\ The directions of a limit are the colimit of the directions.}
 We can make this precise as follows: the limit of a functor $p_-\colon\cat{J}\to\poly$ is the polynomial whose position-set is
@@ -7747,6 +8155,8 @@ We have seen \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for products
 We have also just shown \eqref{eqn.lim_pos} and \eqref{eqn.lim_dir} to be true for equalizers in the proof of \cref{thm.poly_limits}.
 It follows from the construction of any limit as an equalizer of products that it is true for arbitrary limits.
 \end{example}
+
+\index{polynomial functor!pullback of polynomials}\index{pullback|seealso{polynomial functor, pullback of polynomials}}
 
 \begin{example}[Pullbacks in $\poly$]\label{ex.pullbacks_in_poly}
 Given $q,q',r \in \poly$ and lenses $q\To{f} r\From{f'} q'$, the pullback
@@ -7779,7 +8189,7 @@ These pullback and pushout squares also give the lenses $g$ and $g'$ on position
 \end{equation}
 \end{example}
 
-\begin{exercise}
+\begin{exercise}\index{polynomial functor!pullback of polynomials}
 Let $p$ be any polynomial.
 \begin{enumerate}
 	\item There is a canonical choice of lens $\eta\colon p\to p(\1)$; what is it?
@@ -7831,7 +8241,7 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 	\item Find the pullback of $q\To{f} r\From{f'} q'$.
 \qedhere
 \end{enumerate}
-\begin{solution}
+\begin{solution}\index{polynomial functor!pullback of polynomials}
 \begin{enumerate}
     \item There are many possible answers, but one lens $f \colon q \to r$, on positions, sends $1 \in q(\1)$ (corresponding to $\yon^\2$) to $2 \in r(\1)$ (corresponding to $\1$) and $2 \in q(\1)$ (corresponding to $\yon$) to $1 \in r(\1)$ (corresponding to $\yon$).
     Then the on-directions functions $f^\sharp_\1 \colon \0 \to \2$ and $f^\sharp_2 \colon \1 \to \1$ are uniquely determined.
@@ -7862,6 +8272,8 @@ Let $q\coloneqq \yon^\2+\yon$, $q'\coloneqq\2\yon^\3+\yon^\2$, and $r\coloneq\yo
 \end{solution}
 \end{exercise}
 
+\index{polynomial functor!equalizer of polynomials}
+
 \begin{exercise} \label{exc.refl_limits}
 An alternative way to prove \cref{thm.poly_limits} would have been to show that the equalizer of two natural transformations between polynomial functors in $\smset^\smset$ is still a polynomial functor---since the full subcategory inclusion $\poly \to \smset^\smset$ reflects these equalizers, it would follow that $\poly$ has equalizers.
 But we already know what polynomial the equalizer should be from the proof of \cref{thm.poly_limits}.
@@ -7891,7 +8303,10 @@ Let $f,g\colon p\tto q$ be a pair of natural transformations $f,g\colon p\tto q$
     Since every limit can be computed as an equalizer of products, we can conclude that limits in $\poly$ coincide with limits in $\smset^\smset$.
 \end{enumerate}
 \end{solution}
-\end{exercise}
+\end{exercise}\index{limits!computed pointwise}
+
+\index{polynomial functor!limits of polynomials|)}
+\index{polynomial functor!colimits of polynomials|(}\index{colimit!in $\poly$}
 
 \begin{theorem}\label{thm.poly_colimits}
 The category $\poly$ has all small colimits.
@@ -7906,8 +8321,12 @@ Then the set $C$ of connected components of $G$ is given by the coequalizer $g_\
 We define the position-set of $q'$ to be $C$.
 Each direction-set of $q'$ will be a limit of a diagram of direction-sets of $p$ and $q$, but expressing this limit, as we proceed to do, is a bit involved.
 
+\index{graph}
+
 For each connected component $c \in C$, we have a connected subgraph $G_c \ss G$ with vertices $V_c \coloneqq g_\1\inv(c)$ and edges $E_c \coloneqq s_\1\inv(g_\1\inv(c)) = t_\1\inv(g_\1\inv(c))$.
 Note that $E_c\ss p(\1)$ and $V_c\ss q(\1)$, so to each $e\in E_c$ (resp.\ to each $v\in V_c$) we have an associated direction-set $p[e]$ (resp.\ $q[v]$).
+
+\index{element!category of elements}\index{category!of elements}
 
 The category of elements $\int G_c$ has objects $E_c+V_c$ and two kinds of (non-identity) morphisms, $e \to s_\1(e)$ and $e \to t_\1(e)$, associated to each $e \in E_c$, all pointing from an object in $E_c$ to an object in $V_c$.
 There is a functor $F \colon (\int G_c)\op \to \smset$ sending every $v \mapsto q[v]$, every $e \mapsto p[e]$, and every morphism to a function between them, namely either $s^\sharp_e \colon q[s_\1(e)] \to p[e]$ or $t^\sharp_e \colon q[t_\1(e)] \to p[e]$.
@@ -7988,6 +8407,8 @@ For a concrete example, consider the two distinct projections $\yon^\2\to\yon$, 
 According to \cref{thm.poly_colimits}, the colimit of \eqref{eqn.2_projs} in $\poly$ has the coequalizer of $\1 \tto \1$, namely $\1$, as its position-set, and the limit of the diagram $\1 \tto \2$ consisting of the two inclusions as its sole direction-set.
 But this latter limit is just $\0$, so in fact the colimit of \eqref{eqn.2_projs} in $\poly$ is the constant functor $\1\yon^\0\iso\1$.
 
+\index{colimit!$\poly$ disagrees with $\smset^\smset$}
+
 But as functors, by \cref{prop.presheaf_lim_ptwise}, the colimit of \eqref{eqn.2_projs} can be computed pointwise: it is the (nonconstant!) functor
 \[
   X\mapsto
@@ -7998,8 +8419,8 @@ But as functors, by \cref{prop.presheaf_lim_ptwise}, the colimit of \eqref{eqn.2
 \]
 \end{example}
 
-\begin{exercise}
-By \cref{thm.adjoint_quadruple}, for any polynomial $p$, there are canonical lenses
+\begin{exercise}\index{global sections}
+By \cref{thm.adjoint_quadruple}, for any polynomial $p$, there are canonical lenses involving positions and global sections:
 \[
 	\epsilon \colon p(\1)\yon\to p
 	\qqand
@@ -8024,7 +8445,7 @@ By \cref{thm.adjoint_quadruple}, for any polynomial $p$, there are canonical len
     On positions, it is the identity on $p(\1)$.
     Then for each $i \in p(\1)$, on directions, it is the unique map $p[i] \to \1$.
 
-    \item We characterize the lens $\eta \colon p \to \yon^{\Gamma(p)}$ as follows.
+    \item We characterize the lens $\eta \colon p \to \yon^{\Gamma(p)}$ as follows.\index{global sections}
     On positions, it is the unique map $p(\1) \to \1$.
     Then for each $i \in p(\1)$, on directions, it is the canonical projection $\Gamma(p) \iso \prod_{i' \in p(\1)} p[i'] \to p[i]$.
 
@@ -8051,6 +8472,8 @@ By \cref{thm.adjoint_quadruple}, for any polynomial $p$, there are canonical len
 \end{enumerate}
 \end{solution}
 \end{exercise}
+
+\index{polynomial functor!pushout of polynomials}
 
 \begin{proposition}\label{prop.tensor_as_pushout}
 For polynomials $p,q$, the following is a pushout:
@@ -8080,9 +8503,12 @@ All the lenses shown are identities on positions, so the displayed diagram is th
 \end{tikzcd}
 \]
 where we used $(p\otimes q)[(i,j)]\cong p[i]\times q[j]$. This is the image under the Yoneda embedding of the diagram of sets shown right, which is clearly a pullback. The result follows by \cref{prop.yoneda_left_adjoint}.
-\end{proof}
+\end{proof}\index{polynomial functor!pullback of polynomials}
 
 This means that to give a lens $\varphi\colon p\otimes q\to r$, it suffices to give two lenses $\varphi_p\colon p\otimes q(\1)\yon\to r$ and $\varphi_q\colon p(\1)\yon\otimes q\to r$ that agree on positions. The lens $\varphi_p$ says how information about $q$'s position is transferred to $p$, and the lens $\varphi_q$ says how information about $p$'s position is transferred to $q$.
+
+\index{monoidal structure!parallel product as pushout}
+\index{parallel product!as pushout}
 
 \begin{corollary}\label{cor.tensor_as_pushout}
 Suppose we have polynomials $p_1,\ldots,p_n\in\poly$. Then $p_1\otimes\cdots\otimes p_n$ is isomorphic to the wide pushout
@@ -8105,8 +8531,13 @@ When $n=0$, the wide pushout has no legs and the empty parallel product is $\yon
 If the result holds for $n$, then it holds for $n+1$ by \cref{prop.tensor_as_pushout}.
 \end{proof}
 
+\index{polynomial functor!colimits of polynomials|)}
+
 %-------- Section --------%
 \section{Vertical-cartesian factorization of lenses}
+
+\index{factorization system!vertical-cartesian|(}
+
 
 Aside from epi-mono factorization, there is another factorization system on $\poly$ that will show up frequently.
 
@@ -8116,12 +8547,17 @@ It is called \emph{vertical} if $f_\1\colon p(\1)\to q(\1)$ is an isomorphism.
 It is called \emph{cartesian} if, for each $i\in p(\1)$, the function $f^\sharp_i\colon q[f(i)]\to p[i]$ is an isomorphism.
 \end{definition}
 
+\index{lens!vertical}
+\index{lens!cartesian}
+
+
 \begin{proposition}\label{prop.vert_cart_factorization}
 Vertical and cartesian lenses form a factorization system of $\poly$.
 \end{proposition}
 \begin{proof}
 It is easy to check that isomorphisms are both vertical and cartesian, and that vertical and cartesian lenses are each closed under composition.
 It remains to show that every lens in $\poly$ can be uniquely (up to unique isomorphism) factored as a vertical lens composed with a cartesian lens.
+
 
 Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as to the left; we can thus rewrite it as to the right:
 \[
@@ -8140,6 +8576,8 @@ Recall from \eqref{eqn.colax_poly_map} that a lens in $\poly$ can be written as 
 \]
 We can see that the intermediary object $\sum_{i\in p(\1)} \yon^{q[f_\1i]}$ is unique up to unique isomorphism.
 \end{proof}
+
+\index{2-out-of-3}
 
 \begin{proposition}
 Vertical lenses satisfy 2-out-of-3: given $p\To{f}q\To{g}r$ with $h = f \then g$, if any two of $f,g,h$ are vertical, then so is the third.
@@ -8182,6 +8620,8 @@ Here, the pullback denoted by the dot $\bullet$ is the set of pairs comprised of
 The function $f^\sharp$ sends each such pair to a direction $f^\sharp_i(e)$ of $p$, and the commutativity of the left square implies that $f^\sharp_i(e)$ is specifically a $p[i]$-direction.
 So $f^\sharp_i$ is indeed our familiar on-directions function $q[f_\1i]\to p[i]$, and $f^\sharp$ is just the sum of all these on-directions functions over $i\in p(\1)$.
 
+\index{polynomial functor!pullback of polynomials}
+
 \begin{exercise} \label{exc.cart_pullbacks}
 Show that a lens $f\colon p\to q$ in $\poly$ is cartesian if and only if the square on the left hand side of \eqref{eqn.poly_map_usu} is also a pullback:
 \[
@@ -8203,7 +8643,7 @@ Hence $f$ is cartesian if and only if $f^\sharp$ is an isomorphism, as desired.
 \end{solution}
 \end{exercise}
 
-\begin{exercise}
+\begin{exercise}\index{global sections}
 Is the pushout of a cartesian lens always cartesian?
 \begin{solution}
 The pushout of a cartesian lens is \emph{not} necessarily cartesian.
@@ -8214,6 +8654,8 @@ For instance, when $p\coloneqq\yon+\1$, we have that $\Gamma(p)\iso\0\not\iso\1\
 \end{exercise}
 
 Why do we use the word \emph{cartesian} to describe cartesian morphisms? It turns out that, as natural transformations, cartesian morphisms are precisely what are known as cartesian natural transformations.
+
+\index{natural transformation!cartesian|seealso{lens!cartesian}}\index{polynomial functor!pullback of polynomials}\index{pullback!cartesian natural transformation and}
 
 \begin{definition}[Cartesian natural transformation] \label{def.cart_nat_trans}
 A \emph{cartesian natural transformation} is a natural transformation whose naturality squares are all pullbacks.
@@ -8313,6 +8755,8 @@ Next, we will show that $3\Rightarrow1$ in \cref{prop.cart_as_nt}, with $f\colon
 \end{solution}
 \end{exercise}
 
+\index{monoidal structure!preservation of vertical and cartesian maps}
+
 \begin{proposition}\label{prop.monoidal_pres_vert_cart}
 The monoidal structures $+$, $\times$, and $\otimes$ preserve both vertical and cartesian morphisms.
 \end{proposition}
@@ -8348,8 +8792,12 @@ is vertical (resp.\ cartesian).
 This follows from \cref{ex.pullbacks_in_poly}, since the pullback (resp.\ pushout) of an isomorphism is an isomorphism.
 \end{proof}
 
+\index{factorization system!vertical-cartesian|)}
+
 %-------- Section --------%
 \section{Monoidal $*$-bifibration over $\smset$}
+
+\index{monoidal $*$-bifibraion}
 
 We conclude this chapter by showing that the functor $p\mapsto p(\1)$ has special properties that make it what \cite{shulman2008framed} refers to as a \emph{monoidal $*$-bifibration}.
 Roughly speaking, this means that $\smset$ acts as a sort of remote controller on the category $\poly$, grabbing every polynomial by its positions and pushing or pulling it this way and that.
@@ -8382,6 +8830,8 @@ Given an object $c$ in a category $\cat{C}$, the \emph{slice category} of $\cat{
 Given a category $\cat{C}$ with objects $c, d$ and morphism $f \colon c \to d$ such that all pullbacks along $f$ exist in $\cat{C}$, we say that $f$ is \emph{exponentiable} if the functor $f^* \colon \cat{C}/d \to \cat{C}/c$ given by pulling back along $f$ is a left adjoint.
 \end{definition}
 
+\index{lens!cartesian}\index{lens!exponentiable}\index{exponentiable lens|see{lens, cartesian}}
+
 \begin{theorem}\label{thm.cart_exponentiable}
 Cartesian lenses in $\poly$ are exponentiable.
 That is, if $f\colon p\to q$ is cartesian, then the functor $f^*\colon\poly/q\to\poly/p$ given by pulling back along $f$ is a left adjoint:
@@ -8407,7 +8857,7 @@ f_*p'\coloneqq
 \sum_{j\in q(\1)}\;\sum_{i'\in\prod\limits_{i\in f_\1\inv(j)}e_\1\inv(i)}\;\yon^{q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]}
 $}
 \end{equation}
-Again, $q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms
+Again, $q[j]/\sum_{i\in f_\1\inv(j)}p'[i'(i)]$ is the coproduct of the $p'[i'(i)]$, taken in $q[j]/\smset$. Since $p[i]\cong q[f(i)]$ for any $i\in p(\1)$ by the cartesian assumption on $f$, we have the following chain of natural isomorphisms\index{isomorphism!natural}
 \begin{align*}
 	(\poly/p)(f^*q', p')&\cong
 	\prod_{i\in p(\1)}\;\prod_{\{j'\in q'(\1)\,\mid\,g_\1(j')=f_\1i\}}\;\sum_{\{i'\in p'(\1)\,\mid\,e_\1(i')=i\}}\;(p[i]/\smset)(p'[i'],p[i]+_{q[f(i)]}q'[j'])\\&\cong
@@ -8508,6 +8958,8 @@ and the op-cartesian lenses are clearly preserved since projections in the secon
 In this chapter we discussed several of the nice properties of the category $\poly$: it has various adjunctions to $\smset$ and $\smset\op$, is Cartesian closed, has limits and colimits, has an epi-mono factorization system, has a vertical-cartesian factorization system, and comes with a monoidal $*$-bifibration to $\smset$.
 
 The principal monomial functor $p\mapsto p(1)\yon^{\Gamma p}$ discussed in \cref{cor.principal_monomial} is in fact distributive monoidal, and this comes up in work on entropy \cite{spivak2022polynomial} and on noncooperative strategic games \cite{capucci2022diegetic}.
+
+\index{monomial!principal}\index{principal monomial|see{monomial, principal}}
 
 
 %-------- Section --------%
