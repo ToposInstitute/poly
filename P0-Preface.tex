@@ -28,6 +28,11 @@ And that is the way to get the greatest possible variety, but with all the order
 At the same time, all that is needed to grasp the construction of this category---called $\poly$ for short---is an understanding of mathematical sets and functions.
 There is no need for the theory and applications of polynomial functors to remain the stuff of technical papers; $\poly$ is far too versatile, too full of potential, to be kept out of reach.
 
+Informally, a polynomial functor is a collection of elements we call \emph{positions} and, for each position, a collection of elements we call \emph{directions}.
+There is then a natural notion of a morphism between polynomial functors that sends positions forward and directions backward, modeling two-way communication.
+From these basic components, category theory allows us to construct an immense array of mathematical gadgets that model a diverse range of interactive processes.
+In this book, we will establish the theory of polynomial functors and categorical constructions on them while exploring how they model interaction.
+
 \section*{Purpose and prerequisites}
 
 A categorical theory of general interaction must be interdisciplinary by its very nature.
@@ -60,17 +65,22 @@ If you have ever tried to learn category theory, only to become lost in abstract
 If you encounter terms or ideas that you would like to learn more about, we encourage you to look them up elsewhere, and you may find yourself spending a pleasant afternoon doing a deep dive into a new definition or theorem.
 Then come back when you're ready---we'll be here.
 
+\section*{Outline}
+
+This book is designed to be read linearly.
+\cref{part.poly} introduces the category $\poly$ and illustrates how it models interaction protocols and dynamical systems; while \cref{part.poly} highlights a crucial operation on $\poly$, the composition product, which upgrades the theory so that it properly captures the
+
 \section*{Choices and conventions}
 
 Throughout this book, we have chosen to focus on polynomial functors of a single variable on the category of sets.
 The motivation for this seemingly narrow scope is twofold: to keep matters as concrete and intuitive as possible, with easy access to elements that we can work with directly; and to demonstrate the immense versatility of even this small corner of the theory.
 
-Below is a list of conventions we adopt; while it is not necessarily comprehensive, most unusual choices are justified within the text, often as a footnote.
+Below is a list of conventions we adopt; while it is not comprehensive, any unusual choices are justified within the text, often as a footnote.
 
 The natural numbers include $0$, so $\nn\coloneqq\{0,1,2,\ldots\}$.
 
 The names of categories will be capitalized.
-We will not focus so much on size issues, but roughly speaking small categories will be written in script (e.g.$\ \cat{C}, \cat{D}$), while large categories (usually, but not always, named) will be written in bold (e.g.\ $\poly, \Cat{C}$).
+We will mostly ignore size issues, but roughly speaking small categories will be written in script (e.g.$\ \cat{C}, \cat{D}$), while large categories (usually, but not always, named) will be written in bold (e.g.\ $\poly, \Cat{C}$).
 We use $\smset$ to denote the category of (small) sets and functions and $\smcat$ to denote the category of (small) categories and functors.
 We use exponential notation $\cat{D}^{\cat{C}}$ to denote the category of functors $\cat{C}\to\cat{D}$ and natural transformations.
 
@@ -79,7 +89,7 @@ We use $\sum$ rather than $\coprod$ to denote coproducts.
 We denote the collection of morphisms $f\colon c\to d$ in a category $\cat{C}$ by using the name of the category itself, followed by the ordered pair of objects: $\cat{C}(c,d)$.
 We denote the domain of $f$ by $\dom f$ and the codomain of $f$ by $\cod f$.
 We use $\coloneqq$ for definitions and temporary assignments, as opposed to $=$ for identifications that can be observed and proven.
-We use $\iso$ to indicate an isomorphism of objects and $=$ to indicate an equality of objects, although the choice of the former does not preclude the possibility of the latter, nor does the latter generally indicate anything special beyond an arbitrary selection that has been made.
+We use $\iso$ to indicate an isomorphism of objects and $=$ to indicate an equality of objects, although the choice of the former does not preclude the possibility of the latter, nor does the latter necessarily imply any significance beyond an arbitrary selection that has been made.
 We will freely use the definite article ``the'' to refer to objects that are unique only up to unique isomorphism.
 
 We list nullary operations before binary ones: for example, we denote a monoidal category $\cat{C}$ with monoidal unit $I$ and monoidal product $\odot$ by $(\cat{C},I,\odot)$, or say that $(I,\odot)$ is a monoidal structure on $\cat{C}$.
@@ -92,10 +102,11 @@ His book is nonetheless an excellent companion to ours: see \cite{jaz}.
 
 In the summer of 2021, we taught a course on a draft of this book that was livestreamed from the Topos Institute.
 Lecture recordings are freely available at \url{https://topos.site/poly-course/}.
+A follow-up workshop with additional recorded lectures and write-ups was held in early 2024; see \url{https://topos.site/events/poly-at-work/}.
 
 The theory and application of polynomial functors comprise an active area of research.
 We have laid the foundations here, but work is still ongoing.
-Even as we were writing this, we were discovering new results and uses for polynomial functors, which only goes to show how bountiful $\poly$ can be in its rewards---but of course, we had to cut things off somewhere.
+Even while writing this, we discovered new results and uses for polynomial functors, which only goes to show how bountiful $\poly$ can be in its rewards---but of course, we had to cut things off somewhere.
 We say this in the hope that you will keep the following in mind: where this book ends, the story will have just begun.
 
 \section*{Acknowledgments}
@@ -104,6 +115,6 @@ Special thanks to David Jaz Myers: a brilliant colleague, a wonderful conversati
 
 Thanks go to John Baez, Eric Bond, Spencer Breiner, Kris Brown, Matteo Capucci, Valeria de Paiva, Joseph Dorta, Brendan Fong, Richard Garner, Bruno Gavranovi\'c, Neil Ghani, Ben Goertzel, Tim Hosgood, Samantha Jarvis, Max Lieblich, Shaowei Lin, Owen Lynch, Joachim Kock, J\'er\'emie Koenig, Sophie Libkind, Joshua Meyers, Dominic Orchard, Nathaniel Osgood, Evan Patterson, Brandon Shapiro, Juliet Szatko, Tish Tanski, Todd Trimble, Adam Vandervorst, Jonathan Weinberger, and Christian Williams.
 
-Finally, we thank our sponsors at the Air Force Office of Scientific Research, who has supported this work (and category theory itself) since the very beginning. In particular, this material is based upon work supported by the AFOSR under award numbers FA9550-20-1-0348 and FA9550-23-1-0376. 
+This material is based upon work supported by the AFOSR under award numbers FA9550-20-1-0348 and FA9550-23-1-0376.
 
 \end{document}
