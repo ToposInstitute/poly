@@ -2560,15 +2560,13 @@ Our concrete characterization of dependent lenses allows us to enumerate them.
   \end{align*}
 \end{example}
 
-
-% TODO: integrate below
 \index{Yoneda lemma}
 \begin{exercise}
-For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isomorphism $p(A)\cong \poly(\yon^A,p)$.
+For any polynomial $p$ and set $A$, e.g.\ $A\coloneqq\2$, the Yoneda lemma gives an isomorphism $\poly(\yon^A,p)\iso p(A)$, so the number of lenses $\yon^A\to p$ should be equal to the cardinality of $p(A)$.
 \begin{enumerate}
-	\item Choose any polynomial $p$ and draw both $\yon^\2$ and $p$ as corolla forests.
+	\item Choose a polynomial $p$ with finitely many positions and directions and draw both $\yon^\2$ and $p$ as corolla forests.
 	\item Count all the lenses $\yon^\2\to p$. How many are there?
-	\item Is the previous answer equal to (the cardinality of) $p(\2)$?
+	\item Compute the cardinality of $p(\2)$. Is this the same as the previous answer?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -2596,13 +2594,12 @@ For any polynomial $p$ and set $A$, e.g.\ $A=\2$, the Yoneda lemma gives an isom
     \end{tikzpicture}
     \]
 
-    \item We count all the lenses from $\yon^\2$ to $p\coloneqq\yon^\3+\1$.
-    The unique position of $\yon^\2$ can be sent to either $p$-position.
-    If it is sent to the first $p$-position, then each of the $3$ directions in $p[1]$ must be sent to one of the two directions of $\yon^\2$, for a total of $2^3 = 8$ lenses.
-    Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position, at which there are no directions; so there is exactly $1$ lens that does this.
+    \item When constructing a lens $\yon^2\to p$, the unique position of $\yon^\2$ can be sent to either $p$-position.
+    If it is sent to the first $p$-position, then each of the $3$ directions in $p[1]$ must be sent to one of the $2$ directions of $\yon^\2$, for a total of $2^3 = 8$ lenses.
+    Otherwise, the unique position of $\yon^\2$ is sent to the second $p$-position, at which there are no directions; so there is exactly $1$ lens like this.
     Hence there are $8+1=9$ lenses $\yon^\2\to p$.
 
-    \item Yes, the previous answer is equal to the cardinality of $p(\2)\iso\2^\3+\1\iso\9$, agreeing with the Yoneda lemma.
+    \item The cardinality of $p(\2)$ is $|\2^\3+\1|=9$, which agrees with previous answer, as predicted by the Yoneda lemma.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -2648,7 +2645,7 @@ By \eqref{eqn.main_formula}, we have for all $p,q\in\poly$ that
 \end{solution}
 \end{exercise}
 
-The following exercises provides some alternative formulas for the set of lenses between two polynomials.
+The following exercises provide alternative formulas for the set of lenses between two polynomials.
 
 \begin{exercise}\label{exc.practice_sum_prod}
 \begin{enumerate}
@@ -2739,94 +2736,97 @@ We have
 \end{solution}
 \end{exercise}
 
-% TODO: move derivative stuff later, to making new polys from old/operations on polys
+For the remaining exercises in this section, we introduce the concept of the \emph{derivative} $\dot{p}$ of a polynomial $p$.
 
 \begin{example}[Derivatives]\label{ex.derivatives}
-The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as follows:
+The \emph{derivative} of a polynomial $p$, denoted $\dot{p}$, is defined as
 \[
-\dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]-\{a\}}.
+  \dot{p}\coloneqq\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]-\{a\}}.
 \]
-For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A,B\}\yon^{\{X\}}$ then
-\[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X),(B,X)\}\yon^\0.\]
+For example, if $p\coloneq\yon^{\{U,V,W\}}+\{A\}\yon^{\{X\}}+\{B\}\yon^{\{X\}}$ then
+\[\dot{p}=\{U\}\yon^{\{V,W\}}+\{V\}\yon^{\{U,W\}}+\{W\}\yon^{\{U,V\}}+\{(A,X)\}\yon^\0+\{(B,X)\}\yon^\0.\]
 Up to isomorphism $p\cong\yon^\3+\2\yon$ and $\dot{p}\cong\3\yon^\2+\2$.
-Unsurprisingly, this coincides with the familiar notion of derivatives of polynomials from calculus.
+Indeed, this coincides with the familiar notion of derivatives of polynomials from calculus.
 
-Thus we get a canonical lens $\dot{p}\yon\to p$, because we have an isomorphism
+Since
 \[
-\dot{p}\yon\cong\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]}.
+  \dot{p}\yon\iso\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]-\{a\}}\yon\iso\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]-\{a\}+\1}\iso\sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]},
 \]
-This natural transformation comes up in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride2001derivative} and \cite{abbott2003derivatives} for more info.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
+there exists a canonical lens $\dot{p}\yon\to p$; you will define this lens in \cref{exc.deriv-ops}.
+The lens arises in computer science in the context of ``plugging in to one-hole contexts''; we will not explore that here, but see \cite{mcbride2001derivative} and \cite{abbott2003derivatives} for details.%The Derivative of a Regular Type is its Type of One-Hole Contexts. http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.22.8611&rep=rep1&type=pdf.
 %https://www.cs.nott.ac.uk/~psztxa/publ/tlca03.pdf
 
-A morphism $f\colon p\to \dot{q}$ can be interpreted as something like a lens from $p$ to $q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned. More precisely, for each $i\in p(\1)$ we have $f_\1i=(j,a)\in \sum_{j\in q(\1)}q[j]$, i.e.\ a choice of position $j$ of $q$, as usual, together with a chosen direction $a\in q[j]$. Then every $q[j]$-direction \emph{other than $a$} is sent back to a $p[i]$-direction.
+A lens $f'\colon p\to \dot{q}$ is similar to a lens $f\colon p\to q$, except that each $p$-position explicitly selects a direction of $q$ to remain unassigned.
+More precisely, while the on-positions function of $f$ sends each $p$-position to a $q$-position, the on-positions function of $f'$ sends each $p$-position $i$ to some $(j,a)\in \sum_{j\in q(\1)}q[j]$, picking out not only a $q$-position $j$, but also a $q[j]$-direction $a$.
+Then the on-directions function of $f'$ at $i$ sends every $q[j]$-direction \emph{other than $a$} back to a $p[i]$-direction.
 \index{polynomial functor!derivative of|see{derivative}}\index{derivative}
 \end{example}
 
-\begin{exercise} \label{exc.deriv_directions}
-Show that $\dot{p}(\1)$ is isomorphic to the set of all directions of $p$ (i.e.\ the union of all direction-sets of $p$), so there is a canonical function $\pi_p \colon \dot{p}(\1) \to p(\1)$ that sends each direction $a$ of $p$ to the position $i$ of $p$ for which $a \in p[i]$.
-\begin{solution}
-We can evaluate $\dot{p}(\1)$ directly from the definition of $\dot{p}$ to obtain
-\[
-    \dot{p}(\1) = \sum_{i \in p(\1)} \sum_{a \in p[i]} \1^{p[i]-\{a\}} \iso \sum_{i \in p(\1)} p[i],
-\]
-which is isomorphic to the set of all directions of $p$.
-Then $\pi_p \colon \dot{p}(\1) \to p(\1)$ is the canonical projection, sending each direction $a$ of $p$ to the position $i$ of $p$ for which $a \in p[i]$.
-\end{solution}
-\index{derivative! $\dot{p}(1)$ as directions of $p$}
-\end{exercise}
-
-\begin{exercise}
-The derivative is not very well-behaved categorically.
-However, it is intriguing.
-Below $p, q \in \poly$.
+\begin{exercise} \label{exc.deriv-ops}
+The derivative is not very well-behaved categorically, but it is nevertheless intriguing.
+Take $p,q\in\poly$.
 \begin{enumerate}
-	\item Explain the canonical lens $\dot{p}\yon\to p$ from \cref{ex.derivatives} in more detail.
-	\item Is there always a canonical lens $p\to \dot{p}$?
-	\item Is there always a canonical lens $\dot{p}\to p$?
-	\item If given a lens $p\to q$, does one get a lens $\dot{p}\to\dot{q}$?
-	\item We will define the binary operations $\otimes$ and $\ihom{-,-}$ on $\poly$ later on in \eqref{eqn.parallel_def} and \eqref{eqn.par_hom}, and in \cref{exc.dir_hom_p_yon_dir_p}, you will be able to use \cref{exc.par_hom_sum} to deduce that
+	\item Give an explicit construction for the canonical lens $\dot{p}\yon\to p$ from \cref{ex.derivatives}.
+	\item Is there always a lens $p\to \dot{p}$?
+  If so, prove it; if not, give a counterexample.
+	\item Is there always a lens $\dot{p}\to p$?
+  If so, prove it; if not, give a counterexample.
+	\item Given a lens $p\to q$, is there always a lens $\dot{p}\to\dot{q}$?
+  If so, prove it; if not, give a counterexample.
+	\item We will define the binary operations $\otimes$ and $\ihom{-,-}$ on $\poly$ later on in \eqref{eqn.parallel_def} and \eqref{eqn.par_hom}; and in \cref{exc.dir_hom_p_yon_dir_p}, you will be able to use \cref{exc.par_hom_sum} to deduce that
 	\begin{equation} \label{eqn.dir_hom_p_yon_dir_p}
 	    \ihom{p, \yon} \otimes p \iso \sum_{f \in \prod_{i \in p(\1)} p[i]} \; \sum_{i \in p(\1)} \yon^{p(\1) \times p[i]},
 	\end{equation}
-% 	Using this, find a formula for a lens $p\otimes\ihom{p,\yon}\to \dot{p}$ that works for any $p\in\poly$.
-	Is there always a canonical lens $\ihom{p,\yon}\otimes p\to \dot{p}$?
-	\item When talking to someone who explains lenses $p\to\dot{q}$ in terms of ``unassigned directions,'' how might you describe what is modeled by a lens $p\yon\to q$?
+	Construct a canonical lens $\ihom{p,\yon}\otimes p\to \dot{p}$.
+	\item In \cref{ex.derivatives}, we described a lens $p\to\dot{q}$ in terms of ``unassigned'' directions. Describe a lens $p\yon\to q$ in terms of ``unassigned'' directions as well.
 	\qedhere
 \end{enumerate}
 \begin{solution}
-Here $p, q \in \poly$.
 \begin{enumerate}
-	\item Our goal is to characterize the canonical lens $\dot{p}\yon\to p$.
-	If we unravel the definitions, this is a lens
-	\[
-	    \sum_{i \in p(\1)} \sum_{a \in p[i]} \yon^{p[i]} \to \sum_{i \in p(\1)} \yon^{p[i]}.
-	\]
-	We observe that there is always such a lens sending every position $(i, a) \in \sum_{i \in p(\1)} p[i]$ of $\dot{p}\yon$ to its first projection $i \in p(\1)$ and is the identity on directions.
-	This is the canonical lens.
+  \item We construct a lens $\dot{p}\yon\to p$, or a lens
+  \[
+    \sum_{i\in p(\1)}\sum_{a\in p[i]}\yon^{p[i]}\to\sum_{i\in p(\1)}\yon^{p[i]},
+  \]
+  as follows.
+  It sends each position $(i,a)\in\sum_{i\in p(\1)}p[i]$ of $\dot{p}\yon$ to its first projection $i\in p(\1)$, and it is the identity on directions.
 
-	\item There cannot always be a canonical lens $p\to \dot{p}$, for if $p \coloneqq \1$, then $\dot{p} \coloneqq \0$, and there is no lens $\1 \to \0$.
+	\item There is not always a lens $p\to \dot{p}$: if $p\coloneqq\1$, then $\dot{p}\coloneqq\0$, and there is no lens $\1\to\0$.
 
-	\item We show that there cannot always be a canonical lens $\dot{p}\to p$.
-	Take $p \coloneqq \yon$, so $\dot{p} \coloneqq \1$.
-	A lens $\1 \to \yon$ must have an on-directions function $\1 \to \0$, but such a function does not exist.
+	\item There is not always a lens $\dot{p}\to p$: take $p\coloneqq\yon$, so $\dot{p}\coloneqq\1$.
+	A lens $\1\to\yon$ must have an on-directions function $\1\to\0$, but there is no such function.
 
 	\item We show that even when there is a lens $p \to q$, there is not necessarily a lens $\dot{p}\to\dot{q}$.
 	Take $p \coloneqq \yon$ and $q \coloneqq \1$.
 	Then there is a lens $p \to q$ that sends the unique position of $\yon$ to the unique position of $\1$ and is the empty function on directions.
 	But $\dot{p} = \1$ and $\dot{q} = \0$, and there is no lens $\1 \to \0$.
 
-	\item We show that there is a canonical lens $g \colon \ihom{p,\yon} \otimes p \to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}.
-	The on-positions function $g_\1$ takes $f \in \prod_{i \in p(\1)} p[i]$ and $i \in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i \in p(\1)$ and $f(i) \in p[i]$.
-	We then have $\dot{p}[(i, f(i))] \iso p[i]$ and $(\ihom{p,\yon} \otimes p)[(f, i)] \iso p(\1) \times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $a \in p[i]$ to $(i, a) \in p(\1) \times p[i]$.
+	\item We construct a lens $g\colon\ihom{p,\yon}\otimes p\to \dot{p}$, where $\ihom{p,\yon} \otimes p$ is given by \eqref{eqn.dir_hom_p_yon_dir_p}, as follows.
+	The on-positions function $g_\1$ takes $f\in\prod_{i\in p(\1)}p[i]$ and $i\in p(\1)$ and sends the pair of them to the $\dot{p}$-position corresponding to $i\in p(\1)$ and $fi\in p[i]$.
+	Then $\dot{p}[(i, fi)]=p[i]-\{fi\}$ and $(\ihom{p,\yon}\otimes p)[(f, i)]\iso p(\1)\times p[i]$, so the on-directions function $g^\sharp_{(f,i)}$ can send each $a\in p[i]-\{fi\}$ to $(i,a)\in p(\1)\times p[i]$.
 
-	\item We wish to describe a lens $p\yon \to q$ in terms of ``unassigned to directions.''
+	\item We describe a lens $p\yon\to q$ in terms of ``unassigned'' directions.
 	Observe that $p\yon$ has the same positions as $p$ but has one more direction than $p$ does at each position.
-	We denote this extra direction at each position $i \in p(\1)$ of $p\yon$ by $\ast_i$.
-	So a lens $f \colon p\yon\to q$ sends each position $i$ of $p$ to a position $j$ of $q$, but every $q[j]$-direction could either be sent back to a $p[i]$-direction or the extra direction $\ast_i$.
-	We can say that a lens $f \colon p\yon \to q$ is like a lens $p \to q$, except that any of the directions of $q$ may remain unassigned---i.e.\ we may have partial on-directions functions.
+	Given a position $i\in p(\1)$, we denote this extra $(p\yon)[i]$-direction by $\ast_i$, identifying $(p\yon)[i]$ with $p[i]+\{\ast_i\}$.
+	So a lens $f\colon p\yon\to q$ sends each $p$-position $i$ to a $q$-position $j$, but every $q[j]$-direction could be sent back to either an original $p[i]$-direction or the extra $(p\yon)[i]$-direction $\ast_i$.
+	So a lens $p\yon\to q$ is like a lens $p\to q$, except that some of the directions of $q$ may remain ``unassigned'' to any direction of $p$, which we signify by assigning them to $\ast_i$ instead.
+  In other words, a lens $p\yon\to q$ could be interpreted as a lens $p\to q$ whose on-directions functions may only be partially defined.
 \end{enumerate}
 \end{solution}
 \index{derivative!not well-behaved in $\poly$}
+\end{exercise}
+
+We will not use derivatives very much in the rest of this text, except as shorthand to denote the set of all directions of a polynomial: given a polynomial $p$, its directions comprise the set $\dot{p}(\1)$.
+
+\begin{exercise} \label{exc.deriv-directions}
+  Show that $\dot{p}(\1)$ is isomorphic to the set of all directions of $p$ (i.e.\ the sum of all direction-sets of $p$).
+  \begin{solution}
+    We have
+    \[
+      \dot{p}(\1)\iso\sum_{i\in p(\1)}\sum_{a\in p[i]}\1^{p[i]-\{a\}} \iso \sum_{i \in p(\1)} p[i],
+    \]
+    which is precisely the set of all directions of $p$.
+  \end{solution}
+  \index{derivative! $\dot{p}(1)$ as directions of $p$}
 \end{exercise}
 
 %-------- Section --------%
@@ -2999,7 +2999,7 @@ The correspondence between lenses $p\to\yon$ and dependent functions $(i\in p(\1
 \poly(p,\yon)\iso\prod_{i\in p(\1)}\sum_{j\in\1}p[i]^\1\iso\prod_{i\in p(\1)}p[i],
 \end{equation}
 where the right hand side is precisely the set of dependent functions $(i\in p(\1))\to p[i]$.
-By \cref{exc.product_as_sections}, such functions may be identified with the \emph{sections} of the projection function $\sum_{i\in p(\1)}p[i]\to p(\1)$ sending $(i,a)\mapsto i$.
+By \cref{exc.product_as_sections}, such functions may be identified with the \emph{sections} of the projection function from $\dot{p}(\1)\iso\sum_{i\in p(\1)}p[i]$, the set of all directions of $p$ (see \cref{exc.deriv-directions}), to $p(\1)$, the set of all positions of $p$, sending each $(i,a)\in\dot{p}(\1)$ to $i\in p(\1)$.
 The fact that this projection determines $p$ (up to isomorphism) motivates the following definition.
 
 \begin{definition}[Section; bundle] \label{def.sec-bun}\index{section|(}\index{lens!to $\yon$ as section}\index{bundle}\index{section|(}
@@ -3010,7 +3010,7 @@ The fact that this projection determines $p$ (up to isomorphism) motivates the f
   \end{equation}
   The \emph{bundle} of $p$, denoted $\pi_p$, is the projection function
   \[
-    \sum_{i\in p(\1)}p[i]\to p(\1)
+    \dot{p}(\1)\iso\sum_{i\in p(\1)}p[i]\to p(\1)
   \]
   sending $(i,a)\mapsto i$.
 \end{definition}
@@ -3079,6 +3079,8 @@ The definition of $\Gamma$ given in \eqref{eqn.gamma_def} makes $\Gamma$ a funct
 %  \]
 %  satisfying certain well-known laws. But we won't need this, so we omit its proof.
 %\end{remark}
+
+We conclude this section by discussing lenses between monomials, which arise in functional programming.
 
 \begin{example}[Lenses between monomials are bimorphic lenses] \label{subsec.poly.cat.morph.bimorphic-lens}
   Lenses whose domains and codomains are both monomials are especially simple to write down, because they can be characterized as a pair of (standard, not dependent) functions that are independent of each other, as follows.
@@ -3155,12 +3157,12 @@ Given the data of a lens and that of a natural transformation between polynomial
 We want to be able to translate between these two languages.
 
 Our Rosetta Stone turns out to be the proof of the Yoneda lemma.
-The lemma itself is the crux of the proof of \cref{prop.lens-prod-sum}, that these two formulations of morphisms between polynomials are equivalent; so unraveling these proofs reveals the translation we seek.
+The lemma itself is the crux of the proof of \cref{prop.lens-prod-sum}, which states that these two formulations of morphisms between polynomials are equivalent; so unraveling these proofs reveals the translation we seek.
 
 \index{Yoneda lemma}
 
 \begin{proposition} \label{prop.morph_arena_to_func}
-Given $p,q\in\poly$, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (i.e.\ an on-positions function) and $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose components are functions between their direction-sets (i.e.\ an on-directions map).
+Given $p,q\in\poly$, let $f_\1\colon p(\1)\to q(\1)$ be a function between their position-sets (like an on-positions function) and $f^\sharp\colon q[f_\1(-)]\to p[-]$ be a natural transformation whose components are functions between their direction-sets (like an on-directions map).
 Then the isomorphism in \eqref{eqn.main_formula} identifies $(f_\1,f^\sharp)$ with the natural transformation $f\colon p\to q$ whose $X$-component $f_X\colon p(X)\to q(X)$ for $X\in\smset$ sends each
 \[
     (i,g)\in\sum_{i\in p(\1)} X^{p[i]}\iso p(X)
@@ -3352,7 +3354,7 @@ For $p,q,r\in\poly$, let $f\colon p\to q$ and $g\colon q\to r$ be natural transf
 Use \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena} to show that the on-positions function $h_\1\colon p(\1)\to r(\1)$ of $h$ is given by $h_\1=f_\1\then g_\1$, while the on-directions function $h^\sharp_i$ of $h$ for $i\in p(\1)$ is given by $h^\sharp_i=g^\sharp_{f_\1i}\then f^\sharp_i$.
 \begin{solution}
 Fix $i\in p(\1)$.
-By By \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena},
+By \cref{prop.morph_arena_to_func} and \cref{cor.morph_func_to_arena},
 \begin{align*}
     (h_\1i, h^\sharp_i) &= h_{p[i]}(i, \id_{p[i]}) \tag{\cref{cor.morph_func_to_arena}} \\
     &= g_{p[i]}(f_{p[i]}(i, \id_{p[i]})) \tag{$h = f \then g$} \\
@@ -3653,324 +3655,305 @@ So we may omit the entries in the uncolored boxes without losing information, le
 
 One of the reasons $\poly$ is so versatile is that there is an abundance of monoidal structures on it.
 Monoidal structures are the key ingredient to many applications of categories to real-world settings, and $\poly$ is no different in that regard.
-As a bonus, if you know how to add, multiply, and exponentiate expressions from high school algebra, then you already know how to compute the monoidal products on $\poly$ that we will introduce!
+As a bonus, if you know how to add and multiply polynomials from high school algebra, then you already know how to compute two of the monoidal products on $\poly$.
 
-We have already seen one monoidal structure on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
+We have already seen one of these monoidal structures on $\poly$: the cocartesian monoidal structure, which gives $\poly$ its finite coproducts.
 In fact, we know from \cref{prop.poly_coprods} that $\poly$ has all coproducts: they are given by an operation that looks just like addition.
-We will see in \cref{subsec.poly.cat.monoidal.prod} that $\poly$ has all products as well, giving it a cartesian monoidal structure that looks just like multiplication.
+It turns out $\poly$ has all products as well, giving it a cartesian monoidal structure that looks just like multiplication.
 
 \index{monoidal structure!cartesian (products)}\index{monoidal structure!cocartesian (sums)}\index{coproduct}
 
-
-
-Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will hold off on defining---we will save its surprises for when we can better savor them.
-But here in \cref{subsec.poly.cat.monoidal.par}, we will introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
-This monoidal structure will prove useful when we apply $\poly$ to dynamics in the next chapter.
-
-
-%---- Subsection ----%
-\subsection{The categorical product} \label{subsec.poly.cat.monoidal.prod}
-\dnote{Does \cref{subsec.poly.cat.monoidal.prod} belong here? It feels out of place}
-
-The category $\poly$ has limits and colimits, is cartesian closed, has epi-mono factorizations, etc., etc. However, in order to tell a good story of dynamics, we only need products right now. These will be useful for letting many different interfaces control the same internal dynamics.
-
-\index{interface}\index{dynamics!internal}\index{control}
-
 \begin{proposition}\label{prop.poly_prods}\index{polynomial functor!product of polynomials}
-The category $\poly$ has arbitrary products, coinciding with products in $\smset^\smset$ given by the operation $\prod_{i \in I}$.
+  The category $\poly$ has arbitrary products, coinciding with products in $\smset^\smset$ given by the operation $\prod_{i \in I}$.
 \end{proposition}
 \begin{proof}
-Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
+  Unsurprisingly, the proof is very similar to that of \cref{prop.poly_coprods}.
 
-By \cref{cor.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
-The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
-It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.\index{polynomial functor!sum of polynomials}
+  By \cref{cor.sum_prod_set_endofuncs}, the category $\smset^\smset$ has arbitrary products given by $\prod_{i \in I}$.
+  The full subcategory inclusion $\poly \to \smset^\smset$ reflects these products.
+  It remains to show that $\poly$ is closed under the operation $\prod_{i \in I}$.\index{polynomial functor!sum of polynomials}
 
-By \cref{prop.set_endofunc_distrib}, $\smset^\smset$ is completely distributive.
-Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $\smset^\smset$ as
-\begin{equation} \label{eqn.poly_prod}
+  By \cref{prop.set_endofunc_distrib}, $\smset^\smset$ is completely distributive.
+  Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $\smset^\smset$ as
+  \begin{equation} \label{eqn.poly_prod}
     \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
-\end{equation}
-which, as a coproduct of representables, is in $\poly$.
-% We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are in standard notation, then
-% \begin{equation}\label{eqn.poly_times}
-% p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]+q[j]}.
-% \end{equation}
-% We leave the proof as an exercise; see \cref{exc.poly_times}.
+  \end{equation}
+  which, as a coproduct of representables, is in $\poly$.
+  % We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are in standard notation, then
+  % \begin{equation}\label{eqn.poly_times}
+    % p\times q\cong\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]+q[j]}.
+    % \end{equation}
+  % We leave the proof as an exercise; see \cref{exc.poly_times}.
 \end{proof}
 
 \index{polynomial functor!product of polynomials}
 
 \begin{corollary} \label{prop.poly_completely_distributive}\index{completely distributive category}
-The category $\poly$ is completely distributive.
+  The category $\poly$ is completely distributive.
 \end{corollary}
 \begin{proof}
-This is a direct consequence of the fact that $\poly$ has arbitrary (co)products coinciding with (co)products in $\smset^\smset$ (\cref{prop.poly_coprods,prop.poly_prods}) and the fact that $\smset^\smset$ itself is completely distributive (\cref{prop.set_endofunc_distrib}).
+  This is a direct consequence of the fact that $\poly$ has arbitrary (co)products coinciding with (co)products in $\smset^\smset$ (\cref{prop.poly_coprods,prop.poly_prods}) and the fact that $\smset^\smset$ itself is completely distributive (\cref{prop.set_endofunc_distrib}).
 \end{proof}
 
 The result above will allow us to apply \eqref{eqn.cat_completely_distributive}, or sometimes specifically \eqref{eqn.push_prod_sum_obj_indep}, to push $\prod$'s past $\sum$'s of polynomials whenever we so desire.
 
 \begin{exercise}%\label{exc.poly_prod}
-% \begin{enumerate}
-% 	\item Use \eqref{eqn.main_formula} to verify that $\1$ is terminal in $\poly$.
+  % \begin{enumerate}
+    % 	\item Use \eqref{eqn.main_formula} to verify that $\1$ is terminal in $\poly$.
 
-% 	\item Use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
-% 	\[
-% 	    \poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)
-% 	\]
-% 	for all polynomials $p,q,r$.
+    % 	\item Use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
+    % 	\[
+    % 	    \poly(r, p \times q) \iso \poly(r, p) \times \poly(r, q)
+    % 	\]
+    % 	for all polynomials $p,q,r$.
 
-% 	\item
-	Use \eqref{eqn.main_formula}
-% 	and \eqref{eqn.poly_prod}
-	to verify that
-	\[
-	    \poly\left(q, \prod_{i \in I} p_i\right) \iso \prod_{i \in I} \poly(q, p_i)
-	\]
-	for all polynomials $(p_i)_{i \in I}$ and $q$, as one would expect from the universal property of products.
-\qedhere
-% \end{enumerate}
-\begin{solution}
-% \begin{enumerate}
-    % \item To verify that $\1$ is terminal in $\poly$, we use \eqref{eqn.main_formula} to show that $\poly(p, \1) \iso \1$ for all $p \in \poly$:
-    % \[
-    %     \poly(p, \1) \iso \prod_{i \in p(\1)} \sum_{j \in \1} p[i]^\0 \iso \prod_{i \in p(\1)} \1 \iso \1.
-    % \]
+    % 	\item
+    Use \eqref{eqn.main_formula}
+    % 	and \eqref{eqn.poly_prod}
+    to verify that
+    \[
+    \poly\left(q, \prod_{i \in I} p_i\right) \iso \prod_{i \in I} \poly(q, p_i)
+    \]
+    for all polynomials $(p_i)_{i \in I}$ and $q$, as one would expect from the universal property of products.
+    \qedhere
+    % \end{enumerate}
+  \begin{solution}
+    % \begin{enumerate}
+      % \item To verify that $\1$ is terminal in $\poly$, we use \eqref{eqn.main_formula} to show that $\poly(p, \1) \iso \1$ for all $p \in \poly$:
+      % \[
+      %     \poly(p, \1) \iso \prod_{i \in p(\1)} \sum_{j \in \1} p[i]^\0 \iso \prod_{i \in p(\1)} \1 \iso \1.
+      % \]
 
-    % \item Given $p,q,r \in \poly$, we use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
-    % \begin{align*}
-    %     \poly(r, p \times q) &\iso \poly\left(r, \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]} \right)
-    %     \tag*{\eqref{eqn.poly_times}} \\
-    %     &\iso \prod_{k \in r(\1)} \sum_{i \in p(\1)} \sum_{j \in q(\1)} r[k]^{p[i] + q[j]} \tag*{\eqref{eqn.main_formula}} \\
-    %     &\iso \prod_{k \in r(\1)} \left(\sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\sum_{j \in q(\1)} r[k]^{q[j]}\right)  \\
-    %     &\iso \left(\prod_{k \in r(\1)} \sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\prod_{k \in r(\1)} \sum_{j \in q(\1)} r[k]^{q[j]}\right) \\
-    %     &\iso \poly(r, p) \times \poly(r, q).
-    %     \tag*{\eqref{eqn.main_formula}}
-    % \end{align*}
+      % \item Given $p,q,r \in \poly$, we use \eqref{eqn.main_formula} and  \eqref{eqn.poly_times} to verify that
+      % \begin{align*}
+        %     \poly(r, p \times q) &\iso \poly\left(r, \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]} \right)
+        %     \tag*{\eqref{eqn.poly_times}} \\
+        %     &\iso \prod_{k \in r(\1)} \sum_{i \in p(\1)} \sum_{j \in q(\1)} r[k]^{p[i] + q[j]} \tag*{\eqref{eqn.main_formula}} \\
+        %     &\iso \prod_{k \in r(\1)} \left(\sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\sum_{j \in q(\1)} r[k]^{q[j]}\right)  \\
+        %     &\iso \left(\prod_{k \in r(\1)} \sum_{i \in p(\1)} r[k]^{p[i]}\right) \times \left(\prod_{k \in r(\1)} \sum_{j \in q(\1)} r[k]^{q[j]}\right) \\
+        %     &\iso \poly(r, p) \times \poly(r, q).
+        %     \tag*{\eqref{eqn.main_formula}}
+        % \end{align*}
 
-    % \item
-    Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.main_formula} to verify that
-    \begin{align*}
+      % \item
+      Given $q \in \poly$ and $p_i \in \poly$ for each $i \in I$ for some set $I$, we use \eqref{eqn.main_formula} to verify that
+      \begin{align*}
         \poly\left(q, \prod_{i \in I} p_i\right) &\iso \prod_{k \in q(\1)} \left(\prod_{i \in I} p_i\right)(q[k])
         \tag*{\eqref{eqn.main_formula}} \\
         &\iso \prod_{k \in q(\1)} \prod_{i \in I} p_i(q[k]) \\
         &\iso \prod_{i \in I} \prod_{k \in q(\1)} p_i(q[k]) \\
         &\iso \prod_{i \in I} \poly(q, p_i).
         \tag*{\eqref{eqn.main_formula}}
-    \end{align*}
-% \end{enumerate}
-\end{solution}
+      \end{align*}
+      % \end{enumerate}
+  \end{solution}
 \end{exercise}
 
 \begin{exercise}
-Let $p_1\coloneqq\yon+\1, p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$.
-What is $\prod_{i\in\3}p_i$ according to \eqref{eqn.poly_prod}? Is the answer what you would expect?
-\begin{solution}
-Given $p_1\coloneqq\yon+\1,p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$, we compute $\prod_{i\in\3}p_i$ via \eqref{eqn.poly_prod} as follows:
-\begin{align*}
-    \prod_{i\in\3} p_i
-    &\iso
-    \sum_{\bar{j} \in \prod_{i\in\3} p_i(\1)} \yon^{\sum_{i\in\3} p_i[\bar{j}(i)]}
-    \tag*{\eqref{eqn.poly_prod}} \\
-    &\iso
-    \sum_{\bar{j} \colon (i\in\3) \to p_i(\1)} \yon^{p_1[\bar{j}(1)] + p_2[\bar{j}(2)] + p_3[\bar{j}(3)]} \\
-    &\iso
-    \yon^{p_1[1] + p_2[1] + p_3[1]}
-    + \yon^{p_1[1] + p_2[2] + p_3[1]}
-    + \yon^{p_1[1] + p_2[3] + p_3[1]} \\
-    &+ \yon^{p_1[2] + p_2[1] + p_3[1]}
-    + \yon^{p_1[2] + p_2[2] + p_3[1]}
-    + \yon^{p_1[2] + p_2[3] + p_3[1]} \\
-    &\iso
-    \yon^{\1 + \1 + \2}
-    + \yon^{\1 + \0 + \2}
-    + \yon^{\1 + \0 + \2} \\
-    &+ \yon^{\0 + \1 + \2}
-    + \yon^{\0 + \0 + \2}
-    + \yon^{\0 + \0 + \2} \\
-    % &\iso
-    % \yon^\4 + \yon^\3 + \yon^\3 + \yon^\3 + \yon^\2 + \yon^\2 \\
-    &\iso
-    \yon^\4 + \3\yon^\3 + \2\yon^\2,
-\end{align*}
-as we might expect from standard polynomial multiplication.
-\end{solution}
+  Let $p_1\coloneqq\yon+\1, p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$.
+  What is $\prod_{i\in\3}p_i$ according to \eqref{eqn.poly_prod}? Is the answer what you would expect?
+  \begin{solution}
+    Given $p_1\coloneqq\yon+\1,p_2\coloneqq\yon+\2,$ and $p_3\coloneqq\yon^\2$, we compute $\prod_{i\in\3}p_i$ via \eqref{eqn.poly_prod} as follows:
+    \begin{align*}
+      \prod_{i\in\3} p_i
+      &\iso
+      \sum_{\bar{j} \in \prod_{i\in\3} p_i(\1)} \yon^{\sum_{i\in\3} p_i[\bar{j}(i)]}
+      \tag*{\eqref{eqn.poly_prod}} \\
+      &\iso
+      \sum_{\bar{j} \colon (i\in\3) \to p_i(\1)} \yon^{p_1[\bar{j}(1)] + p_2[\bar{j}(2)] + p_3[\bar{j}(3)]} \\
+      &\iso
+      \yon^{p_1[1] + p_2[1] + p_3[1]}
+      + \yon^{p_1[1] + p_2[2] + p_3[1]}
+      + \yon^{p_1[1] + p_2[3] + p_3[1]} \\
+      &+ \yon^{p_1[2] + p_2[1] + p_3[1]}
+      + \yon^{p_1[2] + p_2[2] + p_3[1]}
+      + \yon^{p_1[2] + p_2[3] + p_3[1]} \\
+      &\iso
+      \yon^{\1 + \1 + \2}
+      + \yon^{\1 + \0 + \2}
+      + \yon^{\1 + \0 + \2} \\
+      &+ \yon^{\0 + \1 + \2}
+      + \yon^{\0 + \0 + \2}
+      + \yon^{\0 + \0 + \2} \\
+      % &\iso
+      % \yon^\4 + \yon^\3 + \yon^\3 + \yon^\3 + \yon^\2 + \yon^\2 \\
+      &\iso
+      \yon^\4 + \3\yon^\3 + \2\yon^\2,
+    \end{align*}
+    as we might expect from standard polynomial multiplication.
+  \end{solution}
 \end{exercise}
 
 It follows from \eqref{eqn.poly_prod} that the terminal object of $\poly$ is $\1$, and that binary products are given by
 \begin{equation}\label{eqn.poly_times}
-    p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
+  p \times q \iso \sum_{i \in p(\1)} \sum_{j \in q(\1)} \yon^{p[i] + q[j]}.
 \end{equation}
 
 We will sometimes write $pq$ rather than $p\times q$:
 \begin{equation} \tag{Notation}
-pq\coloneqq p\times q
+  pq\coloneqq p\times q
 \end{equation}
 
 \index{corolla forest!for product of polynomials}
 \begin{example}
-We can draw the product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, blue!50!black, "$p$" above] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny 1" below] (1) {$\bullet$}
-      child {}
-      child {}
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
-      child {};
+  We can draw the product of two polynomials in terms of their associated forests. Let $p\coloneqq\yon^\3+\yon$ and $q\coloneqq\yon^\4+\yon^\2+\1$.
+  \[
+  \begin{tikzpicture}[rounded corners]
+    \node (p1) [draw, blue!50!black, "$p$" above] {
+      \begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny 1" below] (1) {$\bullet$}
+        child {}
+        child {}
+        child {};
+        \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+        child {};
+      \end{tikzpicture}
+    };
+    %
+    \node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
+      \begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny 1" below] (1) {$\bullet$}
+        child {}
+        child {}
+        child {}
+        child {};
+        \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
+        child {}
+        child {};
+        \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
+        ;
+      \end{tikzpicture}
+    };
   \end{tikzpicture}
-  };
-%
-	\node (p2) [draw, red!75!black, right=2 of p1, "$q$" above] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny 1" below] (1) {$\bullet$}
-      child {}
-      child {}
-      child {}
-      child {};
-    \node[right=.5 of 1,"\tiny 2" below] (2) {$\bullet$}
-      child {}
-      child {};
-    \node[right=.5 of 2,"\tiny 3" below] (3) {$\bullet$}
-    ;
+  \]
+  Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$.
+  We take all pairs of positions, and for each pair we take the disjoint union of the directions.
+  \[
+  \begin{tikzpicture}[rounded corners]
+    \node (p1) [draw, "$pq$" above] {
+      \begin{tikzpicture}[trees, sibling distance=2.5mm]
+        \node["\tiny {(1,1)}" below] (11) {$\bullet$}
+        child[blue!50!black] {}
+        child[blue!50!black] {}
+        child[blue!50!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {};
+        \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$}
+        child[blue!50!black] {}
+        child[blue!50!black] {}
+        child[blue!50!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {};
+        \node[right=1.5 of 12, "\tiny {(1,3)}" below] (13) {$\bullet$}
+        child[blue!50!black] {}
+        child[blue!50!black] {}
+        child[blue!50!black] {};
+        \node[right=1.5 of 13, "\tiny {(2,1)}" below] (21) {$\bullet$}
+        child[blue!50!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {};
+        \node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$}
+        child[blue!50!black] {}
+        child[red!75!black] {}
+        child[red!75!black] {};
+        \node[right=1.5 of 22, "\tiny {(2,3)}" below] (23) {$\bullet$}
+        child[blue!50!black] {};
+      \end{tikzpicture}
+    };
   \end{tikzpicture}
-  };
-\end{tikzpicture}
-\]
-Then $pq\cong\yon^\7+\2\yon^\5+\2\yon^\3+\yon$.
-We take all pairs of positions, and for each pair we take the disjoint union of the directions.
-\[
-\begin{tikzpicture}[rounded corners]
-	\node (p1) [draw, "$pq$" above] {
-	\begin{tikzpicture}[trees, sibling distance=2.5mm]
-    \node["\tiny {(1,1)}" below] (11) {$\bullet$}
-      child[blue!50!black] {}
-      child[blue!50!black] {}
-      child[blue!50!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {};
-    \node[right=1.5 of 11, "\tiny {(1,2)}" below] (12) {$\bullet$}
-      child[blue!50!black] {}
-      child[blue!50!black] {}
-      child[blue!50!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {};
-    \node[right=1.5 of 12, "\tiny {(1,3)}" below] (13) {$\bullet$}
-      child[blue!50!black] {}
-      child[blue!50!black] {}
-      child[blue!50!black] {};
-    \node[right=1.5 of 13, "\tiny {(2,1)}" below] (21) {$\bullet$}
-      child[blue!50!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {};
-    \node[right=1.5 of 21, "\tiny {(2,2)}" below] (22) {$\bullet$}
-      child[blue!50!black] {}
-      child[red!75!black] {}
-      child[red!75!black] {};
-    \node[right=1.5 of 22, "\tiny {(2,3)}" below] (23) {$\bullet$}
-      child[blue!50!black] {};
-	\end{tikzpicture}
-	};
-\end{tikzpicture}
-\]
+  \]
 \end{example}
 
 In practice, we can multiply polynomial functors the same way we would multiply two polynomials in high school algebra.
 
 \begin{exercise} \label{exc.general_poly_times}
-\begin{enumerate}
+  \begin{enumerate}
     \item \label{exc.general_poly_times.monomial} Show that for sets $A_1, B_1, A_2, B_2$, we have
     \[
-        B_1\yon^{A_1} \times B_2\yon^{A_2} \iso B_1 B_2\yon^{A_1 + A_2}.
+    B_1\yon^{A_1} \times B_2\yon^{A_2} \iso B_1 B_2\yon^{A_1 + A_2}.
     \]
     \item \label{exc.general_poly_times.polynomial} Show that for sets $(A_i)_{i \in I},(A_j)_{j \in J},(B_i)_{i \in I},$ and $(B_j)_{j \in J}$, we have
     \[
-        \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) \iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i + A_j}.
+    \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) \iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i + A_j}.
     \]
-\end{enumerate}
-\begin{solution}
-\begin{enumerate}
-    \item We compute the product $B_1\yon^{A_1} \times B_2\yon^{A_2}$ using \eqref{eqn.poly_times}:
-    \begin{align*}
+  \end{enumerate}
+  \begin{solution}
+    \begin{enumerate}
+      \item We compute the product $B_1\yon^{A_1} \times B_2\yon^{A_2}$ using \eqref{eqn.poly_times}:
+      \begin{align*}
         B_1\yon^{A_1} \times B_2\yon^{A_2} &\iso \left(\sum_{i \in B_1} \yon^{A_1}\right) \times \left(\sum_{j \in B_2} \yon^{A_2}\right) \\
         &\iso \sum_{i \in B_1} \sum_{j \in B_2} \yon^{A_1 + A_2} \\
         &\iso B_1 B_2\yon^{A_1 + A_2}.
-    \end{align*}
-    \item We expand the product $\left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
-    \begin{align*}
+      \end{align*}
+      \item We expand the product $\left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right)$ by applying \eqref{eqn.set_completely_distributive}, with $I_1 \coloneqq I$ and $I_2 \coloneqq J$:
+      \begin{align*}
         \left(\sum_{i \in I} B_i\yon^{A_i}\right) \times \left(\sum_{j \in J} B_j\yon^{A_j}\right) &\iso \prod_{k \in \2} \sum_{i \in I_k} B_i\yon^{A_i} \\
         &\iso \sum_{\bar{i} \in \prod_{k \in \2} I_k} \prod_{k \in \2} B_{\bar{i}(k)}\yon^{A_{\bar{i}(k)}} \\
         &\iso \sum_{i \in I} \sum_{j \in J} B_i\yon^{A_i} \times B_j\yon^{A_j} \\
         &\iso \sum_{i \in I} \sum_{j \in J} B_i B_j \yon^{A_i + A_j}
-    \end{align*}
-    where the last isomorphism follows from \cref{exc.general_poly_times.monomial}.
-\end{enumerate}
-\end{solution}
+      \end{align*}
+      where the last isomorphism follows from \cref{exc.general_poly_times.monomial}.
+    \end{enumerate}
+  \end{solution}
 \end{exercise}
 
 As lenses, the canonical projections $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ behave as you might expect: on positions, they are the projections from $(pq)(\1) \iso p(\1) \times q(\1)$ to $p(\1)$ and $q(\1)$, respectively; on directions, they are the inclusions $p[i] \to p[i] + q[j]$ and $q[j] \to p[i] + q[j]$ for each position $(i, j)$ of $pq$.
 
 \begin{exercise} \label{exc.poly_prod}
-Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
-\begin{solution}
-We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ as described in the text satisfy the universal property of the product.
-That is, we must show that for any $r \in \poly$ and lenses $f \colon r \to p$ and $g \colon r \to q$, there exists a unique lens $h \colon r \to pq$ for which the following diagram commutes:
-\begin{equation} \label{eqn.prod_univ_prop}
-\begin{tikzcd}
-	r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
-	p & pq. \ar[l, "\pi"] \ar[u, "\varphi"']
-\end{tikzcd}
-\end{equation}
-We apply \cref{prop.comm_poly}.
-In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
-\begin{equation} \label{eqn.prod_univ_prop_pos}
-\begin{tikzcd}
-	r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
-	p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\varphi_\1"']
-\end{tikzcd}
-\end{equation}
-But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\varphi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
-Hence $h$ is uniquely characterized on positions.
-In particular, it must send each $k \in r(\1)$ to the pair $(f_\1k, g_\1k) \in (pq)(\1)$.
+  Verify that, for $p, q \in \poly$, the polynomial $pq$ given by \eqref{eqn.poly_times} along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ described above satisfy the universal property of the product of $p$ and $q$.
+  \begin{solution}
+    We wish to show that, for $p, q \in \poly$, the polynomial $pq$ along with the lenses $\pi \colon pq \to p$ and $\varphi \colon pq \to q$ as described in the text satisfy the universal property of the product.
+    That is, we must show that for any $r \in \poly$ and lenses $f \colon r \to p$ and $g \colon r \to q$, there exists a unique lens $h \colon r \to pq$ for which the following diagram commutes:
+    \begin{equation} \label{eqn.prod_univ_prop}
+      \begin{tikzcd}
+        r \ar[d, "f"'] \ar[r, "g"] \ar[dr, "h", dashed] & q \\
+        p & pq. \ar[l, "\pi"] \ar[u, "\varphi"']
+      \end{tikzcd}
+    \end{equation}
+    We apply \cref{prop.comm_poly}.
+    In order for \eqref{eqn.prod_univ_prop} to commute, it must commute on positions---that is, the following diagram of sets must commute:
+    \begin{equation} \label{eqn.prod_univ_prop_pos}
+      \begin{tikzcd}
+        r(\1) \ar[d, "f_\1"'] \ar[r, "g_\1"] \ar[dr, "h_\1", dashed] & q(\1) \\
+        p(\1) & (pq)(\1). \ar[l, "\pi_\1"] \ar[u, "\varphi_\1"']
+      \end{tikzcd}
+    \end{equation}
+    But since $(pq)(\1) \iso p(1) \times q(\1)$ along with the projections $\pi_\1$ and $\varphi_\1$ form the product of $p(\1)$ and $q(\1)$ in $\smset$, there exists a unique $h_\1$ for which \eqref{eqn.prod_univ_prop_pos} commutes.
+    Hence $h$ is uniquely characterized on positions.
+    In particular, it must send each $k \in r(\1)$ to the pair $(f_\1k, g_\1k) \in (pq)(\1)$.
 
-Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
-\begin{equation} \label{eqn.prod_univ_prop_dir}
-\begin{tikzcd}[sep=large]
-	r[k] & q[g_\1k] \ar[l, "g^\sharp_k"'] \ar[d, "\varphi^\sharp_{(f_\1k, g_\1k)}"] \\
-	p[f_\1k] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1k, g_\1k)}"'] & (pq)[(f_\1k, g_\1k)]. \ar[ul, "h^\sharp_k"', dashed]
-\end{tikzcd}
-\end{equation}
-As $(pq)[(f_\1k, g_\1k)] \iso p[f_\1k] + q[g_\1k]$ along with the inclusions $\pi^\sharp_{(f_\1k, g_\1k)}$ and $\varphi^\sharp_{(f_\1k, g_\1k)}$ form the coproduct of $p[f_\1k]$ and $q[g_\1k]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
-Hence $h$ is also uniquely characterized on directions, so it is unique overall.
-Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
-As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
-\end{solution}
+    Moreover, if \eqref{eqn.coprod_univ_prop} is to commute on directions, then for every $k \in r(\1)$, the following diagram of sets must commute:
+    \begin{equation} \label{eqn.prod_univ_prop_dir}
+      \begin{tikzcd}[sep=large]
+        r[k] & q[g_\1k] \ar[l, "g^\sharp_k"'] \ar[d, "\varphi^\sharp_{(f_\1k, g_\1k)}"] \\
+        p[f_\1k] \ar[u, "f^\sharp_k"] \ar[r, "\pi^\sharp_{(f_\1k, g_\1k)}"'] & (pq)[(f_\1k, g_\1k)]. \ar[ul, "h^\sharp_k"', dashed]
+      \end{tikzcd}
+    \end{equation}
+    As $(pq)[(f_\1k, g_\1k)] \iso p[f_\1k] + q[g_\1k]$ along with the inclusions $\pi^\sharp_{(f_\1k, g_\1k)}$ and $\varphi^\sharp_{(f_\1k, g_\1k)}$ form the coproduct of $p[f_\1k]$ and $q[g_\1k]$ in $\smset$, there exists a unique $h^\sharp_k$ for which \eqref{eqn.prod_univ_prop_dir} commutes.
+    Hence $h$ is also uniquely characterized on directions, so it is unique overall.
+    Moreover, we have shown that we can define $h$ on positions so that \eqref{eqn.prod_univ_prop_pos} commutes, and that we can define $h$ on directions such that \eqref{eqn.prod_univ_prop_dir} commutes.
+    As the commutativity of \eqref{eqn.prod_univ_prop_pos} and \eqref{eqn.prod_univ_prop_dir} together imply the commutativity of \eqref{eqn.prod_univ_prop}, it follows that there exists $h$ for which \eqref{eqn.prod_univ_prop} commutes.
+  \end{solution}
 \end{exercise}
 
-%---- Subsection ----%
-\subsection{The parallel product} \label{subsec.poly.cat.monoidal.par}
+Much of \cref{part.comon} will focus on the astonishing features of another monoidal structure, an asymmetric one, which we will put off defining---we will save its surprises for when we can better savor them.
+But here we introduce a third symmetric monoidal structure, given by an operation you probably weren't allowed to do to polynomials back in high school.
+% This monoidal structure will prove useful when we apply $\poly$ to dynamics in the next chapter.
+% TODO: explain parallel products in terms of interaction
+
 \index{monoidal structure!parallel|see{Parallel product}}
 \index{Dirichlet product|see{parallel product}}
 \index{parallel product|(}
-
-
-There is a closely related monoidal structure on $\poly$ that will be useful for putting dynamical systems in parallel.
 
 \begin{definition}[Parallel product of polynomials] \label{def.parallel}
 Let $p$ and $q$ be polynomials. Their \emph{parallel product} (also called \emph{Dirichlet product}), denoted $p\otimes q$, is given by the formula:
 \begin{equation}\label{eqn.parallel_def}
 p\otimes q\iso\sum_{i\in p(\1)}\sum_{j\in q(\1)}\yon^{p[i]\times q[j]}.
 \end{equation}
-% On arenas, this is defined by
-% \begin{equation}\label{eqn.parallel_product_dependent}
-% \sum_{i \in p(\1)}\yon^{p[i]} \otimes \sum_{j \in q(\1)}\yon^{q[j]} := \sum_{(i,j) \in p(\1) \times q(\1)}\yon^{p[i]\times q[j]}.
-% \end{equation}
 \end{definition}
 
 One should compare this with the formula for the product of polynomials shown in \eqref{eqn.poly_times}. The difference is that the parallel product multiplies exponents where the categorical product adds them.
@@ -4231,7 +4214,7 @@ Consider the polynomials $p\coloneqq \2\yon^\2+\3\yon$ and $q\coloneqq\yon^\4+\3
 	(1\mdot4^\yon+3\mdot 3^\yon)
 	\]
     The factors of the above product are called Dirichlet series.\index{Dirichlet series}
-	\item Describe the connection between the last two parts. (An alternative name we give for the parallel product $\otimes$ is the \emph{Dirichlet product}.) \qedhere
+	\item Describe the connection between the last two parts. (This is why the parallel product $\otimes$ is also known as the \emph{Dirichlet product}.) \qedhere
 \end{enumerate}
 \begin{solution}
 Here $p\coloneqq \2\yon^\2+\3\yon$ and $q\coloneqq\yon^\4+\3\yon^\3$.
@@ -4403,7 +4386,7 @@ For each of the following classes of polynomials, we determine whether they are 
 \end{exercise}
 
 \begin{exercise}
-What is the smallest class of polynomials that's closed under $\otimes$ and contains $\yon$?
+What is the smallest class of polynomials that is closed under $\otimes$ and contains $\yon$?
 \begin{solution}
 The smallest class of polynomials that's closed under $\otimes$ and contains $\yon$ is just $\{\yon\}$.
 This is because by \cref{exc.general_poly_parallel_times} \cref{exc.general_poly_parallel_times.monomial}, we have $\yon \otimes \yon \iso \yon$.
@@ -4531,7 +4514,7 @@ We studied examples of lenses between special polynomials: in particular, lenses
 We then unwound our interpretation of natural transformations between polynomials as dependent lenses with on-positions and on-directions functions to describe what happens to these functions when lenses compose.
 This gave us an accessible way to interpret commutative diagrams in $\poly$ that is particularly convenient to express using polyboxes.
 
-Finally, we considered various categorical properties of $\poly$, e.g.\ that it has all products and coproducts, and that these distribute: $\prod\sum\to\sum\prod$.
+Finally, we considered various categorical structures on $\poly$, e.g.\ that it has all products and coproducts, and that these distribute: $\prod\sum\to\sum\prod$.
 \begin{align*}
 	\sum_{a\in A}p_a&\coloneqq\sum_{(a,i)\in\sum_{a\in A}p_a(1)}\yon^{p_a[i]}&
 	\prod_{a\in A}p_a&\coloneqq\sum_{i\in\prod_{a\in A}p_a(1)}\yon^{\sum_{a\in A}p_a[i a]}
@@ -5534,7 +5517,7 @@ This construction is actually universal; it is known as \emph{copointing}.
 \index{dynamical system!juxtaposing}
 \index{parallel product!and dynamical systems|(}
 
-Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{subsec.poly.cat.monoidal.par}.
+Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{def.parallel}.
 In particular, the parallel product of two state systems is still a state system.
 So parallel products give us another way to create new dynamical systems from old ones.
 In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
@@ -8603,7 +8586,7 @@ Finally, $f \then g$ can only be the unique lens $\yon \to \yon$, namely the ide
 \end{exercise}
 
 Here is an alternative characterization of a cartesian lens in $\poly$.
-Recall from \cref{exc.deriv_directions} that for any polynomial $p$, there is a corresponding function $\pi_p\colon\dot{p}(\1)\to p(\1)$, i.e.\ the set of all directions mapping to the set of positions.
+Recall from \cref{exc.deriv-directions} that for any polynomial $p$, there is a corresponding function $\pi_p\colon\dot{p}(\1)\to p(\1)$, i.e.\ the set of all directions mapping to the set of positions.
 A lens $(f_\1,f^\sharp)\colon p\to q$ can then be described as a function $f_\1\colon p(\1)\to q(\1)$ along with a function $f^\sharp$ that makes the following diagram in $\smset$ commute:
 \begin{equation}\label{eqn.poly_map_usu}
 \begin{tikzcd}
