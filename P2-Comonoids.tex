@@ -4014,7 +4014,7 @@ Polynomial substitution is one of the best known aspects of polynomial functors.
 \index{composition product|)}
 
 %------------ Chapter ------------%
-\chapter{Polynomial comonoids and cofunctors}\label{ch.comon.sharp}
+\chapter{Polynomial comonoids and retrofunctors}\label{ch.comon.sharp}
 \index{polynomial comonoid|(}
 \index{polynomial comonad|see{polynomial comonoid}}
 
@@ -6066,15 +6066,16 @@ If $\deg(c)\iso\ord{n}$ for $n\in\nn$, we say $c$ has \emph{degree $n$}.
 \index{polynomial comonoid!as category|)}
 
 %-------- Section --------%
-\section{Morphisms of polynomial comonoids are cofunctors} \label{sec.comon.sharp.cof}
+\section{Morphisms of polynomial comonoids are retrofunctors} \label{sec.comon.sharp.cof}
 
-\index{cofunctor}\index{polynomial comonoid!morphism of|see{cofunctor}}
+\index{retrofunctor}\index{polynomial comonoid!morphism of|see{retrofunctor}}
 
 Now that we have characterized the comonoids of $\poly$, let us consider the morphisms between them.
-These turn out to correspond to a rather odd kind of map between categories known as a \emph{cofunctor}.
+These turn out to correspond to a rather odd kind of map between categories known as a \emph{retrofunctor}.
+\footnote{Many authors have referred to these as \emph{cofunctors}, including ourselves in other work and in early versions of this book. However, the prefix \emph{co} in category theory is very special---having to do with taking opposites---and we will see in \cref{rem.retrofunctor_pare} that comonoid homomorphisms are not just opposite-functors.. Thus to keep the prefix \emph{co} more pristine, and in solidarity with other researchers, we have decided to use the term \emph{retrofunctor}, which is an appropriate usage of the term defined by Bob Par\'e \cite{pare2023retrocells}.}
 
 %---- Subsection ----%
-\subsection{Introducing comonoid morphisms and cofunctors}
+\subsection{Introducing comonoid morphisms and retrofunctors}
 
 First, let us define morphisms of comonoids in the most general setting.
 If you've seen the definition of a monoid homomorphism (or even a group homomorphism), then this definition may look familiar.
@@ -6182,7 +6183,7 @@ Let's throw in another comonoid $\com{C}''\coloneqq(\car{c''},\epsilon'',\delta'
 \end{exercise}
 
 Notice that we were very careful in how we stated \cref{thm.ahman_uustalu}: while we asserted the existence of an isomorphism-preserving one-to-one correspondence between the objects of $\comon(\poly)$ and $\smcat$, we never claimed that these two categories are isomorphic or even equivalent.
-The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to different maps of categories called \emph{cofunctors}.
+The strange truth of the matter is that they are not: polynomial comonoid morphisms correspond not to functors, but to different maps of categories called \emph{retrofunctors}.
 
 How exactly do these maps behave?
 If we specify \cref{def.morphism_comonoids} to the case of $(\poly,\yon,\tri)$, we can write the eraser preservation law \eqref{eqn.pres_era} in polyboxes as
@@ -6247,17 +6248,17 @@ and the duplicator preservation law \eqref{eqn.pres_dup} in polyboxes as
 	\node at ($(sp1.east)!.5!(sp2.west)-(0,4pt)$) {$=$};
 \end{tikzpicture}
 \end{equation}
-If we read off the equations from these polyboxes, interpreting polynomial comonoids as categories, we derive the following definition of a cofunctor.
+If we read off the equations from these polyboxes, interpreting polynomial comonoids as categories, we derive the following definition of a retrofunctor.
 (Here \eqref{eqn.pres_id} is equivalent to \eqref{eqn.pres_era_draw}, while \eqref{eqn.pres_cod} and \eqref{eqn.pres_comp} are together equivalent to \eqref{eqn.pres_dup_draw}.)
 
-\begin{definition}[Cofunctor]\label{def.cofunctor}
+\begin{definition}[Retrofunctor]\label{def.retrofunctor}
 Let $\cat{C}$ and $\cat{C'}$ be (small) categories.
-A \emph{cofunctor} $F\colon\cat{C}\cof\cat{C'}$ consists of
+A \emph{retrofunctor} $F\colon\cat{C}\cof\cat{C'}$ consists of
 \begin{itemize}
     \item a function $F\colon\Ob\cat{C}\to\Ob\cat{C'}$ \emph{forward on objects}\tablefootnote{In keeping with standard functor notation, we omit the usual subscript $\1$ that we include for on-positions (in this case, on-objects) functions. We often omit parentheses when applying these functions as well.} and
     \item a function $F^\sharp_c\colon\cat{C'}[Fc]\to\cat{C}[c]$ \emph{backward on morphisms} for each $c\in\Ob\cat{C}$,
 \end{itemize}
-satisfying the following conditions, collectively known as the \emph{cofunctor laws}:
+satisfying the following conditions, collectively known as the \emph{retrofunctor laws}:
 \begin{enumerate}[itemsep=0pt, label=\roman*.]
 	\item $F$ \emph{preserves identities}:
 	\begin{equation} \label{eqn.pres_id}
@@ -6271,36 +6272,74 @@ satisfying the following conditions, collectively known as the \emph{cofunctor l
 	for each $c\in\Ob\cat{C}$ and $g\in\cat{C'}[Fc]$;
 	\item $F$ \emph{preserves composites}:%
 	\tablefootnote{In particular, the codomains of either side of \eqref{eqn.pres_comp} are equal.
-	This isn't actually guaranteed by the other laws, so it is worth noting on its own; see for example the proof of \cref{prop.cofunctors_isos}.}
+	This isn't actually guaranteed by the other laws, so it is worth noting on its own; see for example the proof of \cref{prop.retrofunctors_isos}.}
 	\begin{equation} \label{eqn.pres_comp}
 	    F^\sharp_c g\then F^\sharp_{\cod F^\sharp_c g} h=F^\sharp_c\left(g\then h\right)
 	\end{equation}
 	for each $c\in\Ob\cat{C}, g\in\cat{C'}[Fc],$ and $h\in\cat{C'}[\cod g]$.
 \end{enumerate}
-We let $\catsharp\iso\comon(\poly)$ denote the category of (small) categories and cofunctors.
+We let $\catsharp\iso\comon(\poly)$ denote the category of (small) categories and retrofunctors.
 \end{definition}
+
+\begin{remark}\label{rem.retrofunctor_pare}
+For experts, we explain the term \emph{retrofunctor} from \cref{def.retrofunctor}. Let $\cat{C},\cat{C'}$ be categories, and consider them as monads in $\mathbb{S}\Cat{pan}$. A functor between them consists of a function $F_\mathrm{Ob}\colon\Ob(\cat{C})\to\Ob(\cat{C'})$ and a 2-cell, as shown left
+\[
+\begin{tikzcd}[column sep=large]
+	\Ob(\cat{C})\ar[r, tick, "\mathrm{Mor}(\cat{C})", ""' name=MM]\ar[d, "F_\mathrm{Ob}"']&
+	\Ob(\cat{C})\ar[d, "F_\mathrm{Ob}"]\\
+	\Ob(\cat{C'})\ar[r, tick, "\Mor(\cat{C'})"', "" name=MM']&
+	\Ob(\cat{C'})
+	\ar[from=MM, to=MM', Rightarrow, shorten=4pt, "F_{\mathrm{Mor}}"]	
+\end{tikzcd}
+\hspace{.7in}
+\begin{tikzcd}[column sep=70pt]
+	\Ob(\cat{C})
+		\ar[r, tick, bend left=25pt, "\mathrm{Mor}(\cat{C})", ""' name=MM]
+		\ar[r, tick, bend right=25pt, "\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}"', "" name=MM']&
+	\Ob(\cat{C})
+  	\ar[from=MM, to=MM', Rightarrow, shorten=2pt, "F_{\mathrm{Mor}}"]	
+\end{tikzcd}
+\]
+satisfying the properties of a monad homomorphism. 
+
+In \cite[Definition 6.1]{pare2023retrocells}, Par\'e defines \emph{retromorphism of monads} in double categories like $\mathbb{S}\Cat{pan}$. We will not discuss the more general definition here, but in a framed bicategory (equipment), where we have companions $\wc{f}$ and conjoints $\wh{f}$ of tight maps $f$, it is easy to check that monads lift along tight morphisms in the sense that the horizontal cell $\left(\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}\right)\colon \Ob(\cat{C})\tickar \Ob(\cat{C})$ is a monad if $\mathrm{Mor}(\cat{C'})$ is. Hence, a functor is equivalently given by a function $F_\mathrm{Ob}\colon\Ob(\cat{C})\to\Ob(\cat{C'})$ such that the 2-cell shown above right is a monad homomorphism.
+
+A retromorphism of monads---in our case, a \emph{retrofunctor}---is simply a monad map going the other way:%
+\footnote{
+As a hint to the connection in terms of the (yet-undefined) double category $\mathbb{C}\Cat{at}^\sharp$, note that when the monads in question are left adjoints, their right adjoints will automatically be comonads, and a morphism between these comonads will be a retromorphism between the monads.
+}
+\[
+\begin{tikzcd}[column sep=70pt]
+	\Ob(\cat{C})
+		\ar[r, tick, bend left=25pt, "\mathrm{Mor}(\cat{C})", ""' name=MM]
+		\ar[r, tick, bend right=25pt, "\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}"', "" name=MM']&
+	\Ob(\cat{C})
+  	\ar[from=MM', to=MM, Rightarrow, shorten=2pt]	
+\end{tikzcd}
+\]
+\end{remark}
 
 \index{$\catsharp$}\index{comonoids|seealso{$\catsharp$}}
 
 Henceforth we will identify the category $\catsharp$ with the isomorphic category $\comon(\poly)$, eliding the difference between comonoids in $\poly$ and categories.
 
-Since each cofunctor includes a lens between its carrier polynomials, cofunctors compose the way lenses do.
+Since each retrofunctor includes a lens between its carrier polynomials, retrofunctors compose the way lenses do.
 
 \begin{exercise}
-Let $\cat{C},\cat{D},\cat{E}$ be categories, and let $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ be cofunctors between them.
+Let $\cat{C},\cat{D},\cat{E}$ be categories, and let $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ be retrofunctors between them.
 \begin{enumerate}
-    \item Characterize the behavior of the identity cofunctor $\id_\cat{D}$ on $\cat{D}$.
+    \item Characterize the behavior of the identity retrofunctor $\id_\cat{D}$ on $\cat{D}$.
     Where does it send each object?
     Where does it send each morphism?
-    \item Characterize the behavior of the composite cofunctor $F\then G$.
+    \item Characterize the behavior of the composite retrofunctor $F\then G$.
     Where does it send each object and morphism?\qedhere
 \end{enumerate}
 \begin{solution}
-Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are cofunctors in $\catsharp$.
+Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are retrofunctors in $\catsharp$.
 \begin{enumerate}
-    \item The identity cofunctor $\id_\cat{D}$ on $\cat{D}$ should correspond to the identity lens on the carrier of $\cat{D}$, which is the identity on both positions (objects) and directions (morphisms).
+    \item The identity retrofunctor $\id_\cat{D}$ on $\cat{D}$ should correspond to the identity lens on the carrier of $\cat{D}$, which is the identity on both positions (objects) and directions (morphisms).
     So $\id_\cat{D}$ sends each object $d\in\Ob\cat{D}$ to itself, while $\left(\id_\cat{D}\right)^\sharp_d\colon\cat{D}[d]\to\cat{D}[d]$ sends each morphism out of $d$ to itself as well.
-    \item The composite cofunctor $F\then G\colon\cat{C}\cof\cat{D}$ should correspond to the composite of $F$ as a lens between the carriers of $\cat{C}$ and $\cat{D}$ with $G$ as a lens between the carriers of $\cat{D}$ and $\cat{E}$.
+    \item The composite retrofunctor $F\then G\colon\cat{C}\cof\cat{D}$ should correspond to the composite of $F$ as a lens between the carriers of $\cat{C}$ and $\cat{D}$ with $G$ as a lens between the carriers of $\cat{D}$ and $\cat{E}$.
     So on objects, $F\then G$ sends each $c\in\Ob\cat{C}$ to $G(Fc)\in\Ob\cat{E}$.
     Then given $c\in\Ob\cat{C}$, the on-morphisms function $(F\then G)^\sharp_c\colon\cat{E}[G(Fc)]\to\cat{C}[c]$ is the composite of on-directions functions
     \[
@@ -6311,22 +6350,22 @@ Here $F\colon\cat{C}\cof\cat{D}$ and $G\colon\cat{D}\cof\cat{E}$ are cofunctors 
 \end{solution}
 \end{exercise}
 
-\index{cofunctor!similarity with functor}
+\index{retrofunctor!similarity with functor}
 
-On the surface, functors and cofunctors have much in common: both send objects to objects and morphisms to morphisms in a way that preserves domains and codomains as well as identities and composites.
-The main difference is that functors send morphisms \emph{forward}, while cofunctors send morphisms \emph{backward}.
-As we work with cofunctors, it will be helpful to remember the following:
+On the surface, functors and retrofunctors have much in common: both send objects to objects and morphisms to morphisms in a way that preserves domains and codomains as well as identities and composites.
+The main difference is that functors send morphisms \emph{forward}, while retrofunctors send morphisms \emph{backward}.
+As we work with retrofunctors, it will be helpful to remember the following:
 \slogan{
-    A cofunctor $F$ goes forward on objects and backward on morphisms.\\
+    A retrofunctor $F$ goes forward on objects and backward on morphisms.\\
     Codomains are objects, so $F$ preserves them going forward.\\
     Identities and composites are morphisms, so $F$ preserves them going backward.
 }
 
-Before we explore just how different functors and cofunctors can be, let us note a few more similarities that these two kinds of maps between categories share.
-For example, cofunctors, like functors, preserve isomorphisms.
+Before we explore just how different functors and retrofunctors can be, let us note a few more similarities that these two kinds of maps between categories share.
+For example, retrofunctors, like functors, preserve isomorphisms.
 
-\begin{proposition}\label{prop.cofunctors_isos}
-Let $F\colon\cat{C}\cof\cat{D}$ be a cofunctor, $c\in\cat{C}$ be an object, and $g\colon Fc\to\_$ be an isomorphism in $\cat{D}$.
+\begin{proposition}\label{prop.retrofunctors_isos}
+Let $F\colon\cat{C}\cof\cat{D}$ be a retrofunctor, $c\in\cat{C}$ be an object, and $g\colon Fc\to\_$ be an isomorphism in $\cat{D}$.
 Then $F^\sharp_c g$ is also an isomorphism in $\cat{C}$.
 \end{proposition}
 \begin{proof}
@@ -6353,31 +6392,31 @@ Hence $F^\sharp_c g$ and $F^\sharp_{c'}\left(g^{-1}\right)$ are inverses, and th
 Moreover, isomorphisms in $\smcat$ correspond to isomorphisms in $\catsharp$.
 \index{$\catsharp$!isomorphisms in}
 
-\index{cofunctor!isomorphism}
+\index{retrofunctor!isomorphism}
 
 \begin{exercise}
 We've justified the ``isomorphism-preserving'' part of \cref{thm.ahman_uustalu} implicitly, but let's make it explicit.
 
 Recall that two categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if there exist functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$ that are mutually inverse, i.e.\ $F\then G$ and $G\then F$ are identity functors on $\cat{C}$ and $\cat{D}$.
-Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$ if there exist cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity cofunctors on $\cat{C}$ and $\cat{D}$.
+Similarly, $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$ if there exist retrofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$ that are mutually inverse, i.e.\ $H\then K$ and $K\then H$ are identity retrofunctors on $\cat{C}$ and $\cat{D}$.
 Show that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\catsharp$.
 \begin{solution}
 We want to show that categories $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$ if and only if they are isomorphic in $\catsharp$.
 First, assume that $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$, so that there exist mutually inverse functors $F\colon\cat{C}\to\cat{D}$ and $G\colon\cat{D}\to\cat{C}$.
-Then we can define a cofunctor $H\colon\cat{C}\cof\cat{D}$ such that for each $c\in\cat{C}$ we have $Hc\coloneqq Fc\in\cat{D}$, and for each $g\in\cat{D}[Fc]$ we have $H^\sharp_c g\coloneqq Gg\in\cat{C}[GFc]=\cat{C}[c]$.
-We can verify that $H$ really is a cofunctor: it preserves identities and composition because $G$ does, and it preserves codomains because $H\cod H^\sharp_c g=F\cod Gg=FG\cod g=\cod g$.
-Analogously, we can define a cofunctor $K\colon\cat{D}\cof\cat{C}$ with $Kd\coloneqq Gd$ and $K^\sharp_d f\coloneqq Ff$ for each $d\in\cat{D}$ and $f\in\cat{C}[Gd]$.
-Then $H\then K$ is equal to $F\then G$ both on objects and on morphisms, so it is the identity cofunctor on $\cat{C}$; analogously, $K\then H$ is the identity cofunctor on $\cat{D}$.
+Then we can define a retrofunctor $H\colon\cat{C}\cof\cat{D}$ such that for each $c\in\cat{C}$ we have $Hc\coloneqq Fc\in\cat{D}$, and for each $g\in\cat{D}[Fc]$ we have $H^\sharp_c g\coloneqq Gg\in\cat{C}[GFc]=\cat{C}[c]$.
+We can verify that $H$ really is a retrofunctor: it preserves identities and composition because $G$ does, and it preserves codomains because $H\cod H^\sharp_c g=F\cod Gg=FG\cod g=\cod g$.
+Analogously, we can define a retrofunctor $K\colon\cat{D}\cof\cat{C}$ with $Kd\coloneqq Gd$ and $K^\sharp_d f\coloneqq Ff$ for each $d\in\cat{D}$ and $f\in\cat{C}[Gd]$.
+Then $H\then K$ is equal to $F\then G$ both on objects and on morphisms, so it is the identity retrofunctor on $\cat{C}$; analogously, $K\then H$ is the identity retrofunctor on $\cat{D}$.
 Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$.
 
-Conversely, assume $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$, so that there exist mutually inverse cofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$.
+Conversely, assume $\cat{C}$ and $\cat{D}$ are isomorphic in $\catsharp$, so that there exist mutually inverse retrofunctors $H\colon\cat{C}\cof\cat{D}$ and $K\colon\cat{D}\cof\cat{C}$.
 Given objects $c,c'$ and a morphism $f\colon c\to c'$ in $\cat{C}$, we have that $KHc=c$, so $K^\sharp_{Hc}$ is a function $\cat{C}[c]\to\cat{D}[Hc]$.
 In particular, $K^\sharp_{Hc}f$ is a morphism in $\cat{D}$ whose domain is $Hc$ and whose codomain satisfies $K\cod K^\sharp_{Hc}f=\cod f=c'$, and thus $\cod K^\sharp_{Hc}f=Hc'$.
 Hence we can define a functor $F\colon\cat{C}\to\cat{D}$ such that for each $c\in\cat{C}$ we have $Fc\coloneqq Hc\in\cat{D}$, and for each morphism $f\colon c\to c'$ in $\cat{C}$ we have $Ff\coloneqq K^\sharp_{Hc}f\colon Hc\to Hc'$.
 Functoriality follows from the fact that $K$ preserves identities and composition.
 Analogously, we can define a functor $G\colon\cat{D}\to\cat{C}$ with $Gd\coloneqq Kd$ for each $d\in\cat{D}$ and $Gg\coloneqq H^\sharp_{Kd}g$ for each $g\colon d\to d'$ in $\cat{D}$.
 Then $F\then G$ is equal to $H\then K$ on objects; on morphisms, it sends each $f\colon c\to c'$ in $\cat{C}$ to $H^\sharp_{KHc}\left(K^\sharp_{Hc}f\right)=H^\sharp_c\left(K^\sharp_{Hc}f\right)=(K\then H)^\sharp_cf=f$ itself.
-So $F\then G$ is the identity cofunctor on $\cat{C}$.
+So $F\then G$ is the identity retrofunctor on $\cat{C}$.
 Analogously, $G\then F$ is the identity functor on $\cat{D}$.
 Thus $\cat{C}$ and $\cat{D}$ are isomorphic in $\smcat$.
 \end{solution}
@@ -6386,36 +6425,36 @@ But while isomorphisms in $\catsharp$ are the same as those in $\smcat$, the non
 We'll see this in the examples to come.
 
 %---- Subsection ----%
-\subsection{Examples of cofunctors}
-\index{cofunctor!examples of|(}
+\subsection{Examples of retrofunctors}
+\index{retrofunctor!examples of|(}
 
-From a realm where functors reign supreme, the back-and-forth behavior of cofunctors can seem foreign and  counterintuitive.
-Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture in the shape of $\cat{C}$, drawn with the objects and arrows of $\cat{D}$---cofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that cofunctors generalize our dynamical systems.}
+From a realm where functors reign supreme, the back-and-forth behavior of retrofunctors can seem foreign and  counterintuitive.
+Whereas a functor $\cat{C}\to\cat{D}$ can be thought of as a \emph{diagram}---a picture in the shape of $\cat{C}$, drawn with the objects and arrows of $\cat{D}$---retrofunctors are much more like the dynamical systems of \cref{ch.poly.dyn_sys}.\footnote{In fact, we will see in \cref{ch.comon.cofree} that retrofunctors generalize our dynamical systems.}
 
-That is, a cofunctor $F\colon\cat{C}\cof\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
-Imagine the cofunctor as a box, with $\cat{C}$ on the inside and $\cat{D}$ on the outside.
+That is, a retrofunctor $F\colon\cat{C}\cof\cat{D}$ is a way of interacting with the states (objects) and transitions (morphisms) within $\cat{C}$ by way of $\cat{D}$.
+Imagine the retrofunctor as a box, with $\cat{C}$ on the inside and $\cat{D}$ on the outside.
 Some $c\in\cat{C}$ may be the current state inside the box, but all anyone outside the box can see is the object $Fc\in\cat{D}$ that the box chooses to display in lieu of $c$.
 Still, any transition $g$ out of $Fc$ can be selected from the outside; the box guarantees that whatever $c$ is on the inside, there is a corresponding transition $F^\sharp_c g$ out of that $c$.
 As $g$ is followed from $Fc$ to $\cod g$ on the outside, $F^\sharp_c g$ is followed from $c$ to $\cod F^\sharp_c g$ on the inside.
 But codomain preservation guarantees that the new state $\cod g$ on the outside is equal to what the box would want to display in lieu of the new state $\cod F^\sharp_c g$ on the inside, as $\cod g=F\cod F^\sharp_c g$,
 Then the process repeats in a manner compatible with identities and composition.
 
-Here we give a variety of examples of cofunctors to get a better handle on them.
+Here we give a variety of examples of retrofunctors to get a better handle on them.
 Often we will denote a category by its carrier when its comonoid structure can be inferred from context, and $\cat{C}$ will be a category throughout with carrier $\car{c}$.
 
-\subsubsection{Cofunctors to preorders}
-\index{cofunctor!to preorders}
+\subsubsection{Retrofunctors to preorders}
+\index{retrofunctor!to preorders}
 
-Given a cofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing a simplified model or abstraction of the states and transitions possible in $\cat{C}$, picking canonical transitions in $\cat{C}$ along the way to exhibit the model.
+Given a retrofunctor from $\cat{C}$ to a preorder $\cat{P}$, we can think of $\cat{P}$ as providing a simplified model or abstraction of the states and transitions possible in $\cat{C}$, picking canonical transitions in $\cat{C}$ along the way to exhibit the model.
 While the transitions in a general category may be more complex, all that a preorder tells you is whether you can get from one state to another or not.
 Let's see some examples.
 
-\index{cofunctor!to discrete categories}
+\index{retrofunctor!to discrete categories}
 
 
-\begin{example}[Cofunctors to discrete categories] \label{ex.cof_to_discrete}
+\begin{example}[Retrofunctors to discrete categories] \label{ex.cof_to_discrete}
 The discrete category on a set $S$ is the category with objects in $S$ and only identity morphisms; its carrier is $S\yon$.\index{category!discrete}
-So a cofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
+So a retrofunctor $F\colon\cat C\cof S\yon$ is completely determined by its behavior on objects: to preserve identities, it can only send the morphisms in $S\yon$ back to the identity morphisms in $\cat C$.
 We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\cat C$ a label in $S$ without revealing anything about the transitions between them.
 \end{example}
 
@@ -6429,15 +6468,15 @@ We can identify $F$ with a function $\Ob\cat C\to S$, assigning each state in $\
 \begin{solution}
 \begin{enumerate}
     \item We actually already showed that $\yon$ has a unique comonoid structure, corresponding to the category with $1$ object and no nonidentity morphisms (which we will also denote by $\yon$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\1$.
-    \item For any category $\cat{C}$, there is a unique cofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
-    \item By \cref{ex.cof_to_discrete}, a cofunctor from a category $\cat C$ to the discrete category on $S\in\smset$ is a way of assigning each state in $\cat C$ a label in $S$.
+    \item For any category $\cat{C}$, there is a unique retrofunctor $\cat{C}\cof\yon$: it sends every object in $\cat{C}$ to the only object in $\yon$, and it sends the only morphism in $\yon$, an identity morphism, to each identity morphism in $\cat{C}$.
+    \item By \cref{ex.cof_to_discrete}, a retrofunctor from a category $\cat C$ to the discrete category on $S\in\smset$ is a way of assigning each state in $\cat C$ a label in $S$.
     In this case, $\yon$ is the discrete category on $\1$, so there is only $1$ label to choose from; hence there is always just $1$ way to assign the labels.
 \end{enumerate}\index{category!discrete}
 \end{solution}
 \end{exercise}
 
-\begin{example}[Cofunctors to the walking arrow] \label{ex.cof_to_walking_arrow}
-Consider a cofunctor $F\colon\cat{C}\cof\cat{A}$, where $\cat{A}$ is the walking arrow category
+\begin{example}[Retrofunctors to the walking arrow] \label{ex.cof_to_walking_arrow}
+Consider a retrofunctor $F\colon\cat{C}\cof\cat{A}$, where $\cat{A}$ is the walking arrow category
 \begin{center}
     $\cat{A}\coloneqq\:$\boxCD{examplecolor}{
     $s\Too{a}t$}
@@ -6450,44 +6489,44 @@ Then on morphisms, preservation of identities determines where $F^\sharp$ sends 
 \]
 and thus $\cod F^\sharp_c a\in\cat{C}_t$.
 In particular, for every object $c\in\cat{C}$ that $F$ sends to $s$, there must be at least one morphism from $c$ to an object that $F$ sends to $t$, so that one of those morphisms can be $F^\sharp_c a$.
-As there are no nontrivial composites in $\cat{A}$, the cofunctor $F$ automatically preserves composites.
+As there are no nontrivial composites in $\cat{A}$, the retrofunctor $F$ automatically preserves composites.
 
-In summary, a cofunctor $F\colon\cat{C}\cof\cat{A}$ divides the objects of $\cat{C}$ between $\cat{C}_s$ and $\cat{C}_t$ and fixes a morphism from each object in $\cat{C}_s$ to some object in $\cat{C}_t$.
+In summary, a retrofunctor $F\colon\cat{C}\cof\cat{A}$ divides the objects of $\cat{C}$ between $\cat{C}_s$ and $\cat{C}_t$ and fixes a morphism from each object in $\cat{C}_s$ to some object in $\cat{C}_t$.
 We can think of $F$ as separating the states of $\cat{C}$ into source states and target states, modeled by the $s$ state and the $t$ state in $\cat{A}$, respectively; then every source state is assigned a target state and a way of getting to that target state via a transition in $\cat{C}$.
 \end{example}
 
-Given a cofunctor $F\colon\cat{C}\cof\cat{D}$ and an object $d\in\cat{D}$, we will continue to use the notation $\cat{C}_d\coloneqq F^{-1}d$ to denote the set of objects in $\cat{C}$ that $F$ sends to $d$.
+Given a retrofunctor $F\colon\cat{C}\cof\cat{D}$ and an object $d\in\cat{D}$, we will continue to use the notation $\cat{C}_d\coloneqq F^{-1}d$ to denote the set of objects in $\cat{C}$ that $F$ sends to $d$.
 
 \begin{exercise}
-Let $F\colon\cat{C}\cof\cat{A}$ be a cofunctor from $\cat{C}$ to the walking arrow category $\cat{A}$, as in \cref{ex.cof_to_walking_arrow}.
+Let $F\colon\cat{C}\cof\cat{A}$ be a retrofunctor from $\cat{C}$ to the walking arrow category $\cat{A}$, as in \cref{ex.cof_to_walking_arrow}.
 If $Fc=s$ for all $c\in\cat{C}$, what can we say about $\cat{C}$?
 \begin{solution}
-Given a cofunctor $F\colon\cat{C}\cof\cat{A}$, where $\cat{A}$ is the walking arrow category as in \cref{ex.cof_to_walking_arrow}, assume $Fc=s$ for all $c\in\cat{C}$.
+Given a retrofunctor $F\colon\cat{C}\cof\cat{A}$, where $\cat{A}$ is the walking arrow category as in \cref{ex.cof_to_walking_arrow}, assume $Fc=s$ for all $c\in\cat{C}$.
 By \cref{ex.cof_to_walking_arrow}, if $Fc=s$ for $c\in\cat{C}$, then there must be a morphism from $c$ to an object in $\cat{C}$ that $F$ sends to $t$ for $a\colon s\to t$ in $\cat{A}$ to be sent back to via $F^\sharp$.
 But there are no objects in $\cat{C}$ that $F$ sends to $t$.
-So the only way such a cofunctor could be defined is if there are no objects in $\cat{C}$ that it sends to $s$, either: we conclude that $\cat{C}$ is the empty category.
+So the only way such a retrofunctor could be defined is if there are no objects in $\cat{C}$ that it sends to $s$, either: we conclude that $\cat{C}$ is the empty category.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe cofunctors to it.
-	\item Describe cofunctors to the preorder $(\nn,\leq)$, viewed as a category: its objects are natural numbers, and there is a morphism $m\to n$ if and only if $m\leq n$.
-	\item Describe cofunctors to the preorder $(\nn,\geq)$: its objects are natural numbers, and there is a morphism $n\to m$ if and only if $n\geq m$.
+	\item Recall the star-shaped category ${\yon}^{\ord{n}+\1}+\ord{n}\yon$ from \cref{ex.star_shaped}. Describe retrofunctors to it.
+	\item Describe retrofunctors to the preorder $(\nn,\leq)$, viewed as a category: its objects are natural numbers, and there is a morphism $m\to n$ if and only if $m\leq n$.
+	\item Describe retrofunctors to the preorder $(\nn,\geq)$: its objects are natural numbers, and there is a morphism $n\to m$ if and only if $n\geq m$.
 \qedhere
 \end{enumerate}
 \begin{solution}
 The star-shaped category has $n+1$ objects, one of which is ``central'' in the sense that it maps uniquely to every object; the other objects have only identity maps.
 \begin{enumerate}
-    \item A cofunctor $\cat{C}\cof\yon^{\ord{n}+\1}+\ord{n}\yon$ comprises an assignment of a label to each object in $\cat{C}$: either it assigns ``center'' or it assigns an element of $\{1,2,\ldots,n\}$. If it assigns ``center'', the object is equipped with $n$-many morphisms, with the $i$th one having as its codomain an object labeled $i$.
-    \item A cofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n$ to some object labeled $n+1$.
-    \item A cofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n+1$ to some object labeled $n$.
+    \item A retrofunctor $\cat{C}\cof\yon^{\ord{n}+\1}+\ord{n}\yon$ comprises an assignment of a label to each object in $\cat{C}$: either it assigns ``center'' or it assigns an element of $\{1,2,\ldots,n\}$. If it assigns ``center'', the object is equipped with $n$-many morphisms, with the $i$th one having as its codomain an object labeled $i$.
+    \item A retrofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n$ to some object labeled $n+1$.
+    \item A retrofunctor $\cat{C}\to(\nn,\leq)$ comprises an assignment of a natural number label to each object in $\cat{C}$, as well as a choice of morphism in $\cat{C}$ from each object labeled $n+1$ to some object labeled $n$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}[Cofunctors to the walking commutative square] \label{ex.cof_to_comm_sq}
-Consider a cofunctor $F\colon\cat{C}\cof\cat{C\!S}$, where $\cat{C\!S}$ is the \emph{walking commutative square category}
+\begin{example}[Retrofunctors to the walking commutative square] \label{ex.cof_to_comm_sq}
+Consider a retrofunctor $F\colon\cat{C}\cof\cat{C\!S}$, where $\cat{C\!S}$ is the \emph{walking commutative square category}
 \begin{center}
     $\cat{C\!S}\coloneqq\:$\boxCD{examplecolor}{\[
     \begin{tikzcd}[ampersand replacement=\&]
@@ -6516,14 +6555,14 @@ in particular, $F^\sharp_{X_W}g$ and $F^\sharp_{Y_W}k$ must share a common codom
 \begin{exercise}
 Let $\cat{A}$ denote the walking arrow category, as in \cref{ex.cof_to_walking_arrow}, and let $\cat{C\!S}$ denote the walking commutative square category, as in \cref{ex.cof_to_comm_sq}.
 \begin{enumerate}
-    \item List the cofunctors $\cat{C\!S}\cof\cat{A}$.
-    \item List the cofunctors $\cat{A}\cof\cat{C\!S}$.\qedhere
+    \item List the retrofunctors $\cat{C\!S}\cof\cat{A}$.
+    \item List the retrofunctors $\cat{A}\cof\cat{C\!S}$.\qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item Every object $c\in \cat{C\!S}$ in the commutative square must be labeled $s$ or $t$.
     If $c$ is labeled $t$, there are no further restrictions, since the only arrow emanating from $t$ is the identity.
-    If $c$ is labeled $s$, then we must choose an outgoing arrow from $c$ to an object labeled $t$. So the possible cofunctors are
+    If $c$ is labeled $s$, then we must choose an outgoing arrow from $c$ to an object labeled $t$. So the possible retrofunctors are
 \[
     \begin{tikzcd}[sep=10pt]
         t&t\\
@@ -6590,7 +6629,7 @@ Let $\cat{A}$ denote the walking arrow category, as in \cref{ex.cof_to_walking_a
     If $a$ is labeled $z$, there are no further restrictions.
     If it is labeled $x$ or $y$, then $a$ must have a map to an element labeled $z$; in particular this implies that $a$ must be the source object $s\in\cat{A}$.
     Finally, $a$ cannot be labeled $w$ because then $a$ would need too many outgoing arrows.
-    So the possible cofunctors are
+    So the possible retrofunctors are
 \[
     \begin{tikzcd}[sep=15pt]
         z&z
@@ -6611,25 +6650,25 @@ Let $\cat{A}$ denote the walking arrow category, as in \cref{ex.cof_to_walking_a
 
 \begin{exercise}
 \begin{enumerate}
-	\item What does a cofunctor from $\yon$ to a poset represent?
+	\item What does a retrofunctor from $\yon$ to a poset represent?
 	\item Consider the chain poset $[n]\cong\sum_{i=0}^n\yon^{i+1}$.
-	How many cofunctors are there from $[m]\to[n]$ for all $m\leq n$?
+	How many retrofunctors are there from $[m]\to[n]$ for all $m\leq n$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Let $\cat{P}$ be a poset. A cofunctor $\yon\cof\cat{P}$ represents an maximal element $p\in\cat{P}$. Indeed, if there were some $p\leq p'$ with $p'\neq p$, then the cofunctor would have to send the map $p\to p'$ to some morphism in $\yon$ whose codomain is sent to $p'$; this is impossible. But if $p$ is maximal, then there is no obstruction to sending the unique object of $\yon$ to $p$.
-   \item Let $m=\fbox{$\bullet^0\to\cdots\to\bullet^{m-2}\to\bullet^{m-1}$}$. By the same reasoning as above, a map $[m]\to[n]$ must send the final object of $[m]$ to the final object of $[n]$. It can send the penultimate object $m-2$ to either the penultimate object $n-2$ or to the final object $n-1$ in $[n]$. Repeating in this way, we see that there $2^m$ many cofunctors. For example, the cofunctors $[2]\to[2]$ are those labeled by $(2,2,2)$, $(1,2,2)$, $(1,1,2)$, and $(0,1,2)$.
+    \item Let $\cat{P}$ be a poset. A retrofunctor $\yon\cof\cat{P}$ represents an maximal element $p\in\cat{P}$. Indeed, if there were some $p\leq p'$ with $p'\neq p$, then the retrofunctor would have to send the map $p\to p'$ to some morphism in $\yon$ whose codomain is sent to $p'$; this is impossible. But if $p$ is maximal, then there is no obstruction to sending the unique object of $\yon$ to $p$.
+   \item Let $m=\fbox{$\bullet^0\to\cdots\to\bullet^{m-2}\to\bullet^{m-1}$}$. By the same reasoning as above, a map $[m]\to[n]$ must send the final object of $[m]$ to the final object of $[n]$. It can send the penultimate object $m-2$ to either the penultimate object $n-2$ or to the final object $n-1$ in $[n]$. Repeating in this way, we see that there $2^m$ many retrofunctors. For example, the retrofunctors $[2]\to[2]$ are those labeled by $(2,2,2)$, $(1,2,2)$, $(1,1,2)$, and $(0,1,2)$.
  \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\index{cofunctor!to monoids}
+\index{retrofunctor!to monoids}
 
 
-\subsubsection{Cofunctors to monoids}
+\subsubsection{Retrofunctors to monoids}
 
-When a monoid $(M,e,*)$, viewed as a $1$-object category $\yon^M$, is the codomain of a cofunctor $\cat{C}\cof\yon^M$, it plays the role of a joystick: an ``input device'' that ``reports its\dots direction to the device it is controlling.''\index{control}%
+When a monoid $(M,e,*)$, viewed as a $1$-object category $\yon^M$, is the codomain of a retrofunctor $\cat{C}\cof\yon^M$, it plays the role of a joystick: an ``input device'' that ``reports its\dots direction to the device it is controlling.''\index{control}%
 \footnote{Description from Wikipedia.} % https://en.wikipedia.org/wiki/Joystick
 Like a joystick, $\yon^M$ stays in one ``place''---a single state---but has a number of directions it can take that are reported back to $\cat{C}$, controlling the way it moves through its transitions.
 As we string together a sequence of directions in $M$, we chart a course through the transitions of $\cat C$.
@@ -6637,16 +6676,16 @@ We make this analogy concrete in the following examples.
 
 \begin{example}[Arrow fields]\label{ex.arrow_field}\index{arrow field}
 Consider the monoid $(\nn,0,+)$ viewed as a category $\yon^\nn$.
-Cofunctors $\cat{C}\cof\yon^\nn$ have been called \emph{admissible sections} \cite{aguiar1997internal}.
+Retrofunctors $\cat{C}\cof\yon^\nn$ have been called \emph{admissible sections} \cite{aguiar1997internal}.
 We prefer to call them \emph{arrow fields} (on $\cat{C}$), for they turn out to resemble vector fields---but with arrows in $\cat{C}$ instead of vectors.%
 \tablefootnote{After all, a vector field is a section of a vector bundle.\index{bundle!vector}
 Our arrow fields will be sections of $\cat{C}$'s carrier, viewed as a bundle of directions over positions.}
 We'll have more to say about these in \cref{thm.catsharp_to_mon}, but our goal here is simply to unpack the definition.
 
-To specify a cofunctor $A\colon\cat{C}\cof\yon^\nn$, we first say what it does on objects, but this is already decided: there is only one object in $\yon^\nn$, so every object of $\cat{C}$ is sent to it.
+To specify a retrofunctor $A\colon\cat{C}\cof\yon^\nn$, we first say what it does on objects, but this is already decided: there is only one object in $\yon^\nn$, so every object of $\cat{C}$ is sent to it.
 This also means that codomains are automatically preserved.
-So as will be the case for all cofunctors to monoids, $A$ is characterized by its behavior on morphisms: for each object $c\in\cat{C}$, the cofunctor assigns each $n\in\nn$ a morphism $A^\sharp_c n$ of $\cat{C}$ emanating from $c$.
-That's a lot of data, but we still have two cofunctor laws to pare it down:
+So as will be the case for all retrofunctors to monoids, $A$ is characterized by its behavior on morphisms: for each object $c\in\cat{C}$, the retrofunctor assigns each $n\in\nn$ a morphism $A^\sharp_c n$ of $\cat{C}$ emanating from $c$.
+That's a lot of data, but we still have two retrofunctor laws to pare it down:
 \[
     A^\sharp_c0=\id_c
         \qqand
@@ -6659,7 +6698,7 @@ Then for each $c\in\cat{C}$, since every $n\in\nn$ is a sum of 1's, the morphism
 Here each $c_{j+1}\coloneqq\cod A^\sharp_{c_j}1$.
 
 Thus an arrow field of $\cat{C}$ is given by independently choosing a morphism emanting from each $c\in\cat{C}$ to be $A^\sharp_c1$: an arrow (morphism) out of each object, like how a vector field has a vector out of each point.
-Indeed, any such choice uniquely determines the cofunctor $A\colon\cat{C}\cof\yon^\nn$: as every object is assigned an arrow coming out of it, we can follow the arrow out of $c$ to an object $c_1$, then following the arrow out of $c_1$ to an object $c_2$, and so on until we have followed the $n$ arrows in \eqref{eqn.arrow_field_composite}, which then compose to yield $A^\sharp_cn$.
+Indeed, any such choice uniquely determines the retrofunctor $A\colon\cat{C}\cof\yon^\nn$: as every object is assigned an arrow coming out of it, we can follow the arrow out of $c$ to an object $c_1$, then following the arrow out of $c_1$ to an object $c_2$, and so on until we have followed the $n$ arrows in \eqref{eqn.arrow_field_composite}, which then compose to yield $A^\sharp_cn$.
 With our joystick analogy, a single flick sends us from a state $c\in\cat{C}$ along its assigned arrow $A^\sharp_c1$, while $n$ flicks send us through $n$ arrows along the arrow field.
 
 Here is an example of an arrow field on the product of preorders $(\nn,\leq)\times(\nn,\leq)$:
@@ -6693,7 +6732,7 @@ Here is an example of an arrow field on the product of preorders $(\nn,\leq)\tim
 Every object has been assigned an emanating morphism drawn in blue, but there need not be any rhyme or reason to our choice.
 \end{example}
 
-\index{cofunctor!arrow field}
+\index{retrofunctor!arrow field}
 
 \begin{exercise}
 How many arrow fields on the category \fbox{$\bullet\to\bullet$} are there?
@@ -6711,16 +6750,16 @@ We will see later in \cref{prop.traj_mon_poly} that the arrow fields on a catego
 \begin{exercise}
 Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$, and let $\yon^\nn$ be the monoid of natural numbers $(\nn,0,+)$ viewed as a $1$-object category as above.
 \begin{enumerate}
-	\item Describe the data of a cofunctor $\cat{C}\cof\yon^\zz$.
-	\item What would you say is the canonical cofunctor $\yon^\zz\cof\yon^\nn$?
+	\item Describe the data of a retrofunctor $\cat{C}\cof\yon^\zz$.
+	\item What would you say is the canonical retrofunctor $\yon^\zz\cof\yon^\nn$?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item A cofunctor $\cat{C}\cof\yon^\zz$ assigns to each object $c\in\cat{C}$ and integer $n\in\zz$ an emanating arrow $c.n\in\cat{C}$ to some other object, with the property that $c.0=c$ and $c.n.n'=c.(n+n')$. But this is overkill. Indeed, it is enough to assign the $c.1$ arrow and to check that for every object $c'$ there exists a unique object $c$ with $\cod(c.1)=c'$.
-    \item We seek a canonical cofunctor $\yon^\zz\cof\yon^\nn$.
+    \item A retrofunctor $\cat{C}\cof\yon^\zz$ assigns to each object $c\in\cat{C}$ and integer $n\in\zz$ an emanating arrow $c.n\in\cat{C}$ to some other object, with the property that $c.0=c$ and $c.n.n'=c.(n+n')$. But this is overkill. Indeed, it is enough to assign the $c.1$ arrow and to check that for every object $c'$ there exists a unique object $c$ with $\cod(c.1)=c'$.
+    \item We seek a canonical retrofunctor $\yon^\zz\cof\yon^\nn$.
     The canonical inclusion $i\colon\nn\inj\zz$ gives rise to a lens $\iota$ from $\yon^\zz$ to $\yon^\nn$, whose sole on-directions function $\iota^\sharp\colon\nn\inj\zz$ coincides with $i$.
-    We verify that $\iota$ is a cofunctor: it preserves identities, as $\iota^\sharp0=0$; it automatically preserves codomains; and it preserves composites, given by addition in either monoid, as $\iota^\sharp(m+n)=m+n=\iota^\sharp(m)+\iota^\sharp(n)$.
+    We verify that $\iota$ is a retrofunctor: it preserves identities, as $\iota^\sharp0=0$; it automatically preserves codomains; and it preserves composites, given by addition in either monoid, as $\iota^\sharp(m+n)=m+n=\iota^\sharp(m)+\iota^\sharp(n)$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6728,15 +6767,15 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 \begin{exercise}
 \begin{enumerate}
 	\item Suppose that $M,N$ are monoids (each is a category with one object).
-	Are cofunctors between them related to monoid homomorphisms? If so, how?
-	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a cofunctor.
-	Does there necessarily exist a cofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
+	Are retrofunctors between them related to monoid homomorphisms? If so, how?
+	\item Suppose $\cat{C}$ and $\cat{D}$ are categories and $F\colon\cat{C}\cof\cat{D}$ is a retrofunctor.
+	Does there necessarily exist a retrofunctor $\cat{C}\op\cof\cat{D}\op$ that acts the same as $F$ on objects?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Cofunctors $\yon^M\to\yon^N$ are the same as monoid homomorphisms $N\to M$. See \cref{prop.monoids_ff}.
-    \item No! This is the weirdest thing about cofunctors. For example, there is a unique cofunctor $\yon\to\yon^\2+\yon$ from the walking object to the walking arrow, so if we reverse the arrows, there is no longer a cofunctor that acts the same on objects.
+    \item Retrofunctors $\yon^M\to\yon^N$ are the same as monoid homomorphisms $N\to M$. See \cref{prop.monoids_ff}.
+    \item No! This is the weirdest thing about retrofunctors. For example, there is a unique retrofunctor $\yon\to\yon^\2+\yon$ from the walking object to the walking arrow, so if we reverse the arrows, there is no longer a retrofunctor that acts the same on objects.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6747,16 +6786,16 @@ Consider the monoid of integers $(\zz,0,+)$ as a $1$-object category $\yon^\zz$,
 %** displaced content here
 \begin{exercise}[Monoid actions]\label{exc.monoid_action}
 Recall from \cref{ex.monoid_action} that every monoid action $\alpha\colon S\times M\to S$, where $S$ is a set and $(M,e,*)$ is a monoid, gives rise to a category carried by $S\yon^M$.
-Show that the projection $S\yon^M\to\yon^M$ is a cofunctor.
+Show that the projection $S\yon^M\to\yon^M$ is a retrofunctor.
 \begin{solution}
-We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$. The category $S\yon^M$ has $e$ as the identity on each $s\in S$; the codomain of the map labeled $m$ emanating from $s$ is $\alpha(s,m)$, and composition is given by $*$. The projection $S\yon^M\to\yon^M$ sends the identity back to the identity, trivially preserves codomains, and also preserves composition, so it is a cofunctor.
+We are given a monoid $(M,e,*)$, a set $S$, and an $M$-action $\alpha\colon M\times S\to S$. The category $S\yon^M$ has $e$ as the identity on each $s\in S$; the codomain of the map labeled $m$ emanating from $s$ is $\alpha(s,m)$, and composition is given by $*$. The projection $S\yon^M\to\yon^M$ sends the identity back to the identity, trivially preserves codomains, and also preserves composition, so it is a retrofunctor.
 \end{solution}
 \end{exercise}
 
 
 
 \begin{example}\label{ex.BGEG}
-Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a cofunctor $G\yon^G\cof\yon^G$ given by
+Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comonoid. There is a retrofunctor $G\yon^G\cof\yon^G$ given by
 \[
 \begin{tikzpicture}[polybox, mapstos]
 	\node[poly, dom] (p) {$g_1*g_2$\at$g_1$};
@@ -6765,7 +6804,7 @@ Let $(G,e,*)$ be a group and $(\yon^G,\epsilon,\delta)$ the corresponding comono
 	\draw (q_dir) to[last] (p_dir);
 \end{tikzpicture}
 \]
-To see this is a cofunctor, we check that identities, codomains, and compositions are preserved. For any $g_1$, the identity $e$ is passed back to $g_1*e=g_1$, and this is the identity on $g_1$ in $G\yon^G$. Codomains are preserved because there is only one object in $\yon^G$. Composites are preserved because for any $g_2,g_3$, we have $g_1*(g_2*g_3)=(g_1*g_2)*g_3$.
+To see this is a retrofunctor, we check that identities, codomains, and compositions are preserved. For any $g_1$, the identity $e$ is passed back to $g_1*e=g_1$, and this is the identity on $g_1$ in $G\yon^G$. Codomains are preserved because there is only one object in $\yon^G$. Composites are preserved because for any $g_2,g_3$, we have $g_1*(g_2*g_3)=(g_1*g_2)*g_3$.
 \end{example}
 
 \begin{exercise}\label{exc.BGEG}
@@ -6779,7 +6818,7 @@ This works!
 There is a fully faithful functor $\Cat{Mon}\op\to\catsharp$, whose image consists of all categories whose carriers are representable.
 \end{proposition}
 \begin{proof}
-Given a monoid $(M,e,*)$, we think of it as a category with one object; its carrier $\yon^M$ is representable. A cofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Cofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
+Given a monoid $(M,e,*)$, we think of it as a category with one object; its carrier $\yon^M$ is representable. A retrofunctor between such categories carries no data in its on-objects part, and codomains are automatically preserved. Retrofunctors $\yon^M\to\yon^N$ simply carry elements of $N$ to elements of $M$, preserving identity and composition, exactly the description of monoid homomorphisms.
 \end{proof}
 
 \begin{proposition}\index{adjunction!between $\smset$ and $\catsharp$}
@@ -6790,13 +6829,13 @@ There is an adjunction
 for $\cat{C}\in\catsharp$ and $A\in\smset$.
 \end{proposition}
 \begin{proof}
-In the solution to \cref{exc.linear_poly_cat}, we saw that a category is discrete iff its carrier is a linear polynomial: this occurs when the only arrow emanating from each object is its identity. Thus $A\yon$ corresponds to a discrete category. A cofunctor from any category to a discrete category needs to say what happens on objects, but the rest of the data is determined because identities need to be sent back to identities. This is the content of the proposition.
+In the solution to \cref{exc.linear_poly_cat}, we saw that a category is discrete iff its carrier is a linear polynomial: this occurs when the only arrow emanating from each object is its identity. Thus $A\yon$ corresponds to a discrete category. A retrofunctor from any category to a discrete category needs to say what happens on objects, but the rest of the data is determined because identities need to be sent back to identities. This is the content of the proposition.
 \end{proof}\index{category!discrete}
 
 \begin{exercise}[Continuous arrow fields]
-Suppose we say that a \emph{continuous arrow field} on $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\rr$, viewing $\yon^\rr$ as the monoid of real numbers with addition.
+Suppose we say that a \emph{continuous arrow field} on $\cat{C}$ is a retrofunctor $\cat{C}\cof\yon^\rr$, viewing $\yon^\rr$ as the monoid of real numbers with addition.
 
-Describe continuous arrow fields in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a cofunctor is and isn't yet ready to learn.
+Describe continuous arrow fields in $\cat{C}$ using elementary terms, i.e.\ to someone who doesn't know what a retrofunctor is and isn't yet ready to learn.
 \begin{solution}
 A continuous arrow field on $\cat{C}$ assigns to each object $c\in\cat{C}$ and each real number $r\in\rr$ a morphism $c.r$ emanating from $c$. These have the property that $c.0$ is the identity on $c$ and that $(c.r).r'=c.(r+r')$. In other words, you can evolve $c$ forward or backward in time by any $r\in\rr$, and this works as expected.
 \end{solution}
@@ -6815,21 +6854,21 @@ A system of ordinary differential equations (ODEs) in $n$ variables, e.g.
 can be understood as a vector field on $\rr^n$.
 We are often interested in integrating this vector field to get flow lines, or integral curves.
 In other words, for each $x=(x_1, \ldots, x_n)\in\rr^n$, viewed as a point, and each $t\in\rr$, viewed as a quantity of time, we can begin at $x$ and move along the vector field for time $t$, arriving at a new point $x^{+t}$. These satisfy the equations
-\begin{equation} \label{eqn.cofunctor_ode}
+\begin{equation} \label{eqn.retrofunctor_ode}
     x^{+0} = x \qqand x^{+t_1+t_2} = (x^{+t_1})^{+t_2}.
 \end{equation}
 Let's call such things \emph{differentiable dynamical systems} with time domain $(T, 0, +)$; above, we used $T\coloneqq\rr$, but any monoid will do.
 
-\index{dynamical system!as cofunctor}
+\index{dynamical system!as retrofunctor}
 
-Dynamical systems in the above sense are cofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
+Dynamical systems in the above sense are retrofunctors $F \colon \rr^n \yon^{\rr^n} \cof \yon^T$.
 In order to say this, we first need to say how both $\cat{C} := \rr^n \yon^{\rr^n}$ and $\yon^T$ are being considered as categories.
 The category $\cat{C}$ has objects $\rr^n$, and for each object $x \in \rr^n$ and outgoing arrow $v \in \rr^n$, the codomain of $v$ is $x + v$; in other words, $v$ is a vector emanating from $x$.
 The identity is $v = 0$, and composition is given by addition.
 The category $\yon^T$ is the monoid $T$ considered as a category with one object, $\bullet$.
 
-The cofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
-Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.cofunctor_ode} ensures the cofunctoriality properties.
+The retrofunctor assigns to every object $x \in \rr^n$ the unique object $F(x) = \bullet$, and to each element $t \in T$ the morphism $F^\sharp(x, t) = x^{+t} - x \in \rr^n$, which can be interpreted as a vector emanating from $x$.
+Its codomain is $\cod F^\sharp(x, t) = x^{+t}$, and we will see that \eqref{eqn.retrofunctor_ode} ensures the retrofunctoriality properties.
 
 The codomain law ii is vacuously true, since $\yon^T$ only has one object.
 Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
@@ -6838,19 +6877,19 @@ Law i follows because $F^\sharp(x, 0) = x^{+0} - x = 0$, and law iii follows as
 \]
 \end{example}
 
-\subsubsection{Cofunctors from state categories}
-\index{state category|see{state system}}\index{state system!cofunctor from|(}
+\subsubsection{Retrofunctors from state categories}
+\index{state category|see{state system}}\index{state system!retrofunctor from|(}
 
 By now we should be very familiar with lenses from state categories, which are our original dynamical systems.
-A cofunctor from a state category, then, is just a dynamical system that satisfies the cofunctor laws.
-It turns out that cofunctors from state categories are particularly noteworthy: just as a polynomial comonoid $\cat{C}$ can be identified with a category, a cofunctor out of $\cat{C}$ can be identified with a number of equivalent categorical constructions on $\cat{C}$, perhaps the most familiar being a functor $\cat{C}\to\smset$.
+A retrofunctor from a state category, then, is just a dynamical system that satisfies the retrofunctor laws.
+It turns out that retrofunctors from state categories are particularly noteworthy: just as a polynomial comonoid $\cat{C}$ can be identified with a category, a retrofunctor out of $\cat{C}$ can be identified with a number of equivalent categorical constructions on $\cat{C}$, perhaps the most familiar being a functor $\cat{C}\to\smset$.
 But these equivalences deserve their own subsection to examine in full; we'll defer them to \cref{sec.comon.sharp.cof.from_state}.
-For now, let's look at some examples of cofunctors out of state categories.
+For now, let's look at some examples of retrofunctors out of state categories.
 
-\begin{example}[Cofunctors from state categories to $\cat{C}$ are $\cat{C}$-coalgebras]\index{coalgebra!of polynomial comonad}\index{polynomial comonoid!coalgebra of}
+\begin{example}[Retrofunctors from state categories to $\cat{C}$ are $\cat{C}$-coalgebras]\index{coalgebra!of polynomial comonad}\index{polynomial comonoid!coalgebra of}
 
 Recall from \cref{ex.coalgebras} that for a set $S$, lenses $S\yon^S\to p$ correspond to functions $S\to p(S)$ known as coalgebras for the functor $p$.
-As a cofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S$ to $\car{c}$, the carrier of $\cat{C}$, it should correspond to a special kind of coalgebra $S\to\car{c}(S)$ for the functor $\car{c}$.
+As a retrofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S$ to $\car{c}$, the carrier of $\cat{C}$, it should correspond to a special kind of coalgebra $S\to\car{c}(S)$ for the functor $\car{c}$.
 
 
 % that plays nicely with the comonoid structure of $\cat{C}$, the function $S\to\car{c}(S)$ that plays nicely with the comonoid structure carried by $\car{c}$.
@@ -6859,15 +6898,15 @@ As a cofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S
 Taking $A=B=S\in\smset$ in \eqref{eqn.monomials_and_comp}, we find that there is a natural isomorphism between dynamical systems $S\yon^S\to p$ and functions $S\to p(S)$, also known as a \emph{coalgebra for the functor} $p$ or a $p$\emph{-coalgebra}.\tablefootnote{There are two versions of coalgebras we are interested in (and more that we are not) with distinct definitions: a \emph{coalgebra for a functor}, which is the version used here, and a \emph{coalgebra for a comonad}, which is a coalgebra for a functor with extra conditions that we will introduce later.}
 \end{example}
 
-\index{lens!very well-behaved|seealso{cofunctor, between state categories}}\index{cofunctor!between state categories}\index{functional programming!lenses in}
+\index{lens!very well-behaved|seealso{retrofunctor, between state categories}}\index{retrofunctor!between state categories}\index{functional programming!lenses in}
 
-\begin{example}[Cofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
+\begin{example}[Retrofunctors between state categories are very well-behaved lenses] \label{ex.very_well_behaved_lenses}
 Our familiar state category on $S$ from \cref{ex.state_cat} is the category with objects in $S$ and exactly $1$ morphism between every pair of objects; when we label each morphism with its codomain, its carrier is $S\yon^S$, the identity of $s\in S$ is $s$, and (disregarding domains) $s\then s'=s'$ for composable $s,s'\in S$.
 
-Then a cofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
-We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a cofunctor $\lensget\colon S\to T$, and the on-morphisms (on-directions) function $\lensput\colon S\times T\to S$.%
-\tablefootnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a cofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
-Then the cofunctor laws are as follows:
+Then a retrofunctor $S\yon^S\cof T\yon^T$ between two state categories corresponds to what is known to functional programmers as a \emph{very well-behaved lens}.
+We actually defined this way back in \cref{ex.lens_get_put}, where we called the on-objects (on-positions) function of such a retrofunctor $\lensget\colon S\to T$, and the on-morphisms (on-directions) function $\lensput\colon S\times T\to S$.%
+\tablefootnote{More precisely, we are treating the on-morphism functions $T\to S$ for each $s\in S$ of a retrofunctor $S\yon^S\cof T\yon^T$ as a single function $S\times T\to S$.}
+Then the retrofunctor laws are as follows:
 \begin{enumerate}
     \item Preservation of identities \eqref{eqn.pres_id} becomes
     \[
@@ -6889,20 +6928,20 @@ Then the cofunctor laws are as follows:
 \end{enumerate}
 
 In fact, it turns out that these laws can be satisfied if and only if $\lensget$ is a product projection!
-For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no cofunctors $S\yon^S\cof T\yon^T$.
+For example, if the cardinalities $|S|$ and $|T|$ of $S$ and $T$ are finite and $|S|$ is not divisible by $|T|$, then there are no retrofunctors $S\yon^S\cof T\yon^T$.
 A stringent condition, no?
 We'll explore it in  \cref{exc.how_many_vwbls} below.
 
-Let's explore why cofunctors between state categories are just product projections.
-A product projection $A\times B\to A$ always has a second factor $B$; if every cofunctor between state categories is a product projection, what is the second factor?
+Let's explore why retrofunctors between state categories are just product projections.
+A product projection $A\times B\to A$ always has a second factor $B$; if every retrofunctor between state categories is a product projection, what is the second factor?
 It turns out to be
 \[
     U\coloneqq\{u\colon T\to S\mid \forall t,t'\in T,\;\lensget(u(t))=t\text{ and }\lensput(u(t),t')=u(t')\}.
 \]
-In other words, we will show that if $(\lensget,\lensput)$ defines a cofunctor $S\yon^S\cof T\yon^T$, then there is a bijection $S\iso T\times U$ making $\lensget\colon S\to T$ a product projection.
+In other words, we will show that if $(\lensget,\lensput)$ defines a retrofunctor $S\yon^S\cof T\yon^T$, then there is a bijection $S\iso T\times U$ making $\lensget\colon S\to T$ a product projection.
 We then prove the converse in \cref{exc.well_behaved_boring}.
 
-Assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a cofunctor, so that it satisfies the enumerated laws.
+Assume $(\lensget,\lensput)\colon S\yon^S\cof T\yon^T$ is a retrofunctor, so that it satisfies the enumerated laws.
 First, we define a function $\alpha\colon S\to T\times U$ as follows.
 Given $s\in S$, the function $u_s\colon T\to S$ defined by
 \[
@@ -6936,7 +6975,7 @@ by the get-put law, while $\beta\then\alpha\colon T\times U\to T\times U$ is the
 as $\lensget(u(t))=t$ and $\lensput(u(t),t')=u(t')$ by construction for $u\in U$.
 Thus $S\iso T\times U$, and the product projection $S\To\alpha T\times U\to T$ sends $s\mapsto\lensget(s)$, as desired.
 
-We have therefore shown that for every cofunctor $S\yon^S\cof T\yon^T$, there exists a set $U$ for which $S\iso T\times U$ and the on-positions function $\lensget$ is the product projection $S\iso T\times U\to T$.
+We have therefore shown that for every retrofunctor $S\yon^S\cof T\yon^T$, there exists a set $U$ for which $S\iso T\times U$ and the on-positions function $\lensget$ is the product projection $S\iso T\times U\to T$.
 Notice that the on-directions function $\lensput$ can be uniquely recovered from the bijection $S\iso T\times U$ we constructed: it is determined by the functions $u_s\colon T\to S$ for $s\in S$, which in turn is determined by the second projection $T\times U\to U$.
 
 More precisely, composing $\alpha\colon S\to T\times U$ with the projection to $U$ yields a map $S\to U$ sending $s\mapsto u_s$; then $\lensput(s,t)$ is given by $u_s(t)$.
@@ -6947,10 +6986,10 @@ So $\lensput(s,t)$ must be $\beta(t,u_s)$.
 
 \begin{exercise}\label{exc.well_behaved_boring}
 Let $S,T,U$ be sets for which we have a bijection $S\iso T\times U$.
-Show that there exists a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.
+Show that there exists a unique retrofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $S\iso T\times U\to T$ is given by the product projection.
 \begin{solution}
-Given a bijection of sets $S\iso T\times U$, we seek a unique cofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
-Such a cofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
+Given a bijection of sets $S\iso T\times U$, we seek a unique retrofunctor $S\yon^S\cof T\yon^T$ whose on-positions function $\lensget$ is given by the product projection $S\iso T\times U\to T$.
+Such a retrofunctor should also have an on-directions function $\lensput\colon S\times T\to S$ such that the three laws from \cref{ex.very_well_behaved_lenses} are satisfied.
 With $S\iso T\times U$, such a function is uniquely determined by its components
 \[
     S\times T\To\lensput S\To\lensget T \qqand S\times T\To\lensput S\To\pi U,
@@ -6976,8 +7015,8 @@ So we are really only concerned with the second coordinates of either side (in $
 
 \begin{exercise}\label{exc.how_many_vwbls}
 \begin{enumerate}
-	\item Suppose $|S|=3$. How many cofunctors are there $S\yon^S\to S\yon^S$?
-	\item Suppose $|S|=4$ and $|T|=2$. How many cofunctors are there $S\yon^S\cof T\yon^T$?
+	\item Suppose $|S|=3$. How many retrofunctors are there $S\yon^S\to S\yon^S$?
+	\item Suppose $|S|=4$ and $|T|=2$. How many retrofunctors are there $S\yon^S\cof T\yon^T$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -7007,7 +7046,7 @@ Define a lens $\car{c}(\1)\yon^{\car{c}(\1)}\to\car{c}$ by
 \]
 sending each object $i\in\cat{C}$ to itself on positions and, at $i$, sending each morphism $f\colon i\to\_$ to its codomain $\cod f$ on directions.
 
-This lens is a cofunctor $\car{c}(\1)\yon^{\car{c}(\1)}\cof\cat{C}$ because it sends identities back to identities, codomains forward to codomains, and preserves composition (trivially, since each morphism in $c(\1)\yon^{c(\1)}$ is determined by its domain and codomain.
+This lens is a retrofunctor $\car{c}(\1)\yon^{\car{c}(\1)}\cof\cat{C}$ because it sends identities back to identities, codomains forward to codomains, and preserves composition (trivially, since each morphism in $c(\1)\yon^{c(\1)}$ is determined by its domain and codomain.
 \end{example}
 
 \begin{exercise}
@@ -7029,59 +7068,59 @@ Define a lens $\car{c}[i]\yon^{\car{c}[i]}\to\car{c}$ by
 \end{tikzpicture}
 \]
 sending each morphism $f\colon i\to\_$ to its codomain on positions and, at $f$, sending each morphism $g\colon\cod f\to\_$ to the composite $f\then g\colon i\to\_$ on directions.
-Is this lens a cofunctor $\car{c}[i]\yon^{\car{c}[i]}\cof\cat{C}$?
+Is this lens a retrofunctor $\car{c}[i]\yon^{\car{c}[i]}\cof\cat{C}$?
 \begin{solution}
-Yes, it is a cofunctor. One sees easily that it sends identities back to identities and composites back to composites. The codomain of $f\then g$ is simply $f\then g$ as an element of $\car{c}[i]$, and it is sent forward to $\cod(f\then g)$, so the map preserves codomains.
+Yes, it is a retrofunctor. One sees easily that it sends identities back to identities and composites back to composites. The codomain of $f\then g$ is simply $f\then g$ as an element of $\car{c}[i]$, and it is sent forward to $\cod(f\then g)$, so the map preserves codomains.
 \end{solution}
 \end{exercise}
 
-We'll revisit cofunctors from state categories in \cref{sec.comon.sharp.cof.from_state}.
+We'll revisit retrofunctors from state categories in \cref{sec.comon.sharp.cof.from_state}.
 
-\index{state system!cofunctor from|)}
+\index{state system!retrofunctor from|)}
 
-\subsubsection{Other cofunctors}
+\subsubsection{Other retrofunctors}
 
 
 \begin{example}[Objects aren't representable in $\catsharp$]\label{ex.rep_objects}
 In the world of categories and the usual functors between them, the terminal category $\cat{T}\coloneqq\fbox{$\bullet$}$ with one object and one morphism \emph{represents objects}, in the sense that functors $\cat{T}\to\cat{C}$ naturally correspond to objects in $\cat{C}$.
 
-Unfortunately, the same cannot be said for cofunctors: we'll see in \cref{exc.rep_objects} that there does not exist a fixed category $\cat{U}$ for which cofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$ for every category $\cat{C}$.
+Unfortunately, the same cannot be said for retrofunctors: we'll see in \cref{exc.rep_objects} that there does not exist a fixed category $\cat{U}$ for which retrofunctors $\cat{U}\cof\cat{C}$ are in bijection with objects in $\cat{C}$ for every category $\cat{C}$.
 
-Cofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: because they must preserve codomains, they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself.
+Retrofunctors $\cat{T}\cof\cat{C}$ are somewhat strange beasts: because they must preserve codomains, they can be identified with objects $c\in\cat{C}$ for which the codomain of every emanating morphism $c\to c'$ is $c'=c$ itself.
 \end{example}
 
 \begin{exercise}\label{exc.rep_objects}
 We saw in \cref{exc.linear_poly_comon} that $\2\yon$ has a unique comonoid structure.
 \begin{enumerate}
-	\item Show that for any category $\cat{U}$, cofunctors $\cat{U}\cof\2\yon$ are in bijection with the set $\2^{\Ob\cat{U}}$.
-	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if cofunctors $\cat{U}\cof\cat{C}$ are always in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
-	\item Now use a different category $\cat{D}$ to show that if cofunctors $\cat{U}\cof\cat{D}$ are in bijection with objects in $\cat{D}$, then $\cat{U}$ must have more than one object.
+	\item Show that for any category $\cat{U}$, retrofunctors $\cat{U}\cof\2\yon$ are in bijection with the set $\2^{\Ob\cat{U}}$.
+	\item Use the case of $\cat{C}\coloneqq\2\yon$ to show that if retrofunctors $\cat{U}\cof\cat{C}$ are always in bijection with objects in $\cat{C}$, then $\cat{U}$ must have exactly one object.
+	\item Now use a different category $\cat{D}$ to show that if retrofunctors $\cat{U}\cof\cat{D}$ are in bijection with objects in $\cat{D}$, then $\cat{U}$ must have more than one object.
 	Conclude that objects are not reprsentable in $\catsharp$ the way they are in $\smcat$.
-	\item Is there a fixed category $\cat{V}$ for which cofunctors $\cat{E}\cof\cat{V}$ are in bijection with objects in $\cat{E}$ for every category $\cat{E}$?
+	\item Is there a fixed category $\cat{V}$ for which retrofunctors $\cat{E}\cof\cat{V}$ are in bijection with objects in $\cat{E}$ for every category $\cat{E}$?
 	If there is, find it; if there isn't, prove there isn't.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item Every object in $\cat{U}$ must be labeled with either 1 or 2, but there are no other requirements.
-    \item If cofunctors $\cat{U}\to\cat{C}$ are always in bijection with objects in $\cat{C}$, then with $\cat{C}=\2\yon$, we have a bijection $\2\cong\2^{\Ob(\cat{U})}$ by part 1, so $\cat{U}$ has one object.
-    \item Take $\cat{D}$ to be the walking arrow. Then if $\cat{U}$ has only one object, it cannot be sent to the source object of $\cat{D}$ because the emanating morphism would have nowhere to go. Hence the unique object of $\cat{U}$ must be sent to the target object of $\cat{D}$. But there is only one such cofunctor, whereas there are two objects in $\cat{D}$. We conclude that objects are not reprsentable in $\catsharp$ the way they are in $\smcat$.
-    \item No, there is no such $\cat{V}$. There is exactly one cofunctor $0\cof\cat{V}$, but there are no objects of $0$.
+    \item If retrofunctors $\cat{U}\to\cat{C}$ are always in bijection with objects in $\cat{C}$, then with $\cat{C}=\2\yon$, we have a bijection $\2\cong\2^{\Ob(\cat{U})}$ by part 1, so $\cat{U}$ has one object.
+    \item Take $\cat{D}$ to be the walking arrow. Then if $\cat{U}$ has only one object, it cannot be sent to the source object of $\cat{D}$ because the emanating morphism would have nowhere to go. Hence the unique object of $\cat{U}$ must be sent to the target object of $\cat{D}$. But there is only one such retrofunctor, whereas there are two objects in $\cat{D}$. We conclude that objects are not reprsentable in $\catsharp$ the way they are in $\smcat$.
+    \item No, there is no such $\cat{V}$. There is exactly one retrofunctor $0\cof\cat{V}$, but there are no objects of $0$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 
-\begin{example}\label{ex.cof_to_rr} %this is a cofunctor a monoid action... section for those??
-Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x$ is $x+r$, identities are $0$, and composition is given by addition. What are cofunctors into $\rr\yon^\rr$?
+\begin{example}\label{ex.cof_to_rr} %this is a retrofunctor a monoid action... section for those??
+Consider the category $\rr\yon^\rr$, where the codomain of $r$ emanating from $x$ is $x+r$, identities are $0$, and composition is given by addition. What are retrofunctors into $\rr\yon^\rr$?
 
-Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a cofunctor. It assigns to every object $c$ both a real number $|c|\in\rr$ and a choice of emanating morphism $|c|^\sharp(r)\colon c\to c_r$ such that $|c|+r=|c_r|$. This assignment satisfies some laws. Namely we have $c_0=c$ and, given reals $r,s\in\rr$, we have $(c_r)_s=c_{r+s}$.
+Let $\cat{C}$ be a category and $|\cdot|\colon\cat{C}\cof\rr\yon^\rr$ a retrofunctor. It assigns to every object $c$ both a real number $|c|\in\rr$ and a choice of emanating morphism $|c|^\sharp(r)\colon c\to c_r$ such that $|c|+r=|c_r|$. This assignment satisfies some laws. Namely we have $c_0=c$ and, given reals $r,s\in\rr$, we have $(c_r)_s=c_{r+s}$.
 \end{example}
 
 %  Interpret above. Possible names: $(\rr,0,+)$-action on the objects of $\cat{C}$, filtration, valuation
 
 \begin{exercise}
-How many cofunctors
+How many retrofunctors
 \[
     \fbox{$s\To{a}t$}\cof\fbox{$u\Tto{b}{c}v$}
 \]
@@ -7095,14 +7134,14 @@ There are two: one of which sends $s\mapsto u$ and $t\mapsto v$ and the other of
 \begin{exercise}
 \begin{enumerate}
 	\item For any category $\cat{C}$ with carrier $\car{c}$, find a category with carrier $\car{c}\yon$.
-	\item Show that your construction is functorial; i.e.\ assign each cofunctor $\cat{C}\cof\cat{D}$ a cofunctor $\car{c}\yon\cof\car{d}\yon$ in a way that preserves identities and composites.
+	\item Show that your construction is functorial; i.e.\ assign each retrofunctor $\cat{C}\cof\cat{D}$ a retrofunctor $\car{c}\yon\cof\car{d}\yon$ in a way that preserves identities and composites.
 	\item Is your functor a monad on $\catsharp$, a comonad on $\catsharp$, both, or neither?
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item Take the category $\cat{C}'$ that has the same objects as $\cat{C}$ and almost the same arrows, except that it has one more arrow $i_c$ from each object $c\in\cat{C}'$ to itself. This new arrow is the identity. The composites of all the old arrows in $\cat{C}'$ are exactly as they are in $\cat{C}$. The old identity $\id_c^\tn{old}$ is no longer an identity because $\id_c^\tn{old}\then i=\id_c^\tn{old}\neq i$.
-    \item Given a cofunctor $\varphi\colon\car{c}\cof\car{d}$, we get a cofunctor $\car{c}\yon\cof\car{d}\yon$ that acts the same on objects and all the old arrows and sends the new identities back to the new identities. It preserves identities and composites going backward and codomains going forward, so it's a cofunctor.
+    \item Given a retrofunctor $\varphi\colon\car{c}\cof\car{d}$, we get a retrofunctor $\car{c}\yon\cof\car{d}\yon$ that acts the same on objects and all the old arrows and sends the new identities back to the new identities. It preserves identities and composites going backward and codomains going forward, so it's a retrofunctor.
     \item It is a monad: there is an obvious unit map $\car{c}\to\car{c}\yon$ and a multiplication map $\car{c}\yon\yon\to\car{c}\yon$ that sends the new identity back to the newest identity.
 \end{enumerate}
 \end{solution}
@@ -7112,37 +7151,37 @@ There are two: one of which sends $s\mapsto u$ and $t\mapsto v$ and the other of
 \begin{exercise}
 Suppose $\car{c},\car{d},\car{e}$ are polynomials, each with a comonoid structure, and that $f\colon\car{c}\to\car{d}$ and $g\colon\car{d}\to\car{e}$ are lenses.
 \begin{enumerate}
-	\item If $f$ and $f\then g$ are each cofunctors, is $g$ automatically a cofunctor?
+	\item If $f$ and $f\then g$ are each retrofunctors, is $g$ automatically a retrofunctor?
 	If so, sketch a proof; if not, sketch a counterexample.
-	\item If $g$ and $f\then g$ are each cofunctors, is $f$ automatically a cofunctor?
+	\item If $g$ and $f\then g$ are each retrofunctors, is $f$ automatically a retrofunctor?
 	If so, sketch a proof; if not, sketch a counterexample.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Counterexample: take $\car{c}=0$. Then the unique lens $f\colon\car{c}\to\car{d}$ is a cofunctor and so is $f\then g$ for any lens $g\colon\car{d}\to\car{e}$, but some lenses are not cofunctors.
-    \item Counterexample: take $\car{e}=\yon$. Then there is a unique cofunctor $\epsilon\colon\car{c}\to\yon$. As long as $f$ is copointed, meaning it sends identities backward to identities, then $f\then g$ will be a cofunctor. But not every copointed lens is a cofunctor.
+    \item Counterexample: take $\car{c}=0$. Then the unique lens $f\colon\car{c}\to\car{d}$ is a retrofunctor and so is $f\then g$ for any lens $g\colon\car{d}\to\car{e}$, but some lenses are not retrofunctors.
+    \item Counterexample: take $\car{e}=\yon$. Then there is a unique retrofunctor $\epsilon\colon\car{c}\to\yon$. As long as $f$ is copointed, meaning it sends identities backward to identities, then $f\then g$ will be a retrofunctor. But not every copointed lens is a retrofunctor.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 In the next chapter, we will delve deeper into the categorical structure and properties of $\catsharp$.
-We'll encounter many more categories and cofunctors along the way.
-But first, we'll conclude this chapter with several alternative characterizations of cofunctors out of state categories.
+We'll encounter many more categories and retrofunctors along the way.
+But first, we'll conclude this chapter with several alternative characterizations of retrofunctors out of state categories.
 
-\index{cofunctor!examples of|)}
+\index{retrofunctor!examples of|)}
 
-\subsection{Equivalent characterizations of cofunctors from state categories} \label{sec.comon.sharp.cof.from_state}
+\subsection{Equivalent characterizations of retrofunctors from state categories} \label{sec.comon.sharp.cof.from_state}
 
 Fix a category $\cat{C}$ throughout with polynomial carrier $\car{c}$.
-How can view the data of a cofunctor from a state category $S\yon^S\cof\cat{C}$?
+How can view the data of a retrofunctor from a state category $S\yon^S\cof\cat{C}$?
 This is actually a very natural categorical concept---we'll see some equivalent ways to express this data below, then state and prove even more equivalences next chapter when we have the machinery to do so.
 
 \subsubsection{As coalgebras}
-\index{coalgebra!as cofunctor from state category}\index{functor!coalgebra for}
+\index{coalgebra!as retrofunctor from state category}\index{functor!coalgebra for}
 
 Recall from \cref{ex.coalgebras} that for a set $S$, lenses $S\yon^S\to p$ correspond to functions $S\to p(S)$ known as coalgebras for the functor $p$.
-As a cofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S$ to $\car{c}$, it should correspond to a special kind of coalgebra $S\to\car{c}(S)$ for the functor $\car{c}$.
+As a retrofunctor $S\yon^S\cof\cat{C}$ is just a special kind of lens from $S\yon^S$ to $\car{c}$, it should correspond to a special kind of coalgebra $S\to\car{c}(S)$ for the functor $\car{c}$.
 Indeed, whenever $\car{c}$ carries a comonoid $\cat{C}$ with respect to the composition product (i.e.\ a comonad), there is a special notion of a $\cat{C}$-coalgebra (i.e.\ a coalgebra for the comonad $\cat{C}$), as follows.
 
 \begin{definition}[Coalgebra for a polynomial comonoid]\label{def.coalgebra}
@@ -7179,7 +7218,7 @@ A \emph{morphism} of $\cat{C}$-coalgebras $(S,\alpha)\to(T,\beta)$ is a function
 \]
 \end{definition}
 
-% Before we show the correspondence between cofunctors out of state categories and coalgebras, we first discuss how state categories arise formally from the theory of the composition product.
+% Before we show the correspondence between retrofunctors out of state categories and coalgebras, we first discuss how state categories arise formally from the theory of the composition product.
 
 % \begin{example}[State categories, formally]
 % Fix  $S\in\smset$.
@@ -7220,7 +7259,7 @@ A \emph{morphism} of $\cat{C}$-coalgebras $(S,\alpha)\to(T,\beta)$ is a function
 % \end{example}
 
 \begin{proposition}
-Cofunctors $S\yon^S\cof\cat{C}$ can be identified (up to isomorphism) with $\cat{C}$-coalgebras carried by $S$.\index{coalgebra!carrier of}
+Retrofunctors $S\yon^S\cof\cat{C}$ can be identified (up to isomorphism) with $\cat{C}$-coalgebras carried by $S$.\index{coalgebra!carrier of}
 \end{proposition}
 \begin{proof}
 Let $\car{c}$ be the carrier of $\cat{C}$.
@@ -7246,7 +7285,7 @@ Meanwhile, the corresponding function $\varphi\colon S\to\car{c}\tri S$, equival
 \end{tikzpicture}
 \]
 
-Then it suffices to show that $\Phi$ satisfies the cofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.\index{coalgebra}
+Then it suffices to show that $\Phi$ satisfies the retrofunctor laws if and only if $\varphi$ satisfies the coalgebra laws.\index{coalgebra}
 We can verify this using polyboxes.
 From \eqref{eqn.pres_era_draw}, the eraser preservation law for $\Phi$ would state the following (remember that the arrow in the eraser for the state category $S\yon^S$ is just an equality):\index{polybox}\index{state system}
 \[
@@ -7383,15 +7422,15 @@ Meanwhile, the commutative triangle on the right of \eqref{eqn.coalg_laws} can b
 \end{tikzpicture}
 \]
 But these polybox equations are equivalent as well.\index{polybox}
-Hence the cofunctor laws for $\Phi$ are equivalent to the coalgebra laws for $\varphi$.
+Hence the retrofunctor laws for $\Phi$ are equivalent to the coalgebra laws for $\varphi$.
 \end{proof}
 
-So a cofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
+So a retrofunctor from a state category to $\cat{C}$ bears the same data as a $\cat{C}$-coalgebra.
 The equivalences don't stop there, however.
 
 \subsubsection{As discrete opfibrations}
 
-\index{discrete opfibration!as cofunctor}\index{functor!discrete opfibration|see{discrete opfibration}}
+\index{discrete opfibration!as retrofunctor}\index{functor!discrete opfibration|see{discrete opfibration}}
 The concept of a $\cat{C}$-coalgebra is in turn equivalent to a better known categorical construction on $\cat{C}$, which we introduce here.
 
 \begin{definition}[Discrete opfibration]\label{def.dopf}
@@ -7436,14 +7475,14 @@ $ is an object. With notation as in \cref{def.dopf}, show the following:
 \begin{enumerate}
 	\item Show that the lift $\ol{\id_{\pi(i)}}=\id_i$ of the identity on $\pi(i)$ is the identity on $i$.
 	\item Show that for $f\colon\pi(i)\to c$ and $g\colon c\to c'$, we have $\ol{f}\then\ol{g}=\ol{f\then g}$.
-	\item Show how $\pi$ could instead be interpreted as a cofunctor.% (We will characterize exactly which cofunctors can arise in this way in \cref{**}.)
+	\item Show how $\pi$ could instead be interpreted as a retrofunctor.% (We will characterize exactly which retrofunctors can arise in this way in \cref{**}.)
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
     \item The identity map $\id_i$ satisfies $\pi(\id_i)=\id_{\pi(i)}$, so $\ol{\id_{\pi(i)}}=\id_i$ by the uniqueness-of-lift condition in \cref{def.dopf}.
     \item The morphism $\ol{f}\then\ol{g}$ satisfies $\pi(\ol{f}\then\ol{g})=\pi(\ol{f})\then\pi(\ol{g})=f\then g$, so again this follows by uniqueness of lift.
-    \item To see that $\pi$ is a cofunctor, we need to understand and verify conditions about its action forward on objects and backward on morphisms. Its action forward on objects is that of $\pi$ as a functor. Given an object $s\in\cat{S}$, the action of $\pi$ backward on morphisms is the lift operation $\pi^\sharp_s(f)\coloneqq\ol{f}$. This preserves identity by part 1, composition by part 2, and codomains because $\pi(\cod(\pi^\sharp_s(f)))=\cod(\pi(\pi^\sharp_s(f)))=\cod(f)$.
+    \item To see that $\pi$ is a retrofunctor, we need to understand and verify conditions about its action forward on objects and backward on morphisms. Its action forward on objects is that of $\pi$ as a functor. Given an object $s\in\cat{S}$, the action of $\pi$ backward on morphisms is the lift operation $\pi^\sharp_s(f)\coloneqq\ol{f}$. This preserves identity by part 1, composition by part 2, and codomains because $\pi(\cod(\pi^\sharp_s(f)))=\cod(\pi(\pi^\sharp_s(f)))=\cod(f)$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -7452,11 +7491,11 @@ As it turns out, not only do $\cat{C}$-coalgebras carry the same data as discret
 
 \begin{proposition}\index{coalgebra}
 The category of $\cat{C}$-coalgebras is isomorphic to the category $\Cat{dopf}(\cat{C})$ of discrete opfibrations over $\cat{C}$.
-\end{proposition}\index{discrete opfibration!as cofunctor}
+\end{proposition}\index{discrete opfibration!as retrofunctor}
 %\begin{proof}
 %**
 %\end{proof}
-\index{copresheaf!as cofunctor}\index{functor!copresheaf|see{copresheaf}}
+\index{copresheaf!as retrofunctor}\index{functor!copresheaf|see{copresheaf}}
 
 \subsubsection{As copresheaves}
 
@@ -7562,16 +7601,16 @@ Up to isomorphism, discrete opfibrations into $\cat{C}$ can be identified with d
 \end{proposition}
 In case it isn't clear, this association is only functorial on the groupoid of objects and isomorphisms.
 \begin{proof}
-Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a cofunctor.
+Given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, take $S\coloneqq\Ob(\cat{S})$ and define $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$ by $\varphi_1=\pi$ and with $\varphi^\sharp$ given by the lifting: $\varphi(g)\coloneqq \hat{g}$ as in \cref{def.dopf}. One checks using \cref{exc.dopf_cof} that this defines a retrofunctor.
 
-Conversely, given a cofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$, the function $\varphi_1$ induces a lens $S\yon\to\car{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\car{s}\To{\psi}\car{c}$. We can give $\car{s}$ the structure of a category such that $\psi$ is a cofunctor; see \cref{exc.ds_dopf}.
+Conversely, given a retrofunctor $(\varphi_1,\varphi^\sharp)\colon S\yon^S\to\car{c}$, the function $\varphi_1$ induces a lens $S\yon\to\car{c}$, and we can factor it as a vertical followed by a cartesian $S\yon\to\car{s}\To{\psi}\car{c}$. We can give $\car{s}$ the structure of a category such that $\psi$ is a retrofunctor; see \cref{exc.ds_dopf}.
 \end{proof}
 
 \begin{exercise}\label{exc.ds_dopf}
 With notation as in \cref{prop.ds_dopf}, complete the proof as follows.
 \begin{enumerate}
-	\item Check that $(\varphi,\varphi^\sharp)$ defined in the first paragraph is indeed a cofunctor.
-	\item Find a comonoid structure on $\car{s}$ such that $\psi$ is a cofunctor, as stated in the second paragraph.
+	\item Check that $(\varphi,\varphi^\sharp)$ defined in the first paragraph is indeed a retrofunctor.
+	\item Find a comonoid structure on $\car{s}$ such that $\psi$ is a retrofunctor, as stated in the second paragraph.
 	\item Show that the two directions are inverse, up to isomorphism.
 \qedhere
 \end{enumerate}
@@ -7588,7 +7627,7 @@ In \cref{ex.halt_dsa_accept} we had a dynamical system with $S\coloneqq\{\bul[dg
 	\bul[red]
 \end{tikzcd}
 \end{equation}
-Under the forgetful-cofree adjunction (\cref{thm.cofree}), the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
+Under the forgetful-cofree adjunction (\cref{thm.cofree}), the lens $\varphi$ coincides with a retrofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
 We can now see this as a copresheaf on the category $\cofree{p}$ itself.\index{copresheaf!on cofree category}
 
 The cofree category $\cofree{t}$ is actually the free category on a graph, as we saw in \cref{prop.cofree_free_on_graph}, and so the schema is easy. There is one table for each tree (object in $\cofree{p}$), e.g.\ we have a table associated to this tree:
@@ -7600,7 +7639,7 @@ The table has two columns, say left and right, corresponding to the two arrows e
 Again, there are infinitely many tables in this schema. Only three of them have data in them; the rest are empty. We know in advance that this instance has three rows in total, since $|S|=3$.
 \end{example}
 
-Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\colon S\yon^S\cof\cofree{p}$. By \cref{prop.tfae_dopf,prop.ds_dopf}, we can consider it as a discrete opfibration over $\cofree{p}$. By \cref{exc.elts_free_grph} the category $\elts \varphi$ is again free on a graph. It is this graph that we usually draw when depicting the dynamical system, e.g.\ in \eqref{eqn.dyn_sys_misc573}.
+Given a dynamical system $S\yon^S\to p$, we extend it to a retrofunctor $\varphi\colon S\yon^S\cof\cofree{p}$. By \cref{prop.tfae_dopf,prop.ds_dopf}, we can consider it as a discrete opfibration over $\cofree{p}$. By \cref{exc.elts_free_grph} the category $\elts \varphi$ is again free on a graph. It is this graph that we usually draw when depicting the dynamical system, e.g.\ in \eqref{eqn.dyn_sys_misc573}.
 
 \index{graph!category free on}\index{category!free}
 
@@ -7612,7 +7651,7 @@ Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\co
 %\end{exercise}
 
 %\begin{exercise}
-%Given a cofunctor $F\colon S\yon^S\cof\yon$, what does the corresponding copresheaf look like?
+%Given a retrofunctor $F\colon S\yon^S\cof\yon$, what does the corresponding copresheaf look like?
 %\begin{solution}
 %**
 %\end{solution}
@@ -7620,7 +7659,7 @@ Given a dynamical system $S\yon^S\to p$, we extend it to a cofunctor $\varphi\co
 
 To summarize, we have four equivalent notions:\index{coalgebra!as equivalent to other notions}
 \begin{enumerate}[label=(\arabic*)]
-    \item cofunctors $F\colon S\yon^S\cof\cat{C}$;
+    \item retrofunctors $F\colon S\yon^S\cof\cat{C}$;
     \item $\cat{C}$-coalgebras $(S,\alpha)$, with $\alpha\colon S\to\car{c}\tri S$;
     \item discrete opfibrations $\pi\colon \cat{S}\to\cat{C}$, with $\Ob\cat{S}=S$;
     \item copresheaves $I\colon\cat{C}\to\smset$, with $\Ob\elts^{\cat{C}}I=S$.
@@ -7629,16 +7668,16 @@ Moreover, (2), (3), and (4) form equivalent categories.
 Translating between these notions yields different perspectives on familiar categorical concepts.
 In the next chapter, we will discover even more characterizations of the same data within $\poly$ (see \cref{prop.cart_dopf}).
 
-\index{state system!cofunctor from|(}
+\index{state system!retrofunctor from|(}
 
 %-------- Section --------%
 \section{Summary and further reading}
 
 In this chapter we began by showing that for every set $S$, the thing that makes a dynamical system like $S\yon^S\to p$ actually run is the fact that $S\yon^S$ has the structure of a comonoid.  We then explained Ahman-and-Uustalu's result that comonoids, i.e.\ polynomials $p$, equipped with a pair of lenses $\epsilon\colon p\to\yon$ and $\delta\colon p\to p\tri p$, are exactly categories \cite{ahman2016directed}. We explained how $\epsilon$ picks out an identity for each object and how $\delta$ picks out a codomain for each morphism and a composite for each composable pair of morphisms. In particular we showed that the category corresponding to $S\yon^S$ is the \emph{contractible groupoid on $S$}, i.e.\ the category with $S$-many objects and a unique morphism between any two.
 
-We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors but \emph{cofunctors}: they map forwards on objects and backwards on morphisms. Cofunctors were first defined by Marcelo Aguiar \cite{aguiar1997internal}, though his definition was opposite to ours. Cofunctors are the morphisms of a category we notate as $\catsharp$. We showed that cofunctors between state categories $S\yon^S\cof T\yon^T$ are what are known in the functional programming community as \emph{very well-behaved lenses}. For more on lenses, see \cite{nlab2022lens}.
+We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors but \emph{retrofunctors}: they map forwards on objects and backwards on morphisms. Retrofunctors were first defined by Marcelo Aguiar \cite{aguiar1997internal}, though his definition was opposite to ours; he referred to these as \emph{cofunctors}. Retrofunctors are the morphisms of a category we notate as $\catsharp$. We showed that retrofunctors between state categories $S\yon^S\cof T\yon^T$ are what are known in the functional programming community as \emph{very well-behaved lenses}. For more on lenses, see \cite{nlab2022lens}.
 
-\index{cofunctor!Aguiar's definition}
+\index{retrofunctor!Aguiar's definition}
 
 
 %-------- Section --------%
@@ -7653,7 +7692,7 @@ We then discussed how comonoid morphisms $\car{c}\to\car{d}$ are not functors bu
 %------------ Chapter ------------%
 \chapter{Categorical properties of polynomial comonoids} \label{ch.comon.cofree}
 
-While we defined the category $\catsharp$ of categories and cofunctors in the last chapter, we have only begun to scratch the surface of the properties it satisfies.
+While we defined the category $\catsharp$ of categories and retrofunctors in the last chapter, we have only begun to scratch the surface of the properties it satisfies.
 As the category of comonoids in $\poly$, equipped with a canonical forgetful functor $U\colon\catsharp\to\poly$ sending each polynomial to its carrier, $\catsharp$ inherits many of the categorical properties satisfied by $\poly$.
 Underpinning this inheritance is the fact that $U$ has a right adjoint, a cofree functor $\poly\to\catsharp$.
 We will introduce this adjunction in the first section of this chapter.
@@ -7675,7 +7714,7 @@ In \cref{subsec.comon.sharp.state.run}, we posed the question of whether there w
 \]
 that models $n$ runs through the system $\varphi$.
 
-It turns out that there is: the key is that there is a natural way to interpret every polynomial $p$ as a category $\cofree{p}$, so that cofunctors into $\cofree{p}$ are exactly lenses into $p$.
+It turns out that there is: the key is that there is a natural way to interpret every polynomial $p$ as a category $\cofree{p}$, so that retrofunctors into $\cofree{p}$ are exactly lenses into $p$.
 In other words, $\cofree{p}$ will turn out to be the \emph{cofree comonoid} (or \emph{cofree category}) \emph{on $p$}.
 Cofree comonoids in $\poly$ are beautiful objects, both in their visualizable structure as a category and in the metaphors we can make about them. They allow us to replace the interface of a dynamical system with a category and get access to a rich theory that exists there.
 
@@ -9056,7 +9095,7 @@ Let $p\coloneqq\{\bul[red],\bul[blue]\}\yon^\2+\{\bul[dgreen]\}\yon+\{\bul[dyell
 
 
 \begin{exercise}
-Let $p$ be a polynomial, let $Q\coloneqq\{q\in\qq\mid q\geq 0\}$ and consider the monoid $\yon^Q$ of nonnegative rational numbers under addition. Is it true that any cofunctor $\varphi\colon\cofree{p}\cof\yon^\qq$ is constant, i.e.\ that it factors as
+Let $p$ be a polynomial, let $Q\coloneqq\{q\in\qq\mid q\geq 0\}$ and consider the monoid $\yon^Q$ of nonnegative rational numbers under addition. Is it true that any retrofunctor $\varphi\colon\cofree{p}\cof\yon^\qq$ is constant, i.e.\ that it factors as
 \[
 \cofree{p}\cof\yon\cof\yon^\qq?
 \]
@@ -9073,7 +9112,7 @@ x\coloneqq(2\,12\,112\,1112\,11112\,111112\ldots)
 		x'&\tn{ if }i=x\tn{ and } q>0
 	\end{cases}
 \]
-where $x'\coloneqq(12\,112\,1112\,11112\,111112\ldots)$. There are three cofunctor conditions to check, namely identity, codomains, and composition. The codomain condition is vacuous since $\yon^Q$ has one object, and the identity condition holds by construction, because we always have $\varphi^\sharp_i(0)=i$. Now take $q_1,q_2\in Q$; we need to check that
+where $x'\coloneqq(12\,112\,1112\,11112\,111112\ldots)$. There are three retrofunctor conditions to check, namely identity, codomains, and composition. The codomain condition is vacuous since $\yon^Q$ has one object, and the identity condition holds by construction, because we always have $\varphi^\sharp_i(0)=i$. Now take $q_1,q_2\in Q$; we need to check that
 \[\varphi^\sharp_{\cod\varphi^\sharp_i(q_1)}(q_2)=^?\varphi^\sharp_i(q_1+q_2)\]
 holds. If $i\neq x$ or $q_1=q_2=0$, then it holds because both sides equal $i$. If $i=x$ and either $q_1>0$ or $q_2>0$, it is easy to check that both sides equal $x'$, so again it holds.
 \end{solution}
@@ -9117,7 +9156,7 @@ That is, for any category $\cat{C}\in\catsharp$ with carrier $\car{c}\coloneqq U
 \end{theorem}\index{functor!forgetful}
 
 \begin{proof}
-To show that $\cofree{-}$ is the right adjoint of $U$, it is enough to show that for every lens $\varphi\colon\car{c}\to p$, there exists a unique cofunctor $F\colon\cat{C}\cof\cofree{p}$ for which
+To show that $\cofree{-}$ is the right adjoint of $U$, it is enough to show that for every lens $\varphi\colon\car{c}\to p$, there exists a unique retrofunctor $F\colon\cat{C}\cof\cofree{p}$ for which
 \begin{equation} \label{eqn.cofree_universal_lens_counit}
 \begin{tikzcd}
     \car{c} \ar[d,dashed,"F"'] \ar[dr,"\varphi"] \\
@@ -9125,7 +9164,7 @@ To show that $\cofree{-}$ is the right adjoint of $U$, it is enough to show that
 \end{tikzcd}
 \end{equation}
 commutes.
-Here the projection $\epsilon^{(1)}_p\colon U\cofree{p}\iso\car{t}_p\to p$ serves as the counit of the adjunction, and we identify the cofunctor $F$ with its underlying lens $UF\colon\car{c}\to\car{t}_p$.
+Here the projection $\epsilon^{(1)}_p\colon U\cofree{p}\iso\car{t}_p\to p$ serves as the counit of the adjunction, and we identify the retrofunctor $F$ with its underlying lens $UF\colon\car{c}\to\car{t}_p$.
 
 First, we construct $F$ from $\varphi$ as follows.
 If we let $\epsilon$ and $\delta$ be the eraser and duplicator of $\cat{C}$, the diagram
@@ -9163,9 +9202,9 @@ commutes as well: its leftmost rectangle is \eqref{eqn.phi_seed}, and taking the
 yields the rectangle to its right.
 As $\car{t}_p$ is the limit of the bottom two rows of \eqref{eqn.phi_expand}, it follows that there is an induced lens $F\colon\car{c}\to\car{t}_p$ that, when composed with each projection $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$, yields the lens depicted in \eqref{eqn.phi_expand} from $\car{c}$ to $p\tripow{n}$.
 This lens is the composite of the lens $\car{c}\to\car{c}\tripow{(n+1)}$ in the top row, which by \cref{prop.n_duplication} is the canonical lens $\delta^{(n+1)}$ associated with the comonoid $\cat{C}$, composed with the lens $\epsilon\tri\varphi\tripow{n}\colon\car{c}\tripow{(n+1)}\to p\tripow{n}$.
-%** check that it satisfies cofunctor laws
+%** check that it satisfies retrofunctor laws
 
-Next, we prove uniqueness: that a cofunctor $\cat{C}\cof\cofree{p}$ with underlying lens $f\colon\car{c}\to\car{t}_p$ is completely determined by the value of $f\then\epsilon^{(1)}_p$.
+Next, we prove uniqueness: that a retrofunctor $\cat{C}\cof\cofree{p}$ with underlying lens $f\colon\car{c}\to\car{t}_p$ is completely determined by the value of $f\then\epsilon^{(1)}_p$.
 It suffices to show that we can recover the $n^\text{th}$ component of $g$ from its first component.
 **
 % We do so by demonstrating that the diagram
@@ -9201,7 +9240,7 @@ The forgetful-cofree adjunction of \cref{thm.cofree} tells us that given a categ
 \[
     \poly(\car{c},p)\iso\catsharp(\cat{C},\cofree{p}).
 \]
-So every lens $\varphi\colon\car{c}\to p$ has a corresponding cofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
+So every lens $\varphi\colon\car{c}\to p$ has a corresponding retrofunctor $F\colon\cat{C}\cof\cofree{p}$ that we call its \emph{mate}.
 
 We can view $\varphi$ as a dynamical system with an interface $p$ and a generalized state system $\car{c}$, carrying an arbitrary category $\cat{C}$ of states and transitions.
 Then the lens $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ for $n\in\nn$, defined as the composite
@@ -9211,7 +9250,7 @@ Then the lens $\text{Run}_n(\varphi)\colon\car{c}\to p\tripow{n}$ for $n\in\nn$,
 models $n$ runs through the system $\varphi$.
 
 Meanwhile, as the limit of the diagram \eqref{eqn.cofree_diagram} with the row of polynomials of the form $p\tripow{n}$ across the top, the carrier $\car{t}_p$ of the cofree comonoid on $p$ comes equipped with a lens $\epsilon^{(n)}_p\colon\car{t}_p\to p\tripow{n}$ for each $n\in\nn$.
-Since the cofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\car{c}\to\car{t}_p$, we can obtain another lens $\car{c}\to\tripow{n}$ as the composite
+Since the retrofunctor $F\colon\cat{C}\cof\cofree{p}$ has an underlying lens between carriers $f\coloneqq UF\colon\car{c}\to\car{t}_p$, we can obtain another lens $\car{c}\to\tripow{n}$ as the composite
 \[
     \car{c}\To{f}\car{t}_p\To{\epsilon^{(n)}_p}p\tripow{n}.
 \]
@@ -9244,8 +9283,8 @@ Let $S\coloneqq\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ and $p\coloneqq\yon^\2+
 	\bul[red]
 \end{tikzcd}
 \]
-Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
-The cofunctor sends each state in $S=\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ to a $p$-tree; these $p$-trees are drawn below (the first two are infinite).
+Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a retrofunctor $F\colon S\yon^S\cof\cofree{p}$ from the state category on $S$ to the category of $p$-trees.
+The retrofunctor sends each state in $S=\{\bul[dgreen],\bul[dyellow],\bul[red]\}$ to a $p$-tree; these $p$-trees are drawn below (the first two are infinite).
 Then the vertices of each $p$-tree are sent back to a morphism in the state category; the color of each vertex indicates the codomain of the morphism to which that vertex is sent.
 \[
 \begin{tikzpicture}[trees, scale=1.5,
@@ -9369,14 +9408,14 @@ Each $p$-tree above, with its vertices colored, thus encodes all the ways to nav
 In particular, the \emph{maximal rooted paths} of these trees (i.e.\ those that terminate at a leaf) trace out all the ways in which the automaton can halt, and therefore all the words that the automaton accepts.
 Notice, too, that every $p$-subtree of any one of these $p$-trees is another one of these three $p$-trees---do you see why?
 
-In general, given a lens $\varphi\colon S\yon^S\to\yon^A+\1$ modeling a halting deterministic state automaton and an initial state $s_0\in S$, the $(\yon^A+\1)$-tree to which the corresponding cofunctor $F\colon S\yon^S\cof\cofree{\yon^A+\1}$ sends $s_0$ encodes the set of words accepted by the automaton with that initial state in its maximal rooted paths.
+In general, given a lens $\varphi\colon S\yon^S\to\yon^A+\1$ modeling a halting deterministic state automaton and an initial state $s_0\in S$, the $(\yon^A+\1)$-tree to which the corresponding retrofunctor $F\colon S\yon^S\cof\cofree{\yon^A+\1}$ sends $s_0$ encodes the set of words accepted by the automaton with that initial state in its maximal rooted paths.
 \end{example}
 \index{deterministic state automaton!language of}
 
 \begin{example}[Languages recognized by deterministic state automata] \label{ex.dsa_lang_recog}
 Recall from \cref{prop.dsa} that a deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a lens $\yon\to S\yon^S$, indicating the initial state $s_0\in S$, and a lens $\varphi\colon S\yon^S\to\2\yon^A$, indicating the subset of accept states $F\coloneqq\varphi_1^{-1}(2)\ss S$ and the update function $u\colon S\times A\to S$ via $u(s,a)=\varphi^\sharp_s(a)$.
 
-Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a cofunctor $F\colon S\yon^S\cof\cofree{\2\yon^A}$.
+Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a retrofunctor $F\colon S\yon^S\cof\cofree{\2\yon^A}$.
 By \cref{exc.b-lab_a-ary_trees}, $\cofree{\2\yon^A}$ is the category of $\2$-labeled $A$-ary trees.
 So $F(s_0)$ is an element of $\tr_{\2\yon^A}\iso\2^{\lst(A)}$: an $A$-ary tree where each rooted path corresponds to a list of elements of $A$ and bears one of the elements of $\2$, indicating whether the course through the automaton corresponding to that rooted path ends at an accept state or not.
 Equivalently, an element of $\2^{\lst(A)}$ is a subset of $\lst(A)$; in the case of $F(s_0)$, it is the subset containing exactly the words in $\lst(A)$ accepted by the automaton.
@@ -9393,7 +9432,7 @@ For convenience, we'll focus on the example of an $(A,B)$-Moore machine $\varphi
 
 \index{interface!monomial}
 
-The lens $\varphi$ corresponds to a cofunctor $F\colon S\yon^S\cof\cofree{B\yon^A}$.
+The lens $\varphi$ corresponds to a retrofunctor $F\colon S\yon^S\cof\cofree{B\yon^A}$.
 By \cref{exc.b-lab_a-ary_trees}, $\cofree{B\yon^A}$ is the category of $B$-labeled $A$-ary trees; in paticular, its carrier is $\car{t}_{B\yon^A}\iso B^{\lst(A)}\yon^{\lst(A)}$.
 
 Then for every initial state $s_0\in S$, the $B$-labeled $A$-ary tree $F(s_0)$ can be interpreted as a decision tree of all the possible sequences of inputs that the system may receive.
@@ -9467,15 +9506,15 @@ Recall that $p \coloneqq \{\bul[dgreen]\}\yon ^\2 + \{\bul[red]\}$ and $q \colon
 \begin{exercise}
 Let $p$ be a polynomial.
 \begin{enumerate}
-    \item Show there is an induced cofunctor $\cofree{p} \to \cofree{p\tripow{n}}$ for all $n\in\nn$.
-    \item When $n\geq1$, is the induced cofunctor is an isomorphism? \qedhere
+    \item Show there is an induced retrofunctor $\cofree{p} \to \cofree{p\tripow{n}}$ for all $n\in\nn$.
+    \item When $n\geq1$, is the induced retrofunctor is an isomorphism? \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item By the adjunction from \cref{thm.cofree}, cofunctors $\cofree{p} \to \cofree{p\tripow{n}}$ are in bijection with lenses $\car{t}_{p}\to p\tripow{n}$, where $\car{t}_{p}=U\cofree{p}$ is the carrier.
+    \item By the adjunction from \cref{thm.cofree}, retrofunctors $\cofree{p} \to \cofree{p\tripow{n}}$ are in bijection with lenses $\car{t}_{p}\to p\tripow{n}$, where $\car{t}_{p}=U\cofree{p}$ is the carrier.
 
     From \cref{prop.n_duplication} we have a lens $\delta^{(n)}\colon\cofree{p}\to\cofree{p}\tripow{n}$, and we also have the counit of the cofree adjunction which we'll temporarily call $r\colon\cofree{p}\to p$. Then the desired lens is $(\delta^{(n)}\then r\tripow{n})\colon\car{t}_{p}\to p\tripow{n}$.
-    \item When $n=1$ the induced cofunctor is an isomorphism, but for $n\geq 2$ it is not. However, we should start by saying that the function on objects $\tr_p\to\tr_{p\tripow{n}}$ is a bijection. It sends a $p$-tree to the $p\tripow{n}$ tree that simply compresses every height-$n$ segment into a single vertex, labeled by that height-$n$ segment. To go back, just decompress the segments. But this is not a bijection on maps, because every rooted path on $\tr_{p\tripow{n}}$ would correspond to a rooted path on $\tr_p$ whose length is a multiple of $n$. When $n=2$ and $p=\yon+1$, some rooted paths in $\tr_p$ have odd lengths.
+    \item When $n=1$ the induced retrofunctor is an isomorphism, but for $n\geq 2$ it is not. However, we should start by saying that the function on objects $\tr_p\to\tr_{p\tripow{n}}$ is a bijection. It sends a $p$-tree to the $p\tripow{n}$ tree that simply compresses every height-$n$ segment into a single vertex, labeled by that height-$n$ segment. To go back, just decompress the segments. But this is not a bijection on maps, because every rooted path on $\tr_{p\tripow{n}}$ would correspond to a rooted path on $\tr_p$ whose length is a multiple of $n$. When $n=2$ and $p=\yon+1$, some rooted paths in $\tr_p$ have odd lengths.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9510,12 +9549,12 @@ The free category on a graph always has this property, so the result follows fro
 The additive monoid $\yon^\nn$ of natural numbers has a $\times$-monoid structure in $\catsharp$.
 \end{proposition}
 \begin{proof}
-The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\catsharp$. We thus want to find cofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid.
+The right adjoint $p\mapsto\cofree{p}$ preserves products, so $\yon^{\List(\ord{n})}\cong\cofree{\yon^{\ord{n}}}$ is the $n$-fold product of $\yon^\nn$ in $\catsharp$. We thus want to find retrofunctors $e\colon \yon\to\yon^\nn$ and $m\colon\yon^{\List(\2)}\to\yon^\nn$ that satisfy the axioms of a monoid.
 
-The unique lens $\yon\to\yon^\nn$ is a cofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the lens $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\catsharp,\yon,\times)$.
+The unique lens $\yon\to\yon^\nn$ is a retrofunctor (it is the mate of the identity $\yon\to\yon$). We take $m$ to be the mate of the lens $\yon^{\List(\2)}\to\yon$ given by the list $[1,2]$. One can check by hand that these definitions make $(\yon^\nn,e,m)$ a monoid in $(\catsharp,\yon,\times)$.
 \end{proof}
 
-Recall from \cref{ex.arrow_field} that an arrow field of a category $\cat{C}$ is a cofunctor $\cat{C}\cof\yon^\nn$.\index{arrow field}
+Recall from \cref{ex.arrow_field} that an arrow field of a category $\cat{C}$ is a retrofunctor $\cat{C}\cof\yon^\nn$.\index{arrow field}
 
 
 \begin{corollary}
@@ -9526,7 +9565,7 @@ For any category $\cat{C}$, the set $\catsharp(\cat{C},\yon^\nn)$ of arrow field
 We saw that $\yon^\nn$ is a monoid object in \cref{prop.ynn_monoid}.
 \end{proof}
 
-A cofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid.
+A retrofunctor $\cat{C}\cof\yon^\nn$ is a policy in $\cat{C}$: it assigns an outgoing morphism to each object of $\cat{C}$. Any two such trajectories can be multiplied: we simply do one and then the other; this is the monoid operation. The policy assigning the identity to each object is the unit of the monoid.
 
 We use the notation $\cat{C}\mapsto\vec{\cat{C}}$ for the monoid of arrow fields.\index{arrow field!monoid of arrow fields}
 
@@ -9538,7 +9577,7 @@ The arrow fields functor
 is right adjoint to the inclusion $\Cat{Mon}\op\to\catsharp$ from \cref{prop.monoids_ff}.
 \end{theorem}
 \begin{proof}
-Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A cofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an arrow field $\cat{C}$, preserving unit and multiplication.
+Let $\cat{C}$ be a category and $(M,e,*)$ a monoid. A retrofunctor $F\colon\cat{C}\cof\yon^M$ has no data on objects; it is just a way to assign to each $c\in \cat{C}$ and $m\in M$ a morphism $F^\sharp_c(m)\colon c\to c'$ for some $c'\coloneqq\cod(F^\sharp_c(m))$. This assignment must send identities to identities and composites to composites: given $m'\in M$ we have $F^\sharp_c(m\then m')=F^\sharp_c(m)\then F^\sharp_{c'}(m')$. This is exactly the data of a monoid morphism $M\to \vec{\cat{C}}$: it assigns to each $m\in M$ an arrow field $\cat{C}$, preserving unit and multiplication.
 \end{proof}
 
 \begin{proposition}\label{prop.traj_mon_poly}
@@ -9581,9 +9620,9 @@ The functor $\yon^-$ from \cref{prop.traj_mon_poly} factors through an isomorphi
 where $\Cat{Mon}$ is the category of monoids and monoid homomorphisms and  $\catsharp_{\text{rep}}$ is the full subcategory of $\catsharp$ consisting of categories with representable carriers $\yon^M$ for some $M\in\smset$.
 \end{proposition}
 \begin{proof}
-Let $\cat{C}$ be a category. It has only one object iff its carrier $\car{c}$ has only one position, i.e.\ $\car{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that cofunctors between monoids are dual---opposite---to morphisms between monoids.
+Let $\cat{C}$ be a category. It has only one object iff its carrier $\car{c}$ has only one position, i.e.\ $\car{c}\cong\yon^M$ for some $M\in\smset$, namely where $M$ is the set of morphisms in $\cat{C}$. It remains to show that retrofunctors between monoids are dual---opposite---to morphisms between monoids.
 
-A cofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
+A retrofunctor $f\colon\yon^M\to\yon^N$ involves a single function $f^\sharp\colon N\to M$ that must satisfy a law coming from unitality and one coming from composition, as in \cref{def.morphism_comonoids}. The result can now be checked by hand, or seen formally as follows. Each object in the two diagrams of \eqref{def.morphism_comonoids} is representable by \cref{exc.composites_of_specials}. The Yoneda embedding $\smset\op\to\poly$ is fully faithful, so these two diagrams are equivalent to the unit and composition diagrams for monoid homomorphisms.
 \end{proof}\index{Yoneda lemma}
 
 \index{polynomial comonoid!linear}
@@ -9595,7 +9634,7 @@ Show that there is an isomorphism of categories
 \catsharp_{\text{lin}}\iso\smset.=
 \]
 \begin{solution}
-A category $S\yon$ with linear carrier is a discrete category on $S$, so we need to show that a cofunctor between the discrete category on $S$ and the discrete category on $T$ is the same thing as a function $S\to T$. But this is clear: a cofunctor $S\yon\to T\yon$ is a function $S\to T$ on objects and a function backwards on morphisms, and the latter is unique because each object in $S\yon$ has a unique outgoing morphism.
+A category $S\yon$ with linear carrier is a discrete category on $S$, so we need to show that a retrofunctor between the discrete category on $S$ and the discrete category on $T$ is the same thing as a function $S\to T$. But this is clear: a retrofunctor $S\yon\to T\yon$ is a function $S\to T$ on objects and a function backwards on morphisms, and the latter is unique because each object in $S\yon$ has a unique outgoing morphism.
 \end{solution}
 \end{exercise}
 
@@ -9609,7 +9648,7 @@ We need to show that for any comonoid $(\car{c},\epsilon,\delta)$ and set $A$, w
   \cong^?
   \catsharp((\car{c}\tri\1)\yon,A\yon)
 \]
-But every morphism in $A\yon$ is an identity, so the result follows from the fact that every cofunctor must pass identities back to identities.
+But every morphism in $A\yon$ is an identity, so the result follows from the fact that every retrofunctor must pass identities back to identities.
 \end{proof}
 
 
@@ -9617,31 +9656,31 @@ But every morphism in $A\yon$ is an identity, so the result follows from the fac
 %* monoids, etc.
 
 %-------- Section --------%
-\subsection{Vertical-cartesian factorization of cofunctors}
+\subsection{Vertical-cartesian factorization of retrofunctors}
 
 \index{factorization system!vertical cartesian}
-\index{cofunctor!vertical}\index{cofunctor!cartesian}
+\index{retrofunctor!vertical}\index{retrofunctor!cartesian}
 
-A cofunctor is called \emph{cartesian} if the underlying lens $f\colon\car{c}\to\car{d}$ is cartesian (i.e.\ for each position $i\in\car{c}(\1)$, the map $f^\sharp_i\colon\car{d}[f_1(i)]\to\car{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
+A retrofunctor is called \emph{cartesian} if the underlying lens $f\colon\car{c}\to\car{d}$ is cartesian (i.e.\ for each position $i\in\car{c}(\1)$, the map $f^\sharp_i\colon\car{d}[f_1(i)]\to\car{c}[i]$ is an isomorphism). %** refer back to earlier section where we defined this...also vertical cartesian...and make this its own section
 
-\begin{proposition}\label{prop.factor_cofunctor}
-Every cofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
+\begin{proposition}\label{prop.factor_retrofunctor}
+Every retrofunctor $f\colon\cat{C}\cof\cat{D}$ factors as a vertical morphism followed by a cartesian morphism
 \[
 \cat{C}\overset{\text{vert}}{\cof}\cat{C}'\overset{\text{cart}}{\cof}\com{D}.
 \]
 \end{proposition}
 \begin{proof}
-A cofunctor $\cat{C}\cof\cat{D}$ is a lens $\car{c}\to\car{d}$ satisfying some properties, and any lens $f\colon\car{c}\to\car{d}$ can be factored as a vertical morphism followed by a cartesian morphism
+A retrofunctor $\cat{C}\cof\cat{D}$ is a lens $\car{c}\to\car{d}$ satisfying some properties, and any lens $f\colon\car{c}\to\car{d}$ can be factored as a vertical morphism followed by a cartesian morphism
 \[
 	\car{c}\To{g}\car{c'}\To{h}\car{d}.
 \]
 For simplicity, assume $g_1\colon\car{c}(\1)\to\car{c'}(\1)$ is identity (rather than merely isomorphism) on positions and similarly that for each $i\in\car{c}$ the map $h^\sharp_i\colon\car{c'}[i]\to\car{d}[h_1(i)]$ is identity (rather than merely isomorphism) on directions.
 
-It suffices to show that the intermediate object $\car{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are cofunctors. Given an object $i\in\car{c'}(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\car{c'}[i]=\car{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\car{c'}[\cod(m)]$, assign the composite $m\then m'$ in $\car{c'}$ to be $m\then m'$ in $\car{d}$. In \cref{exc.factor_cofunctor} we will check that with these definitions, $\car{c'}$ is a category and both $g$ and $h$ are cofunctors.
+It suffices to show that the intermediate object $\car{c'}$ can be endowed with the structure of a category such that $g$ and $h$ are retrofunctors. Given an object $i\in\car{c'}(\1)$, assign its identity to be the identity on $h_1(i)=f(i)$; then both $g$ and $h$ preserve identities because $f$ does. Given an emanating morphism $m\in\car{c'}[i]=\car{d}[f(i)]$, assign its codomain to be $\cod(m)\coloneqq\cod(f^\sharp_i(m))$, and given an emanating morphism $m'\in\car{c'}[\cod(m)]$, assign the composite $m\then m'$ in $\car{c'}$ to be $m\then m'$ in $\car{d}$. In \cref{exc.factor_retrofunctor} we will check that with these definitions, $\car{c'}$ is a category and both $g$ and $h$ are retrofunctors.
 \end{proof}
 
-\begin{exercise}\label{exc.factor_cofunctor}
-We will complete the proof of \cref{prop.factor_cofunctor}, using the same notation.
+\begin{exercise}\label{exc.factor_retrofunctor}
+We will complete the proof of \cref{prop.factor_retrofunctor}, using the same notation.
 \begin{enumerate}
 	\item Show that composition is associative and unital in $\car{c'}$.
 	\item Show that $g$ preserves codomains.
@@ -9661,28 +9700,28 @@ We will complete the proof of \cref{prop.factor_cofunctor}, using the same notat
 \end{solution}
 \end{exercise}
 
-\index{discrete opfibration!as cartesian cofunctor}
+\index{discrete opfibration!as cartesian retrofunctor}
 
 \begin{proposition} \label{prop.cart_dopf}
 The wide%
 \footnote{A subcategory $\Cat{D}$ of a category $\Cat{C}$ is \emph{wide} if every object of $\Cat{C}$ is in $\Cat{D}$.}
-subcategory of cartesian cofunctors in $\catsharp$ is isomorphic to the wide subcategory of discrete opfibrations in $\smcat$.
+subcategory of cartesian retrofunctors in $\catsharp$ is isomorphic to the wide subcategory of discrete opfibrations in $\smcat$.
 \end{proposition}
 \begin{proof}
-Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a cofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a cofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The cofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a cofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
+Suppose that $\cat{C}$ and $\cat{D}$ are categories. Both a functor and a retrofunctor between them involve a map on objects, say $f\colon\Ob\cat{C}\to\Ob\cat{D}$. For any object $c\in\Ob\cat{C}$, a functor gives a function, say $f_\sharp\colon\cat{C}[c]\to\cat{D}[f(c)]$ whereas a retrofunctor gives a function $f^\sharp\colon\cat{D}[f(c)]\to\cat{C}[c]$. The retrofunctor is cartesian iff $f^\sharp$ is an iso, and the functor is a discrete opfibration iff $f_\sharp$ is an iso. We thus transform our functor into a retrofunctor (or vice versa) by taking the inverse function on morphisms. It is easy to check that this inverse appropriately preserves identities, codomains, and compositions.
 \end{proof}
 
 % ** connect the above to earlier discrete opfibration stuff; also see below
 
-% The above correspondence is well-known; it remains to address the relationship between (2) and (3). A cartesian cofunctor $(\varphi_1,\varphi^\sharp)\colon\cat{S}\cof\cat{C}$ gives a function $\varphi\colon\Ob(\cat{S})\to\Ob(\cat{C})$ and for each $s\in\cat{S}$ an isomorphism
+% The above correspondence is well-known; it remains to address the relationship between (2) and (3). A cartesian retrofunctor $(\varphi_1,\varphi^\sharp)\colon\cat{S}\cof\cat{C}$ gives a function $\varphi\colon\Ob(\cat{S})\to\Ob(\cat{C})$ and for each $s\in\cat{S}$ an isomorphism
 % \[
 %   \varphi_s^\sharp\colon\cat{C}[\varphi_1(s)]\To{\cong}\cat{S}[s]
 % \]
 % between the set of $\cat{S}$-morphisms emanating from $s$ and the set of $\cat{C}$-morphisms emanating from $\varphi_1(s)$. This isomorphism respects identities, codomains, and composites. As such we can define a functor that acts as $\varphi_1$ on objects and $(\varphi^\sharp)\inv$ on morphisms, and it is easily checked to be a discrete opfibration.
 
-% Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\varphi_1\coloneqq\Ob(\pi)$ to be its on-objects part, and for any $s\in\Ob(\cat{S})$ and emanating morphism $f\in\cat{C}[\varphi_1(s)]$, we define $\varphi^\sharp_s(f)\coloneqq\ol{f}$ to be the lift guaranteed by \cref{def.dopf}. The conversions between discrete opfibrations and cartesian cofunctors are easily seen to be functorial and the roundtrips are identities.
+% Finally, given a discrete opfibration $\pi\colon\cat{S}\to\cat{C}$, we define $\varphi_1\coloneqq\Ob(\pi)$ to be its on-objects part, and for any $s\in\Ob(\cat{S})$ and emanating morphism $f\in\cat{C}[\varphi_1(s)]$, we define $\varphi^\sharp_s(f)\coloneqq\ol{f}$ to be the lift guaranteed by \cref{def.dopf}. The conversions between discrete opfibrations and cartesian retrofunctors are easily seen to be functorial and the roundtrips are identities.
 
-\index{cofunctor!vertical}
+\index{retrofunctor!vertical}
 \begin{proposition}\label{prop.com_vert_cat_boo}
 The wide subcategory of vertical maps in $\catsharp$ is isomorphic to the opposite of the wide subcategory bijective-on-objects maps in $\smcat$:
 \[
@@ -9690,20 +9729,20 @@ The wide subcategory of vertical maps in $\catsharp$ is isomorphic to the opposi
 \]
 \end{proposition}
 \begin{proof}
-Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical cofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob\cat{C}\to\Ob\cat{D}$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f)))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of cofunctors.
+Let $\cat{C}$ and $\cat{D}$ be categories. Given a vertical retrofunctor $F\colon\cat{C}\cof\cat{D}$, we have a bijection $F_1\colon\Ob\cat{C}\to\Ob\cat{D}$; let $G_1$ be its inverse. We define a functor $G\colon\cat{D}\to\cat{C}$ on objects by $G_1$ and, for any $f\colon d\to d'$ in $\cat{D}$ we define $G(f)\coloneqq F^\sharp_{G_1(d)}$. It has the correct codomain: $\cod(G(f))=G_1(F_1(\cod(G(f)))=G_1(\cod f)$. And it sends identities and compositions to identities and compositions by the laws of retrofunctors.
 
-The construction of a vertical cofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
+The construction of a vertical retrofunctor from a bijective-on-objects functor is analogous, and it is easy to check that the two constructions are inverses.
 \end{proof}
 
 \begin{exercise}
-Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical cofunctor $\cat{S}\cof\cat{C}$ can be identified with categories whose set of objects has been identified with $S$.
+Let $S$ be a set and consider the state category $\cat{S}\coloneqq(S\yon^S,\epsilon,\delta)$. Use \cref{prop.com_vert_cat_boo} to show that categories $\cat{C}$ equipped with a vertical retrofunctor $\cat{S}\cof\cat{C}$ can be identified with categories whose set of objects has been identified with $S$.
 \begin{solution}
-The category corresponding to $S\yon^S$ is the contractible groupoid $K_s$ on $S$. A vertical cofunctor $K_S\cof\cat{C}$ includes a bijection on objects, so we can assume that $\Ob(\cat{C})=S$. But the rest of the cofunctor assigns to each map $s_1\to s_2$ in $\cat{C}$ some choice of morphism $s_1\to s_2$ in $K_S$, and there is exactly one. Thus the cofunctor includes no additional data.
+The category corresponding to $S\yon^S$ is the contractible groupoid $K_s$ on $S$. A vertical retrofunctor $K_S\cof\cat{C}$ includes a bijection on objects, so we can assume that $\Ob(\cat{C})=S$. But the rest of the retrofunctor assigns to each map $s_1\to s_2$ in $\cat{C}$ some choice of morphism $s_1\to s_2$ in $K_S$, and there is exactly one. Thus the retrofunctor includes no additional data.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}\index{functor!bijective on objects (boo)}
-Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{D}\coloneqq\fbox{$\bullet\to\bullet$}$. There is a unique bijective-on-objects (boo) functor $F\colon\cat{C}\to\cat{D}$ and two boo functors $G_1,G_2\colon\cat{D}\to\cat{C}$. These have corresponding cofunctors going the other way.
+Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{D}\coloneqq\fbox{$\bullet\to\bullet$}$. There is a unique bijective-on-objects (boo) functor $F\colon\cat{C}\to\cat{D}$ and two boo functors $G_1,G_2\colon\cat{D}\to\cat{C}$. These have corresponding retrofunctors going the other way.
 \begin{enumerate}
 	\item Write down the morphism $\car{d}\to\car{c}$ of carriers corresponding to $F$.
 	\item Write down the morphism $\car{c}\to\car{d}$ of carriers corresponding to either $G_1$ or $G_2$.
@@ -9712,8 +9751,8 @@ Consider the categories $\cat{C}\coloneqq\fbox{$\bullet\tto\bullet$}$ and $\cat{
 \begin{solution}
 Let's take the two nonidentity arrows in $\cat{C}$ to be labeled $s,t$ and the unique nonidentity arrow in $\cat{D}$ to be labeled $f$. Then the carrier of $\cat{C}$ is $\car{c}\coloneqq\yon^{\{\id_1,s,t\}}+\yon^{\{\id_2\}}$ and that of $\cat{D}$ is $\car{d}\coloneqq\yon^{\{\id_1,f\}}+\yon^{\{\id_2\}}$.
 \begin{enumerate}
-    \item The boo functor $F\colon\cat{C}\to\cat{D}$ can be identified with a vertical cofunctor $\car{d}\to\car{c}$ that sends back $\id_1\mapsto\id_1$ and $s\mapsto f$ and $t\mapsto f$ and $\id_2\mapsto\id_2$.
-    \item For $G_1\colon\cat{D}\to\cat{C}$, which we take to send $f\mapsto s$, the corresponding vertical cofunctor $\car{c}\to\car{d}$ sends back $\id_1\mapsto\id_1$ and $f\mapsto s$ and $\id_2\mapsto\id_2$.
+    \item The boo functor $F\colon\cat{C}\to\cat{D}$ can be identified with a vertical retrofunctor $\car{d}\to\car{c}$ that sends back $\id_1\mapsto\id_1$ and $s\mapsto f$ and $t\mapsto f$ and $\id_2\mapsto\id_2$.
+    \item For $G_1\colon\cat{D}\to\cat{C}$, which we take to send $f\mapsto s$, the corresponding vertical retrofunctor $\car{c}\to\car{d}$ sends back $\id_1\mapsto\id_1$ and $f\mapsto s$ and $\id_2\mapsto\id_2$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -9723,7 +9762,7 @@ We record the following proposition here.%; it will be useful in \cref{cor.carte
 \index{cofree comonoid!preserves cartesian maps}
 
 \begin{proposition}
-If $\varphi\colon p\to q$ is a cartesian lens, then $\cofree{\varphi}\colon\cofree{p}\to\cofree{q}$ is a cartesian cofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
+If $\varphi\colon p\to q$ is a cartesian lens, then $\cofree{\varphi}\colon\cofree{p}\to\cofree{q}$ is a cartesian retrofunctor: that is, for each $t\in\tr_p$, the on-morphisms function
 \[
     \left(\cofree{\varphi}\right)^\sharp_t\colon\cofree{q}[\cofree{\varphi}t]\To{\iso}\cofree{p}[t]
 \]
@@ -9783,21 +9822,21 @@ Hence $\sum_{i\in I}\cat{C}_i$ is carried by the coproduct of polynomials $\sum_
 It remains to show that $\sum_{i\in I}\cat{C}_i$ is also the coproduct of $(\cat{C}_i)_{i\in I}$ in $\catsharp$.
 We already know from \cref{cor.comon_cocomp} that it has the right carrier: the coproduct of carriers $\sum_{i\in I}\car{c}_i$. It also has the right morphisms, for any object $(i,x)$ with $x\in\car{c}_i(1)$, the set of emanating morphisms is---and should be---$\car{c}_i[x]$.
 
-% ** give inclusions as cofunctors
+% ** give inclusions as retrofunctors
 
-% For each $j\in J$, we define an inclusion cofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as cofunctors first??
+% For each $j\in J$, we define an inclusion retrofunctor $\iota_j\colon\cat{C}_j\cof\sum_{i\in I}\cat{C}_i$ as follows: it is the canonical inclusion on objects, **. %**show all fully faithful functors can be interp as retrofunctors first??
 
-% Suppose we have a category $\cat{D}$ and cofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
+% Suppose we have a category $\cat{D}$ and retrofunctors $F_i\colon\cat{C}_i\cof\cat{D}$ for $i\in I$.
 % For every object $c\in\Ob\cat{C}_j\ss\Ob\sum_{i\in I}\cat{C}_i$, we have an object $F_j c\in\Ob\cat{D}$, so we can set $Fc\coloneqq F_j c$.
 % Then for every morphism $g\colon Fc\to\_$ in $\cat{D}$, we have a morphism $\left(F_j\right)^\sharp_c g\colon c\to\_$, so we can set $F^\sharp_c g\coloneqq\left(F_j\right)^\sharp_c g$.
-% As each $F_j$ satisfies the cofunctor laws, so does $F$.
+% As each $F_j$ satisfies the retrofunctor laws, so does $F$.
 
-% % ** check cofunctor laws
+% % ** check retrofunctor laws
 % % ** check commutes
 % % ** check uniqueness
 
 
-% % It is easy to check that the cofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
+% % It is easy to check that the retrofunctor laws hold for $f$. Uniqueness of $f$ given $f_1,f_2$ is also straightforward.
 \end{example}
 
 \begin{exercise}\label{exc.0_initial_com}\index{functor!forgetful $\catsharp\to\poly$}
@@ -9810,7 +9849,7 @@ We already know from \cref{cor.comon_cocomp} that it has the right carrier: the 
 \begin{enumerate}
     \item We actually already showed that $\0$ has a unique comonoid structure, corresponding to the empty category (which we will also denote by $\0$), in \cref{exc.not_state_cat_but_same_carrier}, for the case of $S\coloneqq\0$.
     \item We show that $\0$ has the universal property of the initial object in $\catsharp$ as follows.
-    For any category $\cat{D}$, there is a unique cofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
+    For any category $\cat{D}$, there is a unique retrofunctor $\0\cof\cat{D}$: it vacuously sends each object in $\0$ to an object in $\cat{D}$, and since there are no objects in $\0$, it does nothing to morphisms.
 
     Alternatively, we know by \cref{cor.comon_cocomp} that $\catsharp$ has an initial object, and that the forgetful functor $\catsharp\to\poly$ sends it to the initial object in $\poly$, which is $\0$ (by \cref{prop.poly_coprods} and the following discussion).
     So the initial object in $\catsharp$ must be the unique comonoid carried by $\0$.
@@ -9887,7 +9926,7 @@ We complete the proof of \cref{prop.parallel_on_catsharp}.
     \item The highbrow way to check that $\car{c}\otimes\car{d}$ forms a comonoid is to say that
     \[\otimes\colon(\poly,\yon,\tri)\times(\poly,\yon,\tri)\too(\poly,\yon,\tri)\]
      is a colax monoidal functor, so it sends comonoids to comonoids. A lowbrow way to check it is to see that the category corresponding to $\car{c}\otimes\car{d}$ is just the usual cartesian product $\cat{C}\times\cat{D}$ in $\smcat$. This is a category, hence a comonoid in $\poly$.
-    \item Because $\otimes$ is symmetric, it suffices to show that for any cofunctor $\varphi\colon\cat{C}\cof\cat{C}'$, there is an induced cofunctor $\varphi\otimes\cat{D}\colon\cat{C}\otimes\cat{D}\cof\cat{C}'\otimes\cat{D}$.
+    \item Because $\otimes$ is symmetric, it suffices to show that for any retrofunctor $\varphi\colon\cat{C}\cof\cat{C}'$, there is an induced retrofunctor $\varphi\otimes\cat{D}\colon\cat{C}\otimes\cat{D}\cof\cat{C}'\otimes\cat{D}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -10277,7 +10316,7 @@ This follows from the fact in \cref{prop.left_dist_prod} that $-\tri\car{c}$ com
 If $m\in\poly$ is equipped with both a right $\com{C}$-comodule and a right $\com{D}$-comodule structure, we can naturally equip $m$ with a $(\com{C}\times\com{D})$-comodule structure.
 \end{proposition}
 \begin{proof}
-It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-comodule with carrier $\yon^M$ can be identified with a cofunctor $M\yon^M\to\com{C}$.
+It suffices by \cref{prop.break_up_right_mods} to assume that $m=\yon^M$ is representable. But a right $\com{C}$-comodule with carrier $\yon^M$ can be identified with a retrofunctor $M\yon^M\to\com{C}$.
 
 Thus if $\yon^M$ is both a right-$\com{C}$ comodule and a right-$\com{D}$ comodule, then we have comonoid morphisms $\com{C}\from M\yon^M\to\com{D}$. This induces a unique comonoid morphism $M\yon^M\to(\com{C}\times\com{D})$ to the product, and we identify it with a right-$(\com{C}\times\com{D})$ comodule on $\yon^M$.
 \end{proof}
@@ -10393,10 +10432,10 @@ Let $\cat{C}=(\car{c},\epsilon,\delta)$ be a category. Recall from \cref{exc.yon
 \end{solution}
 \end{exercise}
 
-\subsection{More equivalences}\index{cofunctor!from state category}\index{coalgebra}\index{discrete opfibration}
+\subsection{More equivalences}\index{retrofunctor!from state category}\index{coalgebra}\index{discrete opfibration}
 
-We have seen that a cofunctor from a state category to a category $\cat{C}$ carries the same data as a $\cat{C}$-coalgebra, which is in turn equivalent to a discrete opfibration over $\cat{C}$ or a copresheaf on $\cat{C}$.\index{copresheaf}
-We then showed that cartesian cofunctors to $\cat{C}$ is an equivalent notion as well. % TODO: refs?
+We have seen that a retrofunctor from a state category to a category $\cat{C}$ carries the same data as a $\cat{C}$-coalgebra, which is in turn equivalent to a discrete opfibration over $\cat{C}$ or a copresheaf on $\cat{C}$.\index{copresheaf}
+We then showed that cartesian retrofunctors to $\cat{C}$ is an equivalent notion as well. % TODO: refs?
 We are now ready to show that several kinds of comodules are also equivalent to all of these concepts.
 
 \begin{theorem}\label{thm.tfae_c_sets}
@@ -10404,19 +10443,19 @@ Given a polynomial comonoid $\cat{C}=(\car{c},\epsilon,\delta)$, the following c
 \begin{enumerate}
 	\item functors $\cat{C}\to\smset$;
 	\item discrete opfibrations over $\cat{C}$;
-	\item cartesian cofunctors to $\com{C}$;
+	\item cartesian retrofunctors to $\com{C}$;
 	\item $\com{C}$-coalgebras (sets with a coaction by $\com{C}$);
 	\item constant left $\com{C}$-comodules;
 	\item $(\com{C},\0)$-bicomodules;
 	\item linear left $\com{C}$-comodules; and
 	\item representable right $\com{C}$-comodules (opposite).
 \end{enumerate}
-In fact, all but the first comprise isomorphic categories; and up to isomorphism, any one of these can be identified with a cofunctor from a state category to $\cat{C}$.
+In fact, all but the first comprise isomorphic categories; and up to isomorphism, any one of these can be identified with a retrofunctor from a state category to $\cat{C}$.
 \end{theorem}
 \begin{proof}
 \begin{description}
 	\item[$1\simeq 2\cong 3$:] This was shown in \cref{prop.tfae_dopf}.
-	\item[$3\cong 4$:] Given a cartesian cofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\car{c}$-coalgebra structure $\alpha\colon S\to\car{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
+	\item[$3\cong 4$:] Given a cartesian retrofunctor $(\pi_1,\pi^\sharp)\colon\cat{S}\cof\cat{C}$, let $S\coloneqq\Ob(\cat{S})$ and define a $\car{c}$-coalgebra structure $\alpha\colon S\to\car{c}\tri S$ on an object $s\in\Ob(\cat{S})$ and an emanating morphism $f\colon\pi_1(s)\to c'$ in $\cat{C}$ by
 	\[
   \begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$S$" left] (yX) {$\varnothing$\at$s$};
@@ -10427,7 +10466,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
   	\draw (p'_dir) to[last] node[above left] {$!$} (yX_dir);
   \end{tikzpicture}
 	\]
-	We check that this is indeed a coalgebra using properties of cofunctors. For identities in $\com{C}$, we have
+	We check that this is indeed a coalgebra using properties of retrofunctors. For identities in $\com{C}$, we have
 	\begin{align*}
   	\alpha_2(s,\id_{\pi_1(s)})&=
   	\cod\pi^\sharp_s(\id_{\pi_1(s)})\\&=
@@ -10441,7 +10480,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
 		\cod\left(\pi^\sharp_{\cod\pi^\sharp_s(f)}g\right)\\&=
 		\alpha_2(\alpha_2(s,f),g).
 	\end{align*}
-	Going backward, if we're given a coalgebra $\alpha\colon S\to\car{c}\tri S$, we obtain a function $\alpha_1\colon S\to\car{c}\tri\1$ and we define $\car{s}\coloneqq \alpha_1^*\car{c}$ and the cartesian lens $\varphi\coloneqq(\alpha_1,\id)\colon\car{s}\to\car{c}$ to be the base change from \cref{prop.basechange}. We need to show $\car{s}$ has a comonoid structure $(\car{s},\epsilon,\delta)$ and that $\varphi$ is a cofunctor. We simply define the eraser $\epsilon\colon\car{s}\to\yon$ using $\alpha_1$ and the eraser on $\car{c}$:
+	Going backward, if we're given a coalgebra $\alpha\colon S\to\car{c}\tri S$, we obtain a function $\alpha_1\colon S\to\car{c}\tri\1$ and we define $\car{s}\coloneqq \alpha_1^*\car{c}$ and the cartesian lens $\varphi\coloneqq(\alpha_1,\id)\colon\car{s}\to\car{c}$ to be the base change from \cref{prop.basechange}. We need to show $\car{s}$ has a comonoid structure $(\car{s},\epsilon,\delta)$ and that $\varphi$ is a retrofunctor. We simply define the eraser $\epsilon\colon\car{s}\to\yon$ using $\alpha_1$ and the eraser on $\car{c}$:
 	\[
 	\begin{tikzpicture}[polybox, mapstos]
   	\node[poly, dom, "$\car{s}$" below] (c) {$\id_{\alpha_1(s)}$\at$s\vphantom{s_1}$};
@@ -10462,7 +10501,7 @@ In fact, all but the first comprise isomorphic categories; and up to isomorphism
   	\draw (p'_dir) to[last] node[above left] {$\comp$} (yX_dir);
   \end{tikzpicture}
   \]
-  In \cref{exc.tfae_c_sets} we check that $(\car{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a cofunctor, that the roundtrips between cartesian cofunctors and coalgebras are identities, and that these assignments are functorial.
+  In \cref{exc.tfae_c_sets} we check that $(\car{s},\epsilon,\delta)$ really is a comonoid, that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a retrofunctor, that the roundtrips between cartesian retrofunctors and coalgebras are identities, and that these assignments are functorial.
 	\item[$4\cong5$:]This is straightforward and was mentioned in \cref{def.coalgebra}.
 	\item[$5\cong6$:]A right $\0$-comodule is in particular a polynomial $m\in\poly$ and a lens $\rho\colon m\to m\tri\0$ such that $(m\tri\epsilon)\circ\rho=\id_m$. This implies $\rho$ is monic, which itself implies by \cref{prop.monics_in_poly} that $m$ must be constant since $m\tri\0$ is constant. This makes $m\tri\epsilon$ the identity, at which point $\rho$ must also be the identity. Conversely, for any set $M$, the corresponding constant polynomial is easily seen to make the diagrams in \eqref{eqn.right_comod_laws} commute.\index{constant polynomial}
 	\item[$5\cong7$:] By the adjunction in \cref{thm.adjoint_quadruple} and the fully faithful inclusion $\smset\to\poly$ of sets as constant polynomials, \cref{prop.ff_const_set_to_poly}, we have isomorphisms
@@ -10514,21 +10553,21 @@ The last claim was proven in \cref{prop.ds_dopf}.
 Complete the proof of \cref{thm.tfae_c_sets} ($3\cong 4$) by proving the following.
 \begin{enumerate}
 	\item Show that $(\car{s},\epsilon,\delta)$ really is a comonoid.
-	\item Show that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a cofunctor.
-	\item Show that the roundtrips between cartesian cofunctors and coalgebras are identities.
-	\item Show that the assignment of a $\com{C}$-coalgebra to a cartesian cofunctor over $\cat{C}$ is functorial.
-	\item Show that the assignment of a cartesian cofunctor over $\cat{C}$ to a $\com{C}$-coalgebra is functorial.
+	\item Show that $(\alpha_1,\id)\colon\car{s}\cof\car{c}$ is a retrofunctor.
+	\item Show that the roundtrips between cartesian retrofunctors and coalgebras are identities.
+	\item Show that the assignment of a $\com{C}$-coalgebra to a cartesian retrofunctor over $\cat{C}$ is functorial.
+	\item Show that the assignment of a cartesian retrofunctor over $\cat{C}$ to a $\com{C}$-coalgebra is functorial.
 \qedhere
 \end{enumerate}
 \end{exercise}
 
-Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity cofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ comodule with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-comodule}, a certain constant left $\com{C}$ comodule with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},\0)$-bicomodule}, and a certain representable right $\com{C}$-comodule with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-comodule}.
+Let $\cat{C}$ be a category. Under the above correspondence, the terminal functor $\cat{C}\to\smset$ corresponds to the identity discrete opfibration $\cat{C}\to\cat{C}$, the identity retrofunctor $\com{C}\to\com{C}$, a certain left $\com{C}$ comodule with carrier $\com{C}(\1)\yon$ which we call the \emph{canonical left $\com{C}$-comodule}, a certain constant left $\com{C}$ comodule with carrier $\com{C}(\1)$ which we call the \emph{canonical $(\com{C},\0)$-bicomodule}, and a certain representable right $\com{C}$-comodule with carrier $\yon^{\com{C}(\1)}$ which we call the \emph{canonical right $\cat{C}$-comodule}.
 
 \begin{exercise}
 For any object $c\in \cat{C}$, consider the representable functor $\cat{C}(c,-)\colon\cat{C}\to\smset$. What does it correspond to as a
 \begin{enumerate}
 	\item discrete opfibration over $\cat{C}$?
-	\item cartesian cofunctor to $\com{C}$?
+	\item cartesian retrofunctor to $\com{C}$?
 	\item linear left $\com{C}$-comodule?
 	\item constant left $\com{C}$-comodule?
 	\item $(\com{C},\0)$-bicomodule?
