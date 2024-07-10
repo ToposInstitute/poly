@@ -43,7 +43,7 @@ While much of the following theory applies to representable functors from any ca
 
 The symbol $\yon$ stands for Yoneda, for reasons we will explain in \cref{lemma.yoneda} and \cref{exc.finish_proof_yoneda} \cref{exc.finish_proof_yoneda.embed}.
 
-Recall from \cref{sec.choices} our notation $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$
+Throughout this book, we will use the notation $\0\coloneqq\{\}=\varnothing,$ $\1\coloneqq\{1\},$ $\2\coloneqq\{1,2\},$ $\3\coloneqq\{1,2,3\}$, and so on, with $\ord{n}\coloneqq\{1,\ldots,n\}$
 \begin{example}
     The functor that sends each set $X$ to $X\times X$ and each function $h\colon X\to Y$ to $(h\times h)\colon (X\times X)\to(Y\times Y)$ is representable.
     After all, $X\times X \iso X^\2$, so this functor is the pure power $\yon^\2$.
@@ -1393,15 +1393,15 @@ While these positions and directions may be imagined abstractly, here we give so
 
     The menu may consist of dinner options available at a wedding; then the corresponding representable functor could be
     \[
-        \yon^{\{\text{`chicken', `beef', `vegetarian'}\}};
+        \yon^{\{\const{chicken},\,\const{beef},\,\const{vegetarian}\}};
     \]
     or it may be the menu of a text editor, in which case the representable could be
     \[
-        \yon^{\{\text{`cut', `copy', `paste'}\}}.
+        \yon^{\{\const{cut},\,\const{copy},\, \const{paste}\}}.
     \]
     In both these cases, there are exactly $3$ directions, so there is an isomorphism of representable functors
     \[
-        \yon^{\{\text{`chicken', `beef', `vegetarian'}\}} \iso \yon^{\text{`cut', `copy', `paste'}\}}.
+        \yon^{\{\const{chicken},\,\const{beef},\,\const{vegetarian}\}} \iso \yon^{\{\const{cut},\,\const{copy},\, \const{paste}\}}.
     \]
 
     Similarly, we may interpret the representable $\yon^\2$ as a $2$-option menu.
@@ -1424,21 +1424,22 @@ By having multiple representable summands---one for each position---a polynomial
     When the slot is closed, the jar may not accept any coins at all---there are $0$ options.
     We may model this scenario with the polynomial
     \[
-        \yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\yon^\0 \iso \yon^\4+\1.
+        \yon^{\{\const{penny},\,\const{nickel},\,\const{dime},\,\const{quarter}\}}+\yon^\0 \iso \yon^\4+\1.
     \]
     This polynomial has $2$ positions, corresponding to the two statuses the slot could take: open or closed.
     To delineate these positions, we could take advantage of the fact that every singleton set is isomorphic to $\1$ and that $\1\yon^A\iso\yon^A$ to rewrite the above polynomial as
     \[
-        \{\text{`open'}\}\yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\{\text{`closed'}\}\yon^\0 \iso \yon^\4+\1.
+        \{\const{open}\}\yon^{\{\const{penny},\,\const{nickel},\,\const{dime},\,\const{quarter}\}}+\{\const{closed}\}\yon^\0 \iso \yon^\4+\1.
     \]
 \end{example}
 
 \begin{exercise}
     Give another example of a real-world scenario that may be modeled by a polynomial with more than $1$ position.
 \begin{solution}
-    The stopwatch app on my phone has three positions: a `zero' position, from which I may tap a single `start' button; a `running' position, from which I may tap either a `lap' button or a `stop' button; and a `stopped' position, from which I may tap either a `start' button or a `reset' button. Thinking of the buttons available to press as the directions at each position, the corresponding polynomial is
+    The stopwatch app on my phone has three positions: a $\const{zero}$ position, from which I may tap a single $\const{start}$ button; a $\const{running}$ position, from which I may tap either a $\const{lap}$ button or a $\const{stop}$ button; and a $\const{stopped}$ position, from which I may tap either a $\const{start}$ button or a $\const{reset}$ button.
+    Thinking of the buttons available to press as the directions at each position, the corresponding polynomial is
     \[
-        \{\text{`zero'}\}\yon^{\{\text{`start'}\}}+\{\text{`running'}\}\yon^{\{\text{`lap', `stop'}\}}+\{\text{`stopped'}\}\yon^{\{\text{`start', `reset'}\}}\iso\yon+\2\yon^\2.
+        \{\const{zero}\}\yon^{\{\const{start}\}}+\{\const{running}\}\yon^{\{\const{lap},\,\const{stop}\}}+\{\const{stopped}\}\yon^{\{\const{start},\, \const{reset}\}}\iso\yon+\2\yon^\2.
     \]
 \end{solution}
 \end{exercise}
@@ -2072,35 +2073,35 @@ Here is our first example of a dependent lens and a real-world interaction it mi
 \begin{example}[Modeling an interaction protocol with a lens]
   Recall our coin jar polynomial from \cref{ex.coin-jar}:
   \[
-    q\coloneqq\{\text{`open'}\}\yon^{\{\text{`penny', `nickel', `dime', `quarter'}\}}+\{\text{`closed'}\}\yon^\0.
+    q\coloneqq\{\const{open}\}\yon^{\{\const{penny},\,\const{nickel},\,\const{dime},\,\const{quarter}\}}+\{\const{closed}\}\yon^\0.
   \]
-  It has $2$ positions: its `open' position has $4$ directions representing the $4$ denominations of coins it may take, while its `closed' position has $0$ directions to indicate that it cannot take anything.
+  It has $2$ positions: its $\const{open}$ position has $4$ directions representing the $4$ denominations of coins it may take, while its $\const{closed}$ position has $0$ directions to indicate that it cannot take anything.
 
   \index{lens!as interaction protocol|(}
 
   Now imagine that we model the owner of this coin jar with the following polynomial:
   \begin{align*}
     p\coloneqq\:
-    &\{\text{`needy'}\}\yon^{\{\text{`save', `spend'}\}}
+    &\{\const{needy}\}\yon^{\{\const{save},\, \const{spend}\}}
       \\
     +\:
-    &\{\text{`greedy'}\}\yon^{\{\text{`accept', `reject', `ask for more'}\}}
+    &\{\const{greedy}\}\yon^{\{\const{accept},\, \const{reject},\,\const{ask for more}\}}
       \\
     +\:
-    &\{\text{`content'}\}\yon^{\{\text{`count', `rest'}\}}.
+    &\{\const{content}\}\yon^{\{\const{count},\,\const{rest}\}}.
   \end{align*}
   Each of its $3$ positions represents a possible mood of the owner, and the directions at each position represent the options available to an owner in the corresponding mood.
   We will construct a lens $f\colon p\to q$ to model the interaction between the owner and their coin jar.
 
-  Say that a needy or greedy owner will keep their coin jar open, while a content owner will keep their coin jar closed.
+  Say that a $\const{needy}$ or $\const{greedy}$ owner will keep their coin jar $\const{open}$, while a $\const{content}$ owner will keep their coin jar $\const{closed}$.
   We can express this with an on-positions function $f_\1$ from the set of $p$-positions (on the left) to the set of $q$-positions (on the right), as follows (the dashed arrows indicate the function assigments):
   \begin{center}
   \scalebox{.7}{
   \begin{tikzpicture}
     % q-positions (right)
       % from top to bottom: open, closed
-    \node (open) {`open'};
-    \node[below=.5 of open] (closed) {`closed'};
+    \node (open) {\const{open}};
+    \node[below=.5 of open] (closed) {\const{closed}};
 
     \node[draw, ellipse, inner sep=0pt, fit=(open)(closed),
       label={[anchor=south,below]270:$q(\1)$}] (qpos) {};
@@ -2108,9 +2109,9 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     % p-positions (left)
       % from top to bottom: needy, greedy, content
       % greedy aligned with middle of q-positions
-    \node[left=3 of qpos] (greedy) {`greedy'};
-    \node[above=.5 of greedy] (needy) {`needy'};
-    \node[below=.5 of greedy] (content) {`content'};
+    \node[left=3 of qpos] (greedy) {\const{greedy}};
+    \node[above=.5 of greedy] (needy) {\const{needy}};
+    \node[below=.5 of greedy] (content) {\const{content}};
 
     \node[draw, ellipse, inner sep=0pt, fit=(greedy)(needy)(content),
       label={[anchor=south,below]270:$p(\1)$}] (ppos) {};
@@ -2122,32 +2123,32 @@ Here is our first example of a dependent lens and a real-world interaction it mi
   }
   \end{center}
 
-  From there, say that a needy owner whose coin jar receives a nickel or higher will choose to save it, but one whose coin jar receives a penny will choose to spend it.
-  Meanwhile, a greedy owner whose coin jar receives a penny or nickel will ask for more, but one whose coin jar receives a dime or quarter will accept it.
+  From there, say that a $\const{needy}$ owner whose coin jar receives a $\const{nickel}$ or higher will choose to $\const{save}$ it, but one whose coin jar receives a $\const{penny}$ will choose to $\const{spend}$ it.
+  Meanwhile, a $\const{greedy}$ owner whose coin jar receives a $\const{penny}$ or $\const{nickel}$ will ask for more, but one whose coin jar receives a $\const{dime}$ or $\const{quarter}$ will accept it.
   We can express this behavior with an on-directions map $f^\sharp\colon q[f_\1(-)]\to p[-]$.
-  Its `needy' component is the on-directions function $f^\sharp_{\text{`needy'}}\colon q[f_\1(\text{`needy'})]\to p[\text{`needy'}]$ drawn as follows:
+  Its $\const{needy}$-component is the on-directions function $f^\sharp_{\const{needy}}\colon q[f_\1(\const{needy})]\to p[\const{needy}]$ drawn as follows:
   \begin{center}
   \scalebox{.7}{
   \begin{tikzpicture}
     % p-directions (left)
       % from top to bottom: save, spend
-    \node (save) {`save'};
-    \node[below=.5 of save] (spend) {`spend'};
+    \node (save) {\const{save}};
+    \node[below=.5 of save] (spend) {\const{spend}};
 
     \node[draw, ellipse, inner sep=0pt, fit=(save)(spend),
-      label={[anchor=south,below]270:$p[\text{`needy'}]$}] (pdir) {};
+      label={[anchor=south,below]270:$p[\const{needy}]$}] (pdir) {};
 
     % q-directions (right)
       % from top to bottom: penny, nickel, dime, quarter
       % nickel aligned with save
-    \node[right=3 of save] (nickel) {`nickel'};
-    \node[above=.5 of nickel] (penny) {`penny'};
-    \node[below=.5 of nickel] (dime) {`dime'};
-    \node[below=.5 of dime] (quarter) {`quarter'};
+    \node[right=3 of save] (nickel) {\const{nickel}};
+    \node[above=.5 of nickel] (penny) {\const{penny}};
+    \node[below=.5 of nickel] (dime) {\const{dime}};
+    \node[below=.5 of dime] (quarter) {\const{quarter}};
 
     \node[draw, ellipse, inner sep=0pt,
       fit=(penny)(nickel)(dime)(quarter),
-      label={[anchor=south,below]270:$q[\text{`open'}]$}] (qdir) {};
+      label={[anchor=south,below]270:$q[\const{open}]$}] (qdir) {};
 
     \draw[mapsto] (penny) -- (spend);
     \draw[mapsto] (nickel) -- (save);
@@ -2157,30 +2158,30 @@ Here is our first example of a dependent lens and a real-world interaction it mi
   }
   \end{center}
   Notice that, by keeping the positions and directions of $p$ on the left and those of $q$ on the right, the on-positions function is drawn from left to right, while the on-directions functions must be drawn right to left.
-  The `greedy' component of $f^\sharp$ is the on-directions function $f^\sharp_{\text{`greedy'}}\colon q[f_\1(\text{`greedy'})]\to p[\text{`greedy'}]$ drawn like so:
+  The $\const{greedy}$-component of $f^\sharp$ is the on-directions function $f^\sharp_{\const{greedy}}\colon q[f_\1(\const{greedy})]\to p[\const{greedy}]$ drawn like so:
   \begin{center}
   \scalebox{.7}{
     \begin{tikzpicture}
       % q-directions (right)
         % from top to bottom: penny, nickel, dime, quarter
-      \node (nickel) {`nickel'};
-      \node[above=.5 of nickel] (penny) {`penny'};
-      \node[below=.5 of nickel] (dime) {`dime'};
-      \node[below=.5 of dime] (quarter) {`quarter'};
+      \node (nickel) {\const{nickel}};
+      \node[above=.5 of nickel] (penny) {\const{penny}};
+      \node[below=.5 of nickel] (dime) {\const{dime}};
+      \node[below=.5 of dime] (quarter) {\const{quarter}};
 
       \node[draw, ellipse, inner sep=0pt,
         fit=(penny)(nickel)(dime)(quarter),
-        label={[anchor=south,below]270:$q[\text{`open'}]$}] (qdir) {};
+        label={[anchor=south,below]270:$q[\const{open}]$}] (qdir) {};
 
       % p-directions (left)
         % from top to bottom: accept, reject, ask for more
         % reject aligned with middle of q-directions
-      \node[left=3 of qdir] (reject) {`reject'};
-      \node[above=.5 of reject] (accept) {`accept'};
-      \node[below=.5 of reject] (ask) {`ask for more'};
+      \node[left=3 of qdir] (reject) {\const{reject}};
+      \node[above=.5 of reject] (accept) {\const{accept}};
+      \node[below=.5 of reject] (ask) {\const{ask for more}};
 
       \node[draw, ellipse, inner sep=0pt, fit=(accept)(reject)(ask),
-        label={[anchor=south,below]270:$p[\text{`needy'}]$}] (pdir) {};
+        label={[anchor=south,below]270:$p[\const{needy}]$}] (pdir) {};
 
       \draw[mapsto] (penny) -- (ask);
       \draw[mapsto] (nickel) -- (ask);
@@ -2189,7 +2190,7 @@ Here is our first example of a dependent lens and a real-world interaction it mi
     \end{tikzpicture}
   }
   \end{center}
-  Finally, since $q[f_\1(\text{`content'})]=q[\text{`closed'}]=\0$, the `content' component of $f^\sharp$ is the vacuously-defined on-directions function $f^\sharp_{\text{`content'}}\colon \0\to p[\text{`content'}]$.
+  Finally, since $q[f_\1(\const{content})]=q[\const{closed}]=\0$, the $\const{content}$-component of $f^\sharp$ is the vacuously-defined on-directions function $f^\sharp_{\const{content}}\colon \0\to p[\const{content}]$.
   Together, the on-positions function $f_\1$ and the on-directions map $f^\sharp$ defined above completely characterize a lens $f\colon p\to q$ depicting the interaction between the coin jar and its owner.
 \end{example}
 
@@ -3117,7 +3118,7 @@ We conclude this section by discussing lenses between monomials, which arise in 
   Then here is one way we can think of a lens $f\colon S\yon^S\to T\yon^T$.
   Say that Otto takes positions in $S$, while Tim takes positions in $T$.
   Tim will act as Otto's proxy as follows.
-  Tim will model Otto's position via the on-positions function $S\to T$ of $f$: if Otto is at position $s\in S$, then Tim will be at position $f_\1(s)\in T$.
+  Tim will model Otto's position via the on-positions function $S\to T$ of $f$: if Otto is at position $s\in S$, then Tim will be at position $f_\1 s\in T$.
   On the other hand, Otto will take his directions from Tim via the on-directions map $S\times T\to S$ of $f$: if Tim follows the direction $t'\in T$, then Otto will head from his current position $s\in S$ in the direction $f^\sharp(s,t')\in S$.
   We interpret these directions as new positions for Otto and Tim to move to.
   So as Otto moves through the positions in $S$, he is both modeled and directed by Tim moving through the positions in $T$.
@@ -4603,7 +4604,7 @@ By feeding it a sequence of directions---say $({\color{orange}\text{orange}}, {\
 In summary, starting from the bottom state, this Moore machine sends the sequence $({\color{orange}\text{orange}}, {\color{orange}\text{orange}}, {\color{dgreen}\text{green}}, {\color{orange}\text{orange}},\ldots)$ of directions in $A$ to the sequence $(1,0,0,1,0,\ldots)$ of positions in $I$.
 \end{example}
 
-In general, given an initial state $s_0\in S$, an $(A,I)$-Moore machine with states $S$ sends every sequence $(a_1,a_2,a_3,\ldots)$ of directions in $A$ to a sequence $(i_0,i_1,i_2,i_3,\ldots)$ of positions in $I$, defined inductively as follows via an intermediary sequence $(s_0,s_1,s_2,s_3,\ldots)$ of states in $S$:
+In general, given an initial state $s_0\in S$, an $(A,I)$-Moore machine with states $S$ sends every sequence $(a_1,a_2,a_3,\ldots)$ of directions in $A$ to a sequence $(i_0,i_1,i_2,i_3,\ldots)$ of positions in $I$, defined inductively as follows, via an intermediary sequence $(s_0,s_1,s_2,s_3,\ldots)$ of states in $S$:
 \[
     b_k\coloneqq \text{return}(s_k) \qqand s_{k+1}\coloneqq \text{update}(s_k, a_{k+1})
 \]
@@ -4618,16 +4619,16 @@ So we can repackage \cref{def.moore_machine} as follows.
   For $S,I,A\in\smset$, an $(A,I)$-\emph{Moore machine with states} $S$ is a lens \[\varphi\colon S\yon^S\to I\yon^A\] in $\poly$.
   We call
   \begin{itemize}
-    \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
-    \item the codomain monomial $I\yon^A$ the machine's \emph{interface}---its position-set and direction-set are the machine's \emph{position-set} and \emph{direction-set}, and its positions and directions are the machine's \emph{positions} and \emph{directions};
+    \item the domain monomial $S\yon^S$ the machine's \emph{state system}: its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
+    \item the codomain monomial $I\yon^A$ the machine's \emph{interface}: its position-set and direction-set are the machine's \emph{position-set} and \emph{direction-set}, and its positions and directions are the machine's \emph{positions} and \emph{directions};
     \item the on-positions function $\varphi_\1\colon S\to I$ the machine's \emph{return function};
     \item the on-directions map $\varphi^\sharp\colon S\times A\to S$ the machine's \emph{update function}.
   \end{itemize}
 \end{definition}
 \index{state system}\index{interface}\index{Moore machine}
 
-We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: an outsider observes the positions of the interface that the machine returns and feeds the directions of the interface to the machine as updates.
-Rather than directly observing and changing the states, an outsider must interact with the machine via its interface.
+We call the codomain of a Moore machine its \emph{interface} because it encodes how an outsider interacts with the machine: an outsider observes the positions of the interface that the machine returns and feeds the directions of the interface to the machine to update it.
+Rather than directly observing and altering the machine's states, an outsider must interact with the machine via its interface.
 
 \index{Moore machine!interface of|seealso{interface}}
 
@@ -4695,7 +4696,7 @@ Here it is in polyboxes (recall that the shaded direction box indicates that the
 \end{tikzpicture}
 \]
 The picture tells us that if the current state (the left position box) is $n\in\nn$, the next state (the left direction box) is $n+1\in\nn$.
-Since the machine just returns its current state as a position, the sequence of positions returned will always be an increasing sequence of consecutive natural numbers.
+Since the machine just returns its current state as a position, the sequence of positions returned will always be an increasing sequence of consecutive natural numbers starting at the initial state.
 \end{example}
 
 \begin{example}[Moving in the plane]\label{ex.R2_moore}
@@ -4844,8 +4845,8 @@ For each of the following constructs, we find $A,I\in\smset$ such that the const
 \end{solution}
 \end{exercise}
 
-The previous examples of Moore machines largely had the identity function as return functions.
-In the following exercises, we will build examples of Moore machines that do not return their entire states as their positions.
+The previous examples of Moore machines mostly had identities as return functions.
+In the following exercises, we will build examples of Moore machines that do not return their entire states as positions.
 
 \begin{exercise}[Robot with health]
 Think of the Moore machine in \cref{ex.R2_moore} as a robot and modify it as follows.
@@ -4868,17 +4869,33 @@ sends $(x, y, h, r, \theta)$ to
     (x + hr\cos\theta, y + hr\sin\theta, h'),
 \]
 where $h' = h/2$ if the machine's new $x$-coordinate $x + hr\cos\theta < 0$ and $h' = h$ otherwise.
+As polyboxes, the lens is
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (s) {$(x + hr\cos\theta, y + hr\sin\theta, h')$\at$(x,y,h)$};
+  \node[left=0pt of s_pos] {$\rr^\2\times[0,1]$};
+  \node[left=0pt of s_dir] {$\rr^\2\times[0,1]$};
+
+  \node[poly, cod, right=of s] (p) {$(r,\theta)\vphantom{hy}$\at$(x,y)$};
+  \node[right=0pt of p_pos] {$\rr^\2$};
+  \node[right=0pt of p_dir] {$[0,\infty)\times[0,2\pi)$};
+
+  \draw (s_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (s_dir);
+\end{tikzpicture}
+\]
 \end{solution}
 \end{exercise}
 
 \index{Moore machine!tape of Turing machine}
 
 \begin{exercise}[Tape of a Turing machine]
-A Turing machine has a tape consisting of a cell for each integer; each cell bears a value $v\in V\coloneqq\{0,1,-\}$, and one of the cells $c\in\zz$ is distinguished as the ``current'' cell.
+A Turing machine has a tape consisting of a cell for each integer.
+Each cell bears a value $v\in V\coloneqq\{0,1,-\}$, and one of the cells $c\in\zz$ is distinguished as the ``current'' cell.
 So the set of states of the tape is $V^\zz\times\zz$.
 
 The Turing machine interacts with the tape by asking for the value of the current cell, an element of $V$; and by changing the value of the current cell before moving left (i.e.\ replacing the current cell $c\in\zz$ with the new cell $c-1$) or right (i.e.\ replacing $c$ with $c+1$).
-Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
+Hence the tape's position-set is $V$ and its direction-set is $V\times\{\const{left},\,\const{right}\}$.
 
 \begin{enumerate}
 	\item If we model the tape as a Moore machine $t\colon S\yon^S\to I\yon^A$, what are $S,I,$ and $A$?
@@ -4887,18 +4904,18 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item The tape has states $S\coloneqq V^\zz \times \zz$, positions $I\coloneqq V$, and directions $A\coloneqq V\times\{L,R\}$; so as a Moore machine, it is a lens
+    \item The tape has states $S\coloneqq V^\zz \times \zz$, positions $I\coloneqq V$, and directions $A\coloneqq V\times\{\const{left},\,\const{right}\}$; as a Moore machine, it is a lens
     \[
-        t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{L,R\}}.
+        t \colon (V^\zz \times \zz)\yon^{V^\zz \times \zz} \to V\yon^{V \times \{\const{left},\,\const{right}\}}.
     \]
     \item The return function of $t$ should give the value in the current cell of the tape.
-    So $t_\1\colon V^\zz\times\zz\to V$ is the evaluation map: it sends $(f,c)$ with $f\colon\zz\to V$ and $c\in\zz$ to $f(c)$.
-    Then on a given direction $(v,D)\in V\times\{L,R\}$, the update function of $t$ writes $v$ in the tape's current cell before shifting the current cell number up or down by one according to whether $D$ is $R$ (right) or $L$ (left).
+    So $t_\1\colon V^\zz\times\zz\to V$ is the evaluation map: it sends $(f,c)$ with $f\colon\zz\to V$ and $c\in\zz$ to $f(c)\in V$.
+    Then on a given direction $(v,d)\in V\times\{\const{left},\,\const{right}\}$, the update function of $t$ writes $v$ in the tape's current cell before shifting the current cell number up or down by one according to whether $d$ is $\const{right}$ or $\const{left}$.
     More precisely,
     \[
-        t^\sharp \colon (V^\zz \times \zz) \times (V \times \{L,R\}) \to V^\zz \times \zz
+        t^\sharp \colon (V^\zz \times \zz) \times (V \times \{\const{left},\,\const{right}\}) \to V^\zz \times \zz
     \]
-    sends current tape $f\colon\zz\to V$, current cell number $c\in\zz$, new value $v \in V$, and $D \in \{L,R\}$ to the new tape $f' \colon \zz \to V$ defined by
+    sends current tape $f\colon\zz\to V$, current cell number $c\in\zz$, new value $v \in V$, and $d \in \{\const{left},\,\const{right}\}$ to the new tape $f' \colon \zz \to V$ defined by
     \[
         f'(n)\coloneqq
         \begin{cases}
@@ -4906,7 +4923,7 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
             f(n) & \text{if } n \neq c
         \end{cases}
     \]
-    and the new cell number $c-1$ if $D=L$ and $c+1$ if $D=R$.
+    and the new cell number $c-1$ if $d=\const{left}$ and $c+1$ if $d=\const{right}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -4915,40 +4932,40 @@ Hence the tape's position-set is $V$ and its direction-set is $V\times\{L,R\}$.
 
 \begin{exercise}[File-reader]\label{exc.file_reader}
 Say that a \emph{file} of length $n$ is a function $f\colon\ord{n}\to\Set{ascii}$, where $\Set{ascii}\coloneqq\2\5\6$.
-We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as \emph{entries} in the file and, for each entry $i\in\ord{n}$, the value $f(i)$ as the \emph{character} at entry $i$.
+We refer to elements of $\ord{n}=\{1,\ldots,n\}$ as \emph{entries} in the file and, for each entry $i\in\ord{n}$, the value $f(i)\in\Set{ascii}$ as the \emph{character} at entry $i$.
 
-Given a file $f$, design a file-reading Moore machine whose position-set is $\Set{ascii} + \{\text{``done''}\}$
+Given a file $f$, design a file-reading Moore machine whose position-set is $\Set{ascii} + \{\const{done}\}$
 and whose direction-set is
 \[
-\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}.
+\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\const{continue}\}.
 \]
-Given a direction $(s,t)$, the file-reader should go to entry $s$ and return the character at that entry.
-If the given direction is instead ``continue,'' the file-reader should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character---unless the new entry would be greater than $t$, in which case the file-reader should return ``done'' until it receives another $(s,t)$ pair.
+Given a direction $(s,t)$, the file-reader should go to entry $s$ in the file and return the character at that entry.
+If the given direction is instead $\const{continue}$, the file-reader should move to the next entry (i.e.\ from $s$ to $s+1$) and read that character---unless the new entry would be greater than $t$, in which case the file-reader should return $\const{done}$ until it receives another $(s,t)$ pair.
 \begin{solution}
-There are many options for the machine's state-set; we choose to use pairs of entries $(i,t)\in\ord{n}^\2$, where $i$ is the entry where the file-reader is currently located, while $t$ is the entry where the file-reader should stop.
-We will also include a ``stopped'' state for when the file-reader has already stopped.
+There are many options for the machine's state-set; we choose to use pairs of entries $(i,t)\in\ord{n}^\2$, where $i$ is the entry where the file-reader is currently located and $t$ is the entry where the file-reader should stop.
+We will also include a $\const{stopped}$ state for when the file-reader has already stopped.
 So our Moore machine is a lens
 \[
-    (\ord{n}^\2+\{\text{``stopped''}\})\yon^{\ord{n}^\2+\{\text{``stopped''}\}} \to (\Set{ascii} + \{\text{``done''}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}}.
+    (\ord{n}^\2+\{\const{stopped}\})\yon^{\ord{n}^\2+\{\const{stopped}\}} \to (\Set{ascii} + \{\const{done}\})\yon^{\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\const{continue}\}}.
 \]
-If the file-reader's current state is ``stopped,'' then the file-reader should return the position ``done.''
+If the file-reader's current state is $\const{stopped}$, then the file-reader should return the position ``done.''
 Otherwise, the file-reader should return the character at the entry where the file-reader is currently located.
-So its return function $\ord{n}^\2+\{\text{``stopped''}\} \to \Set{ascii} + \{\text{``done''}\}$ sends $(i, t)$ to $f(i)$ and ``stopped'' to ``done.''
+So its return function $\ord{n}^\2+\{\const{stopped}\} \to \Set{ascii} + \{\const{done}\}$ sends $(i, t)$ to $f(i)$ and $\const{stopped}$ to $\const{done}$.
 Meanwhile, the update function
 \[
-    (\ord{n}^\2+\{\text{``stopped''}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\text{``continue''}\}) \to \ord{n}^\2+\{\text{``stopped''}\}
+    (\ord{n}^\2+\{\const{stopped}\}) \times (\{(s,t)\mid 1\leq s\leq t\leq n\}+\{\const{continue}\}) \to \ord{n}^\2+\{\const{stopped}\}
 \]
 behaves as follows on the current state and given direction: regardless of the current state, if the given direction is a pair $(s,t)$, the new state will also be $(s,t)$.
-On the other hand, if the given direction is ``continue'' and the current state is a pair $(i,t)$, the new state should be the pair $(i+1,t)$ if $i+1\leq t$ and ``done'' otherwise.
-Finally, if the given direction is ``continue'' and the current state is ``stopped,'' the new state should still be ``stopped.''
+On the other hand, if the given direction is $\const{continue}$ and the current state is a pair $(i,t)$, the new state should be the pair $(i+1,t)$ if $i+1\leq t$ and $\const{done}$ otherwise.
+Finally, if the given direction is $\const{continue}$ and the current state is $\const{stopped}$, the new state should still be $\const{stopped}$.
 \end{solution}
 \end{exercise}
 
-While \cref{exc.file_reader} gives us a functioning file-reader, it is rather awkward that we are still able to give the direction ``continue'' even when the position is ``done,'' or provide a new range of entries before the file-reader has finished reading from the previous range.
+While \cref{exc.file_reader} gives us a functioning file-reader, it is rather awkward that we are still able to give the direction $\const{continue}$ even when the position is $\const{done}$, or provide a new range of entries before the file-reader has finished reading from the previous range.
 In \cref{sec.poly.dyn_sys.depend_sys}, we will introduce a generalization of Moore machines to handle cases like these, where the array of directions the machine can receive changes depending on its current position.
-In particular, we will be able to let the file-reader ``close its port,'' so that it can't receive signals while it's busy reading, but open its port once it's ``done''; see \cref{ex.generalized_file_reader}.
+In particular, we will be able to let the file-reader ``close its port,'' so that it cannot receive signals while it is busy reading, but open its port once it is \const{done}; see \cref{ex.generalized_file_reader}.
 
-\subsubsection{Deterministic state automata}
+\subsection{Deterministic state automata}
 
 The diagram in \cref{ex.Moore_three} may look familiar to those who have studied automata theory; in fact, a deterministic state automaton can be expressed as a Moore machine with a distinguished initial state.
 
@@ -4956,13 +4973,13 @@ The diagram in \cref{ex.Moore_three} may look familiar to those who have studied
 
 \begin{definition}[Deterministic state automaton, language]\label{def.dfa}
 A \emph{deterministic state automaton} consists of
-\begin{enumerate}
+\begin{itemize}
 	\item a set $S$ of \emph{states};
 	\item a set $A$ of \emph{symbols};
 	\item an \emph{update function} $u\colon S\times A\to S$;
 	\item an \emph{initial state} $s_0\in S$;
 	\item a subset $F\ss S$ of \emph{accept states}.
-\end{enumerate}
+\end{itemize}
 Let\index{list}
 \[
   \lst(A)=\sum_{n\in\nn}A^\ord{n}
@@ -4997,12 +5014,12 @@ By \cref{exc.lens-from-0-or-yon}, a lens $\yon\to S\yon^S$ can be identified wit
 Then a lens $S\yon^S\to\2\yon^A$ consists of a return function $f\colon S\to\2$, which can be identified with a subset of accept states $F \ss S$, together with an update function $u \colon S\times A\to S$.
 \end{proof}
 
-In other words, we can think of an $(A,\2)$-Moore machine with states $S$ as a deterministic state automaton without a specified initial state, but with the same states, directions as symbols, and the same update function.
+In other words, we can think of a deterministic state automaton as a Moore machine with position set $\2$ along with a distinguished initial state; the Moore machine has the same states and update function as the automaton and the automaton's symbols as its directions.
 
-Now imagine if we wanted to construct a version of this automaton that stops reading symbols (i.e.\ directions) whenever the machine hits an accept state (i.e.\ returns one position instead of the other).
+Now imagine if we wanted to construct a version of this automaton that stops reading symbols (i.e.\ directions) whenever the machine enters an accept state (i.e.\ returns one position instead of the other).
 To do this would require a machine whose set of possible directions is dependent on its current position.
 Instead of an update function $u\colon S\times A\to S$, we would need an update function that takes a direction $a\in A$ if the state $s\in S$ is \emph{not} an accept state (say, if $f(s)=1$) but takes a direction in $\0$ (i.e.\ no direction) if the state $s$ \emph{is} an accept state (if $f(s)=2$).
-So there would be one update function $u_s\colon A\to S$ if $f(s)=1$, and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
+So there would be one update function $u_s\colon A\to S$ if $f(s)=1$ and a different update function $u_s\colon\0\to S$ if $f(s)=2$.
 But these are exactly the on-directions functions of a lens $S\yon^S\to\yon^A+\1$!
 Indeed, replacing our interface monomial with a general polynomial is exactly how we will obtain our generalized dependent Moore machines.
 
@@ -5026,7 +5043,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
     \item the domain monomial $S\yon^S$ the machine's \emph{state system}---its position-set (equivalently, its direction-set) is the machine's \emph{state-set}, and its positions (equivalently, its directions) are the machine's \emph{states};
     \item the codomain polynomial $p$ the machine's \emph{interface}---its position-set and direction-sets are the machine's \emph{position-set} and \emph{direction-sets}, and its positions and directions are the machine's \emph{positions} and \emph{directions};
     \item the on-positions function $\varphi_\1\colon S\to p(\1)$ the machine's \emph{return function};
-    \item the on-directions map $\varphi^\sharp\colon p[\varphi_\1(-)]\to S$ the machine's \emph{update map}, and the on-directions function $\varphi^\sharp_s\colon S\times p[\varphi_\1s]\to S$ at $s\in S$ the machine's \emph{update function} at $s$.
+    \item the on-directions map $\varphi^\sharp\colon p[\varphi_\1(-)]\to S$ the machine's \emph{update map}, and the on-directions function $\varphi^\sharp_s\colon p[\varphi_\1s]\to S$ at $s\in S$ the machine's \emph{update function} at $s$.
   \end{itemize}
 \end{definition}
 \index{state system}
@@ -5045,7 +5062,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
       \draw (p_dir) -- node[above] {update} (S_dir);
     \end{tikzpicture}
   \end{equation*}
-  We can visualize $\phi$ as a channel between the internal state system on the left and the external interface on the right.
+  We can visualize $\varphi$ as a channel between the internal state system on the left and the external interface on the right.
   The state system enters its current state $s\in S$ into the left position box, and the return function converts this state to a position $i\in p(\1)$ of the interface.
   At $i$, the interface has a direction-set $p[i]$; an interacting agent selects one of these directions $a\in p[i]$ to enter into the right direction box.
   Finally, the update map uses the current state $s$ and the position $i$ to fill the left direction box with the new state $t\in S$.
@@ -5071,16 +5088,16 @@ Recall deterministic state automata from \cref{def.dfa}.
 Say we want such an automaton to halt after reaching an accept state and read no more symbols.
 Then rather than a lens $S\yon^S\to \2\yon^A$, we could use a lens
 \[
-  \varphi\colon S\yon^S\to \yon^A+\1.
+  \varphi\colon S\yon^S\to \yon^A+\1\iso\{\const{reject}\}\yon^A+\{\const{accept}\}.
 \]
-To give such a lens, we first need to provide a return function $\varphi_\1\colon S\to\2$ (here we are thinking of $\2$ as the position-set of $\yon^A+\1$).
-Such a function sends some elements of $S$ to $1$ and the rest to $2$; those that are sent to $2$ are the accept states.
+To give such a lens, we first need to provide a return function $\varphi_\1\colon S\to\{\const{reject},\,\const{accept}\}$.
+We let $\varphi$ send the accept states to $\const{accept}$ and every other state to $\const{reject}$.
 
 If we reach an accept state, we want the machine to halt.
-So at the position $2$, corresponding to the summand $\1$, there are no directions available.
-This makes the update function $\varphi^\sharp_s$ vacuous when $\varphi_\1s=2$.
+So at the position $\const{accept}$, corresponding to the summand $\1$, there are no directions available.
+This makes the update function $\varphi^\sharp_s$ vacuous when $\varphi_\1s=\const{accept}$.
 
-On the other hand, when $\varphi_\1s=1$, the update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state for each direction in $A$ if the current state is $s$.
+On the other hand, when $\varphi_\1s=\const{reject}$, the update functions $\varphi^\sharp_s\colon A\to S$ specify how the machine updates its state for each direction in $A$ if the current state is $s$.
 This corresponds to the automaton's update function.
 
 When equipped with an initial state $s_0\in S$ specified by a lens $\yon\to S\yon^S$, we call these dependent dynamical systems \emph{halting deterministic state automata}.
@@ -5091,8 +5108,8 @@ Given a word $(a_1,\ldots,a_n)\in\lst(A)$, we say that the automaton \emph{accep
 is such that $s_n$ is the sequence's first accept state:
 \[
   \varphi_\1s_k=\begin{cases}
-    1 & \text{if } k<n \\
-    2 & \text{if } k=n
+    \const{reject} & \text{if } k<n \\
+    \const{accept} & \text{if } k=n
   \end{cases}
 \]
 We call the set of all words accepted by the automaton the language \emph{recognized} by the automaton.
@@ -5101,7 +5118,7 @@ We call the set of all words accepted by the automaton the language \emph{recogn
 \index{deterministic state automaton!language of}
 
 \begin{remark}
-Again, the conditions for when one of these automata accepts a word are rather awkward to formally state.
+Again, the conditions for when such an automaton accepts a word are rather awkward to formally state.
 We will see in \cref{ex.halt_dsa_accept} an alternative way of saying whether a word is accepted by a halting deterministic state automaton.
 \end{remark}
 
@@ -5147,7 +5164,7 @@ Answer the following questions, in keeping with the notation from \cref{ex.regul
     \item The set of input symbols is $A\coloneqq\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}$.
     \item The automaton should halt at the accept states, so the accept states are exactly the states that have no arrows coming out of them---in this case, only state 3.
     States 1 and 2 are not accept states.
-    \item Let the corresponding lens be $\varphi\colon S\yon^S\to\yon^A+\1$, or $\varphi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},{\color{dgreen}\text{green}}\}}+\1$.
+    \item Let the corresponding lens be $\varphi\colon S\yon^S\to\yon^A+\1$, or $\varphi\colon \3\yon^\3\to\yon^{\{{\color{orange}\text{orange}},\,{\color{dgreen}\text{green}}\}}+\1$.
     According to the previous part, $\varphi$ has a return function $\varphi_\1\colon S\to\2$ sending states 1 and 2, as non-accept states, to 1; and sending state 3, as an accept state, to 2.
     Then $\varphi^\sharp_3$ is vacuous, while the other two update functions are given by the the targets of the arrows in \eqref{eqn.halt_dsa} as follows:
     \begin{align*}
@@ -5220,31 +5237,31 @@ Now we turn that file-reader into a dependent dynamical system $\varphi\colon S\
 We let $S \coloneqq \{(s,t)\mid 1\leq s\leq t\leq n\}$, so that each state consists of a current entry $s$ and a terminal entry $t$.
 Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as positions:
 \[
-    p(\1)\coloneqq\{\text{`ready'}, \text{`busy'}\}\times\Set{ascii}.
+    p(\1)\coloneqq\{\const{ready},\const{busy}\}\times\Set{ascii}.
 \]
-So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: `ready' or `busy.'
+So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: $\const{ready}$ or $\const{busy}$.
 These form the possible outputs of the file-reader.
-Then we define the direction-sets of $p$ as follows for $c\in\Set{ascii}$:
+Then we define the direction-sets of $p$ for each $c\in\Set{ascii}$ as follows:
 \[
-    p[(\text{`ready'}, c)]\coloneqq S \qqand p[(\text{`busy'}, c)]\coloneqq\{\text{`advance'}\}\iso\1.
+    p[(\const{ready}, c)]\coloneqq S \qqand p[(\const{busy}, c)]\coloneqq\{\const{advance}\}\iso\1.
 \]
-That way, our file-reader can receie as its direction any pair of entries in $S$ when it is `ready' but can only be told to `advance' when it is `busy.'
+That way, our file-reader can receive as its direction any pair of entries in $S$ when it is $\const{ready}$ but can only be told to $\const{advance}$ when it is $\const{busy}$.
 
-We want our file-reader to be `ready' if its current entry is the terminal entry; otherwise, it will be `busy.'
+We want our file-reader to be $\const{ready}$ if its current entry is the terminal entry; otherwise, it will be $\const{busy}$.
 In either case, it will return the character at the current entry.
 So we define the return function $\varphi_\1$ such that, for all $(s,t)\in S$,
 \begin{align*}
   \varphi_\1(s, t) =
   \begin{cases}
-    (\text{`ready'}, f(s)) &\mbox{if $s = t$}\\
-    (\text{`busy'}, f(s)) &\mbox{otherwise}
+    (\text{\const{ready}}, f(s)) &\mbox{if $s = t$}\\
+    (\text{\const{busy}}, f(s)) &\mbox{otherwise}
   \end{cases}
 \end{align*}
 
-While the file-reader is `ready,' we want to set its new current and terminal entries to equal the given direction.
-So for each $(s,t)\in S$ with $s=t$, define the update function $\varphi^\sharp_{(s,t)}\colon S\to S$ to be the identity on $S$.
+While the file-reader is $\const{ready}$, we want to set its new current and terminal entries to equal the given direction.
+So for each $(s,s)\in S$, define the update function $\varphi^\sharp_{(s,s)}\colon S\to S$ to be the identity on $S$.
 
-On the other hand, while the file-reader is `busy,' we want it to step forward through the file each time it receives an input.
+On the other hand, while the file-reader is $\const{busy}$, we want it to step forward through the file each time it receives an input.
 So for each $(s,t)\in S$ for which $s<t$, we let the update function $\varphi^\sharp_{(s,t)}\colon\1\to S$ specify the element $(s+1,t)\in S$, thus shifting its current entry up by $1$.
 \end{example}
 
@@ -5262,20 +5279,20 @@ Hint: You should be able to use the same state system.
 We give a file-searcher $\psi\colon S\yon^S\to q$ according to the specification as follows.
 Its possible positions should form the set
 \[
-    q(\1)\coloneqq\{\text{`ready'}, \text{`busy'}\}\times\{100,\_\}.
+    q(\1)\coloneqq\{\const{ready}, \const{busy}\}\times\{100,\_\}.
 \]
 The direction-sets of $q$ can be defined in the same way we defined the direction-sets of $p$: for each $c\in\{100,\_\}$, we have
 \[
-    q[(\text{`ready'}, c)]\coloneqq S \qqand q[(\text{`busy'}, c)]\coloneqq\1.
+    q[(\const{ready}, c)]\coloneqq S \qqand q[(\const{busy}, c)]\coloneqq\1.
 \]
 Then we set the return function $\psi_\1$ to behave like $\varphi_\1$, but with characters not equal to $100$ replaced with $\_$: so for all $(s,t)\in S$,
 \begin{align*}
   \psi_\1(s,t) =
   \begin{cases}
-    (\text{`ready'}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
-    (\text{`ready'}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
-    (\text{`busy'}, 100) &\mbox{if $s\neq t$ and $f(s)=100$}\\
-    (\text{`busy'}, \_) &\mbox{otherwise}\\
+    (\const{ready}, 100) &\mbox{if $s=t$ and $f(s)=100$}\\
+    (\const{ready}, \_) &\mbox{if $s=t$ and $f(s)\neq100$}\\
+    (\const{busy}, 100) &\mbox{if $s\neq t$ and $f(s)=100$}\\
+    (\const{busy}, \_) &\mbox{otherwise}\\
   \end{cases}
 \end{align*}
 Then the update functions of $\psi$ behave just like those of $\varphi$.
@@ -5285,9 +5302,9 @@ On the other hand, for each $(s,t)\in S$ for which $s\neq t$, we let the update 
 \end{exercise}
 
 In the previous exercise, we manually constructed a file-searcher that acted very much like a file-reader.
-In \cref{exc.file_searcher_wrap}, we'll see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
+In \cref{exc.file_searcher_wrap}, we will see a simpler way to construct a file-searcher by leveraging the file-reader we have already defined.
 Moreover, this construction will highlight precisely how our file-searcher is related to our file-reader.
-This will be possible using \emph{wrapper interfaces}, which we'll introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
+This will be possible using \emph{wrapper interfaces}, which we will introduce in \cref{subsec.poly.dyn_sys.new.wrap}.
 
 \index{interface!wrapper}
 \index{robot|(}
@@ -5315,6 +5332,22 @@ We let $\varphi_\1\coloneqq\id_{\ord{n}\times\ord{n}}$ so that the dynamical sys
 
 For each $(i,j)\in\ord{n}\times\ord{n}$, we let $\varphi^\sharp_{(i,j)}$ send each pair $(d,e)\in D_i\times D_j$ to the grid location $(i+d,j+e)\in(n,n)$.
 Concretely, this says that if a robot located at $(i,j)$ receives the pair $(d,e)$ as its direction, its new position will be $(i+d,j+e)$.
+As polyboxes, the dynamical system is given by
+  \[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (s) {$(i+d,j+e)$\at$(i,j)$};
+  \node[left=0pt of s_pos] {$\ord{n}\times\ord{n}$};
+  \node[left=0pt of s_dir] {$\ord{n}\times\ord{n}$};
+
+  \node[poly, cod, right=of s] (p) {$(d,e)\vphantom{j}$\at$(i,j)$};
+  \node[right=0pt of p_pos] {$\ord{n}\times\ord{n}$};
+  \node[right=0pt of p_dir] {$D_i\times D_j$};
+
+  \draw (s_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (s_dir);
+\end{tikzpicture}
+\]
+
 Our definition of $D_i$ for each $i\in\ord{n}$ guarantees that this position is still inside the grid; with this setup, the robot has fewer ways to move on the sides or corners of the grid than anywhere else:
 \[
 \begin{tikzpicture}[scale=.5]
@@ -5362,14 +5395,29 @@ We modify the dynamical system from \cref{ex.grid_robot}.
 
     For each former state $(i,j)\in\ord{n}\times\ord{n}$, the former update function $\varphi^\sharp_{(i,j)}\colon D_i\times D_j\to\ord{n}\times\ord{n}$ sent $(d,e)\mapsto(i+d,j+e)$.
     With an extra component $(r_1,\ldots,r_k)\in\lst(\rr)$ of the state, the new update function $(\varphi')^\sharp_{(i,j,(r_1,\ldots,r_k))}\colon D_i\times D_j\times\rr\to\ord{n}\times\ord{n}\times\lst(\rr)$ sends $(d,e,r)\mapsto(i+d,j+e,(r_1,\ldots,r_k,r))$, also updating the list of rewards.
+    As polyboxes, the new dynamical system is given by
+    \[
+    \begin{tikzpicture}[polybox, mapstos]
+      \node[poly, dom] (s) {$(i+d,j+e,(r_1,\ldots,r_k,r))$\at$(i,j,(r_1,\ldots,r_k))$};
+      \node[left=0pt of s_pos] {$\ord{n}\times\ord{n}\times\lst(\rr)$};
+      \node[left=0pt of s_dir] {$\ord{n}\times\ord{n}\times\lst(\rr)$};
+
+      \node[poly, cod, right=of s] (p) {$(d,e,r)\vphantom{j}$\at$(i,j)$};
+      \node[right=0pt of p_pos] {$\ord{n}\times\ord{n}$};
+      \node[right=0pt of p_dir] {$D_i\times D_j\times\rr$};
+
+      \draw (s_pos) to[first] (p_pos);
+      \draw (p_dir) to[last] (s_dir);
+    \end{tikzpicture}
+    \]
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 In the previous exercise, we added a reward system to the robot on the grid by manually redefining the associated lens.
-But there is a much simpler way to think about the new system as the juxtaposition of two systems, a robot system and a reward system, in parallel.
-We'll see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{subsec.poly.dyn_sys.new.par}.
-In fact, we'll see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
+But there is a simpler way to think about the new system: it is the juxtaposition of two systems, a robot system and a reward system, in parallel.
+We will see how to express this in terms of lenses in \cref{exc.grid_reward_par}, once we explain how to juxtapose systems like this in general in \cref{subsec.poly.dyn_sys.new.par}.
+In fact, we will see in \cref{exc.grid_robot_par} that the robot-on-a-grid system itself can be viewed as the juxtaposition of two systems, and this perspective will provide a structured way to generalize \cref{ex.grid_robot} to more than two dimensions.
 
 \index{robot|)}
 \index{dynamical system|)}
