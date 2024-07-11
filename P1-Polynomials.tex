@@ -8,8 +8,6 @@
 %---------------- Part ----------------%
 \part{The category of polynomial functors}\label{part.poly}
 
-% TODO: intro
-
 \Opensolutionfile{solutions}[solution-file1]
 
 %------------ Chapter ------------%
@@ -3678,7 +3676,7 @@ It turns out $\poly$ has all products as well, giving it a cartesian monoidal st
   By \cref{prop.set_endofunc_distrib}, $\smset^\smset$ is completely distributive.
   Hence, given polynomials $(p_i)_{i \in I}$, we can use \eqref{eqn.cat_completely_distributive} to write their product in $\smset^\smset$ as
   \begin{equation} \label{eqn.poly_prod}
-    \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}(i)]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}(i)]},
+    \prod_{i \in I} p_i \iso \prod_{i \in I} \sum_{j \in p_i(\1)} \yon^{p_i[j]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \prod_{i \in I} \yon^{p_i[\bar{j}i]} \iso \sum_{\bar{j} \in \prod_{i \in I} p_i(\1)} \yon^{\sum_{i \in I} p_i[\bar{j}i]},
   \end{equation}
   which, as a coproduct of representables, is in $\poly$.
   % We will see that $\1$ is a terminal object and that the product of $p$ and $q$ in $\poly$ is the usual product of $p$ and $q$ as polynomials. That is, if $p\coloneqq\sum_{i\in p(\1)}\yon^{p[i]}$ and $q\coloneqq\sum_{j\in q(\1)}\yon^{q[j]}$ are in standard notation, then
@@ -4853,7 +4851,7 @@ Think of the Moore machine in \cref{ex.R2_moore} as a robot and modify it as fol
 
 Add to its state a ``health meter,'' which takes a real value between 0 and 1 representing the robot's health.
 Have the robot lose half its health each time it moves to a location whose $x$-coordinate is negative.
-Do not output the robot's health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
+Do not return the robot's health; instead, use its health $h$ as a multiplier, allowing it to move a distance of $hr$ given an input of $r$.
 \begin{solution}
 The original Moore machine had states $\rr^\2$, so to add a health meter that takes values in $[0,1]$, we take the cartesian product to obtain a new set of states $\rr^\2\times[0,1]$.
 The position-set and direction-set are unchanged, so the Moore machine is a lens
@@ -5050,7 +5048,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
 
 \begin{example}[Dynamical systems as polyboxes]
   We can express a dynamical system $\varphi\colon S\yon^S\to p$ in polyboxes as
-  \begin{equation*}
+  \[
     \begin{tikzpicture}[polybox, mapstos]
       \node[poly, dom] (S) {$t$\at$s\vphantom{i}$};
         \node[left=0pt of S_pos] {$S$};
@@ -5061,7 +5059,7 @@ But by replacing $I\yon^A$ with an arbitrary polynomial $p$, which may have a di
       \draw (S_pos) -- node[below] {return} (p_pos);
       \draw (p_dir) -- node[above] {update} (S_dir);
     \end{tikzpicture}
-  \end{equation*}
+  \]
   We can visualize $\varphi$ as a channel between the internal state system on the left and the external interface on the right.
   The state system enters its current state $s\in S$ into the left position box, and the return function converts this state to a position $i\in p(\1)$ of the interface.
   At $i$, the interface has a direction-set $p[i]$; an interacting agent selects one of these directions $a\in p[i]$ to enter into the right direction box.
@@ -5240,7 +5238,6 @@ Meanwhile, our interface $p$ will have two labeled copies of $\Set{ascii}$ as po
     p(\1)\coloneqq\{\const{ready},\const{busy}\}\times\Set{ascii}.
 \]
 So each $p$-position is a pair $(m,c)$, where $c\in\Set{ascii}$ and $m$ is one of two modes: $\const{ready}$ or $\const{busy}$.
-These form the possible outputs of the file-reader.
 Then we define the direction-sets of $p$ for each $c\in\Set{ascii}$ as follows:
 \[
     p[(\const{ready}, c)]\coloneqq S \qqand p[(\const{busy}, c)]\coloneqq\{\const{advance}\}\iso\1.
@@ -5430,14 +5427,14 @@ In fact, we will see in \cref{exc.grid_robot_par} that the robot-on-a-grid syste
 
 We have seen how dependent dynamical systems can be modeled as lenses in $\poly$ of the form $S\yon^S\to p$.
 But we have yet to take full advantage of the categorical structure that $\poly$ provides.
-In particular, purely based on what we know of $\poly$ so far from \cref{ch.poly.cat}, we have three rather different ways of obtaining new dynamical systems from old ones:
+In particular, based only on what we know of $\poly$ so far from \cref{ch.poly.cat}, we have three rather different ways of obtaining new dynamical systems from old ones:
 \begin{enumerate}
     \item Given dynamical systems $S\yon^S\to p$ and $S\yon^S\to q$, we can use the universal property of the \emph{categorical product} to obtain a dynamical system $S\yon^S\to p\times q$; see \cref{subsec.poly.dyn_sys.new.prod}.
     \item Given dynamical systems $\varphi\colon S\yon^S\to p$ and $\psi\colon T\yon^T\to q$, we can take their parallel product to obtain a dynamical system $\varphi\otimes\psi\colon ST\yon^{ST}\to p\otimes q$; see \cref{subsec.poly.dyn_sys.new.par}.
     \item Given a dynamical system $\varphi\colon S\yon^S\to p$ and a lens $f\colon p\to q$, we can compose them to obtain a dynamical system $\varphi\then f\colon S\yon^S\to q$; see \cref{subsec.poly.dyn_sys.new.wrap}.
 \end{enumerate}
-Each of these operations has a concrete interpretation in terms of dynamical systems.
-In this section, we'll review each of them in turn.
+Each of these operations has a concrete interpretation in terms of the systems' behavior.
+In this section, we will review each of them in turn.
 
 %---- Subsection ----%
 \subsection{Categorical products: multiple interfaces operating on the same states}\label{subsec.poly.dyn_sys.new.prod}
@@ -5446,28 +5443,61 @@ In this section, we'll review each of them in turn.
 
 \index{dynamical system!constructing from product}
 
-For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S\yon^S\to p_i$ for each $i\in\ord{n}$, that all share the same state system.
-Then by the universal property of products in $\poly$, there is an induced lens \[\varphi\colon S\yon^S\to\prod_{i\in\ord{n}}p_i,\] which is itself a dynamical system with state system $S\yon^S$.
+Let $I$ be a set, and say that we have an $I$-indexed family of dependent dynamical systems $(\varphi_i\colon S\yon^S\to p_i)_{i\in I}$ that all share the same state-set $S$.
+Then since $\poly$ has all small products, the universal property of products induces a lens \[\varphi\colon S\yon^S\to\prod_{i\in I}p_i,\] which is itself a dynamical system with state-set $S$.
+By \eqref{eqn.poly_prod}, the interface of $\varphi$ (i.e.\ the product that is its codomain) has position-set
+\[
+  \left(\prod_{i\in I}p_i\right)\!(\1)\iso\prod_{i\in I}\left(p_i(\1)\right)
+\]
+and, at each position $\bar{j}\colon(i\in I)\to p_i(\1)$, direction-set
+\[
+  \sum_{i\in I}p_i[\bar{j}i].
+\]
+We then characterize the dynamics of $\varphi$ in terms of each $\varphi_i$ by leveraging the universal property of products in $\poly$, detailed in the binary case in the solution to \cref{exc.poly_prod}, as follows.\index{dynamics}
+The return function
+\[
+  \varphi_\1\colon S\to\prod_{i\in I}\left(p_i(\1)\right)
+\]
+sends each state $s\in S$ to the dependent function $(i\in I)\to p_i(\1)$ sending $i\in I$ to the position $(\varphi_i)_\1s$ returned by the corresponding dynamical system $\varphi_i$ at the state $s$.
+Then the update function
+\[
+  \varphi^\sharp_s\colon\sum_{i\in I}p_i[(\varphi_i)_\1s]\to S
+\]
+at $s\in S$ sends each pair $(i,d)$ in its domain, with $i\in I$ and $d\in p_i[(\varphi_i)_\1s]$, to where the update function of $\varphi_i$ at $s$ sends the direction $d$: namely $(\varphi_i)^\sharp_s d$.
+We can write $\varphi$ using polyboxes as follows:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (S) {$(\varphi_i)^\sharp_sd$\at$s\vphantom{(\varphi_i)_\1s}$};
+  \node[left=0pt of S_pos] {$S$};
+  \node[left=0pt of S_dir] {$S$};
 
-We can characterize the dynamics of $\varphi$ in terms of each original dynamical system $\varphi_i$ as follows.\index{dynamics}
-By \cref{exc.poly_prod}, the return function \[\varphi_\1\colon S\to\prod_{i\in\ord{n}}p_i(\1)\] sends each state $s\in S$ to the corresponding $n$-tuple of outputs $((\varphi_i)_\1(s))_{i\in\ord{n}}$ returned by each of the original dynamical systems at that state.
-Then at each state $s\in S$, the update function \[\varphi^\sharp_s\colon\sum_{i\in\ord{n}}p_i[(\varphi_i)_\1(s)]\to S\] sends each pair $(i,d)$ in its domain, with $i\in\ord{n}$ and $d\in p_i[(\varphi_i)_\1(s)]$, to where the update function of $\varphi_i$ at $s$ sends $d$: namely $(\varphi_i)^\sharp_s(d)$.
+  \node[poly, cod, right=of S, "$\prod_{i\in I}p_i$" right] (p) {$(i,d)\vphantom{(\varphi_i)^\sharp_sd}$\at$i\mapsto(\varphi_i)_\1s$};
 
-In other words, if there are multiple interfaces that can drive the same set of states, we may view them as a single product interface that can drives those states.
-This single dynamical system returns output in all of the original systems at once; then it can receive input from any one of the original systems' input sets and update its state accordingly.
-It's as though each of the dynamical systems can see where the combined system is at any time, but only one of them can actually operate it at any given time.
+  \draw (S_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
+
+In other words, if there are multiple interfaces that drive the same set of states, we may view them as a single product interface that drives those states.
+This single dynamical system returns positions in all of the original systems at once; then it can receive a direction from any one of the original systems' direction-sets and update its state accordingly.
+It is as though all of the dynamical systems can detect the current state of the combined system, but only one of them can change the state at a time.
 So products give us a universal way to combine multiple polynomial interfaces into one.
 
 \begin{exercise}
-Given $n\in\nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S$ for each $i \in \ord{n}$.
-Show that there is an induced $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine, again with state set $S$.
+Given a set $I$, suppose we have an $(A_i,B_i)$-Moore machine with state-set $S$ for each $i\in I$.
+Show that there is an induced $\left(\sum_{i\in I}A_i, \prod_{i\in I}B_i\right)$-Moore machine, again with state-set $S$.
 \begin{solution}
-We are given $n\in\nn$ and an $(A_i,B_i)$-Moore machine with state set $S$, i.e.\ a lens $S\yon^S\to B_i\yon^{A_i}$, for each $i\in\ord{n}$.
-The universal property of products in $\poly$ gives us a lens
+We are given a lens $S\yon^S\to B_i\yon^{A_i}$ for each $i\in I$.
+The universal property of products in $\poly$ then induces a lens
 \[
-    S\yon^S\to\prod_{i\in\ord{n}}B_i\yon^{A_i}\iso\left(\prod_{i\in\ord{n}}B_i\right)\yon^{\sum_{i\in\ord{n}}A_i},
+    S\yon^S\to\prod_{i\in I}B_i\yon^{A_i}.
 \]
-which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
+By \eqref{eqn.poly_prod}, its codomain is the product of monomials
+\[
+  \prod_{i\in I}B_i\yon^{A_i}\iso\left(\prod_{i\in I}B_i\right)\yon^{\sum_{i\in I}A_i},
+\]
+which, in particular, is still a monomial.
+Hence the induced lens is a $\left(\sum_{i\in I}A_i,\prod_{i\in I}B_i\right)$-Moore machine with state-set $S$.
 \end{solution}
 \end{exercise}\index{Moore machine}
 
@@ -5507,27 +5537,55 @@ The universal property of products provides a unique way to put these systems to
   };
 \end{tikzpicture}
 \]
-Each state now returns two outputs: one according to the return function of $\varphi$, and another according to the return function of $\psi$.
-As for the possible inputs, we now have the option of giving either an input from a direction-set of $\varphi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the corresponding update function of $\varphi$, or an input from a direction-set of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the corresponding update function of $\psi$.
+Each state now returns two positions: one according to the return function of $\varphi$, and another according to the return function of $\psi$.
+As for the possible directions, we can now choose either a direction of $\varphi$ (either $r$ or $b$), in which case the dynamical system will update its state according to the update map of $\varphi$; or a direction of $\psi$ (either $g$ or sometimes $p$), in which case the dynamical system will update its state according to the update map of $\psi$.
 \end{example}
 
 \index{event-based systems}
 
 \begin{exercise}[Toward event-based systems]
-Let $\varphi\colon S\yon^S\to p$ be a dynamical system. It is constantly needing input at each time step. An event-based system is one that doesn't always get input, and only reacts when it does.
+Let $\varphi\colon S\yon^S\to p$ be a dynamical system.
+We can think of it as requiring a direction at each time step to update its state.
 
-So suppose we want to allow our dynamical system not to do anything. That is, rather than needing to press a button corresponding to a direction of $p$ at each time step, we want to be able to \emph{not} press any button, in which case the system just stays where it is. We want a new system $\varphi'\colon S\yon^S\to p'$ that has this behavior; what are $p'$ and $\varphi'$?
+Suppose we want to change $\varphi$ into an \emph{event-based system}: one that does not always receive a direction and changes state only when it does.
+That is, we want every position of $p$ to have an extra direction that, when selected, never changes the state.
+We want a new system $\varphi'\colon S\yon^S\to p'$ that has this behavior; what should $p'$ and $\varphi'$ be?
 \begin{solution}
-Given a dynamical system $\varphi\colon S\yon^S\to p$, we seek a new dynamical system $\varphi'\colon S\yon^S\to p'$ that has the added option to provide no input at a step so that the state does not change.
-We can think of this as having two different interfaces acting on the same system: the original interface $p$ of $\varphi$, and a new interface with only one possible input---namely the option to provide no input at all---that does not change the state.
-This latter interface also does not need to distinguish between its outputs; it should have just one possible output that says nothing.
+Given a dynamical system $\varphi\colon S\yon^S\to p$, we seek a new dynamical system $\varphi'\colon S\yon^S\to p'$ with an additional direction that does not change the state.
+We can think of this as having two different interfaces acting on the same system: the original interface $p$ of $\varphi$ and a new interface with only one possible direction that does not change the state.
+This latter interface also need not distinguish between its positions; it should have a single position that provides no additional information.
 So the second interface we want acting on $S\yon^S$ is $\yon$.
 
-If $\yon$ were the only interface acting on the system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S \to \1$ and whose update function is the identity function on $S$, since the input never changes the system.
-Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\varphi'\colon S\yon^S \to p'$ is the unique lens induced by $\varphi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
-In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, while $\varphi'$ consists of a return function $\varphi'_\1\colon S \to p(\1)$ that is the same as the return function of $\varphi$ and, for each state $s\in S$, an update function $\varphi'^\sharp_s\colon p[i]+\1\to S$ that behaves like the update function of $\varphi$ at $s$ when the input is from $p[i]$ (sending $a\in p[i]$ to $\varphi^\sharp_s(a)$) but does not change the state when the input is from $\1$ (sending the unique element of $\1$ to $s$).
+If $\yon$ were the only interface acting on the state system, we would have a Moore machine $\epsilon\colon S\yon^S\to\yon$ whose return function is the unique function $S\to\1$ and whose update function should be the identity function on $S$, since the direction never changes the state.
+Then $p'$ is the product of the two interfaces $p$ and $\yon$, while $\varphi'\colon S\yon^S\to p'$ is the unique lens induced by $\varphi\colon S\yon^S\to p$ and $\epsilon\colon S\yon^S\to\yon$.
+In particular, $p'\iso p\yon\iso\sum_{i\in p(\1)}\yon^{p[i]+\1}$, and if we let $\ast$ denote the additional direction not in $p$ at each position of $p\yon$, we can write $\varphi'$ in polyboxes as
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (S) {$\varphi^\sharp_sa$\at$s\vphantom{\varphi_\1s}$};
+  \node[left=0pt of S_pos] {$S$};
+  \node[left=0pt of S_dir] {$S$};
 
-This construction is actually universal; it is known as \emph{copointing}.
+  \node[poly, cod, right=of S, "$p\yon$" right] (p) {$a\vphantom{\varphi^\sharp_sa}$\at$\varphi_\1s$};
+
+  \draw (S_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
+when the chosen direction is from the original $p$ (i.e.\ $a\in p[\varphi_\1s]$ above), coinciding with the behavior of the original system $\varphi$; or as
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (S) {$s$\at$s\vphantom{\varphi_\1s}$};
+  \node[left=0pt of S_pos] {$S$};
+  \node[left=0pt of S_dir] {$S$};
+
+  \node[poly, cod, right=of S, "$p\yon$" right] (p) {$\ast$\at$\varphi_\1s$};
+
+  \draw (S_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
+when the chosen direction is the additional direction $\ast$ that does not change the state.
+It turns out this construction is universal; it is known as \emph{copointing}.
 \end{solution}
 \end{exercise}
 
@@ -5542,36 +5600,73 @@ This construction is actually universal; it is known as \emph{copointing}.
 Another way to combine two polynomials---and indeed two lenses---is by taking their parallel product, as in \cref{def.parallel}.
 In particular, the parallel product of two state systems is still a state system.
 So parallel products give us another way to create new dynamical systems from old ones.
-In fact, it's about as easy as you could hope: you just multiply the set of states, multiply the set of outputs, and multiply the set of inputs at each of those outputs.
+The procedure is straightforward: take the product of the state-sets as the new state-set, the product of the position-sets as the new position-set, and the product of the direction-sets at each of position in a tuple of positions as the new direction-set at that tuple.
 
-For $n\in\nn$, say that we have $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$.
-Then we can take the parallel product of all of them to get a lens \[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}p_i,\] which is itself a dynamical system.
-
-
+For $n\in\nn$, say that we have $n$ dynamical systems: a lens $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for each $i\in\ord{n}$.
+Then we can take the parallel product of all of them to obtain a lens
+\[
+  \varphi\colon\bigotimes_{i\in\ord{n}}\left(S_i\yon^{S_i}\right)\to\bigotimes_{i\in\ord{n}}p_i.
+\]
+By inductively applying \cref{exc.general_poly_parallel_times}, we find that the domain of $\varphi$ is
+\[
+  \bigotimes_{i\in\ord{n}}\left(S_i\yon^{S_i}\right)\iso\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i},
+\]
+so $\varphi$ is itself a dependent dynamical system with state-set $\prod_{i\in\ord{n}}S_i$.
+Meanwhile, inductively applying \eqref{eqn.parallel_def} yields
+\[
+  \left(\bigotimes_{i\in\ord{n}}p_i\right)\!(\1)\iso\prod_{i\in\ord{n}}\left(p_i(\1)\right)
+\]
+as the position-set and, at each position $(j_i)_{i\in\ord{n}}$,
+\[
+  \prod_{i\in\ord{n}}p_i[j_i]
+\]
+as the direction-set of the interface of $\varphi$.
 
 We can characterize the dynamics of $\varphi$ in terms of each constituent dynamical system $\varphi_i$ as follows.
-By the proof of \cref{prop.parallel_monoidal}, the return function \[\varphi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}p_i(\1)\] sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of outputs $((\varphi_i)_\1(s_i))_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
-Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function \[\varphi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\varphi_i)_\1(s_i)]\to\prod_{i\in\ord{n}}S_i\] sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\varphi_i)_\1(s_i)]$, to the $n$-tuple $((\varphi_i)^\sharp_{s_i}(d_i))_{i\in\ord{n}}$ consisting of states where the update function of each $\varphi_i$ at $s_i$ sends $d_i$.
+By our proof sketch of \cref{prop.parallel_monoidal}, the return function
+\[
+  \varphi_\1\colon \prod_{i\in\ord{n}}S_i\to\prod_{i\in\ord{n}}\left(p_i(\1)\right)
+\]
+sends each $n$-tuple of states $(s_i)_{i\in\ord{n}}$ in its domain, with each $s_i\in S_i$, to the $n$-tuple of positions $((\varphi_i)_\1s_i)_{i\in\ord{n}}$ returned by each of the constituent dynamical systems at each state.
+Then at the $n$-tuple of states $(s_i)_{i\in\ord{n}}\in\prod_{i\in\ord{n}}S_i$, the update function
+\[
+  \varphi^\sharp_{(s_i)_{i\in\ord{n}}}\colon\prod_{i\in\ord{n}}p_i[(\varphi_i)_\1s_i]\to\prod_{i\in\ord{n}}S_i
+\]
+sends each $n$-tuple of directions $(d_i)_{i\in\ord{n}}$ in its domain, with each $d_i\in p_i[(\varphi_i)_\1s_i]$, to the $n$-tuple $((\varphi_i)^\sharp_{s_i}d_i)_{i\in\ord{n}}$ consisting of states to which the update function of each $\varphi_i$ at $s_i$ sends $d_i$.
+We can write $\varphi$ using polyboxes as follows:
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (S) {$((\varphi_i)^\sharp_{s_i}d_i)_{i\in\ord{n}}$\at$(s_i)_{i\in\ord{n}}\vphantom{((\varphi_i)_\1s_i)_{i\in\ord{n}}}$};
+  \node[left=0pt of S_pos] {$\prod_{i\in\ord{n}}S_i$};
+  \node[left=0pt of S_dir] {$\prod_{i\in\ord{n}}S_i$};
+
+  \node[poly, cod, right=of S, "$\bigotimes_{i\in\ord{n}}p_i$" right] (p) {$(d_i)_{i\in\ord{n}}\vphantom{((\varphi_i)^\sharp_{s_i}d_i)_{i\in\ord{n}}}$\at$((\varphi_i)_\1s_i)_{i\in\ord{n}}$};
+
+  \draw (S_pos) to[first] (p_pos);
+  \draw (p_dir) to[last] (S_dir);
+\end{tikzpicture}
+\]
 
 In other words, multiple dynamical systems running in parallel can be thought of as a single dynamical system.
-This system stores the states of all the constituent systems at once and returns output from all of them together; then it can receive input from all of the constituent systems' input sets at once and update each constituent state accordingly.
+This system stores the states of all the constituent systems at once and returns positions from all of them together; then it can receive directions from all of the constituent systems' direction-sets at those positions at once and update each constituent state accordingly.
 So parallel products give us a way to juxtapose multiple dynamical systems in parallel to form a single system.
 
 \begin{exercise}
-Given $n\in\nn$, suppose we have an $(A_i,B_i)$-Moore machine with state set $S_i$ for every $i \in \ord{n}$.
-Show that there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $\prod_{i \in \ord{n}} S_i$.
+Given $n\in\nn$, suppose we have an $(A_i,B_i)$-Moore machine with state-set $S_i$ for every $i \in \ord{n}$.
+Show that there is an induced $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state-set $\prod_{i \in \ord{n}} S_i$.
 \begin{solution}
-We are given $n\in\nn$ and an $(A_i,B_i)$-Moore machine with state set $S_i$, i.e.\ a lens $S_i\yon^{S_i}\to B_i\yon^{A_i}$, for each $i\in\ord{n}$.
-Taking their parallel product in $\poly$ gives us a lens
+We are given a lens $S_i\yon^{S_i}\to B_i\yon^{A_i}$ for each $i\in\ord{n}$.
+By inductively applying \cref{exc.general_poly_parallel_times}, we find that their parallel product in $\poly$ is a lens
 \[
-    \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}B_i\yon^{A_i}\iso\left(\prod_{i\in\ord{n}}B_i\right)\yon^{\prod_{i\in\ord{n}}A_i},
+  \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\iso\bigotimes_{i\in\ord{n}}S_i\yon^{S_i}\to\bigotimes_{i\in\ord{n}}B_i\yon^{A_i}\iso\left(\prod_{i\in\ord{n}}B_i\right)\yon^{\prod_{i\in\ord{n}}A_i},
 \]
-which is a $\left(\sum_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state set $S$ (after all, the product of monomials is still a monomial).
+which is a $\left(\prod_{i \in \ord{n}} A_i, \prod_{i \in \ord{n}} B_i\right)$-Moore machine with state-set $\prod_{i\in\ord{n}}S_i$.
+This works because the parallel product of monomials is still a monomial.
 \end{solution}
 \end{exercise}\index{Moore machine}
 
 \begin{example} \label{ex.par_diagrams}
-Consider two dependent dynamical systems $\varphi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
+Consider dependent dynamical systems $\varphi\colon\2\yon^\2\to \rr_{<0}\yon^{\{b,r\}}+\rr_{\geq0}\yon^{\{b\}}$ and $\psi\colon\3\yon^\3\to\zz_{<0}\yon^{\{r\}}+\{0\}\yon^{\{r,y\}}+\zz_{>0}\yon^{\{y\}}$, drawn below as labeled transition diagrams (we think of $b,r,$ and $y$ as blue, red, and yellow, respectively):
 \[
 \begin{tikzpicture}
 	\node[draw] (1) {
@@ -5609,18 +5704,18 @@ that looks like this (we use purple to indicate $(b,r)$, red to indicate $(r,r)$
   };
 \end{tikzpicture}
 \]
-Each state---really a pair of states from the constituent state sets---returns two outputs, one according to the return function of $\varphi$ and another according to the return function of $\psi$.
-Then every input must be a pair of inputs from the constituent state sets, with the update function updating each state in the pair given each input in the pair according to the constituent update functions $\varphi$ and $\psi$.
+Each state---actually a pair of states from the constituent state-sets---returns two positions, one according to the return function of $\varphi$ and another according to the return function of $\psi$.
+Then every direction must be a pair of directions from the constituent interfaces at those positions, with the update function updating each state in the pair according to each direction in the pair via the constituent update functions of $\varphi$ and $\psi$.
 \end{example}
 
 \begin{exercise} \label{exc.grid_reward_par}
 Explain how the dynamical system $\varphi'\colon S'\yon^{S'}\to p'$ you built in \cref{exc.grid_reward} can be expressed as the parallel product of the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} with another dynamical system, $\psi\colon T\yon^T\to q$.
 Be sure to specify $T, q,$ and $\psi$.
 \begin{solution}
-We will show that taking the parallel product of the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} and a reward-tracking dynamical system $\psi\colon T\yon^T\to q$ that we will define yields the dynamical system $\varphi'\colon S'\yon^{S'}\to p'$ from \cref{exc.grid_reward}.
+We will show that taking the parallel product of the robot-on-a-grid dynamical system $\varphi\colon S\yon^S\to p$ from \cref{ex.grid_robot} and a reward-tracking dynamical system $\psi\colon T\yon^T\to q$ we will define shortly yields the dynamical system $\varphi'\colon S'\yon^{S'}\to p'$ from \cref{exc.grid_reward}.
 
-The reward-tracking dynamical system should have states in $\lst(\rr)$ to record a list of reward values, unchanging output, and inputs in $\rr$ to give new reward values.
-So it is the lens $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$ that has a uniquely defined return function, while its update function sends each state $(r_1,\ldots,r_k)\in\lst(\rr)$ and each input $r\in\rr$ to the new state $(r_1,\ldots,r_k,r)$.
+The reward-tracking dynamical system should have states in $\lst(\rr)$ to record a list of reward values, unchanging position, and directions in $\rr$ to give new reward values.
+So it is the lens $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$ that has a uniquely defined return function, while its update map sends each state $(r_1,\ldots,r_k)\in\lst(\rr)$ and each direction $r\in\rr$ to the new state $(r_1,\ldots,r_k,r)$.
 
 Then the dynamical system from \cref{exc.grid_reward} is the parallel product of the robot-on-a-grid dynamical system from \cref{ex.grid_robot} with the reward-tracking dynamical system $\lst(\rr)\yon^{\lst(\rr)}\to\yon^\rr$, as can be seen in the solution to \cref{exc.grid_reward}.
 \end{solution}
@@ -5642,10 +5737,10 @@ Then the dynamical system from \cref{exc.grid_reward} is the parallel product of
 \end{exercise}
 \index{robot}
 
-The parallel product takes two dynamical systems and essentially puts them in the same room together so that they can be run at the same time.
-But it doesn't allow for any interaction \emph{between} the two systems.
+Intuitively, the parallel product takes two dynamical systems and puts them in the same room together so that they can be run at the same time.
+But it does not allow for any interaction \emph{between} the two systems.
 For that, we will need to use what we call a wrapper interface.
-We'll introduce wrapper interfaces in the next section, before describing how they can be used in conjunction with parallel products to model general interaction in \cref{sec.poly.dyn_sys.interact}.
+We will introduce wrapper interfaces in the next section before describing how they can be used in conjunction with parallel products to model general interaction in \cref{sec.poly.dyn_sys.interact}.
 
 \index{parallel product!and dynamical systems|)}
 
@@ -5654,15 +5749,13 @@ We'll introduce wrapper interfaces in the next section, before describing how th
 
 \index{dynamical system!wrapper interface|see{interface, wrapper}}\index{interface!wrapper|(}
 
-The idea behind a wrapper interface is simple.
-Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we wanted to interact with it using a new interface $q$ rather than $p$.
-We can do this as long as we have a lens $f\colon p\to q$, which we can then compose with our original dynamical system to obtain a new system $S\yon^S\To{\varphi}p\To{f}q$.
+Given a dynamical system $\varphi\colon S\yon^S\to p$, say that we want to interact with its state system using a new interface $q$ rather than $p$.
+We can do this whenever we have a lens $f\colon p\to q$, which we could compose with our original dynamical system to obtain a new system $S\yon^S\To{\varphi}p\To{f}q$.
 We call the lens $f$ the \emph{wrapper} and its codomain $q$ the \emph{wrapper interface}, which we \emph{wrap} around $\varphi$ (or sometimes just $p$, if a dynamical system $\varphi$ has yet to be specified) using $f$.
 
 How does this new composite system $\varphi\then f$ relate to the original dynamical system $\varphi$?
-The lens $f$ converts an output $i$ from $p$ to an output $f_\1i$ from $q$ on positions, but at the same time is allowing the decision of which input in $p[i]$ to choose next to depend on a choice of input from $q[f_\1i]$ instead, via its on-directions function at $i$.
-So the wrapper $f$ converts output from the original interface $p$ to output from the wrapper interface $q$, and it converts input into the wrapper interface $q$ to input into the original interface $p$.
-Precomposed with a dynamical system, we obtain a new dynamical system that allows you to interact with the original system using only this new interface wrapped around it.
+The lens $f$ converts a position $i$ from $p$ to a position $f_\1i$ from $q$; at the same time, it allows the choice of direction from $p[i]$ to depend on a choice of direction from $q[f_\1i]$, converting directions of the wrapper interface $q$ to directions of the original interface $p$.
+Precomposing $f$ with a dynamical system yields a new dynamical system that lets an agent interact with the original system using only this new interface wrapped around it.
 
 \begin{example} \label{ex.wrap_diagrams}
 Consider a dependent dynamical system $\varphi\colon\6\yon^\6\to p$ with
@@ -5762,26 +5855,26 @@ Composing $\varphi$ with $f$, we obtain a dynamical system $\6\yon^\6\To{\varphi
   };
 \end{tikzpicture}
 \]
-Each state returns an output in $q$ according to where the on-positions function of $f$ sends the output the state returns in $p$.
-Then each input in $q$ is passed to an input in $p$ via the corresponding on-directions function of $f$, whereupon the update function of $\varphi$ computes the new state.
+Each state returns a $q$-position $j$ according to where the on-positions function of $f$ sends the $p$-position $i$ that the state returns.
+Then each $q[j]$-direction is sent to a $p[i]$-direction via the on-directions function of $f$ at $i$, and the update function of $\varphi$ uses this $p[i]$-direction to compute the new state.
 So $f$ allows us to operate $\varphi$ with the wrapper interface $q$ instead of the original interface $p$.
 \end{example}
 
 \begin{exercise} \label{exc.file_searcher_wrap}
-In \cref{exc.file_searcher}, you constructed a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
+In \cref{exc.file_searcher}, we built a file-searcher $\psi\colon S\yon^S\to q$ by taking the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} and replacing its interface $p$ with a new interface $q$ while keeping its state system $S\yon^S$ the same.
 Express this construction as wrapping $q$ around $\varphi$ by giving a lens $f\colon p\to q$ for which composing $\varphi$ with $f$ yields $\psi$.
 \begin{solution}
 We give a lens $f\colon p\to q$ for which composing the file-reader $\varphi\colon S\yon^S\to p$ from \cref{ex.generalized_file_reader} with $f$ yields the file-searcher $\psi\colon S\yon^S\to q$ from \cref{exc.file_searcher}.
-The file-searcher returns the same output as the file-reader when the second coordinate is $100$, but replaces the second coordinate with a blank $\_$ otherwise.
+The file-searcher returns the same position as the file-reader when the second coordinate of that position is $100$, but replaces the second coordinate with a blank $\_$ otherwise.
 So the on-positions function of $f$ should send each $(m,c)\in p(\1)$ to
 \[
-    f_\1(m,c) =
+    f_\1(m,c) \coloneqq
         \begin{cases}
             (m,c) & \text{if } c = 100 \\
             (m,\_) & \text{otherwise}.
         \end{cases}
 \]
-Then the file-searcher acts just like the file-reader does on inputs, so the on-directions functions of $f$ should be $\id_S$ at each position whose first coordinate is `ready' and $\id_\1$ at each position whose first coordinate is `busy.'
+Then the file-searcher acts just like the file-reader does on inputs, so every on-directions function of $f$ should be an identity function.
 \end{solution}
 \end{exercise}
 
@@ -5789,9 +5882,9 @@ Then the file-searcher acts just like the file-reader does on inputs, so the on-
   In polyboxes, composing a dynamical system $\varphi\colon S\yon^S\to p$ with a wrapper $f\colon p\to q$ looks like this:
   \begin{equation*}
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s\vphantom{o'}$};
 
-      \node[poly, right=of S, "$p$" below] (p) {$i$\at$o$};
+      \node[poly, right=of S, "$p$" below] (p) {$i$\at$o\vphantom{o'}$};
 
       \node[poly, cod, right=of p, "$q$" right] (q) {$i'$\at$o'$};
 
@@ -5801,15 +5894,15 @@ Then the file-searcher acts just like the file-reader does on inputs, so the on-
       \draw (q_dir) -- node[above] {$f^\sharp$} (p_dir);
     \end{tikzpicture}
   \end{equation*}
-  The output $o$ displayed by the intermediary interface $p$ is instead exposed as an output $f_\1(o)=o'$ of the wrapper interface $q$ in the lower box on the far right.
-  Moreover, the upper box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
-  The on-directions function of the wrapper at $o$ converts input $i'\in q[o']$ from the upper right blue box into input $i\in p[o]$.
+  The position $o$ displayed by the intermediary interface $p$ is instead exposed as a position $f_\1(o)=o'$ of the wrapper interface $q$ in the rightmost position box.
+  Moreover, the direction box of $p$ is no longer blue: an agent who wishes to interact with the middle interface $p$ can only do so via the rightmost interface $q$.
+  The on-directions function of the wrapper at $o$ converts a direction $i'\in q[o']$ from the rightmost direction box into a direction $i\in p[o]$.
 
-  Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving output from the white box below and feeding input into the blue box above.
+  Picture the agent standing to the right of all the polyboxes (i.e.\ ``outside'' of the system) with their attention directed leftward (i.e.\ ``inward''), receiving positions from the white position box and feeding directions into the blue direction box.
   To an agent who is unaware of its inner workings, the composite dynamical system $\varphi\then f$ might as well look like this:
   \begin{equation*}
     \begin{tikzpicture}[polybox, mapstos]
-      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s$};
+      \node[poly, dom, "$S\yon^S$" left] (S) {$t$\at$s\vphantom{o'}$};
 
       \node[poly, cod, right=of S, "$q$" right] (q) {$i'$\at$o'$};
 
@@ -5824,15 +5917,15 @@ In the next section, we describe a special kind of wrapper.
 %---- Subsection ----%
 \subsection{Sections as wrappers}\label{subsec.poly.dyn_sys.new.sit_encl}
 
-Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in output and effect no change in input.
-We can think of this as wrapping $\yon$, the interface with one output and one input, around $\varphi$.
+Say we wanted to model a dynamical system $\varphi\colon S\yon^S\to p$ within a closed system, for which an external agent can perceive no change in position and effect no change in direction.
+We can think of this as wrapping $\yon$, the interface with one position and one direction, around $\varphi$.
 To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
 In the language of \cref{def.sec-bun}, this is precisely a \emph{section} of $p$.
 As we noted then, this name is appropriate, since $\gamma$ a way of sectioning off the interface $p$ from the outside world.
 
 Recall that a section $\gamma\colon p\to\yon$ can be identified with a dependent function $\gamma\colon(i\in p(\1))\to p[i]$ that sends each $p$-position $i$ to a $p[i]$-direction.
-In the language of dynamical systems, a section of the interface $p$ chooses a fixed input at every output of $p$.
-A section for your interface dictates what you'll see (the input you receive) given anything you might do (the output you provide); there is no need for any further outside interference.
+In the language of dynamical systems, a section of the interface $p$ chooses a fixed input at every position of $p$.
+A section for your interface dictates what you'll see (the direction you receive) given anything you might do (the position you provide); there is no need for any further outside interference.
 
 \index{dependent function}
 
@@ -5878,7 +5971,7 @@ In this way, we can generalize our notion of state systems to monomials $S\yon^{
 But for convenience of notation, we will continue to identify the position-set of a state system with each of its direction-sets.
 
 More concretely, the section $\epsilon\colon S\yon^S\to\yon$ acts as a very special (if rather unexciting) dynamical system: it is the \emph{do-nothing section}, with only one possible output and one possible input that always keeps the current state the same.
-While the system does, well, nothing, we do know one key fact about it: given any state system, regardless of the state set, we can always define a do-nothing section on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
+While the system does, well, nothing, we do know one key fact about it: given any state system, regardless of the state-set, we can always define a do-nothing section on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
 The existence of the do-nothing section explains why our terminology does not clash: every polynomial $S\yon^S$ comes equipped with a dependent dynamical system $\epsilon\colon S\yon^S\to\yon$, so it really is a state \emph{system}.
 Later on we'll see other systems that come with $S\yon^S$ for free.}
 
@@ -6852,7 +6945,7 @@ We can use \cref{ex.graph_interaction} to model Conway's Game of Life as a close
 	\item What is the appropriate graph $E\tto V$?
 	\item What is the appropriate assignment of sets $\tau\colon V\to\smset$?
 	\item What are the polynomials $p_v$ from \cref{ex.graph_interaction}?
-	\item What is the appropriate state set $S_v$ for each interface $p_v$?
+	\item What is the appropriate state-set $S_v$ for each interface $p_v$?
 	\item What is the appropriate dynamical system lens $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
