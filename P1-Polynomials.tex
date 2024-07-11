@@ -3496,7 +3496,7 @@ This exercise is for those who know what topological spaces and continuous maps 
 \end{exercise}
 
 %-------- Section --------%
-\section{Polybox pictures of lens composition}
+\section{Polybox pictures of lens composition} \label{sec.poly.cat.}
 
 \index{polybox!for lens composition|(}
 
@@ -5923,9 +5923,8 @@ To do so, we must specify a wrapper $\gamma\colon p\to\yon$.
 In the language of \cref{def.sec-bun}, this is precisely a \emph{section} of $p$.
 As we noted then, this name is appropriate, since $\gamma$ a way of sectioning off the interface $p$ from the outside world.
 
-Recall that a section $\gamma\colon p\to\yon$ can be identified with a dependent function $\gamma\colon(i\in p(\1))\to p[i]$ that sends each $p$-position $i$ to a $p[i]$-direction.
-In the language of dynamical systems, a section of the interface $p$ chooses a fixed input at every position of $p$.
-A section for your interface dictates what you'll see (the direction you receive) given anything you might do (the position you provide); there is no need for any further outside interference.
+Recall that a section $\gamma\colon p\to\yon$ can be identified with a dependent function of the form $(i\in p(\1))\to p[i]$ that sends each $p$-position $i$ to a $p[i]$-direction, fixing a direction at every position of $p$.
+So a section for an interface dictates the direction it receives given any position it inhabits; there is no need for any further outside interference.
 
 \index{dependent function}
 
@@ -5934,56 +5933,57 @@ Let $\varphi\colon S\yon^S\to B\yon^A$ be an $(A,B)$-Moore machine.
 \begin{enumerate}
 	\item Is it true that a section $\gamma\colon B\yon^A\to\yon$ can be identified with a function $A\to B$?
 	\item Describe how to interpret a section $\gamma\colon B\yon^A\to\yon$ as a wrapper around an interface $B\yon^A$.
-	\item Given a section $\gamma$, describe the dynamics of the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
+	\item Given a section $\gamma$, describe the dynamics of the composite Moore machine \[S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon\] obtained by wrapping $\yon$ around $\varphi$ using $\gamma$.
 \qedhere
 \end{enumerate}\index{dynamics}
 \begin{solution}
 \begin{enumerate}
 	\item No, it represents a function $B\to A$!
-	A section sends each output $b\in B$ to an input $a\in A$.
-	\item As a wrapper around an interface $B\yon^A$, a section $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the input $g(b)\in A$ into the system whenever it returns the output $b\in B$.
+	A section sends each position $b\in B$ to a direction $a\in A$.
+	\item As a wrapper around an interface $B\yon^A$, a section $\gamma\colon B\yon^A\to\yon$ corresponds to a function $g\colon B\to A$ that feeds the direction $g(b)\in A$ into the system whenever it returns the position $b\in B$.
 	\item Composing our original Moore machine $S\yon^S\to B\yon^A$ with a section $\gamma$ yields a Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ that returns unchanging output and receives unchanging input.
-	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the section $\gamma$ with a function $g\colon B\to A$, then their composite Moore machine $S\yon^S\to\yon$ can be identified with a function $S\to S$, equal to the composite
+	If we identify the Moore machine with its return function $S\to B$ and its update function $S\times A\to S$, and if we identify the section $\gamma$ with a function $g\colon B\to A$, then the composite Moore machine $S\yon^S\To{\varphi}B\yon^A\To{\gamma}\yon$ can be identified with a function $S\to S$, equal to the composite
 	\[
 	    S\To{\Delta}S\times S\To{\id_S\times\text{return}}S\times B\To{\id_S\times g}S\times A\To{\text{update}}S,
 	\]
 	where $\Delta$ is the diagonal map $s\mapsto(s,s)$.
-	This composite map $S\to S$ sends every state to the next according to the output the original state returns, the input that the section gives in response to that output, and the update function that sends the original state and the input to the new state.
+	This composite map $S\to S$ sends every state to the next according to the position the original state returns, the direction that the section gives in response to that position, and the update function that sends the original state and the selected direction to the new state.
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
 \begin{example}[The do-nothing section] \label{ex.do_nothing}
 There is something rather off-putting about the way we model dynamical systems as lenses $\varphi\colon S\yon^S\to p$.
-We know that $\varphi$ tells us how state-positions return output-positions and, given a current state-position, how input-directions update state-directions.
+We know that $\varphi$ sends states-as-positions to positions of the interface and, at each state-as-position, sends directions of the interface to states-as-directions.
 But we rely only on the labels of elements in $S$ to tell us which positions and directions refer to the same states!
 
-Nothing inherent in the language of $\poly$ makes these associations between state-positions and state-directions for us; we have to bank on the position-set and direction-sets of the state system being the same set for the machine to work properly.
+Nothing inherent in the language of $\poly$ makes these associations between states-as-positions and states-as-directions for us; we have to rely on the position-set and direction-sets of the state system being the same set for the machine to work properly.
 Put another way, the monomials $\{4,6\}\yon^{\{4,6\}},\{4,6\}\yon^{\{4,8\}},$ and $\{3,5\}\yon^{\{6,7\}}$ are all isomorphic in $\poly$, but the first can be a state system while the other two cannot!
 
 To address this issue, we need a way to connect the positions of a polynomial to its own directions in the language of $\poly$.
-Here's where sections save the day: a lens $S\yon^S\to\yon$ is just a way of assigning to each position in $S$ a direction in $S$.
-So we can define $\epsilon\colon S\yon^S\to\yon$ to be the section that sends each position $s\in S$ to the direction $s$ at $s$ corresponding to the same state.
+This is where sections can help: a lens $S\yon^S\to\yon$ is just a way of assigning to each position in $S$ a direction in $S$.
+So we can define $\epsilon\colon S\yon^S\to\yon$ to be the section that sends each position $s\in S$ to the direction $s$ at $s$ with the same name, corresponding to the same state.
 Note that $\epsilon$ can be identified with the identity function on $S$ (see \cref{exc.enclosures_as_functions}).
-Now $\poly$ knows which direction is associated with the same state as the position it is at.
+Now $\poly$ knows for each position which direction is associated with the same state the position is.
 
 In this way, we can generalize our notion of state systems to monomials $S\yon^{S'}$ equipped with a bijection $S\to S'$, which we can then translate to a section $\epsilon\colon S\yon^{S'}\to\yon$.
 But for convenience of notation, we will continue to identify the position-set of a state system with each of its direction-sets.
 
-More concretely, the section $\epsilon\colon S\yon^S\to\yon$ acts as a very special (if rather unexciting) dynamical system: it is the \emph{do-nothing section}, with only one possible output and one possible input that always keeps the current state the same.
-While the system does, well, nothing, we do know one key fact about it: given any state system, regardless of the state-set, we can always define a do-nothing section on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
+More concretely, the section $\epsilon\colon S\yon^S\to\yon$ acts as a very special (if rather unexciting) dynamical system: it is the \emph{do-nothing section}, with only one possible position and one possible direction that always keeps the current state the same.
+While the system literally does nothing, we do know one key fact about it: given any state system, regardless of the state-set, we can always define a do-nothing section on it.\footnote{It may have bothered you that we call $S\yon^S$, which is a single polynomial, a state \emph{system}, when we also use the word ``system'' to refer to dependent dynamical systems, which are lenses $S\yon^S\to p$.
 The existence of the do-nothing section explains why our terminology does not clash: every polynomial $S\yon^S$ comes equipped with a dependent dynamical system $\epsilon\colon S\yon^S\to\yon$, so it really is a state \emph{system}.
-Later on we'll see other systems that come with $S\yon^S$ for free.}
+%Later on we will see other systems that come with $S\yon^S$ for free.
+}
 
-Yet this isn't the whole story.
-The do-nothing section knows, at each position, the direction that keeps the system at the same state; but it doesn't know which of the other directions send the system to which of the other positions' states.
-We're still relying on the labels of direction-sets being the same for that: for instance, the polynomials $\{1',2',3'\}\yon^{\{1,2,3\}}$ and $\{1'\}\yon^{\{0,1,4\}}+\{2'\}\yon^{\{2,5,6\}}+\{3'\}\yon^{\{-8,-1,3\}}$ are isomorphic, but even with a do-nothing section matching $1'\mapsto1,2'\mapsto2,3'\mapsto3$ to make the first one into a state system, we don't have a way to tell $\poly$ how to make the second one a state system yet.
+Yet this is not the whole story.
+The do-nothing section knows, at each position, the direction that keeps the system at the same state; but it does not know which of the other directions at that position correspond to which of the other states of the system.
+We are still relying on the labels of direction-sets being the same for that: for instance, the polynomials $\{1',2',3'\}\yon^{\{1,2,3\}}$ and $\{1'\}\yon^{\{0,1,4\}}+\{2'\}\yon^{\{2,5,6\}}+\{3'\}\yon^{\{-8,-1,3\}}$ are isomorphic, but even though each has a do-nothing section matching $1'\mapsto1,2'\mapsto2,3'\mapsto3$ that makes the first one into a state system, we do not have a way to tell $\poly$ how to make the second one a state system yet.
 
-From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\varphi\colon S\yon^S\to p$ does ``one thing'': it steps through the system once, generating the current state's output with the return function and taking in input with the update function.
-It's all set to take another step, but how does $\poly$ know which state to visit next?
+From another perspective, $\epsilon\colon S\yon^S\to\yon$ does nothing, while $\varphi\colon S\yon^S\to p$ does ``one thing'': it steps through the system once, producing the current state's position with the return function and taking in directions with the update function.
+It is ready to take another step, but how does $\poly$ know which state to visit next?
 Is there a lens that does ``two things,'' ``$n$ things,'' or ``arbitrarily many things''?
 Can we actually $\emph{run}$ a dynamical system in $\poly$?
-We'll develop the machinery to answer these questions over the course of the three chapters in \cref{part.comon}, starting in \cref{subsec.comon.comp.def.dyn_sys}.
+We will develop the machinery to answer these questions over the course of \cref{part.comon}, starting in \cref{subsec.comon.comp.def.dyn_sys}.
 \end{example}
 
 \begin{example}[Polybox pictures of sections as wrappers]
@@ -6016,8 +6016,8 @@ We'll develop the machinery to answer these questions over the course of the thr
   \end{equation*}
   Remember: in a polybox depiction of a dynamical system, the world outside the system exists to the right of all the boxes.
   So the first picture represents $\yon$ as a gray wall, cutting off any interaction between the system to its left and the world to its right.
-  Meanwhile, the second picture illustrates how a sectioned-off system independently selects inputs to the intermediary interface $p$ via $\gamma$, according to the outputs of $p$ that the inner (leftward) system $S\yon^S\to p$ returns.
-  While the second picture shows us why the closed system neither seeks nor requires external input, the first picture helps remind us that the output of $p$ never reaches the outside world either.
+  Meanwhile, the second picture illustrates how a sectioned-off system independently selects directions of the intermediary interface $p$ via $\gamma$ according to the $p$-positions that the inner (leftward) system $S\yon^S\to p$ returns.
+  While the second picture shows us why the closed system neither seeks nor requires external directions, the first picture helps remind us that any returned $p$-positions never reach the outside world either.
   The composite system is therefore equivalent to the section drawn as follows:
   \begin{equation*}
     \begin{tikzpicture}[polybox, tos]
@@ -6028,11 +6028,10 @@ We'll develop the machinery to answer these questions over the course of the thr
   \end{equation*}
   In lens parlance, $\gamma'\colon S\yon^S\to\yon$ is the original system $S\yon^S\to p$ composed with $\gamma\colon p\to\yon$; in the language of dependent functions, $\gamma'\colon S\to S$ is given by
   \[
-  \gamma'(s)=\text{update}(s,\gamma(\text{return}(s))) \qquad \text{for all }s\in S,
+  \gamma'(s)=\oper{update}(s,\gamma(\oper{return}(s))) \qquad \text{for all }s\in S,
   \]
   where we interpret $\gamma$ as a dependent function $(i\in p(\1))\to p[i]$.
-  We can deduce this equation by matching up the previous two different polybox pictures, knowing that they represent the same lens.
-  Placing the boxes side by side and filling them in with dummy variables (making sure to fill the blue boxes on either side with the same entry) makes the equation easier to read off the picture:
+  We can deduce this equation by equating the previous two polybox pictures, knowing they represent the same lens:
   \[
   \begin{tikzpicture}
     \node (1) {
@@ -6056,15 +6055,15 @@ We'll develop the machinery to answer these questions over the course of the thr
     \node at ($(1.east)!.5!(2.west)$) {=};
   \end{tikzpicture}
   \]
-  Matching up the upper boxes of the domain in both pictures, we have that $t=t'$, so
+  Equating the directions boxes of the domain on either side, we have that $t=t'$, so
   \[
-  \gamma'(s)=t'=t=\text{update}(s,o)=\text{update}(s,\gamma(i))=\text{update}(s,\gamma(\text{return}(s))).
+  \gamma'(s)=t'=t=\oper{update}(s,o)=\oper{update}(s,\gamma(i))=\oper{update}(s,\gamma(\oper{return}(s))).
   \]
-  Later on we will read more intricate equations off of polyboxes in this manner, although we won't spell it out in so much detail; we encourage you to trace through the arrows on your own.
+  Later on we will read more intricate equations off of polyboxes in this manner, although we will not spell out the procedure in so much detail; we encourage you to trace through the arrows on your own.
 \end{example}
 
 \begin{example}[The do-nothing section in polyboxes]  \label{ex.do_nothing_polybox}
-  In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with a section $\epsilon\colon S\yon^S\to\yon$ called the do-nothing section, which assigns each state-position to its corresponding state-direction, thus leaving the state unchanged.
+  In \cref{ex.do_nothing}, we saw that every state system $S\yon^S$ can be equipped with a section $\epsilon\colon S\yon^S\to\yon$ called the do-nothing section, which assigns each state-as-position to its corresponding state-as-direction, thus leaving the state unchanged.
   That is, it is the section whose polyboxes can be drawn as follows:
   \begin{equation*}
     \begin{tikzpicture}[polybox, mapstos]
@@ -6080,7 +6079,7 @@ We'll develop the machinery to answer these questions over the course of the thr
 %-------- Section --------%
 \section{General interaction}\label{sec.poly.dyn_sys.interact}
 
-We now have all the pieces we need to model interactions between dependent dynamical systems, which can change their interfaces and interaction patterns, using $\poly$.
+We are now ready to use $\poly$ to model interactions between dependent dynamical systems that can change their interfaces and interaction patterns.
 \index{interaction|(}
 \index{interaction pattern|see{interaction}}
 
@@ -6088,80 +6087,79 @@ We now have all the pieces we need to model interactions between dependent dynam
 \index{parallel product!and interaction}
 
 When wrapper interfaces are used in conjunction with parallel products, they may encode multiple interacting dynamical systems as a single system.
-Explicitly, given $n\in\nn$ and $n$ dynamical systems, $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for every $i\in\ord{n}$, we can first juxtapose them into a single dynamical system
+Explicitly, given $n\in\nn$ and a dynamical system $\varphi_i\colon S_i\yon^{S_i}\to p_i$ for each $i\in\ord{n}$, we can first juxtapose them to form a single dynamical system $\varphi\then f$:
 \[\varphi\colon \left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\to\bigotimes_{i\in\ord{n}}p_i\]
 by taking their parallel product.
-Then we can wrap an interface $q$ around $\varphi$ using a wrapper $f$, yielding a new dynamical system
+Then we can wrap an interface $q$ around $\varphi$ using a wrapper $f\colon\bigotimes_{i\in\ord{n}}p_i\to q$, yielding a new composite dynamical system
 \[\left(\prod_{i\in\ord{n}}S_i\right)\yon^{\prod_{i\in\ord{n}}S_i}\To{\varphi}\bigotimes_{i\in\ord{n}}p_i\To{f}q.\]
-On positions, $f$ gives a way of combining all the outputs of the constituent interfaces into a single output of the wrapper interface.
-On directions, $f$ takes into account the current outputs of each of the constituent interfaces, as well as any new output given to the wrapper interface, then uses all of this to give input to each of the constituent interfaces.
-In particular, a judiciously chosen on-directions function could feed output from some interfaces as inputs to others.
+On positions, $f$ gives a way of combining all the positions of the constituent interfaces into a single position of the wrapper interface.
+On directions, $f$ takes into account the current positions of each constituent interface along with a direction for the wrapper interface to specify a direction for each of the constituent interfaces.
+In particular, a judiciously chosen on-directions function could feed positions of some interfaces as directions to others.
 When $f$ is a wrapper around a parallel product of interfaces, we call $f$ the \emph{interaction pattern} between those interfaces.
 
 \begin{example}[Repeater]\index{dynamical system!repeater}
-Suppose we have a dependent dynamical system $\varphi\colon S\yon^S\to A\yon+\yon$, which takes unchanging input and sometimes returns elements of $A$ as output while other times returning only silence.
+Suppose we have a dynamical system $\varphi\colon S\yon^S\to A\yon+\yon$ that takes unchanging directions and sometimes returns elements of $A$ while other times returning only silence (the position associated with the right hand summand $\yon$).
 What if we wanted to construct a system $\psi$ that operates just like $\varphi$, but \emph{always} returns elements of $A$ as output?
-Where $\varphi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that it returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\varphi$ returns silence before it has returned any elements of $A$ yet.)
+Where $\varphi$ would have returned silence, we want $\psi$ to instead \emph{repeat} the last element of $A$ that was returned. (We allow $\psi$ to repeat an arbitrary element of $A$ if $\varphi$ returns silence before it has returned any elements of $A$ yet.)
 
-Let's think like a programmer.
-What we need is a way to store an element of $A$ and then retrieve it.
-So whenever $\varphi$ returns an element of $A$ as output, we store it; then when $\varphi$ returns silence, we retrieve the last element of $A$ we stored and return that instead.
+What we need is a way to store an element of $A$ and retrieve it as needed.
+So whenever $\varphi$ returns an element of $A$, we store it; then when $\varphi$ returns silence, we retrieve the last element of $A$ we stored and return that instead.
 
 What should this storage-retrieval dynamical system look like?
-It needs to take elements of $A$ as input, return elements of $A$ as output, and store elements of $A$ as states.
-In fact, the identity lens $\iota\colon A\yon^A\to A\yon^A$ works perfectly: it returns the element of $A$ currently stored as output and updates its state to the input it receives.
+It needs to take elements of $A$ as directions, return elements of $A$ as positions, and store elements of $A$ as states.
+In fact, the identity lens $\iota\colon A\yon^A\to A\yon^A$ works perfectly: it returns the element of $A$ currently stored as its position and updates its state to the direction it receives.
 
 Now we can juxtapose our original system $\varphi$ with the storage-retrieval system $\iota$ by taking their parallel product, yielding a dynamical system
 \[
-    \varphi\otimes\iota\colon SA\yon^{SA}\to (A\yon+\yon)\otimes A\yon^A
+    \varphi\otimes\iota\colon S\yon^S\otimes A\yon^A\iso SA\yon^{SA}\to (A\yon+\yon)\otimes A\yon^A
 \]
-that runs both systems simultaneously---and independently.
-But what we want is for $\varphi$ and $\iota$ to interact with each other, and for the resulting system to only output elements of $A$.
+that runs both systems in parallel: simultaneously and independently.
+But what we want is for $\varphi$ and $\iota$ to interact with each other, and for the resulting system to only return elements of $A$.
 To do so, we need to wrap an interface $A\yon$ around $\varphi\otimes\iota$ by composing it with some lens
 \[
     f\colon(A\yon+\yon)\otimes A\yon^A\to A\yon,
 \]
-the interaction pattern between the interfaces $A\yon+\yon$ and $A\yon^A$, which we must define.
+the interaction pattern between the interfaces $A\yon+\yon$ and $A\yon^A$ that we must define.
+Then we will be able to define $\psi\coloneqq(\varphi\otimes\iota)\then f$.
 
-Since $\otimes$ distributes over $+$, it suffices to give lenses
+Since $\otimes$ distributes over $+$, by the universal property of the coproduct, it suffices to give lenses
 \[
-    g\colon A\yon\otimes A\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\to A\yon.
+    g\colon A\yon\otimes A\yon^A\iso (A\times A)\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\iso A\yon^A\to A\yon.
 \]
-The former corresponds to the case where $\varphi$ outputs an element of $A$, while the latter corresponds to the case where $\varphi$ is silent.
+The former corresponds to the case where $\varphi$ returns an element of $A$, while the latter corresponds to the case where $\varphi$ is silent.
 
-When $\varphi$ outputs an element of $A$, we want to return that output, but we also want to give that output as input to $\iota$ so that it can be stored.
-We don't need to do anything with the output of $\iota$; we can simply discard it.
-So $g$ should send $(a,a')\mapsto a$ on positions, returning the output of $\varphi$ and discarding the output of $\iota$; and the on-directions function $g^\sharp_{(a,a')}\colon\1\to A$ should specify the direction $a\in A$, feeding the output of $\varphi$ as input to $\iota$.
+When $\varphi$ returns an element of $A$, we want the composite system $\psi$ to return that same element, but we also want to give that position as a direction to $\iota$ so that it can be stored.
+We do not need to do anything with the position returned by $\iota$; we can simply discard it.
+So $g$ should map $(a,a')\mapsto a$ on positions, yielding the position returned by $\varphi$ and discarding the position returned by $\iota$; and the on-directions function $g^\sharp_{(a,a')}\colon\1\to A$ should pick out the direction $a\in A$, feeding the position returned by $\varphi$ as a direction for $\iota$.
 
-Meanwhile, when $\varphi$ outputs silence, we want to return the output of $\iota$ instead.
-We also need to feed the output of $\iota$ back into $\iota$ as input so that it can continue to be stored.
+On the other hand, when $\varphi$ returns silence, we want $\psi$ to return the position of $\iota$ instead.
+We also need to feed this position back to $\iota$ as a direction so that it can continue to be stored.
 So $h$ should be the identity on positions as well as the identity on directions.
 \end{example}
 
 \begin{example}[Paddling]\label{ex.paddler}
-Say we wanted to build a Moore machine with interface $\nn\yon$; we may interpret its natural number output as the machine's current location.
-What if we don't want this machine to jump around wildly?
-Instead, suppose we want to be very strict about what how far the machine can move and what makes it move.
+Say we wanted to build a Moore machine with interface $\nn\yon$; we will interpret the natural number position it returns as describing the machine's current location.
+Suppose we want to be very strict about what how far the machine can move and what can make it move.
 
-To accomplish this, we introduce two intermediary systems, which we call the \emph{paddler} and the \emph{tracker}:%
+To model this, we introduce two intermediary systems, which we call the \emph{paddler} and the \emph{tracker}:%
 \footnote{Perhaps one could refer to the tracker as the \emph{demiurge}; it is responsible for maintaining the material universe.}
 \[
   \text{paddler}\colon S\yon^S\to\2\yon
   \qqand
   \text{tracker}\colon T\yon^T\to\nn\yon^\2
 \]
-The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no inputs) and can only move (i.e.\ output) its paddle to the left side or the right side: $\2\cong\{\text{left, right}\}$. The tracker has interface $\nn\yon^\2$ because it will announce the location of the machine (as an element $n\in\nn$) and watch what side the paddler is on (as an element of $\2$).
+The paddler has interface $\2\yon$ because it is blind (i.e.\ takes no directions) and can only move its paddle (i.e.\ return a position) $\const{left}$ or $\const{right}$: its position-set is $\2\iso\{\const{left},\,\const{right}\}$. The tracker has interface $\nn\yon^\2$ because it will return the location of the machine (as an element $n\in\nn$) as its position and take in the position of the paddler (as an element of $\2$) as its direction.
 We can wrap an interface $\nn\yon$ around them both using an interaction pattern
 \[
-    \2\yon\otimes\nn\yon^\2\to\nn\yon
+    \2\yon\otimes\nn\yon^\2\iso\2\nn\yon^\2\to\nn\yon
 \]
-whose on-positions function is the projection $\2\nn\to\nn$, returning the location returned by the tracker, and whose on-directions function is the projection $\2\nn\to\2$, passing the output of the paddler as input to the tracker.
+whose on-positions function is the canonical projection $\2\nn\to\nn$, returning the location returned by the tracker, and whose on-directions map is the projection $\2\nn\to\2$, passing the position of the paddler as a direction to the tracker.
 
 \index{dynamics}
 
-Let's leave the paddler's dynamics alone---how you make that paddler behave is totally up to you---and instead focus on the dynamics of the tracker.
-We want it to watch for when the paddle switches from left to right or from right to left; at that moment it should push the paddler forward one unit. Thus the states of the tracker are given by $T\coloneqq\2\nn$, storing what side the paddler is on and the current location.
-The on-positions function of the tracker is the projection $\2\nn\to\nn$ that returns the current location; then at each $(d,i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\nn$ sends
+Let us leave the paddler's dynamics alone---how you the paddler may behave is arbitrary---and instead focus on the dynamics of the tracker.
+We want it to watch for when the paddle switches from $\const{left}$ to $\const{right}$ or from $\const{right}$ to $\const{left}$; at that moment it should push the machine forward one unit. Thus the states of the tracker are given by $T\coloneqq\2\nn$, storing what side the paddler is on and the machine's current location.
+The on-positions function of the tracker is the canonical projection $\2\nn\to\nn$ that returns the current location; then at each $(d,i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\nn$ sends
 \[
   d'\mapsto
 	\begin{cases}
@@ -6169,20 +6167,20 @@ The on-positions function of the tracker is the projection $\2\nn\to\nn$ that re
 		(d',i+1)&\tn{if }d\neq d',
 	\end{cases}
 \]
-storing the new direction of the paddler as well as moving the machine forward one unit if the paddle switches while keeping the machine still if the paddle stays still.
+storing the new position of the paddler as well as moving the machine forward one unit if the paddle switches while keeping the machine still if the paddle stays still.
 \end{example}
 
 \index{dynamical system!paddler}
 \begin{exercise}
 Change the dynamics and state system of the tracker in \cref{ex.paddler} so that it exhibits the following behavior.
 
-When the paddle switches once and stops, the tracker increases its location by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases its location by two units on the second switch! So if it is quiet for a while and then switches three times in a row, the tracker will increase its location by one then two then two.
+When the paddle switches once and stops, the tracker increases the location by one unit and stops, as before in \cref{ex.paddler}. But when the paddle switches twice in a row, the tracker increases the location by two units on the second switch! So if the paddler is stable for a while, then switches three times in a row, the tracker will increase the location by one, then two, then two again.
 \begin{solution}
 We define a new tracker $T'\yon^{T'}\to\nn\yon^\2$ based on the one from \cref{ex.paddler} to watch for when the paddle switches sides once, at which point the tracker should increase its location by one, and watch for when the paddle switches sides twice in a row, at which point the tracker should increase its location by two.
 To do this, we need the tracker to remember not just the current side the paddle is on, but the previous side the paddle was on as well.
 The tracker should still remember the current location.
-Thus the states of the tracker are given by $T\coloneqq\2\times\2\nn$, storing the previous side the paddler was on, the current side the paddler is on, and the current location.
-The on-positions function of the tracker is the projection $\2\times\2\nn\to\nn$ that returns the current location; then at each $(d,d',i)\in\2\nn$, the on-directions function of the tracker $\2\to\2\times\2\nn$ sends
+Thus the states of the tracker are given by $T\coloneqq\2\times\2\times\nn$, storing the previous side the paddler was on, the current side the paddler is on, and the current location.
+The on-positions function of the tracker is the canonical projection $\2\times\2\times\nn\to\nn$ that returns the current location; then at each $(d,d',i)\in\2\times\2\times\nn$, the on-directions function of the tracker $\2\to\2\times\2\times\nn$ sends
 \[
   d''\mapsto
 	\begin{cases}
@@ -6207,31 +6205,31 @@ Suppose you have two systems with the same interface $p\coloneqq q\coloneqq\rr^\
 	\node[draw, thick, blue!10, fit = (m2) (e2)] {};
 \end{tikzpicture}
 \]
-The output of each interface indicates the location of the system, while the range of possible inputs indicate the locations that the system could observe, relative to the location of the system itself.
-Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye cannot see that which is at the same position as the eye.
+The ordered pair comprising the position of each interface indicates the location of the corresponding system, while the range of possible directions indicate the locations that the system could observe, relative to the location of the system itself.
+Taking all pairs of reals except $(0,0)$ corresponds to the fact that the eye cannot see anything at the same location as the eye itself.
 
-Let's have the two systems constantly approaching each other with a force equal to the reciprocal of the squared distance between them.
-If they finally collide, let's have the whole thing come to a halt.
-To do this, we want the wrapper interface to be $\{\text{`go'}\}\yon+\{\text{`stop'}\}$, so that if the system returns `go' it can still advance to the next state, but if it returns `stop' it halts.
-The wrapper $\rr^\2\yon^{\rr^\2-\{(0,0)\}}\otimes\rr^\2\yon^{\rr^\2-\{(0,0)\}}\to\{\text{`go'}\}\yon+\{\text{`stop'}\}$ is given on positions by
+Let us have the two systems approach each other accelerating at a rate equal to the reciprocal of the squared distance between them, modeled with discrete time units.
+If they finally collide, let us have both systems halt.
+To do this, we want the wrapper interface to be $\{\const{go}\}\yon+\{\const{stop}\}$, so that if the system returns $\const{go}$, it can still advance to the next state; but if it returns $\const{stop}$, it halts.
+The wrapper $\rr^\2\yon^{\rr^\2-\{(0,0)\}}\otimes\rr^\2\yon^{\rr^\2-\{(0,0)\}}\to\{\const{go}\}\yon+\{\const{stop}\}$ is given on positions by
 \[
   \big((x_\1,y_1),(x_2,y_2)\big)\mapsto
 	\begin{cases}
-		\text{`stop'}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
-		\text{`go'}&\mbox{ otherwise}.
+		\const{stop}&\mbox{ if $x_1=x_2$ and $y_1=y_2$}\\
+		\const{go}&\mbox{ otherwise}.
 	\end{cases}
 \]
 On directions, we use the function
 \[
   \big((x_1,y_1),(x_2,y_2)\big)\mapsto \big((x_2-x_1,y_2-y_1),(x_1-x_2,y_1-y_2)\big),
 \]
-so that each system is able to see the location of the other system relative to its own, i.e.\ the vector pointing from itself to the other system (unless that vector is zero, in which case the whole thing should have already halted).
+so that each system is able to see the location of the other system relative to its own, i.e.\ the vector pointing from itself to the other system (unless that vector is zero, in which case the system should have returned the $\const{stop}$ position and halted).
 
 \index{dynamics}
 
 We can use these vectors to define the internal dynamics of each system so that they move the way we want them to.
-Each system will hold as its internal state its current location and velocity, i.e.\ $S=\rr^\2\times\rr^\2$.
-To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the current location, update the current location by adding the current velocity, and update the current velocity by adding a vector with appropriate magnitude pointing to the other system:
+Each system will hold as its internal state its current location and velocity as vectors, i.e.\ $S\coloneqq\rr^\2\times\rr^\2$.
+To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the current location, update the current location by adding the current velocity vector, and update the current velocity vector by adding an acceleration vector with appropriate magnitude pointing to the other system:
 \begin{align*}
 	\rr^\2\times\rr^\2&\To{\text{return}}\rr^\2\\
 	\big((x,y),(v_x, v_y)\big)&\Mapsto{\text{return}}(x,y)
@@ -6240,17 +6238,32 @@ To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the 
 	\rr^\2\times\rr^\2\times(\rr^\2-\{(0,0)\})&\To{\text{update}}\rr^\2\times\rr^\2\\
 	\big((x,y),(v_x,v_y),(a,b)\big)&\Mapsto{\text{update}}\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)
 \end{align*}
+
+\[
+\begin{tikzpicture}[polybox, mapstos]
+  \node[poly, dom] (S) {$\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)$\at$((x,y),(v_x,v_y))$};
+    \node[left=0pt of S_pos] {$\rr^2\times\rr^2$};
+    \node[left=0pt of S_dir] {$\rr^2\times\rr^2$};
+
+  \node[poly, cod, right=of S] (p) {$(a,b)\vphantom{\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)}$\at$(x,y)\vphantom{((x,y),(v_x,v_y))}$};
+    \node[right=0pt of p_pos] {$\rr^2-\{(0,0)\}$};
+    \node[right=0pt of p_dir] {$\rr^2$};
+
+  \draw (S_pos) -- node[below] {return} (p_pos);
+  \draw (p_dir) -- node[above] {update} (S_dir);
+\end{tikzpicture}
+\]
 \end{example}
 
 \begin{exercise}\index{robot}
-Suppose $(X,d)$ is a metric space, i.e.\ $X$ is a set of points and $d\colon X\times X\to\rr_{\geq0}$ is a distance function satisfying the usual laws.
-Let's have robots interact in this space.
+Suppose $(X,d)$ is a \emph{metric space}, i.e.\ $X$ is a set of \emph{points} and $d\colon X\times X\to\rr_{\geq0}$ is a function called the \emph{distance function} for which $d(x,y)=d(y,x),d(x,y)=0$ if and only if $x=y$, and $d(x,y)+d(y,z)\geq d(x,z)$ for all $x,y,z\in X$.
+Let us have robots interact in this space.
 
 Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and $a_0'\in A'$ be elements, each thought of as a default value. Let $p\coloneqq AX\yon^{A'X}$ and $p'\coloneqq A'X\yon^{AX}$, and imagine there are two robots, one with interface $p$, returning a signal as an element of $A$ and its location as a point in $X$, and one with interface $p'$, returning a signal as an element of $A'$ and also its location as a point in $X$.
 \begin{enumerate}
-	\item Write down an interaction pattern $p\otimes p'\to\yon$ such that each robot receives the other's location, but that it only receives the other's signal when their locations $x,x'$ are sufficiently close, namely when $d(x,x')<1$.
+	\item Write down an interaction pattern $p\otimes p'\to\yon$ such that each robot receives the other's location but only receives the other's signal when their locations $x,x'$ are sufficiently close, namely when $d(x,x')<1$.
 	Otherwise, it receives the default signal.
-	\item Write down an interaction pattern $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar, allowing the signal to travel $s$ times further.
+	\item Modify the previous interaction pattern to specify a new interaction pattern $p\otimes p'\to\yon^{[0,5]}$ where the value $s\in [0,5]$ is a scalar that changes the distance threshold for the signal to $s$.
 	\item Suppose that each robot has a set $S,S'$ of possible private states in addition to their locations.
 	What functions are involved in providing a dynamical system $\varphi\colon SX\yon^{SX}\to AX\yon^{A'X}$, if the location state $x\in X$ is directly returned without modification?
 	\item Change the setup in any way so that each robot only extends a port to hear the other's signal when the distance between them is less than $s$. Otherwise, they can only detect the position (element of $X$) that the other currently inhabits.
@@ -6258,10 +6271,9 @@ Let $A,A'$ be sets, each thought of as a set of signals, and let $a_0\in A$ and 
 \qedhere
 \end{enumerate}
 \begin{solution}
-Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals $a_0\in A$ and $a'_0\in A'$, and there are two robots, one with interface $p\coloneqq AX\yon^{A'X}$ returning a signal in $A$ and a location in $X$ and another with interface $p'\coloneqq A'X\yon^{AX}$ returning a signal in $A'$ and a location in $X$.
 \begin{enumerate}
-    \item An interaction pattern $p\otimes p'\to\yon$ consists of a trivial on-positions function $AX\times A'X\to\1$ (indicating that no outputs leave the system) and an on-directions function $AX\times A'X\to A'X\times AX$ indicating what inputs the robots should receive according to the outputs they return.
-    To model the fact that the robots receive each others' locations, but only receive each others' signals rather than the default signals when the distance between their locations is less than $1$ according to the distance function $d$, this on-directions function should send
+    \item An interaction pattern $p\otimes p'=AX\yon^{A'X}\otimes A'X\yon^{AX}\to\yon$ consists of a trivial on-positions function $AX\times A'X\to\1$ and an on-directions map $AX\times A'X\to A'X\times AX$ indicating what directions the robots should receive according to the positions they return.
+    To model the robots receiving each others' locations but only receiving each others' signals when the distance between their locations is less than $1$, this on-directions function should send
     \[
         ((a,x),(a',x'))\mapsto
           \begin{cases}
@@ -6269,8 +6281,8 @@ Here $(X,d)$ is a metric space, $A,A'$ are sets of signals with default signals 
           	((a'_0,x'),(a_0,x))&\tn{ otherwise}.
           \end{cases}
     \]
-    \item An interaction pattern $p\otimes p'\to\yon^{[0,5]}$ that allows the signal to travel $s\in[0,5]$ times further consists of a still trivial on-positions function and an on-directions function $AX\times A'X\times[0,5]\to A'X\times AX$ indicating what inputs the robots should receive according to the external input $s\in[0,5]$ as well as the outputs they return.
-    To model the fact that the robots receive each others' locations, but only receive each others' signals rather than the default signals when the distance between their locations is less than $s$ according to the distance function $d$, this on-directions function should send
+    \item An interaction pattern $p\otimes p'\to\yon^{[0,5]}$ that changes the distance threshold for the signal to $s\in[0,5]$ consists of a still trivial on-positions function and an on-directions map $AX\times A'X\times[0,5]\to A'X\times AX$ indicating what directions the robots should receive according to the external direction $s\in[0,5]$ and the positions they return.
+    To model the fact that the robots receive each others' locations, but only receive each others' signals when the distance between their locations is less than $s$, this on-directions function should send
     \[
         ((a,x),(a',x'),s)\mapsto
           \begin{cases}
