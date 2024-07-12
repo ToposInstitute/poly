@@ -6353,85 +6353,91 @@ How might we model this in $\poly$?
 We will construct a closed dynamical system---one with interface $\yon$---consisting of only you and the chalk.
 To do so, we will provide an interface for you, and interface for the chalk, and a section for your juxtaposition.
 
-Say that your hand can be at one of two heights, down or up, and that you can either press (apply pressure between your thumb and forefinger) or not press. Say too that you take in information about the chalk's height. Here are the two sets we'll be using:
+Say that your hand can be at one of two heights, $\const{down}$ or $\const{up}$, and that your fingers can either be $\const{pressed}$ (with pressure between your thumb and forefinger) or $\const{unpressed}$. Say too that you take in information about the chalk's height, which can be $\const{down}$ or $\const{up}$ as well. Here are the two sets we will be using:
 \[
-	H\coloneqq\{\text{`down', `up'}\}
+	H\coloneqq\{\const{down},\,\const{up}\}
 	\qqand
-	P\coloneqq\{\text{`press', `no press'}\}.
+	P\coloneqq\{\const{pressed},\,\const{unpressed}\}.
 \]
-Your interface is $HP\yon^H$: returning your own height and pressure, and receiving the chalk's height.
-
-As for the chalk, it is either `in' your possession or `out' of it.
-Either way, it also returns its height, which is either `down' or `up' in the air.
-The chalk always takes in information about whether pressure is being applied or not.
-When it's `out' of your possession, that's the whole story, but when it is `in' your possession, it also receives your hand's height.
-All together, here are the two interfaces:
+Your interface is $HP\yon^H$: your position is your own height and pressure, and your possible directions are the chalk's possible heights.
+As for the chalk, it is either $\const{in}$ your possession or $\const{out}$ of it as well as either $\const{down}$ or $\const{up}$.
+The direction the chalk receives includes whether it is $\const{pressed}$ or $\const{unpressed}$.
+When it's $\const{out}$ of your possession, that is the entire direction, but when it is $\const{in}$ your possession, its direction also comprises your hand's height.
+In summary, here are the two interfaces:
 \[
-	\const{You}\coloneqq HP\yon^H
+	\text{You}\coloneqq HP\yon^H
 	\qqand
-	\const{Chalk}\coloneqq \{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}.
+	\text{Chalk}\coloneqq \{\const{out}\}H\yon^P + \{\const{in}\}H\yon^{HP}.
 \]
 
 Now we want to give the interaction pattern between you and the chalk.
 As we said before, you see the chalk's height.
-If your hand is not at the height of the chalk, the chalk receives no pressure.
+If your hand is not at the height of the chalk, the chalk remains $\const{unpressed}$.
 Otherwise, your hand is at the height of the chalk, so the chalk receives your pressure (or lack thereof).
 Furthermore, if the chalk is in your possession, it also receives your hand's height.
 
-To provide a lens $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$, we use the fact that $\const{Chalk}$ is a sum and that $\otimes$ distributes over $+$.
-Thus we need to give two lenses
+To provide a lens $\gamma\colon\text{You}\otimes\text{Chalk}\to\yon$, we use the fact that $\text{Chalk}$ is a coproduct and that $\otimes$ distributes over coproduct to write $\text{You}\otimes\text{Chalk}$ as a coproduct itself:
 \[
-	\alpha\colon HP\yon^H\otimes H\yon^P\to\yon
-	\qqand
-	\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon
+  \text{You}\otimes\text{Chalk}
+    \iso
+  HP\yon^H\otimes\{\const{out}\}H\yon^P+HP\yon^H\otimes\{\const{in}\}H\yon^{HP}.
 \]
-The lens $\beta$, corresponding to when the chalk is in your possession, is quite easy to describe; it can be unfolded to a function
-$HPH\to HHP$, and we take it to be the obvious map sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}. But $\alpha$ is more semantically interesting: it is given by
+Then by the universal property of coproducts, to define $\gamma$, it suffices to define two lenses
 \[
-  (h_\const{You},p_\const{You},h_\const{Chalk})\mapsto
+	\alpha\colon HP\yon^H\otimes\{\const{out}\}H\yon^P\to\yon
+	\qqand
+	\beta\colon HP\yon^H\otimes \{\const{in}\}H\yon^{HP}\to\yon
+\]
+The lens $\beta$, corresponding to when the chalk is $\const{in}$ your possession, is easy to describe: it can be identified with a function $HPH\to HHP$, and we take it to be the obvious function sending your height and pressure to the chalk and the chalk's height to you; see \cref{exc.pickup_chalk}.
+But $\alpha$, corresponding to when the chalk is $\const{out}$ of your possession, is more semantically interesting: it can be identified with a function $HPH\to HP$ given by
+\[
+  (h_\text{You},p_\text{You},h_\text{Chalk})\mapsto
   \begin{cases}
-  	(h_\const{Chalk},\text{`no press'}) & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
-  	(h_\const{Chalk},p_\const{You}) & \tn{ if } h_\const{You} = h_\const{Chalk}.
+  	(h_\text{Chalk},\const{unpressed}) & \tn{ if } h_\text{You} \neq h_\text{Chalk} \\
+  	(h_\text{Chalk},p_\text{You}) & \tn{ if } h_\text{You} = h_\text{Chalk}.
   \end{cases}
 \]
+In words, this says that if you and the chalk are at different heights, then regardless of your pressure, the chalk remains unpressed; but if you are at the same height as the chalk, the chalk receives your pressure.
 
-So now we've got you and the chalk in sectioned off together by $\gamma$, so we are ready to add some dynamics.
-Your dynamics can be whatever you want, so let's just add some dynamics to the chalk (you'll get to give yourself some dynamics in \cref{exc.pickup_chalk}).
-The chalk has only four states $C\coloneqq \{\text{`out'}, \text{`in'}\} \times H \cong\4$: the $H$ coordinate is its current height, and the other coordinate is whether or not it is in your possession.
-We will give a dynamical system $C\yon^C\to\const{Chalk}$ with states $C$ and interface $\const{Chalk}$, i.e.\ a lens
+Now that you and the chalk are sectioned off together by $\gamma$, we are ready to add some dynamics.
+Your dynamics can be whatever you want, so let us focus on giving dynamics to the chalk (you will be able to give yourself dynamics in \cref{exc.pickup_chalk}).
+The chalk's state is comprised of its height and whether or not it is in your possession, so we give a dynamical system with state-set $C\coloneqq\{\const{out},\,\const{in}\} \times H$ and interface $\text{Chalk}$: that is, a lens
 \begin{equation}\label{eqn.chalk_dynamics}
-	\{\text{`out'}, \text{`in'}\} \times H\yon^{\{\text{`out'}, \text{`in'}\} \times H}\to \{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}.
+	\{\const{out},\,\const{in}\}\times H\yon^{\{\const{out},\,\const{in}\}\times H}\to\{\const{out}\}H\yon^P + \{\const{in}\}H\yon^{HP}.
 \end{equation}
-On positions, as you might guess, the chalk returns its height and whether it is in your possession directly.
-On directions, if it's not in your possession, it falls down unless you catch it (i.e.\ apply pressure to it so that it enters your possession); if it is in your possession, it takes whatever height you give it.
-So we can express the on-directions function of \eqref{eqn.chalk_dynamics} at $(\text{`out'}, h_\const{Chalk})$ as
+On positions, the chalk returns its height and whether it is in your possession directly: in other words, the on-positions function is the identity.
+On directions, we have two cases.
+If the chalk is $\const{out}$ of your possession, it falls $\const{down}$ unless you catch it, making it $\const{pressed}$ so that it becomes $\const{in}$ your possession and retains its current height.
+So we can express the on-directions function of \eqref{eqn.chalk_dynamics} at $(\const{out}, h_\text{Chalk})$ as
 \begin{align*}
-	\text{`no press'} &\mapsto (\text{`out', `down'}) \\
-	\text{`press'} &\mapsto (\text{`in'}, h_\const{Chalk})
+	\const{unpressed} &\mapsto (\const{out},\,\const{down}) \\
+	\const{pressed} &\mapsto (\text{`in'}, h_\text{Chalk})
 \end{align*}
-and the on-directions function of \eqref{eqn.chalk_dynamics} at $(\text{`in'}, h_\const{Chalk})$ as
+On the other hand, if the chalk is $\const{in}$ your possession, it takes whatever height it receives from you, remaining $\const{in}$ your possession if $\const{pressed}$ but coming $\const{out}$ of your possession if $\const{unpressed}$.
+So the on-directions function of \eqref{eqn.chalk_dynamics} at $(\const{in}, h_\text{Chalk})$ is given by
 \begin{align*}
-	(h_\const{You}, \text{`no press'}) &\mapsto (\text{`out'}, h_\const{You}) \\
-	(h_\const{You}, \text{`press'}) &\mapsto (\text{`in'}, h_\const{You}).
+	(h_\text{You}, \const{unpressed}) &\mapsto (\const{out}, h_\text{You}) \\
+	(h_\text{You}, \const{pressed}) &\mapsto (\const{in}, h_\text{You}).
 \end{align*}
-Obviously, this is all quite complicated, intricate, and contrived.
-Our goal here is to show that you can define interactions in which one system can engage with or disengage from another, where one system controls the behavior of the other when the two are engaged.
+
+We have thus defined an interaction pattern that allows one system to engage with or disengage from another system and control the behavior of the other system only when the two are engaged.
 \end{example}\index{control}
 
 \begin{exercise}\label{exc.pickup_chalk}
 \begin{enumerate}
-	\item In \cref{ex.pickup_chalk}, we said that $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what's being said, and provide the function.
-	\item Provide dynamics to the $\const{You}$ interface (i.e.\ specify a dynamical system with interface $\const{You}$) so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it.
+	\item In \cref{ex.pickup_chalk}, we said that $\beta\colon HP\yon^H\otimes \{\const{in}\}H\yon^{HP}\to\yon$ was easy to describe and given by a function $HPH\to HHP$. Explain what is being said, and provide the function.
+	\item Provide dynamics to the $\text{You}$ interface (i.e.\ specify a dynamical system with interface $\text{You}=HP\yon^H$) so that you repeatedly reach down and grab the chalk, lift it with your hand, and drop it.
 \qedhere
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item A lens $HP\yon^H \otimes H\yon^{HP} \to \yon$ consists of an on-positions function $HPH \to \1$ and an on-directions function $HPH \times \1 \to HHP$.
-    This amounts to a function $HPH \to HHP$.
-    We can easily define this function to be the isomorphism that sends $(h,p,h') \in HPH$ to $(h,h',p)$.
-    \item To model the way in which you cycle through three possible actions---reaching down and grabbing the chalk, lifting it with your hand, and dropping it---it is simplest to work with a set of $\3$ possible states.
-    So we will give your dynamics as a lens $\3\yon^\3 \to HP\yon^H$, where the return function $\3 \to HP$ indicates what happens at each state, sending $1 \mapsto (\text{down, press}), 2 \mapsto (\text{up, press})$, and $3 \mapsto (\text{up, no press})$.
-    Then the update function $\3H \to \3$ always goes to the next state, regardless of input: it ignores the $H$ coordinate and sends $1$ to $2$, $2$ to $3$, and $3$ to $1$.
+    \item A lens $HP\yon^H\otimes \{\const{in}\}H\yon^{HP}\to\yon$ is a section of $HP\yon^H\otimes \{\const{in}\}H\yon^{HP}\iso HPH\yon^{HHP}$ and can thus be identified with a function from its position-set to its direction-set: $HPH\to HHP$.
+    Here the first factor of the domain refers to your height, the second factor to the your pressure, and the third factor to the chalk's height; while in the codomain, the first factor refers to the chalk's height that you receive, the second factor refers to your height that the chalk receives, and the third factor refers to your pressure that the chalk receives.
+    We should therefore define the function $HPH\to HHP$ to be the isomorphism that sends $(h_\text{You},p_\text{You},h_\text{Chalk})\mapsto(h_\text{Chalk},h_\text{You},p_\text{You})$.
+    \item If you alwayss cycle through three possible actions---reaching $\const{down}$ and grabbing the chalk so that it is $\const{pressed}$, moving your hand $\const{up}$ while keeping it $\const{pressed}$ to lift the chalk, and dropping the chalk by leaving it $\const{unpressed}$ while your hand is still $\const{up}$---you only need $3$ possible states.
+    So we can provide your dynamics using a lens $\3\yon^\3\to\text{You}=HP\yon^H$.
+    The return function $\3\to HP$ indicates what happens at each state, sending $1\mapsto(\const{down},\,\const{pressed}),2\mapsto(\const{up},\,\const{pressed})$, and $3\mapsto(\const{up},\,\const{unpressed})$.
+    Meanwhile the update function $\3H \to \3$ always changes the state to the next one, regardless of direction: it ignores the $H$ coordinate and sends $1\mapsto2$, $2\mapsto3$, and $3\mapsto1$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6463,56 +6469,56 @@ This is a direct calculation:
 \end{proof}
 
 \begin{example}
-A section $f\colon B\yon^A\otimes B'\yon^{A'}\to \yon$, corresponds to a map $BB'\to AA'$. In other words, for every pair of outputs $(b,b')\in BB'$, the section $f$ specifies a pair of inputs $(a,a')\in AA'$.
+A section $f\colon I\yon^A\otimes I'\yon^{A'}\to\yon$ corresponds to a function $I\times I'\to A\times A'$. In other words, for every pair of positions $(i,i')\in I\times I'$, the section $f$ specifies a pair of directions $(a,a')\in A\times A'$.
 
-Let's think of elements of $B$ and $B'$ not as outputs, but as locations that two machines may occupy.
+Let us think of the positions in $I$ and $I'$ as locations that two machines may occupy.
 \[
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$b'$};
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$i$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$i'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
 \end{tikzpicture}
 \hspace{.5in}
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$b$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$b'$};
+	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$i$};
+	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$i'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
 \end{tikzpicture}
 \]
-Then given a pair of locations $(b,b')$, the interaction pattern $f$ tells us what the two eyes see, i.e.\ what values of $(a,a')$ they get.
-Equivalently, \eqref{eqn.situations2} says that the interaction pattern tells us what values the first eye sees at any location when the second eye's location is fixed at $b'$, as well as what values the second eye sees at any location when the first eye's location is fixed at $b$.
+Then given a pair of locations $(i,i')\in I\times I'$, the interaction pattern $f$ as a function $I\times I'\to A\times A'$ tells us the directions the machines observe, i.e.\ the ordered pair $(a,a')\in A\times A'$ comprised of what each machine receives.
+Equivalently, \eqref{eqn.situations2} says that the interaction pattern tells us what direction the first machine observes at each location when the second machine's location is fixed at $i'$, along with the direction the second machine observes at each location when the first machine's location is fixed at $i$.
 
-Here we see that \eqref{eqn.situations2} provides two ways to interpret the interaction pattern between two interfaces in a closed system: either as a section around each interface that the other is part of, or as a single section around them both.
+Here we see that \eqref{eqn.situations2} provides two ways to interpret the interaction pattern between two interfaces in a closed system: either as a section around each interface parametrized by the other's position, or as a single section around them both.
 \end{example}
 
 \begin{exercise}
 Let $p\coloneqq q\coloneqq\nn\yon^\nn$.
 We wish to specify a section around their juxtaposition.
 \begin{enumerate}
-    \item Say we wanted to feed the output of $q$ as input to $p$.
-    What function $f\colon q(\1)\to\Gamma(p)$ captures this behavior?
-    \item Say we wanted to feed the sum of the outputs of $p$ and $q$ as input to $q$.
-    What function $g\colon p(\1)\to\Gamma(q)$ captures this behavior?
-    \item What section $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
+  \item Say we wanted to feed the position of $q$ as a direction for $p$.
+  What function $f\colon q(\1)\to\Gamma(p)$ captures this behavior?
+  \item Say we wanted to feed the sum of the positions of $p$ and $q$ as a direction for $q$.
+  What function $g\colon p(\1)\to\Gamma(q)$ captures this behavior?
+  \item What section $\gamma\colon p\otimes q\to\yon$ does the pair of functions $(f,g)$ correspond to via \eqref{eqn.situations2}?
 	\item Let dynamical systems $\varphi\colon\nn\yon^\nn\to p$ and $\psi\colon\nn\yon^\nn\to q$ both be the identity on $\nn\yon^\nn$.
 	Suppose $\varphi$ starts in the state $0\in\nn$ and $\psi$ starts in the state $1\in\nn$.
 	Describe the behavior of the system obtained by sectioning $\varphi$ and $\psi$ off together with $\gamma$, i.e.\ the system $(\varphi\otimes\psi)\then\gamma$.
 \qedhere
 \end{enumerate}
 \begin{solution}
-We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \begin{enumerate}
-    \item If we want to feed the output of $q$ as input to $p$, the corresponding function $f\colon q(\1)\to\Gamma(p)$ should send any output $b\in q(\1)$ to the section $\nn\to\nn$ of $p$ that sends any natural number output of $p$ to $b$ itself.
+    \item The function $f\colon q(\1)\to\Gamma(p)$ should send each $q$-position $b$ to the section of $p$ corresponding to the constant function $\nn\to\nn$ that sends every $p$-position to $b$ itself.
     That is, $f$ is the function $b\mapsto(\_\mapsto b)$.
-    \item If we want to feed the sum of the outputs of $p$ and $q$ as input to $q$, the corresponding function $g\colon p(\1)\to\Gamma(q)$ should send any output $a\in q(\1)$ to the section $\nn\to\nn$ of $q$ that sends every natural number output $b$ of $q$ to the sum $a+b$.
+    \item The function $g\colon p(\1)\to\Gamma(q)$ should send each position $p$-position $a$ to the section of $q$ corresponding to the function $\nn\to\nn$ that sends each $q$-position $b$ to the sum $a+b$.
     That is, $g$ is the function $a\mapsto(b\mapsto a+b)$.
-    \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((f(b))(a),(g(a))(b))=(b,a+b)$, which is the section $\gamma\colon p\otimes q\to\yon$ that $(f,g)$ corresponds to via \eqref{eqn.situations2}.
-    \item As $\varphi$ and $\psi$ are both the identity, the system $(\varphi\otimes\psi)\then\gamma$ is really just the system $\gamma\colon p\otimes q\to\yon$.
-    When it is at state $(a,b)$, its next state will be $(b,a+b)$.
+    \item Together, $f$ and $g$ form a function $\nn\times\nn\to\nn\times\nn$ mapping $(a,b)\mapsto((fb)a,(ga)b)=(b,a+b)$.
+    Then $\gamma\colon p\otimes q\to\yon$ is the section with this function as its on-directions function.
+    \item As $\varphi$ and $\psi$ are both the identity, their parallel product is the identity as well, so $(\varphi\otimes\psi)\then\gamma=\gamma$.
+    From the previous part, if the current state of this system is $(a,b)$, its next state will be $(b,a+b)$.
     So if its initial state is $(0,1)$, its following states will be $(1,1),(1,2),(2,3),(3,5),(5,8),(8,13),\ldots$, forming the familiar Fibonacci sequence.
 \end{enumerate}
 \end{solution}
@@ -6521,55 +6527,54 @@ We have $p\coloneqq q\coloneqq\nn\yon^\nn$.
 \index{interaction!picking up the chalk}
 
 \begin{exercise}
-We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \const{You} and \const{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$.
+We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$ between \text{You} and \text{Chalk} from \cref{ex.pickup_chalk} as a pair of functions $\oper{You}(\1)\to\Gamma(\text{Chalk})$ and $\oper{Chalk}(\1)\to\Gamma(\text{You})$.
 \begin{enumerate}
-	\item How does the chalk's output specify a section for you? That is, write the map $\const{Chalk}(\1)\to\Gamma(\const{You})$.
-	\item How does your output specify a section for the chalk? That is, write the map $\const{You}(\1)\to\Gamma(\const{Chalk})$.
+	\item How does the chalk's position specify a section for you? That is, describe the function $\oper{Chalk}(\1)\to\Gamma(\text{You})$.
+	\item How does your position specify a section for the chalk? That is, describe the function $\oper{You}(\1)\to\Gamma(\text{Chalk})$.
 \qedhere
 \end{enumerate}
 \begin{solution}
-We wish to write the section $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon$ from \cref{ex.pickup_chalk} as a pair of functions $\const{You}(\1)\to\Gamma(\const{Chalk})$ and $\const{Chalk}(\1)\to\Gamma(\const{You})$ via \eqref{eqn.situations2}.
 \begin{enumerate}
-    \item Fix an output $(s_\const{Chalk}, h_\text{chalk})\in\const{Chalk}(\1)=\{\text{`out'},\text{`in'}\}H$ of the chalk.
-    If $s_\const{Chalk}=\text{`out'}$, then the corresponding section $\const{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
+    \item Fix a position $(s_\text{Chalk}, h_\text{chalk})\in\oper{Chalk}(\1)=\{\const{out},\const{in}\}H$ of the chalk.
+    If $s_\text{Chalk}=\const{out}$, then the corresponding section $\text{You}\iso HP\yon^H\to\yon$ given by $f$ via \eqref{eqn.situations2} can be thought of as the function $HP\to H$ sending
     \[
-        (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
+        (h_\text{You},p_\text{You})\mapsto h_\text{Chalk},
     \]
-    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
-    Meanwhile, if $s_\const{Chalk}=\text{`in'}$, then the corresponding section $\const{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
+    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix the position of the domain's right factor to be $h_\text{chalk}\in H$ and focus on the direction in $H$ of the domain's left factor.
+    Meanwhile, if $s_\text{Chalk}=\const{in}$, then the corresponding section $\text{You}\iso HP\yon^H\to\yon$ can also be thought of as the function $HP\to H$ sending
     \[
-        (h_\const{You},p_\const{You})\mapsto h_\const{Chalk},
+        (h_\text{You},p_\text{You})\mapsto h_\text{Chalk},
     \]
-    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we fix $h_\text{chalk}$ to be position in the rightmost $H$ and focus on the result in the exponent $H$ on the left.
-    So overall, the map $\const{Chalk}(\1)\to\Gamma(\const{You})$ sends
+    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we again fix the position of the domain's right factor to be $h_\text{chalk}\in H$ and focus on the direction in $H$ of the domain's left factor.
+    So overall, the desired function $\oper{Chalk}(\1)\to\Gamma(\text{You})$ is given by
     \[
-        (\_,h_\text{chalk})\mapsto((\_,\_)\mapsto h_\const{Chalk}).
+        (\_,h_\text{chalk})\mapsto((\_,\_)\mapsto h_\text{Chalk}).
     \]
 
-    \item Fix an output $(h_\const{You},p_\const{You})\in\const{You}(\1)=HP$ of the chalk.
-    Then the corresponding section $\const{Chalk}\iso\{\text{`out'}\}H\yon^P + \{\text{`in'}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\text{`out'}\}H\to P$ sending
+    \item Fix a position $(h_\text{You},p_\text{You})\in\oper{You}(\1)=HP$ of the chalk.
+    Then the corresponding section $\text{Chalk}\iso\{\const{out}\}H\yon^P + \{\const{in}\}H\yon^{HP}\to\yon$ can be thought of as a pair of functions: one $\{\const{out}\}H\to P$ sending
     \[
-        (\text{`out'},h_\const{Chalk})\mapsto
+        (\const{out},h_\text{Chalk})\mapsto
             \begin{cases}
-  	            \text{`no press'} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
-  	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}.
+  	            \const{unpressed} & \tn{ if } h_\text{You} \neq h_\text{Chalk} \\
+  	            p_\text{You} & \tn{ if } h_\text{You} = h_\text{Chalk},
             \end{cases}
     \]
-    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $P$ on the right; and another $\{\text{`in'}\}H\to HP$ sending
+    according to the behavior of $\alpha\colon HP\yon^H\otimes H\yon^P\to\yon$ when we fix the position of the domain's left factor to be $(h_\text{You},p_\text{You})\in HP$ and focus on the direction in $P$ of the domain's right factor; and another $\{\const{in}\}H\to HP$ sending
     \[
-        (\text{`in'},h_\const{Chalk})\mapsto(h_\const{You},p_\const{You})
+        (\const{in},h_\text{Chalk})\mapsto(h_\text{You},p_\text{You})
     \]
-    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we fix $(h_\const{You},p_\const{You})$ to be position in $HP$ on the left and focus on the result in the exponent $HP$ on the right.
-    So overall, the map $\const{You}(\1)\to\Gamma(\const{Chalk})$ sends
+    according to the behavior of $\beta\colon HP\yon^H\otimes H\yon^{HP}\to\yon$ when we again fix the position of the domain's left factor to be $(h_\text{You},p_\text{You})\in HP$ and focus on the direction in $HP$ of the domain's right factor.
+    So overall, the desired function $\oper{You}(\1)\to\Gamma(\text{Chalk})$ is given by
     \[
-        (h_\const{You},p_\const{You})\mapsto\left(
+        (h_\text{You},p_\text{You})\mapsto\left(
             \begin{aligned}
-                (\text{`out'},h_\const{Chalk})&\mapsto
+                (\const{out},h_\text{Chalk})&\mapsto
                     \begin{cases}
-          	            \text{`no press'} & \tn{ if } h_\const{You} \neq h_\const{Chalk} \\
-          	            p_\const{You} & \tn{ if } h_\const{You} = h_\const{Chalk}
+          	            \const{unpressed} & \tn{ if } h_\text{You} \neq h_\text{Chalk} \\
+          	            p_\text{You} & \tn{ if } h_\text{You} = h_\text{Chalk}
                     \end{cases} \\
-                (\text{`in'},h_\const{Chalk})&\mapsto(h_\const{You},p_\const{You})
+                (\const{in},h_\text{Chalk})&\mapsto(h_\text{You},p_\text{You})
             \end{aligned}
         \right).
     \]
@@ -6590,15 +6595,15 @@ We wish to write the section $\gamma\colon\const{You}\otimes\const{Chalk}\to\yon
     \[
         \Gamma\left(\bigotimes_{i=1}^n p_i \right) \iso \prod_{i=1}^n \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right).
     \]
-    The $n=1$ case is clear, and the $n=2$ case is given by \eqref{eqn.situations2}.
+    The $n=1$ case is tautological, and the $n=2$ case is given by \eqref{eqn.situations2}.
     Then by induction on $n$, we have
     \begin{align*}
-        \Gamma\left(\bigotimes_{i=1}^n p_i \right) &\iso \smset\left(p_n(\1), \Gamma\left(\bigotimes_{i=1}^{n-1} p_i \right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag*{\eqref{eqn.situations2}} \\
+        \Gamma\left(\bigotimes_{i=1}^n p_i \right) &\iso \smset\left(p_n(\1), \Gamma\left(\bigotimes_{i=1}^{n-1} p_i \right)\right) \times \smset\left(\prod_{i=1}^{n-1}\left(p_i(\1)\right), \Gamma(p_n)\right) \tag*{\eqref{eqn.situations2}} \\
         &\iso \smset\left(p_n(\1), \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n-1, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Inductive hypothesis} \\
-        &\iso \prod_{i=1}^{n-1} \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Universal properties of products and internal homs},
+        &\iso \prod_{i=1}^{n-1}\left( \smset\left(\prod_{\substack{1 \leq j \leq n, \\ j \neq i}} p_j(\1), \Gamma(p_i)\right)\right) \times \smset\left(\prod_{i=1}^{n-1} p_i(\1), \Gamma(p_n)\right) \tag{Universal properties of products and internal homs},
     \end{align*}
     and the result follows.
-    \item The general idea is that specifying a section for interfaces $p_1,\ldots,p_n$ together is equivalent to specifying a section for $p_i$ for every output all the other interfaces might return, for each $i\in\ord{n}$.
+    \item The general idea is that specifying a section for interfaces $p_1,\ldots,p_n$ together is equivalent to specifying a section for $p_i$ for every combination of positions that all the other interfaces might return together, for each $i\in\ord{n}$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
