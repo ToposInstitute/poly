@@ -6616,14 +6616,17 @@ We will use \eqref{eqn.situations2} to consider the interaction pattern $\gamma$
 \index{interaction!wiring diagram|(}
 
 A \emph{wiring diagram} is a graphical depiction of interactions between systems.
-Wiring diagrams depict systems as boxes, showing how they can send inputs and outputs to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
+Wiring diagrams depict systems as boxes, showing how they send signals to each other through the wires between them, as well as how multiple systems can combine to form a larger system whenever smaller boxes are nested within a larger box.
 
 \index{interface!monomial}
 
 Formally, and more precisely, we can think of each box in a wiring diagram as an interface given by some monomial.
-The box itself is not, per se, a dynamical system as we have defined one; but it becomes a dynamical system once we equip it with a lens from a state system.
-Then the entire wiring diagram---specifying how these boxes nest within a larger box---is just an interaction pattern between the interfaces, with the larger box playing the role of the wrapper interface.
+The box itself is not a dynamical system, but it becomes a dynamical system once we equip it with a lens from a state system to the interface the box represents.
+Then the entire wiring diagram---specifying how these boxes nest within a larger box---is just an interaction pattern between the corresponding interfaces, with the larger box playing the role of the wrapper interface.
 Once every nested box is equipped with a lens from a state system, we obtain a dynamical system whose interface is the larger box.
+
+In the examples to come, we follow the convention that the signals emitted by a box, i.e.\ positions returned by the corresponding interface, travel along wires out of the right side of that box; while the signals received, i.e.\ directions observed by the corresponding interface, by a box travel along wires into the left side of that box.
+A wire may optionally be labeled by the name of the set of elements that may travel as signals along that wire.
 
 \begin{example}\index{control}
 Here is a simple wiring diagram.
@@ -6654,51 +6657,55 @@ Here is a simple wiring diagram.
 	\node[below=0of outer.north] {\texttt{System}};
 \end{tikzpicture}
 \end{equation}
-The plant is receiving information from the world outside the system, as well as from the controller. It's also producing information for the outside world which is being monitored by the controller.\index{control}
+The $\const{Plant}$ is receiving information from the world outside the $\const{System}$ along the wire labeled $A$ as well as from the $\const{Controller}$ along the wire labeled $B$.
+It is also producing information for the outside world along the wire labeled $C$ which is also being monitored by the $\const{Controller}$.\index{control}
 
-There are three boxes shown in \eqref{eqn.control_diag}: the controller, the plant, and the system. Each has a fixed set of inputs and outputs, and so we can consider the box as a monomial interface.\index{interface!monomial}
+There are three boxes shown in \eqref{eqn.control_diag}: the $\const{Controller}$, the $\const{Plant}$, and the $\const{System}$.
+Each has a fixed set of positions corresponding to the wire(s) connected to its right and a fixed set of directions corresponding to the wire(s) connected to its left, so we can consider each box as a monomial interface, as follows:\index{interface!monomial}
 \begin{equation}\label{eqn.basic_diagram}
-	\const{Plant}\coloneqq C\yon^{AB}
-	\qquad\quad
 	\const{Controller}\coloneqq B\yon^C
+	\qquad\quad
+  \const{Plant}\coloneqq C\yon^{AB}
 	\qquad\quad
 	\const{System}\coloneqq C\yon^A.
 \end{equation}
+Note that in the case of the $\const{Plant}$, two wires labeled $A$ and $B$ enter the box from the left, so we take their cartesian product to be the direction-set of the $\const{Plant}$.
+
 The wiring diagram itself is a wrapper
 \[
-	w\colon\const{Plant}\otimes\const{Controller}\to\const{System},
+	w\colon\const{Controller}\otimes\const{Plant}\to\const{System},
 \]
-specifying an interaction pattern between $\const{Plant}$ and $\const{Controller}$ with wrapper interface $\const{System}$.
-Concretely, $w$ is a lens $CB\yon^{ABC}\to C\yon^A$ that dictates how wires are feeding from outputs to inputs.
-Like all lenses between monomials, $w$ consists of an on-positions function $CB\to C$ and an on-directions function $CBA\to ABC$.
+specifying an interaction pattern between the $\const{Controller}$ and the $\const{Plant}$ with the $\const{System}$ as the wrapper interface.
+Concretely, $w$ is a lens $BC\yon^{CAB}\to C\yon^A$ that prescribes how wires feed positions to directions.
+As a lens between monomials, $w$ consists of an on-positions function $BC\to C$ and an on-directions map $BCA\to CAB$.
 
-The wiring diagram is a picture that tells us which maps to use.
-The on-positions function says ``inside the system you have boxes outputting values of type $C$ and $B$.
-The system needs to produce an output of type $C$; how shall I obtain it?''
-The answer, according to the wiring diagram, is to send $(c,b)\mapsto c$.
+The wiring diagram is a picture that tells us what the on-positions function and on-directions map to use.
+In particular, the on-positions function sends positions of the inner interfaces to positions of the outer interface, so it is depicted by how the wires coming from the right sides of the inner boxes connect to the right side of the outer box.
+Given inner boxes that return positions in $B$ and $C$, the outer box must return a position in $C$.
+Here the wire labeled $B$ is not connected to the outer box, but the wire labeled $C$ is, so the on-positions function $BC\to C$ sends $(b,c)\mapsto c$.
 
-Meanwhile, the on-directions function says ``inside the system you have boxes outputting values of type $C$ and $B$, and the system itself is receiving an input value of type $A$.
-The boxes inside need input values of type $A$, $B$, and $C$; how shall I obtain them?''
-Again, we can read the answer off the wiring diagram: send $(c,b,a)\mapsto (a,b,c)$.
+Meanwhile, the on-directions function sends positions of the inner interfaces and directions of the outer interface to directions of the inner interfaces, so it is depicted by how the wires coming from both the right sides of the inner boxes and the left side of the outer box connect to the left sides of the inner boxes.
+Given inner boxes that return positions in $B$ and $C$ and an outer box that receives directions in $A$, the inner boxes must receive directions in $C$ and $B$.
+Again, we can read the on-directions map $BCA\to CAB$ off the wiring diagram: it sends $(b,c,a)\mapsto (c,a,b)$.
 
-Note that neither the wiring diagram nor any of the boxes within it are dynamical systems on their own.
+Note that neither the wiring diagram nor any of the boxes within it represent dynamical systems on their own.
 Rather, each box is a monomial that could be the interface of a dynamical system.
-When we assign to a box a dynamical system having that box as its interface, we say that \emph{give dynamics} to the box.
-So the entire wiring diagram is a wrapper that tells us how, given the dynamics for each inner box,
+When we assign to a box a dynamical system having that box as its interface, we say that we \emph{give dynamics} to the box.
+So the entire wiring diagram is a wrapper that tells us how, once we give dynamics for each inner box,
 \[
-\varphi\colon S\yon^S\to\const{Plant}
+\varphi\colon S\yon^S\to\const{Controller}
 \qqand
-\psi\colon T\yon^T\to\const{Controller},
+\psi\colon T\yon^T\to\const{Plant},
 \]
-we can obtain the dynamics for the outer box:
+we have given dynamics for the entire outer box:
 \[
-ST\yon^{ST}\To{\varphi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\const{System}.
+ST\yon^{ST}\To{\varphi\:\otimes\:\psi}\const{Controller}\otimes\const{Plant}\To{w}\const{System}.
 \]
 \end{example}\index{dynamics}
 
 \begin{exercise}
 \begin{enumerate}\index{control}
-	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information of type $A'$ from the outside world.
+	\item Make a new wiring diagram like \eqref{eqn.control_diag} except where the controller also receives information from the outside world as an element of a set $A'$.
 	\item What are the monomials represented by the boxes in your diagram (replacing \eqref{eqn.basic_diagram})?
 	\item What is the interaction pattern represented by this wiring diagram?
 	Give the corresponding lens, including its on-positions and on-directions functions.
@@ -6706,50 +6713,49 @@ ST\yon^{ST}\To{\varphi\otimes\psi}\const{Plant}\otimes\const{Controller}\To{w}\c
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Here is the wiring diagram \eqref{eqn.control_diag} modified so that the controller also receives information of type $A'$ from the outside world.
-\[
-\begin{tikzpicture}[oriented WD, baseline=(B)]
-	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
-	\node[bb={2}{1}, below left=-1 and 1 of plant, fill=blue!10]  (cont) {\texttt{Controller}};
-	\node[circle, inner sep=1.5pt, fill=black, right=.1] at (plant_out1) (pdot) {};
-	\node[bb={0}{0}, inner ysep=25pt, inner xsep=1cm, fit=(plant) (pdot) (cont)] (outer) {};
-	\coordinate (outer_out1) at (outer.east|-plant_out1);
-	\coordinate (outer_in1) at (outer.west|-plant_in1);
-	\coordinate (outer_in2) at (outer.west|-cont_in1);
-	\begin{scope}[above, font=\footnotesize]
-  	\draw (outer_in1) -- node {$A$} (plant_in1);
-  	\draw (outer_in2) -- node {$A'$} (cont_in1);
-  	\draw (cont_out1) to node (B) {$B$} (plant_in2);
-  	\draw (plant_out1) to node {$C$} (outer_out1);
-  	\draw
-  		let
-  			\p1 = (cont.south west-| pdot),
-  			\p2 = (cont.south west),
-  			\n1 = \bby,
-  			\n2 = \bbportlen
-  		in
-  			(pdot) to[out=0, in=0]
-  			(\x1+\n2, \y1-\n1) --
-  			(\x2-\n2, \y2-\n1) to[out=180, in=180]
-  			(cont_in2);
-		\end{scope}
-	\node[below=0of outer.north] {\texttt{System}};
-\end{tikzpicture}
-\]
-    \item The monomials represented by the boxes in this diagram are the same, except that $\const{Controller}$ and $\const{System}$ each have an extra $A'$ exponent:
-    \[
-	\const{Plant}\coloneqq C\yon^{AB}
-	\qquad\quad
+  \item Here is the wiring diagram \eqref{eqn.control_diag} modified so that the controller also receives information from the outside world as an element of $A'$.
+  \[
+  \begin{tikzpicture}[oriented WD, baseline=(B)]
+  	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
+  	\node[bb={2}{1}, below left=-1 and 1 of plant, fill=blue!10]  (cont) {\texttt{Controller}};
+  	\node[circle, inner sep=1.5pt, fill=black, right=.1] at (plant_out1) (pdot) {};
+  	\node[bb={0}{0}, inner ysep=25pt, inner xsep=1cm, fit=(plant) (pdot) (cont)] (outer) {};
+  	\coordinate (outer_out1) at (outer.east|-plant_out1);
+  	\coordinate (outer_in1) at (outer.west|-plant_in1);
+  	\coordinate (outer_in2) at (outer.west|-cont_in1);
+  	\begin{scope}[above, font=\footnotesize]
+    	\draw (outer_in1) -- node {$A$} (plant_in1);
+    	\draw (outer_in2) -- node {$A'$} (cont_in1);
+    	\draw (cont_out1) to node (B) {$B$} (plant_in2);
+    	\draw (plant_out1) to node {$C$} (outer_out1);
+    	\draw
+    		let
+    			\p1 = (cont.south west-| pdot),
+    			\p2 = (cont.south west),
+    			\n1 = \bby,
+    			\n2 = \bbportlen
+    		in
+    			(pdot) to[out=0, in=0]
+    			(\x1+\n2, \y1-\n1) --
+    			(\x2-\n2, \y2-\n1) to[out=180, in=180]
+    			(cont_in2);
+  		\end{scope}
+  	\node[below=0of outer.north] {\texttt{System}};
+  \end{tikzpicture}
+  \]
+  \item The monomials represented by the boxes in this diagram are the same, except that the $\const{Controller}$ and the $\const{System}$ both have extra $A'$ factors in their exponent:
+  \[
 	\const{Controller}\coloneqq B\yon^{A'C}
-	\qquad\quad
+  	\qquad\quad
+  \const{Plant}\coloneqq C\yon^{AB}
+  	\qquad\quad
 	\const{System}\coloneqq C\yon^{AA'}.
-    \]
-
-    \item The interaction pattern represented by this wiring diagram is the lens
-    \[
-    	w'\colon \const{Plant}\otimes\const{Controller}\to\const{System}
-    \]
-    consisting of an on-positions function $CB\to C$ given by $(c,b)\mapsto c$ and an on-directions function $CBAA'\to ABA'C$ given by $(c,b,a,a')\mapsto(a,b,a',c)$.
+  \]
+  \item The interaction pattern represented by this wiring diagram is the lens
+  \[
+   	w'\colon \const{Controller}\otimes\const{Plant}\to\const{System}
+  \]
+  consisting of an on-positions function $BC\to C$ given by $(b,c)\mapsto c$ and an on-directions function $BCAA'\to A'CAB$ given by $(b,c,a,a')\mapsto(a',c,a,b)$.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6780,10 +6786,10 @@ Consider the following wiring diagram.
 \end{tikzpicture}
 \]
 \begin{enumerate}
-	\item Write out the polynomials for each of $\const{Alice}$, $\const{Bob}$, and $\const{Carl}$.
-	\item Write out the polynomial for the outer box, $\const{Team}$.
+	\item Write out the monomials for $\const{Alice}$, $\const{Bob}$, and $\const{Carl}$.
+	\item Write out the monomial for the outer box, $\const{Team}$.
 	\item The wiring diagram constitutes a lens $f$ in $\poly$; what is its domain and codomain?
-	\item What lens is it?
+	\item What lens is $f$?
 	\item Suppose we have dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$. What is the induced dynamical system with interface $\const{Team}$?
 \qedhere
 \end{enumerate}
@@ -6800,7 +6806,7 @@ Consider the following wiring diagram.
     On directions, $f$ is a function $DEFHGAB\to HABDE$ that sends $(d,e,f,h,g,a,b)\mapsto(h,a,b,d,e)$.
     \item Given dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$, the dynamical system induced by the wiring diagram is given by the composite lens
     \[
-        ABC\yon^{ABC}\To{\alpha\otimes\beta\otimes\gamma}\const{Alice}\otimes\const{Bob}\otimes\const{Carl}\To{f}\const{Team}.
+        ABC\yon^{ABC}\To{\alpha\:\otimes\:\beta\:\otimes\:\gamma}\const{Alice}\otimes\const{Bob}\otimes\const{Carl}\To{f}\const{Team}.
     \]
 \end{enumerate}
 \end{solution}
@@ -6809,8 +6815,9 @@ Consider the following wiring diagram.
 \begin{exercise}[Long division] \label{exc.long_div}\index{long division}
 \begin{enumerate}
 	\item Let $\fun{divmod}\colon\nn\times\nn_{\geq1}\to\nn\times\nn$ send $(a,b)\mapsto(a\bdiv b, a\bmod b)$; for example, it sends $(10,7)\mapsto(1,3)$ and $(30,7)\mapsto(4,2)$.
-	Use \cref{exc.funs_to_moore} to turn it into a dynamical system.
-	\item Interpret the following wiring diagram, where we have already given dynamics to each box as indicated by their labels:
+	Use \cref{ex.funs_to_moore} to turn it into a dynamical system.
+	\item % TODO: make it clearer what this exercise is asking for
+  Interpret the following wiring diagram, where we have already given dynamics to each box as indicated by their labels (here the upper wires connected to the divmod box correspond to the left factors of the domain and codomain of our divmod function, while the lower wires correspond to the right factors):
 \[
 \begin{tikzpicture}[oriented WD, bb small]
 	\node[bb port sep=3, fill=blue!10, bb={2}{2}] (divmod) {divmod};
@@ -6847,7 +6854,7 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Using \cref{exc.funs_to_moore}, we can turn $\fun{divmod}$ into the dynamical system $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ whose return function is the identity on $\nn\times\nn$ and whose update function $\nn\times\nn\times\nn\times\nn_{\geq1}\to\nn\times\nn$ sends $(\_,\_,a,b)\mapsto(a\bdiv b,a\bmod b)$.
+    \item Using \cref{ex.funs_to_moore}, we can turn $\fun{divmod}$ into the dynamical system $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ whose return function is the identity on $\nn\times\nn$ and whose update map  $\nn\times\nn\times\nn\times\nn_{\geq1}\to\nn\times\nn$ sends $(\_,\_,a,b)\mapsto(a\bdiv b,a\bmod b)$.
     \item From left to right, the inner boxes represent monomial interfaces $\nn_{\geq1}\yon, \nn\times\nn\yon^{\nn\times\nn_{\geq1}}, \nn\yon,$ and $\nn\yon^{\nn\times\nn}$.\index{interface!monomial}
     The box labeled $7$ is given dynamics $7\colon\yon\to\nn_{\geq1}\yon$ so that it always returns the output $7$; similarly, the box labeled $10$ is given dynamics $10\colon\yon\to\nn\yon$ so that it always returns the output $10$.
     Meanwhile, the box labeled is given dynamics $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ from the previous part; while we can again apply \cref{exc.funs_to_moore} to the standard multiplication function $*\colon\nn\times\nn\to\nn$ to give the box labeled $*$ dynamics as well, yielding a dynamical system $*\colon\nn\yon^\nn\to\nn\yon^{\nn\times\nn}$ whose return function is the identity on $\nn$ and whose update function $\nn\times\nn\times\nn\to\nn$ sends $(\_,m,n)\mapsto m*n$.
@@ -6918,15 +6925,15 @@ Suppose we have a graph $G=(E\tto V)$ as in \cref{def.graph} and a set $\tau(v)$
 	\smset
 \end{tikzcd}
 \]
-We can think of $G$ as an alternative representation of a specific kind of wiring diagram, one where each inner box has exactly one output wire and the outer box is closed.
-The vertices $v\in V$ are the inner boxes, the set $\tau(v)$ is the set associated with $v$'s output wire, and each edge $e$ is a wire connecting the output wire of its target $t(e)$ to an input wire of its source $t(e)$.
-An edge from a vertex $v_0$ to a vertex $v_1$ indicates that the inputs to $v_0$ depend on the outputs of $v_1$.\footnote{We could have defined the edges in the opposite directions, so that they would point in the direction of data flow rather than in the direction of data dependencies; this was an arbitrary choice.}
+We can think of $G$ as an alternative representation of a specific kind of wiring diagram, one in which each inner box has exactly one position wire coming out and the outer box is closed (i.e.\ no wires in or out, representing the interface $\yon$ with exactly $1$ position and $1$ direction).
+The vertices $v\in V$ are the inner boxes, the set $\tau(v)$ is the position-set associated with the wire coming out of $v$, and each edge $e$ is a wire connecting the position wire of its target $t(e)$ to a direction wire of its source $s(e)$.
+An edge from a vertex $v_0$ to a vertex $v_1$ indicates that the directions received by $v_0$ depend on the positions returned by $v_1$.\footnote{We could swap the roles of the sources and the targets, so that edges point in the direction of data flow rather than in the direction of data dependencies; this is an arbitrary choice.}
 
 In other words, we can associate each vertex $v\in V$ with the monomial
 \[
 	p_v\coloneqq\tau(v)\yon^{\prod_{e\in E_v}\tau(t(e))}
 \]
-specifying its inputs and outputs, where $E_v\coloneqq s\inv(v)\ss E$ denotes the set of edges emanating from $v$.
+specifying its positions and directions, where $E_v\coloneqq s\inv(v)\ss E$ denotes the set of edges emanating from $v$.
 The graph then determines a section
 \[
 \gamma\colon\bigotimes_{v\in V}p_v\to\yon
@@ -6935,21 +6942,24 @@ given by a function
 \[
     \prod_{v\in V}\tau(v)\too\prod_{e\in E}\tau(t(e))
 \]
-that sends each dependent function $o\colon(v\in V)\to\tau(v)$ to the dependent function $(e\in E)\to\tau(t(e))$ sending $e\mapsto o(t(e))$.
-In other words, given the output $o(v)\in\tau(v)$ for every vertex $v\in V$, we know for each edge $e\in E$ that the input $s(e)$ receives is the output of $t(e)$.
+that sends each dependent function $i\colon(v\in V)\to\tau(v)$ to the dependent function $(e\in E)\to\tau(t(e))$ sending $e\mapsto i(t(e))$.
+In other words, given the $p_v$-position $i(v)\in\tau(v)$ returned by each vertex $v\in V$, we know for each edge $e\in E$ that the direction that its source vertex $s(e)$ receives is the position $i(t(e))$ returned by its target vertex $t(e)$.
 \index{dependent function}\index{dynamics}\index{graph}
 
-Hence, once we give dynamics to each $p_v$, namely by specifying a dynamical system $S_v\yon^{S_v}\to p_v$ with outputs in $\tau(v)$ and inputs in $\prod_{e\in E_v}\tau(t(e))$, we will obtain a closed dynamical system that transitions from each vertex's state to the next according to the information that they pass each other along their edges.
+So once we give dynamics to each $p_v$, namely by specifying a dynamical system $S_v\yon^{S_v}\to p_v$ with positions in $\tau(v)$ and directions in $\prod_{e\in E_v}\tau(t(e))$, we will obtain a closed dynamical system that updates the state of each vertex according to the information that they observe from each other along their edges.
 
-Effectively, by interpreting a graph as a wiring diagram and giving each vertex dynamics, we have created what is known as a \emph{cellular automaton}---a network of vertices (or \emph{cells}) with states, such that each vertex $v\in V$ ``listens'' to the signals its \emph{neighbors} in $E_v$ send based on their states, then responds accordingly by updating its own state.
+Effectively, by interpreting a graph as a wiring diagram and giving each vertex dynamics, we have created what is known as a \emph{cellular automaton}---a network of vertices (or \emph{cells}), each with an internal state, in which each vertex $v\in V$ broadcasts a signal (i.e.\ returns a position) according to its current state, then updates its state according to the signals broadcasted by its \emph{neighbors} in $t(E_v)$ (i.e.\ positions returned by its neighbors it receives as directions).
 
-For example, a common graph found in cellular automata is a 2-dimensional integer lattice, with vertices $V\coloneqq\zz\times\zz$. The edges indicate which vertices are neighbors and thus ``hear'' which other vertices. One might use
-\[E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V\]
-with $s(i,j,m,n)=(m,n)$ and $t(i,j,m,n)=(m+i, n+j)$, so that the neighbors of each vertex are the eight vertices that surround it.
+For example, many cellular automata have their cells on a 2-dimensional integer lattice.
+The corresponding graph has vertices $V\coloneqq\zz\times\zz$ and edges given by
+\[
+  E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V,
+\]
+with $s((i,j),(m,n))=(m,n)$ and $t((i,j),(m,n))=(m+i,n+j)$, so that the neighbors of each vertex are the eight vertices that surround it.
 \end{example}
 
 \begin{exercise}[Conway's Game of Life]\label{exc.conway}\index{graph}\index{interaction!cellular automata and}
-Conway's Game of Life is played on a 2-dimensional integer lattice as follows.
+Conway's Game of Life is a cellular automaton taking place on a 2-dimensional integer lattice as follows.
 Each lattice point is either \emph{live} or \emph{dead}, and each point observes its eight \emph{neighbors} to which it is horizontally, vertically, or diagonally adjacent.
 The following occurs at every time step:
 \begin{itemize}
@@ -6961,27 +6971,26 @@ We can use \cref{ex.graph_interaction} to model Conway's Game of Life as a close
 \begin{enumerate}
 	\item What is the appropriate graph $E\tto V$?
 	\item What is the appropriate assignment of sets $\tau\colon V\to\smset$?
-	\item What are the polynomials $p_v$ from \cref{ex.graph_interaction}?
+	\item What are the monomials $p_v$ from \cref{ex.graph_interaction}?
 	\item What is the appropriate state-set $S_v$ for each interface $p_v$?
 	\item What is the appropriate dynamical system lens $S_v\yon^{S_v}\to p_v$?
 \qedhere
 \end{enumerate}
 \begin{solution}
-We seek to model Conway's Game of Life as a closed dynamical system using \cref{ex.graph_interaction}.
 \begin{enumerate}
-    \item Following the suggestion from the end of \cref{ex.graph_interaction}, we can use a graph with $V\coloneq\zz\times\zz$ and $E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V$ with $s(i,j,m,n)=(m,n)$ and $t(i,j,m,n)=(m+i,n+j)$ to model cellular automata like Conway's Game of Life on a 2-dimensional integer lattice in which each point listens only to its eight immediate neighbors.
-    \item Each vertex needs only return whether it is live or dead, so we assign $\tau(v)\coloneqq\{\text{live},\text{dead}\}$ for every $v\in V$.
+    \item Following the suggestion from the end of \cref{ex.graph_interaction}, we can use a graph with $V\coloneq\zz\times\zz$ and $E\coloneqq(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\})\times V$ with $s((i,j),(m,n))=(m,n)$ and $t((i,j),(m,n))=(m+i,n+j)$ to model cellular automata like Conway's Game of Life on a 2-dimensional integer lattice in which each point observes only its eight immediate neighbors.
+    \item Each vertex only needs to return whether it is live or dead, so we assign $\tau(v)\coloneqq\{\const{live},\,\const{dead}\}$ for every $v\in V$.
     \item For each $v\in V$, the monomial represented by $v$ from \cref{ex.graph_interaction} can be written as
     \[
-        p_v\iso\{\text{live},\text{dead}\}\yon^{\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\text{live},\text{dead}\})}.
+        p_v\iso\{\const{live},\,\const{dead}\}\yon^{\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\const{live},\,\const{dead}\})}.
     \]
-    Every vertex returns as output whether it is live or dead and receives as input whether each of its eight neighbors is alive or dead.
-    \item Each vertex $v\in V$ only needs to record whether it is live or dead, so $S_v\coloneqq\{\text{live},\text{dead}\}$.
-    \item The appropriate dynamical system lens $S_v\yon^S_v\to p_v$ for each vertex $v\in V$ should have the identity function on $\{\text{live},\text{dead}\}$ as its return function, while its update function should be a map
+    Every vertex returns either $\const{live}$ or $\const{dead}$ as its position and receives as its direction whether each of its eight neighbors is $\const{live}$ or $\const{dead}$.
+    \item Each vertex $v\in V$ only needs to record whether it is $\const{live}$ or $\const{dead}$, so $S_v\coloneqq\{\const{live},\,\const{dead}\}$.
+    \item The appropriate dynamical system lens $S_v\yon^{S_v}\to p_v$ for each vertex $v\in V$ should have the identity function on $\{\const{live},\,\const{dead}\}$ as its return function, while its update map should be a function
     \[
-        \{\text{live},\text{dead}\}\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\text{live},\text{dead}\})\to\{\text{live},\text{dead}\}
+        \{\const{live},\,\const{dead}\}\times\smset(\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\},\, \{\const{live},\,\const{dead}\})\to\{\const{live},\,\const{dead}\}
     \]
-    that executes the rules from Conway's Game of Life, using the data of whether the vertex itself is live or dead as well as whether each of its eight neighbors is live or dead to determine whether it should be live or dead in the next time step.
+    that takes whether $v$ is $\const{live}$ or $\const{dead}$ as its first coordinate and a function from $\{-1,0,1\}\times\{-1,0,1\}-\{(0,0)\}$ to $\{\const{live},\,\const{dead}\}$ that says whether each of its eight neighbors is $\const{live}$ or $\const{dead}$ as a second coordinate, then executes the rules from Conway's Game of Life to determine whether it should be live or dead in the next time step.
 \end{enumerate}
 \end{solution}
 \end{exercise}
@@ -6990,7 +6999,7 @@ We seek to model Conway's Game of Life as a closed dynamical system using \cref{
 
 \subsection{More examples of general interaction}
 
-While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a diagram.
+While wiring diagrams are a handy visualization tool for certain simple interaction patterns, there are more general interaction patterns that cannot be captured by such a static diagram.
 For example, here we generalize our previous cellular automata example.
 
 \begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}\index{cellular automata}\index{graph}
