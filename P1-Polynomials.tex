@@ -6816,8 +6816,8 @@ Consider the following wiring diagram.
 \begin{enumerate}
 	\item Let $\fun{divmod}\colon\nn\times\nn_{\geq1}\to\nn\times\nn$ send $(a,b)\mapsto(a\bdiv b, a\bmod b)$; for example, it sends $(10,7)\mapsto(1,3)$ and $(30,7)\mapsto(4,2)$.
 	Use \cref{ex.funs_to_moore} to turn it into a dynamical system.
-	\item % TODO: make it clearer what this exercise is asking for
-  Interpret the following wiring diagram, where we have already given dynamics to each box as indicated by their labels (here the upper wires connected to the divmod box correspond to the left factors of the domain and codomain of our divmod function, while the lower wires correspond to the right factors):
+	\item
+  In the following wiring diagram, we have already given dynamics to each box, as follows.
 \[
 \begin{tikzpicture}[oriented WD, bb small]
 	\node[bb port sep=3, fill=blue!10, bb={2}{2}] (divmod) {divmod};
@@ -6836,7 +6836,11 @@ Consider the following wiring diagram.
 	\draw (times_out1) -- (outer_out2);
 \end{tikzpicture}
 \]
-	\item Use the above and a diagram of the following form to create a dynamical system that alternates between spitting out $0$'s and the base-$10$ digits of $1/7$ after the decimal point, like so:
+  The dynamical system corresponding to the box $\fun{divmod}$, with the box as its interface, is the dynamical system from the previous part (the upper wires correspond to the left hand factors of the domain and codomain of the $\fun{divmod}$ function, while the lower wires correspond to the right hand factors).
+  Similarly, the box labeled $\ast$ corresponds to the  to the dynamical system arising from the multiplication function $\nn\times\nn\to\nn$ sending $(m,n)\mapsto mn$ following \cref{ex.funs_to_moore}.
+  Meanwhile the boxes labeled $7$ and $10$ correspond to dynamical systems with $1$ state each that always return $7\in\nn_{\geq1}$ and $10\in\nn$, respecively.
+  Describe the behavior of the dynamical system corresponding to the entire outer box.
+	\item Using the outer box from the wiring diagram above as the inner box of the wiring diagram below, pick an initial state so that the resulting dynamical system alternates between returning $0$'s and the base-$10$ digits of $1/7$ after the decimal point, like so:
 \[
 \begin{tikzpicture}[oriented WD]
 	\node[bb={1}{2}, fill=blue!10] (inner) {};
@@ -6856,19 +6860,19 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
 \begin{enumerate}
     \item Using \cref{ex.funs_to_moore}, we can turn $\fun{divmod}$ into the dynamical system $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ whose return function is the identity on $\nn\times\nn$ and whose update map  $\nn\times\nn\times\nn\times\nn_{\geq1}\to\nn\times\nn$ sends $(\_,\_,a,b)\mapsto(a\bdiv b,a\bmod b)$.
     \item From left to right, the inner boxes represent monomial interfaces $\nn_{\geq1}\yon, \nn\times\nn\yon^{\nn\times\nn_{\geq1}}, \nn\yon,$ and $\nn\yon^{\nn\times\nn}$.\index{interface!monomial}
-    The box labeled $7$ is given dynamics $7\colon\yon\to\nn_{\geq1}\yon$ so that it always returns the output $7$; similarly, the box labeled $10$ is given dynamics $10\colon\yon\to\nn\yon$ so that it always returns the output $10$.
-    Meanwhile, the box labeled is given dynamics $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ from the previous part; while we can again apply \cref{exc.funs_to_moore} to the standard multiplication function $*\colon\nn\times\nn\to\nn$ to give the box labeled $*$ dynamics as well, yielding a dynamical system $*\colon\nn\yon^\nn\to\nn\yon^{\nn\times\nn}$ whose return function is the identity on $\nn$ and whose update function $\nn\times\nn\times\nn\to\nn$ sends $(\_,m,n)\mapsto m*n$.
+    The box labeled $7$ is given dynamics $7\colon\yon\to\nn_{\geq1}\yon$ so that it always returns the position $7$; similarly, the box labeled $10$ is given dynamics $10\colon\yon\to\nn\yon$ so that it always returns the position $10$.
+    Meanwhile, the box labeled $\fun{divmod}$ is given dynamics $\fun{divmod}\colon\nn\times\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^{\nn\times\nn_{\geq1}}$ from the previous part; and applying \cref{exc.funs_to_moore} to the multiplication function $\ast\colon\nn\times\nn\to\nn$ yields the dynamics for the box labeled $\ast$: a dynamical system $\ast\colon\nn\yon^\nn\to\nn\yon^{\nn\times\nn}$ whose return function is the identity on $\nn$ and whose update map $\nn\times\nn\times\nn\to\nn$ sends $(\_,m,n)\mapsto mn$.
 
     Then the outer box is the monomial interface $\nn\times\nn\yon^\nn$, and the wiring diagram is the interaction pattern
     \[
         w\colon\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\to\nn\times\nn\yon^\nn
     \]
-    with on-positions function $(s,q,r,t,p)\mapsto(q,p)$ and on-directions function $(s,q,r,t,p,a)\mapsto(a,s,r,t)$.
+    with on-positions function $(s,q,r,t,p)\mapsto(q,p)$ and on-directions map $(s,q,r,t,p,a)\mapsto(a,s,r,t)$.
     So the dynamical system induced by the wiring diagram is the composite lens $\varphi$ given by
     \[
-        \yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\yon\otimes\nn\yon^\nn\To{7\otimes\fun{divmod}\otimes10\otimes*}\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\To{w}\nn\times\nn\yon^\nn,
+        \yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\yon\otimes\nn\yon^\nn\To{7\:\otimes\:\fun{divmod}\:\otimes\:10\:\otimes\:\ast}\nn_{\geq1}\yon\otimes\left(\nn\times\nn\yon^{\nn\times\nn_{\geq1}}\right)\otimes\nn\yon\otimes\nn\yon^{\nn\times\nn}\To{w}\nn\times\nn\yon^\nn,
     \]
-    whose return function is given by the composite map $(q,r,p)\mapsto(7,q,r,10,p)\mapsto(q,p)$ and whose update function at state $(q,r,p)$ is given by the composite map $a\mapsto(a,7,r,10)\mapsto(a\bdiv7,a\bmod7,r*10)$.
+    whose return function is given by the composite map $(q,r,p)\mapsto(7,q,r,10,p)\mapsto(q,p)$ and whose update function at state $(q,r,p)$ is given by the composite map $a\mapsto(a,7,r,10)\mapsto(a\bdiv7,a\bmod7,10r)$.
 
     In other words, the dynamical system $\varphi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns the quotient and the product.
     Then it is fed a dividend $a$ and evaluates $a\bdiv7$ to obtain the new quotient and $a\bmod7$ to obtain the new remainder.
@@ -6879,17 +6883,17 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
         w'\colon\nn\times\nn\yon^\nn\to\nn\yon
     \]
     with on-positions function $(q,p)\mapsto q$ and on-directions function $(q,p)\mapsto p$.
-    So the dynamical system induced by nesting the first wiring diagram within the inner box in this second wiring diagram is a composite lens
+    So the dynamical system induced by nesting the first wiring diagram within the inner box of the second wiring diagram is the composite lens
     \[
         \left(\nn\times\nn\yon^{\nn\times\nn}\right)\otimes\nn\yon^\nn\To{\varphi}\nn\times\nn\yon^\nn\To{w'}\nn\yon
     \]
-    whose return function is given by the composite map $(q,r,p)\mapsto(q,p)\mapsto q$ and whose update function at state $(q,r,p)$ is specifies the new state $(p\bdiv7,p\bmod7,r*10)$.
+    whose return function is given by the composite map $(q,r,p)\mapsto(q,p)\mapsto q$ and whose update function at state $(q,r,p)$ specifies the new state $(p\bdiv7,p\bmod7,10r)$.
 
     In other words, the dynamical system $\varphi$ behaves as follows: its state consists of a quotient $q$, a remainder $r$, and a product $p$, of which it returns just the quotient.
     Then it advances to a new state by evaluating $p\bdiv7$ to obtain the new quotient and $p\bmod7$ to obtain the new remainder.
     Meanwhile, the new product is given by the previous remainder multiplied by $10$.
 
-    If the initial state is $(q,r,p)=(0,0,10)$, then all the states will be as follows, with the values of $q$ in the left column giving us the outputs:
+    If we set the initial state to be $(q,r,p)\coloneqq(0,0,10)$, then the subsequent states will be as follows, with the values of $q$ in the left column giving us the positions returned:
     \begin{table}[hbt!]
         \centering
         \footnotesize
@@ -6909,14 +6913,14 @@ We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical syste
             0 & 0 & 50 \\
             7 & 1 & 0 \\
             0 & 0 & 10 \\
-            $\cdots$ & $\cdots$ & $\cdots$
+            $\vdots$ & $\vdots$ & $\vdots$
         \end{tabular}
     \end{table}
 \end{enumerate}
 \end{solution}
 \end{exercise}
 
-\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}\index{cellular automata}\index{graph}
+\begin{example}[Graphs as wiring diagrams and cellular automata]\label{ex.graph_interaction}\index{cellular automata}\index{graph} % TODO: check if this still works with multiple parallel edges
 Suppose we have a graph $G=(E\tto V)$ as in \cref{def.graph} and a set $\tau(v)$ associated with each vertex $v\in V$:
 \[
 \begin{tikzcd}
@@ -7004,13 +7008,13 @@ For example, here we generalize our previous cellular automata example.
 
 \begin{example}[Generalized cellular automata: voting on who your neighbors are]\label{ex.cell_auto_vote_interaction}\index{cellular automata}\index{graph}
 Recall from \cref{ex.graph_interaction} how we constructed a cellular automaton on a graph $G=(E\tto V)$.
-For each $v\in V$, the graph specifies the set $N(v)\coloneqq t(E_v)$ of vertices at the ends of edges coming out of $v$.
-These vertices are the \emph{neighbors} of $v$, or the vertices that $v$ can ``listen'' to.
-We call the map $N\colon V\to\2^V$ from each vertex to the set of its neighbors the \emph{neighbor function}.
+For each $v\in V$, the graph specifies the set $N(v)\coloneqq t(E_v)$ of target vertices of edges emanating from $v$.
+These vertices are the \emph{neighbors} of $v$, or the vertices that $v$ can ``observe.''
+We call the function $N\colon V\to\2^V$ from each vertex to the set of its neighbors the \emph{neighbor function}.
 For simplicitly, we let each vertex store and return one of two states, so $S_v\coloneqq\tau(v)\coloneqq\2$.
 
-Now just take the vertices and forget the edges of our graph.
-Suppose instead that we are given a function $n\colon V\to\nn$ that we think of as specifying the number $n(v)$ of neighbors each $v\in V$ could potentially have.
+Now consider only the vertices of our graph and forget the edges.
+Suppose we are then given a function $n\colon V\to\nn$ that we can think of as specifying the number $n(v)$ of neighbors each $v\in V$ could potentially have.
 Let $\ord{n}(v)\coloneqq\{1,2,\ldots,n(v)\}$.
 Then we can think of the monomial that each vertex represents as
 \[
@@ -7056,10 +7060,10 @@ It could be dictated by a given vertex $v_0\in V$ in the sense that its state co
 %\end{solution}
 %\end{exercise}
 
-Here are some more examples of using dependent dynamical systems to model changing wiring diagrams.
+Here are some more examples of dependent dynamical systems with interaction patterns in which the way the constituent components are wired together may change.
 
 \begin{example}\label{ex.bonds_break}\index{interaction!breaking bonds}
-In the picture below, forces are being applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as on the right.
+In the picture below, forces are applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as depicted on the right.
 \[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
 	\node[bb={1}{1}, fill=blue!10] (x1) {$\varphi_1$};
@@ -7080,66 +7084,66 @@ In the picture below, forces are being applied to the connected boxes on the lef
 \]
 We will imagine the dependent dynamical systems $\varphi_1\colon S\yon^S\to p_1$ and $\varphi_2\colon S\yon^S\to p_2$ as initially connected in space.
 They experience forces from the outside world, and---for as long as they are connected---they experience forces from each other.
-More precisely, each interface is defined by
+More precisely, their interfaces are given by
 \[
-	p_1\coloneqq p_2\coloneqq F\yon^{FF}+\{\text{`snapped'}\}\yon^F.
+	p_1\coloneqq p_2\coloneqq F\yon^{F\times F}+\{\const{snapped}\}\yon^F,
 \]
-Elements of $F$ will be called \emph{forces}.
-We need to be able to add and compare forces, i.e.\ we need $F$ to be an ordered monoid; let's say $F=\nn$ for simplicity.
-The idea is that the interface has two kinds of output it can return: either a force $f_i\in F$ on the other system, at which point it can receive an input in $FF$ indicating a force acting on the system from its left and another force acting on it from its right; or `snapped,' indicating that the system is no longer connected to the other system, at which point it only receives a single force in $F$ from the outside.
-
-The wrapper interface is defined to be
+where $F$ is our set of \emph{forces}.
+We need to be able to add and compare forces, so we need $F$ to be an ordered monoid; let us say $F\coloneqq\nn$ for simplicity.
+Here each interface has two kinds of positions it can return: either a force $f\in F$ that will be applied to the other interface (i.e.\ sent to the other interface as a direction) or $\const{snapped}$, indicating that the interfaces are no longer connected.
+The interface always receives a force from the outside world as part of its direction, but when the position of the interface is not $\const{snapped}$, it receives a force from the other interface as part of its direction as well.
+So its direction set is $F\times F$ at positions in $F$, when the two interfaces are connected; and just $F$ at the position $\const{snapped}$, when the two interfaces are not.
+We define the wrapper interface to be
 \[
-    p\coloneqq\yon^{FF};
+    p\coloneqq\yon^{F\times F};
 \]
-it takes as input two forces $(f_L, f_R)$ and returns unchanging output.
-
-Though the systems $\varphi_1$ and $\varphi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops sending and receiving forces from the other. The connection is broken and neither system ever receives forces from the other again. This is what we will implement explicitly below.
+it can return only 1 position, while its directions are ordered pairs of forces $(f_L, f_R)$ indicating the two external forces acting on the composite system.
 
 \index{interaction pattern}
-To do so, we need to define an interaction pattern $p_1\otimes p_2\to p$ that wraps $p$ around $\varphi_1$ and $\varphi_2$.
+Though the systems $\varphi_1$ and $\varphi_2$ may be initially connected, if the forces on either one surpass a threshold, that system stops communicating with the other system.
+The connection is broken and neither system ever receives forces from the other again. To implement this explicitly, we need to define an interaction pattern $\kappa\colon p_1\otimes p_2\to p$ that wraps $p$ around $\varphi_1$ and $\varphi_2$.
 That is, we need to give a lens
 \[
-    \kappa\colon (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\otimes (F\yon^{FF}+\{\text{`snapped'}\}\yon^F)\to\yon^{FF}.
+    \kappa\colon (F\yon^{F\times F}+\{\const{snapped}\}\yon^F)\otimes (F\yon^{F\times F}+\{\const{snapped}\}\yon^F)\to\yon^{F\times F}.
 \]
-By the distributivity of $\otimes$ over $+$, it suffices to give four lenses:
+Distributing and leveraging coproducts as usual, we find that it suffices to give four lenses:
 \begin{equation}\label{eqn.snapped_maps}
 \arraycolsep=1.4pt
 \begin{array}{lll}
-	\kappa_{11}\colon&~ FF\yon^{(FF)(FF)}&\to\yon^{FF}\\
-	\kappa_{12}\colon&~ F\{\text{`snapped'}\}\yon^{(FF)F}&\to\yon^{FF}\\
-	\kappa_{21}\colon&~ \{\text{`snapped'}\}F\yon^{F(FF)}&\to\yon^{FF}\\
-	\kappa_{22}\colon&~ \{\text{`snapped'}\}\{\text{`snapped'}\}\yon^{FF}&\to\yon^{FF}
+	\kappa_{11}\colon&~ F\times F\yon^{(F\times F)(F\times F)}&\to\yon^{F\times F}\\
+	\kappa_{12}\colon&~ F\{\const{snapped}\}\yon^{(F\times F)F}&\to\yon^{F\times F}\\
+	\kappa_{21}\colon&~ \{\const{snapped}\}F\yon^{F(F\times F)}&\to\yon^{F\times F}\\
+	\kappa_{22}\colon&~ \{\const{snapped}\}\{\const{snapped}\}\yon^{F\times F}&\to\yon^{F\times F}
 \end{array}
 \end{equation}
-The middle two lenses $\kappa_{12}$ and $\kappa_{21}$ won't actually occur in our dynamics, so we take them to be arbitrary.
-We take the last lens $\kappa_{22}$ to be the obvious isomorphism, passing the forces from outside to the two internal interfaces.
-The first lens $\kappa_{11}$ is equivalent to a function $(FF)(FF)\to (FF)(FF)$ which we take to be $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
+The lenses $\kappa_{12}$ and $\kappa_{21}$ will not actually occur in our dynamics (when one interface returns $\const{snapped}$, both should), so we take them to be arbitrary.
+We take the lens $\kappa_{22}$ to be the obvious isomorphism, passing the external forces to the two internal interfaces.
+Finally, the lens $\kappa_{11}$ is equivalent to a function $(F\times F)(F\times F)\to (F\times F)(F\times F)$ which, taking care to remember what each $F$ refers to, we find should send $((f_1,f_2),(f_L,f_R))\mapsto((f_L,f_2),(f_1,f_R))$.
 While the multiple $F$'s may be a little hard to keep track of, what this map says is that if $\varphi_1$ returns the force $f_1$ on $\varphi_2$ as output and $\varphi_2$ returns the force $f_2$ on $\varphi_1$ as output, then $\varphi_1$ receives the force $f_2$ from the right as input and $\varphi_2$ receives the force $f_1$ from the left as input; and in the meantime the left external force $f_L$ is given to $\varphi_1$ on the left, while the right external force is given to $\varphi_2$ on the right.
 
 Now that we have the interfaces wrapped together, it remains to specify each dynamical system.
-The states in the two cases will be identical, namely $S\coloneqq F+\{`snapped'\}$, meaning that at any point the system will either be in the state of applying a force to the other system or not.
-The dynamical systems themselves will be identical as well, up to a symmetry swapping left and right; let's just define the left system for now.
+The state-sets for the two systems will be the same, namely $S\coloneqq F+\{\const{snapped}\}$: each system is either applying a force to the other system or not.
+The dynamical systems themselves will be the same as well, up to a symmetry swapping left and right; we will define only the left system.
 It is given by a lens
-\[\varphi_1\colon (F+\{\text{`snapped'}\})\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF}+\{\text{`snapped'}\}\yon^F\]
+\[\varphi_1\colon (F+\{\const{snapped}\})\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F}+\{\const{snapped}\}\yon^F\]
 which we write as the sum of two lenses
-\[F\yon^{F+\{\text{`snapped'}\}}\to F\yon^{FF} \qqand \{\text{`snapped'}\}\yon^{F+\{\text{`snapped'}\}}\to\{\text{`snapped'}\}\yon^F.\]
-Both lenses are the identity on positions, directly returning their current state.
-The second lens corresponds to when the connection is broken, after which the connection should remain broken, so its on-directions function is constant, sending any input to `snapped.'
-Meanwhile, the first lens corresponds to the case where the systems are still connected; this system receives two input forces and must update its state---the force it applies---accordingly.
-We let the on-directions function $F(FF)\to F+\{\text{`snapped'}\}$ send
+\[F\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F} \qqand \{\const{snapped}\}\yon^{F+\{\const{snapped}\}}\to\{\const{snapped}\}\yon^F.\]
+Both lenses are identities on positions, directly returning their current states.
+The second lens corresponds to when the connection is broken, after which the connection should remain broken: so its on-directions function is constant, sending any direction to $\const{snapped}$.
+Meanwhile, the first lens corresponds to the case where the systems are still connected; in this state, the system can receive a pair of forces as its direction and must update its state---either the force it applies or $\const{snapped}$---accordingly.
+We let the on-directions function $F(F\times F)\to F+\{\text{`snapped'}\}$ send
 \[
 (f_1,(f_L,f_2))\mapsto
 \begin{cases}
-	f_L&\tn{ if }f_1+f_2<100\\
-	\text{`snapped'}&\tn{ otherwise}
+	\const{snapped}&\tn{ if }f_1+f_2\geq100\\
+	f_L&\tn{ otherwise}
 \end{cases}
 \]
-Thus, when the sum of forces is high enough, the internal state is updated to the `snapped' state; otherwise, it is sent to the force it receives from outside, which it is now ready to transfer to the other system.
+Thus, when the sum of forces is above a certain threshold (arbitrarily chosen here to be $100$), the internal state is updated to the $\const{snapped}$ state; otherwise, the internal state is set to the external force applied to the system, which it is now ready to transfer to the other system.
 \end{example}
 
 \begin{example}\label{ex.supplier_change}\index{interaction!supplier change}
-Consider the case of a company that may change its supplier based on its internal state. The company returns two possible outputs, corresponding to who it wants to receive widgets $W$ from:
+Consider the case of a company that may change its supplier based on its internal state. The company returns two possible positions, corresponding to who it wants to receive widgets $W$ from:
 \[
 \begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
 	\node[bb={0}{1}] (s1) {Supplier 1};
@@ -7160,7 +7164,7 @@ Consider the case of a company that may change its supplier based on its interna
 \]
 So the company has interface $\2\yon^W$, and each supplier has interface $W\yon$.
 Then a section for the company and the suppliers is just a lens $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$, corresponding to a function $\2W^\2\to W$ given by evaluation.
-In other words, the company's output determines its supplier.
+In other words, the company's position determines its supplier.
 \end{example}
 
 \begin{example}\label{ex.assemble_machine}\index{interaction!assembling}
@@ -7190,12 +7194,22 @@ When someone assembles a machine, their own positions dictate the interaction pa
 {Attach!};
 \end{tikzpicture}
 \end{equation*}
-In order for the above picture to make sense, the output set of \texttt{unit A} should be the same as the input set of \texttt{unit B}.
-Call this set $X$, so that \texttt{unit A} has interface $X\yon$ and \texttt{unit B} has interface $\yon^X$.
-We fix a default value $x_0\in X$ for the input to \texttt{unit B} when it is not connected to \texttt{unit A}.
-Meanwhile, the person takes no input and dictates whether the units are attached or not, so we give it interface $\2\yon$.
+In order for the above picture to make sense, the position-set of \texttt{unit A} should be the same as the direction-set of \texttt{unit B} when they are connected.
+Call this set $X$, so that \texttt{unit A} has interface $X\yon$, always returning elements of $X$; and \texttt{unit B} has interface $\{\const{attached}\}\yon^X+\{\const{separated}\}\yon$.
+Meanwhile, the role of the person is simply to return whether the units should $\const{attach}$ or $\const{separate}$, so we give it the interface $\{\const{attache},\,\const{separate}\}\yon$.
 
-Then a section for the person and the units is a lens $\2\yon\otimes X\yon\otimes \yon^X\to\yon$. The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+Then a section for the person and the units is a lens
+\[
+  \{\const{attach},\,\const{separate}\}\yon\otimes X\yon\otimes(\{\const{attached}\}\yon^X+\{\const{separated}\}\yon)\to\yon.
+\]
+Such a lens corresponds to a pair of functions: one function
+\[
+  \{\const{attach},\,\const{separate}\}\times X\times \{\const{attached}\}\to X
+\]
+that sends $(\const{attach},x,\const{attached})\mapsto x$ and  $(\const{separate},x,\const{attached})\mapsto x$
+
+The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
+% TODO: fix this example
 \end{example}
 
 We can easily generalize \cref{ex.assemble_machine}.
