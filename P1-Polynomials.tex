@@ -7128,13 +7128,13 @@ Thus, when the sum of forces is above a certain threshold (arbitrarily chosen he
 \end{example}
 
 \begin{example}\label{ex.supplier_change}\index{interaction!supplier change}
-Consider the case of a company that may change its supplier based on its internal state. The company returns two possible positions, corresponding to who it wants to receive widgets $W$ from:
+Consider the case of a company that may change its supplier based on its internal state. The company returns two possible positions, corresponding to whether it wants to receive gizmos in $G$ from the first supplier or widgets in $W$ from the second:
 \[
 \begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
 	\node[bb={0}{1}] (s1) {Supplier 1};
 	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
 	\node[bb={1}{0}, right=0.5 of s1] (c) {Company};
-	\draw (s1_out1) to node[above, fill=none, font=\tiny] {$W$} (c_in1);
+	\draw (s1_out1) to node[above, fill=none, font=\tiny] {$G$} (c_in1);
 	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
 \begin{scope}[xshift=3.5in]
 	\node[bb={0}{1}] (s1') {Supplier 1};
@@ -7147,9 +7147,13 @@ Consider the case of a company that may change its supplier based on its interna
 {Change\\supplier!};
 \end{tikzpicture}
 \]
-So the company has interface $\2\yon^W$, and each supplier has interface $W\yon$.
-Then a section for the company and the suppliers is just a lens $\2\yon^W\otimes W\yon\otimes W\yon\to\yon$, corresponding to a function $\2W^\2\to W$ given by evaluation.
-In other words, the company's position determines its supplier.
+So the company has interface $\{1\}\yon^G+\{2\}\yon^W$, the first supplier has interface $G\yon$, and the second supplier has interface $W\yon$.
+Then a section for the company and the suppliers is a lens
+\[
+  \left(\{1\}\yon^G+\{2\}\yon^W\right)\otimes G\yon\otimes W\yon\to\yon,
+\]
+corresponding to a pair of functions $\{1\}\times GW\iso GW\to G$ and $\{2\}\times GW\iso GW\to W$ given by canonical projections.
+In other words, the company's position determines its supplier and what it receives.
 \end{example}
 
 \begin{example}\label{ex.assemble_machine}\index{interaction!assembling}
