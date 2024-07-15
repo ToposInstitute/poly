@@ -1859,14 +1859,14 @@ The answer lies with the composition product.
 
 \index{interface}
 
-Recall that a dependent dynamical system is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of states and $p$ is a polynomial interface.
-We call $S\yon^S$ the state system, each $p$-position $i$ an output, each $p[i]$-direction an input at $i$, and the on-position and on-direction functions of $\varphi$ the return and update functions, respectively.
+Recall that a \emph{(dependent) dynamical system} is a lens $\varphi\colon S\yon^S\to p$, where $S$ is a set of \emph{states} and $p$ is a polynomial \emph{interface}.
+We call $S\yon^S$ the \emph{state system} and the on-position and on-direction functions of $\varphi$ the \emph{return} and \emph{update} functions, respectively.
 More generally, we saw in \cref{ex.do_nothing} that we could replace the state system with a monomial $q\coloneqq S\yon^{S'}$, where $S'$ is another set, as long as there is a function $e\colon S\to S'$ (or equivalently a section $\epsilon\colon S\yon^{S'}\to\yon$) that is bijective.
 
 \index{state system}\index{dynamical system}
 
 The lens models a dynamical system as follows.
-Every state $s\in q(\1)=S$ returns an output $o\coloneqq\varphi_\1(s)\in p(\1)$, and every input $i\in p[o]$ yields an updated direction $s'\coloneqq\varphi^\sharp_s(a)\in q[s]=S'$.
+Every state $s\in q(\1)=S$ returns a position $o\coloneqq\varphi_\1(s)\in p(\1)$, and every direction $i\in p[o]$ yields an updated direction $s'\coloneqq\varphi^\sharp_s(a)\in q[s]=S'$.
 Then to model a second step through the system, we identify the $q[s]$-direction $s'$ with a $q$-position $e^{-1}(s')$, plug this position back into $\varphi_\1$, and repeat the process all over again.
 
 % Equivalently, we could think of running through two steps of the system as picking an initial state $s\in q(\1)$ and using a bijection $\ol{t}\colon q[s]\to q(\1)$ to assign each direction at $s$ to a state in $q(\1)$.
@@ -1879,17 +1879,17 @@ But this is exactly what the composition product $\varphi\tri\varphi\colon q\tri
 \begin{equation} \label{eqn.interface_position_pair}\index{interface}
     \left(\varphi_\1(s_0),\varphi^\sharp_{s_0}\then e^{-1}\then\varphi_\1\right)\in(p\tri p)(\1),
 \end{equation}
-comprised of the initial output $o_0\coloneqq\varphi_\1(s)\in p(\1)$ and a composite function
+comprised of the initial position $o_0\coloneqq\varphi_\1(s)\in p(\1)$ and a composite function
 \begin{equation} \label{eqn.interface_position_fn1}
     p[o_0]\To{\varphi^\sharp_{s_0}}q[s_0]=S'\To{e^{-1}}S=q(\1)\To{\varphi_\1}p(\1),
 \end{equation}
-which uses the update function at $s_0$ and the return function to tell us what the next output $o_1$ will be for every possible input $i_1$ we could select.
-Then by \eqref{eqn.comp_lens_dir}, the on-directions function of $\varphi\tri\varphi$ sends each direction $(i_1,i_2)$ at the position \eqref{eqn.interface_position_pair}, comprised of a first input $i_1\in p[o_0]$ and (setting $o_1$ to be the function \eqref{eqn.interface_position_fn1} applied to $i_1$) a second input $i_2\in p[o_1]$, to the pair
+which uses the update function at $s_0$ and the return function to tell us what the next position $o_1$ will be for every possible direction $i_1$ we could select.
+Then by \eqref{eqn.comp_lens_dir}, the on-directions function of $\varphi\tri\varphi$ sends each direction $(i_1,i_2)$ at the position \eqref{eqn.interface_position_pair}, comprised of an initial direction $i_1\in p[o_0]$ and (setting $o_1$ to be the function \eqref{eqn.interface_position_fn1} applied to $i_1$) a second direction $i_2\in p[o_1]$, to the pair
 \[
     \left(\varphi^\sharp_{s_0}(i_1), \varphi^\sharp_{e^{-1}(\varphi^\sharp_{s_0}(i_1))}(i_2)\right),
 \]
-comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next state $s_1$ upon selecting input $i_1$ at state $s_0$ and the successive state $s_2$ upon selecting input $i_2$ at $s_1$.
-In summary, at certain positions, $\varphi\tri\varphi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning output $o_0$, receiving input $i_1$, updating its state to $s_1$, returning output $o_1$, receiving input $i_2$, and preparing to update its state to $s_2$.
+comprised of directions in $S'$ that (under $e^{-1}$) correspond to the next state $s_1$ upon selecting direction $i_1$ at state $s_0$ and the successive state $s_2$ upon selecting direction $i_2$ at $s_1$.
+In summary, at certain positions, $\varphi\tri\varphi$ tells us how the dynamical system will behave when we step through it twice: starting from state $s_0$, returning position $o_0$, receiving direction $i_1$, updating its state to $s_1$, returning position $o_1$, receiving direction $i_2$, and preparing to update its state to $s_2$.
 Adding another layer, $\varphi\tri\varphi\tri\varphi\colon q\tri q\tri q\to p\tri p\tri p$ will tell us how the system behaves when we step through it three times; and in general, $\varphi\tripow{n}\colon q\tripow{n}\to p\tripow{n}$ will tell us how the system behaves when we step through it $n$ times.
 
 \index{dynamical system!stepping through}
@@ -2066,8 +2066,8 @@ This is what we meant in the introduction when we said that the composition prod
 \index{dynamical system!trees}\index{interface}
 
 This is what we meant in the introduction when we said that the substitution product has to do with time.
-It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external input that the interface could encounter.
-Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ inputs of $p$ at a time!
+It takes a specification $\varphi$ for how a state system and an interface can interact back-and-forth---or, indeed, any interaction pattern between wrapper interfaces---and extends it to a multistep model $\varphi\tripow{n}$ that simulates $n$ successive interaction cycles over time, accounting for all possible external directions that the interface could encounter.
+Alternatively, we can think of $\varphi\tripow{n}$ as ``speeding up'' the original dynamical system $\varphi$ by a factor of $n$, as it runs $n$ steps in one---as long as whatever's connected to its new interface $p\tripow{n}$ can keep up with its pace and feed it $n$ directions of $p$ at a time!
 The lens $\varphi$ tells us how the machine can run, but it is $\tri$ that makes the clock tick.
 \index{clock!tick}\index{interaction!multi-step}
 
@@ -2501,16 +2501,16 @@ By the previous example, a dynamical system $\varphi\colon S\yon^S\to q\tri r$ c
 We can interpret the behavior of this system as follows.
 Rather than a single interface $q\tri r$, we view $\varphi$ as having two interfaces that must be interacted with in succession, $q$ followed by $r$.\index{interface!composite}
 
-Given the current state $s\in S$, the system feeds it into $\varphi^q$ to return an output $j$ of the first interface $q$.
-Upon receiving an input $b\in q[j]$, it then uses $\varphi^r$ to return another output $k$ (dependent on the state $s$ and the input $b$), this time belonging to the second interface $r$.
-Once a second input $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of inputs $(b,c)$ it received into $\varphi^\sharp$, yielding a new state $t\in S$.
+Given the current state $s\in S$, the system feeds it into $\varphi^q$ to return a position $j$ of the first interface $q$.
+Upon receiving a direction $b\in q[j]$, it then uses $\varphi^r$ to return another position $k$ (dependent on the state $s$ and the direction $b$), this time belonging to the second interface $r$.
+Once a second direction $c$ is received, this time from $r[k]$, the system updates its state by feeding the current state $s$ and the pair of directions $(b,c)$ it received into $\varphi^\sharp$, yielding a new state $t\in S$.
 
 
 That's a lot of words, which is why the polybox picture is so helpful: by following the arrows, we can see that a dynamical system with a composite interface actually captures a very natural type of interaction!
 Mixing our metaphors a little, $\varphi$ could model a system that displays cascading menus, where selecting an option $b$ on the first menu $j$ opens up a second menu $k$.
 It is only when the interacting agent selects an option $c$ from this second menu that both choices are sent back to the state system, which updates its state accordingly.
 
-All this generalizes to $n$-fold composite interfaces exactly how you'd expect: a dynamical system with interface $q_1\tri\cdots\tri q_n$ produces output and receives input through interface $q_1$, then accordingly produces output and receives input through interface $q_2$, and so on, until it produces output (according to the current state and all previous inputs) and receives input through $q_n$, whereupon it updates its state according to the $n$ inputs it received along with the current state.
+All this generalizes to $n$-fold composite interfaces exactly how you'd expect: a dynamical system with interface $q_1\tri\cdots\tri q_n$ returns a position and receives a direction through interface $q_1$, then accordingly returns a position and receives a direction through interface $q_2$, and so on, until it returns a position (according to the current state and all previous directions) and receives a direction through $q_n$, whereupon it updates its state according to the $n$ directions it received along with the current state.
 \end{example}\index{interface!composite}
 
 
@@ -2661,7 +2661,7 @@ This \emph{almost} models the behavior of running through the system twice, exce
 The second blue box on the domain side, the one we fill with $s_1$, should instead be filled automatically with the same state as the direction $s_1$ in the white box below it.
 
 In fact, it would be nice if the domain were still just $S\yon^S$.
-Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\varphi$ twice, returning two outputs and receiving two inputs before stopping at the new state $s_2$.
+Then we would have a lens $S\yon^S\to p\tri p$ that takes an initial state $s_0\in S$ and runs the original system $\varphi$ twice, returning two positions and receiving two directions before stopping at the new state $s_2$.
 But we just learned how to take a composition product of lenses such as $\varphi\tripow2\colon S\yon^S\tri S\yon^S\to p\tri p$ and convert its domain to a new polynomial, say $S\yon^S$, with only one blue box on the domain side---just compose it with another lens $S\yon^S\to S\yon^S\tri S\yon^S$ like so:
 \[
 \begin{tikzpicture}
@@ -3998,7 +3998,7 @@ Here $\varphi\colon p\to p'$ and $\psi\colon q\to q'$ are lenses.
 
 In this chapter we introduced the composition (sometimes called ``substitution'') product $\tri$. Given polynomials $p,q$ thought of as functors, their composite is again polynomial and is given by $p\tri q$. We explained how it looks in terms of algebra, e.g.\ how to compute $\yon^\2\tri(\yon+\1)$; in terms of sets, e.g.\ as a sum-product-sum-product $\sum\prod\sum\prod$, which can be reduced to a single $\sum\prod$; in terms of trees, by stacking corollas on top of corollas; and in terms of polyboxes. We paid particular attention to lenses into a composite $p\to q\tri r$.
 
-This allowed us to explain how to think of dynamical systems $S\yon^S\to p\tri q$ with composite interfaces as multi-step machines: each state produces a $p$-output, and then for every $p$-input produces a $q$-output, and then for every $q$-input returns an updated $S$-state.
+This allowed us to explain how to think of dynamical systems $S\yon^S\to p\tri q$ with composite interfaces as multi-step machines: each state produces a $p$-position $i$, and then for every $p[i]$-direction produces a $q$-position $j$, and finally for every $q[j]$-direction returns an updated state in $S$.
 
 Finally, we discussed some facts of the composition product. For example, we showed that $-\tri q$ has a left adjoint $\lchom{q}{-}$ and that $q\tri -$ has a left multi-adjoint $-\frown q$. We also explained that $p\tri q$ preserves all with limits in the variable $p$ and all connected limits in the variable $q$. We also explained the duoidal interaction between $\otimes$ and $\tri$, i.e.\ the natural lens $\tri\otimes\tri\to\otimes\tri\otimes$, and how $\tri$ interacts with cartesian lenses.
 
@@ -4637,8 +4637,8 @@ Then $\text{Run}_0(\varphi)=\epsilon\then\varphi\tripow0=\epsilon\then\id_\yon=\
 \end{solution}
 \end{exercise}
 
-\begin{example}[Returning every other output] \label{ex.long_div_skip}
-In \cref{exc.long_div}, we built a dynamical system $\varphi\colon S\yon^S\to\nn\yon$ that outputs natural numbers---specifically digits, alternating between $0$'s and the base-$10$ digits of $1/7$ after the decimal point like so:
+\begin{example}[Returning every other position] \label{ex.long_div_skip}
+In \cref{exc.long_div}, we built a dynamical system $\varphi\colon S\yon^S\to\nn\yon$ that returns natural numbers---specifically digits, alternating between $0$'s and the base-$10$ digits of $1/7$ after the decimal point like so:
 \[
 \begin{tikzpicture}[oriented WD]
 	\node[bb={1}{2}, fill=blue!10] (inner) {};
@@ -4652,14 +4652,14 @@ In \cref{exc.long_div}, we built a dynamical system $\varphi\colon S\yon^S\to\nn
 \end{tikzpicture}
 \]
 Say we only wanted the system to return the digits of $1/7$ after the decimal point; we'd like to do away with all these $0$'s.
-In other words, we want a new system $S\yon^S\to\nn\yon$ that acts like $\varphi$, except that it only returns every other output that $\varphi$ returns.
+In other words, we want a new system $S\yon^S\to\nn\yon$ that acts like $\varphi$, except that it only returns every other position that $\varphi$ returns.
 
-We could build such a system from scratch---or we can simply start from $\varphi$ and apply $\text{Run}_2$, yielding a system $\text{Run}_2(\varphi)\colon S\yon^S\to\nn\yon\tri\nn\yon\iso\nn^\2\yon$ that returns the outputs of $\varphi$ two at a time:
+We could build such a system from scratch---or we can simply start from $\varphi$ and apply $\text{Run}_2$, yielding a system $\text{Run}_2(\varphi)\colon S\yon^S\to\nn\yon\tri\nn\yon\iso\nn^\2\yon$ that returns the positions of $\varphi$ two at a time:
 \[
     (0,1),(0,4),(0,2),(0,8),(0,5),(0,7),(0,1),(0,4),(0,2),(0,8),(0,5),(0,7),\ldots
 \]
-Then we just need to compose $\text{Run}_2(\varphi)$ with a lens $\pi_2\colon\nn^\2\yon\to\nn\yon$ equal to the second coordinate projection on positions (and the identity on directions) to extract the outputs we want.
-The new system $S\yon^S\to\nn\yon$ that skips over every output of $\varphi$ is therefore the following composite:
+Then we just need to compose $\text{Run}_2(\varphi)$ with a lens $\pi_2\colon\nn^\2\yon\to\nn\yon$ equal to the second coordinate projection on positions (and the identity on directions) to extract the positions we want.
+The new system $S\yon^S\to\nn\yon$ that skips over every position of $\varphi$ is therefore the following composite:
 \[
 \begin{tikzcd}
 	S\yon^S\ar[r, "\delta^{(2)}"]\ar[rr, bend right, "{\text{Run}_2(\varphi)}"']&
@@ -4668,7 +4668,7 @@ The new system $S\yon^S\to\nn\yon$ that skips over every output of $\varphi$ is 
 	\nn\yon.
 \end{tikzcd}
 \]
-We can apply this technique in general to skip (or otherwise act on) the outputs of a dynamical system at regular intervals.
+We can apply this technique in general to skip (or otherwise act on) the positions of a dynamical system at regular intervals.
 \end{example}
 
 One drawback of the $\text{Run}_n(-)$ operation is that we need to keep track of a separate morphism $S\yon^S\to p\tripow{n}$ for every $n\in\nn$, as well as various ways to relate these morphisms for different values of $n$.
@@ -6289,7 +6289,7 @@ For experts, we explain the term \emph{retrofunctor} from \cref{def.retrofunctor
 	\Ob(\cat{C})\ar[d, "F_\mathrm{Ob}"]\\
 	\Ob(\cat{C'})\ar[r, tick, "\Mor(\cat{C'})"', "" name=MM']&
 	\Ob(\cat{C'})
-	\ar[from=MM, to=MM', Rightarrow, shorten=4pt, "F_{\mathrm{Mor}}"]	
+	\ar[from=MM, to=MM', Rightarrow, shorten=4pt, "F_{\mathrm{Mor}}"]
 \end{tikzcd}
 \hspace{.7in}
 \begin{tikzcd}[column sep=70pt]
@@ -6297,10 +6297,10 @@ For experts, we explain the term \emph{retrofunctor} from \cref{def.retrofunctor
 		\ar[r, tick, bend left=25pt, "\mathrm{Mor}(\cat{C})", ""' name=MM]
 		\ar[r, tick, bend right=25pt, "\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}"', "" name=MM']&
 	\Ob(\cat{C})
-  	\ar[from=MM, to=MM', Rightarrow, shorten=2pt, "F_{\mathrm{Mor}}"]	
+  	\ar[from=MM, to=MM', Rightarrow, shorten=2pt, "F_{\mathrm{Mor}}"]
 \end{tikzcd}
 \]
-satisfying the properties of a monad homomorphism. 
+satisfying the properties of a monad homomorphism.
 
 In \cite[Definition 6.1]{pare2023retrocells}, Par\'e defines \emph{retromorphism of monads} in double categories like $\mathbb{S}\Cat{pan}$. We will not discuss the more general definition here, but in a framed bicategory (equipment), where we have companions $\wc{f}$ and conjoints $\wh{f}$ of tight maps $f$, it is easy to check that monads lift along tight morphisms in the sense that the horizontal cell $\left(\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}\right)\colon \Ob(\cat{C})\tickar \Ob(\cat{C})$ is a monad if $\mathrm{Mor}(\cat{C'})$ is. Hence, a functor is equivalently given by a function $F_\mathrm{Ob}\colon\Ob(\cat{C})\to\Ob(\cat{C'})$ such that the 2-cell shown above right is a monad homomorphism.
 
@@ -6314,7 +6314,7 @@ As a hint to the connection in terms of the (yet-undefined) double category $\ma
 		\ar[r, tick, bend left=25pt, "\mathrm{Mor}(\cat{C})", ""' name=MM]
 		\ar[r, tick, bend right=25pt, "\wc{F_\mathrm{Ob}}\then\mathrm{Mor}(\cat{C'})\then \wh{F_\mathrm{Ob}}"', "" name=MM']&
 	\Ob(\cat{C})
-  	\ar[from=MM', to=MM, Rightarrow, shorten=2pt]	
+  	\ar[from=MM', to=MM, Rightarrow, shorten=2pt]
 \end{tikzcd}
 \]
 \end{remark}
@@ -9413,7 +9413,7 @@ In general, given a lens $\varphi\colon S\yon^S\to\yon^A+\1$ modeling a halting 
 \index{deterministic state automaton!language of}
 
 \begin{example}[Languages recognized by deterministic state automata] \label{ex.dsa_lang_recog}
-Recall from \cref{prop.dsa} that a deterministic state automaton with a set of states $S$ and a set of input symbols $A$ can be identified with a lens $\yon\to S\yon^S$, indicating the initial state $s_0\in S$, and a lens $\varphi\colon S\yon^S\to\2\yon^A$, indicating the subset of accept states $F\coloneqq\varphi_1^{-1}(2)\ss S$ and the update function $u\colon S\times A\to S$ via $u(s,a)=\varphi^\sharp_s(a)$.
+Recall from \cref{prop.dsa} that a deterministic state automaton with a set of states $S$ and a set of symbols $A$ can be identified with a lens $\yon\to S\yon^S$, indicating the initial state $s_0\in S$, and a lens $\varphi\colon S\yon^S\to\2\yon^A$, indicating the subset of accept states $F\coloneqq\varphi_1^{-1}(2)\ss S$ and the update function $u\colon S\times A\to S$ via $u(s,a)=\varphi^\sharp_s(a)$.
 
 Under the forgetful-cofree adjunction, the lens $\varphi$ coincides with a retrofunctor $F\colon S\yon^S\cof\cofree{\2\yon^A}$.
 By \cref{exc.b-lab_a-ary_trees}, $\cofree{\2\yon^A}$ is the category of $\2$-labeled $A$-ary trees.
@@ -9425,8 +9425,8 @@ Backward on morphisms, $F^\sharp_{s_0}$ sends every possible word to the state t
 
 \index{cofree comonoid!and Moore machines}
 
-\begin{example}[Input sequences to output sequences] \label{ex.input_output}
-We interpret our dynamical systems as converting sequences of input to sequences of output.
+\begin{example}[Direction sequences to position sequences] \label{ex.input_output}
+We interpret our dynamical systems as converting sequences of directions to sequences of positions.
 The forgetful-cofree adjunction allows us to express this conversion formally in the language of $\poly$.
 For convenience, we'll focus on the example of an $(A,B)$-Moore machine $\varphi\colon S\yon^S\to B\yon^A$, although of course we can generalize this beyond monomial interfaces.
 
@@ -9435,14 +9435,14 @@ For convenience, we'll focus on the example of an $(A,B)$-Moore machine $\varphi
 The lens $\varphi$ corresponds to a retrofunctor $F\colon S\yon^S\cof\cofree{B\yon^A}$.
 By \cref{exc.b-lab_a-ary_trees}, $\cofree{B\yon^A}$ is the category of $B$-labeled $A$-ary trees; in paticular, its carrier is $\car{t}_{B\yon^A}\iso B^{\lst(A)}\yon^{\lst(A)}$.
 
-Then for every initial state $s_0\in S$, the $B$-labeled $A$-ary tree $F(s_0)$ can be interpreted as a decision tree of all the possible sequences of inputs that the system may receive.
-The label in $B$ corresponding to the vertex (or rooted path) specified by each sequence in $\lst(A)$ tells us the final output that the system returns when that sequence is fed in as input.
+Then for every initial state $s_0\in S$, the $B$-labeled $A$-ary tree $F(s_0)$ can be interpreted as a decision tree of all the possible sequences of directions that the system may receive.
+The label in $B$ corresponding to the vertex (or rooted path) specified by each sequence in $\lst(A)$ tells us the final position that the system returns when that sequence is fed in as directions.
 Put another way, $F(s_0)\in B^{\lst(A)}$ can be interpreted as a function $\lst(A)\to B$.
-So if the input sequence is $(a_1,\ldots,a_n)\in A^n\ss\lst(A)$, then the corresponding output sequence $(b_0,\ldots,b_n)\in B^{n+1}$ is given (non-recursively!) by
+So if the direction sequence is $(a_1,\ldots,a_n)\in A^n\ss\lst(A)$, then the corresponding position sequence $(b_0,\ldots,b_n)\in B^{n+1}$ is given (non-recursively!) by
 \[
     b_i\coloneqq F(s_0)(a_1,\ldots,a_i).
 \]
-Finally, $F^\sharp_{s_0}(a_1,\ldots,a_i)\in S$ then corresponds to the system's state after that sequence of inputs is given.
+Finally, $F^\sharp_{s_0}(a_1,\ldots,a_i)\in S$ then corresponds to the system's state after that sequence of directions is given.
 \end{example}\index{decision tree}
 
 %---- Subsection ----%
@@ -10619,7 +10619,7 @@ is given the structure of a $(\cat{D},\cat{C})$-bicomodule, the symbols in that 
 \]
 % Thus $m(1)$ is a copresheaf on $\cat{D}$; in particular, each position in $i\in m(\1)$ is **. And each $m[i]$ is a database instance on $\cat{C}$; in particular, each direction $d\in m[i]$ is a row in that instance.
 
-Before we knew about bicomodule structures, what we called positions and directions---and what we often think of as outputs and inputs of a system---were understood as each forming an ordinary set. In the presence of a bicomodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
+Before we knew about bicomodule structures, what we called positions and directions were understood as each forming an ordinary set. In the presence of a bicomodule structure, the positions $m(\1)$ have been organized into a $\cat{D}$-set and the directions $m[i]$ have been organized into a $\cat{C}$-set for each position $i$. We are listening for $\cat{C}$-sets and positioning ourselves in a $\cat{D}$-set.
 
 
 \begin{definition}[Prafunctor]
