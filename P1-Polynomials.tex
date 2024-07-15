@@ -7183,33 +7183,53 @@ When someone assembles a machine, their own positions dictate the interaction pa
 {Attach!};
 \end{tikzpicture}
 \end{equation*}
-In order for the above picture to make sense, the position-set of \texttt{unit A} should be the same as the direction-set of \texttt{unit B} when they are connected.
-Call this set $X$, so that \texttt{unit A} has interface $X\yon$, always returning elements of $X$; and \texttt{unit B} has interface $\{\const{attached}\}\yon^X+\{\const{separated}\}\yon$.
-Meanwhile, the role of the person is simply to return whether the units should $\const{attach}$ or $\const{separate}$, so we give it the interface $\{\const{attache},\,\const{separate}\}\yon$.
+Define $S\coloneqq\{\const{attach},\,\const{separate}\}$.
+We say that \texttt{unit A} has interface
+\[
+  \left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S.
+\]
+It can always receive either the direction to $\const{attach}$ or to $\const{separate}$ from $S$, while its position is either simply $\const{separated}$ or both $\const{attached}$ and returning some element of a fixed set $X$.
+Meanwhile, \texttt{unit B} has interface
+\[
+  \{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S.
+\]
+It can also always receive either direction from $S$, but when it is $\const{attached}$ it can further receive an element of $X$.
+Finally, the role of the person is simply to return whether the units should $\const{attach}$ or $\const{separate}$, so we give it the interface $S\yon$.
 
 Then a section for the person and the units is a lens
 \[
-  \{\const{attach},\,\const{separate}\}\yon\otimes X\yon\otimes(\{\const{attached}\}\yon^X+\{\const{separated}\}\yon)\to\yon.
+  \left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S
+    \otimes
+  \left(\{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S\right)
+    \otimes
+  S\yon
+    \to
+  \yon.
 \]
-Such a lens corresponds to a pair of functions: one function
+Such a lens corresponds to four functions, two of which can be arbitrary because our dynamics should never return them (either both units are $\const{attached}$ or both are $\const{separated}$).
+The other two functions consist of one function
 \[
-  \{\const{attach},\,\const{separate}\}\times X\times \{\const{attached}\}\to X
+  \{(\const{attached},\const{attached})\}\times X \times S\iso X\times S\to S\times X\times S
 \]
-that sends $(\const{attach},x,\const{attached})\mapsto x$ and  $(\const{separate},x,\const{attached})\mapsto x$
+that sends $(x,s)\mapsto(s,x,s)$ and another function
+\[
+  \{(\const{separated},\const{separated})\}\times S\iso S\to S\times S
+\]
+that sends $s\mapsto(s,s)$.
 
-The lens $\2X\yon^X\to\yon$, corresponding to a function $\2X\to X$ that maps $(1,x)\mapsto x_0$ and $(2,x)\mapsto x$.
-% TODO: fix this example
+In words: the person's position tells the units whether they should $\const{attach}$ or $\const{separate}$.
+If, and only if, the units are $\const{attached}$, one unit sends elements of $X$ to the other.
 \end{example}
 
 We can easily generalize \cref{ex.assemble_machine}.
-Indeed, we will see in the next section that there is an interface $\ihom{q_1\otimes\cdots\otimes q_k\,,\,r}$ that represents all the interaction patterns between $q_1,\ldots,q_k$ with wrapper interface $r$, and that wrapping it around $p$ to it is just a larger interaction pattern:
+Indeed, we will see in the next section that there is an interface $\ihom{q_1\otimes\cdots\otimes q_k\,,\,r}$ that represents all the interaction patterns between $q_1,\ldots,q_k$ with wrapper interface $r$, and that wrapping it around $p$ can be interpreted as a larger interaction pattern with wrapper interface $r$:
 \[
 \poly(p,[q_1\otimes\cdots\otimes q_k\,,\,r])\cong\poly(p\otimes q_1\otimes\cdots\otimes q_k\,,\,r).
 \]
-In other words, if $p$ is deciding the interaction pattern between $q_1,\ldots,q_k$ with wrapper interface $r$, and gets feedback from that interaction pattern itself, then this is equivalent to an interaction pattern with wrapper interface $r$ that $p$ is part of alongside $q_1,\ldots,q_k$ inside of $r$.
+In other words, if the positions $p$ returns is deciding the interaction pattern between $q_1,\ldots,q_k$ with wrapper interface $r$, and the directions $p$ receives is from the subsequent behavior of that interaction pattern itself, then this is equivalent to an interaction pattern with wrapper interface $r$ that $p$ is part of alongside $q_1,\ldots,q_k$.
 
-What it also means is that if you want, you can put a little dynamical system inside of $[q_1\otimes\cdots\otimes q_k,r]$ and have it be constantly choosing interaction patterns. Let's see how it works.
-
+What it also means is that a dynamical system with interface $[q_1\otimes\cdots\otimes q_k,r]$ is simply selecting interaction patterns $q_1\otimes\cdots\otimes q_k\to r$.
+Let us see how this works.
 
 \index{interaction|)}
 %-------- Section --------%
@@ -7218,7 +7238,7 @@ What it also means is that if you want, you can put a little dynamical system in
 \index{monoidal closed structure|see{closed monoidal structure}}
 \index{parallel product!closure for}
 
-The parallel monoidal product is closed---we have a monoidal closed structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
+The parallel monoidal product is closed---we have a closed monoidal structure on $\poly$---meaning that there is a closure operation, which we denote $\ihom{-,-}\colon\poly\op\times\poly\to\poly$, such that there is an isomorphism
 \begin{equation}\label{eqn.monoidal_closure}
   \poly(p\otimes q,r) \iso \poly(p,\ihom{q,r})
 \end{equation}
@@ -7227,8 +7247,8 @@ The closure operation is defined on $q,r$ as follows:
 \begin{equation}\label{eqn.par_hom}
 	\ihom{q,r} \coloneqq \prod_{j\in q(\1)}r\circ(q[j]\yon)
 \end{equation}
-Here $\circ$ denotes standard functor composition; informally, $r \circ (q[j]\yon)$ is the polynomial you get when you replace each appearance of $\yon$ in $r$ by $q[j]\yon$.
-Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will see in more depth in \cref{part.comon}.
+Here $\circ$ denotes standard functor composition; informally, $r \circ (q[j]\yon)$ is the polynomial obtained by replacing each appearance of $\yon$ in $r$ by $q[j]\yon$.
+Composition, together with the unit $\yon$, is in fact yet another monoidal structure, as we will cover in greater depth in \cref{part.comon}.
 
 Before we prove that the isomorphism \eqref{eqn.monoidal_closure} holds naturally, let us investigate the properties of the closure operation, starting with some simple examples.
 
@@ -7244,19 +7264,19 @@ Calculate $\ihom{q,r}$ for $q,r\in\poly$ given as follows.
 \qedhere
 \end{enumerate}
 \begin{solution}
-We compute $\ihom{q,r}$ for various values of $q, r \in \poly$ using \eqref{eqn.par_hom}.
+We compute $\ihom{q,r}$ for various values of $q,r\in\poly$ using \eqref{eqn.par_hom}.
 \begin{enumerate}
-    \item If $q \coloneqq \0$, then $q(\1) \iso \0$, so $\ihom{q,r}$ is an empty product.
-    Hence $\ihom{q,r} \iso \1$.
-    \item If $q \coloneqq \1$, then $q(\1) \iso \1$ and $q[1] \iso \0$, so $\ihom{q,r} \iso r \circ (\0\yon) \iso r(\0)$.
-    \item If $q \coloneqq \yon$, then $q(\1) \iso \1$ and $q[1] \iso \1$, so $\ihom{q,r} \iso r \circ (\1\yon) \iso r$.
-	\item If $q \coloneqq A$ for $A \in \smset$, then $q(\1) \iso A$ and $q[j] \iso \0$ for every $j \in A$, so $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\0\yon)) \iso r(\0)^A$.
-	\item If $q \coloneqq A\yon$ for $A\in\smset$, then $q(\1) \iso A$ and $q[j] \iso \1$ for every $j \in A$, so $\ihom{q,r} \iso \prod_{j \in A} (r \circ (\1\yon)) \iso r^A$.
+  \item If $q\coloneqq\0$, then $q(\1)\iso\0$, so $\ihom{q,r}$ is an empty product.
+    Hence $\ihom{q,r}\iso\1$.
+  \item If $q\coloneqq\1$, then $q(\1)\iso\1$ and $q[1]\iso\0$, so $\ihom{q,r}\iso r\circ(\0\yon)\iso r(\0)$.
+  \item If $q\coloneqq\yon$, then $q(\1)\iso\1$ and $q[1]\iso\1$, so $\ihom{q,r}\iso r\circ(\1\yon)\iso r$.
+	\item If $q\coloneqq A$ for $A\in\smset$, then $q(\1)\iso A$ and $q[j]\iso\0$ for every $j\in A$, so $\ihom{q,r}\iso\prod_{j\in A}(r\circ(\0\yon))\iso r(\0)^A$.
+	\item If $q\coloneqq A\yon$ for $A\in\smset$, then $q(\1)\iso A$ and $q[j]\iso\1$ for every $j\in A$, so $\ihom{q,r}\iso\prod_{j\in A}(r\circ(\1\yon))\iso r^A$.
 	\item If $q\coloneqq\yon^\2+\2\yon$ and $r\coloneqq\2\yon^\3+\3$, then
 	\begin{align*}
 	    \ihom{q,r} &\iso (r \circ (\2\yon))(r \circ (\1\yon))^\2 \\
 	    &\iso \left(\2(\2\yon)^\3 + \3\right)\left(\2\yon^\3 + \3\right)^\2 \\
-	    &\iso \6\4\yon^\9 + \2\0\4\yon^\6 + \1\8\0\yon^\3 + \2\7 \\
+	    &\iso \6\4\yon^\9 + \2\0\4\yon^\6 + \1\8\0\yon^\3 + \2\7.
 	\end{align*}
 \end{enumerate}
 \end{solution}
@@ -7280,10 +7300,10 @@ By \eqref{eqn.par_hom},
 Show that there is an isomorphism
 \begin{equation} \label{eqn.par_hom_sum}
 \scalebox{1.3}{$\displaystyle
-\ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_\1(j)]}
+\ihom{q,r} \iso \sum_{f\colon q\to r}\yon^{\sum_{j\in q(\1)}r[f_\1j]}
 $}
 \end{equation}
-where the sum is indexed by $f\in\poly(q,r)$.
+where the sum is indexed over $f\in\poly(q,r)$.
 \begin{solution}
 We may compute
 \begin{align*}
@@ -7304,7 +7324,7 @@ We verify \eqref{eqn.dir_hom_p_yon_dir_p} as follows:
 \begin{align*}
     \ihom{p, \yon} \otimes p
     &\iso
-    \left(\sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]}\right) \otimes p
+    \left(\sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_\1i]}\right) \otimes p
     \tag*{\eqref{eqn.par_hom_sum}} \\
     &\iso
     \sum_{f \in \Gamma(p)} \yon^{p(\1)} \otimes \sum_{i \in p(\1)} \yon^{p[i]} \\
@@ -7345,7 +7365,7 @@ that
 \]
 and that
 \begin{align*}
-    \ihom{p, \yon} &\iso \sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_1(i)]} \tag{\cref{eqn.par_hom_sum}} \\
+    \ihom{p, \yon} &\iso \sum_{f \colon p \to \yon} \yon^{\sum_{i \in p(\1)} \yon[f_\1i]} \tag*{\eqref{eqn.par_hom_sum}} \\
     &\iso \sum_{f \in \Gamma(p)} \yon^{\sum_{i \in p(\1)} \1} \\
     &\iso \Gamma(p)\yon^{p(\1)}.
 \end{align*}
@@ -7358,27 +7378,27 @@ Show that for any $p\in\poly$, if there is an isomorphism $\ihom{\ihom{p,\yon},\
 Given $p \in \poly$ and an isomorphism $\ihom{\ihom{p,\yon},\yon} \iso p$, we wish to show that $p$ is either linear or representable.
 Applying \eqref{eqn.dir_dual} twice, we have that
 \[
-    p \iso \ihom{\ihom{p,\yon},\yon} \iso \Gamma\left(\Gamma(p)\yon^{p(\1)}\right)\yon^{\Gamma(p)}.
+    \ihom{\ihom{p,\yon},\yon} \iso \Gamma\left(\Gamma(p)\yon^{p(\1)}\right)\yon^{\Gamma(p)}.
 \]
-We can compute the coefficient of $p$ via \eqref{eqn.gamma_prod} to obtain
+By \eqref{eqn.gamma_prod},
 \[
     \Gamma\left(\Gamma(p)\yon^{p(\1)}\right) \iso \prod_{\gamma \in \Gamma(p)} p(\1) \iso p(\1)^{\Gamma(p)}.
 \]
-Hence
+Hence taking $\ihom{\ihom{p,\yon},\yon} \iso p$ and rewriting the left hand side using the isomorphisms above yields
 \begin{equation} \label{eqn.p_as_gamma_monomial}
-    p \iso p(\1)^{\Gamma(p)}\yon^{\Gamma(p)}.
+    p(\1)^{\Gamma(p)}\yon^{\Gamma(p)}\iso p.
 \end{equation}
-In particular, $p$ is a monomial, so we can write $p \coloneqq B\yon^A$ for some $A,B \in \smset$.
-Then $p(\1) \iso B$ and \eqref{eqn.gamma_prod} tells us that $\Gamma(p) \iso A^B$.
-It follows from \eqref{eqn.p_as_gamma_monomial} that $A \iso A^B$ and that $B \iso B^A$.
+In particular, $p$ is a monomial, so we can write $p \coloneqq I\yon^A$ for some $I,A \in \smset$.
+Then $p(\1) \iso I$ and \eqref{eqn.gamma_prod} tells us that $\Gamma(p) \iso A^I$.
+Equating the direction-sets on either side of \eqref{eqn.p_as_gamma_monomial} yields $A^I\iso A$; then equating position-sets gives $I^A\iso I^{A^I}\iso I$.
 
 We conclude with some elementary set theory.
-If either one of $A$ or $B$ were $\1$, then $p$ would be either linear or representable, and we would be done.
-Meanwhile, if either one of $A$ or $B$ were $\0$, then the other would be $\1$, and we would again be done.
+If either one of $I$ or $A$ were (isomorphic to) $\1$, then $p$ would be either linear or representable, and we would be done.
+Meanwhile, if either one of $I$ or $A$ were $\0$, then the other would be $\1$, and we would again be done.
 Otherwise, $|A|,|B| \geq 2$.
 But by Cantor's theorem,
 \[
-    |B| < \big|\2^B\big| \leq \big|A^B\big| = |A| \qqand |A| < \big|\2^A\big| \leq \big|B^A\big| = |B|,
+    |I| < \big|\2^I\big| \leq \big|A^I\big| = |A| \qqand |A| < \big|\2^A\big| \leq \big|I^A\big| = |I|,
 \]
 a contradiction.
 \end{solution}
@@ -7432,14 +7452,18 @@ Since $p \iso \yon \otimes p$, we have that
 \end{solution}
 \end{exercise}\index{Yoneda lemma}
 
-The closure of $\otimes$ implies that for any $p,q\in\poly$, there is a canonical \emph{evaluation} lens
+The closure of $\otimes$ implies that for any $q,r\in\poly$, there is a canonical \emph{evaluation} lens
 \begin{equation}\label{eqn.eval_parallel}
-  \fun{eval}\colon \ihom{p,q}\otimes p\too q.
+  \fun{eval}\colon \ihom{q,r}\otimes q\to r
 \end{equation}
-As in any closed monoidal category, such an evaluation lens has the universal property that for any $r\in\poly$ and lens $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
+given by sending the identity lens on $\ihom{q,r}$ leftward through the natural isomorphism
+\[
+  \poly(\ihom{q,r}\otimes q,r)\iso\poly(\ihom{q,r},\ihom{q,r})
+\]
+As in any closed monoidal category, such an evaluation lens has the universal property that for any $p\in\poly$ and lens $f\colon p\otimes q\to r$, there is a unique lens $f'\colon p\to\ihom{q,r}$ such that the following diagram commutes:
 \[
     \begin{tikzcd}
-    	p\otimes q\ar[r, "f'\otimes q"]\ar[rr, bend right, "f"']&
+    	p\otimes q\ar[r, "f'\:\otimes\:q"]\ar[rr, bend right, "f"']&
     	{\ihom{q,r}}\otimes q\ar[r, "\fun{eval}"]&
     	r
     \end{tikzcd}
@@ -7448,40 +7472,38 @@ As in any closed monoidal category, such an evaluation lens has the universal pr
 \begin{exercise} \label{exc.eval_parallel}
 Obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_parallel}.
 \begin{solution}
-To obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$, we consider the following special case of the isomorphism \eqref{eqn.poly_closure_brackets}:
+To obtain the evaluation lens $\fun{eval}\colon \ihom{q,r}\otimes q\to r$, we need to send the identity lens on $\ihom{q,r}$ leftward through the natural isomorphism
 \[
-    \poly(\ihom{p,q} \otimes p, q) \iso \poly(\ihom{p,q}, \ihom{p,q}).
+\poly(\ihom{q,r}\otimes q,r)\iso\poly(\ihom{q,r},\ihom{q,r})
 \]
-Then the evaluation lens is the lens corresponding to the identity lens on $\ihom{p,q}$ under the above isomorphism.
-To recover this lens, we can start from the identity lens on $\ihom{p,q}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{p,q}, \ihom{p,q})$ until we get to $\poly(\ihom{p,q} \otimes p, q)$.
+To do so, we can start from the identity lens on $\ihom{q,r}$ and work our way along a chain of natural isomorphisms from $\poly(\ihom{q,r},\ihom{q,r})$ until we get to $\poly(\ihom{q,r}\otimes q,r)$.
 To start, \cref{exc.par_hom_sum} implies that
 \begin{align*}\index{isomorphism!natural}
-    \poly(\ihom{p,q}, \ihom{p,q})
+    \poly(\ihom{q,r},\ihom{q,r})
     &\iso
-    \poly\left(\sum_{f \colon p \to q} \, \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \prod_{i \in p(\1)} \, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right) \\
+    \poly\left(\sum_{f\colon q\to r} \, \prod_{i'\in q(\1)} \yon^{r[f_\1i']}, \prod_{i \in q(\1)} \, \sum_{j \in r(\1)} (q[i]\yon)^{r[j]}\right) \\
     &\iso
-    \prod_{f \colon p \to q} \, \prod_{i \in p(\1)} \poly\left(\prod_{i' \in p(\1)} \yon^{q[f_\1(i')]}, \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}\right),
+    \prod_{f\colon q\to r} \, \prod_{i\in q(\1)} \poly\left(\prod_{i' \in q(\1)} \yon^{r[f_\1i']}, \sum_{j \in r(\1)} (q[i]\yon)^{r[j]}\right),
 \end{align*}
 where the second isomorphism follows from the universal properties of products and coproducts.
-In particular, under this isomorphism, the identity lens on $\ihom{p,q}$ corresponds to a collection of lenses, namely for each $f \colon p \to q$ and each $i \in p(\1)$ the composite
+In particular, under this isomorphism, the identity lens on $\ihom{q,r}$ corresponds to a collection of lenses, namely for each $f\colon q\to r$ and each $i\in q(\1)$ the composite
 \[
-    \prod_{i' \in p(\1)} \yon^{q[f_\1(i')]} \to \yon^{q[f_\1i]} \to \sum_{g \colon q[f_\1i] \to p[i]} \yon^{q[f_\1i]} \iso (p[i]\yon)^{q[f_\1i]} \to \sum_{j \in q(\1)} (p[i]\yon)^{q[j]}
+    \prod_{i' \in q(\1)} \yon^{r[f_\1i']} \to \yon^{r[f_\1i]} \to \sum_{g \colon r[f_\1i] \to q[i]} \yon^{r[f_\1i]} \iso (q[i]\yon)^{r[f_\1i]} \to \sum_{j \in r(\1)} (q[i]\yon)^{r[j]}
 \]
-of the canonical projection with index $i' = i$, the canonical inclusion with index $g = f^\sharp_i$, and the canonical inclusion with index $j = f_\1i$.
-On positions, this lens picks out the position of $\sum_{j \in q(\1)} (p[i]\yon)^{q[j]}$ corresponding to $j = f_\1i \in q(\1)$ and $f^\sharp_i \colon q[f_\1i] \to p[i]$; on directions, the lens is the canonical inclusion $q[f_\1i] \to \sum_{i' \in p(\1)} q[f_\1(i')]$ with index $i' = i$.
-
-We can reinterpret each of these lenses as a lens
+of the canonical projection with index $i'\coloneqq i$, the canonical inclusion with index $g\coloneqq f^\sharp_i$, and the canonical inclusion with index $j\coloneqq f_\1i$.
+On positions, this lens picks out the position of $\sum_{j \in r(\1)} (q[i]\yon)^{r[j]}$ corresponding to $j = f_\1i \in r(\1)$ and $f^\sharp_i \colon r[f_\1i] \to q[i]$; on directions, the lens is the canonical inclusion $r[f_\1i] \to \sum_{i' \in q(\1)} r[f_\1i']$ with index $i' = i$.
+By the Yoneda lemma, we can reinterpret each of these lenses as a lens
 \[
-    \yon^{p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]} \to \sum_{j \in q(\1)} \yon^{q[j]} \iso q
+    \yon^{q[i] \times \sum_{i' \in q(\1)} r[f_\1i']} \to \sum_{j \in r(\1)} \yon^{r[j]} \iso r
 \]
-that, on positions, picks out the position $f_\1i \in q(\1)$ of $q$ and, on directions, is the map $q[f_\1i] \to p[i] \times \sum_{i' \in p(\1)} q[f_\1(i')]$ induced by the universal property of products applied to the map $f^\sharp_i \colon q[f_\1i] \to p[i]$ and the inclusion $q[f_\1i] \to \sum_{i' \in p(\1)} q[f_\1(i')]$.
-Then by the universal property of coproducts, this collection of lenses induces a single lens $\fun{eval} \colon \ihom{p, q} \otimes p \to q$ that sends each position $f \colon p \to q$ of $\ihom{p,q}$ and position $i \in p(\1)$ of $p$ to the position $f_\1i$ of $q$, with the same behavior on directions as the corresponding lens described previously.
+that, on positions, picks out the position $f_\1i \in r(\1)$ of $r$ and, on directions, is the map $r[f_\1i] \to q[i] \times \sum_{i'\in q(\1)} r[f_\1i']$ induced by the universal property of products applied to the map $f^\sharp_i \colon r[f_\1i] \to q[i]$ and the inclusion $r[f_\1i] \to \sum_{i'\in q(\1)} r[f_\1i']$.
+Then by the universal property of coproducts, this collection of lenses induces a single lens $\fun{eval}\colon\ihom{q,r}\otimes q\to r$ that sends each position $f\colon q\to r$ of $\ihom{q,r}$ and position $i\in q(\1)$ of $q$ to the position $f_\1i$ of $r$, with the same behavior on directions as the corresponding lens described previously.
 \end{solution}
 \end{exercise}
 
 \begin{exercise}
 \begin{enumerate}
-	\item For any set $S$, obtain the lens $S\yon^S\to\yon$ whose on-directions  is the identity on $S$ using eval and \cref{ex.parallel_dual}.
+	\item For any set $S$, obtain the do-nothing section $S\yon^S\to\yon$ from \cref{ex.do_nothing} whose on-directions is the identity on $S$ using eval and \cref{ex.parallel_dual}.
 	\item Show that four lenses in \eqref{eqn.snapped_maps} from \cref{ex.bonds_break}, written equivalently as
 	\begin{equation} \label{eqn.snapped_maps2}
 	\arraycolsep=1.4pt
@@ -7497,21 +7519,20 @@ Then by the universal property of coproducts, this collection of lenses induces 
 \end{enumerate}
 \begin{solution}
 \begin{enumerate}
-    \item Given a set $S$, we wish to obtain the lens $S\yon^S \to \yon$ whose on-directions function is the identity by using eval and \cref{ex.parallel_dual}.
-    The example shows that
+    \item Given a set $S$, \cref{ex.parallel_dual} shows that
     \[
         \ihom{S\yon, \yon} \otimes (S\yon) \iso \yon^S \otimes (S\yon) \iso S\yon^S,
     \]
-    so by setting $p \coloneqq S\yon$ and $q \coloneqq S$ in \eqref{eqn.eval_parallel}, we obtain an evaluation lens $\fun{eval} \colon S\yon^S \to \yon$.
+    so by setting $q\coloneqq S\yon$ and $r\coloneqq\yon$ in \eqref{eqn.eval_parallel}, we obtain an evaluation lens $\fun{eval} \colon S\yon^S \to \yon$.
     By the solution to \cref{exc.eval_parallel}, given a position $s \in S$ of $S\yon^S$, the evaluation lens on directions is the map $\1 \to S$ that picks out $s$.
     In other words, it is indeed the identity on directions.
     \item We wish to write the four lenses in \eqref{eqn.snapped_maps2} from \cref{ex.bonds_break} as the parallel product of identity lenses and evaluation lenses.
-    By the solution to \cref{exc.eval_parallel}, the evaluation lens $\ihom{F,\yon^F}\otimes F\to\yon^F$
+    By the solution to \cref{exc.eval_parallel}, the evaluation lens $\ihom{F\yon,\yon^F}\otimes F\yon\to\yon^F$
     is a lens from
     \[
-        \ihom{F,\yon^F}\otimes F\iso F\left(\sum_{f\colon F\to\yon^F}\prod_{i\in F}\yon^F\right)\iso F\yon^{FF}
+        \ihom{F\yon,\yon^F}\otimes F\yon\iso F\left(\sum_{f\colon F\yon\to\yon^F}\,\prod_{i\in F}\yon^F\right)\iso F\yon^{FF}
     \]
-    to $\yon^F$ that is unique on positions and has the on-directions function $FF\to FF$ given by the identity.
+    to $\yon^F$ that is uniquely determined on positions and has the on-directions map $FF\to FF$ given by the identity.
     Then we can verify that $\kappa_{11}$ is equivalent to the parallel product of this evaluation lens with itself.
     We can define $\kappa_{12}$ and $\kappa_{21}$ to be the parallel product of this evaluation lens with the identity on $\yon^F$, while $\kappa_{22}$ is the parallel product of the identity on $\yon^F$ with itself.
 \end{enumerate}
@@ -7519,19 +7540,22 @@ Then by the universal property of coproducts, this collection of lenses induces 
 \end{exercise}
 
 \begin{example}[Modeling your environment without knowing what it is]\index{environment!universal}\index{interaction pattern}
-Let's imagine a robot whose interface is an arbitrary polynomial $p$. Let's imagine it is part of an interaction pattern
+Imagine a robot whose interface is an arbitrary polynomial $q$ that is part of an interaction pattern $f\colon p\otimes q\to r$ alongside its environment with interface $p$. Then $f$ induces a lens $f'\colon p\to \ihom{q,r}$ such that the following diagram commutes:
 \[
-	f\colon (q_1\otimes\cdots\otimes q_n)\otimes p\to r
+\begin{tikzcd}
+  p\otimes q\ar[r, "f'\:\otimes\:q"]\ar[rr, bend right, "f"']&
+  {\ihom{q,r}}\otimes q\ar[r, "\fun{eval}"]&
+  r
+\end{tikzcd}
 \]
-with some other robots whose interfaces are $q_1,\ldots,q_n$; let $q\coloneqq(q_1\otimes\cdots\otimes q_n)$. The interaction pattern induces a lens $f'\colon q\to \ihom{p,r}$ such that the original system $f$ factors through the evaluation $\ihom{p,r}\otimes p\to r$.
 
-In other words, $\ihom{p,r}$ holds within it all of the possible ways $p$ can interact with other systems when they are all wrapped in $r$.
-For example, in the case of $r\coloneqq\yon$, note that $\ihom{p,\yon}\cong\prod_{i\in p(\1)}p[i]\yon$.
-That is, for each $p$-position it produces a direction there, which is just what $p$ needs as input in a closed system.
+In other words, $\ihom{q,r}$ holds within it all of the possible ways $q$ can interact with other systems when they are wrapped in $r$ together.
+For example, in the case of $r\coloneqq\yon$, note that $\ihom{q,\yon}\iso\prod_{i\in q(\1)}q[i]\yon$.
+That is, a position of $\ihom{q,\yon}$ sends each $q$-position to a direction at that position, which is exactly what we need to specify to put $q$ in a closed system.
 
 \index{dynamics}\index{environment}
 
-Now suppose we were to populate the interface $p$ with dynamics, a lens $S\yon^S\to p$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(p,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $q$, but just the environment as it affects $p$, namely $\ihom{p,r}$. The robot's states model environmental conditions.
+Now suppose we were to give dynamics to $q$ by specifying a lens $S\yon^S\to q$. One could aim to choose a set $S$ along with an interesting map $g\colon S\to\poly(q,r)$. Then each state $s$ would include a guess $g(s)$ about the state of its environment. This is not the real environment $p$, but just the environment as it affects $q$, namely $\ihom{q,r}$. The robot's states model its environmental conditions.
 \end{example}
 
 \begin{example}[Chu $\&$]\index{Chu space}
@@ -7541,19 +7565,21 @@ Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
 	\qqand
 	\varphi_2\colon p_2\otimes q_2\to r.
 \]
-One might call these ``$r$-Chu spaces.'' One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$'' of the following type:
+One might call these ``$r$-Chu spaces.'' One operation you can do with these as Chu spaces is to return something denoted $\varphi_1\&\varphi_2$, or ``$\varphi_1$ \emph{with} $\varphi_2$,'' of the following type:
 \[
 \varphi_1\&\varphi_2\colon (p_1\times p_2)\otimes (q_1+q_2)\to r
 \]
 Suppose we are given a position in $p_1$ and a position in $p_2$. Then given a position in either $q_1$ or $q_2$, one evaluates either $\varphi_1$ or $\varphi_2$ respectively to get a position in $r$; given a direction there, one returns the corresponding direction in $q_1$ or $q_2$ respectively, as well as a direction in $p_1\times p_2$ which is either a direction in $p_1$ or in $p_2$.
 
-This sounds complicated, but it can be done formally, once we have monoidal closure. We first rearrange both $\varphi_1,\varphi_2$ to be $p$-centric, using monoidal currying:
+This sounds complicated, but it can be constructed formally via the monoidal closure.
+We use the closure to rewrite $\varphi_1$ and $\varphi_2$:
 \[
 \psi_1\colon p_1\to \ihom{q_1,r}
 \qqand
 \psi_2\colon p_2\to \ihom{q_2,r}
 \]
-Now we multiply to get $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\times\ihom{q_2,r}$. Then we apply \cref{exc.sum_times_closure} to see that $\ihom{q_1,r}\times\ihom{q_2,r}\cong\ihom{q_1+q_2,r}$, and finally monoidal-uncurry to obtain $(p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
+Now we take their categorical product to obtain $\psi_1\times\psi_2\colon p_1\times p_2\to\ihom{q_1,r}\times\ihom{q_2,r}$.
+Then we apply \cref{exc.sum_times_closure} to find that $\ihom{q_1,r}\times\ihom{q_2,r}\cong\ihom{q_1+q_2,r}$, and finally leverage the monoidal closure again to obtain $(p_1\times p_2)\otimes(q_1+q_2)\to r$ as desired.
 \end{example}
 
 %-------- Section --------%
