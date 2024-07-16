@@ -7050,7 +7050,7 @@ Here are some more examples of dependent dynamical systems with interaction patt
 
 \begin{example}\label{ex.bonds_break}\index{interaction!breaking bonds}
 In the picture below, forces are applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as depicted on the right.
-\[ %CHECK
+\[
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
 	\node[bb={1}{1}] (x1) {$\varphi_1$};
 	\node[bb={1}{1}, right=of x1] (x2) {$\varphi_2$};
@@ -7059,7 +7059,7 @@ In the picture below, forces are applied to the connected boxes on the left; we 
 	\draw (x1_out1) -- (x2_in1);
 	\draw[->, shorten >= -4mm] (x2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] (L) {Force};
 %
-	\node[bb={1}{1}, right=5 of L] (y1) {$\varphi_1$};
+	\node[bb={1}{1}, right=7 of L] (y1) {$\varphi_1$};
 	\node[bb={1}{1}, right=of y1] (y2) {$\varphi_2$};
 	\node[bb={1}{1}, fit= (y1) (y2)] (outer) {};
 	\draw[->, shorten >= -4mm] (y1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] (R){Force};
@@ -7111,7 +7111,7 @@ The dynamical systems themselves will be the same as well, up to a symmetry swap
 It is given by a lens
 \[\varphi_1\colon (F+\{\const{snapped}\})\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F}+\{\const{snapped}\}\yon^F\]
 which we write as the sum of two lenses
-\[F\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F} \text{ and } \{\const{snapped}\}\yon^{F+\{\const{snapped}\}}\to\{\const{snapped}\}\yon^F.\] %CHECK
+\[F\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F} \text{ and } \{\const{snapped}\}\yon^{F+\{\const{snapped}\}}\to\{\const{snapped}\}\yon^F.\]
 Both lenses are identities on positions, directly returning their current states.
 The second lens corresponds to when the connection is broken, after which the connection should remain broken: so its on-directions function is constant, sending any direction to $\const{snapped}$.
 Meanwhile, the first lens corresponds to the case where the systems are still connected; in this state, the system can receive a pair of forces as its direction and must update its state---either the force it applies or $\const{snapped}$---accordingly.
@@ -7135,7 +7135,8 @@ Consider the case of a company that may change its supplier based on its interna
 	\node[bb={1}{0}, right=0.5 of s1, font=\small] (c) {Company};
 	\draw (s1_out1) to node[above, fill=none, font=\tiny] {$G$} (c_in1);
 	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
-\begin{scope}[xshift=2in]
+%
+\begin{scope}[xshift=2.25in]
 	\node[bb={0}{1}, font=\small] (s1') {Supplier 1};
 	\node[bb={0}{1}, below=of s1', font=\small] (s2') {Supplier 2};
 	\node[bb={1}{0}, right=0.5 of s2', font=\small] (c') {Company};
@@ -7161,18 +7162,16 @@ When someone assembles a machine, their own positions dictate the interaction pa
 	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
 	\coordinate (helper) at ($(A)!.5!(B)$);
 	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed] (someone_in1) to[out=180, in=270] (A.270);
-	\draw[->, dashed] (someone_out1) to[out=0, in=270] (B.270);
-	\draw[->] (A_out1) -- +(10pt,0);
-	\draw (B_in1) -- +(-10pt,0);
-%
-\begin{scope}[xshift=2in]
+	\draw[->] (someone_in1) to[out=180, in=270] (A.270);
+	\draw[->] (someone_out1) to[out=0, in=270] (B.270);
+	\draw[->, dashed] (A_out1) -- +(20pt,0);
+\begin{scope}[xshift=2.25in]
 	\node[bb port sep=.5, bb={0}{1}] (A') {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
 	\coordinate (helper') at ($(A')!.5!(B')$);
 	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed] (someone'_in1) to[out=180, in=270] (A'.270);
-	\draw[->, dashed] (someone'_out1) to[out=0, in=270] (B'.270);
+	\draw[->] (someone'_in1) to[out=180, in=270] (A'.270);
+	\draw[->] (someone'_out1) to[out=0, in=270] (B'.270);
 	\draw[->] (A'_out1) -- (B'_in1);
 \end{scope}
 %
@@ -7183,7 +7182,7 @@ We say that \texttt{unit A} has interface
 \[
   \left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S.
 \]
-It can always receive either the direction to $\const{attach}$ or to $\const{separate}$ from $S$, while its position is either simply $\const{separated}$ or both $\const{attached}$ and returning some element of a fixed set $X$.
+It can always receive either the direction to $\const{attach}$ or to $\const{separate}$ from $S$, while its position is either $\const{separated}$ or $\const{attached}$ and returning some element of a fixed set $X$.
 Meanwhile, \texttt{unit B} has interface
 \[
   \{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S.
@@ -7192,7 +7191,7 @@ It can also always receive either direction from $S$, but when it is $\const{att
 Finally, the role of the person is simply to return whether the units should $\const{attach}$ or $\const{separate}$, so we give it the interface $S\yon$.
 
 Then a section for the person and the units is a lens
-\begin{align*} %CHECK
+\begin{align*}
   &\left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S \\
     \otimes
   &\left(\{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S\right)
