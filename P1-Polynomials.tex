@@ -5796,7 +5796,7 @@ We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}
       child[blue] {coordinate (11)}
       child[dyellow] {coordinate (12)}
       child[red] {coordinate (13)};
-    \node[right=1.5 of 1, "\tiny $b$" below] (2) {$\bullet$}
+    \node[right=1 of 1, "\tiny $b$" below] (2) {$\bullet$}
       child[green!50!black] {coordinate (21)}
       child[blue!50!purple] {coordinate (22)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
@@ -5807,21 +5807,21 @@ We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}
   \end{tikzpicture}
 	};
 %
-	\node (p2) [below right=-1.05cm and 1 of p1] {
+	\node (p2) [below right=-1 and .7 of p1] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 2" below] (1) {$\bullet$}
       child[blue] {coordinate (11)}
       child[red] {coordinate (12)};
-    \node[right=of 1, "\tiny $c$" below] (2) {$\bullet$};
+    \node[right=1 of 1, "\tiny $c$" below] (2) {$\bullet$};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
   \end{tikzpicture}
 	};
 %
-	\node (p3) [right=3.5 of p1] {
+	\node (p3) [right=3 of p1] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 3" below] (1) {$\bullet$}
       child[blue] {coordinate (11)};
-    \node[right=1.5 of 1, "\tiny $b$" below] (2) {$\bullet$}
+    \node[right=1 of 1, "\tiny $b$" below] (2) {$\bullet$}
       child[green!50!black] {coordinate (21)}
       child[blue!50!purple] {coordinate (22)};
     \draw[|->, shorten <= 3pt, shorten >= 3pt] (1) -- (2);
@@ -5832,11 +5832,11 @@ We will wrap the interface \[q\coloneqq\{a\}\yon^{\{g,p,o\}}+\{b\}\yon^{\{g,p\}}
   \end{tikzpicture}
 	};
 %
-	\node (p4) [right=1 of p3] {
+	\node (p4) [right=.7 of p3] {
 	\begin{tikzpicture}[trees, sibling distance=2.5mm]
     \node["\tiny 4" below] (1) {$\bullet$}
       child[red] {coordinate (11)};
-    \node[right=1.5 of 1, "\tiny $a$" below] (2) {$\bullet$}
+    \node[right=1 of 1, "\tiny $a$" below] (2) {$\bullet$}
       child[green!50!black] {coordinate (21)}
       child[blue!50!purple] {coordinate (22)}
       child[orange!75!black] {coordinate (23)};
@@ -6067,7 +6067,7 @@ We will develop the machinery to answer these questions over the course of \cref
   \]
   Equating the directions boxes of the domain on either side, we have that $t=t'$, so
   \[
-  \gamma'(s)=t'=t=\oper{update}(s,o)=\oper{update}(s,\gamma(i))=\oper{update}(s,\gamma(\oper{return}(s))).
+  \gamma'(s)=\oper{update}(s,o)=\oper{update}(s,\gamma(i))=\oper{update}(s,\gamma(\oper{return}(s))).
   \]
   Later on we will read more intricate equations off of polyboxes in this manner, although we will not spell out the procedure in so much detail; we encourage you to trace through the arrows on your own.
 \end{example}
@@ -6134,7 +6134,7 @@ Then we will be able to define $\psi\coloneqq(\varphi\otimes\iota)\then f$.
 
 Since $\otimes$ distributes over $+$, by the universal property of the coproduct, it suffices to give lenses
 \[
-    g\colon A\yon\otimes A\yon^A\iso (A\times A)\yon^A\to A\yon \qqand h\colon\yon\otimes A\yon^A\iso A\yon^A\to A\yon.
+    g\colon(A\times A)\yon^A\to A\yon \qqand h\colon A\yon^A\to A\yon.
 \]
 The former corresponds to the case where $\varphi$ returns an element of $A$, while the latter corresponds to the case where $\varphi$ is silent.
 
@@ -6240,24 +6240,15 @@ so that each system is able to see the location of the other system relative to 
 We can use these vectors to define the internal dynamics of each system so that they move the way we want them to.
 Each system will hold as its internal state its current location and velocity as vectors, i.e.\ $S\coloneqq\rr^\2\times\rr^\2$.
 To define a lens $S\yon^S\to\rr^\2\yon^{\rr^\2-\{(0,0)\}}$ we simply return the current location, update the current location by adding the current velocity vector, and update the current velocity vector by adding an acceleration vector with appropriate magnitude pointing to the other system:
-\begin{align*}
-	\rr^\2\times\rr^\2&\To{\text{return}}\rr^\2\\
-	\big((x,y),(v_x, v_y)\big)&\Mapsto{\text{return}}(x,y)
-\end{align*}
-\begin{align*}
-	\rr^\2\times\rr^\2\times(\rr^\2-\{(0,0)\})&\To{\text{update}}\rr^\2\times\rr^\2\\
-	\big((x,y),(v_x,v_y),(a,b)\big)&\Mapsto{\text{update}}\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)
-\end{align*}
-
 \[
 \begin{tikzpicture}[polybox, mapstos]
   \node[poly, dom] (S) {$\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)$\at$((x,y),(v_x,v_y))$};
-    \node[left=0pt of S_pos] {$\rr^2\times\rr^2$};
-    \node[left=0pt of S_dir] {$\rr^2\times\rr^2$};
+    \node[below=0pt of S_pos] {$\rr^2\times\rr^2$};
+    \node[above=0pt of S_dir] {$\rr^2\times\rr^2$};
 
   \node[poly, cod, right=of S] (p) {$(a,b)\vphantom{\left(x+v_x,y+v_y,v_x+\frac{a}{(a^2+b^2)^{3/2}},v_y+\frac{b}{(a^2+b^2)^{3/2}}\right)}$\at$(x,y)\vphantom{((x,y),(v_x,v_y))}$};
-    \node[right=0pt of p_pos] {$\rr^2-\{(0,0)\}$};
-    \node[right=0pt of p_dir] {$\rr^2$};
+    \node[below=0pt of p_pos] {$\rr^2$};
+    \node[above=0pt of p_dir] {$\rr^2-\{(0,0)\}$};
 
   \draw (S_pos) -- node[below] {return} (p_pos);
   \draw (p_dir) -- node[above] {update} (S_dir);
@@ -6484,16 +6475,16 @@ A section $f\colon I\yon^A\otimes I'\yon^{A'}\to\yon$ corresponds to a function 
 Let us think of the positions in $I$ and $I'$ as locations that two machines may occupy.
 \[
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$i$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below right=-0.5 and 0.5 of p] (q) {$i'$};
+	\node[bb={1}{0}] (p) {$i$};
+	\node[bb={1}{0}, below right=-0.5 and 0.5 of p] (q) {$i'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
 \end{tikzpicture}
 \hspace{.5in}
 \begin{tikzpicture}[oriented WD, bb port length=0]
-	\node[bb={1}{0}, fill=blue!10, dotted] (p) {$i$};
-	\node[bb={1}{0}, fill=blue!10, dotted, below left=-0.5 and 0.5 of p] (q) {$i'$};
+	\node[bb={1}{0}] (p) {$i$};
+	\node[bb={1}{0}, below left=-0.5 and 0.5 of p] (q) {$i'$};
 	\node[bb={0}{0}, inner sep=10pt, fit=(p) (q)] {};
 	\node at (p_in1) {\faEye};
 	\node at (q_in1) {\faEye};
@@ -6642,8 +6633,8 @@ A wire may optionally be labeled by the name of the set of elements that may tra
 Here is a simple wiring diagram.
 \begin{equation}\label{eqn.control_diag}
 \begin{tikzpicture}[oriented WD, baseline=(B)]
-	\node[bb={2}{1}, fill=blue!10] (plant) {\texttt{Plant}};
-	\node[bb={1}{1}, below left=-1 and 1 of plant, fill=blue!10]  (cont) {\texttt{Controller}};
+	\node[bb={2}{1}] (plant) {\texttt{Plant}};
+	\node[bb={1}{1}, below left=-1 and 1 of plant]  (cont) {\texttt{Controller}};
 	\node[circle, inner sep=1.5pt, fill=black, right=.1] at (plant_out1) (pdot) {};
 	\node[bb={0}{0}, inner ysep=25pt, inner xsep=1cm, fit=(plant) (pdot) (cont)] (outer) {};
 	\coordinate (outer_out1) at (outer.east|-plant_out1);
@@ -6774,9 +6765,9 @@ ST\yon^{ST}\To{\varphi\:\otimes\:\psi}\const{Controller}\otimes\const{Plant}\To{
 Consider the following wiring diagram.
 \[
 \begin{tikzpicture}[oriented WD, font=\footnotesize, bb port sep=1, bb port length=2.5pt, bb min width=.4cm, bby=.2cm, inner xsep=.2cm, x=.5cm, y=.3cm, text height=1.5ex, text depth=.5ex]
-  	\node[bb={2}{1}, fill=blue!10] (Trf) {$\const{Alice}$};
-  	\node[bb={1}{2}, fill=blue!10, below=1 of Trf] (Trg) {$\const{Bob}$};
-		\node[bb={2}{2}, fill=blue!10] at ($(Trf)!.5!(Trg)+(1.5,0)$) (Trh) {$\const{Carl}$};
+  	\node[bb={2}{1}] (Trf) {$\const{Alice}$};
+  	\node[bb={1}{2}, below=1 of Trf] (Trg) {$\const{Bob}$};
+		\node[bb={2}{2}] at ($(Trf)!.5!(Trg)+(1.5,0)$) (Trh) {$\const{Carl}$};
   	\node[bb={0}{0}, fit={($(Trf.north west)+(-.25,4)$) (Trg) ($(Trh.north east)+(.25,0)$)}] (Tr) {};
 		\node[below] at (Tr.north) {$\const{Team}$};
   	\node[coordinate] at (Tr.west|-Trf_in2) (Tr_in1) {};
@@ -6800,7 +6791,7 @@ Consider the following wiring diagram.
 	\item Write out the monomial for the outer box, $\const{Team}$.
 	\item The wiring diagram constitutes a lens $f$ in $\poly$; what is its domain and codomain?
 	\item What lens is $f$?
-	\item Suppose we have dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$. What is the induced dynamical system with interface $\const{Team}$?
+	\item Say we have dynamical systems $\alpha\colon A\yon^A\to\const{Alice}$, $\beta\colon B\yon^B\to\const{Bob}$, and $\gamma\colon C\yon^C\to\const{Carl}$. What is the induced dynamical system with interface $\const{Team}$?
 \qedhere
 \end{enumerate}
 \begin{solution}
@@ -6830,10 +6821,10 @@ Consider the following wiring diagram.
   In the following wiring diagram, we have already given dynamics to each box, as follows.
 \[
 \begin{tikzpicture}[oriented WD, bb small]
-	\node[bb port sep=3, fill=blue!10, bb={2}{2}] (divmod) {divmod};
-	\node[bb={0}{1}, fill=blue!10, left=of divmod_in2] (7) {$7$};
-	\node[bb port sep=2, bb={2}{1}, fill=blue!10, below right=-1 and 3 of divmod_out2] (times) {$*$};
-	\node[bb={0}{1}, fill=blue!10, below left=-1 and 1 of times_in2] (10) {$10$};
+	\node[bb port sep=3, bb={2}{2}] (divmod) {divmod};
+	\node[bb={0}{1}, left=of divmod_in2] (7) {$7$};
+	\node[bb port sep=2, bb={2}{1}, below right=-1 and 3 of divmod_out2] (times) {$*$};
+	\node[bb={0}{1}, below left=-1 and 1 of times_in2] (10) {$10$};
 	\node[bb={0}{0}, inner xsep=\bbx, fit=(divmod) (times)(7) (10)] (outer) {};
 	\coordinate (outer_in1) at (outer.west|-divmod_in1);
 	\coordinate (outer_out1) at (outer.east|-divmod_out1);
@@ -6853,14 +6844,14 @@ Consider the following wiring diagram.
 	\item Using the outer box from the wiring diagram above as the inner box of the wiring diagram below, pick an initial state so that the resulting dynamical system alternates between returning $0$'s and the base-$10$ digits of $1/7$ after the decimal point, like so:
 \[
 \begin{tikzpicture}[oriented WD]
-	\node[bb={1}{2}, fill=blue!10] (inner) {};
+	\node[bb={1}{2}] (inner) {};
 	\node[bb={0}{0}, inner xsep=1cm, inner ysep=1cm] (outer) {};
 	\coordinate (outer_out1) at (outer.east|-inner_out1);
 	\draw[shorten >=-3pt] (inner_out1) -- (outer_out1);
 	\draw
 		let \p1=(inner.south east), \p2=(inner.south west), \n1=\bbportlen, \n2=\bby in
 		(inner_out2) to[in=0] (\x1+\n1,\y1-\n2) -- (\x2-\n1,\y1-\n2) to[out=180] (inner_in1);
-		\node[right, font=\footnotesize] at (outer_out1) {$0,1,0,4,0,2,0,8,0,5,0,7,0,1,0,4,0,2,0,8,0,5,0,7,0,1,0,4,0,2,0,8,0,5,0,7,\ldots$};
+		\node[right, font=\footnotesize] at (outer_out1) {$0,1,0,4,0,2,0,8,0,5,0,7,0,1,0,4,0,2,0,8,0,5,0,7,\ldots$};
 \end{tikzpicture}
 \]
 We will see in \cref{subsec.comon.sharp.state.run} how to make a dynamical system run twice as fast, then apply this to the above system in \cref{ex.long_div_skip} so that it skips the $0$'s.
@@ -7059,22 +7050,20 @@ Here are some more examples of dependent dynamical systems with interaction patt
 
 \begin{example}\label{ex.bonds_break}\index{interaction!breaking bonds}
 In the picture below, forces are applied to the connected boxes on the left; we would like to model how too much force could cause the connection between the boxes to sever, as depicted on the right.
-\[
+\[ %CHECK
 \begin{tikzpicture}[oriented WD, bb small, bb port length=0]
-	\node[bb={1}{1}, fill=blue!10] (x1) {$\varphi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of x1] (x2) {$\varphi_2$};
+	\node[bb={1}{1}] (x1) {$\varphi_1$};
+	\node[bb={1}{1}, right=of x1] (x2) {$\varphi_2$};
 	\node[bb={1}{1}, fit= (x1) (x2)] (outer) {};
 	\draw[->, shorten >= -4mm] (x1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] {Force};
 	\draw (x1_out1) -- (x2_in1);
 	\draw[->, shorten >= -4mm] (x2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] (L) {Force};
 %
-	\node[bb={1}{1}, fill=blue!10, right=2in of L] (y1) {$\varphi_1$};
-	\node[bb={1}{1}, fill=blue!10, right=of y1] (y2) {$\varphi_2$};
+	\node[bb={1}{1}, right=5 of L] (y1) {$\varphi_1$};
+	\node[bb={1}{1}, right=of y1] (y2) {$\varphi_2$};
 	\node[bb={1}{1}, fit= (y1) (y2)] (outer) {};
 	\draw[->, shorten >= -4mm] (y1_in1) -- (outer_in1) node[left=4.5mm, font=\tiny] (R){Force};
 	\draw[->, shorten >= -4mm] (y2_out1) -- (outer_out1) node[right=4.5mm, font=\tiny] {Force};
-	\node[starburst, draw, minimum width=2cm, minimum height=1.5cm,line width=1.5pt,fill=blue!10] at ($(L)!.5!(R)$)
-{Snap!};
 \end{tikzpicture}
 \]
 We will imagine the dependent dynamical systems $\varphi_1\colon S\yon^S\to p_1$ and $\varphi_2\colon S\yon^S\to p_2$ as initially connected in space.
@@ -7122,7 +7111,7 @@ The dynamical systems themselves will be the same as well, up to a symmetry swap
 It is given by a lens
 \[\varphi_1\colon (F+\{\const{snapped}\})\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F}+\{\const{snapped}\}\yon^F\]
 which we write as the sum of two lenses
-\[F\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F} \qqand \{\const{snapped}\}\yon^{F+\{\const{snapped}\}}\to\{\const{snapped}\}\yon^F.\]
+\[F\yon^{F+\{\const{snapped}\}}\to F\yon^{F\times F} \text{ and } \{\const{snapped}\}\yon^{F+\{\const{snapped}\}}\to\{\const{snapped}\}\yon^F.\] %CHECK
 Both lenses are identities on positions, directly returning their current states.
 The second lens corresponds to when the connection is broken, after which the connection should remain broken: so its on-directions function is constant, sending any direction to $\const{snapped}$.
 Meanwhile, the first lens corresponds to the case where the systems are still connected; in this state, the system can receive a pair of forces as its direction and must update its state---either the force it applies or $\const{snapped}$---accordingly.
@@ -7140,21 +7129,19 @@ Thus, when the sum of forces is above a certain threshold (arbitrarily chosen he
 \begin{example}\label{ex.supplier_change}\index{interaction!supplier change}
 Consider the case of a company that may change its supplier based on its internal state. The company returns two possible positions, corresponding to whether it wants to receive gizmos in $G$ from the first supplier or widgets in $W$ from the second:
 \[
-\begin{tikzpicture}[oriented WD, every node/.style={fill=blue!10}]
-	\node[bb={0}{1}] (s1) {Supplier 1};
-	\node[bb={0}{1}, below=of s1] (s2) {Supplier 2};
-	\node[bb={1}{0}, right=0.5 of s1] (c) {Company};
+\begin{tikzpicture}[oriented WD]
+	\node[bb={0}{1}, font=\small] (s1) {Supplier 1};
+	\node[bb={0}{1}, below=of s1, font=\small] (s2) {Supplier 2};
+	\node[bb={1}{0}, right=0.5 of s1, font=\small] (c) {Company};
 	\draw (s1_out1) to node[above, fill=none, font=\tiny] {$G$} (c_in1);
 	\draw (s2_out1) to +(5pt,0) node[fill=none] {$\bullet$};
-\begin{scope}[xshift=3.5in]
-	\node[bb={0}{1}] (s1') {Supplier 1};
-	\node[bb={0}{1}, below=of s1'] (s2') {Supplier 2};
-	\node[bb={1}{0}, right=0.5 of s2'] (c') {Company};
+\begin{scope}[xshift=2in]
+	\node[bb={0}{1}, font=\small] (s1') {Supplier 1};
+	\node[bb={0}{1}, below=of s1', font=\small] (s2') {Supplier 2};
+	\node[bb={1}{0}, right=0.5 of s2', font=\small] (c') {Company};
 	\draw (s2'_out1) to node[above, fill=none, font=\tiny] {$W$} (c'_in1);
 	\draw (s1'_out1) to +(5pt,0) node[fill=none] {$\bullet$};
 \end{scope}
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,align=center,font=\small,line width=1.5pt] at ($(c.east)!.5!(s2'.west)$)
-{Change\\supplier!};
 \end{tikzpicture}
 \]
 So the company has interface $\{1\}\yon^G+\{2\}\yon^W$, the first supplier has interface $G\yon$, and the second supplier has interface $W\yon$.
@@ -7169,28 +7156,26 @@ In other words, the company's position determines its supplier and what it recei
 \begin{example}\label{ex.assemble_machine}\index{interaction!assembling}
 When someone assembles a machine, their own positions dictate the interaction pattern of the machine's components.
 \begin{equation*}%\label{eqn.someone2}
-\begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, every node/.style={fill=blue!10}, baseline=(someone.north)]
+\begin{tikzpicture}[oriented WD, font=\ttfamily, bb port length=0, baseline=(someone.north)]
 	\node[bb port sep=.5, bb={0}{1}] (A) {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=of A] (B) {unit B};
 	\coordinate (helper) at ($(A)!.5!(B)$);
 	\node[bb={1}{1}, below=2 of helper] (someone) {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed, blue] (someone_in1) to[out=180, in=270] (A.270);
-	\draw[->, dashed, blue] (someone_out1) to[out=0, in=270] (B.270);
+	\draw[->, dashed] (someone_in1) to[out=180, in=270] (A.270);
+	\draw[->, dashed] (someone_out1) to[out=0, in=270] (B.270);
 	\draw[->] (A_out1) -- +(10pt,0);
 	\draw (B_in1) -- +(-10pt,0);
 %
-\begin{scope}[xshift=3.5in]
+\begin{scope}[xshift=2in]
 	\node[bb port sep=.5, bb={0}{1}] (A') {unit A};
 	\node[bb port sep=.5, bb={1}{0}, right=.5of A'] (B') {unit B};
 	\coordinate (helper') at ($(A')!.5!(B')$);
 	\node[bb={1}{1}, below=2 of helper'] (someone') {\tikzsymStrichmaxerl[3]};
-	\draw[->, dashed, blue] (someone'_in1) to[out=180, in=270] (A'.270);
-	\draw[->, dashed, blue] (someone'_out1) to[out=0, in=270] (B'.270);
+	\draw[->, dashed] (someone'_in1) to[out=180, in=270] (A'.270);
+	\draw[->, dashed] (someone'_out1) to[out=0, in=270] (B'.270);
 	\draw[->] (A'_out1) -- (B'_in1);
 \end{scope}
 %
-	\node[starburst, draw, minimum width=2cm, minimum height=2cm,line width=1.5pt, align=center, font=\upshape] at ($(B)!.5!(A')-(0,.6cm)$)
-{Attach!};
 \end{tikzpicture}
 \end{equation*}
 Define $S\coloneqq\{\const{attach},\,\const{separate}\}$.
@@ -7207,15 +7192,15 @@ It can also always receive either direction from $S$, but when it is $\const{att
 Finally, the role of the person is simply to return whether the units should $\const{attach}$ or $\const{separate}$, so we give it the interface $S\yon$.
 
 Then a section for the person and the units is a lens
-\[
-  \left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S
+\begin{align*} %CHECK
+  &\left(\{\const{attached}\}\times X+\{\const{separated}\}\right)\yon^S \\
     \otimes
-  \left(\{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S\right)
+  &\left(\{\const{attached}\}\yon^{X\times S}+\{\const{separated}\}\yon^S\right)
     \otimes
   S\yon
     \to
   \yon.
-\]
+\end{align*}
 Such a lens corresponds to four functions, two of which can be arbitrary because our dynamics should never return them (either both units are $\const{attached}$ or both are $\const{separated}$).
 The other two functions consist of one function
 \[
@@ -7480,7 +7465,7 @@ As in any closed monoidal category, such an evaluation lens has the universal pr
 \]
 
 \begin{exercise} \label{exc.eval_parallel}
-Obtain the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\too q$ from \eqref{eqn.eval_parallel}.
+Describe the behavior of the evaluation lens $\fun{eval}\colon \ihom{p,q}\otimes p\to q$ from \eqref{eqn.eval_parallel}.
 \begin{solution}
 To obtain the evaluation lens $\fun{eval}\colon \ihom{q,r}\otimes q\to r$, we need to send the identity lens on $\ihom{q,r}$ leftward through the natural isomorphism
 \[
@@ -7569,7 +7554,7 @@ Now suppose we were to give dynamics to $q$ by specifying a lens $S\yon^S\to q$.
 \end{example}
 
 \begin{example}[Chu $\&$]\index{Chu space}
-Suppose we have polynomials $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
+Say we have $p_1,p_2,q_1,q_2,r\in\poly$ and lenses
 \[
 	\varphi_1\colon p_1\otimes q_1\to r
 	\qqand
@@ -7601,7 +7586,7 @@ We discussed a generalization $S\yon^S\to p$, where the output is an arbitrary p
 
 Throughout the chapter we gave quite a few different examples. For example, we discussed how every function $A\to B$ counts as a memoryless dynamical system. In fact, it was shown in \cite{beurier2019memoryless} that every dynamical system can be obtained by wiring together memoryless ones. We discussed examples such as file-readers, moving robots, colliding particles, companies that change their suppliers, materials that break when too much force is applied, etc.
 
-For further reading on the mathematics of Moore machines, see \cite{conway2012regular}. For more on mode-dependent interaction, see \cite{spivak2017nesting}. For a similar and complementary categorical approach to dynamical systems, we recommend David Jaz Myers' \emph{Categorical Systems Theory} book, currently in draft form here: \url{http://davidjaz.com/Papers/DynamicalBook.pdf}.
+For further reading on the mathematics of Moore machines, see \cite{conway2012regular}. For more on mode-dependent interaction, see \cite{spivak2017nesting}. For a similar and complementary categorical approach to dynamical systems, we recommend David Jaz Myers' \emph{Categorical Systems Theory} book, found at \url{http://davidjaz.com/Papers/DynamicalBook.pdf}.
 
 \index{interaction!mode dependent}
 
