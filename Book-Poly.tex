@@ -1,7 +1,7 @@
-\documentclass[10pt]{memoir}
+\documentclass[11pt]{memoir}
 
 \settrims{0pt}{0pt} % page and stock same size
-\settypeblocksize{190mm}{110mm}{*} % {height}{width}{ratio}
+\settypeblocksize{*}{34.5pc}{*} % {height}{width}{ratio}
 \setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
 \setulmarginsandblock{1in}{1in}{*} % height of typeblock computed
 \setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
@@ -31,7 +31,8 @@
 \usepackage{subfiles}
 \usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
 \usepackage{xr-hyper}
-\usepackage[bookmarks=true,hidelinks,pdfencoding=unicode]{hyperref}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
 \usepackage[capitalize]{cleveref}
 
 % Multirow tables
@@ -48,7 +49,10 @@
 \usepackage{varwidth}
 \usepackage[prefix=tikzsym]{tikzsymbols}
 \usepackage{makecell}%database table thickness
+%\usepackage{graphicx}
+%\usepackage[all]{xy}
 \usepackage{multirow}
+
 
 % Fonts
 \usepackage{amssymb}
@@ -59,11 +63,19 @@
 \usepackage{dutchcal}
 \usepackage{fontawesome}
 
+% For matrices with labeled columns and rows
+% \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
+%\usepackage{accents}
+%\usepackage{eucal}
+
 % MathVersion kludge
 \DeclareMathVersion{normal2}
 
 % For external graphics.
 \graphicspath{graphics/}
+
+%\usepackage{changepage} %indented paragraphs in solutions
+%\usepackage{showkeys} %for drafting; prints labels in margin
 
 %-------- Package setup --------%
 
@@ -86,6 +98,15 @@
 
 % footnote
 	\makesavenoteenv{tabular}
+
+% minted
+%\newenvironment{agda}
+%  {\VerbatimEnvironment
+%  	\begin{minted}[escapeinside=??, mathescape=true, frame=single, framesep=5pt, tabsize=1
+%	]{Agda}}
+%  {\end{minted}}
+
+
 
 % tikz %
   \usetikzlibrary{
@@ -120,6 +141,10 @@
     }
 \end{tikzpicture}}}
 
+%\usepackage{circuitikz}
+
+
+% mdframed/tablefootnote%
 % This makes \tablefootnote allow construction of footnotes that appear at bottom of page instead of inside frame
 
 \makeatletter
@@ -142,46 +167,51 @@
 
 % Colored box background colours
 
-\colorlet{theoremcolor}{white}
-\colorlet{definitioncolor}{white}
-\colorlet{examplecolor}{white}
-\colorlet{exercisecolor}{white}
+\colorlet{theoremcolor}{white!92!blue}
+\colorlet{definitioncolor}{white!92!purple}
+\colorlet{examplecolor}{white!91!green}
+\colorlet{exercisecolor}{white!96!green}
 
 
 \mdfdefinestyle{theoremframe}{
-    linewidth=1pt,
+    linewidth=0pt,
+    %linecolor=blue,
+    backgroundcolor=theoremcolor,
     roundcorner=6pt,
     nobreak=true,
     leftmargin=0,
-    innerleftmargin=9pt,
+    innerleftmargin=0,
     rightmargin=0,
-    innerrightmargin=9pt,
+    innerrightmargin=0,
     }
 
 \mdfdefinestyle{definitionframe}{
-    linewidth=1pt,
+    linewidth=0pt,
+    %linecolor=blue,
+    backgroundcolor=definitioncolor,
     roundcorner=6pt,
     leftmargin=0,
-    innerleftmargin=9pt,
+    innerleftmargin=0,
     rightmargin=0,
-    innerrightmargin=9pt,
+    innerrightmargin=0,
     }
 
 \mdfdefinestyle{exampleframe}{
-    linewidth=1pt,
-    roundcorner=6pt,
+    linewidth=0pt,
+    backgroundcolor=examplecolor,
     leftmargin=0,
-    innerleftmargin=9pt,
+    innerleftmargin=0,
     rightmargin=0,
-    innerrightmargin=9pt,
+    innerrightmargin=0,
     }
 
 \mdfdefinestyle{exerciseframe}{
-    linewidth=1pt,
+    linewidth=0pt,
+    backgroundcolor=exercisecolor,
     leftmargin=0,
-    innerleftmargin=9pt,
+    innerleftmargin=0,
     rightmargin=0,
-    innerrightmargin=9pt,
+    innerrightmargin=0,
     }
 
 \newtheoremstyle{plain}
@@ -227,6 +257,30 @@
 \makeatletter
 \newcommand{\nolisttopbreak}{\nobreak\@afterheading}
 \makeatother
+
+% \newcounter{solcounterlocal}[section]
+% \newcounter{solcounterglobal}
+
+% \newcommand{\sol}[4][noprint]{
+
+% \stepcounter{solcounterlocal}\stepcounter{solcounterglobal}
+
+% \noindent\ignorespacesafterend\emph{Solution to} \cref{#2}.%
+% \nopagebreak%
+% \ifthenelse{\equal{#1}{print}}{
+% \nopagebreak%
+% \begin{mdframed}[backgroundcolor=examplecolor,linewidth=0pt]%
+% #3%
+% \end{mdframed}%
+% \nopagebreak
+% }{}%
+% \nolisttopbreak
+% \begin{description}[leftmargin=2.5ex,itemindent=0pt,topsep=0ex,nosep]
+% \item\nopagebreak
+% #4
+% \end{description}
+% \bigskip
+% }
 
 \Newassociation{solution}{Sol}{solutions}
 
@@ -618,7 +672,7 @@ This page intentionally left blank.
 \vspace{2in}
 \begin{center}
 \begin{tabular}{lll}
-\LARGE Nelson Niu&~\hspace{.5in}~&\LARGE  David I. Spivak\\
+\LARGE Nelson Niu&~\hspace{.75in}~&\LARGE  David I. Spivak\\
 \large University of Washington&&\large Topos Institute\\
 \large Seattle, WA&&\large Berkeley, CA
 \end{tabular}
